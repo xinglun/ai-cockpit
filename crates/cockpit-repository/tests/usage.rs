@@ -6,9 +6,9 @@ use cockpit_protocol::{
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_decision, finish_work_item, import_work_item_usage, outcome_render_input,
-    outcome_v2, preflight_work_item, query_work_item_usage, read_work_item_usage,
-    read_work_item_usage_receipts, record_verification, record_work_item_usage,
-    render_human_outcome_with_view, start_work_item_with_options,
+    outcome_v2, outcome_v2_with_runtime, preflight_work_item, query_work_item_usage,
+    read_work_item_usage, read_work_item_usage_receipts, record_verification,
+    record_work_item_usage, render_human_outcome_with_view, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command, sync::Arc};
@@ -531,6 +531,40 @@ fn closed_outcome_uses_the_validated_final_usage_snapshot() {
             assert!(handoff.contains("20"), "{handoff}");
         }
     }
+}
+
+#[test]
+fn historical_runtime_keeps_validated_close_usage_without_claiming_current_verification() {
+    let root = repository();
+    let id = "WI-USAGE-CLOSED-HISTORICAL-RUNTIME";
+    let (_, close_bytes) = closed_with_late_usage(root.path(), id);
+    let close: serde_json::Value = serde_json::from_slice(&close_bytes).expect("close JSON");
+    let historical_runtime = RuntimeContext {
+        runtime_version: "1.0.1-historical-reader".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"different outcome reader Runtime"),
+    };
+
+    let outcome = outcome_v2_with_runtime(root.path(), id, &historical_runtime)
+        .expect("historical archive remains inspectable");
+    assert_eq!(outcome.state, OutcomeState::NotReady);
+    assert_eq!(
+        outcome.historical_status.as_deref(),
+        Some("runtime_historical")
+    );
+    let usage = outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .expect("validated closed final report remains visible");
+    assert_eq!(usage.receipt_refs.len(), 2);
+    assert_eq!(usage.totals.input_tokens, Some(20));
+    assert_eq!(
+        usage.cutoff,
+        close["finalReport"]["usage"]["cutoff"]
+            .as_str()
+            .expect("close cutoff")
+    );
 }
 
 #[test]

@@ -3,9 +3,10 @@ use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, finish_work_item, plan_resource_finalization,
-    preflight_work_item, preflight_work_item_with_runtime, record_verification,
-    record_verification_with_runtime, revalidate_contract_amendment, run_repository_verification,
-    start_work_item_with_options, work_item_status_snapshot_with_runtime,
+    preflight_work_item, preflight_work_item_with_runtime, record_recovery_decision,
+    record_verification, record_verification_with_runtime, revalidate_contract_amendment,
+    run_repository_verification, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
 
@@ -65,6 +66,51 @@ fn commit_fixture_source(path: &std::path::Path, source: &str, message: &str) {
             .expect("git commit fixture source")
             .success()
     );
+}
+
+fn record_fixture_retry(directory: &tempfile::TempDir, work_item_id: &str) {
+    let active = directory.path().join(".ai/work-items/active");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.contract.json"))).expect("Contract"),
+    )
+    .expect("Contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.outcome.json"))).expect("Outcome"),
+    )
+    .expect("Outcome JSON");
+    let events = fs::read(active.join(format!("{work_item_id}.events.jsonl"))).expect("Events");
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.8".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime"),
+    };
+    let retry = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": work_item_id,
+        "repositoryId": contract["repositoryId"],
+        "predecessorWorkItemId": work_item_id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&events),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:test-fixture",
+        "authoritySource": "WI-1111 lifecycle fixture",
+        "reason": "source changed after a completed finish",
+        "evidenceRefs": [],
+        "policyRefs": [],
+        "decidedAt": "2026-10-25T12:00:00Z",
+        "resumeCondition": "current preflight, replacement verification, and explicit finish"
+    });
+    record_recovery_decision(directory.path(), work_item_id, &retry, &runtime)
+        .expect("bind retry to exact finish predecessor");
 }
 
 fn start(path: &std::path::Path, id: &str, required: &[&str]) {
@@ -495,7 +541,7 @@ fn finalize_plan_after_finish_ready_is_rejected_before_it_can_invalidate_evidenc
 }
 
 #[test]
-fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
+fn source_change_requires_bound_retry_fresh_preflight_and_explicit_finish() {
     let directory = repository();
     let id = "WI-ORDER-REVERIFY";
     start(directory.path(), id, &[]);
@@ -525,7 +571,46 @@ fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
     .expect("initial verification");
     finish_work_item(directory.path(), id).expect("finish");
 
+    let active = directory.path().join(".ai/work-items/active");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let outcome_path = active.join(format!("{id}.outcome.json"));
+    let report_path = active.join(format!("{id}.task-report.json"));
+    let original_summary = fs::read(&summary_path).expect("finished Summary bytes");
+    let original_outcome = fs::read(&outcome_path).expect("finished Outcome bytes");
+    let original_report = fs::read(&report_path).expect("finished report bytes");
+
     fs::write(directory.path().join("source.rs"), "pub fn changed() {}\n").expect("source");
+    commit_fixture_source(directory.path(), "source.rs", "source changed after finish");
+    let refused = record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.8",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect_err("implicit source-change refresh must require the native retry flow");
+    assert!(refused.to_string().contains("native retry"), "{refused}");
+    assert_eq!(
+        fs::read(&summary_path).expect("unchanged Summary"),
+        original_summary
+    );
+    assert_eq!(
+        fs::read(&outcome_path).expect("unchanged Outcome"),
+        original_outcome
+    );
+    assert_eq!(
+        fs::read(&report_path).expect("unchanged report"),
+        original_report
+    );
+
+    record_fixture_retry(&directory, id);
+    let retried_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("retry Summary"))
+            .expect("retry Summary JSON");
+    assert_eq!(retried_summary["state"], "checkpointed");
+    assert_eq!(retried_summary["recoveryRetryPending"], true);
+
+    preflight_work_item(directory.path(), &contract_path).expect("fresh source preflight");
     let evidence = record_verification(
         directory.path(),
         id,
@@ -533,21 +618,26 @@ fn verification_retry_refreshes_finish_ready_bindings_after_source_change() {
         "0.2.8",
         &Digest::sha256_bytes(b"runtime"),
     )
-    .expect("verification retry");
+    .expect("verification after authorized retry and fresh preflight");
     let evidence_digest = cockpit_protocol::digest_json(&evidence).expect("evidence digest");
-    let outcome: serde_json::Value = serde_json::from_slice(
-        &fs::read(
-            directory
-                .path()
-                .join(format!(".ai/work-items/active/{id}.outcome.json")),
-        )
-        .expect("outcome"),
-    )
-    .expect("outcome JSON");
+    finish_work_item(directory.path(), id).expect("explicit finish after fresh verification");
+
+    let outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("finished outcome"))
+            .expect("finished outcome JSON");
     assert_eq!(outcome["evidenceDigest"], evidence_digest.to_string());
     assert_eq!(
         outcome["taskOutcomeReport"]["bindings"]["repositorySnapshotDigest"],
         evidence["repositorySnapshotDigest"]
+    );
+    let finished_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("finished Summary"))
+            .expect("finished Summary JSON");
+    assert_eq!(finished_summary["state"], "finish_ready");
+    assert_ne!(
+        fs::read(&report_path).expect("new report"),
+        original_report,
+        "explicit finish writes the replacement projection and retains the predecessor separately"
     );
 }
 

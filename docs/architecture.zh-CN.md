@@ -66,8 +66,14 @@ stateDiagram-v2
     archived --> closed: human decision
     implementation_active --> implementation_active: preflight red/缺失（停止）
     checkpointed --> checkpointed: verification 失败（修复后重试）
-    finish_ready --> implementation_active: evidence 过期或失败
+    finish_ready --> checkpointed: 源码变更后的 identity-bound retry
+    finish_ready --> implementation_active: Contract amendment 重新打开工作
 ```
+
+源码变化使 `finish_ready` snapshot 过期时，Runtime 会拒绝隐式报告刷新。如果工作仍由该
+Work Item 负责，已准入的 identity-bound retry 会使状态回到 `checkpointed`；随后重新运行
+preflight 和 verification，并显式 finish。如果 Runtime 拒绝 retry，或已授权 successor 接管，
+则沿用现有 successor 路径。
 
 ```text
 Human / Agent / CI

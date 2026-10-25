@@ -21,7 +21,7 @@ capabilityClaims:
 | Preflight `yellow` | evidence 不足または confirmation が必要。 | blockers/safe actions を読み Contract を修正するか decision を得る。 |
 | Preflight `red` | scope、authority、protocol、repository state が invalid。 | 停止し、指定された fact/authority を修復する。 |
 | `finish` が receipt missing/stale | current snapshot の passed Work Item verification がない。 | 最終 edit 後に `verify --work-item <id>`。bypass しない。 |
-| `finish_ready` の Work Item が archive 前に stale になった | verification が bind した snapshot の後で repository が変わった。 | summary/receipt を編集しない。historical bytes を残し、現在の snapshot から新しい認可済み Work Item を作る。 |
+| `finish_ready` の Work Item が archive 前に stale になった | verification が bind した snapshot の後で repository が変わった。 | summary/receipt を編集しない。この Work Item が引き続き作業を所有する場合は、identity-bound な native retry を使い、fresh preflight、verification、明示的な finish を行う。Runtime が retry を拒否するか、認可済み successor がすでに作業を引き継いでいる場合は、古い receipt を保持して bind 済み successor path を使う。 |
 | stale predecessor を再試行すべきでない | evidence が履歴であり、bind 済み successor が作業を引き継いでいる。 | identity-bound な `supersede` recovery decision を記録し、predecessor を履歴項目として archive/close する。古い evidence を書き換えたり再検証したりしない。 |
 | `archive`/`close` が失敗 | governance が green でない、または archive identity が invalid。 | active record を残し evidence を修復して失敗した step を再実行する。 |
 | `close` が retained resources require cleanup を表示 | legacy の shared-primary record、または通常の retained linked resource の可能性がある。 | `provider=local` と primary checkout の fact を確認する。導出できない場合は `work-item finalize-recovery-plan` を実行して明示的な historical recovery receipt を記録する。`retained` を手で `deleted` に変更しない。 |
@@ -41,6 +41,8 @@ evidence は意図的に fail closed になります。
 
 repository に active Work Item がある場合は、upgrade や新しい Work Item の前に finish/archive します。linked worktree、remote の既定 branch、finalization receipt がない場合は停止して record を保全します。Recovery は identity-bound な successor/retry path を使います。reference source の Make/Python wizard command は Rust Runtime command ではありません。installed CLI と repository が宣言した verification command を使ってください。
 
-すでに `finish_ready` の Work Item に暗黙の rewind 操作はない。rewind は
-state history を曖昧にするためである。変更後の snapshot 用に successor Work
-Item を作り、古い receipt を historical evidence として参照する。
+すでに `finish_ready` の Work Item は verification の記録だけでは新しい finish に
+更新できない。変更が元の Work Item の所有範囲内なら、許可された identity-bound
+retry を使い、fresh preflight と verification の後に明示的に再度 finish する。retry が
+拒否された場合、または bind 済み successor が作業を引き継いだ場合は、predecessor
+evidence を保持して既存の successor path を続ける。

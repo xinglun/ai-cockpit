@@ -21,7 +21,7 @@ capabilityClaims:
 | Preflight `yellow` | 证据缺失或需要确认。 | 阅读 blockers/safe actions，修复 Contract 或取得所需决定。 |
 | Preflight `red` | scope、authority、protocol 或 repository 状态非法。 | 停止；修复指定事实或权限。 |
 | `finish` 报 receipt missing/stale | 没有当前 snapshot 的 passed Work Item verification。 | 最终编辑后运行 `verify --work-item <id>`，不能绕过检查。 |
-| `finish_ready` Work Item 在 archive 前变成 stale | verification 绑定的 snapshot 之后 repository 发生了变化。 | 不要编辑 summary 或 receipt。保留历史 bytes，基于当前 snapshot 创建新的授权 Work Item。 |
+| `finish_ready` Work Item 在 archive 前变成 stale | verification 绑定的 snapshot 之后 repository 发生了变化。 | 不要编辑 summary 或 receipt。如果该 Work Item 仍负责这项工作，使用绑定 identity 的原生 retry，然后重新运行 preflight、verification 并显式 finish。如果 Runtime 拒绝 retry，或已有授权 successor 接管，保留旧 receipt 并沿用绑定的 successor 路径。 |
 | stale predecessor 不应再重试 | 其 evidence 已是历史记录，且已有绑定 successor 接管工作。 | 记录绑定 identity 的 `supersede` recovery decision，再把 predecessor 作为历史项 archive/close；不要重写或重新验证旧 evidence。 |
 | `archive`/`close` 失败 | governance 非 green 或 archive identity 非法。 | 保留 active 记录，修复 evidence 后重试失败步骤。 |
 | `close` 提示 retained resources require cleanup | receipt 可能是旧版共享主 checkout 记录，也可能是普通 retained linked resource。 | 确认 `provider=local` 及主 checkout 事实；无法确定时运行 `work-item finalize-recovery-plan` 并记录显式 historical recovery receipt。不要手动把 `retained` 改为 `deleted`。 |
@@ -41,6 +41,7 @@ capabilityClaims:
 
 仓库存在 active Work Item 时，应在升级或创建新 Work Item 前先 finish/archive。如果 linked worktree、远端默认分支或 finalization receipt 缺失，应停止并保留记录；恢复必须使用绑定 identity 的 successor/retry 路径。参考源的 Make/Python wizard 命令不是 Rust Runtime 命令；请使用已安装 CLI 和当前仓库声明的 verification commands。
 
-已经处于 `finish_ready` 的 Work Item 没有隐式 rewind 操作。这是有意的：
-rewind 会使状态历史含义不明确。应为变化后的 snapshot 创建 successor Work
-Item，并把旧 receipt 作为历史 evidence 引用。
+已经处于 `finish_ready` 的 Work Item 不能仅通过记录 verification 来刷新为新的 finish。
+如果变化仍属于原 Work Item，使用已准入且绑定 identity 的 retry，重新运行 fresh
+preflight 和 verification，再显式 finish。如果 retry 被拒绝或绑定 successor 已接管，
+保留 predecessor evidence 并沿用既有 successor 路径。

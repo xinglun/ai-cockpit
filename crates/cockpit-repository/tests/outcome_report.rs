@@ -1,8 +1,9 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     HumanBenefitReport, OutcomeClaim, OutcomeReleaseProjection, OutcomeReportBindings,
-    OutcomeReportSections, OutcomeState, OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
-    UsageAssurance, UsageCoverage, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts,
+    OutcomeReportSections, OutcomeState, OutcomeV2, ResourceFinalizationContext, RuntimeContext,
+    TaskOutcomeReport, UsageAssurance, UsageCoverage, UsageSourceKind, UsageSubtotal, UsageSummary,
+    UsageTokenCounts,
 };
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, checkpoint_work_item,
@@ -1595,6 +1596,75 @@ fn finish_writes_event_stream_and_archive_binds_it() {
     )
     .expect("manifest JSON");
     assert!(manifest["files"]["eventsDigest"].is_string());
+
+    let archived_report: TaskOutcomeReport = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-136-EVENTS.task-report.json"),
+        )
+        .expect("split archived report bytes"),
+    )
+    .expect("split archived report schema");
+    let archived = outcome_v2(directory.path(), "WI-136-EVENTS")
+        .expect("archive reader resolves the separate report and Markdown artifacts");
+    let projected = archived
+        .task_outcome_report
+        .expect("archive reader exposes the frozen report");
+    let mut expected_resolved = serde_json::to_value(&archived_report).expect("report value");
+    fn resolve_fixture_paths(value: &mut serde_json::Value, work_item_id: &str) {
+        match value {
+            serde_json::Value::String(text) => {
+                *text = text.replace(
+                    &format!(".ai/work-items/active/{work_item_id}"),
+                    &format!(".ai/work-items/archive/{work_item_id}"),
+                );
+            }
+            serde_json::Value::Array(values) => {
+                for value in values {
+                    resolve_fixture_paths(value, work_item_id);
+                }
+            }
+            serde_json::Value::Object(values) => {
+                for value in values.values_mut() {
+                    resolve_fixture_paths(value, work_item_id);
+                }
+            }
+            _ => {}
+        }
+    }
+    resolve_fixture_paths(&mut expected_resolved, "WI-136-EVENTS");
+    let expected_resolved: TaskOutcomeReport =
+        serde_json::from_value(expected_resolved).expect("resolved frozen report schema");
+    assert_eq!(projected, expected_resolved);
+
+    let manifest_bytes = fs::read(
+        directory
+            .path()
+            .join(".ai/work-items/archive/WI-136-EVENTS.archive.json"),
+    )
+    .expect("archive manifest bytes");
+    let repeated = archive_work_item(directory.path(), "WI-136-EVENTS")
+        .expect_err("an already archived Work Item is not archived twice");
+    assert!(repeated.to_string().contains("active") || repeated.to_string().contains("archive"));
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-136-EVENTS.archive.json")
+        )
+        .expect("manifest remains unchanged"),
+        manifest_bytes
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-136-EVENTS.task-report.json")
+        )
+        .expect("report remains unchanged after repeated archive"),
+        active_report_bytes
+    );
 }
 
 #[test]
@@ -1836,6 +1906,119 @@ fn current_archive_cannot_be_relabelled_legacy_by_committing_self_selected_marke
     assert_eq!(
         fs::read(evidence_path).expect("verification receipt unchanged"),
         original_evidence
+    );
+}
+
+#[test]
+fn fixed_wi754_outcome_digest_selects_the_later_bound_receipt() {
+    const ARCHIVE_REVISION: &str = "74506e60f96dfcbc1352c186faefb9b8653e5a57";
+    const RECEIPT_REVISION: &str = "b8c90f327e82597ecc78d982611426c6eb78b3c7";
+    const WORK_ITEM_ID: &str = "WI-754-runtime-recovery-digest-revalidation";
+
+    let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let checkout = tempfile::tempdir().expect("temporary historical checkout root");
+    let root = checkout.path().join("repository");
+    assert!(
+        Command::new("git")
+            .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
+            .arg(&source)
+            .arg(&root)
+            .status()
+            .expect("clone fixed history")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["checkout", "--quiet", "--detach", "HEAD"])
+            .current_dir(&root)
+            .status()
+            .expect("checkout current repository history")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["merge-base", "--is-ancestor", ARCHIVE_REVISION, "HEAD"])
+            .current_dir(&root)
+            .status()
+            .expect("check fixed archive ancestry")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["merge-base", "--is-ancestor", RECEIPT_REVISION, "HEAD"])
+            .current_dir(&root)
+            .status()
+            .expect("check fixed receipt ancestry")
+            .success()
+    );
+
+    let archived_outcome_path = root.join(format!(
+        ".ai/work-items/archive/{WORK_ITEM_ID}.outcome.json"
+    ));
+    let archived_outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&archived_outcome_path).expect("fixed Outcome bytes"))
+            .expect("fixed Outcome JSON");
+    assert_eq!(
+        archived_outcome["evidenceDigest"],
+        "sha256:3fe7857eeefb34d008d639920d731fb29341a543c89e02abbff50413645fe6d9"
+    );
+    let receipt_path = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
+    let receipt_bytes = fs::read(&receipt_path).expect("current fixed receipt bytes");
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&receipt_bytes).expect("fixed receipt JSON");
+    assert_eq!(
+        cockpit_protocol::digest_json(&receipt)
+            .expect("canonical fixed receipt digest")
+            .to_string(),
+        archived_outcome["evidenceDigest"]
+    );
+    let archived_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(format!(
+            ".ai/work-items/archive/{WORK_ITEM_ID}.summary.json"
+        )))
+        .expect("fixed Summary bytes"),
+    )
+    .expect("fixed Summary JSON");
+    assert_eq!(
+        receipt["contractDigest"],
+        archived_summary["preflightContractDigest"]
+    );
+    assert_eq!(
+        receipt["repositorySnapshotDigest"],
+        archived_summary["preflightRepositorySnapshotDigest"]
+    );
+    let fixed_report: TaskOutcomeReport = serde_json::from_slice(
+        &fs::read(root.join(format!(
+            ".ai/work-items/archive/{WORK_ITEM_ID}.task-report.json"
+        )))
+        .expect("fixed report bytes"),
+    )
+    .expect("fixed report schema");
+
+    let runtime = RuntimeContext {
+        runtime_version: "1.0.1-independent-reader".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"WI-754 independent reader"),
+    };
+    let outcome = cockpit_repository::outcome_v2_with_runtime(&root, WORK_ITEM_ID, &runtime)
+        .expect("fixed archived report and its bound receipt remain readable");
+    assert_eq!(
+        outcome.historical_status.as_deref(),
+        Some("runtime_historical")
+    );
+    assert_ne!(outcome.state, OutcomeState::Unknown);
+    let observed_report = outcome
+        .task_outcome_report
+        .as_ref()
+        .expect("the fixed receipt keeps the historical report readable");
+    assert_eq!(observed_report.format, fixed_report.format);
+    assert_eq!(observed_report.schema_version, fixed_report.schema_version);
+    assert_eq!(observed_report.work_item_id, fixed_report.work_item_id);
+    assert_eq!(observed_report.status, fixed_report.status);
+    assert_eq!(observed_report.bindings, fixed_report.bindings);
+    assert_eq!(
+        observed_report.sections.evidence,
+        fixed_report.sections.evidence
     );
 }
 

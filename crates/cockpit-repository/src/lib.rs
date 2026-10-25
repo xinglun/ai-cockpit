@@ -10458,6 +10458,60 @@ pub fn reconcile_active_artifacts(
     Ok(receipt)
 }
 
+type PendingArchiveArtifact = (String, String, PathBuf, PathBuf, Vec<u8>, Vec<u8>);
+type MovedArchiveArtifact = (PathBuf, PathBuf, Vec<u8>, bool);
+
+fn rollback_archive_artifacts(moved: &[MovedArchiveArtifact]) -> Result<(), String> {
+    let mut failures = Vec::new();
+    for (source, target, original, normalized) in moved.iter().rev() {
+        if *normalized {
+            if let Err(error) = fs::remove_file(target)
+                && error.kind() != std::io::ErrorKind::NotFound
+            {
+                failures.push(format!("remove {}: {error}", target.display()));
+            }
+            if let Err(error) = atomic_write(source, original) {
+                failures.push(format!("restore {}: {error}", source.display()));
+            }
+        } else if let Err(error) = fs::rename(target, source) {
+            failures.push(format!("restore {}: {error}", source.display()));
+        }
+    }
+    if failures.is_empty() {
+        Ok(())
+    } else {
+        Err(failures.join("; "))
+    }
+}
+
+fn move_archive_artifacts(
+    pending: &[PendingArchiveArtifact],
+    mut install: impl FnMut(&Path, &Path, &[u8], &[u8]) -> Result<(), ObserverError>,
+) -> Result<Vec<MovedArchiveArtifact>, ObserverError> {
+    let mut moved = Vec::new();
+    for (_, _, source, target, source_bytes, archived_bytes) in pending {
+        let normalized = source_bytes != archived_bytes;
+        if let Err(error) = install(source, target, source_bytes, archived_bytes) {
+            return match rollback_archive_artifacts(&moved) {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(ObserverError::State {
+                    path: source.clone(),
+                    message: format!(
+                        "archive install failed: {error}; rollback failed: {rollback_error}"
+                    ),
+                }),
+            };
+        }
+        moved.push((
+            source.clone(),
+            target.clone(),
+            source_bytes.clone(),
+            normalized,
+        ));
+    }
+    Ok(moved)
+}
+
 fn archive_work_item_internal(
     root: &Path,
     work_item_id: &str,
@@ -10836,50 +10890,29 @@ fn archive_work_item_internal(
             }));
         }
     }
-    let mut moved: Vec<(PathBuf, PathBuf, Vec<u8>, bool)> = Vec::new();
-    for (_, _, source, target, source_bytes, archived_bytes) in &pending {
-        let normalized = source_bytes != archived_bytes;
-        let result: Result<(), ObserverError> = if normalized {
-            atomic_write(target, archived_bytes)
-        } else {
-            fs::rename(source, target).map_err(|source_error| ObserverError::Read {
-                path: target.clone(),
-                source: source_error,
-            })
-        };
-        if let Err(error) = result {
-            for (moved_source, moved_target, original, moved_normalized) in moved.into_iter().rev()
-            {
-                if moved_normalized {
-                    let _ = fs::remove_file(moved_target);
-                    let _ = atomic_write(&moved_source, &original);
-                } else {
-                    let _ = fs::rename(moved_target, moved_source);
-                }
+    let moved =
+        move_archive_artifacts(&pending, |source, target, source_bytes, archived_bytes| {
+            if source_bytes != archived_bytes {
+                atomic_write(target, archived_bytes)
+            } else {
+                fs::rename(source, target).map_err(|source_error| ObserverError::Read {
+                    path: target.into(),
+                    source: source_error,
+                })
             }
-            return Err(error);
-        }
-        moved.push((
-            source.clone(),
-            target.clone(),
-            source_bytes.clone(),
-            normalized,
-        ));
-    }
+        })?;
     for (source, _target, _original, normalized) in &moved {
         if *normalized && let Err(source_error) = fs::remove_file(source) {
-            for (moved_source, moved_target, moved_original, moved_normalized) in moved.iter().rev()
-            {
-                if *moved_normalized {
-                    let _ = fs::remove_file(moved_target);
-                    let _ = atomic_write(moved_source, moved_original);
-                } else {
-                    let _ = fs::rename(moved_target, moved_source);
-                }
-            }
+            let rollback = rollback_archive_artifacts(&moved);
             return Err(ObserverError::Read {
                 path: source.clone(),
-                source: source_error,
+                source: if let Err(rollback_error) = rollback {
+                    std::io::Error::other(format!(
+                        "{source_error}; archive rollback failed: {rollback_error}"
+                    ))
+                } else {
+                    source_error
+                },
             });
         }
     }
@@ -10907,15 +10940,15 @@ fn archive_work_item_internal(
         manifest["archiveRoute"] = serde_json::json!("historical_evidence_compatibility");
     }
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
-        for (moved_source, moved_target, original, normalized) in moved.into_iter().rev() {
-            if normalized {
-                let _ = fs::remove_file(moved_target);
-                let _ = atomic_write(&moved_source, &original);
-            } else {
-                let _ = fs::rename(moved_target, moved_source);
-            }
-        }
-        return Err(error);
+        return match rollback_archive_artifacts(&moved) {
+            Ok(()) => Err(error),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: manifest_path,
+                message: format!(
+                    "archive manifest write failed: {error}; rollback failed: {rollback_error}"
+                ),
+            }),
+        };
     }
     let _ = fs::remove_file(ai.join("knowledge/index.json"));
     Ok(LifecycleReceipt {
@@ -10924,6 +10957,103 @@ fn archive_work_item_internal(
         timestamp,
         start_advisory: None,
     })
+}
+
+#[cfg(test)]
+mod archive_transaction_tests {
+    use super::*;
+
+    #[test]
+    fn archive_install_failure_restores_prior_split_artifacts() {
+        let directory = tempfile::tempdir().expect("transaction fixture directory");
+        let active = directory.path().join("active");
+        let archive = directory.path().join("archive");
+        fs::create_dir_all(&active).expect("active directory");
+        fs::create_dir_all(&archive).expect("archive directory");
+
+        let first_source = active.join("contract.json");
+        let first_target = archive.join("contract.json");
+        let first_bytes = b"original contract".to_vec();
+        fs::write(&first_source, &first_bytes).expect("first source artifact");
+
+        let second_source = active.join("summary.json");
+        let second_target = archive.join("summary.json");
+        let second_original = b"active summary".to_vec();
+        let second_normalized = b"normalized summary".to_vec();
+        fs::write(&second_source, &second_original).expect("second source artifact");
+
+        let third_source = active.join("outcome.json");
+        let third_target = archive.join("outcome.json");
+        let third_bytes = b"active outcome".to_vec();
+        fs::write(&third_source, &third_bytes).expect("third source artifact");
+
+        let pending = vec![
+            (
+                "contract".into(),
+                "contract.json".into(),
+                first_source.clone(),
+                first_target.clone(),
+                first_bytes.clone(),
+                first_bytes.clone(),
+            ),
+            (
+                "summary".into(),
+                "summary.json".into(),
+                second_source.clone(),
+                second_target.clone(),
+                second_original.clone(),
+                second_normalized,
+            ),
+            (
+                "outcome".into(),
+                "outcome.json".into(),
+                third_source.clone(),
+                third_target.clone(),
+                third_bytes.clone(),
+                third_bytes.clone(),
+            ),
+        ];
+        let mut writes = 0;
+        let error = move_archive_artifacts(&pending, |source, target, original, normalized| {
+            writes += 1;
+            if writes == 3 {
+                return Err(ObserverError::State {
+                    path: target.into(),
+                    message: "injected archive install failure".into(),
+                });
+            }
+            if original == normalized {
+                fs::rename(source, target).map_err(|source| ObserverError::Read {
+                    path: target.into(),
+                    source,
+                })
+            } else {
+                atomic_write(target, normalized)
+            }
+        })
+        .expect_err("the third install fails after two prior artifact moves");
+        assert!(
+            error
+                .to_string()
+                .contains("injected archive install failure")
+        );
+
+        assert_eq!(
+            fs::read(&first_source).expect("first source restored"),
+            first_bytes
+        );
+        assert!(!first_target.exists(), "first archive target rolled back");
+        assert_eq!(
+            fs::read(&second_source).expect("second source preserved"),
+            second_original
+        );
+        assert!(!second_target.exists(), "normalized target rolled back");
+        assert_eq!(
+            fs::read(&third_source).expect("failed source untouched"),
+            third_bytes
+        );
+        assert!(!third_target.exists(), "failed target was never installed");
+    }
 }
 
 fn archive_superseded_work_item(
@@ -12513,6 +12643,7 @@ fn validate_legacy_archive_git_anchor(
             work_item_id,
             &evidence_path,
             &report,
+            &read_legacy_archive_verification_binding(root, work_item_id, &evidence_path, &report)?,
         )?;
         let current = read_governance_bytes(root.join(&evidence_path)).map_err(|source| {
             ObserverError::Read {
@@ -12568,19 +12699,83 @@ fn validate_legacy_archive_git_anchor(
     Ok(())
 }
 
-/// Select the one historical verification receipt whose fixed Git bytes
-/// match the immutable report's repository, Work Item, and source snapshot.
-/// Some legacy archives committed their report before a final verification
-/// receipt update; anchoring only at archive introduction would reject those
-/// otherwise byte-stable closed records. A later arbitrary receipt is never
-/// accepted: the matching revision must exist in Git history and the current
-/// receipt must still equal its exact bytes.
+struct LegacyArchiveVerificationBinding {
+    evidence_digest: Digest,
+    contract_digest: Digest,
+}
+
+/// Read the selection facts from the fixed archive-introduction Outcome and
+/// Summary. The Outcome digest selects the exact receipt; the Summary binds
+/// the Contract and source snapshot used by preflight. Git history only finds
+/// the original bytes matching those already-fixed facts.
+fn read_legacy_archive_verification_binding(
+    root: &Path,
+    work_item_id: &str,
+    evidence_path: &str,
+    report: &TaskOutcomeReport,
+) -> Result<LegacyArchiveVerificationBinding, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let outcome = read_json(&outcome_path)?;
+    let summary = read_json(&summary_path)?;
+    let evidence_digest: Digest = serde_json::from_value(outcome["evidenceDigest"].clone())
+        .map_err(|error| ObserverError::State {
+            path: outcome_path.clone(),
+            message: format!(
+                "fixed legacy Outcome has no valid verification evidence digest: {error}"
+            ),
+        })?;
+    let contract_digest: Digest =
+        serde_json::from_value(summary["preflightContractDigest"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!(
+                    "fixed legacy Summary has no valid preflight Contract digest: {error}"
+                ),
+            }
+        })?;
+    let source_snapshot: Digest = serde_json::from_value(
+        summary["preflightRepositorySnapshotDigest"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("fixed legacy Summary has no valid preflight source digest: {error}"),
+    })?;
+    let outcome_refs = outcome["evidenceRefs"].as_array();
+    if outcome["workItemId"].as_str() != Some(work_item_id)
+        || outcome["repositoryId"].as_str() != Some(repository_id(root).to_string().as_str())
+        || !outcome_refs.is_some_and(|refs| {
+            refs.iter()
+                .any(|reference| reference.as_str() == Some(evidence_path))
+        })
+        || summary["workItemId"].as_str() != Some(work_item_id)
+        || summary["repositoryId"].as_str() != Some(repository_id(root).to_string().as_str())
+        || report.bindings.repository_snapshot_digest.as_ref() != Some(&source_snapshot)
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "fixed legacy Outcome/Summary identity or source binding does not match the archived report".into(),
+        });
+    }
+    Ok(LegacyArchiveVerificationBinding {
+        evidence_digest,
+        contract_digest,
+    })
+}
+
+/// Select the one historical verification receipt whose canonical digest is
+/// fixed by the archived Outcome and whose Contract, repository, Work Item,
+/// and source snapshot match the fixed Summary and report. Git history only
+/// locates these original bytes; distinct appended candidates cannot establish
+/// authority, and identical copies of the same bytes do not create ambiguity.
 fn fixed_legacy_verification_receipt(
     root: &Path,
     archive_revision: &str,
     work_item_id: &str,
     evidence_path: &str,
     report: &TaskOutcomeReport,
+    binding: &LegacyArchiveVerificationBinding,
 ) -> Result<Vec<u8>, ObserverError> {
     let path = root.join(evidence_path);
     let repository_id = repository_id(root).to_string();
@@ -12641,6 +12836,8 @@ fn fixed_legacy_verification_receipt(
             work_item_id,
             &repository_id,
             expected_snapshot.expect("checked above"),
+            &binding.evidence_digest,
+            &binding.contract_digest,
         ) {
             continue;
         }
@@ -12668,6 +12865,8 @@ fn legacy_verification_receipt_matches_report(
     work_item_id: &str,
     repository_id: &str,
     source_snapshot_digest: &Digest,
+    evidence_digest: &Digest,
+    contract_digest: &Digest,
 ) -> bool {
     if reject_duplicate_json_keys(bytes).is_err() {
         return false;
@@ -12686,7 +12885,9 @@ fn legacy_verification_receipt_matches_report(
     else {
         return false;
     };
-    evidence.protocol_version == 1
+    cockpit_protocol::digest_json(&value).ok().as_ref() == Some(evidence_digest)
+        && evidence.contract_digest.as_ref() == Some(contract_digest)
+        && evidence.protocol_version == 1
         && evidence.evidence_schema_version == 2
         && evidence.work_item_id == work_item_id
         && evidence.repository_id == repository_id
@@ -13164,6 +13365,141 @@ fn normalized_archive_artifact_bytes(
     }
 }
 
+/// Resolve frozen report references for readers without rewriting archived
+/// JSON or Markdown. The archive manifest, not a path guessed from the report,
+/// must list the destination artifact.
+fn resolve_archived_task_report_references(
+    root: &Path,
+    work_item_id: &str,
+    report: &mut TaskOutcomeReport,
+) -> Result<(), ObserverError> {
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    let archived_paths = manifest["files"]
+        .as_object()
+        .into_iter()
+        .flat_map(|files| files.values())
+        .filter_map(serde_json::Value::as_str)
+        .filter(|value| value.starts_with(".ai/work-items/archive/"))
+        .map(str::to_owned)
+        .collect::<BTreeSet<_>>();
+    let active_prefix = format!(".ai/work-items/active/{work_item_id}.");
+    let archive_prefix = format!(".ai/work-items/archive/{work_item_id}.");
+
+    fn resolve_path(
+        path: &str,
+        root: &Path,
+        manifest_path: &Path,
+        active_prefix: &str,
+        archive_prefix: &str,
+        archived_paths: &BTreeSet<String>,
+    ) -> Result<String, ObserverError> {
+        let Some(suffix) = path.strip_prefix(active_prefix) else {
+            return Ok(path.to_owned());
+        };
+        let resolved = format!("{archive_prefix}{suffix}");
+        if suffix.is_empty()
+            || suffix.contains('/')
+            || !archived_paths.contains(&resolved)
+            || !root.join(&resolved).is_file()
+        {
+            return Err(ObserverError::State {
+                path: manifest_path.into(),
+                message: "archived Task Outcome reference does not resolve through the bound archive manifest".into(),
+            });
+        }
+        Ok(resolved)
+    }
+
+    fn visit(
+        value: &mut serde_json::Value,
+        root: &Path,
+        manifest_path: &Path,
+        active_prefix: &str,
+        archive_prefix: &str,
+        archived_paths: &BTreeSet<String>,
+    ) -> Result<(), ObserverError> {
+        match value {
+            serde_json::Value::Object(object) => {
+                for (key, child) in object.iter_mut() {
+                    if key == "evidenceRefs" {
+                        if let Some(references) = child.as_array_mut() {
+                            for reference in references {
+                                if let Some(path) = reference.as_str() {
+                                    *reference = serde_json::Value::String(resolve_path(
+                                        path,
+                                        root,
+                                        manifest_path,
+                                        active_prefix,
+                                        archive_prefix,
+                                        archived_paths,
+                                    )?);
+                                }
+                            }
+                        }
+                    } else if key == "text"
+                        && let Some(text) = child.as_str()
+                        && let Some(path) = text.strip_prefix("Changed path: ")
+                    {
+                        let resolved = resolve_path(
+                            path,
+                            root,
+                            manifest_path,
+                            active_prefix,
+                            archive_prefix,
+                            archived_paths,
+                        )?;
+                        *child = serde_json::Value::String(format!("Changed path: {resolved}"));
+                    } else {
+                        visit(
+                            child,
+                            root,
+                            manifest_path,
+                            active_prefix,
+                            archive_prefix,
+                            archived_paths,
+                        )?;
+                    }
+                }
+            }
+            serde_json::Value::Array(items) => {
+                for item in items {
+                    visit(
+                        item,
+                        root,
+                        manifest_path,
+                        active_prefix,
+                        archive_prefix,
+                        archived_paths,
+                    )?;
+                }
+            }
+            _ => {}
+        }
+        Ok(())
+    }
+
+    let mut value = serde_json::to_value(&*report).map_err(|error| ObserverError::State {
+        path: manifest_path.clone(),
+        message: format!("archived Task Outcome report cannot be resolved: {error}"),
+    })?;
+    visit(
+        &mut value,
+        root,
+        &manifest_path,
+        &active_prefix,
+        &archive_prefix,
+        &archived_paths,
+    )?;
+    *report = serde_json::from_value(value).map_err(|error| ObserverError::State {
+        path: manifest_path,
+        message: format!("resolved archived Task Outcome report is invalid: {error}"),
+    })?;
+    Ok(())
+}
+
 /// Preserve a machine-readable recovery handoff when a lifecycle gate fails.
 /// The original gate error remains authoritative, while any persisted
 /// projection is identity-bound and never changes the lifecycle state to a
@@ -13521,6 +13857,321 @@ fn first_json_difference(
 #[cfg(test)]
 mod task_outcome_projection_diagnostic_tests {
     use super::*;
+
+    const WI754_ARCHIVE_REVISION: &str = "74506e60f96dfcbc1352c186faefb9b8653e5a57";
+    const WI754_RECEIPT_REVISION: &str = "b8c90f327e82597ecc78d982611426c6eb78b3c7";
+    const WI754_ID: &str = "WI-754-runtime-recovery-digest-revalidation";
+
+    fn wi754_checkout_at_archive_introduction()
+    -> (tempfile::TempDir, PathBuf, serde_json::Value, Vec<u8>) {
+        let source = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("source repository");
+        let checkout = tempfile::tempdir().expect("temporary WI-754 checkout");
+        let root = checkout.path().join("repository");
+        assert!(
+            Command::new("git")
+                .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
+                .arg(&source)
+                .arg(&root)
+                .status()
+                .expect("clone fixed history")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args(["checkout", "--quiet", "--detach", WI754_ARCHIVE_REVISION])
+                .current_dir(&root)
+                .status()
+                .expect("checkout fixed archive introduction")
+                .success()
+        );
+        let manifest =
+            read_json(&root.join(format!(".ai/work-items/archive/{WI754_ID}.archive.json")))
+                .expect("fixed WI-754 archive manifest");
+        let trusted_receipt = git_revision_blob_bytes(
+            &source,
+            WI754_RECEIPT_REVISION,
+            &format!(".ai/evidence/{WI754_ID}.verification.json"),
+        )
+        .expect("later fixed receipt bytes");
+        (checkout, root, manifest, trusted_receipt)
+    }
+
+    fn commit_wi754_receipt(root: &Path, bytes: &[u8], message: &str) {
+        let relative = format!(".ai/evidence/{WI754_ID}.verification.json");
+        fs::write(root.join(&relative), bytes).expect("write WI-754 receipt fixture");
+        assert!(
+            Command::new("git")
+                .args(["add", "-f", "--", &relative])
+                .current_dir(root)
+                .status()
+                .expect("stage WI-754 receipt fixture")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-m",
+                    message,
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit WI-754 receipt fixture")
+                .success()
+        );
+    }
+
+    fn wi754_fixed_report(root: &Path) -> TaskOutcomeReport {
+        serde_json::from_slice(
+            &fs::read(root.join(format!(
+                ".ai/work-items/archive/{WI754_ID}.task-report.json"
+            )))
+            .expect("fixed WI-754 report bytes"),
+        )
+        .expect("fixed WI-754 report schema")
+    }
+
+    #[test]
+    fn fixed_outcome_digest_selects_only_the_bound_legacy_receipt() {
+        let (_checkout, root, _manifest, trusted_bytes) = wi754_checkout_at_archive_introduction();
+        let evidence_path = format!(".ai/evidence/{WI754_ID}.verification.json");
+        let report = wi754_fixed_report(&root);
+        let binding =
+            read_legacy_archive_verification_binding(&root, WI754_ID, &evidence_path, &report)
+                .expect("fixed Outcome and Summary bind the receipt selection");
+        let baseline = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+        )
+        .expect_err("archive introduction does not contain the later fixed receipt");
+        assert!(
+            baseline
+                .to_string()
+                .contains("0 fixed Git verification receipts")
+        );
+
+        let evidence_file = root.join(&evidence_path);
+        let mut self_created: serde_json::Value =
+            serde_json::from_slice(&fs::read(&evidence_file).expect("archive receipt bytes"))
+                .expect("archive receipt JSON");
+        self_created["repositorySnapshotDigest"] =
+            serde_json::json!(report.bindings.repository_snapshot_digest);
+        self_created["contractDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"self-selected Contract context"));
+        let self_created_bytes =
+            serde_json::to_vec_pretty(&self_created).expect("serialize self-created candidate");
+        commit_wi754_receipt(
+            &root,
+            &self_created_bytes,
+            "append self-created identity-shaped candidate",
+        );
+        let only_self_created = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+        )
+        .expect_err("a self-created candidate cannot establish its own fixed digest");
+        assert!(
+            only_self_created
+                .to_string()
+                .contains("0 fixed Git verification receipts")
+        );
+
+        commit_wi754_receipt(&root, &trusted_bytes, "append exact fixed receipt bytes");
+
+        let mut same_identity_different_bytes: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        same_identity_different_bytes["createdAt"] = serde_json::json!("2026-10-25T12:34:56Z");
+        let same_identity_bytes = serde_json::to_vec_pretty(&same_identity_different_bytes)
+            .expect("serialize distinct same-identity receipt");
+        let same_identity_digest = cockpit_protocol::digest_json(&same_identity_different_bytes)
+            .expect("distinct same-identity receipt digest");
+        assert!(legacy_verification_receipt_matches_report(
+            &same_identity_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &same_identity_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &same_identity_bytes,
+            "append distinct same-identity candidate",
+        );
+        assert_eq!(
+            fixed_legacy_verification_receipt(
+                &root,
+                WI754_ARCHIVE_REVISION,
+                WI754_ID,
+                &evidence_path,
+                &report,
+                &binding,
+            )
+            .expect("pinned digest disambiguates same-identity candidate"),
+            trusted_bytes
+        );
+
+        let mut wrong_contract: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_contract["contractDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"wrong Contract context"));
+        let wrong_contract_bytes =
+            serde_json::to_vec_pretty(&wrong_contract).expect("serialize wrong Contract receipt");
+        let wrong_contract_digest =
+            cockpit_protocol::digest_json(&wrong_contract).expect("wrong Contract digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &wrong_contract_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &wrong_contract_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &wrong_contract_bytes,
+            "append wrong Contract candidate",
+        );
+
+        let mut wrong_runtime: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_runtime["runtimeVersion"] = serde_json::json!("0.0.0-counterfeit");
+        wrong_runtime["receipt"]["runtimeVersion"] = serde_json::json!("0.0.0-counterfeit");
+        wrong_runtime["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&wrong_runtime["receipt"])
+                .expect("digest counterfeit nested receipt"),
+        )
+        .expect("serialize counterfeit receipt digest");
+        let wrong_runtime_bytes =
+            serde_json::to_vec_pretty(&wrong_runtime).expect("serialize wrong Runtime receipt");
+        commit_wi754_receipt(
+            &root,
+            &wrong_runtime_bytes,
+            "append wrong Runtime candidate",
+        );
+
+        let mut wrong_source: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_source["repositorySnapshotDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"wrong source snapshot"));
+        let wrong_source_bytes =
+            serde_json::to_vec_pretty(&wrong_source).expect("serialize wrong source candidate");
+        let wrong_source_digest =
+            cockpit_protocol::digest_json(&wrong_source).expect("wrong source digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &wrong_source_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &wrong_source_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(&root, &wrong_source_bytes, "append wrong source candidate");
+
+        let mut foreign_work_item: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        foreign_work_item["workItemId"] = serde_json::json!("WI-754-FOREIGN");
+        foreign_work_item["receipt"]["workItemId"] = serde_json::json!("WI-754-FOREIGN");
+        foreign_work_item["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&foreign_work_item["receipt"])
+                .expect("foreign Work Item receipt digest"),
+        )
+        .expect("serialize foreign Work Item digest");
+        let foreign_work_item_bytes = serde_json::to_vec_pretty(&foreign_work_item)
+            .expect("serialize foreign Work Item candidate");
+        let foreign_work_item_digest =
+            cockpit_protocol::digest_json(&foreign_work_item).expect("foreign Work Item digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &foreign_work_item_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &foreign_work_item_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &foreign_work_item_bytes,
+            "append foreign Work Item candidate",
+        );
+
+        let mut foreign_repository: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        let foreign_repository_id = Digest::sha256_bytes(b"foreign repository");
+        foreign_repository["repositoryId"] = serde_json::json!(foreign_repository_id);
+        foreign_repository["receipt"]["repositoryId"] = serde_json::json!(foreign_repository_id);
+        foreign_repository["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&foreign_repository["receipt"])
+                .expect("foreign repository receipt digest"),
+        )
+        .expect("serialize foreign repository digest");
+        let foreign_repository_bytes = serde_json::to_vec_pretty(&foreign_repository)
+            .expect("serialize foreign repository candidate");
+        let foreign_repository_digest =
+            cockpit_protocol::digest_json(&foreign_repository).expect("foreign repository digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &foreign_repository_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &foreign_repository_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &foreign_repository_bytes,
+            "append foreign repository candidate",
+        );
+
+        // Repeating the exact fixed bytes at another revision is the same
+        // candidate, not a second identity or an ambiguity.
+        commit_wi754_receipt(&root, &trusted_bytes, "repeat exact fixed receipt bytes");
+        let selected = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+        )
+        .expect("fixed Outcome digest selects the exact historical receipt");
+        assert_eq!(selected, trusted_bytes);
+    }
 
     #[test]
     fn preserved_historical_reports_match_the_exact_legacy_markdown_renderer() {
@@ -14806,7 +15457,6 @@ fn outcome_v2_internal_with_snapshot(
     let closed_usage_validation =
         usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
     let frozen_closed_task_report = if archived
-        && !historical
         && closed_usage_validation.is_ok()
         && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id)
     {
@@ -15038,13 +15688,16 @@ fn outcome_v2_internal_with_snapshot(
     // projection.  The archived finish report is immutable and may still
     // contain a valid earlier usage snapshot, but it cannot stand in for a
     // rejected close-time snapshot.
-    let task_report = if frozen_usage_invalid {
+    let mut task_report = if frozen_usage_invalid {
         current_task_report
     } else {
         frozen_closed_task_report
             .or(frozen_archived_task_report)
             .unwrap_or(current_task_report)
     };
+    if archived {
+        resolve_archived_task_report_references(&root, work_item_id, &mut task_report)?;
+    }
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {

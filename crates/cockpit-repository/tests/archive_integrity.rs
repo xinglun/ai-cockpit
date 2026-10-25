@@ -1762,21 +1762,44 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
     // The generated Outcome remains a reader projection with archive-local
     // references. The cutoff-bound report itself is an immutable finish
     // snapshot and retains its original bytes after archive.
-    for suffix in ["outcome.json", "summary.json", "events.jsonl"] {
+    for suffix in ["summary.json", "events.jsonl"] {
         let bytes = fs::read(archive.join(format!("{work_item_id}.{suffix}")))
             .unwrap_or_else(|error| panic!("read archived {suffix}: {error}"));
         let text = String::from_utf8(bytes).expect("archived artifact is UTF-8");
         assert!(
             !text.contains(&active_reference),
-            "archived {suffix} still references a removed active artifact"
+            "archived {suffix} still references a removed active artifact: {text}"
         );
-        if matches!(suffix, "outcome.json" | "events.jsonl") {
+        if suffix == "events.jsonl" {
             assert!(
                 text.contains(&archive_reference),
                 "archived {suffix} does not expose its archive reference"
             );
         }
     }
+
+    let archived_outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{work_item_id}.outcome.json"))).expect("archived Outcome"),
+    )
+    .expect("archived Outcome JSON");
+    let archived_report: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{work_item_id}.task-report.json")))
+            .expect("separate frozen report"),
+    )
+    .expect("frozen report JSON");
+    assert_eq!(
+        archived_outcome["taskOutcomeReport"], archived_report,
+        "embedded report remains byte-equivalent in meaning to its frozen separate artifact"
+    );
+    let mut reader_projection = archived_outcome.clone();
+    reader_projection
+        .as_object_mut()
+        .expect("Outcome object")
+        .remove("taskOutcomeReport");
+    assert!(
+        !reader_projection.to_string().contains(&active_reference),
+        "archive-local Outcome envelope must not retain stale active artifact references"
+    );
 
     let handoff = render_human_outcome(
         &cockpit_repository::outcome_render_input(&path, work_item_id).expect("outcome"),

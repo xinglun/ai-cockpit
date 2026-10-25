@@ -21,7 +21,7 @@ capabilityClaims:
 | Preflight `yellow` | Evidence is missing or requires confirmation. | Read blockers and safe actions; repair the Contract or obtain the required decision. |
 | Preflight `red` | Scope, authority, protocol, or repository state is invalid. | Stop. Fix the named repository fact or authority before editing. |
 | `finish` says receipt missing/stale | No passed current-snapshot Work Item verification exists. | Run `verify --work-item <id>` after the final edit; do not bypass the check. |
-| A `finish_ready` Work Item becomes stale before archive | The repository changed after its verification snapshot was bound. | Do not edit the summary or receipt. Preserve the historical bytes and create a new authorized Work Item from the current snapshot. |
+| A `finish_ready` Work Item becomes stale before archive | The repository changed after its verification snapshot was bound. | Do not edit the summary or receipt. If this Work Item still owns the work, use its identity-bound native retry, then run a fresh preflight, verification, and explicit finish. If Runtime denies retry or an authorized successor already owns the work, preserve the old receipt and use that bound successor path. |
 | A stale predecessor must no longer be retried | Its evidence is historical and a bound successor already owns the work. | Record an identity-bound `supersede` recovery decision, then archive and close the predecessor as historical; do not rewrite or re-verify its old evidence. |
 | `archive` or `close` fails | Governance is not green or an archive identity is invalid. | Preserve active records, repair evidence, then rerun the failed lifecycle step. |
 | `close` says retained resources require cleanup | The receipt is a legacy shared-primary record or an ordinary retained linked resource. | Confirm `provider=local` and the primary-checkout facts; if they cannot be derived, run `work-item finalize-recovery-plan` and record the explicit historical recovery receipt. Never change `retained` to `deleted` by hand. |
@@ -52,7 +52,9 @@ identity-bound successor/retry path. The reference source's Make/Python
 wizard commands are not Rust Runtime commands. Use the installed CLI and the
 repository's own declared verification commands.
 
-An already `finish_ready` Work Item has no implicit rewind operation. This is
-intentional: a rewind would make the state history ambiguous. Use a successor
-Work Item for the changed snapshot and reference the old receipt as historical
-evidence.
+An already `finish_ready` Work Item cannot be refreshed into a new finish by
+recording verification alone. For changed source that remains in the original
+Work Item's ownership, use its admitted, identity-bound retry, run fresh
+preflight and verification, then explicitly finish again. If retry is denied
+or a bound successor has taken ownership, preserve the predecessor evidence
+and continue through the existing successor path.
