@@ -275,6 +275,38 @@ fn usage_projection_is_visible_in_summary_and_full_in_three_languages() {
 }
 
 #[test]
+fn historical_usage_absence_is_explicit_in_every_human_view() {
+    let directory = repository();
+    let fixture = RenderFixture {
+        state: OutcomeState::Unknown,
+        decision_state: DecisionState::Yellow,
+        historical_status: None,
+        sections: OutcomeReportSections::default(),
+        unknowns: Vec::new(),
+        evidence_refs: Vec::new(),
+    };
+    for (language, count, cutoff) in [
+        ("en", "input unknown", "cutoff: unknown"),
+        ("zh", "输入 未知", "截止时间: 未知"),
+        ("ja", "入力 不明", "締切時刻: 不明"),
+    ] {
+        for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
+            let rendered = render_fixture_view_language_with_usage(
+                &directory,
+                "WI-HISTORICAL-USAGE",
+                fixture.clone(),
+                view,
+                language,
+                None,
+            );
+            assert!(rendered.contains("historical_usage_not_recorded"), "{rendered}");
+            assert!(rendered.contains(count), "{rendered}");
+            assert!(rendered.contains(cutoff), "{rendered}");
+        }
+    }
+}
+
+#[test]
 fn human_renderer_separates_verification_lifecycle_and_human_decision() {
     let directory = repository();
     let id = "WI-OUTCOME-TRUST";

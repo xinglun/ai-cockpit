@@ -148,6 +148,27 @@ fn received_at_tampering_is_rejected_before_cutoff_filtering() {
 }
 
 #[test]
+fn generated_markdown_includes_the_frozen_usage_counts_and_cutoff() {
+    let root = repository();
+    let id = "WI-USAGE-MARKDOWN";
+    finish_with_usage(root.path(), id);
+    let report: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.path().join(format!(".ai/work-items/active/{id}.task-report.json")))
+            .expect("report JSON"),
+    )
+    .expect("decode report");
+    let markdown = fs::read_to_string(
+        root.path().join(format!(".ai/work-items/active/{id}.task-report.md")),
+    )
+    .expect("report Markdown");
+    assert!(markdown.contains("## Usage"), "{markdown}");
+    assert!(markdown.contains("input 10, output 5, cached input 3, reasoning 2"));
+    assert!(markdown.contains("caller_reported_usage_only"));
+    assert!(markdown.contains(report["usage"]["cutoff"].as_str().expect("cutoff")));
+    assert!(markdown.contains("caller claim"));
+}
+
+#[test]
 fn removed_finish_receipt_is_invalid_evidence_not_absent_usage() {
     let root = repository();
     let id = "WI-USAGE-REMOVED-FINISH";
