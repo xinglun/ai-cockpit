@@ -214,6 +214,10 @@ expected/actual SHA-256，以及可安全提供的 JSON pointer 或 Markdown 行
 必须绑定原始报告字节。Runtime 保留这些字节，不重新渲染，也不回填策略。此兼容路径依赖仓库已有的
 Git/receipt 信任根；不会声称在整段历史被重写后仍能独立认证作者，也不会仅凭旧 Runtime 标签认证其二进制。
 
+兼容方向是单向且明确的：新 Runtime 只读取明确支持的旧格式。旧 Runtime 遇到 `projectionBinding` 等未知字段时，
+可能拒绝读取新事件流或归档。不得删除字段或降低版本标记来伪装兼容；这会改变证据内容，而不是完成迁移。
+应保留原始字节，说明 unsupported 的格式及具体原因，并改用支持该格式的 Runtime。替换共享 Runtime 仍需单独授权。
+
 源码未变的验证刷新保留 finish 报告原字节。源码变更后的重试走原生 retry/re-finish 生命周期，并保留前任证据。
 归档保留冻结的 JSON 与 Markdown；close 单独记录新的 `finalReport` cutoff 和摘要，不替换 finish 产物。
 无法确认 token usage 时继续明确显示 unknown。正常版本演进自动完成；只有确实不支持的兼容情况才要求人采取明确的恢复步骤。

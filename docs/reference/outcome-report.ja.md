@@ -239,6 +239,12 @@ projection policy のない report は限定された history route でのみ読
 再描画も policy の後付けも行いません。この互換性は既存の Git/receipt trust root に依存します。履歴全体が書き換えられた
 後の作者認証や、旧 Runtime binary の認証までは主張しません。
 
+互換性の方向は明確です。新しい Runtime は明示的にサポートする旧形式だけを読み取ります。旧 Runtime は
+`projectionBinding` などの未知フィールドがある新しい event stream や archive を拒否する場合があります。
+新しい証拠を互換に見せるためにフィールドを削除したり、version marker を下げたりしてはいけません。これは移行ではなく
+証拠の変更です。元の bytes を保持し、unsupported となった形式と理由を示して、その形式に対応した Runtime を使ってください。
+共有 Runtime の置き換えには別途許可が必要です。
+
 source が同じ verification refresh は finish report bytes を変えません。source が変わる retry は native
 retry/re-finish lifecycle を使い、predecessor evidence を保持します。archive は凍結された JSON と Markdown を保持し、
 close は別の cutoff と digest を持つ `finalReport` を記録して finish artifact を置き換えません。token usage を確認

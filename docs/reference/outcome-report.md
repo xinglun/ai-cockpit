@@ -312,6 +312,14 @@ compatibility route relies on the repository's existing Git/receipt roots; it
 does not claim independent author authentication after wholesale history
 rewriting or authenticate an old Runtime binary from its label.
 
+Compatibility is directional: a newer Runtime reads only the explicitly
+supported older formats. An older Runtime may reject a newer event stream or
+archive when it encounters an unknown field such as `projectionBinding`. Do
+not remove fields or lower version markers to make newer evidence appear
+compatible; that changes the evidence rather than migrating it. Preserve the
+original bytes, report the unsupported format and reason, and use a Runtime
+that supports it. Replacing a shared Runtime requires separate authorization.
+
 Same-source verification refreshes keep finish report bytes unchanged. A
 source-changing retry uses the native retry/re-finish lifecycle and retains
 the predecessor evidence. Archive keeps the frozen JSON and Markdown; close
