@@ -2259,7 +2259,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         &directory,
         &runtime,
     );
-    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(response["result"]["isError"], false, "{response}");
     let verification = &response["result"]["structuredContent"];
     assert_eq!(verification["rerunStale"], 0);
     assert_eq!(verification["rerunUnknown"], 0);
