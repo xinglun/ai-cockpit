@@ -80,7 +80,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -118,7 +118,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.contract.json"
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.contract.json"
           ],
           "inference": false,
           "text": "Bind one explicit task authority to repository/WI/goal/files/actions/verification/public target and completion/withdrawal/deadline; preserve same-scope continuation and distinguish current permission from test freshness. Give actual continue/reverify/stop guidance with explicit local caller provenance and all existing human/material/platform boundaries. Eliminate observed real warnings and enforce accurate Linux/Windows zero-error zero-warning quality. No external B, production/shared Runtime activation or release."
@@ -127,7 +127,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.contract.json"
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."

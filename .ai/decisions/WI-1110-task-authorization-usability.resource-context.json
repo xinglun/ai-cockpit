@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:070d09f6acf73e8f2b6bdb6fba0c47bd234c2eeb107d6cf04979791a9a49e11f",
+  "contractDigest": "sha256:42a08283bc5180c33abfdec867efad2c72960985161e94352b55e6297da42b5b",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-25T05:49:31Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1110-task-authorization-usability",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1072",
+    "worktree": "/workspace/ai-cockpit-wi1110-task-authorization-usability"
+  },
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}

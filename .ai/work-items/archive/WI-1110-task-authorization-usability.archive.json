@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-25T05:48:02Z",
+  "files": {
+    "contractDigest": "sha256:42a08283bc5180c33abfdec867efad2c72960985161e94352b55e6297da42b5b",
+    "contractPath": ".ai/work-items/archive/WI-1110-task-authorization-usability.contract.json",
+    "eventsDigest": "sha256:9a773e8c2d5653ae122597cfeef31b7bc999fc25e61c366ee008ede35c0ea581",
+    "eventsPath": ".ai/work-items/archive/WI-1110-task-authorization-usability.events.jsonl",
+    "outcomeDigest": "sha256:496137e6af46158f9acbff1a21261324cb46ab377d4ecc58224e78f9c3022b96",
+    "outcomePath": ".ai/work-items/archive/WI-1110-task-authorization-usability.outcome.json",
+    "summaryDigest": "sha256:7f03c456be012b6d877f7b2bb8a75b9abbdf683785b93e9356ccb3d0b4ebdef5",
+    "summaryPath": ".ai/work-items/archive/WI-1110-task-authorization-usability.summary.json",
+    "taskReportDigest": "sha256:6e8bf86c35a3c25b02182d5bbc076405853a466ecf06e6f26210d600b8d859b7",
+    "taskReportMarkdownDigest": "sha256:3450dc1113dcc84312c7e1b1e049c5fc9921647f4d38c05c228ad0f84f8ecda9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1110-task-authorization-usability.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1110-task-authorization-usability.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-25T05:48:02.331761806Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-25T05:48:02.331761806Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1110-task-authorization-usability"
+}

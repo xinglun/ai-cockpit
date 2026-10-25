@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1110-task-authorization-usability
-status: in_progress
+status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1110-task-authorization-usability
+terminalArchive: .ai/work-items/archive/WI-1110-task-authorization-usability.contract.json
+terminalVerification: .ai/evidence/WI-1110-task-authorization-usability.verification.json
+terminalFinalization: .ai/decisions/WI-1110-task-authorization-usability.finalize.json
+terminalDecision: .ai/decisions/WI-1110-task-authorization-usability.close.json
 ---
 
 # WI-1110-task-authorization-usability — 有限任务授权与可用性

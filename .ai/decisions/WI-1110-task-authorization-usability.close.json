@@ -1,0 +1,152 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5fe25381ed90e4d44b48944f9673eac985e89c6fb54c2186979bf2a68e4a7481",
+      "workItemId": "WI-1110-task-authorization-usability"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1110-task-authorization-usability.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by agent:Codex via conversation:Sentinel_5c659af733a481918f7fef40a241d144 at 2026-10-25T06:06:22.727242Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind one explicit task authority to repository/WI/goal/files/actions/verification/public target and completion/withdrawal/deadline; preserve same-scope continuation and distinguish current permission from test freshness. Give actual continue/reverify/stop guidance with explicit local caller provenance and all existing human/material/platform boundaries. Eliminate observed real warnings and enforce accurate Linux/Windows zero-error zero-warning quality. No external B, production/shared Runtime activation or release."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1110-task-authorization-usability.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-25T06:06:59.923546379Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1110-task-authorization-usability"
+    },
+    "workItemId": "WI-1110-task-authorization-usability"
+  },
+  "finalReportDigest": "sha256:285292bcc9dcc62af099084ae252984d18bc0c1b364dc189f1cdd476e22a0b75",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-25T06:06:59.923518938Z",
+  "recordedAt": "2026-10-25T06:06:59.923518938Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2187d28b24716f83c67e906af81c27b073634103bfd4ada776586a042e6785c5",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1110-task-authorization-usability.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:Codex",
+    "authoritySource": "conversation:Sentinel_5c659af733a481918f7fef40a241d144",
+    "decidedAt": "2026-10-25T06:06:22.727242Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1110-task-authorization-usability.finalize.json"
+    ],
+    "policyRefs": [
+      "effective:ai-cockpit-project-v1:wi1110-bounded-source-verification-ceiling"
+    ],
+    "reason": "Record the actual user confirmation of WI-1110 sequence0 and finalization head sha256:2187d28b24716f83c67e906af81c27b073634103bfd4ada776586a042e6785c5. The actual user explicitly preserves historical failures, original output truncation, unknown usage and unmeasured benefit. Agent records the supplied human decision; no external authenticated-human or GitHub-review claim, new permission, release or production activation.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-25T06:06:59Z",
+  "usageCutoff": "2026-10-25T06:06:59.923546379Z",
+  "workItemId": "WI-1110-task-authorization-usability"
+}
