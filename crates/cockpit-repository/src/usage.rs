@@ -355,10 +355,22 @@ pub(super) fn validate_frozen_usage_snapshot(
     Ok(())
 }
 
+pub(super) struct ValidatedFrozenUsage {
+    pub(super) usage: Option<UsageSummary>,
+    pub(super) final_report: Option<TaskOutcomeReport>,
+}
+
 pub(super) fn validate_existing_frozen_usage_snapshots(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Option<UsageSummary>, ObserverError> {
+    validate_existing_frozen_usage_and_report(root, work_item_id).map(|validated| validated.usage)
+}
+
+pub(super) fn validate_existing_frozen_usage_and_report(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ValidatedFrozenUsage, ObserverError> {
     let mut prior_usage_claim = false;
     for phase in ["active", "archive"] {
         let relative = format!(".ai/work-items/{phase}/{work_item_id}.task-report.json");
@@ -402,6 +414,7 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
     let relative = format!(".ai/decisions/{work_item_id}.close.json");
     let path = root.join(&relative);
     let mut close_usage = None;
+    let mut final_report = None;
     match fs::symlink_metadata(&path) {
         Ok(metadata) if !metadata.is_file() => {
             return Err(state_error(
@@ -462,6 +475,7 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
                         "frozen usage close report identity differs",
                     ));
                 }
+                final_report = Some(report.clone());
                 let observed_digest = cockpit_protocol::digest_json(final_report_value)
                     .map_err(|error| state_error(&path, error.to_string()))?;
                 if close["finalReportDigest"] != observed_digest.to_string() {
@@ -502,7 +516,10 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
         Err(error) if error.kind() == ErrorKind::NotFound => {}
         Err(source) => return Err(read_error(&path, source)),
     }
-    Ok(close_usage)
+    Ok(ValidatedFrozenUsage {
+        usage: close_usage,
+        final_report,
+    })
 }
 
 fn checked_sum(total: Option<u64>, next: Option<u64>, first: bool) -> Result<Option<u64>, ()> {

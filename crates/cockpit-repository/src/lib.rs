@@ -11852,6 +11852,26 @@ fn verify_archive_manifest_with_options(
     manifest: &serde_json::Value,
     allow_task_report_markdown_digest_mismatch: bool,
 ) -> Result<Option<String>, ObserverError> {
+    verify_archive_manifest_with_report_options(
+        root,
+        work_item_id,
+        manifest,
+        allow_task_report_markdown_digest_mismatch,
+    )
+    .map(|verified| verified.markdown_digest_mismatch)
+}
+
+struct VerifiedArchiveArtifacts {
+    markdown_digest_mismatch: Option<String>,
+    task_outcome_report: Option<TaskOutcomeReport>,
+}
+
+fn verify_archive_manifest_with_report_options(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    allow_task_report_markdown_digest_mismatch: bool,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
     if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
         || !matches!(
             manifest["state"].as_str(),
@@ -12060,7 +12080,8 @@ fn verify_archive_manifest_with_options(
             }
         }
     }
-    validate_archived_task_outcome_projection_binding(root, work_item_id, manifest)?;
+    let task_outcome_report =
+        validate_archived_task_outcome_projection_binding(root, work_item_id, manifest)?;
     let mismatched_report = if allow_task_report_markdown_digest_mismatch {
         let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
         let path = archive.join(format!("{work_item_id}.task-report.md"));
@@ -12073,14 +12094,17 @@ fn verify_archive_manifest_with_options(
     } else {
         None
     };
-    Ok(mismatched_report)
+    Ok(VerifiedArchiveArtifacts {
+        markdown_digest_mismatch: mismatched_report,
+        task_outcome_report,
+    })
 }
 
 fn validate_archived_task_outcome_projection_binding(
     root: &Path,
     work_item_id: &str,
     manifest: &serde_json::Value,
-) -> Result<(), ObserverError> {
+) -> Result<Option<TaskOutcomeReport>, ObserverError> {
     let archive = root.join(".ai/work-items/archive");
     let summary_path = archive.join(format!("{work_item_id}.summary.json"));
     let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
@@ -12118,10 +12142,9 @@ fn validate_archived_task_outcome_projection_binding(
         if manifest["archiveRoute"] == "historical_evidence_compatibility"
             && manifest["historicalEvidence"].is_object()
         {
-            return Ok(());
+            return Ok(None);
         }
-        validate_legacy_archive_git_anchor(root, work_item_id, manifest)?;
-        return Ok(());
+        return validate_legacy_archive_git_anchor(root, work_item_id, manifest);
     }
     let policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
         serde_json::from_value(policy_value.clone()).map_err(|error| ObserverError::State {
@@ -12294,7 +12317,7 @@ fn validate_archived_task_outcome_projection_binding(
             &markdown_bytes,
         ));
     }
-    Ok(())
+    Ok(Some(report))
 }
 
 fn validate_task_outcome_projection_predecessors(
@@ -12534,7 +12557,7 @@ fn validate_legacy_archive_git_anchor(
     root: &Path,
     work_item_id: &str,
     manifest: &serde_json::Value,
-) -> Result<(), ObserverError> {
+) -> Result<Option<TaskOutcomeReport>, ObserverError> {
     let manifest_path = format!(".ai/work-items/archive/{work_item_id}.archive.json");
     let revisions = git_text(
         root,
@@ -12558,7 +12581,7 @@ fn validate_legacy_archive_git_anchor(
         message: "legacy Task Outcome has no fixed archive-introduction revision; preserve the raw report and use a Runtime with a supported adapter".into(),
     })?;
     let mut paths = vec![
-        manifest_path,
+        manifest_path.clone(),
         format!(".ai/work-items/archive/{work_item_id}.contract.json"),
         format!(".ai/work-items/archive/{work_item_id}.summary.json"),
         format!(".ai/work-items/archive/{work_item_id}.outcome.json"),
@@ -12573,6 +12596,7 @@ fn validate_legacy_archive_git_anchor(
         }
     }
     let evidence_path = format!(".ai/evidence/{work_item_id}.verification.json");
+    let mut fixed_files = BTreeMap::<String, Vec<u8>>::new();
     for path in paths {
         let committed = git_revision_blob_bytes(root, revision, &path).map_err(|_| ObserverError::State {
             path: root.join(&path),
@@ -12591,16 +12615,31 @@ fn validate_legacy_archive_git_anchor(
                 ),
             });
         }
+        fixed_files.insert(path, committed);
+    }
+    let fixed_manifest_bytes = fixed_files
+        .get(&manifest_path)
+        .expect("fixed manifest path is included");
+    let fixed_manifest: serde_json::Value =
+        serde_json::from_slice(fixed_manifest_bytes).map_err(|error| ObserverError::State {
+            path: root.join(&manifest_path),
+            message: format!("fixed legacy archive manifest is invalid: {error}"),
+        })?;
+    if &fixed_manifest != manifest {
+        return Err(ObserverError::State {
+            path: root.join(&manifest_path),
+            message: format!(
+                "legacy Task Outcome manifest differs from fixed Git revision {revision}"
+            ),
+        });
     }
     if manifest["files"]["taskReportDigest"].is_string() {
-        let report_path = root.join(format!(
-            ".ai/work-items/archive/{work_item_id}.task-report.json"
-        ));
-        let report_bytes =
-            read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
-                path: report_path.clone(),
-                source,
-            })?;
+        let relative_report_path =
+            format!(".ai/work-items/archive/{work_item_id}.task-report.json");
+        let report_path = root.join(&relative_report_path);
+        let report_bytes = fixed_files
+            .get(&relative_report_path)
+            .expect("fixed report path is included");
         let report_value: serde_json::Value =
             serde_json::from_slice(&report_bytes).map_err(|error| ObserverError::State {
                 path: report_path.clone(),
@@ -12628,7 +12667,7 @@ fn validate_legacy_archive_git_anchor(
                 path: report_path.clone(),
                 message: error.to_string(),
             })?;
-        if canonical_json != report_bytes {
+        if canonical_json.as_slice() != report_bytes.as_slice() {
             return Err(task_outcome_projection_mismatch(
                 &report_path,
                 "JSON",
@@ -12637,13 +12676,40 @@ fn validate_legacy_archive_git_anchor(
                 &report_bytes,
             ));
         }
+        let relative_outcome_path = format!(".ai/work-items/archive/{work_item_id}.outcome.json");
+        let outcome: serde_json::Value = serde_json::from_slice(
+            fixed_files
+                .get(&relative_outcome_path)
+                .expect("fixed Outcome path is included"),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.join(&relative_outcome_path),
+            message: format!("fixed legacy Outcome JSON is invalid: {error}"),
+        })?;
+        let relative_summary_path = format!(".ai/work-items/archive/{work_item_id}.summary.json");
+        let summary: serde_json::Value = serde_json::from_slice(
+            fixed_files
+                .get(&relative_summary_path)
+                .expect("fixed Summary path is included"),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.join(&relative_summary_path),
+            message: format!("fixed legacy Summary JSON is invalid: {error}"),
+        })?;
         let fixed_verification = fixed_legacy_verification_receipt(
             root,
             revision,
             work_item_id,
             &evidence_path,
             &report,
-            &read_legacy_archive_verification_binding(root, work_item_id, &evidence_path, &report)?,
+            &read_legacy_archive_verification_binding(
+                root,
+                work_item_id,
+                &evidence_path,
+                &report,
+                &outcome,
+                &summary,
+            )?,
         )?;
         let current = read_governance_bytes(root.join(&evidence_path)).map_err(|source| {
             ObserverError::Read {
@@ -12663,14 +12729,12 @@ fn validate_legacy_archive_git_anchor(
                 message: format!("fixed legacy verification receipt is invalid: {error}"),
             })?;
         if manifest["files"]["taskReportMarkdownDigest"].is_string() {
-            let markdown_path = root.join(format!(
-                ".ai/work-items/archive/{work_item_id}.task-report.md"
-            ));
-            let markdown_bytes =
-                read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
-                    path: markdown_path.clone(),
-                    source,
-                })?;
+            let relative_markdown_path =
+                format!(".ai/work-items/archive/{work_item_id}.task-report.md");
+            let markdown_path = root.join(&relative_markdown_path);
+            let markdown_bytes = fixed_files
+                .get(&relative_markdown_path)
+                .expect("fixed Markdown path is included");
             let canonical_markdown =
                 task_outcome_markdown_legacy_for_runtime(&report, &verification.runtime_version)
                     .map_err(|message| ObserverError::State {
@@ -12678,7 +12742,7 @@ fn validate_legacy_archive_git_anchor(
                         message,
                     })?
                     .into_bytes();
-            if canonical_markdown != markdown_bytes {
+            if canonical_markdown.as_slice() != markdown_bytes.as_slice() {
                 return Err(task_outcome_projection_mismatch(
                     &markdown_path,
                     "Markdown",
@@ -12688,6 +12752,7 @@ fn validate_legacy_archive_git_anchor(
                 ));
             }
         }
+        return Ok(Some(report));
     } else if manifest["files"]["taskReportMarkdownDigest"].is_string() {
         return Err(ObserverError::State {
             path: root.join(format!(
@@ -12696,7 +12761,7 @@ fn validate_legacy_archive_git_anchor(
             message: "legacy Task Outcome Markdown has no bound canonical JSON source".into(),
         });
     }
-    Ok(())
+    Ok(None)
 }
 
 struct LegacyArchiveVerificationBinding {
@@ -12713,12 +12778,12 @@ fn read_legacy_archive_verification_binding(
     work_item_id: &str,
     evidence_path: &str,
     report: &TaskOutcomeReport,
+    outcome: &serde_json::Value,
+    summary: &serde_json::Value,
 ) -> Result<LegacyArchiveVerificationBinding, ObserverError> {
     let archive = root.join(".ai/work-items/archive");
     let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
     let summary_path = archive.join(format!("{work_item_id}.summary.json"));
-    let outcome = read_json(&outcome_path)?;
-    let summary = read_json(&summary_path)?;
     let evidence_digest: Digest = serde_json::from_value(outcome["evidenceDigest"].clone())
         .map_err(|error| ObserverError::State {
             path: outcome_path.clone(),
@@ -13117,8 +13182,18 @@ fn verify_historical_supersede_manifest(
     manifest: &serde_json::Value,
     receipt: &RecoveryDecisionReceipt,
 ) -> Result<Option<String>, ObserverError> {
+    verify_historical_supersede_manifest_with_report(root, work_item_id, manifest, receipt)
+        .map(|verified| verified.markdown_digest_mismatch)
+}
+
+fn verify_historical_supersede_manifest_with_report(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    receipt: &RecoveryDecisionReceipt,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
     validate_recovery_archive_manifest_binding(root, work_item_id, receipt)?;
-    verify_archive_manifest_with_options(root, work_item_id, manifest, true)
+    verify_archive_manifest_with_report_options(root, work_item_id, manifest, true)
 }
 
 pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
@@ -13938,14 +14013,128 @@ mod task_outcome_projection_diagnostic_tests {
         .expect("fixed WI-754 report schema")
     }
 
+    fn closed_usage_fixture() -> (tempfile::TempDir, String) {
+        let root = tempfile::tempdir().expect("usage race fixture");
+        fs::write(root.path().join("README.md"), "fixture\n").expect("README");
+        assert!(
+            Command::new("git")
+                .args(["init", "-q", "--initial-branch=main"])
+                .current_dir(root.path())
+                .status()
+                .expect("git init")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args(["add", "."])
+                .current_dir(root.path())
+                .status()
+                .expect("git add")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-qm",
+                    "usage race fixture",
+                ])
+                .current_dir(root.path())
+                .status()
+                .expect("git commit")
+                .success()
+        );
+        attach(root.path()).expect("attach");
+        let source_bytes = b"{\"source\":\"caller-claim\"}\n";
+        fs::write(
+            root.path().join(".ai/evidence/source-usage.json"),
+            source_bytes,
+        )
+        .expect("usage source evidence");
+        let work_item_id = "WI-CLOSE-CAPTURED-REPORT-RACE".to_owned();
+        start_work_item_with_options(
+            root.path(),
+            &work_item_id,
+            "close report capture fixture",
+            "preserve the validated close projection",
+            &[".ai/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start");
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"close report capture runtime"),
+        };
+        let request = |event: &str| cockpit_protocol::UsageRecordRequest {
+            schema_version: 1,
+            repository_id: repository_id(root.path()).to_string(),
+            work_item_id: work_item_id.clone(),
+            source_event_id: event.into(),
+            source_kind: cockpit_protocol::UsageSourceKind::ProviderReported,
+            actor: None,
+            configured_model: Some("configured-model".into()),
+            reported_model: Some("reported-model".into()),
+            role: "implementer".into(),
+            phase: "implementation".into(),
+            unit: cockpit_protocol::UsageUnit::Turn,
+            input_tokens: Some(10),
+            output_tokens: Some(5),
+            cached_input_tokens: Some(3),
+            reasoning_tokens: Some(2),
+            source_observed_at: None,
+            evidence_ref: ".ai/evidence/source-usage.json".into(),
+            evidence_digest: Digest::sha256_bytes(source_bytes),
+        };
+        record_work_item_usage(root.path(), &request("before-finish"), &runtime)
+            .expect("initial usage");
+        let contract = root.path().join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        preflight_work_item(root.path(), &contract).expect("preflight");
+        checkpoint_work_item(root.path(), &work_item_id).expect("checkpoint");
+        record_verification(
+            root.path(),
+            &work_item_id,
+            &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+            &runtime.runtime_version,
+            &runtime.runtime_digest,
+        )
+        .expect("verification");
+        finish_work_item(root.path(), &work_item_id).expect("finish");
+        archive_work_item(root.path(), &work_item_id).expect("archive");
+        record_work_item_usage(root.path(), &request("after-archive"), &runtime)
+            .expect("late usage");
+        close_work_item_with_decision(root.path(), &work_item_id, "approved").expect("close");
+        (root, work_item_id)
+    }
+
     #[test]
     fn fixed_outcome_digest_selects_only_the_bound_legacy_receipt() {
         let (_checkout, root, _manifest, trusted_bytes) = wi754_checkout_at_archive_introduction();
         let evidence_path = format!(".ai/evidence/{WI754_ID}.verification.json");
         let report = wi754_fixed_report(&root);
-        let binding =
-            read_legacy_archive_verification_binding(&root, WI754_ID, &evidence_path, &report)
-                .expect("fixed Outcome and Summary bind the receipt selection");
+        let archive = root.join(".ai/work-items/archive");
+        let outcome =
+            read_json(&archive.join(format!("{WI754_ID}.outcome.json"))).expect("fixed Outcome");
+        let summary =
+            read_json(&archive.join(format!("{WI754_ID}.summary.json"))).expect("fixed Summary");
+        let binding = read_legacy_archive_verification_binding(
+            &root,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &outcome,
+            &summary,
+        )
+        .expect("fixed Outcome and Summary bind the receipt selection");
         let baseline = fixed_legacy_verification_receipt(
             &root,
             WI754_ARCHIVE_REVISION,
@@ -14171,6 +14360,131 @@ mod task_outcome_projection_diagnostic_tests {
         )
         .expect("fixed Outcome digest selects the exact historical receipt");
         assert_eq!(selected, trusted_bytes);
+
+        // A semantically identical JSON value can have the same canonical
+        // receipt digest while preserving different raw bytes. Historical
+        // selection must reject that ambiguity rather than treating the
+        // second encoding as an exact duplicate.
+        let mut semantically_same_but_differently_encoded = trusted_bytes.clone();
+        semantically_same_but_differently_encoded.push(b' ');
+        let trusted_value: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        let differently_encoded_value: serde_json::Value =
+            serde_json::from_slice(&semantically_same_but_differently_encoded)
+                .expect("same receipt with different JSON whitespace");
+        assert_ne!(trusted_bytes, semantically_same_but_differently_encoded);
+        assert_eq!(trusted_value, differently_encoded_value);
+        assert_eq!(
+            cockpit_protocol::digest_json(&trusted_value).expect("canonical trusted digest"),
+            cockpit_protocol::digest_json(&differently_encoded_value)
+                .expect("canonical whitespace-variant digest")
+        );
+        commit_wi754_receipt(
+            &root,
+            &semantically_same_but_differently_encoded,
+            "append same canonical receipt with distinct raw bytes",
+        );
+        let ambiguous = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+        )
+        .expect_err("same canonical digest with distinct raw bytes is ambiguous");
+        assert!(
+            ambiguous
+                .to_string()
+                .contains("2 fixed Git verification receipts"),
+            "{ambiguous}"
+        );
+    }
+
+    #[test]
+    fn legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement() {
+        let (_checkout, root, manifest, trusted_bytes) = wi754_checkout_at_archive_introduction();
+        commit_wi754_receipt(&root, &trusted_bytes, "append the fixed historical receipt");
+        let expected = wi754_fixed_report(&root);
+        let verified =
+            verify_archive_manifest_with_report_options(&root, WI754_ID, &manifest, false)
+                .expect("archive verifies against its fixed historical bytes");
+        let report_path = root.join(format!(
+            ".ai/work-items/archive/{WI754_ID}.task-report.json"
+        ));
+        let mut replacement = expected.clone();
+        replacement.status = OutcomeState::Partial;
+        let replacement_bytes =
+            serde_json::to_vec_pretty(&replacement).expect("replacement report JSON");
+        fs::write(&report_path, replacement_bytes).expect("replace path after validation");
+
+        let consumed = verified
+            .task_outcome_report
+            .expect("validated legacy report is returned to the caller");
+        assert_eq!(consumed, expected);
+        let path_after_validation: TaskOutcomeReport =
+            serde_json::from_slice(&fs::read(&report_path).expect("replacement bytes"))
+                .expect("replacement report parses");
+        assert_ne!(consumed, path_after_validation);
+    }
+
+    #[test]
+    fn close_projection_consumes_the_captured_final_report_after_path_replacement() {
+        let (root, work_item_id) = closed_usage_fixture();
+        let validation =
+            usage::validate_existing_frozen_usage_and_report(root.path(), &work_item_id)
+                .expect("close report and usage validate together");
+        let expected = validation
+            .final_report
+            .clone()
+            .expect("validated close final report");
+        let usage = expected.usage.as_ref().expect("final usage");
+        assert_eq!(usage.receipt_refs.len(), 2);
+        assert_eq!(usage.totals.input_tokens, Some(20));
+
+        let close_path = root
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json"));
+        let mut replacement: serde_json::Value =
+            serde_json::from_slice(&fs::read(&close_path).expect("close bytes"))
+                .expect("close JSON");
+        let finish_report: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.path().join(format!(
+                ".ai/work-items/archive/{work_item_id}.task-report.json"
+            )))
+            .expect("finish report bytes"),
+        )
+        .expect("finish report JSON");
+        replacement["finalReportDigest"] = serde_json::json!(
+            cockpit_protocol::digest_json(&finish_report).expect("finish report digest")
+        );
+        replacement["finalReport"] = finish_report;
+        fs::write(
+            &close_path,
+            serde_json::to_vec_pretty(&replacement).expect("replacement close JSON"),
+        )
+        .expect("replace close path after validation");
+
+        let consumed = validated_close_task_report(&Ok(validation))
+            .expect("consumer receives the validated captured report");
+        assert_eq!(consumed, expected);
+        assert_eq!(
+            consumed
+                .usage
+                .as_ref()
+                .expect("captured usage")
+                .receipt_refs
+                .len(),
+            2
+        );
+        let current_close: serde_json::Value =
+            serde_json::from_slice(&fs::read(&close_path).expect("replacement bytes"))
+                .expect("replacement close");
+        assert_ne!(
+            consumed,
+            serde_json::from_value::<TaskOutcomeReport>(current_close["finalReport"].clone())
+                .expect("replacement report parses")
+        );
     }
 
     #[test]
@@ -14433,8 +14747,16 @@ struct TaskOutcomeReportInput<'a> {
     recovery_condition_override: Option<&'a str>,
     historical: bool,
     usage_cutoff: Option<&'a str>,
-    closed_usage_validation:
-        Option<&'a Result<Option<cockpit_protocol::UsageSummary>, ObserverError>>,
+    closed_usage_validation: Option<&'a Result<usage::ValidatedFrozenUsage, ObserverError>>,
+}
+
+fn validated_close_task_report(
+    validation: &Result<usage::ValidatedFrozenUsage, ObserverError>,
+) -> Option<TaskOutcomeReport> {
+    validation
+        .as_ref()
+        .ok()
+        .and_then(|validated| validated.final_report.clone())
 }
 
 fn task_outcome_report(
@@ -14599,7 +14921,7 @@ fn task_outcome_report(
             ))
         };
         match closed_usage_validation {
-            Some(Ok(usage)) => usage.clone(),
+            Some(Ok(validated)) => validated.usage.clone(),
             Some(Err(_)) => invalid(),
             None => {
                 match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)
@@ -15386,19 +15708,33 @@ fn outcome_v2_internal_with_snapshot(
             .is_some();
         if report_present {
             let manifest = read_json(&archive_manifest).ok();
-            let report_valid = manifest.as_ref().is_some_and(|manifest| {
-                verify_archive_manifest(&root, work_item_id, manifest).is_ok()
-                    || recovery_decision.as_ref().is_some_and(|decision| {
-                        decision.decision == "supersede"
-                            && decision.predecessor_archive_manifest_digest.is_some()
-                            && verify_historical_supersede_manifest(
-                                &root,
-                                work_item_id,
-                                manifest,
-                                decision,
-                            )
-                            .is_ok()
+            let verified_archive = manifest.as_ref().map(|manifest| {
+                verify_archive_manifest_with_report_options(&root, work_item_id, manifest, false)
+                    .or_else(|_| {
+                        recovery_decision
+                            .as_ref()
+                            .filter(|decision| {
+                                decision.decision == "supersede"
+                                    && decision.predecessor_archive_manifest_digest.is_some()
+                            })
+                            .ok_or_else(|| ObserverError::State {
+                                path: archive_manifest.clone(),
+                                message: "historical supersede recovery is unavailable".into(),
+                            })
+                            .and_then(|decision| {
+                                verify_historical_supersede_manifest_with_report(
+                                    &root,
+                                    work_item_id,
+                                    manifest,
+                                    decision,
+                                )
+                            })
                     })
+            });
+            let report_valid = verified_archive.as_ref().is_some_and(|verified| {
+                verified
+                    .as_ref()
+                    .is_ok_and(|verified| verified.task_outcome_report.is_some())
             });
             let events_valid = !events_required
                 || validate_task_outcome_events(
@@ -15414,15 +15750,10 @@ fn outcome_v2_internal_with_snapshot(
                 summary = "Archived Task Outcome evidence is malformed or not bound to the archive manifest; outcome is stopped.";
                 evidence_unknown = Some("outcome_report_invalid");
             } else {
-                let archived_report_path = archive.join(format!("{work_item_id}.task-report.json"));
-                frozen_archived_task_report = read_governance_bytes(&archived_report_path)
-                    .ok()
-                    .and_then(|bytes| serde_json::from_slice::<TaskOutcomeReport>(&bytes).ok())
-                    .filter(|report| {
-                        report.work_item_id == work_item_id
-                            && report.bindings.repository_id == contract.repository_id
-                            && report.bindings.work_item_id == work_item_id
-                    });
+                frozen_archived_task_report = verified_archive
+                    .expect("archive manifest exists when the report is present")
+                    .expect("verified archive result was checked above")
+                    .task_outcome_report;
                 if frozen_archived_task_report.is_none() {
                     state = OutcomeState::Unknown;
                     decision_state = DecisionState::Red;
@@ -15455,15 +15786,12 @@ fn outcome_v2_internal_with_snapshot(
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
     let closed_usage_validation =
-        usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
+        usage::validate_existing_frozen_usage_and_report(&root, work_item_id);
     let frozen_closed_task_report = if archived
         && closed_usage_validation.is_ok()
         && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id)
     {
-        read_json(&close_decision_path)
-            .ok()
-            .and_then(|close| close.get("finalReport").cloned())
-            .and_then(|report| serde_json::from_value::<TaskOutcomeReport>(report).ok())
+        validated_close_task_report(&closed_usage_validation)
     } else {
         None
     };

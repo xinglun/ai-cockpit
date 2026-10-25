@@ -67,13 +67,15 @@ stateDiagram-v2
     implementation_active --> implementation_active: preflight red/缺失（停止）
     checkpointed --> checkpointed: verification 失败（修复后重试）
     finish_ready --> checkpointed: 源码变更后的 identity-bound retry
-    finish_ready --> implementation_active: Contract amendment 重新打开工作
+    finish_ready --> checkpointed: Contract amendment 需要通过准入重新验证
 ```
 
 源码变化使 `finish_ready` snapshot 过期时，Runtime 会拒绝隐式报告刷新。如果工作仍由该
 Work Item 负责，已准入的 identity-bound retry 会使状态回到 `checkpointed`；随后重新运行
 preflight 和 verification，并显式 finish。如果 Runtime 拒绝 retry，或已授权 successor 接管，
 则沿用现有 successor 路径。
+Contract amendment 仍受现有 checkpoint 准入约束：重新验证前必须有有效的 `before_finish`
+证据；amendment 不会绕过此门禁。
 
 ```text
 Human / Agent / CI
