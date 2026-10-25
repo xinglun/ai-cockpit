@@ -2,7 +2,7 @@
 
 ## Applicability
 
-Implementation/verification/archive/cleanup; failed/stale/timed-out/invalid checks: [recovery](verification-failure-recovery.md).
+Implement/verify/archive/clean up; failed/stale/timed-out/invalid checks: [recovery](verification-failure-recovery.md).
 
 ## Authoritative inputs
 
@@ -14,7 +14,7 @@ Before launching a declared check, inspect `work-item status` and `work-item val
 
 ## Operations
 
-On admission use `work-item controls` or MCP `work_item_controls`; both recheck. Missing required controls block finish. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
+Use admitted `work-item controls` or MCP `work_item_controls`; both recheck. Required controls gate finish. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
 
 One Work Item is serial by default; keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
 
@@ -26,7 +26,7 @@ Amend via `work-item amend --request`, reason and current `expectedContractDiges
 
 ## Bounded task mode
 
-If status has `taskAuthorization`, query one WI with `--authorization-request` (MCP `authorizationRequest`); pass explicit `--task-caller` / `taskCaller`. Separate authority, evidence freshness and actual admission. Follow `nextAction`; a query is no cached permit. Same-scope commits require necessary revalidation, not repeated owner approval. Never infer an actor or claim human identity. After close, only preauthorized native closeout/auxiliary cleanup remains. Record completed at delivery end. Fields/startup: [commands](../../docs/reference/commands.md#bounded-task-authorization).
+With `taskAuthorization`, query one WI with `--authorization-request` (MCP `authorizationRequest`); pass explicit `--task-caller` / `taskCaller`. Separate authority, evidence freshness and admission. Follow `nextAction`; queries are not permits. Same-scope commits require necessary revalidation, not repeated owner approval. Never infer an actor or claim human identity. After close, only preauthorized native closeout/auxiliary cleanup remains. Record completed at delivery end. [Commands](../../docs/reference/commands.md#bounded-task-authorization).
 
 ## Handoff
 
