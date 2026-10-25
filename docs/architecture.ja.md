@@ -76,8 +76,10 @@ report refresh を拒否する。作業を引き続きこの Work Item が所有
 identity-bound retry で `checkpointed` に戻し、fresh preflight と verification の後に明示的に
 finish する。Runtime が retry を拒否する場合、または認可済み successor が作業を引き継いだ
 場合は、既存の successor path を使う。
-Contract amendment も既存の checkpoint admission に従う。再検証前に有効な
-`before_finish` evidence が必要であり、amendment によってこの gate を回避することはできない。
+Contract amendment も既存の checkpoint admission に従う。`before_finish` evidence が
+存在する場合、typed amendment は拒否され、その場合は recovery Work Item を使う。
+この evidence が記録される前も、通常の checkpoint と finish admission に従う必要がある。
+amendment によってこれらの gate を回避することはできない。
 
 ```text
 Human / Agent / CI

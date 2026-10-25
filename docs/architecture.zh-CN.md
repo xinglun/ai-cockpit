@@ -74,8 +74,9 @@ stateDiagram-v2
 Work Item 负责，已准入的 identity-bound retry 会使状态回到 `checkpointed`；随后重新运行
 preflight 和 verification，并显式 finish。如果 Runtime 拒绝 retry，或已授权 successor 接管，
 则沿用现有 successor 路径。
-Contract amendment 仍受现有 checkpoint 准入约束：重新验证前必须有有效的 `before_finish`
-证据；amendment 不会绕过此门禁。
+Contract amendment 仍受现有 checkpoint 准入约束。已有 `before_finish` 证据后，typed
+amendment 会被拒绝；此时应使用 recovery Work Item。在写入该证据之前，仍须遵守正常的
+checkpoint 与 finish 准入规则。amendment 不会绕过这些门禁。
 
 ```text
 Human / Agent / CI
