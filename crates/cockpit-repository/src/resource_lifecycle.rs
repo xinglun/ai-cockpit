@@ -6022,30 +6022,6 @@ fn validate_layout_finish_semantics(
             summary.as_object_mut().unwrap().remove(key);
         }
     }
-    let mut expected_summary = serde_json::to_vec_pretty(&summary)
-        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-    if combined {
-        expected_summary =
-            super::normalized_archive_artifact_bytes("summary.json", &expected_summary, id)?;
-    }
-    if expected_summary != git_blob_bytes(root, finish, &format!("{target}.summary.json"))? {
-        let expected: serde_json::Value = serde_json::from_slice(&expected_summary)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        let differences = expected
-            .as_object()
-            .unwrap()
-            .keys()
-            .filter(|k| observed.get(*k) != expected.get(*k))
-            .cloned()
-            .collect::<Vec<_>>()
-            .join(", ");
-        return Err(post_merge_sync_error(
-            root,
-            format!(
-                "Summary contains changes outside the Runtime finish projection: {differences}"
-            ),
-        ));
-    }
     if super::verification_evidence_state(isolated, &contract, &snapshot, false, None)?
         != super::EvidenceState::Complete
     {
@@ -6076,17 +6052,127 @@ fn validate_layout_finish_semantics(
     )
     .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
     let markdown = super::task_outcome_markdown(&report).into_bytes();
-    // Usage-bound reports are frozen at finish, including legal active refs.
-    for (suffix, bytes) in [
-        ("task-report.json", &report_bytes),
-        ("task-report.md", &markdown),
-    ] {
-        if *bytes != git_blob_bytes(root, finish, &format!("{target}.{suffix}"))? {
+    let actual_report_bytes = git_blob_bytes(root, finish, &format!("{target}.task-report.json"))?;
+    if actual_report_bytes != report_bytes {
+        return Err(super::task_outcome_projection_mismatch(
+            &root.join(format!("{target}.task-report.json")),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &report_bytes,
+            &actual_report_bytes,
+        ));
+    }
+    let actual_markdown = git_blob_bytes(root, finish, &format!("{target}.task-report.md"))?;
+    let projection_binding = if observed["taskOutcomeProjectionPolicy"].is_null() {
+        if !observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null() {
             return Err(post_merge_sync_error(
                 root,
-                "Task Outcome report differs from the canonical finish projection",
+                "Task Outcome finish binding exists but its predecessor projection policy is missing or downgraded",
             ));
         }
+        None
+    } else {
+        let policy: cockpit_protocol::TaskOutcomeProjectionPolicy = serde_json::from_value(
+            observed["taskOutcomeProjectionPolicy"].clone(),
+        )
+        .map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("Task Outcome projection policy is invalid: {error}"),
+            )
+        })?;
+        let source_digest =
+            serde_json::from_value::<Digest>(evidence["repositorySnapshotDigest"].clone())
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+        super::validate_task_outcome_projection_policy(
+            &policy,
+            &contract.repository_id,
+            id,
+            &super::contract_digest(&contract_path)?,
+            &source_digest,
+        )
+        .map_err(|message| post_merge_sync_error(root, message))?;
+        if policy.producer_runtime_version
+            != evidence["runtimeVersion"].as_str().unwrap_or_default()
+            || serde_json::from_value::<Digest>(evidence["runtimeDigest"].clone()).ok()
+                != Some(policy.producer_runtime_digest.clone())
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "Task Outcome projection policy producer Runtime differs from fixed verification evidence",
+            ));
+        }
+        let expected_binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+            schema_version: 1,
+            projection_policy_digest: cockpit_protocol::digest_json(&policy)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?,
+            task_report_json_digest: Digest::sha256_bytes(&report_bytes),
+            task_report_markdown_digest: Digest::sha256_bytes(&markdown),
+        };
+        let observed_binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding =
+            serde_json::from_value(
+                observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+            )
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("Task Outcome finish binding is missing or invalid: {error}"),
+                )
+            })?;
+        if observed_binding != expected_binding
+            || Digest::sha256_bytes(&actual_report_bytes)
+                != expected_binding.task_report_json_digest
+            || Digest::sha256_bytes(&actual_markdown)
+                != expected_binding.task_report_markdown_digest
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "Task Outcome policy/finish binding does not match canonical report digests",
+            ));
+        }
+        Some(expected_binding)
+    };
+    if projection_binding.is_some() && actual_markdown != markdown {
+        return Err(super::task_outcome_projection_mismatch(
+            &root.join(format!("{target}.task-report.md")),
+            "Markdown",
+            "ai-cockpit.task-outcome-markdown/v2",
+            &markdown,
+            &actual_markdown,
+        ));
+    }
+    if let Some(binding) = &projection_binding {
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
+            serde_json::to_value(binding)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+    } else if let Some(facts) = summary["lifecycleFacts"].as_object_mut() {
+        // Finite legacy route: fixed finish Git objects and the archive
+        // manifest bind the raw Markdown bytes. Never re-render or backfill.
+        facts.remove("taskOutcomeProjectionFinishBinding");
+    }
+    let mut expected_summary = serde_json::to_vec_pretty(&summary)
+        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
+    if combined {
+        expected_summary =
+            super::normalized_archive_artifact_bytes("summary.json", &expected_summary, id)?;
+    }
+    if expected_summary != git_blob_bytes(root, finish, &format!("{target}.summary.json"))? {
+        let expected: serde_json::Value = serde_json::from_slice(&expected_summary)
+            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
+        let differences = expected
+            .as_object()
+            .unwrap()
+            .keys()
+            .filter(|k| observed.get(*k) != expected.get(*k))
+            .cloned()
+            .collect::<Vec<_>>()
+            .join(", ");
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "Summary contains changes outside the Runtime finish projection: {differences}"
+            ),
+        ));
     }
     let outcome = OutcomeV2 {
         schema_version: 2, repository_id: contract.repository_id.clone(), work_item_id: id.into(), state: OutcomeState::Verified,
@@ -6107,7 +6193,12 @@ fn validate_layout_finish_semantics(
         .to_string()
         .into();
     value["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
-    value["taskReportMarkdownDigest"] = Digest::sha256_bytes(&markdown).to_string().into();
+    value["taskReportMarkdownDigest"] = projection_binding
+        .as_ref()
+        .map(|binding| binding.task_report_markdown_digest.clone())
+        .unwrap_or_else(|| Digest::sha256_bytes(&actual_markdown))
+        .to_string()
+        .into();
     let mut outcome_bytes = serde_json::to_vec_pretty(&value)
         .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
     if combined {
@@ -6145,7 +6236,14 @@ fn validate_layout_finish_semantics(
             "completion event is outside lifecycle time bounds",
         ));
     }
-    super::append_task_outcome_events_at(isolated, &contract, &report, replace, event_time)?;
+    super::append_task_outcome_events_at_with_binding(
+        isolated,
+        &contract,
+        &report,
+        replace,
+        event_time,
+        projection_binding.clone(),
+    )?;
     let mut expected_events =
         super::read_governance_bytes(&event_path).map_err(|source| ObserverError::Read {
             path: event_path,

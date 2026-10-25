@@ -11888,6 +11888,7 @@ fn verify_archive_manifest_with_options(
             }
         }
     }
+    validate_archived_task_outcome_projection_binding(root, work_item_id, manifest)?;
     let mismatched_report = if allow_task_report_markdown_digest_mismatch {
         let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
         let path = archive.join(format!("{work_item_id}.task-report.md"));
@@ -11901,6 +11902,379 @@ fn verify_archive_manifest_with_options(
         None
     };
     Ok(mismatched_report)
+}
+
+fn validate_archived_task_outcome_projection_binding(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let summary = read_json(&summary_path)?;
+    validate_task_outcome_projection_predecessors(&summary, &summary_path)?;
+    let outcome = read_json(&outcome_path)?;
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = if optional_regular_artifact(&events_path, "archived Task Outcome events")? {
+        validate_task_outcome_events(
+            root,
+            &events_path,
+            &repository_id(root).to_string(),
+            work_item_id,
+        )?
+    } else {
+        Vec::new()
+    };
+    let policy_value = &summary["taskOutcomeProjectionPolicy"];
+    if policy_value.is_null() {
+        let has_finish_binding =
+            !summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null();
+        let has_event_binding = events
+            .iter()
+            .any(|event| event.projection_binding.is_some());
+        if has_finish_binding || has_event_binding {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "Task Outcome projection policy was removed or downgraded while a finish binding remains".into(),
+            });
+        }
+        // The only policy-free routes are an existing immutable archive commit
+        // or the already-supported explicit historical-evidence receipt. A
+        // freshly recomputed manifest alone is not a compatibility selector.
+        if manifest["archiveRoute"] == "historical_evidence_compatibility"
+            && manifest["historicalEvidence"].is_object()
+        {
+            return Ok(());
+        }
+        validate_legacy_archive_git_anchor(root, work_item_id, manifest)?;
+        return Ok(());
+    }
+    let policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
+        serde_json::from_value(policy_value.clone()).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("archived Task Outcome projection policy is invalid: {error}"),
+        })?;
+    let binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding = serde_json::from_value(
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("archived Task Outcome finish binding is missing or invalid: {error}"),
+    })?;
+    let contract = read_contract(&contract_path)?;
+    let contract_hash = contract_digest(&contract_path)?;
+    validate_task_outcome_projection_policy(
+        &policy,
+        &contract.repository_id,
+        work_item_id,
+        &contract_hash,
+        &policy.source_snapshot_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    if summary["checkpointRepositorySnapshotDigest"] != policy.source_snapshot_digest.to_string()
+        || summary["preflightRepositorySnapshotDigest"] != policy.source_snapshot_digest.to_string()
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "archived Task Outcome projection policy source snapshot differs from its fixed lifecycle facts".into(),
+        });
+    }
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence = read_json(&evidence_path).map_err(|_| ObserverError::State {
+        path: evidence_path.clone(),
+        message: "current-format archived Task Outcome requires its original verification receipt"
+            .into(),
+    })?;
+    if evidence["workItemId"] != work_item_id
+        || evidence["repositoryId"] != contract.repository_id
+        || evidence["contractDigest"] != contract_hash.to_string()
+        || evidence["repositorySnapshotDigest"] != policy.source_snapshot_digest.to_string()
+        || evidence["runtimeVersion"] != policy.producer_runtime_version
+        || serde_json::from_value::<Digest>(evidence["runtimeDigest"].clone()).ok()
+            != Some(policy.producer_runtime_digest.clone())
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "archived Task Outcome projection policy differs from its original verification receipt".into(),
+        });
+    }
+    let policy_digest =
+        cockpit_protocol::digest_json(&policy).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    let report_json_digest = manifest["files"]["taskReportDigest"]
+        .as_str()
+        .and_then(|value| value.parse::<Digest>().ok());
+    let report_markdown_digest = manifest["files"]["taskReportMarkdownDigest"]
+        .as_str()
+        .and_then(|value| value.parse::<Digest>().ok());
+    if binding.schema_version != 1
+        || binding.projection_policy_digest != policy_digest
+        || report_json_digest.as_ref() != Some(&binding.task_report_json_digest)
+        || report_markdown_digest.as_ref() != Some(&binding.task_report_markdown_digest)
+        || outcome["taskReportDigest"] != binding.task_report_json_digest.to_string()
+        || outcome["taskReportMarkdownDigest"] != binding.task_report_markdown_digest.to_string()
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message:
+                "archived Task Outcome policy, finish, Outcome, and manifest digests do not agree"
+                    .into(),
+        });
+    }
+    let completed = events
+        .iter()
+        .rev()
+        .find(|event| event.event_type == "completed")
+        .ok_or_else(|| ObserverError::State {
+            path: events_path.clone(),
+            message: "current-format archived Task Outcome has no completion event".into(),
+        })?;
+    if completed.projection_binding.as_ref() != Some(&binding) {
+        return Err(ObserverError::State {
+            path: events_path,
+            message: "archived completion event does not repeat the finish projection binding"
+                .into(),
+        });
+    }
+    let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+    let report_bytes =
+        read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
+            path: report_path.clone(),
+            source,
+        })?;
+    let report_value: serde_json::Value =
+        serde_json::from_slice(&report_bytes).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("archived Task Outcome JSON is invalid: {error}"),
+        })?;
+    let report: TaskOutcomeReport =
+        serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("archived Task Outcome JSON schema is unsupported: {error}"),
+        })?;
+    let canonical_json =
+        serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+    if canonical_json != report_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &report_path,
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &canonical_json,
+            &report_bytes,
+        ));
+    }
+    let markdown_path = archive.join(format!("{work_item_id}.task-report.md"));
+    let markdown_bytes =
+        read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
+            path: markdown_path.clone(),
+            source,
+        })?;
+    let canonical_markdown = task_outcome_markdown(&report).into_bytes();
+    if canonical_markdown != markdown_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &markdown_path,
+            "Markdown",
+            &format!(
+                "{}/v{}",
+                policy.markdown_renderer, policy.markdown_renderer_version
+            ),
+            &canonical_markdown,
+            &markdown_bytes,
+        ));
+    }
+    Ok(())
+}
+
+fn validate_task_outcome_projection_predecessors(
+    summary: &serde_json::Value,
+    summary_path: &Path,
+) -> Result<(), ObserverError> {
+    let Some(history) = summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"].as_array()
+    else {
+        if summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"].is_null() {
+            return Ok(());
+        }
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "Task Outcome predecessor history is not an array".into(),
+        });
+    };
+    for (index, value) in history.iter().enumerate() {
+        let predecessor: cockpit_protocol::TaskOutcomeProjectionPredecessor =
+            serde_json::from_value(value.clone()).map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!("Task Outcome predecessor {index} is invalid: {error}"),
+            })?;
+        if predecessor.schema_version != 1 {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} uses unsupported schema version {}",
+                    predecessor.schema_version
+                ),
+            });
+        }
+        let json = predecessor.task_report_json_utf8.as_bytes();
+        let markdown = predecessor.task_report_markdown_utf8.as_bytes();
+        let outcome: serde_json::Value = serde_json::from_str(&predecessor.outcome_json_utf8)
+            .map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} has invalid Outcome JSON: {error}"
+                ),
+            })?;
+        let json_digest = Digest::sha256_bytes(json);
+        let markdown_digest = Digest::sha256_bytes(markdown);
+        if outcome["taskReportDigest"] != json_digest.to_string()
+            || outcome["taskReportMarkdownDigest"] != markdown_digest.to_string()
+        {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} raw bytes do not match its original Outcome digests"
+                ),
+            });
+        }
+        let report: TaskOutcomeReport =
+            serde_json::from_slice(json).map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!("Task Outcome predecessor {index} report is invalid: {error}"),
+            })?;
+        if predecessor.policy.is_some() != predecessor.finish_binding.is_some() {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} has an incomplete policy/finish binding"
+                ),
+            });
+        }
+        if let (Some(policy), Some(binding)) = (
+            predecessor.policy.as_ref(),
+            predecessor.finish_binding.as_ref(),
+        ) {
+            let policy_digest =
+                cockpit_protocol::digest_json(policy).map_err(|error| ObserverError::State {
+                    path: summary_path.to_path_buf(),
+                    message: error.to_string(),
+                })?;
+            if binding.schema_version != 1
+                || binding.projection_policy_digest != policy_digest
+                || binding.task_report_json_digest != json_digest
+                || binding.task_report_markdown_digest != markdown_digest
+                || report.bindings.repository_id != policy.repository_id
+                || report.bindings.work_item_id != policy.work_item_id
+            {
+                return Err(ObserverError::State {
+                    path: summary_path.to_path_buf(),
+                    message: format!(
+                        "Task Outcome predecessor {index} differs from its typed policy or finish binding"
+                    ),
+                });
+            }
+        }
+    }
+    Ok(())
+}
+
+fn validate_legacy_archive_git_anchor(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let manifest_path = format!(".ai/work-items/archive/{work_item_id}.archive.json");
+    let revision = git_text(root, &["rev-parse", "HEAD"]).ok_or_else(|| ObserverError::State {
+        path: root.join(&manifest_path),
+        message: "legacy Task Outcome has no fixed Git revision or historical evidence receipt; preserve the raw report and use a Runtime with a supported adapter".into(),
+    })?;
+    let mut paths = vec![
+        manifest_path,
+        format!(".ai/work-items/archive/{work_item_id}.contract.json"),
+        format!(".ai/work-items/archive/{work_item_id}.summary.json"),
+        format!(".ai/work-items/archive/{work_item_id}.outcome.json"),
+    ];
+    for (name, suffix) in [
+        ("eventsDigest", "events.jsonl"),
+        ("taskReportDigest", "task-report.json"),
+        ("taskReportMarkdownDigest", "task-report.md"),
+    ] {
+        if manifest["files"][name].is_string() {
+            paths.push(format!(".ai/work-items/archive/{work_item_id}.{suffix}"));
+        }
+    }
+    let evidence_path = format!(".ai/evidence/{work_item_id}.verification.json");
+    for path in paths {
+        let committed = git_revision_blob_bytes(root, &revision, &path).map_err(|_| ObserverError::State {
+            path: root.join(&path),
+            message: format!("legacy Task Outcome path {path} is not present at fixed Git revision {revision}"),
+        })?;
+        let current =
+            read_governance_bytes(root.join(&path)).map_err(|source| ObserverError::Read {
+                path: root.join(&path),
+                source,
+            })?;
+        if committed != current {
+            return Err(ObserverError::State {
+                path: root.join(&path),
+                message: format!(
+                    "legacy Task Outcome bytes differ from fixed Git revision {revision}; preserve the original and use a Runtime with a supported adapter"
+                ),
+            });
+        }
+    }
+    if let Ok(committed) = git_revision_blob_bytes(root, &revision, &evidence_path) {
+        let current = read_governance_bytes(root.join(&evidence_path)).map_err(|source| {
+            ObserverError::Read {
+                path: root.join(&evidence_path),
+                source,
+            }
+        })?;
+        if committed != current {
+            return Err(ObserverError::State {
+                path: root.join(evidence_path),
+                message: format!(
+                    "legacy Task Outcome verification receipt differs from fixed Git revision {revision}"
+                ),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn git_revision_blob_bytes(
+    root: &Path,
+    revision: &str,
+    repository_path: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let object = format!("{revision}:{repository_path}");
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["show", "--no-ext-diff", "--no-textconv"])
+        .arg(&object)
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: root.join(repository_path),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: root.join(repository_path),
+            message: format!("fixed Git object {object} is unavailable"),
+        });
+    }
+    Ok(output.stdout)
 }
 
 /// Validate the immutable binding added by the explicit historical archive
@@ -12513,6 +12887,256 @@ fn lifecycle_failure_metadata(error: &ObserverError) -> (String, String) {
     }
 }
 
+pub(crate) fn new_task_outcome_projection_policy(
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: Digest,
+    source_snapshot_digest: Digest,
+    producer_runtime_version: &str,
+    producer_runtime_digest: Digest,
+) -> cockpit_protocol::TaskOutcomeProjectionPolicy {
+    cockpit_protocol::TaskOutcomeProjectionPolicy {
+        schema_version: cockpit_protocol::TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION,
+        repository_id: repository_id.into(),
+        work_item_id: work_item_id.into(),
+        contract_digest,
+        source_snapshot_digest,
+        producer_runtime_version: producer_runtime_version.into(),
+        producer_runtime_digest,
+        json_format: cockpit_protocol::TASK_OUTCOME_JSON_FORMAT.into(),
+        json_schema_version: cockpit_protocol::TASK_OUTCOME_JSON_SCHEMA_VERSION,
+        markdown_renderer: cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER.into(),
+        markdown_renderer_version: cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION,
+    }
+}
+
+pub(crate) fn validate_task_outcome_projection_policy(
+    policy: &cockpit_protocol::TaskOutcomeProjectionPolicy,
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: &Digest,
+    source_snapshot_digest: &Digest,
+) -> Result<(), String> {
+    if policy.schema_version != cockpit_protocol::TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION {
+        return Err(format!(
+            "unsupported Task Outcome projection policy schema version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.schema_version
+        ));
+    }
+    if policy.markdown_renderer != cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER
+        || policy.markdown_renderer_version
+            != cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION
+    {
+        return Err(format!(
+            "unsupported Task Outcome Markdown renderer {}/v{}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.markdown_renderer, policy.markdown_renderer_version
+        ));
+    }
+    if policy.json_format != cockpit_protocol::TASK_OUTCOME_JSON_FORMAT
+        || policy.json_schema_version != cockpit_protocol::TASK_OUTCOME_JSON_SCHEMA_VERSION
+    {
+        return Err(format!(
+            "unsupported Task Outcome JSON projection {}/schema v{}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.json_format, policy.json_schema_version
+        ));
+    }
+    if policy.repository_id != repository_id
+        || policy.work_item_id != work_item_id
+        || policy.contract_digest != *contract_digest
+        || policy.source_snapshot_digest != *source_snapshot_digest
+        || policy.producer_runtime_version.trim().is_empty()
+    {
+        return Err("Task Outcome projection policy identity or source binding does not match the fixed predecessor facts".into());
+    }
+    Ok(())
+}
+
+pub(crate) fn task_outcome_projection_mismatch(
+    path: &Path,
+    material: &str,
+    profile: &str,
+    expected: &[u8],
+    actual: &[u8],
+) -> ObserverError {
+    let expected_digest = Digest::sha256_bytes(expected);
+    let actual_digest = Digest::sha256_bytes(actual);
+    let location = if material == "JSON" {
+        match (
+            serde_json::from_slice::<serde_json::Value>(expected),
+            serde_json::from_slice::<serde_json::Value>(actual),
+        ) {
+            (Ok(expected), Ok(actual)) => first_json_difference(&expected, &actual, ""),
+            _ => None,
+        }
+        .map(|pointer| format!("first differing JSON pointer {pointer}"))
+        .unwrap_or_else(|| {
+            format!(
+                "first differing byte {}",
+                first_differing_byte(expected, actual)
+            )
+        })
+    } else {
+        let offset = first_differing_byte(expected, actual);
+        let line = expected[..offset.min(expected.len())]
+            .iter()
+            .filter(|byte| **byte == b'\n')
+            .count()
+            + 1;
+        format!("first differing Markdown line {line}, byte {offset}")
+    };
+    ObserverError::State {
+        path: path.to_path_buf(),
+        message: format!(
+            "Task Outcome {material} projection ({profile}) differs from its canonical finish bytes; expected {expected_digest}, actual {actual_digest}; {location}. Preserve the original evidence and use a Runtime with an explicit compatible adapter."
+        ),
+    }
+}
+
+fn first_differing_byte(left: &[u8], right: &[u8]) -> usize {
+    left.iter()
+        .zip(right)
+        .position(|(left, right)| left != right)
+        .unwrap_or(left.len().min(right.len()))
+}
+
+fn first_json_difference(
+    expected: &serde_json::Value,
+    actual: &serde_json::Value,
+    pointer: &str,
+) -> Option<String> {
+    match (expected, actual) {
+        (serde_json::Value::Object(expected), serde_json::Value::Object(actual)) => {
+            let keys = expected
+                .keys()
+                .chain(actual.keys())
+                .collect::<BTreeSet<_>>();
+            for key in keys {
+                let escaped = key.replace('~', "~0").replace('/', "~1");
+                let child = format!("{pointer}/{escaped}");
+                match (expected.get(key), actual.get(key)) {
+                    (Some(left), Some(right)) => {
+                        if let Some(pointer) = first_json_difference(left, right, &child) {
+                            return Some(pointer);
+                        }
+                    }
+                    _ => return Some(child),
+                }
+            }
+            None
+        }
+        (serde_json::Value::Array(expected), serde_json::Value::Array(actual)) => {
+            for index in 0..expected.len().max(actual.len()) {
+                let child = format!("{pointer}/{index}");
+                match (expected.get(index), actual.get(index)) {
+                    (Some(left), Some(right)) => {
+                        if let Some(pointer) = first_json_difference(left, right, &child) {
+                            return Some(pointer);
+                        }
+                    }
+                    _ => return Some(child),
+                }
+            }
+            None
+        }
+        _ if expected == actual => None,
+        _ => Some(if pointer.is_empty() {
+            "/".into()
+        } else {
+            pointer.into()
+        }),
+    }
+}
+
+#[cfg(test)]
+mod task_outcome_projection_diagnostic_tests {
+    use super::*;
+
+    #[test]
+    fn json_projection_mismatch_reports_digests_and_safe_pointer_only() {
+        let expected = br#"{"sections":{"usage":{"total":3,"secret":"private"}}}"#;
+        let actual = br#"{"sections":{"usage":{"total":4,"secret":"private"}}}"#;
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.json"),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(diagnostic.contains(&Digest::sha256_bytes(expected).to_string()));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(actual).to_string()));
+        assert!(diagnostic.contains("/sections/usage/total"));
+        assert!(!diagnostic.contains("private"));
+    }
+
+    #[test]
+    fn markdown_projection_mismatch_reports_first_line_and_digest_without_content() {
+        let expected = b"# Task Outcome\n\n## Usage\n\n- private details\n";
+        let actual = b"# Task Outcome\n\n";
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.md"),
+            "Markdown",
+            "ai-cockpit.task-outcome-markdown/v2",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(diagnostic.contains("first differing Markdown line 3"));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(expected).to_string()));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(actual).to_string()));
+        assert!(!diagnostic.contains("private details"));
+    }
+
+    #[test]
+    fn projection_policy_rejects_unknown_renderer_and_cross_work_item() {
+        let contract = Digest::sha256_bytes(b"contract");
+        let source = Digest::sha256_bytes(b"source");
+        let runtime = Digest::sha256_bytes(b"runtime");
+        let mut policy = new_task_outcome_projection_policy(
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "WI-PROJECTION",
+            contract.clone(),
+            source.clone(),
+            "1.0.1-candidate",
+            runtime,
+        );
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-PROJECTION",
+                &contract,
+                &source,
+            )
+            .is_ok()
+        );
+        policy.markdown_renderer_version += 1;
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-PROJECTION",
+                &contract,
+                &source,
+            )
+            .unwrap_err()
+            .contains("unsupported Task Outcome Markdown renderer")
+        );
+        policy.markdown_renderer_version = cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION;
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-OTHER",
+                &contract,
+                &source,
+            )
+            .unwrap_err()
+            .contains("identity or source binding")
+        );
+    }
+}
+
 struct TaskOutcomeReportInput<'a> {
     root: &'a Path,
     contract_path: &'a Path,
@@ -12798,6 +13422,7 @@ fn append_task_outcome_recovery_event(
             .unwrap_or_default(),
         correction_of: None,
         finding_fingerprint: None,
+        projection_binding: None,
     });
     append_task_outcome_event_lines(&path, &events[original_len..])
 }
@@ -12856,6 +13481,13 @@ fn validate_task_outcome_events(
             .is_none_or(|fingerprint| {
                 !finding_fingerprints.contains(fingerprint) || is_explicit_correction
             });
+        let projection_binding_valid = event.projection_binding.as_ref().is_none_or(|binding| {
+            event.event_type == "completed"
+                && binding.schema_version == 1
+                && valid_sha256_digest(&binding.projection_policy_digest.to_string())
+                && valid_sha256_digest(&binding.task_report_json_digest.to_string())
+                && valid_sha256_digest(&binding.task_report_markdown_digest.to_string())
+        });
         if event.schema_version != 1
             || event.repository_id != expected_repository_id
             || event.work_item_id != expected_work_item_id
@@ -12892,6 +13524,7 @@ fn validate_task_outcome_events(
             || !fingerprint_valid
             || !fingerprint_is_new
             || !correction_relationship_valid
+            || !projection_binding_valid
         {
             return Err(ObserverError::State {
                 path: path.to_path_buf(),
@@ -12991,23 +13624,32 @@ fn finding_fingerprint(event_type: &str, detail: &str, evidence_refs: &[String])
     Digest::sha256_bytes(input.as_bytes()).to_string()
 }
 
-fn append_task_outcome_events(
+pub(crate) fn append_task_outcome_events_with_binding(
     root: &Path,
     contract: &Contract,
     report: &TaskOutcomeReport,
     allow_recovery_retry: bool,
+    projection_binding: Option<cockpit_protocol::TaskOutcomeProjectionFinishBinding>,
 ) -> Result<(), ObserverError> {
-    append_task_outcome_events_at(root, contract, report, allow_recovery_retry, &now())
+    append_task_outcome_events_at_with_binding(
+        root,
+        contract,
+        report,
+        allow_recovery_retry,
+        &now(),
+        projection_binding,
+    )
 }
 
 // Shared deterministic event projection for historical lifecycle validation.
 // This writes only to its supplied isolated checkout; callers supply captured time.
-fn append_task_outcome_events_at(
+fn append_task_outcome_events_at_with_binding(
     root: &Path,
     contract: &Contract,
     report: &TaskOutcomeReport,
     allow_recovery_retry: bool,
     timestamp: &str,
+    projection_binding: Option<cockpit_protocol::TaskOutcomeProjectionFinishBinding>,
 ) -> Result<(), ObserverError> {
     let path = task_outcome_event_path(root, &contract.work_item_id, false);
     let mut events = if fs::symlink_metadata(&path).is_ok() {
@@ -13069,6 +13711,9 @@ fn append_task_outcome_events_at(
                 .unwrap_or_default(),
             correction_of: None,
             finding_fingerprint: fingerprint,
+            projection_binding: (event_type == "completed")
+                .then(|| projection_binding.clone())
+                .flatten(),
         });
     };
     append(
@@ -13404,6 +14049,7 @@ fn outcome_v2_internal_with_snapshot(
             Ok(decision) => (decision, false),
             Err(_) => (None, true),
         };
+    let mut frozen_archived_task_report: Option<TaskOutcomeReport> = None;
     if archived {
         let archive_manifest = root
             .join(".ai/work-items/archive")
@@ -13449,6 +14095,22 @@ fn outcome_v2_internal_with_snapshot(
                 decision_state = DecisionState::Red;
                 summary = "Archived Task Outcome evidence is malformed or not bound to the archive manifest; outcome is stopped.";
                 evidence_unknown = Some("outcome_report_invalid");
+            } else {
+                let archived_report_path = archive.join(format!("{work_item_id}.task-report.json"));
+                frozen_archived_task_report = read_governance_bytes(&archived_report_path)
+                    .ok()
+                    .and_then(|bytes| serde_json::from_slice::<TaskOutcomeReport>(&bytes).ok())
+                    .filter(|report| {
+                        report.work_item_id == work_item_id
+                            && report.bindings.repository_id == contract.repository_id
+                            && report.bindings.work_item_id == work_item_id
+                    });
+                if frozen_archived_task_report.is_none() {
+                    state = OutcomeState::Unknown;
+                    decision_state = DecisionState::Red;
+                    summary = "Archived Task Outcome report cannot be read as its frozen supported format; preserve the original bytes and use a compatible Runtime.";
+                    evidence_unknown = Some("outcome_report_unsupported");
+                }
             }
         }
     }
@@ -13663,7 +14325,7 @@ fn outcome_v2_internal_with_snapshot(
         unknowns.sort();
         unknowns.dedup();
     }
-    let task_report = task_outcome_report(TaskOutcomeReportInput {
+    let current_task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,
         contract: &contract,
@@ -13682,6 +14344,7 @@ fn outcome_v2_internal_with_snapshot(
         usage_cutoff: None,
         closed_usage_validation: Some(&closed_usage_validation),
     })?;
+    let task_report = frozen_archived_task_report.unwrap_or(current_task_report);
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {

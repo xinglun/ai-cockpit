@@ -8,22 +8,21 @@ use super::{
     VerificationCaptureMode, VerificationEvidenceEnvelope, WorkItemScaffoldFacts,
     WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
     WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
-    acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
-    atomic_json, atomic_write, attach, attached_profile_digest,
-    build_repository_verification_command, close_decision_is_valid_for_status,
-    closed_finalization_projection_kind, effective_resource_context,
-    effective_verification_timeout_seconds, ensure_resource_finalization_base_binding, git_text,
-    git_worktree_records, governance_controls_gaps_for_finish,
-    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
-    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
-    persist_blocked_lifecycle_outcome, prepare_repository_verification_command, read_contract,
-    read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
-    recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
-    repository_id, repository_readiness, repository_relative_path,
-    require_explicit_resource_finalization_plan, require_green_governance,
-    require_green_governance_with_runtime, required_verification_checks,
+    acquire_lifecycle_lock, apply_preflight_review_evidence, atomic_json, atomic_write, attach,
+    attached_profile_digest, build_repository_verification_command,
+    close_decision_is_valid_for_status, closed_finalization_projection_kind,
+    effective_resource_context, effective_verification_timeout_seconds,
+    ensure_resource_finalization_base_binding, git_text, git_worktree_records,
+    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
+    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
+    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome,
+    prepare_repository_verification_command, read_contract, read_evidence_retention_policy,
+    read_json, read_resource_finalization_receipt, recovery_decision_candidate_paths,
+    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
+    repository_relative_path, require_explicit_resource_finalization_plan,
+    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
-    task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
+    task_outcome_report, valid_git_object_id, valid_sha256_digest,
     validate_checkpoint_evidence_bindings, validate_historical_finalization,
     validate_recovery_archive_manifest_binding, validate_required_evidence_classes,
     validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
@@ -1823,6 +1822,7 @@ pub fn revalidate_contract_amendment(
     // bytes.  The previous Outcome/evidence remain immutable predecessor
     // facts; a fresh verification will replace the active projection.
     if summary["state"] == serde_json::json!("finish_ready") {
+        preserve_task_outcome_projection_predecessor(&root, work_item_id, &mut summary)?;
         summary["state"] = "checkpointed".into();
         if let Some(object) = summary.as_object_mut() {
             object.remove("failedGate");
@@ -2628,6 +2628,37 @@ fn finish_work_item_internal_unlocked(
             message: "verification receipt is stale for the current repository snapshot".into(),
         });
     }
+    let projection_policy: cockpit_protocol::TaskOutcomeProjectionPolicy = serde_json::from_value(
+        summary["taskOutcomeProjectionPolicy"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!(
+            "finish requires a strict Task Outcome projection policy from verification: {error}"
+        ),
+    })?;
+    let contract_hash = contract_digest(&contract_path)?;
+    super::validate_task_outcome_projection_policy(
+        &projection_policy,
+        &contract.repository_id,
+        work_item_id,
+        &contract_hash,
+        &current_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    if evidence["runtimeVersion"].as_str()
+        != Some(projection_policy.producer_runtime_version.as_str())
+        || serde_json::from_value::<Digest>(evidence["runtimeDigest"].clone()).ok()
+            != Some(projection_policy.producer_runtime_digest.clone())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "Task Outcome projection policy producer Runtime does not match the fixed verification receipt".into(),
+        });
+    }
     let controls = if let Some(runtime) = current_runtime {
         validate_work_item_governance_controls_with_runtime(&root, work_item_id, runtime)?
     } else {
@@ -2755,10 +2786,16 @@ fn finish_work_item_internal_unlocked(
     let report_json_path = active.join(format!("{work_item_id}.task-report.json"));
     let report_markdown_path = active.join(format!("{work_item_id}.task-report.md"));
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
-    let prior_artifacts = [report_json_path, report_markdown_path, outcome_path]
-        .into_iter()
-        .map(|path| snapshot_finish_artifact(&path).map(|bytes| (path, bytes)))
-        .collect::<Result<Vec<_>, _>>()?;
+    let events_path = active.join(format!("{work_item_id}.events.jsonl"));
+    let prior_artifacts = [
+        report_json_path,
+        report_markdown_path,
+        outcome_path,
+        events_path,
+    ]
+    .into_iter()
+    .map(|path| snapshot_finish_artifact(&path).map(|bytes| (path, bytes)))
+    .collect::<Result<Vec<_>, _>>()?;
     if !replace_reports
         && prior_artifacts[..2]
             .iter()
@@ -2777,6 +2814,22 @@ fn finish_work_item_internal_unlocked(
                 return Err(error);
             }
         };
+    let projection_binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+        schema_version: 1,
+        projection_policy_digest: cockpit_protocol::digest_json(&projection_policy).map_err(
+            |error| ObserverError::State {
+                path: summary_path.clone(),
+                message: error.to_string(),
+            },
+        )?,
+        task_report_json_digest: task_report_digest.clone(),
+        task_report_markdown_digest: task_report_markdown_digest.clone(),
+    };
+    summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
+        serde_json::to_value(&projection_binding).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
     if let Err(error) = atomic_json(&summary_path, &summary) {
         restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
@@ -2858,11 +2911,12 @@ fn finish_work_item_internal_unlocked(
         restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
     }
-    if let Err(error) = append_task_outcome_events(
+    if let Err(error) = super::append_task_outcome_events_with_binding(
         &root,
         &contract,
         &task_report,
         retry_recovery_pending || verification_recovery_reconciled,
+        Some(projection_binding),
     ) {
         atomic_json(&summary_path, &original_summary)?;
         restore_finish_artifacts(&prior_artifacts)?;
@@ -8099,6 +8153,151 @@ pub fn selected_successor_lineage_recovery_resolves_pending_close(
     matches.len() == 1
 }
 
+/// Keep a replaced finish projection byte-for-byte inside its Summary before
+/// the native retry path writes a new active report.
+fn preserve_task_outcome_projection_predecessor(
+    root: &Path,
+    work_item_id: &str,
+    summary: &mut serde_json::Value,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let paths = [
+        active.join(format!("{work_item_id}.task-report.json")),
+        active.join(format!("{work_item_id}.task-report.md")),
+        active.join(format!("{work_item_id}.outcome.json")),
+    ];
+    let present = paths
+        .iter()
+        .map(|path| optional_regular_artifact(path, "Task Outcome predecessor"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if present.iter().all(|value| !value) {
+        return Ok(());
+    }
+    if present.iter().any(|value| !value) {
+        return Err(ObserverError::State {
+            path: active,
+            message: "cannot preserve an incomplete predecessor Task Outcome projection".into(),
+        });
+    }
+    let finish_binding_value = &summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"];
+    let is_current_finish = !finish_binding_value.is_null();
+    if !is_current_finish && summary["state"] != "finish_ready" {
+        // A checkpointed failed attempt may leave a provisional Outcome. It is
+        // not a finished projection and is replaced by the recovery receipt.
+        return Ok(());
+    }
+    let policy = if summary["taskOutcomeProjectionPolicy"].is_null() {
+        None
+    } else {
+        Some(
+            serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPolicy>(
+                summary["taskOutcomeProjectionPolicy"].clone(),
+            )
+            .map_err(|error| ObserverError::State {
+                path: paths[0].clone(),
+                message: format!("predecessor Task Outcome projection policy is invalid: {error}"),
+            })?,
+        )
+    };
+    let finish_binding = if is_current_finish {
+        Some(
+            serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionFinishBinding>(
+                finish_binding_value.clone(),
+            )
+            .map_err(|error| ObserverError::State {
+                path: paths[0].clone(),
+                message: format!("predecessor Task Outcome finish binding is invalid: {error}"),
+            })?,
+        )
+    } else {
+        None
+    };
+    let json = super::read_governance_bytes(&paths[0]).map_err(|source| ObserverError::Read {
+        path: paths[0].clone(),
+        source,
+    })?;
+    let markdown =
+        super::read_governance_bytes(&paths[1]).map_err(|source| ObserverError::Read {
+            path: paths[1].clone(),
+            source,
+        })?;
+    let outcome =
+        super::read_governance_bytes(&paths[2]).map_err(|source| ObserverError::Read {
+            path: paths[2].clone(),
+            source,
+        })?;
+    if let Some(binding) = &finish_binding {
+        let policy = policy.as_ref().ok_or_else(|| ObserverError::State {
+            path: paths[0].clone(),
+            message: "predecessor finish binding exists without its projection policy".into(),
+        })?;
+        let policy_digest =
+            cockpit_protocol::digest_json(policy).map_err(|error| ObserverError::State {
+                path: paths[0].clone(),
+                message: error.to_string(),
+            })?;
+        let outcome_value: serde_json::Value =
+            serde_json::from_slice(&outcome).map_err(|error| ObserverError::State {
+                path: paths[2].clone(),
+                message: format!("predecessor Outcome is invalid: {error}"),
+            })?;
+        if binding.projection_policy_digest != policy_digest
+            || binding.task_report_json_digest != Digest::sha256_bytes(&json)
+            || binding.task_report_markdown_digest != Digest::sha256_bytes(&markdown)
+            || outcome_value["taskReportDigest"] != binding.task_report_json_digest.to_string()
+            || outcome_value["taskReportMarkdownDigest"]
+                != binding.task_report_markdown_digest.to_string()
+        {
+            return Err(ObserverError::State {
+                path: paths[0].clone(),
+                message: "predecessor Task Outcome bytes do not match their finish binding".into(),
+            });
+        }
+    }
+    let decode = |bytes: Vec<u8>, path: &Path| {
+        String::from_utf8(bytes).map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: format!("predecessor Task Outcome bytes are not UTF-8: {error}"),
+        })
+    };
+    let predecessor = cockpit_protocol::TaskOutcomeProjectionPredecessor {
+        schema_version: 1,
+        policy,
+        finish_binding,
+        task_report_json_utf8: decode(json, &paths[0])?,
+        task_report_markdown_utf8: decode(markdown, &paths[1])?,
+        outcome_json_utf8: decode(outcome, &paths[2])?,
+    };
+    let facts = summary
+        .get_mut("lifecycleFacts")
+        .and_then(serde_json::Value::as_object_mut)
+        .ok_or_else(|| ObserverError::State {
+            path: paths[0].clone(),
+            message: "Summary lifecycleFacts is not an object".into(),
+        })?;
+    let history = facts
+        .entry("taskOutcomeProjectionPredecessors")
+        .or_insert_with(|| serde_json::json!([]))
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: paths[0].clone(),
+            message: "Task Outcome predecessor history must be an array".into(),
+        })?;
+    let already_preserved = history.iter().any(|value| {
+        serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPredecessor>(value.clone())
+            .is_ok_and(|existing| existing == predecessor)
+    });
+    if !already_preserved {
+        history.push(
+            serde_json::to_value(predecessor).map_err(|error| ObserverError::State {
+                path: paths[0].clone(),
+                message: error.to_string(),
+            })?,
+        );
+    }
+    Ok(())
+}
+
 /// Restore the only legal retry point after a lifecycle gate has projected a
 /// blocked Outcome.  The failed Outcome remains bound by the recovery receipt;
 /// a fresh verify/finish cycle will generate the next current projection.
@@ -8112,6 +8311,7 @@ fn prepare_retryable_lifecycle(
     let mut summary = read_json(&summary_path)?;
     let state = summary["state"].as_str().unwrap_or_default();
     if state == "checkpointed" {
+        preserve_task_outcome_projection_predecessor(root, work_item_id, &mut summary)?;
         let original = summary.clone();
         // A failed finish may already have appended a before_finish record
         // against the snapshot that was current at that attempt. A retry is
@@ -8147,6 +8347,7 @@ fn prepare_retryable_lifecycle(
             message: format!("retry recovery requires finish_ready state, got {state}"),
         });
     }
+    preserve_task_outcome_projection_predecessor(root, work_item_id, &mut summary)?;
     let preflight_state = summary["preflightState"]
         .as_str()
         .unwrap_or_default()
@@ -9348,12 +9549,14 @@ fn record_verification_internal(
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let report_path = active.join(format!("{work_item_id}.task-report.json"));
     let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let events_path = active.join(format!("{work_item_id}.events.jsonl"));
     let mut transaction = VerificationRecordTransaction::capture(&[
         evidence_path.clone(),
         summary_path.clone(),
         outcome_path,
         report_path,
         markdown_path,
+        events_path,
     ])?;
     let result = (|| -> Result<serde_json::Value, ObserverError> {
         atomic_json(&evidence_path, &evidence)?;
@@ -9515,6 +9718,69 @@ fn record_verification_internal(
         summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
         summary["checkpointRepositorySnapshotDigest"] =
             snapshot_digest(&refreshed_snapshot)?.to_string().into();
+        let projection_policy = super::new_task_outcome_projection_policy(
+            &expected_repository_id,
+            work_item_id,
+            current_contract_digest.clone(),
+            snapshot_digest(snapshot)?,
+            runtime_version,
+            runtime_digest.clone(),
+        );
+        let mut source_changing_finish_refresh = false;
+        if let Some(existing) = summary.get("taskOutcomeProjectionPolicy") {
+            let existing: cockpit_protocol::TaskOutcomeProjectionPolicy =
+                serde_json::from_value(existing.clone()).map_err(|error| ObserverError::State {
+                    path: summary_path.clone(),
+                    message: format!("existing Task Outcome projection policy is invalid: {error}"),
+                })?;
+            if existing != projection_policy {
+                let source_or_contract_changed = existing.source_snapshot_digest
+                    != projection_policy.source_snapshot_digest
+                    || existing.contract_digest != projection_policy.contract_digest;
+                let native_finish_reprojection = summary["state"] == "finish_ready"
+                    && prior_evidence_present
+                    && source_or_contract_changed
+                    && existing.producer_runtime_version
+                        == projection_policy.producer_runtime_version
+                    && existing.producer_runtime_digest
+                        == projection_policy.producer_runtime_digest;
+                if native_finish_reprojection {
+                    preserve_task_outcome_projection_predecessor(
+                        &root,
+                        work_item_id,
+                        &mut summary,
+                    )?;
+                    source_changing_finish_refresh = true;
+                    if let Some(entries) = summary
+                        .get_mut("checkpointEvidence")
+                        .and_then(serde_json::Value::as_array_mut)
+                    {
+                        entries.retain(|entry| {
+                            entry.get("stage").and_then(serde_json::Value::as_str)
+                                != Some("before_finish")
+                        });
+                    }
+                } else if !recovery_retry_pending && !contract_amendment_pending {
+                    return Err(ObserverError::State {
+                        path: summary_path.clone(),
+                        message: "Task Outcome projection policy changed outside the native retry or Contract-amendment path".into(),
+                    });
+                }
+            }
+        } else if summary["state"] == "finish_ready" && prior_evidence_present {
+            preserve_task_outcome_projection_predecessor(&root, work_item_id, &mut summary)?;
+            source_changing_finish_refresh = true;
+        }
+        summary["taskOutcomeProjectionPolicy"] =
+            serde_json::to_value(&projection_policy).map_err(|error| ObserverError::State {
+                path: summary_path.clone(),
+                message: error.to_string(),
+            })?;
+        if reconcile_blocked_outcome || source_changing_finish_refresh {
+            if let Some(facts) = summary["lifecycleFacts"].as_object_mut() {
+                facts.remove("taskOutcomeProjectionFinishBinding");
+            }
+        }
         summary["preflightAt"] = now().into();
         atomic_json(&summary_path, &summary)?;
         if summary["state"] == serde_json::json!("finish_ready") {
@@ -9550,11 +9816,9 @@ fn record_verification_internal(
     }
 }
 
-/// Refresh the active human Outcome after a verification retry that occurs
-/// while the Work Item is already finish-ready.  A hosted PR gate may observe
-/// the normal governance-only commits made after the first verification; the
-/// retry must update every active Outcome/report binding instead of leaving an
-/// old evidence digest that would make archive/close fail later.
+/// Refresh verification evidence after a same-source retry while finish-ready.
+/// The finish report is frozen: updating this binding must preserve both report
+/// artifacts and their original finish policy/digests byte for byte.
 fn refresh_active_outcome_verification_binding(
     root: &Path,
     work_item_id: &str,
@@ -9562,6 +9826,17 @@ fn refresh_active_outcome_verification_binding(
     current_snapshot_digest: &Digest,
 ) -> Result<(), ObserverError> {
     let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let mut summary = read_json(&summary_path)?;
+    let policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
+        serde_json::from_value(summary["taskOutcomeProjectionPolicy"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!(
+                    "finish-ready verification refresh requires a valid Task Outcome projection policy: {error}"
+                ),
+            }
+        })?;
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     if !is_regular_non_symlink(&outcome_path)? {
         return Err(ObserverError::State {
@@ -9578,6 +9853,51 @@ fn refresh_active_outcome_verification_binding(
             message: "finish-ready verification retry requires a verified Outcome".into(),
         });
     }
+    let finish_binding_value = &summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"];
+    if finish_binding_value.is_null() {
+        super::validate_task_outcome_projection_predecessors(&summary, &summary_path)?;
+        if !summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"]
+            .as_array()
+            .is_some_and(|history| !history.is_empty())
+            || policy.source_snapshot_digest != *current_snapshot_digest
+        {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "source-changing finish refresh requires a preserved predecessor and current policy snapshot".into(),
+            });
+        }
+        return refresh_source_changed_finish_projection(
+            root,
+            work_item_id,
+            evidence,
+            current_snapshot_digest,
+            &mut summary,
+            &policy,
+            &mut outcome,
+        );
+    }
+    let finish_binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding =
+        serde_json::from_value(finish_binding_value.clone()).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!(
+                    "finish-ready verification refresh has an invalid finish binding: {error}"
+                ),
+            }
+        })?;
+    let policy_digest =
+        cockpit_protocol::digest_json(&policy).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    if policy_digest != finish_binding.projection_policy_digest
+        || policy.source_snapshot_digest != *current_snapshot_digest
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "a source-changing retry cannot refresh a frozen finish projection; use the native retry/re-finish lifecycle so the predecessor remains preserved".into(),
+        });
+    }
     outcome["evidenceDigest"] = cockpit_protocol::digest_json(evidence)
         .map_err(|error| ObserverError::State {
             path: root.join(".ai/evidence"),
@@ -9588,40 +9908,145 @@ fn refresh_active_outcome_verification_binding(
 
     let report_path = active.join(format!("{work_item_id}.task-report.json"));
     if is_regular_non_symlink(&report_path)? {
-        let mut report: TaskOutcomeReport = serde_json::from_value(read_json(&report_path)?)
-            .map_err(|error| ObserverError::State {
-                path: report_path.clone(),
-                message: format!("invalid active Task Outcome report: {error}"),
+        let report: TaskOutcomeReport =
+            serde_json::from_value(read_json(&report_path)?).map_err(|error| {
+                ObserverError::State {
+                    path: report_path.clone(),
+                    message: format!("invalid active Task Outcome report: {error}"),
+                }
             })?;
-        if report.work_item_id != work_item_id {
+        if report.work_item_id != work_item_id
+            || report.bindings.repository_snapshot_digest.as_ref()
+                != Some(&policy.source_snapshot_digest)
+        {
             return Err(ObserverError::State {
                 path: report_path,
-                message: "active Task Outcome report belongs to another Work Item".into(),
+                message: "frozen Task Outcome report identity or source snapshot differs from its projection policy".into(),
             });
         }
-        report.bindings.repository_snapshot_digest = Some(current_snapshot_digest.clone());
-        let report_value = serde_json::to_value(&report).map_err(|error| ObserverError::State {
-            path: report_path.clone(),
-            message: error.to_string(),
-        })?;
-        let report_bytes =
-            serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
-                path: report_path.clone(),
-                message: error.to_string(),
-            })?;
-        atomic_write(&report_path, &report_bytes)?;
         let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
-        if is_regular_non_symlink(&markdown_path)? {
-            atomic_write(&markdown_path, task_outcome_markdown(&report).as_bytes())?;
-            outcome["taskReportMarkdownDigest"] =
-                Digest::sha256_bytes(task_outcome_markdown(&report).as_bytes())
-                    .to_string()
-                    .into();
+        let report_bytes =
+            super::read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
+                path: report_path.clone(),
+                source,
+            })?;
+        let markdown_bytes =
+            super::read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
+                path: markdown_path.clone(),
+                source,
+            })?;
+        if Digest::sha256_bytes(&report_bytes) != finish_binding.task_report_json_digest
+            || Digest::sha256_bytes(&markdown_bytes) != finish_binding.task_report_markdown_digest
+        {
+            return Err(ObserverError::State {
+                path: report_path,
+                message: "frozen Task Outcome bytes do not match their finish binding".into(),
+            });
         }
-        outcome["taskOutcomeReport"] = report_value;
-        outcome["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
     }
     atomic_json(&outcome_path, &outcome)
+}
+
+fn refresh_source_changed_finish_projection(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &serde_json::Value,
+    current_snapshot_digest: &Digest,
+    summary: &mut serde_json::Value,
+    policy: &cockpit_protocol::TaskOutcomeProjectionPolicy,
+    outcome: &mut serde_json::Value,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    super::validate_task_outcome_projection_policy(
+        policy,
+        &contract.repository_id,
+        work_item_id,
+        &contract_digest(&contract_path)?,
+        current_snapshot_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    if evidence["runtimeVersion"] != policy.producer_runtime_version
+        || serde_json::from_value::<Digest>(evidence["runtimeDigest"].clone()).ok()
+            != Some(policy.producer_runtime_digest.clone())
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message:
+                "source-changing finish refresh policy does not match the new verification Runtime"
+                    .into(),
+        });
+    }
+    let timestamp = super::usage::lifecycle_now();
+    summary["updatedAt"] = timestamp.clone().into();
+    summary["lifecycleFacts"]["finish"]["occurredAt"] = timestamp.clone().into();
+    summary["lifecycleFacts"]["finish"]["recordedAt"] = timestamp.clone().into();
+    summary["lifecycleFacts"]["finish"]["runtimeVersion"] =
+        policy.producer_runtime_version.clone().into();
+    summary["lifecycleFacts"]["finish"]["runtimeDigest"] =
+        policy.producer_runtime_digest.to_string().into();
+    let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
+    let report = task_outcome_report(TaskOutcomeReportInput {
+        root,
+        contract_path: &contract_path,
+        contract: &contract,
+        summary: Some(summary),
+        snapshot_digest: Some(current_snapshot_digest.clone()),
+        state: OutcomeState::Verified,
+        decision_state: DecisionState::Green,
+        summary_text: "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+        unknowns: &["user_visible_benefit_not_declared".into()],
+        evidence_ref: &evidence_ref,
+        failed_gate_override: None,
+        recovery_condition_override: None,
+        historical: false,
+        usage_cutoff: Some(&timestamp),
+        closed_usage_validation: None,
+    })?;
+    let (json_digest, markdown_digest) =
+        write_task_outcome_artifacts(root, work_item_id, &report, true)?;
+    let binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+        schema_version: 1,
+        projection_policy_digest: cockpit_protocol::digest_json(policy).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: error.to_string(),
+            }
+        })?,
+        task_report_json_digest: json_digest.clone(),
+        task_report_markdown_digest: markdown_digest.clone(),
+    };
+    summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
+        serde_json::to_value(&binding).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    atomic_json(&summary_path, summary)?;
+    outcome["evidenceDigest"] = cockpit_protocol::digest_json(evidence)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?
+        .to_string()
+        .into();
+    outcome["taskOutcomeReport"] =
+        serde_json::to_value(&report).map_err(|error| ObserverError::State {
+            path: active.clone(),
+            message: error.to_string(),
+        })?;
+    outcome["taskReportDigest"] = json_digest.to_string().into();
+    outcome["taskReportMarkdownDigest"] = markdown_digest.to_string().into();
+    outcome["createdAt"] = timestamp.clone().into();
+    atomic_json(
+        &active.join(format!("{work_item_id}.outcome.json")),
+        outcome,
+    )?;
+    super::append_task_outcome_events_with_binding(root, &contract, &report, true, Some(binding))
 }
 
 /// Replace a blocked active Outcome after the explicitly authorized retry has

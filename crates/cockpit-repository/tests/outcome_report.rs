@@ -43,6 +43,33 @@ fn repository() -> tempfile::TempDir {
     directory
 }
 
+fn commit_fixture_source(path: &std::path::Path, source: &str) {
+    assert!(
+        Command::new("git")
+            .args(["add", "--", source])
+            .current_dir(path)
+            .status()
+            .expect("git add fixture source")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "-m",
+                "fixture source baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git commit fixture source")
+            .success()
+    );
+}
+
 fn ready(directory: &tempfile::TempDir, id: &str) {
     start_work_item_with_options(
         directory.path(),
@@ -82,6 +109,211 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
         &Digest::sha256_bytes(b"wi136-runtime"),
     )
     .expect("verify");
+}
+
+fn ready_with_source_scope(directory: &tempfile::TempDir, id: &str) {
+    fs::write(directory.path().join("source.rs"), "pub fn current() {}\n").expect("source fixture");
+    commit_fixture_source(directory.path(), "source.rs");
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "verify a source-bound report refresh",
+        "preserve finish projections across same-source refresh and native re-finish",
+        &["source.rs".into(), ".ai/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect("verify");
+}
+
+#[test]
+fn task_outcome_projection_binding_has_a_strict_versioned_wire_shape() {
+    let policy = cockpit_protocol::TaskOutcomeProjectionPolicy {
+        schema_version: 1,
+        repository_id: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            .into(),
+        work_item_id: "WI-PROJECTION".into(),
+        contract_digest: Digest::sha256_bytes(b"contract"),
+        source_snapshot_digest: Digest::sha256_bytes(b"snapshot"),
+        producer_runtime_version: "1.0.1-candidate".into(),
+        producer_runtime_digest: Digest::sha256_bytes(b"runtime"),
+        json_format: "ai-cockpit.task-outcome".into(),
+        json_schema_version: 1,
+        markdown_renderer: "ai-cockpit.task-outcome-markdown".into(),
+        markdown_renderer_version: 2,
+    };
+    let binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+        schema_version: 1,
+        projection_policy_digest: cockpit_protocol::digest_json(&policy).unwrap(),
+        task_report_json_digest: Digest::sha256_bytes(b"json report"),
+        task_report_markdown_digest: Digest::sha256_bytes(b"markdown report"),
+    };
+    let encoded = serde_json::to_value(&policy).expect("policy serializes");
+    assert_eq!(encoded["schemaVersion"], 1);
+    assert_eq!(encoded["jsonSchemaVersion"], 1);
+    assert_eq!(encoded["markdownRendererVersion"], 2);
+    assert_eq!(
+        serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPolicy>(encoded.clone())
+            .expect("policy parses"),
+        policy
+    );
+    let mut unknown = encoded;
+    unknown["legacyRendererAllowed"] = serde_json::json!(true);
+    assert!(
+        serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPolicy>(unknown).is_err()
+    );
+
+    let event = cockpit_protocol::TaskOutcomeEvent {
+        schema_version: 1,
+        event_id: "event-projection".into(),
+        repository_id: policy.repository_id.clone(),
+        work_item_id: policy.work_item_id.clone(),
+        event_type: "completed".into(),
+        timestamp: "2026-10-25T12:00:00Z".into(),
+        detail: "Task Outcome generated.".into(),
+        evidence_refs: vec![],
+        related_event_ids: vec![],
+        correction_of: None,
+        finding_fingerprint: None,
+        projection_binding: Some(binding.clone()),
+    };
+    let value = serde_json::to_value(&event).expect("event serializes");
+    assert_eq!(
+        value["projectionBinding"]["projectionPolicyDigest"],
+        binding.projection_policy_digest.to_string()
+    );
+    assert_eq!(
+        serde_json::from_value::<cockpit_protocol::TaskOutcomeEvent>(value).unwrap(),
+        event
+    );
+}
+
+#[test]
+fn same_source_refresh_freezes_bytes_and_source_change_retains_predecessor() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-REFRESH";
+    ready_with_source_scope(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("initial finish");
+    let active = directory.path().join(".ai/work-items/active");
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let first_json = fs::read(&report_path).expect("first report bytes");
+    let first_markdown = fs::read(&markdown_path).expect("first Markdown bytes");
+
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect("same-source verification refresh");
+    assert_eq!(fs::read(&report_path).expect("frozen report"), first_json);
+    assert_eq!(
+        fs::read(&markdown_path).expect("frozen Markdown"),
+        first_markdown
+    );
+
+    let prior_outcome = fs::read_to_string(active.join(format!("{work_item_id}.outcome.json")))
+        .expect("prior Outcome bytes");
+    fs::write(
+        directory.path().join("source.rs"),
+        "pub fn changed() -> bool { true }\n",
+    )
+    .expect("source change");
+    commit_fixture_source(directory.path(), "source.rs");
+    let evidence = record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 2}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect("source-changing native verification refresh");
+
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let predecessors = summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"]
+        .as_array()
+        .expect("preserved predecessor array");
+    assert_eq!(predecessors.len(), 1);
+    let predecessor: cockpit_protocol::TaskOutcomeProjectionPredecessor =
+        serde_json::from_value(predecessors[0].clone()).expect("typed predecessor");
+    assert_eq!(predecessor.task_report_json_utf8.as_bytes(), first_json);
+    assert_eq!(
+        predecessor.task_report_markdown_utf8.as_bytes(),
+        first_markdown
+    );
+    assert_eq!(predecessor.outcome_json_utf8, prior_outcome);
+
+    let new_report: TaskOutcomeReport =
+        serde_json::from_slice(&fs::read(&report_path).expect("new report"))
+            .expect("new report JSON");
+    assert_eq!(
+        new_report.bindings.repository_snapshot_digest.as_ref(),
+        serde_json::from_value::<Digest>(evidence["repositorySnapshotDigest"].clone())
+            .ok()
+            .as_ref()
+    );
+    let current_policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
+        serde_json::from_value(summary["taskOutcomeProjectionPolicy"].clone())
+            .expect("current policy");
+    let current_binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding =
+        serde_json::from_value(
+            summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+        )
+        .expect("new finish binding");
+    assert_eq!(
+        current_binding.projection_policy_digest,
+        cockpit_protocol::digest_json(&current_policy).expect("current policy digest")
+    );
+    let events = fs::read_to_string(active.join(format!("{work_item_id}.events.jsonl")))
+        .expect("events")
+        .lines()
+        .map(|line| serde_json::from_str::<cockpit_protocol::TaskOutcomeEvent>(line).unwrap())
+        .filter(|event| event.event_type == "completed")
+        .collect::<Vec<_>>();
+    assert_eq!(events.len(), 2);
+    assert_eq!(
+        events[0].projection_binding.as_ref(),
+        predecessor.finish_binding.as_ref()
+    );
+    assert_eq!(
+        events[1].projection_binding.as_ref(),
+        Some(&current_binding)
+    );
+    archive_work_item(directory.path(), work_item_id)
+        .expect("archive validates current projection and retained predecessor bytes");
 }
 
 #[derive(Clone)]
@@ -962,6 +1194,40 @@ fn finish_writes_event_stream_and_archive_binds_it() {
             .join(".ai/work-items/active/WI-136-EVENTS.task-report.json"),
     )
     .expect("active report bytes");
+    let active_markdown_bytes = fs::read(
+        directory
+            .path()
+            .join(".ai/work-items/active/WI-136-EVENTS.task-report.md"),
+    )
+    .expect("active Markdown bytes");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-136-EVENTS.summary.json"),
+        )
+        .expect("active Summary"),
+    )
+    .expect("Summary JSON");
+    let policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
+        serde_json::from_value(summary["taskOutcomeProjectionPolicy"].clone())
+            .expect("finish Summary has a strict projection policy");
+    let binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding = serde_json::from_value(
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+    )
+    .expect("finish Summary has a typed projection binding");
+    assert_eq!(
+        binding.projection_policy_digest,
+        cockpit_protocol::digest_json(&policy).expect("policy digest")
+    );
+    assert_eq!(
+        binding.task_report_json_digest,
+        Digest::sha256_bytes(&active_report_bytes)
+    );
+    assert_eq!(
+        binding.task_report_markdown_digest,
+        Digest::sha256_bytes(&active_markdown_bytes)
+    );
     let report: TaskOutcomeReport = serde_json::from_slice(&active_report_bytes).expect("report");
     let usage = report
         .usage
@@ -988,6 +1254,12 @@ fn finish_writes_event_stream_and_archive_binds_it() {
     );
     let text = fs::read_to_string(&active_events).expect("events");
     assert!(text.contains("\"eventType\":\"completed\""));
+    let completed_event: cockpit_protocol::TaskOutcomeEvent = text
+        .lines()
+        .map(|line| serde_json::from_str(line).expect("event JSON"))
+        .find(|event: &cockpit_protocol::TaskOutcomeEvent| event.event_type == "completed")
+        .expect("completion event");
+    assert_eq!(completed_event.projection_binding.as_ref(), Some(&binding));
     archive_work_item(directory.path(), "WI-136-EVENTS").expect("archive");
     assert_eq!(
         fs::read(
@@ -997,6 +1269,15 @@ fn finish_writes_event_stream_and_archive_binds_it() {
         )
         .expect("archived report bytes"),
         active_report_bytes
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-136-EVENTS.task-report.md")
+        )
+        .expect("archived report Markdown bytes"),
+        active_markdown_bytes
     );
     let archived_events = directory
         .path()
@@ -1024,6 +1305,83 @@ fn finish_writes_event_stream_and_archive_binds_it() {
     )
     .expect("manifest JSON");
     assert!(manifest["files"]["eventsDigest"].is_string());
+}
+
+#[test]
+fn archived_usage_projection_rejects_locally_recomputed_markdown_digests() {
+    let directory = repository();
+    let work_item_id = "WI-OUTCOME-USAGE-TAMPER";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archive = directory.path().join(".ai/work-items/archive");
+    let markdown_path = archive.join(format!("{work_item_id}.task-report.md"));
+    let markdown = fs::read_to_string(&markdown_path).expect("Markdown report");
+    let tampered = markdown
+        .split_once("## Usage\n")
+        .map(|(prefix, _)| format!("{prefix}\n"))
+        .expect("Usage section exists");
+    fs::write(&markdown_path, tampered.as_bytes()).expect("tamper Markdown");
+
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    let tampered_digest = Digest::sha256_bytes(tampered.as_bytes()).to_string();
+    outcome["taskReportMarkdownDigest"] = tampered_digest.clone().into();
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&outcome).expect("serialize Outcome"),
+    )
+    .expect("write Outcome with recomputed local digest");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["taskReportMarkdownDigest"] = tampered_digest.into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("write manifest with recomputed local digest");
+
+    let outcome = outcome_v2(directory.path(), work_item_id).expect("archived Outcome");
+    assert_eq!(outcome.state, OutcomeState::Unknown);
+    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+}
+
+#[test]
+fn archived_projection_policy_removal_is_rejected_even_with_updated_manifest_digest() {
+    let directory = repository();
+    let work_item_id = "WI-OUTCOME-POLICY-DOWNGRADE";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archive = directory.path().join(".ai/work-items/archive");
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary
+        .as_object_mut()
+        .expect("Summary object")
+        .remove("taskOutcomeProjectionPolicy");
+    let summary_bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+    fs::write(&summary_path, &summary_bytes).expect("remove policy");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&summary_bytes).to_string().into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("write manifest with recomputed local digest");
+
+    let outcome = outcome_v2(directory.path(), work_item_id).expect("archived Outcome");
+    assert_eq!(outcome.state, OutcomeState::Unknown);
+    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
 }
 
 #[test]

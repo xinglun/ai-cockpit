@@ -196,3 +196,24 @@ manifest 前，将生成的报告引用和 `changedPaths` 从 `.ai/work-items/ac
 `close` 校验投影后的事件流，并在 close receipt 中记录 `finalReport` 与
 `finalReportDigest`。已有历史 archive bytes 永远不会被重写或回填；只有新创建的归档执行
 active 到 archive 的投影。
+
+### 投影版本与冻结历史
+
+重建 Task Outcome 时使用 Contract、finish Summary、验证回执和冻结的 usage 快照作为事实来源。
+v1 JSON 报告按规范化后的完整字节严格比较；Markdown 是面向人的呈现，不是第二份事实来源。
+Runtime 会在写报告文件前将类型化投影策略写入 Summary。策略绑定 repository、Work Item、
+Contract、源码快照、生成 Runtime 身份、JSON 格式与 schema，以及 Markdown renderer 和版本。
+finish 在报告之外记录策略摘要及 JSON/Markdown 的精确摘要；完成事件重复该绑定。报告本身不包含自己的绑定。
+
+新报告自动使用当前支持的 renderer；调用方不选择 renderer，也不填写摘要。重放时只根据已校验的前任策略
+选择一种 renderer。当前策略缺失、被修改、降级或使用未知版本都会被拒绝，并指出材料类型与版本、
+expected/actual SHA-256，以及可安全提供的 JSON pointer 或 Markdown 行号。恢复建议是保留原始字节，
+并使用带显式兼容适配器的 Runtime。
+
+没有投影策略的报告只能通过有限历史路径读取：原始 Git revision 或既有的显式 historical-evidence 回执
+必须绑定原始报告字节。Runtime 保留这些字节，不重新渲染，也不回填策略。此兼容路径依赖仓库已有的
+Git/receipt 信任根；不会声称在整段历史被重写后仍能独立认证作者，也不会仅凭旧 Runtime 标签认证其二进制。
+
+源码未变的验证刷新保留 finish 报告原字节。源码变更后的重试走原生 retry/re-finish 生命周期，并保留前任证据。
+归档保留冻结的 JSON 与 Markdown；close 单独记录新的 `finalReport` cutoff 和摘要，不替换 finish 产物。
+无法确认 token usage 时继续明确显示 unknown。正常版本演进自动完成；只有确实不支持的兼容情况才要求人采取明确的恢复步骤。

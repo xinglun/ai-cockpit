@@ -283,3 +283,39 @@ resulting `eventsDigest` and report digests cover those archived bytes.
 `finalReportDigest` in the close receipt. Existing historical archive bytes are
 never rewritten or backfilled; only a newly created archive receives this
 active-to-archive projection.
+
+### Projection versions and frozen history
+
+The Contract, finish Summary, verification receipt, and frozen usage snapshot
+are the facts used to rebuild a Task Outcome. The v1 JSON report is compared
+strictly as canonical bytes; Markdown is a human-readable projection, not a
+second source of facts. Before report files are written, Runtime records a
+typed projection policy in the Summary. It binds the repository, Work Item,
+Contract, source snapshot, producer Runtime identity, JSON format/schema, and
+Markdown renderer/version. Finish stores a separate binding to that policy and
+the exact JSON and Markdown digests; the completion event repeats the binding.
+The report never contains its own binding.
+
+New writers use the supported current renderer automatically. Callers do not
+choose a renderer or supply digests. On replay, Runtime selects one renderer
+from the validated predecessor policy. A missing, changed, downgraded, or
+unknown current policy is rejected with the affected material and version,
+expected/actual SHA-256 values, and a safe JSON pointer or Markdown line when
+available. The next step is to preserve the original bytes and use a Runtime
+with an explicit compatible adapter.
+
+A report with no projection policy is readable only through the bounded
+historical route: its original Git revision or the existing explicit
+historical-evidence receipt must bind the raw report bytes. Runtime preserves
+those bytes and does not render them again or add a policy retroactively. This
+compatibility route relies on the repository's existing Git/receipt roots; it
+does not claim independent author authentication after wholesale history
+rewriting or authenticate an old Runtime binary from its label.
+
+Same-source verification refreshes keep finish report bytes unchanged. A
+source-changing retry uses the native retry/re-finish lifecycle and retains
+the predecessor evidence. Archive keeps the frozen JSON and Markdown; close
+records a separate `finalReport` cutoff and digest without replacing finish
+artifacts. If token usage cannot be established, it remains explicitly
+unknown. This keeps normal evolution automatic and gives people a concrete
+recovery step only when compatibility is genuinely unsupported.
