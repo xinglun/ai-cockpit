@@ -68,12 +68,14 @@ mod resource_lifecycle;
 mod review_ledger;
 mod rust_material;
 mod status_projection;
+mod task_authorization;
 mod usage;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
     MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
-    record_work_item_material_review, validate_material_review_decision,
+    record_work_item_material_review, record_work_item_material_review_with_caller,
+    validate_material_review_decision,
 };
 pub use review_ledger::{record_review_correction, review_correction_events};
 pub use rust_material::MaterialUnknownCause;
@@ -82,7 +84,9 @@ use rust_material::{
     diagnose_rust_material,
 };
 
-pub use action_admission::require_current_action_admission;
+pub use action_admission::{
+    require_current_action_admission, require_current_action_admission_with_caller,
+};
 pub use audit_query::{export_audit_events_filtered, query_audit_events};
 pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
@@ -124,6 +128,7 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
+pub use task_authorization::{assess_task_authorization, task_authorization_timeout};
 
 /// Compatibility controls cannot supply the Runtime identity required by
 /// activation continuity/recovery. Those items use the admitted Runtime
@@ -209,9 +214,11 @@ pub use project_governance::*;
 pub use resource_lifecycle::{
     OrdinaryCleanupObservation, OrdinaryCleanupReceipt, OrdinaryCleanupResult,
     historical_finalization_recovery_plan, plan_resource_finalization,
-    plan_resource_finalization_with_runtime, record_historical_finalization_recovery,
-    record_ordinary_cleanup_with_runtime, record_resource_finalization,
-    verify_resource_finalization,
+    plan_resource_finalization_with_caller, plan_resource_finalization_with_runtime,
+    record_historical_finalization_recovery, record_historical_finalization_recovery_with_caller,
+    record_ordinary_cleanup_with_caller, record_ordinary_cleanup_with_runtime,
+    record_resource_finalization, record_resource_finalization_with_caller,
+    verify_resource_finalization, verify_resource_finalization_with_caller,
 };
 pub(crate) use resource_lifecycle::{
     archived_contract_digest, capture_ordinary_cleanup_binding,
@@ -956,6 +963,7 @@ pub struct WorkItemStartObligation {
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct WorkItemStartOptions {
+    pub task_authorization: Option<cockpit_protocol::TaskAuthorizationPolicy>,
     pub development_review: Option<cockpit_protocol::DevelopmentReviewPolicy>,
     /// Complete initial scenario plan; never evidence of test execution.
     pub scenario_coverage: Vec<cockpit_protocol::ScenarioCoverageEntry>,
@@ -967,6 +975,18 @@ pub struct WorkItemStartOptions {
     /// Human-declared verification commands. An empty list preserves the
     /// repository-observed default at the start boundary.
     pub verification_commands: Vec<String>,
+}
+
+/// Shared CLI/MCP startup declaration; staging is explicit rather than an
+/// implicit lifecycle side effect of a transport.
+pub struct WorkItemStartDeclaration<'a> {
+    pub work_item_id: &'a str,
+    pub intent: &'a str,
+    pub goal: &'a str,
+    pub scope: &'a [String],
+    pub options: &'a WorkItemStartOptions,
+    pub sources: &'a [String],
+    pub prepare: bool,
 }
 
 /// The built-in required-evidence vocabulary is intentionally small and
@@ -1201,7 +1221,7 @@ struct PreparedRepositoryVerificationCommand {
     executable_files_read: usize,
     executable_files_hashed: usize,
     reuse_authorization: String,
-    #[cfg(test)]
+    #[cfg(all(test, unix))]
     candidate_loaded: bool,
 }
 
@@ -1244,7 +1264,7 @@ fn prepare_repository_verification_command(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
-    #[cfg(test)]
+    #[cfg(all(test, unix))]
     let mut candidate_loaded = false;
     let mut reuse_authorization = match request.policy {
         RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
@@ -1286,11 +1306,11 @@ fn prepare_repository_verification_command(
                         None
                     }
                 };
-                #[cfg(test)]
+                #[cfg(all(test, unix))]
                 let candidate_loaded_here = candidate.is_some();
                 reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
-                #[cfg(test)]
+                #[cfg(all(test, unix))]
                 {
                     candidate_loaded = candidate_loaded_here;
                 }
@@ -1334,7 +1354,7 @@ fn prepare_repository_verification_command(
         executable_files_read,
         executable_files_hashed,
         reuse_authorization,
-        #[cfg(test)]
+        #[cfg(all(test, unix))]
         candidate_loaded,
     })
 }
@@ -1427,10 +1447,10 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
-    run_repository_verification_inner(root, request, process_observer, |_| {})
+    run_repository_verification_inner(root, request, process_observer, |_| {}, None)
 }
 
-#[cfg(test)]
+#[cfg(all(test, unix))]
 fn run_repository_verification_with_post_prepare<H>(
     root: &Path,
     request: &RepositoryVerificationRequest,
@@ -1444,7 +1464,93 @@ where
         request,
         |_node_id, _process_id, _started| Ok(()),
         post_prepare,
+        None,
     )
+}
+
+/// Execute with explicit per-request task provenance; legacy requests cannot
+/// impersonate it. Recheck at the last boundary before the actual child spawn.
+pub fn run_repository_verification_with_task_authorization<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
+    )
+}
+
+/// The existing executor holds this own-WI lock through the actual OS spawn,
+/// including worker scheduling. It releases it before waiting for the child,
+/// so a withdrawal can be recorded while an admitted child finishes safely.
+fn repository_task_start_gate(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    task_context: Option<(
+        &RuntimeContext,
+        Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    )>,
+    planned_timeout: u64,
+) -> cockpit_verification::ProcessStartGate {
+    let root = root.to_path_buf();
+    let request = request.clone();
+    let task_context = task_context.map(|(runtime, caller)| (runtime.clone(), caller.cloned()));
+    Arc::new(move |node_id, spawn| {
+        if node_id != request.node_id {
+            return Err("unexpected task verification node".into());
+        }
+        let Some(wi) = request.work_item_id.as_deref() else {
+            return spawn();
+        };
+        let guard = acquire_lifecycle_lock(&root, wi).map_err(|e| e.to_string())?;
+        if let Some((runtime, caller)) = &task_context {
+            task_authorization::require_declared_task_command(
+                &root,
+                &request,
+                runtime,
+                caller.as_ref(),
+            )
+            .map_err(|e| e.to_string())?;
+            if task_authorization::task_policy_configured(&root, wi).map_err(|e| e.to_string())? {
+                require_current_action_admission_with_caller(
+                    &root,
+                    wi,
+                    "run_verification",
+                    runtime,
+                    caller.as_ref(),
+                )
+                .map_err(|e| e.to_string())?;
+                let available = task_authorization::task_authorization_timeout(
+                    &root,
+                    wi,
+                    runtime,
+                    caller.as_ref(),
+                    planned_timeout,
+                )
+                .map_err(|e| e.to_string())?;
+                if available < planned_timeout {
+                    return Err(format!(
+                        "task_authorization_remaining_time_requires_fresh_bounded_plan: planned={planned_timeout}s, remaining={available}s"
+                    ));
+                }
+            }
+        } else {
+            task_authorization::reject_legacy_task_write(&root, wi).map_err(|e| e.to_string())?;
+        }
+        guard
+            .require_subject(&root, wi)
+            .map_err(|e| e.to_string())?;
+        spawn()
+    })
 }
 
 fn run_repository_verification_inner<F, H>(
@@ -1452,6 +1558,10 @@ fn run_repository_verification_inner<F, H>(
     request: &RepositoryVerificationRequest,
     process_observer: F,
     post_prepare: H,
+    task_context: Option<(
+        &RuntimeContext,
+        Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    )>,
 ) -> Result<RepositoryVerificationRun, ObserverError>
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
@@ -1464,6 +1574,14 @@ where
         path: root.into(),
         source,
     })?;
+    if let Some(wi) = request.work_item_id.as_deref() {
+        match task_context {
+            Some((runtime, caller)) => {
+                task_authorization::require_declared_task_command(&root, request, runtime, caller)?
+            }
+            None => task_authorization::reject_legacy_task_write(&root, wi)?,
+        }
+    }
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -1483,11 +1601,14 @@ where
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
+    let start_gate =
+        repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let mut receipt = cockpit_verification::execute_bounded_with_process_observer(
+    let mut receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
         vec![command],
         request.workers,
         move |node_id, process_id, started| observer(node_id, process_id, started),
+        Arc::clone(&start_gate),
     )
     .map_err(|error| ObserverError::State {
         path: root.clone(),
@@ -1573,10 +1694,11 @@ where
             )
         };
         let observer = Arc::clone(&process_observer);
-        receipt = cockpit_verification::execute_bounded_with_process_observer(
+        receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
             vec![command],
             request.workers,
             move |node_id, process_id, started| observer(node_id, process_id, started),
+            Arc::clone(&start_gate),
         )
         .map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -4964,6 +5086,14 @@ pub fn evaluate_contract_quality_gate(
     material_review::preserve_unreviewed_comparison_material_unknowns(&snapshot, &mut projection);
     let projection =
         material_review::apply_material_review_projection_to_decision(projection, &mut decision);
+    reconcile_clean_comparison_material(
+        &root,
+        &contract,
+        &current_contract_digest,
+        &snapshot,
+        &projection,
+        &mut decision,
+    );
     decision.recompute_state_from_effective_facts();
     let raw_scanner_unknowns = projection.raw_scanner_unknowns;
     let material_manifest_digest = projection.material_manifest_digest;
@@ -5032,6 +5162,110 @@ pub fn evaluate_contract_quality_gate(
             message: error.to_string(),
         })?;
     Ok(report)
+}
+
+/// The small comparison snapshot may omit a complete Rust blob that the
+/// canonical committed-source inspector already read and classified. This
+/// fills only that exact missing-text observation; it is neither a review
+/// receipt nor acceptance of an unresolved syntax or material Finding.
+fn reconcile_clean_comparison_material(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    comparison: &RepositorySnapshot,
+    projection: &material_review::MaterialReviewGateProjection,
+    decision: &mut GovernanceDecision,
+) {
+    const UNKNOWN: &str = "repository_material_inspection_unavailable";
+    if !decision.unknowns.iter().any(|unknown| unknown == UNKNOWN)
+        || !decision.blockers.is_empty()
+        || projection.projection_unavailable
+        || projection.blocked_by_finding
+        || !projection.effective_unknowns.is_empty()
+    {
+        return;
+    }
+    // Read the actual native document digest, including legacy/defaulted
+    // fields, rather than equating typed reserialization with that document.
+    // If this active-source request is unavailable, retain the Unknown.
+    let Ok(request) = material_review::plan_work_item_material_review(root, &contract.work_item_id)
+    else {
+        return;
+    };
+    if request.repository_id != repository_id(root).to_string()
+        || request.work_item_id != contract.work_item_id
+        || request.contract_digest != *contract_digest
+        || request.immutable_contract_base_revision != contract.base_revision
+        || projection.material_manifest_digest.as_ref() != Some(&request.material_manifest_digest)
+    {
+        return;
+    }
+    if comparison_material_is_completely_inspected(comparison, &request) {
+        decision.unknowns.retain(|unknown| unknown != UNKNOWN);
+    }
+}
+
+fn comparison_material_is_completely_inspected(
+    comparison: &RepositorySnapshot,
+    request: &material_review::MaterialReviewRequest,
+) -> bool {
+    if comparison.head.as_deref() != Some(request.reviewed_source_head.as_str())
+        || request.blocked_by_finding
+        || !request.finding_codes.is_empty()
+        || !request.raw_unknown_codes.is_empty()
+    {
+        return false;
+    }
+    let mut matched = false;
+    let mut residual = comparison.clone();
+    residual.change_evidence.retain(|change| {
+        let clean = change.content_state == cockpit_git::ChangeContentState::Text
+            && matches!(
+                change.kind,
+                cockpit_git::ChangeKind::Added
+                    | cockpit_git::ChangeKind::Modified
+                    | cockpit_git::ChangeKind::Renamed
+                    | cockpit_git::ChangeKind::Copied
+            )
+            && rust_material::diagnose_rust_material(change).unknown_cause
+                == Some(rust_material::MaterialUnknownCause::MissingCompleteSource)
+            && request.entries.iter().any(|entry| {
+                if change.path != entry.path
+                    || format!("{:?}", change.kind).to_ascii_lowercase() != entry.kind
+                    || !entry.path.to_ascii_lowercase().ends_with(".rs")
+                    || entry.content_state != "text"
+                    || entry.scanner_assessment != material_review::MaterialScannerAssessment::Clean
+                    || entry.unknown_cause.is_some()
+                    || entry
+                        .after_blob_digest
+                        .as_ref()
+                        .is_none_or(|digest| !valid_sha256_digest(digest.as_str()))
+                {
+                    return false;
+                }
+                let origins = change
+                    .added_line_origins
+                    .iter()
+                    .map(|origin| (origin.after_line, origin.hunk_index))
+                    .collect::<Vec<_>>();
+                // Same current HEAD binds the canonical committed after-blob
+                // to this path; checkout text cannot manufacture that proof.
+                cockpit_protocol::digest_json(&(
+                    &change.added_lines,
+                    origins,
+                    &change.removed_lines,
+                ))
+                .is_ok_and(|digest| digest == entry.changed_hunk_digest)
+            });
+        matched |= clean;
+        !clean
+    });
+    matched
+        && !derive_governance_signals_with_diagnostics(&residual)
+            .0
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "repository_material_inspection_unavailable")
 }
 
 /// Validate a previously emitted Contract quality-gate report against the
@@ -5501,11 +5735,22 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
-    let admission = action_admission::require_current_action_admission(
+    require_verification_preconditions_with_caller(root, work_item_id, runtime, snapshot, None)
+}
+
+pub fn require_verification_preconditions_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<(), ObserverError> {
+    let admission = action_admission::require_current_action_admission_with_caller(
         root,
         work_item_id,
         "run_verification",
         runtime,
+        caller,
     );
     let preconditions = check_verification_preconditions(root, work_item_id, runtime, snapshot);
     match (admission, preconditions) {
@@ -7325,6 +7570,7 @@ mod amendment_review_projection_tests {
         fs::write(root.path().join("README.md"), "fixture\n").expect("README");
         for args in [
             vec!["init", "-q", "--initial-branch=main"],
+            vec!["config", "core.autocrlf", "false"],
             vec!["add", "."],
             vec![
                 "-c",
@@ -7553,7 +7799,14 @@ fn apply_preflight_review_evidence(
     }
     let sensitive_amendment =
         contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?
-            || recovery_fresh_review.is_some();
+            || recovery_fresh_review.is_some()
+            || contract
+                .task_authorization_policy()
+                .map_err(|message| ObserverError::State {
+                    path: contract_path.clone(),
+                    message,
+                })?
+                .is_some();
     if sensitive_amendment {
         if evidence_state == governance_controls::PreflightDecisionEvidenceState::Valid {
             // A valid receipt is bound to this exact Contract and preflight
@@ -9583,7 +9836,7 @@ pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, None, None)
+    archive_work_item_internal(root, work_item_id, None, None, None)
 }
 
 /// Archive a Work Item only when its evidence was produced by this Runtime
@@ -9593,7 +9846,17 @@ pub fn archive_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, Some(runtime), None)
+    archive_work_item_internal(root, work_item_id, Some(runtime), None, None)
+}
+
+/// Explicit caller is checked under the existing archive transaction lock.
+pub fn archive_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    archive_work_item_internal(root, work_item_id, Some(runtime), None, caller)
 }
 
 /// Archive a Work Item whose complete schema-v2 verification receipt was
@@ -9607,7 +9870,7 @@ pub fn archive_historical_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, None, Some(runtime))
+    archive_work_item_internal(root, work_item_id, None, Some(runtime), None)
 }
 
 /// Retire an active Work Item through an explicit, append-only terminal
@@ -10198,6 +10461,7 @@ fn archive_work_item_internal(
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
     historical_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -10205,6 +10469,18 @@ fn archive_work_item_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = current_runtime {
+        task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "archive_when_reviewed",
+            runtime,
+            caller,
+        )?;
+    } else {
+        task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
+
     let ai = root.join(".ai");
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
@@ -10260,11 +10536,12 @@ fn archive_work_item_internal(
             });
         }
         if let Some(runtime) = current_runtime {
-            action_admission::require_current_action_admission(
+            action_admission::require_current_action_admission_with_caller(
                 &root,
                 work_item_id,
                 "archive_when_reviewed",
                 runtime,
+                caller,
             )?;
         }
         return archive_superseded_work_item(&root, work_item_id, &decision);
@@ -10341,11 +10618,12 @@ fn archive_work_item_internal(
         require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
     }
     if let Some(runtime) = current_runtime {
-        action_admission::require_current_action_admission(
+        action_admission::require_current_action_admission_with_caller(
             &root,
             work_item_id,
             "archive_when_reviewed",
             runtime,
+            caller,
         )?;
     }
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
@@ -16014,6 +16292,127 @@ mod post_prepare_identity_tests {
         (root, parent, request)
     }
 
+    #[test]
+    fn revoked_task_cannot_spawn_the_cache_drift_fallback() {
+        let (root, parent, mut request) = fixture("task-revoked-fallback");
+        let wi = "WI-TASK-FALLBACK";
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1".into(),
+            protocol_version: 1,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"isolated-fallback-runtime"),
+        };
+        let caller = cockpit_protocol::TaskAuthorizationCaller {
+            schema_version: 1,
+            actor: "agent:fallback-test".into(),
+            authority_source: "fixture:local-owner".into(),
+            assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+        };
+        super::start_work_item_with_options_and_runtime(
+            &root,
+            wi,
+            "bound fallback",
+            "preserve withdrawal",
+            &["tracked.txt".into()],
+            &super::WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["never spawn a revoked fallback".into()],
+                verification_commands: vec![request.program.clone()],
+                task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
+                    schema_version: 1,
+                    agent_actor: caller.actor.clone(),
+                    authority_source: caller.authority_source.clone(),
+                    allowed_actions: vec![
+                        "run_preflight".into(),
+                        "checkpoint".into(),
+                        "run_verification".into(),
+                    ],
+                    closeout_actions: vec![],
+                    expires_at: Some("2099-01-01T00:00:00Z".into()),
+                    public_target: None,
+                }),
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .unwrap();
+        let contract_path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+        super::preflight_work_item_with_runtime_report(&root, &contract_path, &runtime).unwrap();
+        let contract = super::read_json(&contract_path).unwrap();
+        let summary =
+            super::read_json(&root.join(format!(".ai/work-items/active/{wi}.summary.json")))
+                .unwrap();
+        super::record_work_item_governance_controls_with_runtime(&root, wi, &::serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":wi,"repositoryId":super::repository_id(&root),
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
+            "reason":"Synthetic local fixture, not external human authentication."
+        }}), &runtime).unwrap();
+        super::checkpoint_work_item_with_caller(&root, wi, &runtime, Some(&caller)).unwrap();
+        request.work_item_id = Some(wi.into());
+        request.runtime_digest = runtime.runtime_digest.to_string();
+        let first = super::run_repository_verification_with_task_authorization(
+            &root,
+            &request,
+            &runtime,
+            Some(&caller),
+            |_node, _pid, _started| Ok(()),
+        )
+        .unwrap();
+        assert!(first.receipt.passed);
+        assert_eq!(first.receipt.processes_spawned, 1);
+        let second = super::run_repository_verification_inner(
+            &root,
+            &request,
+            |_node, _pid, _started| Ok(()),
+            |prepared| {
+                assert!(
+                    prepared.candidate_loaded,
+                    "must exercise a real reuse candidate"
+                );
+                let task = super::work_item_status_snapshot_with_runtime(&root, wi, &runtime)
+                    .unwrap()
+                    .task_authorization
+                    .unwrap();
+                super::record_work_item_governance_controls_with_runtime(
+                    &root,
+                    wi,
+                    &::serde_json::json!({"taskAuthorizationTermination":{
+                        "schemaVersion":1,"grantId":task.grant_id,"decision":"withdrawn",
+                        "caller":caller,"reason":"withdraw between reuse and fallback"
+                    }}),
+                    &runtime,
+                )
+                .unwrap();
+                let path = root.join(".ai/project.json");
+                let mut bytes = fs::read(&path).unwrap();
+                bytes.push(b'\n');
+                fs::write(path, bytes).unwrap();
+            },
+            Some((&runtime, Some(&caller))),
+        );
+        let second = second.unwrap();
+        assert!(!second.receipt.passed);
+        assert_eq!(
+            second.receipt.processes_spawned, 0,
+            "fallback must stop at the actual child boundary"
+        );
+        assert!(
+            second
+                .receipt
+                .execution_records
+                .iter()
+                .all(|record| !record.spawned)
+        );
+        assert_eq!(
+            fs::read_to_string(root.join(".counter")).unwrap().trim(),
+            "1"
+        );
+        fs::remove_dir_all(parent).unwrap();
+    }
+
     fn assert_second_run_at_exact_boundary(identity_file: Option<&str>) {
         let label = identity_file.unwrap_or("unchanged");
         let (root, parent, request) = fixture(label);
@@ -16349,5 +16748,167 @@ mod environment_identity_tests {
             "Windows child env must have one target key"
         );
         assert_eq!(PathBuf::from(&targets[0].1), caller_target);
+    }
+}
+
+#[cfg(test)]
+mod canonical_clean_comparison_tests {
+    use super::*;
+    use crate::material_review::{
+        MaterialReviewEntry, MaterialReviewRequest, MaterialScannerAssessment,
+    };
+    use crate::rust_material::MaterialUnknownCause;
+    use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind};
+    const SCANNER_SEMANTIC_VERSION: &str = "isolated-fixture";
+    const ANALYSIS_TARGET_SEMANTIC_PROFILE: &str = "isolated-fixture";
+    #[test]
+    fn canonical_clean_comparison_discharge_keeps_exact_proof_boundaries() {
+        let change = ChangeEvidence {
+            path: "crates/material.rs".into(),
+            kind: ChangeKind::Modified,
+            added_lines: Vec::from(["    let token_count = 2;".into()]),
+            added_line_origins: vec![cockpit_git::AddedLineOrigin {
+                after_line: 2,
+                hunk_index: 0,
+            }],
+            removed_lines: vec!["    let count = 1;".into()],
+            after_text: None,
+            content_state: ChangeContentState::Text,
+        };
+        assert_eq!(
+            rust_material::diagnose_rust_material(&change).unknown_cause,
+            Some(MaterialUnknownCause::MissingCompleteSource)
+        );
+        let digest = Digest::sha256_bytes(b"isolated canonical inspection fixture");
+        let request = MaterialReviewRequest {
+            schema_version: 1,
+            repository_id: "fixture-repository".into(),
+            work_item_id: "WI-CLEAN-COMPARISON-FIXTURE".into(),
+            contract_digest: digest.clone(),
+            immutable_contract_base_revision: "base".into(),
+            source_snapshot_digest: digest.clone(),
+            material_manifest_digest: digest.clone(),
+            scanner_semantic_version: SCANNER_SEMANTIC_VERSION.into(),
+            analysis_implementation_digest: digest.clone(),
+            analysis_target_semantic_profile: ANALYSIS_TARGET_SEMANTIC_PROFILE.into(),
+            material_inspection_review_profile_digest: None,
+            effective_policy_digest: digest.clone(),
+            entries: vec![MaterialReviewEntry {
+                path: change.path.clone(),
+                kind: "modified".into(),
+                content_state: "text".into(),
+                scanner_assessment: MaterialScannerAssessment::Clean,
+                unknown_cause: None,
+                reviewable: false,
+                changed_hunk_digest: cockpit_protocol::digest_json(&(
+                    &change.added_lines,
+                    change
+                        .added_line_origins
+                        .iter()
+                        .map(|origin| (origin.after_line, origin.hunk_index))
+                        .collect::<Vec<_>>(),
+                    &change.removed_lines,
+                ))
+                .unwrap(),
+                after_blob_digest: Some(digest.clone()),
+            }],
+            raw_unknown_codes: Vec::new(),
+            finding_codes: Vec::new(),
+            blocked_by_finding: false,
+            review_enabled: false,
+            review_diagnostic: None,
+            request_digest: digest.clone(),
+            reviewed_source_head: "a".repeat(40),
+        };
+        let snapshot = RepositorySnapshot {
+            root: ".".into(),
+            git_root: ".".into(),
+            head: Some(request.reviewed_source_head.clone()),
+            changed_paths: vec![change.path.clone()],
+            change_evidence: vec![change],
+            git_calls: 0,
+            tree_digest: digest.to_string(),
+            diff_digest: digest.to_string(),
+            dependency_fingerprint: digest.to_string(),
+            files_read: 0,
+            files_hashed: 0,
+            bytes_read: 0,
+            bytes_hashed: 0,
+            source_tree_digest: None,
+        };
+        assert!(comparison_material_is_completely_inspected(
+            &snapshot, &request
+        ));
+        let mut foreign = snapshot.clone();
+        foreign.head = Some("b".repeat(40));
+        assert!(!comparison_material_is_completely_inspected(
+            &foreign, &request
+        ));
+        for field in ["missing", "path", "kind", "hunk", "cause", "blob"] {
+            let mut invalid = request.clone();
+            match field {
+                "missing" => invalid.entries.clear(),
+                "path" => invalid.entries[0].path = "crates/other.rs".into(),
+                "kind" => invalid.entries[0].kind = "added".into(),
+                "hunk" => {
+                    invalid.entries[0].changed_hunk_digest = Digest::sha256_bytes(b"other hunk")
+                }
+                "cause" => {
+                    invalid.entries[0].unknown_cause = Some(MaterialUnknownCause::ParseUnavailable)
+                }
+                "blob" => invalid.entries[0].after_blob_digest = None,
+                _ => unreachable!(),
+            }
+            assert!(
+                !comparison_material_is_completely_inspected(&snapshot, &invalid),
+                "{field}"
+            );
+        }
+        for assessment in [
+            MaterialScannerAssessment::Finding,
+            MaterialScannerAssessment::Unknown,
+        ] {
+            let mut invalid = request.clone();
+            invalid.entries[0].scanner_assessment = assessment;
+            assert!(!comparison_material_is_completely_inspected(
+                &snapshot, &invalid
+            ));
+        }
+        for state in [
+            ChangeContentState::Binary,
+            ChangeContentState::TooLarge,
+            ChangeContentState::Unavailable,
+        ] {
+            let mut invalid = snapshot.clone();
+            invalid.change_evidence[0].content_state = state;
+            assert!(!comparison_material_is_completely_inspected(
+                &invalid, &request
+            ));
+        }
+        let mut wrong_origin = snapshot.clone();
+        wrong_origin.change_evidence[0].added_line_origins[0].after_line += 1;
+        assert!(!comparison_material_is_completely_inspected(
+            &wrong_origin,
+            &request
+        ));
+        let mut extra = snapshot.clone();
+        let mut extra_change = extra.change_evidence[0].clone();
+        extra_change.path = "crates/uninspected.rs".into();
+        extra.change_evidence.push(extra_change);
+        assert!(!comparison_material_is_completely_inspected(
+            &extra, &request
+        ));
+        let mut unknown = request.clone();
+        unknown
+            .raw_unknown_codes
+            .push("repository_material_inspection_unavailable".into());
+        assert!(!comparison_material_is_completely_inspected(
+            &snapshot, &unknown
+        ));
+        let mut finding = request.clone();
+        finding.blocked_by_finding = true;
+        assert!(!comparison_material_is_completely_inspected(
+            &snapshot, &finding
+        ));
     }
 }

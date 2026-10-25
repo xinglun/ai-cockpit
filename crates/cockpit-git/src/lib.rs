@@ -1231,13 +1231,13 @@ impl BoundedProcess {
                 child,
                 job: Some(job),
             };
-            return assign_job_before_resume(
+            assign_job_before_resume(
                 process,
                 |process| process.assign_to_job(),
                 |process| process.resume_primary_thread(),
                 |mut process, stage| process.fail_closed_start(stage),
             )
-            .map_err(GitError::Command);
+            .map_err(GitError::Command)
         }
 
         #[cfg(not(windows))]
@@ -1423,12 +1423,12 @@ mod windows_job {
         }
         let mut thread_id = None;
         loop {
-            if entry.th32OwnerProcessID == process_id {
-                if thread_id.replace(entry.th32ThreadID).is_some() {
-                    return Err(io::Error::other(
-                        "suspended Git process had more than one thread before resume",
-                    ));
-                }
+            if entry.th32OwnerProcessID == process_id
+                && thread_id.replace(entry.th32ThreadID).is_some()
+            {
+                return Err(io::Error::other(
+                    "suspended Git process had more than one thread before resume",
+                ));
             }
             if unsafe { Thread32Next(snapshot, &mut entry) } == 0 {
                 break;

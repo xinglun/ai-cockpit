@@ -20,8 +20,8 @@ use super::{
     read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
     recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
     repository_id, repository_readiness, repository_relative_path,
-    require_current_action_admission, require_explicit_resource_finalization_plan,
-    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
+    require_explicit_resource_finalization_plan, require_green_governance,
+    require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
     validate_checkpoint_evidence_bindings, validate_historical_finalization,
@@ -178,6 +178,18 @@ fn validate_initial_scenarios(
     root: &Path,
     options: &WorkItemStartOptions,
 ) -> Result<(), ObserverError> {
+    if let Some(policy) = &options.task_authorization {
+        policy.validate().map_err(|message| ObserverError::State {
+            path: root.into(),
+            message,
+        })?;
+        if let Some(deadline) = &policy.expires_at {
+            chrono::DateTime::parse_from_rfc3339(deadline).map_err(|e| ObserverError::State {
+                path: root.into(),
+                message: format!("invalid task authorization deadline: {e}"),
+            })?;
+        }
+    }
     if let Some(policy) = &options.development_review {
         policy.validate().map_err(|message| ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -206,6 +218,22 @@ fn apply_initial_scenarios(
     summary: &mut serde_json::Value,
     options: &WorkItemStartOptions,
 ) {
+    if let Some(policy) = &options.task_authorization {
+        contract["governanceProfile"]["taskAuthorization"] =
+            serde_json::to_value(policy).expect("typed task policy");
+        let caps = contract
+            .as_object_mut()
+            .expect("Contract object")
+            .entry("requiredRuntimeCapabilities")
+            .or_insert_with(|| serde_json::json!([]))
+            .as_array_mut()
+            .expect("capability list");
+        let capability = serde_json::json!(cockpit_protocol::TASK_AUTHORIZATION_CAPABILITY);
+        if !caps.contains(&capability) {
+            caps.push(capability);
+            caps.sort_by_key(|v| v.as_str().unwrap_or_default().to_owned());
+        }
+    }
     if let Some(policy) = &options.development_review {
         contract["governanceProfile"]["developmentReview"] =
             serde_json::to_value(policy).expect("typed review policy");
@@ -634,6 +662,37 @@ pub fn start_work_item_prepared(
     sources: &[String],
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    start_work_item_with_preparation(
+        root,
+        &super::WorkItemStartDeclaration {
+            work_item_id,
+            intent,
+            goal,
+            scope,
+            options,
+            sources,
+            prepare: true,
+        },
+        runtime,
+    )
+}
+
+/// Explicit staged startup writes the complete declaration but performs no
+/// preflight or checkpoint. Omitted MCP prepare retains its historical default.
+pub fn start_work_item_with_preparation(
+    root: &Path,
+    declaration: &super::WorkItemStartDeclaration<'_>,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let super::WorkItemStartDeclaration {
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        sources,
+        prepare,
+    } = declaration;
     let start = start_work_item_with_options_and_runtime(
         root,
         work_item_id,
@@ -654,6 +713,12 @@ pub fn start_work_item_prepared(
             runtime,
         )?)
     };
+    if !*prepare {
+        return Ok(serde_json::json!({
+            "state":"implementation_active", "start":start,
+            "sourceAmendment":source_amendment, "preflight":null, "checkpoint":null,
+        }));
+    }
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -1265,11 +1330,41 @@ pub fn checkpoint_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    checkpoint_work_item_with_context(root, work_item_id, None, None)
+}
+
+pub fn checkpoint_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    checkpoint_work_item_with_context(root, work_item_id, Some(runtime), caller)
+}
+
+fn checkpoint_work_item_with_context(
+    root: &Path,
+    work_item_id: &str,
+    runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let _lifecycle = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = runtime {
+        super::task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "checkpoint",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -1925,7 +2020,7 @@ pub fn preflight_work_item_report(
     root: &Path,
     contract_path: &Path,
 ) -> Result<PreflightResult, ObserverError> {
-    preflight_work_item_internal(root, contract_path, None)
+    preflight_work_item_internal(root, contract_path, None, None)
 }
 
 /// Evaluate and persist preflight while binding evidence checks to the
@@ -1945,13 +2040,24 @@ pub fn preflight_work_item_with_runtime_report(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<PreflightResult, ObserverError> {
-    preflight_work_item_internal(root, contract_path, Some(runtime))
+    preflight_work_item_internal(root, contract_path, Some(runtime), None)
+}
+
+/// Request-scoped delegated caller, checked again under the lifecycle lock.
+pub fn preflight_work_item_with_task_authorization(
+    root: &Path,
+    contract_path: &Path,
+    runtime: &RuntimeContext,
+    caller: &cockpit_protocol::TaskAuthorizationCaller,
+) -> Result<PreflightResult, ObserverError> {
+    preflight_work_item_internal(root, contract_path, Some(runtime), Some(caller))
 }
 
 fn preflight_work_item_internal(
     root: &Path,
     contract_path: &Path,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<PreflightResult, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1972,7 +2078,16 @@ fn preflight_work_item_internal(
     } else {
         None
     };
-    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime)
+    if current_runtime.is_none() {
+        super::task_authorization::reject_legacy_task_write(&root, &work_item_id)?;
+    }
+    preflight_work_item_internal_unlocked(
+        &root,
+        &contract_path,
+        &work_item_id,
+        current_runtime,
+        caller,
+    )
 }
 
 fn preflight_work_item_internal_unlocked(
@@ -1980,6 +2095,7 @@ fn preflight_work_item_internal_unlocked(
     contract_path: &Path,
     expected_work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<PreflightResult, ObserverError> {
     let contract = read_contract(contract_path)?;
     if contract.work_item_id != expected_work_item_id {
@@ -2050,11 +2166,12 @@ fn preflight_work_item_internal_unlocked(
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
         if let Some(runtime) = current_runtime {
-            require_current_action_admission(
+            super::require_current_action_admission_with_caller(
                 root,
                 &contract.work_item_id,
                 "run_preflight",
                 runtime,
+                caller,
             )?;
         }
         require_current_retry_recovery_binding(
@@ -2291,7 +2408,7 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, None)
+    finish_work_item_internal(root, work_item_id, None, None)
 }
 
 /// Finish a Work Item while requiring evidence produced by the current
@@ -2303,7 +2420,17 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, Some(runtime))
+    finish_work_item_internal(root, work_item_id, Some(runtime), None)
+}
+
+/// Caller-bearing finish preserves every existing evidence and lifecycle gate.
+pub fn finish_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    finish_work_item_internal(root, work_item_id, Some(runtime), caller)
 }
 
 fn snapshot_finish_artifact(path: &Path) -> Result<Option<Vec<u8>>, ObserverError> {
@@ -2348,6 +2475,7 @@ fn finish_work_item_internal(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -2355,7 +2483,20 @@ fn finish_work_item_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&canonical_root, work_item_id)?;
-    let result = finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime);
+    // A refused caller has no authority to publish even a blocked Outcome.
+    if let Some(runtime) = current_runtime {
+        super::task_authorization::require_task_caller(
+            &canonical_root,
+            work_item_id,
+            "finish",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&canonical_root, work_item_id)?;
+    }
+    let result =
+        finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime, caller);
     if let Err(error) = &result
         && let Err(persist_error) =
             persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error)
@@ -2376,6 +2517,7 @@ fn finish_work_item_internal_unlocked(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -2413,7 +2555,13 @@ fn finish_work_item_internal_unlocked(
         "finish",
     )?;
     if let Some(runtime) = current_runtime {
-        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
+        super::require_current_action_admission_with_caller(
+            &root,
+            work_item_id,
+            "finish",
+            runtime,
+            caller,
+        )?;
     }
     if contract.checkpoint_policy.is_some() {
         let current_contract_hash = contract_digest(&contract_path)?.to_string();
@@ -8872,9 +9020,9 @@ pub fn record_verification_with_snapshot(
         root,
         work_item_id,
         receipt,
-        runtime_version,
-        runtime_digest,
+        (runtime_version, runtime_digest),
         snapshot,
+        None,
         None,
     )
 }
@@ -8895,10 +9043,31 @@ pub fn record_verification_with_runtime(
         root,
         work_item_id,
         receipt,
-        &runtime.runtime_version,
-        &runtime.runtime_digest,
+        (&runtime.runtime_version, &runtime.runtime_digest),
         snapshot,
         Some(runtime),
+        None,
+    )
+}
+
+/// Current caller-bearing receipt publication. Immutable attempts remain
+/// separate historical facts even if the grant ends before publication.
+pub fn record_verification_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    record_verification_internal(
+        root,
+        work_item_id,
+        receipt,
+        (&runtime.runtime_version, &runtime.runtime_digest),
+        snapshot,
+        Some(runtime),
+        caller,
     )
 }
 
@@ -9008,16 +9177,29 @@ fn record_verification_internal(
     root: &Path,
     work_item_id: &str,
     receipt: &serde_json::Value,
-    runtime_version: &str,
-    runtime_digest: &Digest,
+    runtime_identity: (&str, &Digest),
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let (runtime_version, runtime_digest) = runtime_identity;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let _lifecycle = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = current_runtime {
+        super::task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "run_verification",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }

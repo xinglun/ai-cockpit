@@ -57,12 +57,12 @@ windows_runtime_job = workflow_text.split("  windows-runtime:\n", 1)[1].split(
 )[0]
 assert (
     "- name: verify Windows directory-handle containment regressions\n"
-    "        run: cargo test --locked -p cockpit-repository --lib"
+    "        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib"
     in windows_runtime_job
 ), "the windows-runtime job must execute repository library containment regressions"
 assert (
     "- name: verify Windows process and composition lifecycle boundaries\n"
-    "        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition"
+    "        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition"
     in windows_runtime_job
 ), "the windows-runtime job must execute composition lifecycle regressions"
 assert manifest["schemaVersion"] == 2
@@ -668,6 +668,26 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
             text=True,
         )
         return completed, json.loads(single_report.read_text(encoding="utf-8"))
+
+    # The actual producer/consumer boundary rejects zero-exit warnings;
+    # quoted fixture text remains ordinary data, and complete successful
+    # stderr is visible rather than discarded.
+    for index, (program, expected_success) in enumerate([
+        ("print('warning: actual compiler diagnostic')", False),
+        ("print('(node:42) [DEP0005] DeprecationWarning: Buffer()')", False),
+        ("print('{\"fixture\":\"warning: quoted data\"}')", True),
+        ("import sys; print('complete successful child diagnostic', file=sys.stderr)", True),
+    ]):
+        completed, warning_report = run_single_gate(
+            [sys.executable, "-c", program], "fixture_warning_boundary",
+            f"warning-boundary-{index}.json",
+        )
+        assert (completed.returncode == 0) == expected_success, completed.stderr
+        assert warning_report["state"] == ("passed" if expected_success else "failed")
+        if not expected_success:
+            assert warning_report["gates"][0]["failureCode"] == "quality_gate_failed:fixture_warning_boundary"
+        if index == 3:
+            assert 'complete successful child diagnostic' in completed.stderr
 
     acceptance_payload = '{"mcpToolNames":["work_item_coordination"],"schema":{}}\n'
     acceptance_run, acceptance_report = run_single_gate(

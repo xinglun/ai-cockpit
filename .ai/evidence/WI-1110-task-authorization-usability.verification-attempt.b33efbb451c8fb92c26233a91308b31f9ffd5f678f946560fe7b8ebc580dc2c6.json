@@ -1,0 +1,94 @@
+{
+  "attemptId": "sha256:b33efbb451c8fb92c26233a91308b31f9ffd5f678f946560fe7b8ebc580dc2c6",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "task_authorization",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:41518914dcb222636a14178b9c87a4bc7438ec9ae5247f18c2a0e54ac7289c05",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:5ebf91cf8725360ac0f384a0a4a88ab487223f9220fced54b63294f1f8ba807c",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-mcp",
+        "--test",
+        "rpc",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:951052a50c8c3e6f1637627a255bc3336c3b6ae9b4a9947422e000039f0f21cd",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:ea6d9e1f1930d3eefe4db1114d519e42a4aa563ad6e1875523680cafc9a7b3b2",
+  "contractExecutionScopeDigest": "sha256:0734d1611720374daa3919b7f956f297fc6936552c0e085e5e89adc29e87e193",
+  "createdAt": "2026-10-24T21:46:54Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1110-task-authorization-usability/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1110-task-authorization-usability"
+}

@@ -168,7 +168,7 @@ receipt = {
     ] + [{"nodeId": "project-command-0", "passed": True}]
     + [{"nodeId": node, "passed": True} for node in lint_nodes],
     "executionRecords": [
-        {"nodeId": node, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0}
+        {"nodeId": node, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0, "stdout": "", "stderr": "", "stdoutTruncated": False, "stderrTruncated": False}
         for node in test_nodes
     ],
     "planReceipt": {
@@ -657,7 +657,8 @@ for coverage_case in serial_equal serial_separate targeted_serial targeted_defau
   filter_tail ignored_tail skipped_tail parallel_threads zero_threads duplicate_threads \
   duplicate_separator unknown_cargo_option unknown_target_option foreign_target_package \
   targeted_filter targeted_environment targeted_only missing_package_result failed_package_result \
-  failed_targeted_result missing_targeted_result foreign_snapshot foreign_contract; do
+  failed_targeted_result missing_targeted_result foreign_snapshot foreign_contract \
+  native_warning native_bad_hex native_truncated native_missing_capture; do
   cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
   cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
   python3 - "$coverage_case" "$tmp/hosted-verification.json" \
@@ -687,7 +688,7 @@ for result in receipt["results"]:
         result.update(reused=False, action="execute", satisfiedBy="execution")
 receipt["executionRecords"].append({
     "nodeId": "project-command-2-package-package-b", "commandDigest": "sha256:" + "4" * 64,
-    "spawned": True, "passed": True, "exitCode": 0,
+    "spawned": True, "passed": True, "exitCode": 0, "stdout": "", "stderr": "", "stdoutTruncated": False, "stderrTruncated": False,
 })
 serial_tail = ["--", "--test-threads=1"]
 if case == "serial_separate":
@@ -736,7 +737,7 @@ if case not in {"serial_equal", "serial_separate"}:
         receipt["results"].append({"nodeId": node, "passed": True,
                                    "reused": False, "action": "execute", "satisfiedBy": "execution"})
         receipt["executionRecords"].append({"nodeId": node, "commandDigest": "sha256:" + "5" * 64,
-                                            "spawned": True, "passed": True, "exitCode": 0})
+                                            "spawned": True, "passed": True, "exitCode": 0, "stdout": "", "stderr": "", "stdoutTruncated": False, "stderrTruncated": False})
         receipt["nodesPlanned"] += 1
         receipt["nodesExecuted"] += 1
     if case == "targeted_only":
@@ -766,6 +767,17 @@ if case == "foreign_contract":
     formal["contractDigest"] = "sha256:" + "f" * 64
 elif case == "foreign_snapshot":
     formal["repositorySnapshotDigest"] = plan["repositorySnapshotDigest"] = "sha256:" + "f" * 64
+if case.startswith("native_"):
+    target_record = next(r for r in receipt["executionRecords"] if r["nodeId"] == "project-command-2-package-package-a")
+    if case == "native_warning":
+        target_record["stdout"] = b"warning: actual tool diagnostic with successful exit\n".hex()
+    elif case == "native_bad_hex":
+        target_record["stdout"] = "not-hex"
+    elif case == "native_truncated":
+        target_record["stdoutTruncated"] = True
+    elif case == "native_missing_capture":
+        for key in ["stdout", "stderr", "stdoutTruncated", "stderrTruncated"]:
+            target_record.pop(key, None)
 encoded = json.dumps(formal).encode("utf-8")
 receipt_path.write_bytes(encoded)
 evidence_path.write_bytes(encoded)
@@ -798,6 +810,11 @@ PY
         exit 1
       }
       ;;
+    native_truncated|native_missing_capture)
+      test "$coverage_case_exit" == 0
+      jq -e '.state == "passed" and .executedByHostedRuntime == ["package-a", "package-b"] and .executedByCoverageRunner == ["package-a"]'         "$tmp/serial-$coverage_case-report.json" >/dev/null
+      diff -u <(printf '%s\n' package-a) "$tmp/serial-$coverage_case-package-processes.log"
+      ;;
     *)
       if [[ "$coverage_case_exit" == 0 ]]; then
         printf 'workspace coverage accepted invalid serial/targeted case %s\n' "$coverage_case" >&2
@@ -807,10 +824,12 @@ PY
         "$tmp/serial-$coverage_case-report.json" >/dev/null
       ;;
   esac
+  if [[ "$coverage_case" != native_truncated && "$coverage_case" != native_missing_capture ]]; then
   test ! -e "$tmp/serial-$coverage_case-package-processes.log" || {
     printf 'serial receipt validation spawned unexpected package cargo for %s\n' "$coverage_case" >&2
     exit 1
   }
+  fi
   serial_receipt_case_count=$((serial_receipt_case_count + 1))
 done
 printf 'serial/targeted receipt regression cases passed: %s\n' "$serial_receipt_case_count"

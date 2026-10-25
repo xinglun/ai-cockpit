@@ -46,7 +46,7 @@ pub fn plan_resource_finalization(
     work_item_id: &str,
     context: &ResourceFinalizationContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    plan_resource_finalization_internal(root, work_item_id, context, None)
+    plan_resource_finalization_internal(root, work_item_id, context, None, None)
 }
 
 /// Runtime-aware variant used by the CLI/MCP entrypoints.  The legacy
@@ -59,7 +59,18 @@ pub fn plan_resource_finalization_with_runtime(
     context: &ResourceFinalizationContext,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    plan_resource_finalization_internal(root, work_item_id, context, Some(runtime))
+    plan_resource_finalization_with_caller(root, work_item_id, context, runtime, None)
+}
+
+/// Caller metadata is rechecked while holding the Work Item transaction lock.
+pub fn plan_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    plan_resource_finalization_internal(root, work_item_id, context, Some(runtime), caller)
 }
 
 fn plan_resource_finalization_internal(
@@ -67,6 +78,7 @@ fn plan_resource_finalization_internal(
     work_item_id: &str,
     context: &ResourceFinalizationContext,
     runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -74,6 +86,17 @@ fn plan_resource_finalization_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    match runtime {
+        Some(runtime) => require_resource_task_caller(
+            &root,
+            work_item_id,
+            "finalize_resources",
+            runtime,
+            caller,
+            Some(context),
+        )?,
+        None => super::task_authorization::reject_legacy_task_write(&root, work_item_id)?,
+    }
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -85,6 +108,14 @@ fn plan_resource_finalization_internal(
         .join(format!("{work_item_id}.summary.json"));
     let contract = read_contract(&contract_path)?;
     let summary = read_json(&summary_path)?;
+    if super::task_authorization::task_policy_configured(&root, work_item_id)?
+        && contract.resource_context.as_ref() != Some(context)
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "task_authorization_archive_before_resource_binding: append a reviewed target after archive without changing the owner Contract".into(),
+        });
+    }
     if !matches!(
         summary["state"].as_str(),
         Some("implementation_active" | "checkpointed")
@@ -1561,12 +1592,36 @@ pub fn record_historical_finalization_recovery(
     input_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    record_historical_finalization_recovery_with_caller(
+        root,
+        work_item_id,
+        input_path,
+        runtime,
+        None,
+    )
+}
+
+pub fn record_historical_finalization_recovery_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    input_path: &Path,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let lifecycle_guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        caller,
+        None,
+    )?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
@@ -1984,17 +2039,44 @@ pub fn record_resource_finalization(
     receipt_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    record_resource_finalization_with_caller(root, work_item_id, receipt_path, runtime, None)
+}
+
+pub fn record_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    receipt_path: &Path,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let guard = acquire_lifecycle_lock(&root, work_item_id)?;
-    record_resource_finalization_locked(&root, work_item_id, receipt_path, runtime, &guard)
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        caller,
+        None,
+    )?;
+    let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
+    record_resource_finalization_bytes_locked(
+        &root,
+        work_item_id,
+        receipt_path,
+        &input_bytes,
+        runtime,
+        &guard,
+    )
 }
 
 /// The single finalization writer. Callers already holding the same Work Item
 /// lock use this crate-private core rather than recursively acquiring it.
+#[cfg(test)]
 pub(crate) fn record_resource_finalization_locked(
     root: &Path,
     work_item_id: &str,
@@ -2003,6 +2085,14 @@ pub(crate) fn record_resource_finalization_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, work_item_id)?;
+    require_resource_task_caller(
+        root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        None,
+        None,
+    )?;
     let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
     record_resource_finalization_bytes_locked(
         root,
@@ -5285,7 +5375,145 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
             .filter_map(|(i, b)| (!(*b == b'\r' && bytes.get(i + 1) == Some(&b'\n'))).then_some(*b))
             .collect::<Vec<_>>()
     };
-    normalized(historical) == normalized(compiled)
+    let historical = normalized(historical);
+    let compiled = normalized(compiled);
+    if historical == compiled {
+        return true;
+    }
+    if historical.contains(&b'\r') || compiled.contains(&b'\r') {
+        return false;
+    }
+    match (
+        historical_analysis_recipe_projection(&historical),
+        historical_analysis_recipe_projection(&compiled),
+    ) {
+        (Some(historical), Some(compiled)) => historical == compiled,
+        _ => false,
+    }
+}
+
+fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
+    use syn::spanned::Spanned;
+
+    let source = std::str::from_utf8(source).ok()?;
+    let module = syn::parse_file(source).ok()?;
+    let mut omitted = Vec::new();
+    let mut writer_count = 0;
+    let mut caller_writer_count = 0;
+    let mut digest_count = 0;
+    let mut implementation_count = 0;
+    let mut obsolete_import_count = 0;
+    for item in &module.items {
+        if let syn::Item::Fn(function) = item {
+            match function.sig.ident.to_string().as_str() {
+                "record_work_item_material_review" => {
+                    if !historical_writer_has_only_local_effects(function) {
+                        return None;
+                    }
+                    writer_count += 1;
+                    omitted.push(item.span().byte_range());
+                }
+                "record_work_item_material_review_with_caller" => {
+                    if !historical_writer_has_only_local_effects(function) {
+                        return None;
+                    }
+                    caller_writer_count += 1;
+                    omitted.push(item.span().byte_range());
+                }
+                "implementation_digest_from_sources" => digest_count += 1,
+                "analysis_implementation_digest" => implementation_count += 1,
+                _ => {}
+            }
+        }
+        if let syn::Item::Use(import) = item
+            && import.attrs.is_empty()
+            && matches!(import.vis, syn::Visibility::Inherited)
+            && import.leading_colon.is_none()
+            && let syn::UseTree::Path(path) = &import.tree
+            && path.ident == "super"
+            && let syn::UseTree::Group(group) = path.tree.as_ref()
+        {
+            for pair in group.items.pairs() {
+                if let syn::UseTree::Name(name) = pair.value()
+                    && name.ident == "require_current_action_admission"
+                {
+                    obsolete_import_count += 1;
+                    let comma = pair.punct()?;
+                    omitted.push(name.span().byte_range().start..comma.span().byte_range().end);
+                }
+            }
+        }
+    }
+    if writer_count != 1
+        || caller_writer_count > 1
+        || digest_count != 1
+        || implementation_count != 1
+        || obsolete_import_count > 1
+    {
+        return None;
+    }
+    // Only the named effect writers and their obsolete admission import may
+    // evolve independently. Every other token, including the hash domain,
+    // input order, request construction, scanner and validators, must match.
+    // Historical evidence and implementation inputs are still hashed raw.
+    omitted.sort_unstable_by_key(|range| range.start);
+    if omitted.windows(2).any(|pair| pair[0].end > pair[1].start) {
+        return None;
+    }
+    let mut projection = source.to_owned();
+    for range in omitted.into_iter().rev() {
+        if range.start > range.end
+            || range.end > projection.len()
+            || !projection.is_char_boundary(range.start)
+            || !projection.is_char_boundary(range.end)
+        {
+            return None;
+        }
+        projection.replace_range(range, "");
+    }
+    projection
+        .parse::<proc_macro2::TokenStream>()
+        .ok()
+        .map(|tokens| tokens.to_string())
+}
+
+fn historical_writer_has_only_local_effects(function: &syn::ItemFn) -> bool {
+    struct LocalWriter(bool);
+    fn opaque_value_tokens_are_local(tokens: proc_macro2::TokenStream) -> bool {
+        tokens.into_iter().all(|token| match token {
+            proc_macro2::TokenTree::Group(group) => opaque_value_tokens_are_local(group.stream()),
+            proc_macro2::TokenTree::Punct(punct) => !matches!(punct.as_char(), '#' | '!'),
+            proc_macro2::TokenTree::Ident(ident) => ident != "macro_rules" && ident != "macro",
+            proc_macro2::TokenTree::Literal(_) => true,
+        })
+    }
+    impl<'ast> syn::visit::Visit<'ast> for LocalWriter {
+        fn visit_item(&mut self, _: &'ast syn::Item) {
+            self.0 = false;
+        }
+        fn visit_attribute(&mut self, attribute: &'ast syn::Attribute) {
+            self.0 &= attribute.path().is_ident("doc");
+        }
+        fn visit_macro(&mut self, value: &'ast syn::Macro) {
+            let names = value
+                .path
+                .segments
+                .iter()
+                .map(|segment| segment.ident.to_string())
+                .collect::<Vec<_>>();
+            self.0 &= value.path.leading_colon.is_none()
+                && (names == ["format"] || names == ["serde_json", "json"])
+                && value
+                    .path
+                    .segments
+                    .iter()
+                    .all(|segment| matches!(segment.arguments, syn::PathArguments::None))
+                && opaque_value_tokens_are_local(value.tokens.clone());
+        }
+    }
+    let mut visitor = LocalWriter(true);
+    syn::visit::visit_item_fn(&mut visitor, function);
+    visitor.0
 }
 
 fn apply_historical_material_projection(
@@ -5969,7 +6197,30 @@ pub fn verify_resource_finalization(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    verify_resource_finalization_internal(root, work_item_id, Some(runtime))
+    verify_resource_finalization_with_caller(root, work_item_id, runtime, None)
+}
+
+pub fn verify_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "finalize_verify",
+        runtime,
+        caller,
+        None,
+    )?;
+    verify_resource_finalization_internal(&root, work_item_id, Some(runtime))
 }
 
 pub(crate) fn verify_resource_finalization_internal(
@@ -6861,12 +7112,28 @@ pub fn record_ordinary_cleanup_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OrdinaryCleanupReceipt, ObserverError> {
+    record_ordinary_cleanup_with_caller(root, work_item_id, runtime, None)
+}
+
+pub fn record_ordinary_cleanup_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<OrdinaryCleanupReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    super::task_authorization::require_task_caller(
+        &root,
+        work_item_id,
+        "cleanup_auxiliary_resources",
+        runtime,
+        caller,
+    )?;
     let contract_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
@@ -9083,6 +9350,102 @@ mod post_merge_sync_tests {
         assert!(!super::analysis_recipe_source_matches(
             b"same recipe\n",
             b"same recipe\r"
+        ));
+    }
+
+    #[test]
+    fn post_merge_layout_recipe_allows_only_the_writer_boundary_evolution() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let historical = super::git_blob_bytes(
+            &root,
+            "c85105db9849d8ee27635ee762f98d991955aa21",
+            "crates/cockpit-repository/src/material_review.rs",
+        )
+        .unwrap();
+        let current = include_bytes!("material_review.rs");
+        assert_ne!(
+            Digest::sha256_bytes(&historical),
+            Digest::sha256_bytes(current)
+        );
+        assert!(super::analysis_recipe_source_matches(&historical, current));
+
+        let historical = String::from_utf8(historical).unwrap();
+        for (before, after) in [
+            (
+                "material-analysis-implementation:v1",
+                "material-analysis-implementation:v2",
+            ),
+            (".to_le_bytes()", ".to_be_bytes()"),
+            ("\"Cargo.lock\"", "\"foreign.lock\""),
+            (
+                "Digest::sha256_bytes(&hasher.finalize())",
+                "Digest::sha256_bytes(b\"foreign\")",
+            ),
+            (
+                "fields.remove(\"reviewDiagnostic\")",
+                "fields.remove(\"foreignDiagnostic\")",
+            ),
+            ("fn valid_digest(", "fn foreign_valid_digest("),
+            (
+                "pub fn record_work_item_material_review(",
+                "pub fn missing_writer(",
+            ),
+            (
+                "pub fn record_work_item_material_review(",
+                "#[foreign_writer_macro]\npub fn record_work_item_material_review(",
+            ),
+            (
+                "require_current_action_admission,",
+                "require_current_action_admission as foreign_admission,",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "#[macro_export] macro_rules! foreign_writer { () => {} }\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "include!(\"foreign.rs\");\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "let _ = foreign_writer!();\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "let _ = format!(\"{}\", { #[macro_export] macro_rules! foreign_writer { () => {} } 0 });\nlet root = fs::canonicalize(root)",
+            ),
+        ] {
+            assert!(
+                historical.contains(before),
+                "negative fixture did not mutate {before}"
+            );
+            let changed = if before.starts_with("let root =") {
+                let writer = "pub fn record_work_item_material_review(";
+                let (prefix, body) = historical.split_once(writer).unwrap();
+                assert!(body.contains(before));
+                format!("{prefix}{writer}{}", body.replacen(before, after, 1))
+            } else {
+                historical.replacen(before, after, 1)
+            };
+            assert!(
+                !super::analysis_recipe_source_matches(changed.as_bytes(), current),
+                "unsupported change accepted: {before}"
+            );
+        }
+        let duplicate = format!("{historical}\npub fn record_work_item_material_review() {{}}\n");
+        assert!(!super::analysis_recipe_source_matches(
+            duplicate.as_bytes(),
+            current
+        ));
+        let malformed = format!("{historical}\n{{");
+        assert!(!super::analysis_recipe_source_matches(
+            malformed.as_bytes(),
+            current
+        ));
+        let lone_cr = historical.replacen('\n', "\r", 1);
+        assert!(!super::analysis_recipe_source_matches(
+            lone_cr.as_bytes(),
+            current
         ));
     }
 
@@ -11318,3 +11681,58 @@ mod legacy_source_lock_tests {
 
 #[cfg(test)]
 mod input_capture_tests;
+
+/// This is a local task boundary only. Existing provider/receipt/sequence and
+/// human-close checks still determine whether the requested operation is valid.
+fn require_resource_task_caller(
+    root: &Path,
+    work_item_id: &str,
+    action: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    proposed: Option<&ResourceFinalizationContext>,
+) -> Result<(), ObserverError> {
+    if !super::task_authorization::task_policy_configured(root, work_item_id)? {
+        return Ok(());
+    }
+    super::task_authorization::require_task_caller(root, work_item_id, action, runtime, caller)?;
+    let active = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let path = if fs::symlink_metadata(&active).is_ok() {
+        active
+    } else {
+        root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.contract.json"
+        ))
+    };
+    let contract = read_contract(&path)?;
+    let current = effective_resource_context(root, work_item_id, &contract)?;
+    let context = proposed
+        .or(current.as_ref())
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_resource_target_missing".into(),
+        })?;
+    let (repository, _) = github_repository_from_pull_request_url(&context.pull_request)
+        .filter(|_| context.provider == "github")
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_resource_target_unsupported".into(),
+        })?;
+    let request = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller.cloned().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_caller_required".into(),
+        })?,
+        action: action.into(),
+        paths: vec![],
+        public_target: Some(cockpit_protocol::TaskAuthorizationTarget {
+            provider: context.provider.clone(),
+            repository,
+            base_branch: context.base_branch.clone(),
+        }),
+    };
+    super::task_authorization::check_request_intent(root, work_item_id, &request)
+}

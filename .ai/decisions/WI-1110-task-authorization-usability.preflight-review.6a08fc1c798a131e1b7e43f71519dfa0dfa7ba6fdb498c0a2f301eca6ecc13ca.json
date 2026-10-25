@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:a6b56420a50e0d0e626c66dff13f9ebfe6fbb93e27597c47bbfa8de1e801f6a5",
+  "reason": "Actual user message Sentinel_85a84d1d277c8191ababa99565aaddd1 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1110 上述 Windows 零警告五文件范围修订及 sequence 7 新绑定，confirm_review，并批准上述公开增量及原条件交付。 User-message timestamp not supplied; actual recording time used. agent:Codex records supplied actual user provenance, not independent human authentication or a coordinator judgment. This does not claim new-version tests passed, human close, release, production activation or shared Runtime replacement.",
+  "recordedAt": "2026-10-24T23:09:52.508474+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}

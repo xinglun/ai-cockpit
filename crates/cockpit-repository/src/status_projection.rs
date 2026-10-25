@@ -1192,6 +1192,7 @@ fn blocked_legacy_source_status(
             "stop".into(),
         ],
         action_explanation: None,
+        task_authorization: None,
         status_digest: Digest::sha256_bytes(b"uninitialized"),
         historical: true,
     };
@@ -2122,7 +2123,13 @@ fn work_item_status_snapshot_with_snapshot(
         recommended_action,
         malformed_evidence,
     )?;
-    let status_digest = cockpit_protocol::digest_json(&serde_json::json!({
+    let task_authorization = super::task_authorization::task_authorization_projection(
+        &root,
+        work_item_id,
+        &contract,
+        runtime,
+    )?;
+    let mut status_value = serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": contract.repository_id,
         "workItemId": work_item_id,
@@ -2157,11 +2164,19 @@ fn work_item_status_snapshot_with_snapshot(
         "safeActions": safe_actions,
         "actionExplanation": action_explanation,
         "historical": historical,
-    }))
-    .map_err(|error| ObserverError::State {
-        path: contract_path.clone(),
-        message: error.to_string(),
-    })?;
+    });
+    if let Some(task) = &task_authorization {
+        status_value["taskAuthorization"] =
+            serde_json::to_value(task).map_err(|error| ObserverError::State {
+                path: contract_path.clone(),
+                message: error.to_string(),
+            })?;
+    }
+    let status_digest =
+        cockpit_protocol::digest_json(&status_value).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
+        })?;
     Ok(WorkItemStatusSnapshot {
         schema_version: 1,
         repository_id: contract.repository_id,
@@ -2196,6 +2211,7 @@ fn work_item_status_snapshot_with_snapshot(
         updated_at,
         safe_actions,
         action_explanation: Some(action_explanation),
+        task_authorization,
         status_digest,
         historical,
     })

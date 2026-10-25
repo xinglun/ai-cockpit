@@ -13,6 +13,11 @@ concurrency:
   group: ai-cockpit-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Compiler diagnostics are errors on every actual target, including build scripts.
+env:
+  RUSTFLAGS: -D warnings
+  RUSTDOCFLAGS: -D warnings
+
 jobs:
   route:
     runs-on: ubuntu-24.04
@@ -71,7 +76,7 @@ jobs:
           echo "base_revision=$base_revision" >> "$GITHUB_OUTPUT"
           echo "head_revision=$head_revision" >> "$GITHUB_OUTPUT"
       - name: Build the shared Rust gate-plan tool once
-        run: cargo build --locked --package cockpit-cli --release
+        run: python3 tests/ci/run_no_warnings.py -- cargo build --locked --package cockpit-cli --release
       - name: Execute the dynamic quality route
         id: execute
         shell: bash
@@ -126,7 +131,38 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ci-gate-plan-tool
-          path: target
+          path: target/ci-gate-plan-download
+          # Replace the dependency's deprecated Buffer-based ZIP extraction.
+          # The pinned action still verifies the original archive digest.
+          skip-decompress: true
+          digest-mismatch: error
+      - name: Extract the exact shared gate-plan files without deprecated dependencies
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import stat
+          import zipfile
+          downloads = list(Path('target/ci-gate-plan-download').iterdir())
+          if len(downloads) != 1 or downloads[0].is_symlink() or not downloads[0].is_file():
+              raise SystemExit('one regular downloaded gate-plan archive is required')
+          expected = {'release/ai-cockpit', 'quality-selection.json', 'quality-route.json'}
+          with zipfile.ZipFile(downloads[0]) as archive:
+              entries = archive.infolist()
+              files = [entry for entry in entries if not entry.is_dir()]
+              if len(files) != len(expected) or {entry.filename for entry in files} != expected:
+                  raise SystemExit('gate-plan archive file identities do not match')
+              if any(stat.S_ISLNK(entry.external_attr >> 16) for entry in entries):
+                  raise SystemExit('gate-plan archive contains a symbolic link')
+              if archive.testzip() is not None:
+                  raise SystemExit('gate-plan archive checksum failed')
+              for entry in files:
+                  path = Path('target') / entry.filename
+                  path.parent.mkdir(parents=True, exist_ok=True)
+                  if path.is_symlink() or path.parent.is_symlink():
+                      raise SystemExit('gate-plan destination must not be a symlink')
+                  path.write_bytes(archive.read(entry))
+          PY
       - name: Make the shared Rust gate-plan tool executable
         run: chmod +x target/release/ai-cockpit
       - name: Bind source and tested revisions; validate the shared typed quality route
@@ -327,7 +363,7 @@ jobs:
           }
           trap cleanup EXIT
           git worktree add --detach "$legacy_source" "$LEGACY_RUNTIME_SHA"
-          cargo build --locked --release \
+          python3 tests/ci/run_no_warnings.py -- cargo build --locked --release \
             --manifest-path "$legacy_source/Cargo.toml" \
             --target-dir "$GITHUB_WORKSPACE/target/legacy-runtime" \
             -p cockpit-cli --bin ai-cockpit
@@ -626,24 +662,33 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1
+          components: clippy
+      - name: verify Windows zero-warning workspace Clippy
+        run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
       - name: verify Windows agent adapter boundaries
-        run: cargo test -p cockpit-agent --all-targets
+        run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets
       - name: verify Windows process and composition lifecycle boundaries
-        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
       - name: verify Windows repository boundaries
-        run: cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
+        run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
+      - name: verify Windows bounded task authorization
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1
+      - name: verify Windows task caller CLI and MCP parity
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1
+      - name: verify Windows complete staged MCP start
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1
       - name: verify Windows directory-handle containment regressions
-        run: cargo test --locked -p cockpit-repository --lib
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib
       - name: verify Windows preflight lifecycle-lock admission
-        run: cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact
       - name: verify Windows governance-controls lifecycle-lock admission
-        run: cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact
       - name: verify Windows explicit cognitive evaluator binary failure modes
-        run: cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact
       - name: verify Windows cognitive evaluator native path parity
-        run: cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact
       - name: verify Windows cognitive evaluator read-only parity
-        run: cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact
       - name: upload Windows revision binding
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -672,4 +717,4 @@ jobs:
             --lock tests/conformance/reference-source.lock
           bash tests/conformance/reference_source_policy_check.sh
       - name: compare Rust semantics with the committed offline corpus
-        run: cargo test -p cockpit-core --test conformance -- --test-threads=1
+        run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-core --test conformance -- --test-threads=1

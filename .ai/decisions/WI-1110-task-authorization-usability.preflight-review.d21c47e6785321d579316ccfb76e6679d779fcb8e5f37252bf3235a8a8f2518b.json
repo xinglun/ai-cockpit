@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b540871cda49c6c4866769296ccb14e0093a0308c9f26ecefee9528d6784e226",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:72146dc59dead79a7e50d8a2cb9143c15c7bfdd87fd1b8dc9d47b400fc2ae128",
+  "reason": "Actual user confirmation in conversation message Sentinel_94734b225b1881919b76403fa89f66a8, parent 01a1576c-b0ab-7723-ad8e-95924e80102a, supplied message time 2026-10-24 17:57 UTC (minute precision): 确认 WI-1110 上述两文件锁内授权边界修订及新绑定，confirm_review，并批准上述公开增量及原条件交付。 Recorded by agent:Codex at the actual current time, preserving the real user-message provenance rather than claiming independent identity authentication. This confirms sequence4 scope only; no test result, production activation, shared Runtime replacement, release, or human close is asserted.",
+  "recordedAt": "2026-10-24T18:00:57.979624+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:85628e2e6d22e5da5542b142d4b40474eda13abc81ddbc9a809f7edca221b35b",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}

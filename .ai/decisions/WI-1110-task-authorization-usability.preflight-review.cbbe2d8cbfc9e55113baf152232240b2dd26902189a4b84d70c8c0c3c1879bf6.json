@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ea6d9e1f1930d3eefe4db1114d519e42a4aa563ad6e1875523680cafc9a7b3b2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c93816c782dc549a630b3338122d93b90cbeb4422c9dbe44ccc1bd38273e56a0",
+  "reason": "Actual user message Sentinel_6ca4b673b0488191894b03c5436cde88 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1110 上述 hosted 回归夹具范围修订及 sequence 6 新绑定，confirm_review，并批准该公开增量及原条件交付。 Supplied user-message timestamp was not provided; actual recording time is used. Agent records actual supplied user provenance, not independent human identity authentication or a coordinator judgment. No tests, release, production activation, shared Runtime replacement or human close is asserted.",
+  "recordedAt": "2026-10-24T21:45:23.769035+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1ed6c14ea632a38a69097e287270e496c412cb3c0bcbdec78b24aa786ee705a7",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}

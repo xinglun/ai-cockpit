@@ -94,7 +94,7 @@ path.write_text(
     "    contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "    node_id = 'project-command-0-package-fixture'\n"
     "    command_digest = 'sha256:' + hashlib.sha256(b'cargo test --locked --workspace').hexdigest()\n"
-    "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
+    "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0, 'stdout': '', 'stderr': '', 'stdoutTruncated': False, 'stderrTruncated': False}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
     "    evidence = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'contractDigest': contract_digest, 'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'receipt': receipt}\n"
     "    evidence_path = repository / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
     "    if mode == 'wrong-work-item-id':\n"
@@ -230,7 +230,7 @@ receipt = {
         {"nodeId": node_id, "passed": True, "reused": False, "action": "execute", "satisfiedBy": "execution"},
         {"nodeId": reused_node_id, "passed": True, "reused": True, "action": "reuse", "satisfiedBy": "reused_receipt"},
     ],
-    "executionRecords": [{"nodeId": node_id, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0}],
+    "executionRecords": [{"nodeId": node_id, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0, "stdout": "", "stderr": "", "stdoutTruncated": False, "stderrTruncated": False}],
     "planReceipt": {
         "workItemId": work_item_id,
         "repositoryId": repository_id,

@@ -1,0 +1,704 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1110-task-authorization-usability",
+    "sequence": 5,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1110-register-zero-warning-gate",
+      "expectedContractDigest": "sha256:b540871cda49c6c4866769296ccb14e0093a0308c9f26ecefee9528d6784e226",
+      "reason": "Complete the already declared zero-warning quality boundary in its canonical CI manifest. Add only tests/ci/repository_gate_manifest.json to source scope so one cheap required ci_no_warnings_quality gate can run tests/ci/no_warnings_quality_gate_test.sh. Existing required gates, dependencies, all17 unverified scenarios, all15 verification commands and acceptance/security/authority remain unchanged. The actual unregistered-script regression is retained; do not exempt it or weaken the inventory check. This stages a scope proposal for exact owner review, not source permission before that decision.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "tests/ci/repository_gate_manifest.json"
+        }
+      ]
+    },
+    "requestDigest": "sha256:8a22d225e2fd723000ceb93c395f31f92179227894994c7149a710cc8e384ca6",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+        "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+        "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+        "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+        "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+        "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+        "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+        "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+        "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+        "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+        "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+        "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+        "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+        "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+        "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+        "The full declared verification plan, nonzero focused tests, complete workspace/package coverage, syntax/format/diff checks and independent review must actually pass. Source-quality evidence is required before finish; subsequent public/merge/main/cleanup duties remain explicit later obligations, not falsely completed scenarios.",
+        "Only after separately applicable actual public authorization, publish the exact source/native branch and draft PR; require final-HEAD real Linux and Windows quality CI with no actual errors or warnings, complete package coverage and independent review before normal ready/merge. Verify actual main, archive and bind exact real resources without rewriting archived inputs, preserve recoverable source/native/ignored data, ordinary cleanup, finalize/finalize-verify and actual separately confirmed human close, then publish the final native closeout records. These later obligations are not pre-finish scenario claims.",
+        "The source implementation is opt-in and governs neither itself nor the host platform. No shared Runtime replacement, production authorization activation, external B or release is included. No old WI1087/WI1107 permission or old validation substitutes for this new Work Item.",
+        "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-24T13:18:58Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Bind one explicit task authority to repository/WI/goal/files/actions/verification/public target and completion/withdrawal/deadline; preserve same-scope continuation and distinguish current permission from test freshness. Give actual continue/reverify/stop guidance with explicit local caller provenance and all existing human/material/platform boundaries. Eliminate observed real warnings and enforce accurate Linux/Windows zero-error zero-warning quality. No external B, production/shared Runtime activation or release.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi1110-bounded-source-verification-ceiling",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi1110-bounded-source-verification-ceiling"
+              ],
+              "reason": "Finite 900-second ceiling for the explicitly declared source-quality checks and exact subsequent revision validation. Strict single-authorized-human governance remains. This is not task-grant feature activation, public/merge/close permission, shared Runtime replacement or external host privilege.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task",
+                "pre_ci",
+                "pr",
+                "merge",
+                "release"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Implement the later owner-agreed bounded same-WI authorization and usability target, continuing delivered WI1107 and consulting design-only WI1087 without borrowing its authority; include the owner-requested existing warning fixes in this same next planned WI. The exact new plan still awaits any Runtime-required owner confirmation.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        ".ai/policy.json",
+        ".ai/agent-interface.json",
+        "AGENTS.md",
+        "Cargo.toml",
+        "Cargo.lock",
+        "crates/cockpit-repository/src/usage.rs",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2968b5557c8353b32dd3476aae66ba0dce0d092285564fcd1a8a272b62fd0cd3",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+          "required": true,
+          "scenario": "S01-owner-bound-once",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+          "required": true,
+          "scenario": "S02-authority-integrity",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+          "required": true,
+          "scenario": "S03-review-boundaries",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+          "required": true,
+          "scenario": "S04-expiry",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+          "required": true,
+          "scenario": "S05-termination",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+          "required": true,
+          "scenario": "S06-continuation",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+          "required": true,
+          "scenario": "S07-authority-versus-evidence",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+          "required": true,
+          "scenario": "S08-admission-boundaries",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+          "required": true,
+          "scenario": "S09-post-close-delivery",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+          "required": true,
+          "scenario": "S10-cli-mcp",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+          "required": true,
+          "scenario": "S11-compatibility",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+          "required": true,
+          "scenario": "S12-rust-zero-warning",
+          "status": "unverified",
+          "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+        },
+        {
+          "evidence": [],
+          "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+          "required": true,
+          "scenario": "S13-tools-zero-warning",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+          "required": true,
+          "scenario": "S14-quality-gate-accuracy",
+          "status": "unverified",
+          "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+        },
+        {
+          "evidence": [],
+          "expected": "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+          "required": true,
+          "scenario": "S15-history-and-scope",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "The full declared verification plan, nonzero focused tests, complete workspace/package coverage, syntax/format/diff checks and independent review must actually pass. Source-quality evidence is required before finish; subsequent public/merge/main/cleanup duties remain explicit later obligations, not falsely completed scenarios.",
+          "required": true,
+          "scenario": "S16-required-quality",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP.",
+          "required": true,
+          "scenario": "S17-start-and-review-continuity",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+        }
+      ],
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/action_admission.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/src/task_authorization.rs",
+        "crates/cockpit-repository/tests/task_authorization.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-verification/tests/composition.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-repository/src/collaboration.rs",
+        "crates/cockpit-repository/src/coordination_store_lock_tests.rs",
+        ".github/workflows/ci.yml",
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/run_workspace_package_tests.sh",
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/workflow_convergence_test.sh",
+        "tests/ci/workspace_package_coverage_test.sh",
+        "tests/ci/run_no_warnings.py",
+        "tests/ci/no_warnings_quality_gate_test.sh",
+        "agents/skills/ordinary-work-item.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1110-task-authorization-usability.md",
+        "docs/work-items/WI-1110-task-authorization-usability.zh-CN.md",
+        "docs/work-items/WI-1110-task-authorization-usability.ja.md",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/legacy_closeout_source.rs"
+      ],
+      "sources": [
+        "conversation:Sentinel_de6d7abfff848191ac4572c930c54859",
+        "conversation:Sentinel_6a8f16427cb88191bb83d4e76199bea8",
+        "conversation:Sentinel_244f9a5713088191a2b2c2c0cf3f67ef",
+        "conversation:Sentinel_d6eb7cfbd68c81918f1f668d2a5a7d07",
+        ".ai/work-items/archive/WI-1107-delegated-development-review.contract.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+        "conversation:Sentinel_c86d5df7e8208191882dc73391ddd0df"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-mcp --test rpc -- --test-threads=1",
+        "cargo test --locked --workspace --all-targets -- --test-threads=1",
+        "cargo check --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "bash tests/ci/no_warnings_quality_gate_test.sh",
+        "bash tests/ci/workflow_convergence_test.sh",
+        "bash tests/ci/workspace_package_coverage_test.sh",
+        "bash tests/ci/hosted_runtime_verification_test.sh",
+        "bash tests/docs/documentation_acceptance.sh",
+        "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+        "python3 -m py_compile tests/ci/run_no_warnings.py",
+        "git diff --check c85105db9849d8ee27635ee762f98d991955aa21 HEAD"
+      ],
+      "workItemId": "WI-1110-task-authorization-usability"
+    },
+    "previousContractDigest": "sha256:b540871cda49c6c4866769296ccb14e0093a0308c9f26ecefee9528d6784e226",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+        "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+        "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+        "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+        "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+        "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+        "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+        "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+        "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+        "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+        "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+        "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+        "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+        "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+        "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+        "The full declared verification plan, nonzero focused tests, complete workspace/package coverage, syntax/format/diff checks and independent review must actually pass. Source-quality evidence is required before finish; subsequent public/merge/main/cleanup duties remain explicit later obligations, not falsely completed scenarios.",
+        "Only after separately applicable actual public authorization, publish the exact source/native branch and draft PR; require final-HEAD real Linux and Windows quality CI with no actual errors or warnings, complete package coverage and independent review before normal ready/merge. Verify actual main, archive and bind exact real resources without rewriting archived inputs, preserve recoverable source/native/ignored data, ordinary cleanup, finalize/finalize-verify and actual separately confirmed human close, then publish the final native closeout records. These later obligations are not pre-finish scenario claims.",
+        "The source implementation is opt-in and governs neither itself nor the host platform. No shared Runtime replacement, production authorization activation, external B or release is included. No old WI1087/WI1107 permission or old validation substitutes for this new Work Item.",
+        "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-24T13:18:58Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Bind one explicit task authority to repository/WI/goal/files/actions/verification/public target and completion/withdrawal/deadline; preserve same-scope continuation and distinguish current permission from test freshness. Give actual continue/reverify/stop guidance with explicit local caller provenance and all existing human/material/platform boundaries. Eliminate observed real warnings and enforce accurate Linux/Windows zero-error zero-warning quality. No external B, production/shared Runtime activation or release.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi1110-bounded-source-verification-ceiling",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi1110-bounded-source-verification-ceiling"
+              ],
+              "reason": "Finite 900-second ceiling for the explicitly declared source-quality checks and exact subsequent revision validation. Strict single-authorized-human governance remains. This is not task-grant feature activation, public/merge/close permission, shared Runtime replacement or external host privilege.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task",
+                "pre_ci",
+                "pr",
+                "merge",
+                "release"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Implement the later owner-agreed bounded same-WI authorization and usability target, continuing delivered WI1107 and consulting design-only WI1087 without borrowing its authority; include the owner-requested existing warning fixes in this same next planned WI. The exact new plan still awaits any Runtime-required owner confirmation.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        ".ai/policy.json",
+        ".ai/agent-interface.json",
+        "AGENTS.md",
+        "Cargo.toml",
+        "Cargo.lock",
+        "crates/cockpit-repository/src/usage.rs",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2968b5557c8353b32dd3476aae66ba0dce0d092285564fcd1a8a272b62fd0cd3",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+          "required": true,
+          "scenario": "S01-owner-bound-once",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+          "required": true,
+          "scenario": "S02-authority-integrity",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+          "required": true,
+          "scenario": "S03-review-boundaries",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+          "required": true,
+          "scenario": "S04-expiry",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+          "required": true,
+          "scenario": "S05-termination",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+          "required": true,
+          "scenario": "S06-continuation",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+          "required": true,
+          "scenario": "S07-authority-versus-evidence",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+          "required": true,
+          "scenario": "S08-admission-boundaries",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+          "required": true,
+          "scenario": "S09-post-close-delivery",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+          "required": true,
+          "scenario": "S10-cli-mcp",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+          "required": true,
+          "scenario": "S11-compatibility",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+          "required": true,
+          "scenario": "S12-rust-zero-warning",
+          "status": "unverified",
+          "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+        },
+        {
+          "evidence": [],
+          "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+          "required": true,
+          "scenario": "S13-tools-zero-warning",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+          "required": true,
+          "scenario": "S14-quality-gate-accuracy",
+          "status": "unverified",
+          "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+        },
+        {
+          "evidence": [],
+          "expected": "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+          "required": true,
+          "scenario": "S15-history-and-scope",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "The full declared verification plan, nonzero focused tests, complete workspace/package coverage, syntax/format/diff checks and independent review must actually pass. Source-quality evidence is required before finish; subsequent public/merge/main/cleanup duties remain explicit later obligations, not falsely completed scenarios.",
+          "required": true,
+          "scenario": "S16-required-quality",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+        },
+        {
+          "evidence": [],
+          "expected": "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP.",
+          "required": true,
+          "scenario": "S17-start-and-review-continuity",
+          "status": "unverified",
+          "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+        }
+      ],
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/action_admission.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/src/task_authorization.rs",
+        "crates/cockpit-repository/tests/task_authorization.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-verification/tests/composition.rs",
+        "crates/cockpit-repository/tests/verification_context.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-repository/src/collaboration.rs",
+        "crates/cockpit-repository/src/coordination_store_lock_tests.rs",
+        ".github/workflows/ci.yml",
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/run_workspace_package_tests.sh",
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/workflow_convergence_test.sh",
+        "tests/ci/workspace_package_coverage_test.sh",
+        "tests/ci/run_no_warnings.py",
+        "tests/ci/no_warnings_quality_gate_test.sh",
+        "agents/skills/ordinary-work-item.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/contract-fields.md",
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1110-task-authorization-usability.md",
+        "docs/work-items/WI-1110-task-authorization-usability.zh-CN.md",
+        "docs/work-items/WI-1110-task-authorization-usability.ja.md",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/legacy_closeout_source.rs",
+        "tests/ci/repository_gate_manifest.json"
+      ],
+      "sources": [
+        "conversation:Sentinel_de6d7abfff848191ac4572c930c54859",
+        "conversation:Sentinel_6a8f16427cb88191bb83d4e76199bea8",
+        "conversation:Sentinel_244f9a5713088191a2b2c2c0cf3f67ef",
+        "conversation:Sentinel_d6eb7cfbd68c81918f1f668d2a5a7d07",
+        ".ai/work-items/archive/WI-1107-delegated-development-review.contract.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+        "conversation:Sentinel_c86d5df7e8208191882dc73391ddd0df"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-mcp --test rpc -- --test-threads=1",
+        "cargo test --locked --workspace --all-targets -- --test-threads=1",
+        "cargo check --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "bash tests/ci/no_warnings_quality_gate_test.sh",
+        "bash tests/ci/workflow_convergence_test.sh",
+        "bash tests/ci/workspace_package_coverage_test.sh",
+        "bash tests/ci/hosted_runtime_verification_test.sh",
+        "bash tests/docs/documentation_acceptance.sh",
+        "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+        "python3 -m py_compile tests/ci/run_no_warnings.py",
+        "git diff --check c85105db9849d8ee27635ee762f98d991955aa21 HEAD"
+      ],
+      "workItemId": "WI-1110-task-authorization-usability"
+    },
+    "newContractDigest": "sha256:878cc6fe20e45ec4e88b8bd302f861c60af58954c0bacf0d138950c0aa50cab3",
+    "previousSummaryDigest": "sha256:cd2a6b14acea81da429d1da1e148d6a9cdbd09d8b037ec0dd0b0fcdbd88c26ff",
+    "repositorySnapshotDigest": "sha256:36560b8c1a30618ff72c870ed3c36676c2189d18d07c38aa1999bc56ac269476",
+    "environmentObservationDigest": "sha256:23a18bcc398d05e02ca3ddedd1c2cc3f9064fe7b7c6a682b40350cc8a7c815fb",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:9b8725aa19ea0b0b8d637a508b0a7d0717dafd289d44c04ce7c51eb7df5eea47",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-24T18:26:54Z"
+  },
+  "preparedDigest": "sha256:2ac055f4e06854b69ae31c5f7c8fc50bcca4b237213ff42d6d383a5d06ff060d"
+}

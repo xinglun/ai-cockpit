@@ -70,7 +70,8 @@ fi
 receipt_mode=false
 if [[ "$state" == passed && -n "$hosted_verification_receipt" ]]; then
   receipt_mode=true
-  if ! python3 - "$metadata" "$hosted_verification_receipt" "$runtime_bin" "$verification_repository" "$hosted_verification_orchestration" >"$tmp/receipt-plan.json" 2>"$tmp/receipt-diagnostic" <<'PY'
+  if ! python3 - "$metadata" "$hosted_verification_receipt" "$runtime_bin" "$verification_repository" "$hosted_verification_orchestration" "$root/tests/ci" >"$tmp/receipt-plan.json" 2>"$tmp/receipt-diagnostic" <<'PY'
+import codecs
 import hashlib
 import json
 import re
@@ -78,6 +79,9 @@ import shlex
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, sys.argv[6])
+from run_no_warnings import warning_diagnostics
 
 metadata_path, receipt_path, runtime_path, repository_path = map(Path, sys.argv[1:5])
 orchestration_path = Path(sys.argv[5]) if sys.argv[5] else None
@@ -411,6 +415,7 @@ for record in records:
     if record["nodeId"] in record_by_id:
         reject("hosted Runtime receipt contains duplicate execution records")
     record_by_id[record["nodeId"]] = record
+warning_capture_required = set()
 for node, digest in zip(expected_nodes, command_digests):
     result = result_by_id[node]
     if node in reused_nodes:
@@ -424,6 +429,28 @@ for node, digest in zip(expected_nodes, command_digests):
                 or record.get("commandDigest") != digest or record.get("spawned") is not True
                 or record.get("passed") is not True or record.get("exitCode") != 0):
             reject(f"hosted Runtime executed package digest or result is inconsistent: {node}")
+        # Executed package coverage and complete warning evidence are
+        # independent. Preserve native records; incomplete diagnostics require
+        # one separate full-stream quality execution for this package only.
+        package = node.removeprefix(f"project-command-{command_index}-package-")
+        for stream in ["stdout", "stderr"]:
+            if stream not in record:
+                warning_capture_required.add(package)
+                continue
+            raw = record[stream]
+            if not isinstance(raw, str) or re.fullmatch(r"(?:[0-9a-f]{2})*", raw) is None:
+                reject(f"hosted Runtime package diagnostic hex is invalid: {node}")
+            flag = record.get(stream + "Truncated")
+            if stream + "Truncated" in record and type(flag) is not bool:
+                reject(f"hosted Runtime package capture flag is invalid: {node}")
+            try:
+                text = codecs.getincrementaldecoder("utf-8")("strict").decode(bytes.fromhex(raw), final=flag is not True)
+            except UnicodeError:
+                reject(f"hosted Runtime package diagnostic encoding is invalid: {node}")
+            if warning_diagnostics(text):
+                reject(f"hosted Runtime package emitted a warning: {node}")
+            if flag is not False:
+                warning_capture_required.add(package)
 if verification_state == "reused":
     hosted_runtime_executed = []
     coverage_required = expected
@@ -437,7 +464,7 @@ else:
     if not package_node_ids.issubset(set(all_node_ids)):
         reject("hosted Runtime receipt omits a required package result")
     hosted_runtime_executed = [package for package in expected if package not in reused_packages]
-    coverage_required = [package for package in expected if package in reused_packages]
+    coverage_required = [package for package in expected if package in reused_packages or package in warning_capture_required]
 
 evidence_directory = repository_path / ".ai" / "evidence"
 evidence_path = evidence_directory / f"{work_item_id}.verification.json"
@@ -723,6 +750,10 @@ PY
         (cd "$root" && "$cargo_bin" test -p "$package" --target "$host_target" --all-targets -- --test-threads="$test_threads") \
           >"$tmp/results/$index.log" 2>&1
         result=$?
+        if [[ "$result" == 0 ]]; then
+          python3 "$root/tests/ci/run_no_warnings.py" --check-log "$tmp/results/$index.log"             >>"$tmp/results/$index.log" 2>&1
+          result=$?
+        fi
         printf '%s\n' "$result" >"$tmp/results/$index.status"
         exit 0
       ) &
@@ -735,6 +766,7 @@ PY
       if [[ -f "$tmp/results/$index.status" ]]; then
         wait "${pids[$index]}" 2>/dev/null
         result=$(<"$tmp/results/$index.status")
+        cat "$tmp/results/$index.log"
         if [[ "$result" != 0 && "$state" == passed ]]; then
           state=failed
           failure_phase=package_test

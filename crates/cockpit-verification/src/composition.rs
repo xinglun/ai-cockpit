@@ -7641,12 +7641,16 @@ mod path_containment_tests {
 
 #[cfg(test)]
 mod rustup_default_host_settings_tests {
+    #[cfg(unix)]
     use super::{
         CompositionBinding, CompositionCommand, CompositionIdentity, CompositionInput, Digest,
-        observe_runtime_toolchain_digest, observed_node_identity, parse_rustup_default_toolchain,
-        parse_rustup_settings, resolve_executable, resolve_rustup_toolchain_directory,
-        rustup_toolchain_name_for_host,
+        observed_node_identity, resolve_executable,
     };
+    use super::{
+        observe_runtime_toolchain_digest, parse_rustup_default_toolchain, parse_rustup_settings,
+        resolve_rustup_toolchain_directory, rustup_toolchain_name_for_host,
+    };
+    #[cfg(unix)]
     use cockpit_protocol::RuntimeCapabilityBinding;
     use std::collections::BTreeMap;
     use std::fs;

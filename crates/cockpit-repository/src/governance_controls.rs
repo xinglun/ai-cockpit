@@ -1323,6 +1323,7 @@ pub fn record_work_item_governance_controls(
         source,
     })?;
     let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    crate::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }
 
@@ -1335,17 +1336,61 @@ pub fn record_work_item_governance_controls_with_runtime(
     controls: &Value,
     runtime: &RuntimeContext,
 ) -> Result<Value, ObserverError> {
+    record_work_item_governance_controls_with_caller(root, work_item_id, controls, runtime, None)
+}
+
+/// Explicit context is never inferred from a configured actor string.
+pub fn record_work_item_governance_controls_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<Value, ObserverError> {
     crate::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
-    crate::require_current_action_admission(
+    if let Some(value) = controls.get("taskAuthorizationTermination") {
+        if controls.as_object().is_none_or(|object| object.len() != 1) {
+            return Err(ObserverError::State {
+                path: root,
+                message: "task termination must be the only governance operation".into(),
+            });
+        }
+        _lifecycle_lock.require_subject(&root, work_item_id)?;
+        let recorded = crate::task_authorization::record_termination_unlocked(
+            &root,
+            work_item_id,
+            value,
+            runtime,
+        )?;
+        _lifecycle_lock.require_subject(&root, work_item_id)?;
+        return Ok(recorded);
+    }
+    if controls
+        .as_object()
+        .is_some_and(|object| object.len() == 1 && object.contains_key("decisionEvidence"))
+    {
+        // Actual owner review remains possible when no delegated authority
+        // exists or it has ended. The current Contract/preflight evidence is
+        // independently validated before any receipt or Summary is written.
+        crate::action_admission::require_base_action_admission(
+            &root,
+            work_item_id,
+            "record_governance_controls",
+            runtime,
+        )?;
+        return record_work_item_governance_controls_unlocked(&root, work_item_id, controls);
+    }
+    crate::require_current_action_admission_with_caller(
         &root,
         work_item_id,
         "record_governance_controls",
         runtime,
+        caller,
     )?;
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }

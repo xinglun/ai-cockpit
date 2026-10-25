@@ -141,3 +141,18 @@ Runtime 在原生命周期锁内，将独立 `delegatedReview` 绑定到原生 p
 这是本地来源记录，不是外部身份认证，也不承诺抵抗改写全部本地可写记录的攻击者。
 本项不替换共享 Runtime、不启用生产配置。生产使用须另行显式选择并取得新所有者审阅，代理技术判断可能出错。
 跨 WI 授权期限／撤销与外部 B 不在本片；隔离测试减少请求次数不等于已测量实际收益。
+
+
+## 限定任务授权
+
+通过完整的原生 `governanceProfile.taskAuthorization` 显式选择；旧模式和严格模式不变。CLI `start --task-authorization <policy.json>` 或 MCP `work_item_start.taskAuthorization` 保存类型化声明。新任务需要本人审阅时，先分阶段起项（MCP `prepare:false`；CLI 不传 `--prepare`），完整保存场景、命令与来源，再 preflight、真实审阅、checkpoint。MCP 原有默认 `prepare:true` 保持兼容。
+
+策略包括 `schemaVersion:1`、明确的 `agentActor`、`authoritySource`、有限 `allowedActions`、其子集 `closeoutActions`、可选 RFC3339 `expiresAt`；包含公开操作时必须给出 `publicTarget` 的 `provider`、`repository`、`baseBranch`。原生审阅绑定仓库、WI、目标、文件、操作和验证标准。调用者文件、actor 字符串或自声明来源不等于真人或外部身份认证，也不授予宿主／provider 权限。
+
+支持的操作传入真实类型化调用者（`schemaVersion`、`actor`、`authoritySource`、`assurance:"self_declared"`）：CLI `--task-caller <caller.json>`，MCP `taskCaller`。Runtime 在同一 WI 锁内重新检查，包括验证子进程实际启动和缓存漂移回退；无上下文调用不得继承配置中的 actor。Task 模式尚不支持的旧收尾登记明确拒绝。资源目标目前要求与预授权仓库及 base 一致的 GitHub PR URL；归档后绑定新资源，不改写原授权 Contract。
+
+恢复会话时使用单 WI 的 CLI `work-item status --json --authorization-request <request.json>` 或 MCP `work_item_status.authorizationRequest`。严格请求含 `schemaVersion:1`、`caller`、`action`、精确相对 `paths` 和可选 `publicTarget`，不能与查询全部 WI 混用。响应分别说明授权、证据新鲜度、当前操作准入及 `nextAction`：继续、重验、解决当前门禁、由专用入口核验输入与阶段（`check_operation_boundary`）、检查宿主边界或停止。查询不是可缓存的许可证。范围内普通提交保留授权，但可能使测试证据过期；扩范围、权限、目标或验收／命令变化仍走原有本人或受限机械审阅规则。
+
+交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
+
+归档后仅允许已声明的剩余交付／资源操作；真实原生真人 close 后，只保留预授权的原生收尾发布和辅助清理，不能重新修改业务源码。收尾交付结束应记录 completed，撤回或到期则停止。真人关闭单独决定。本能力显式选择，本 WI 不用它自批、不替换共享 Runtime、不启用外部 B 或生产权限。
