@@ -268,10 +268,9 @@ fn usage_projection_is_visible_in_summary_and_full_in_three_languages() {
     }
     let legacy =
         render_fixture_view_language(&directory, id, fixture, OutcomeRenderView::Summary, "en");
-    assert!(
-        !legacy.contains("Usage coverage"),
-        "legacy output stays compatible: {legacy}"
-    );
+    assert!(legacy.contains("Usage coverage: unknown"), "{legacy}");
+    assert!(legacy.contains("historical_usage_not_recorded"), "{legacy}");
+    assert!(!legacy.contains("input 0"), "unknown is not zero: {legacy}");
 }
 
 #[test]
