@@ -16,9 +16,9 @@ Before launching a declared check, inspect `work-item status` and `work-item val
 
 On admission use `work-item controls` or MCP `work_item_controls`; both recheck. Missing required controls block finish. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
 
-Keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
+One Work Item is serial by default; keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
 
-Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Use `capability show`, help and MCP `tools/list`: declarations alone do not prove support; fields or an older Runtime do not prove support. See [workflow](../../docs/reference/agent-workflow.md).
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Discover with `capability show`, CLI help, and MCP `tools/list`; declarations alone do not prove support; fields or an older Runtime do not prove support. If unavailable, use admitted serial work or stop. See [workflow](../../docs/reference/agent-workflow.md).
 
 Inspection is read-only. Registration, reports, coordination, leases and drift recovery write; recovery appends events. Before dependent actions, check environment drift read-only; record changes before refreshing admission.
 
