@@ -45,7 +45,7 @@ fn resolve(
     reject_duplicate_json_keys(source).map_err(|_| {
         invalid(
             &import.source_ref,
-            "usage source contains duplicate JSON keys",
+            "usage source JSON is malformed or contains duplicate keys",
         )
     })?;
     let value: Value = serde_json::from_slice(source).map_err(|_| {
