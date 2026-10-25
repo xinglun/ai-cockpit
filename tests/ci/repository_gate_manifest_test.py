@@ -52,7 +52,7 @@ quality_job = workflow_text.split("  quality:\n", 1)[1].split(
 assert "fetch-depth: 0" in quality_job, (
     "the quality job must fetch the immutable legacy Runtime baseline"
 )
-windows_runtime_job = workflow_text.split("  windows-runtime:\n", 1)[1].split(
+windows_runtime_job = workflow_text.split("  windows-runtime-suites:\n", 1)[1].split(
     "\n  v1-behavioral-oracle:\n", 1
 )[0]
 assert (

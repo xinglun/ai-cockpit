@@ -49,7 +49,7 @@ assert 'run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE/release-source"' i
 assert "RUSTFLAGS: -D warnings" in workflow
 assert "RUSTDOCFLAGS: -D warnings" in workflow
 assert "name: verify Windows zero-warning workspace Clippy" in workflow
-assert "components: clippy" in job_block("windows-runtime")
+assert "components: clippy" in job_block("windows-runtime-suites")
 assert "run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings" in workflow
 assert "skip-decompress: true" in workflow
 assert "digest-mismatch: error" in workflow
@@ -76,9 +76,37 @@ assert 'head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"' in workflow
 assert workflow.count("name: Bind source and tested revisions") == 2
 assert 'target/ci-revision-binding.json' in workflow
 
+# Splitting Windows work must preserve every original Rust command exactly
+# once, keep bounded sibling execution, and retain the stable fail-closed job.
+windows_suites = job_block("windows-runtime-suites")
+assert "suite: [boundaries, repository-library]" in windows_suites
+assert "fail-fast: false" in windows_suites and "max-parallel: 2" in windows_suites
+windows_original_commands = ['python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact']
+windows_steps = re.split(r"(?m)^      - ", windows_suites)
+windows_actual_commands = []
+for step in windows_steps:
+    matches = re.findall(r"(?m)^        run: (python tests/ci/run_no_warnings.py -- cargo .+)$", step)
+    windows_actual_commands.extend(matches)
+    if matches:
+        expected_suite = "repository-library" if matches[0].endswith("cockpit-repository --lib") else "boundaries"
+        assert f"if: matrix.suite == '{expected_suite}'" in step, matches[0]
+assert sorted(windows_actual_commands) == sorted(windows_original_commands), "Windows command coverage changed"
+assert "name: ci-revision-binding-windows-${{ matrix.suite }}" in windows_suites
+assert "name: Record successful Windows suite" in windows_suites
+assert "target/windows-suite-result.json" in windows_suites
+windows_aggregate = job_block("windows-runtime")
+assert "needs: [route, windows-runtime-suites]" in windows_aggregate
+assert "if: always() && needs.route.result == 'success' && needs.route.outputs.profile != 'light'" in windows_aggregate
+assert "SUITES_RESULT: ${{ needs.windows-runtime-suites.result }}" in windows_aggregate
+assert "run: test \"$SUITES_RESULT\" = success" in windows_aggregate
+for suite in ("boundaries", "repository-library"):
+    assert f"name: ci-revision-binding-windows-{suite}" in windows_aggregate
+assert windows_aggregate.count("skip-decompress: true") == 2
+assert windows_aggregate.count("digest-mismatch: error") == 2
+
 # Independent hosted validations fan out from the immutable route artifact;
 # no validation job waits for another validation job.
-validation_jobs = ("quality", "windows-runtime", "v1-behavioral-oracle")
+validation_jobs = ("quality", "windows-runtime-suites", "v1-behavioral-oracle")
 for name in validation_jobs:
     block = job_block(name)
     assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
@@ -143,7 +171,7 @@ assert "eventBaseRevision" in workflow and "testedBaseRevision" in workflow
 assert "git merge-base --is-ancestor" in workflow
 assert "exactly two parents" in workflow
 assert "checked-out commit does not match GITHUB_SHA" in workflow
-windows_job = workflow[workflow.index("  windows-runtime:"):]
+windows_job = job_block("windows-runtime-suites")
 windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
 assert "fetch-depth: 0" in windows_checkout
 assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
