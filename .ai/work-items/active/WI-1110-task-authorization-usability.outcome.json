@@ -20,9 +20,9 @@
     "The source implementation is opt-in and governs neither itself nor the host platform. No shared Runtime replacement, production authorization activation, external B or release is included. No old WI1087/WI1107 permission or old validation substitutes for this new Work Item.",
     "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP."
   ],
-  "createdAt": "2026-10-25T00:32:07.616759518Z",
+  "createdAt": "2026-10-25T04:03:06.059308397Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:74233a776637f881cd3a63544dd08d7da96dfe2fd78d521ebb917d4fe87eea63",
+  "evidenceDigest": "sha256:1ae8862c93bdfe71992100828c8758249c8a3c1bbd9f9a89c42b39acb418b8cc",
   "evidenceRefs": [
     ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
   ],
@@ -48,7 +48,7 @@
         ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:92112239a45bfde8660800cd110b5f3acd278dcf72cf88f7e3cc019355e5e131",
+      "repositorySnapshotDigest": "sha256:5fe25381ed90e4d44b48944f9673eac985e89c6fb54c2186979bf2a68e4a7481",
       "workItemId": "WI-1110-task-authorization-usability"
     },
     "format": "ai-cockpit.task-outcome",
@@ -137,7 +137,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-25T00:32:07.616759518Z",
+      "cutoff": "2026-10-25T04:03:06.059308397Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -154,7 +154,7 @@
     },
     "workItemId": "WI-1110-task-authorization-usability"
   },
-  "taskReportDigest": "sha256:685345e9caac9ef7889fbaaa512b66dd934d7d7ef93af4e0d2b11d8b013c89f3",
+  "taskReportDigest": "sha256:6e8bf86c35a3c25b02182d5bbc076405853a466ecf06e6f26210d600b8d859b7",
   "taskReportMarkdownDigest": "sha256:3450dc1113dcc84312c7e1b1e049c5fc9921647f4d38c05c228ad0f84f8ecda9",
   "unknowns": [
     "user_visible_benefit_not_declared"
