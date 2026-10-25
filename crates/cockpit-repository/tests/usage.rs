@@ -153,12 +153,16 @@ fn generated_markdown_includes_the_frozen_usage_counts_and_cutoff() {
     let id = "WI-USAGE-MARKDOWN";
     finish_with_usage(root.path(), id);
     let report: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.path().join(format!(".ai/work-items/active/{id}.task-report.json")))
-            .expect("report JSON"),
+        &fs::read(
+            root.path()
+                .join(format!(".ai/work-items/active/{id}.task-report.json")),
+        )
+        .expect("report JSON"),
     )
     .expect("decode report");
     let markdown = fs::read_to_string(
-        root.path().join(format!(".ai/work-items/active/{id}.task-report.md")),
+        root.path()
+            .join(format!(".ai/work-items/active/{id}.task-report.md")),
     )
     .expect("report Markdown");
     assert!(markdown.contains("## Usage"), "{markdown}");

@@ -299,7 +299,10 @@ fn historical_usage_absence_is_explicit_in_every_human_view() {
                 language,
                 None,
             );
-            assert!(rendered.contains("historical_usage_not_recorded"), "{rendered}");
+            assert!(
+                rendered.contains("historical_usage_not_recorded"),
+                "{rendered}"
+            );
             assert!(rendered.contains(count), "{rendered}");
             assert!(rendered.contains(cutoff), "{rendered}");
         }

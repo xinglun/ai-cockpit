@@ -13153,6 +13153,11 @@ fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
         }
         output.push('\n');
     }
+    output.push_str("## Usage\n\n");
+    for item in outcome_render::localized_report_usage_items(Some(report), "en") {
+        output.push_str(&format!("- {item}\n"));
+    }
+    output.push('\n');
     if let Some(gate) = &report.failed_gate {
         output.push_str(&format!("## Failed gate\n\n- {gate}\n\n"));
     }

@@ -1998,15 +1998,13 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         "Outcome: {marker} {status} — {}\n{result_title}",
         outcome.work_item_id
     );
-    let usage_items = task_report
-        .and_then(|report| report.usage.as_ref())
-        .map(|usage| {
-            format!(
-                "\n{}",
-                bullet_lines(&localized_usage_items(usage, language), not_recorded)
-            )
-        })
-        .unwrap_or_default();
+    let usage_items = format!(
+        "\n{}",
+        bullet_lines(
+            &localized_report_usage_items(task_report, language),
+            not_recorded
+        )
+    );
     format!(
         "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}{usage_items}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
         result_items[0],
@@ -2070,7 +2068,27 @@ fn localized_usage_assurance(value: UsageAssurance, language: &str) -> &'static 
     }
 }
 
-fn localized_usage_items(usage: &UsageSummary, language: &str) -> Vec<String> {
+pub(super) fn localized_report_usage_items(
+    report: Option<&TaskOutcomeReport>,
+    language: &str,
+) -> Vec<String> {
+    let missing_reason = if report.is_some() {
+        "historical_usage_not_recorded"
+    } else {
+        "task_report_unavailable"
+    };
+    localized_usage_items(
+        report.and_then(|report| report.usage.as_ref()),
+        language,
+        missing_reason,
+    )
+}
+
+fn localized_usage_items(
+    usage: Option<&UsageSummary>,
+    language: &str,
+    missing_reason: &str,
+) -> Vec<String> {
     let (
         coverage_label,
         cutoff_label,
@@ -2124,7 +2142,10 @@ fn localized_usage_items(usage: &UsageSummary, language: &str) -> Vec<String> {
             "records",
         ),
     };
-    let coverage = match (language, usage.coverage) {
+    let coverage = match (
+        language,
+        usage.map_or(UsageCoverage::Unknown, |usage| usage.coverage),
+    ) {
         ("zh", UsageCoverage::Unknown) => "未知 (unknown)",
         ("zh", UsageCoverage::Partial) => "部分 (partial)",
         ("zh", UsageCoverage::Complete) => "完整 (complete)",
@@ -2135,26 +2156,36 @@ fn localized_usage_items(usage: &UsageSummary, language: &str) -> Vec<String> {
         (_, UsageCoverage::Partial) => "partial",
         (_, UsageCoverage::Complete) => "complete",
     };
-    let reasons = if usage.unknown_reasons.is_empty() {
-        match language {
-            "zh" => "无",
-            "ja" => "なし",
-            _ => "none",
-        }
-        .to_owned()
-    } else {
-        usage.unknown_reasons.join(", ")
-    };
+    let reasons = usage.map_or_else(
+        || missing_reason.to_owned(),
+        |usage| {
+            if usage.unknown_reasons.is_empty() {
+                match language {
+                    "zh" => "无",
+                    "ja" => "なし",
+                    _ => "none",
+                }
+                .to_owned()
+            } else {
+                usage.unknown_reasons.join(", ")
+            }
+        },
+    );
+    let unknown = localized_usage_count(None, language);
+    let cutoff = usage.map_or(unknown.as_str(), |usage| usage.cutoff.as_str());
+    let records = usage.map_or_else(
+        || unknown.clone(),
+        |usage| usage.receipt_refs.len().to_string(),
+    );
+    let counts = usage.map(|usage| usage.totals.clone()).unwrap_or_default();
     let mut items = vec![format!(
-        "{coverage_label}: {coverage}; {cutoff_label}: {}; {reasons_label}: {reasons}; {records_label}: {}",
-        usage.cutoff,
-        usage.receipt_refs.len()
+        "{coverage_label}: {coverage}; {cutoff_label}: {cutoff}; {reasons_label}: {reasons}; {records_label}: {records}",
     )];
     items.push(format!(
         "{totals_label}: {}",
-        localized_usage_counts(&usage.totals, language)
+        localized_usage_counts(&counts, language)
     ));
-    for subtotal in &usage.subtotals {
+    for subtotal in usage.into_iter().flat_map(|usage| &usage.subtotals) {
         let missing = match language {
             "zh" => "未报告",
             "ja" => "未報告",
@@ -2961,20 +2992,18 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
         status_labels.3,
         governance_signal,
     );
-    let usage_section = task_report
-        .and_then(|report| report.usage.as_ref())
-        .map(|usage| {
-            let heading = match language {
-                "zh" => "用量",
-                "ja" => "使用量",
-                _ => "Usage",
-            };
-            format!(
-                "\n\n{heading}\n{}",
-                bullet_lines(&localized_usage_items(usage, language), not_recorded)
-            )
-        })
-        .unwrap_or_default();
+    let usage_heading = match language {
+        "zh" => "用量",
+        "ja" => "使用量",
+        _ => "Usage",
+    };
+    let usage_section = format!(
+        "\n\n{usage_heading}\n{}",
+        bullet_lines(
+            &localized_report_usage_items(task_report, language),
+            not_recorded
+        )
+    );
     format!(
         "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}{usage_section}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
         bullet_lines(&completed_items, not_recorded),
