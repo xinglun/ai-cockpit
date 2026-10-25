@@ -124,21 +124,32 @@ fn frozen_usage_receipt_references_are_visible_in_markdown_and_all_human_views()
     let root = repository();
     let id = "WI-USAGE-VISIBLE-REFS";
     let reference = finish_with_usage(root.path(), id);
-    let report = root.path().join(format!(".ai/work-items/active/{id}.task-report.json"));
+    let report = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.task-report.json"));
     let frozen = fs::read(&report).expect("frozen report bytes");
     let digest = read_work_item_usage(root.path(), id, None)
         .expect("frozen usage")
         .receipt_refs[0]
         .digest
         .to_string();
-    let markdown = fs::read_to_string(root.path().join(format!(".ai/work-items/active/{id}.task-report.md")))
-        .expect("Markdown report");
-    assert!(markdown.contains(&reference) && markdown.contains(&digest), "{markdown}");
+    let markdown = fs::read_to_string(
+        root.path()
+            .join(format!(".ai/work-items/active/{id}.task-report.md")),
+    )
+    .expect("Markdown report");
+    assert!(
+        markdown.contains(&reference) && markdown.contains(&digest),
+        "{markdown}"
+    );
     for language in ["en", "zh", "ja"] {
         for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
             let outcome = outcome_render_input(root.path(), id).expect("read-only Outcome input");
             let rendered = render_human_outcome_with_view(&outcome, language, view);
-            assert!(rendered.contains(&reference) && rendered.contains(&digest), "{language} {view:?}: {rendered}");
+            assert!(
+                rendered.contains(&reference) && rendered.contains(&digest),
+                "{language} {view:?}: {rendered}"
+            );
         }
     }
     assert_eq!(fs::read(&report).expect("report unchanged"), frozen);

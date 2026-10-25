@@ -742,7 +742,7 @@ jobs:
   # be reported as success merely because one revision artifact was uploaded.
   windows-runtime:
     needs: [route, windows-runtime-suites]
-    if: always() && needs.route.result == 'success' && needs.route.outputs.profile != 'light'
+    if: always() && (needs.route.result != 'success' || needs.route.outputs.profile != 'light')
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -780,17 +780,17 @@ jobs:
           import re
           import stat
           import zipfile
-          
-          
+
+
           def require(condition, message):
               if not condition:
                   raise SystemExit(message)
-          
-          
+
+
           def full_revision(value):
               return isinstance(value, str) and re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value)
-          
-          
+
+
           require(os.environ["SUITES_RESULT"] == "success", "Windows matrix did not complete successfully")
           suites = ("boundaries", "repository-library")
           tested = os.environ["GITHUB_SHA"]

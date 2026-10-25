@@ -2101,6 +2101,7 @@ fn localized_usage_items(
         model_assurance_label,
         token_assurance_label,
         records_label,
+        receipt_label,
     ) = match language {
         "zh" => (
             "用量覆盖",
@@ -2114,6 +2115,7 @@ fn localized_usage_items(
             "模型可信度",
             "令牌可信度",
             "记录数",
+            "用量回执",
         ),
         "ja" => (
             "使用量の範囲",
@@ -2127,6 +2129,7 @@ fn localized_usage_items(
             "モデルの保証",
             "トークンの保証",
             "記録数",
+            "使用量の記録",
         ),
         _ => (
             "Usage coverage",
@@ -2140,6 +2143,7 @@ fn localized_usage_items(
             "model assurance",
             "token assurance",
             "records",
+            "Usage receipt",
         ),
     };
     let coverage = match (
@@ -2185,6 +2189,12 @@ fn localized_usage_items(
         "{totals_label}: {}",
         localized_usage_counts(&counts, language)
     ));
+    for reference in usage.into_iter().flat_map(|usage| &usage.receipt_refs) {
+        items.push(format!(
+            "{receipt_label}: {} ({})",
+            reference.path, reference.digest
+        ));
+    }
     for subtotal in usage.into_iter().flat_map(|usage| &usage.subtotals) {
         let missing = match language {
             "zh" => "未报告",
