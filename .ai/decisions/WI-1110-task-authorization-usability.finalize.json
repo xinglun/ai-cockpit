@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual user approval conversation:Sentinel_3ab885f5539c8191bddf45127167085c for exact PR1072 HEAD97ee797f8d8b0477803da5c334ab44c7f66158b4 ready, normal merge, main validation and recoverable exact resource cleanup; delegated agent observations, not human close or GitHub review.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "97ee797f8d8b0477803da5c334ab44c7f66158b4",
+    "name": "codex/wi-1110-task-authorization-usability",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "c85105db9849d8ee27635ee762f98d991955aa21",
+  "contractDigest": "sha256:42a08283bc5180c33abfdec867efad2c72960985161e94352b55e6297da42b5b",
+  "operationId": "github-pr-1072-exact-cleanup-20261025",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c85105db9849d8ee27635ee762f98d991955aa21",
+    "headRevision": "97ee797f8d8b0477803da5c334ab44c7f66158b4",
+    "mergeCommit": "d7d67c94320c5d8af7c5abf98674dcb196d507b2",
+    "number": 1072,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1072"
+  },
+  "reason": "Actual merged main d7d67c94320c5d8af7c5abf98674dcb196d507b2 CI40164544197 passed all four jobs,43 actual repository gates,14 executed packages with matching Linux/Windows revision receipts and zero warning diagnostics in full provider logs. Exact source worktree and local/remote branch were ordinarily removed after a verified Git bundle restored all55 source and35 native files and all7 ignored extra files were hash-checked against preserved copies. All unrelated worktree records and refs remained unchanged. Formal governing verification40157763269 passed54 nodes with zero reuse or timeout; original one stdout truncation remains, with separate complete quality capture. All historical failures retained; token usage unknown, deployed benefit unmeasured. Auxiliary validation branch and audit resources are retained separately.",
+  "receiptId": "WI-1110-task-authorization-usability-exact-cleanup-20261025",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1110-task-authorization-usability",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1072",
+    "worktree": "/workspace/ai-cockpit-wi1110-task-authorization-usability"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-25T05:55:24.049790Z",
+  "workItemId": "WI-1110-task-authorization-usability",
+  "worktree": {
+    "branch": "codex/wi-1110-task-authorization-usability",
+    "headRevision": "97ee797f8d8b0477803da5c334ab44c7f66158b4",
+    "path": "/workspace/ai-cockpit-wi1110-task-authorization-usability",
+    "worktreeId": "sha256:3ddc25b71c849424c540548271602dfe1181a285d00dd015c067f90ce7dc0603"
+  }
+}
