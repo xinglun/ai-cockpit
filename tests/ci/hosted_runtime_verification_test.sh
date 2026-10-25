@@ -19,10 +19,15 @@ make_runtime() {
     >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json"
   printf '{"summary":"must remain byte-for-byte unchanged"}\n' \
     >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json"
+  mkdir -p "$directory/repository/tests/docs" "$directory/repository/tests/ci" "$directory/repository/tests/release"
+  printf 'import os\nraise SystemExit(23 if os.environ.get("FAKE_MODE")=="failed-prechecks" else 0)\n' \
+    >"$directory/repository/tests/docs/governance_cost_baseline_test.py"
+  printf '#!/usr/bin/env bash\nexit 0\n' >"$directory/repository/tests/ci/workflow_convergence_test.sh"
+  printf '#!/usr/bin/env bash\nexit 0\n' >"$directory/repository/tests/release/action_runtime_policy_test.sh"
   git -C "$directory/repository" init -q
   git -C "$directory/repository" config user.name 'Hosted Runtime Test'
   git -C "$directory/repository" config user.email hosted-runtime@example.invalid
-  git -C "$directory/repository" add README.md
+  git -C "$directory/repository" add README.md tests
   git -C "$directory/repository" commit -qm 'hosted Runtime fixture baseline'
   git -C "$directory/repository" add .ai
   git -C "$directory/repository" commit -qm 'commit the Work Item receipt path before hosted verification'
@@ -681,6 +686,11 @@ assert_no_commands "$tmp/blocked/commands.jsonl" preflight verify
 
 run_helper blocked-after-preflight false
 assert_no_commands "$tmp/blocked-after-preflight/commands.jsonl" verify
+
+run_helper failed-prechecks false
+jq -e '.verificationState == "invalidated" and .failureReason == "repository_prechecks_failed"' \
+  "$tmp/failed-prechecks/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/failed-prechecks/commands.jsonl" verify
 
 run_helper invalid-validation false
 jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \

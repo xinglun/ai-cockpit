@@ -226,7 +226,8 @@ validation_report_is_valid() {
   jq -e 'type == "object"
     and (.state | type == "string")
     and (.unknowns | type == "array")
-    and (.findings | type == "array")' "$report_path" >/dev/null
+    and (.findings | type == "array")
+    and all(.findings[]; .severity != "error")' "$report_path" >/dev/null
 }
 
 status_allows() {
@@ -599,6 +600,18 @@ else
     failure_reason=validation_report_invalid
     write_orchestration_report
     printf 'candidate Runtime returned an invalid refreshed Work Item validation report\n' >&2
+    exit 1
+  fi
+
+  # The source-local cheap consumers are prerequisites, not a permission or
+  # a reusable receipt. Run them against this exact isolated source before
+  # any declared project command. Unknown usage does not manufacture errors.
+  if ! bash "$(dirname "$0")/run_repository_prechecks.sh" --repo "$execution_repository" \
+    >"$artifact_dir/hosted-runtime-prechecks.log" 2>&1; then
+    verification_state=invalidated
+    failure_reason=repository_prechecks_failed
+    write_orchestration_report
+    cat "$artifact_dir/hosted-runtime-prechecks.log" >&2
     exit 1
   fi
 
