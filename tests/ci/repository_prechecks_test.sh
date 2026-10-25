@@ -106,7 +106,7 @@ else:raise SystemExit('unexpected Runtime call: '+repr(args))
     assert result.returncode == 0, result.stderr
     assert log.read_text().splitlines() == ["plan"]
     for extra in [["--repo", str(temp)], ["--command", "anything"], ["--unknown-argument"]]:
-        log.unlink()
+        log.unlink(missing_ok=True)
         result = run(args+extra, ROOT, env)
         assert result.returncode != 0
         assert not log.exists(), extra
