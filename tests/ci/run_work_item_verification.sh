@@ -8,13 +8,15 @@ work_item=""
 task_caller=""
 plan_only=false
 declare -a verify_options=()
-declare -A seen=()
+declare -a seen=()
 while [[ $# -gt 0 ]]; do
   flag=$1
-  if [[ -n ${seen[$flag]:-} ]]; then
-    printf 'duplicate managed verification argument: %s\n' "$flag" >&2; exit 2
-  fi
-  seen[$flag]=true
+  for previous in "${seen[@]}"; do
+    if [[ "$previous" == "$flag" ]]; then
+      printf 'duplicate managed verification argument: %s\n' "$flag" >&2; exit 2
+    fi
+  done
+  seen+=("$flag")
   case "$flag" in
     --runtime|--repo|--work-item|--task-caller|--workers|--stage|--timeout-seconds|--base-revision)
       if [[ $# -lt 2 || -z "$2" || "$2" == --* ]]; then

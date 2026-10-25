@@ -665,3 +665,45 @@ Resume with per-WI CLI `work-item status --json --authorization-request <request
 Authority ends on delivery completion, withdrawal or the declared deadline, whichever happens first. To narrow the exact current grant, record `taskAuthorizationTermination` through controls with `schemaVersion:1`, current `grantId`, `decision:"withdrawn"` or `"completed"`, explicit `caller` and `reason`. The immutable bound record is idempotent and cannot restore authority or manufacture business success. Expiry is checked again at each boundary; a child is not started when the remaining time cannot fit its immutable declared budget. An already running effect is observed at its safe boundary, not blindly rolled back.
 
 Archived work permits only declared remaining delivery/resource actions. After a separately valid native human close, only explicitly preauthorized native closeout publication and auxiliary cleanup remain eligible; source work cannot reopen. Mark delivery completed when these duties finish, or stop at withdrawal/deadline. Human close remains separate. This feature is opt-in source functionality; this Work Item does not enable it for itself, replace the shared Runtime, enable external B, or activate production permissions.
+
+
+## Managed cheap-first verification entry
+
+Complete the typed plan before checkpointing. Use canonical acceptance IDs
+such as `S01`, keeping the descriptive name in the scenario text. Record initial
+mapping as `plan` / `unverified`; `work-item validate` and real controls reject
+malformed IDs. A planned mapping is never test evidence or owner approval.
+
+For declared checks in this repository, the managed entry is:
+
+```sh
+bash tests/ci/run_work_item_verification.sh --runtime <approved-fixed-runtime> \
+  --repo <source-root> --work-item <id> --workers 1 --timeout-seconds <finite-approved-ceiling>
+```
+
+It reads canonical validation and current `safeActions`, refreshes preflight
+only when admitted and needed, then runs `run_repository_prechecks.sh` before
+invoking the unchanged Runtime verification. The three cheap consumers are the
+existing documentation/read-budget rules, workflow/test-consumer convergence,
+and pinned action policy. A failure stops before expensive checks; it is not
+an authorization exception or a cached pass. Unknown usage or planned scenarios
+alone do not override Runtime admission. Pass an explicit `--task-caller` when
+Task mode requires it; never infer a caller. `--plan-only` goes directly to the
+Runtime without launching source prechecks or project verification commands.
+The wrapper accepts no arbitrary command overrides. Bare CLI/MCP verification
+has no implicit repository-script hook; do not claim this entry changed Runtime
+semantics. Hosted CI explicitly composes the same source-local cheap consumers.
+
+### Explicit usage source coverage
+
+`work-item usage import` / `work_item_usage_import` accept an explicitly supplied
+`openai-response-json-v1` completed single-response JSON source, read and hashed
+once inside the existing locked writer. Provider counters are source-reported,
+while source provenance remains `caller_claim`; an import is not a verified
+adapter or a complete task total. Replays bind the original response identity
+and exact source bytes. Do not treat cumulative session totals as one invocation,
+read host session directories, call a provider, or estimate missing counters.
+Unavailable actual task usage remains `unknown`, with its reason, coverage and
+cutoff shown consistently in Markdown, summary and full Outcome. Frozen native
+reports retain their original bytes and cutoff; a historical missing field is
+shown as `historical_usage_not_recorded`, not zero-filled from current usage.

@@ -123,3 +123,12 @@ CI gate は `.ai/` の Contract、Summary、checkpoint、verification、decision
 
 object project でも同じ境界を守ります。共有 Runtime は工程の外部にあり、すべての
 request は明示的な `--repo` を持ち、repository Evidence は分離されます。
+
+
+## 軽量な前提ゲートと有界 Windows 分割
+
+CI `route` は共有 Rust ビルド前に `run_repository_prechecks.sh` を実行します。release入力計画はworkflowソースを最初のresolver build前に検査し、release preflightは正確な不変release-sourceをroute tool build前に検査します。元ソースの既存検査を再利用し、旧ソースに新wrapperを要求しません。hosted宣言コマンドも同じ前提を使用します。canonical manifestは全既存ゲートを維持し、軽量前提とその回帰を追加します。全選択ゲートが推移的に依存し、失敗は依存コマンドをblockし、coverage成功とはしません。source／manifest／route／commandの束縛は維持し、古い／別由来の成功reportを暗黙に再利用しません。
+
+`windows-runtime-suites` は元の十三Rustコマンドを `boundaries` と `repository-library` の隔離二組に分け、`max-parallel: 2`／`fail-fast: false` で各一回実行します。完全repository libと厳格workspace Clippyを保ち、部分テストで置換しません。成功時だけのmarkerはsuite、repository、run／attempt、元source／tested receiptを束縛します。失敗時も診断revisionをuploadします。既存名 `windows-runtime` はmatrix全成功と同一runの二artifact／成功marker一致を確認してから成功します。欠落、失敗、取消、別由来を拒否し、light routeはWindowsをskipします。テスト結果cache、新action、credentialは追加しません。
+
+効果は同等な実CIだけで比較します。同じroute、全command、runner／toolchain、source／native laneでroute、quality、二suite、aggregate、全体wall timeと合計runner timeを記録します。隔離suiteではcompileが重複し得ます。構造上の並列化は実装済みでも、比較可能な承認済みhosted evidenceまでは実測速度／cost効果は未測量です。実装runと文書だけのcloseout runを同じbaselineにしません。

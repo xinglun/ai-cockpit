@@ -445,3 +445,21 @@ Schema-v3 の resource finalization は `postMergeSync.lifecycleLayout`（`separ
 認可は交付完了・撤回・期限の最初の事象で終了します。controls の `taskAuthorizationTermination` に `schemaVersion:1`、現在の `grantId`、`decision:"withdrawn"` または `"completed"`、明示 caller、reason を記録します。不変の記録は冪等で、権限を狭めるだけであり、認可復活や業務成功を作りません。各境界で期限を確認し、残り時間が不変の宣言済み予算より短い場合は子プロセスを開始しません。実行中の操作は安全な境界で観測し、盲目的にロールバックしません。
 
 archive 後は宣言済み残余交付／資源操作だけが可能です。別途有効なネイティブの人間 close 後は、事前認可済み closeout 公開と補助資源整理だけを許し、ソース作業を再開できません。交付完了時は completed を記録し、撤回や期限で停止します。人間 close は別判断です。本 WI はこの機能で自己承認せず、共有 Runtime・外部 B・本番権限を有効化しません。
+
+
+## 管理された軽量事前検査エントリ
+
+checkpoint 前に完全な typed plan を保存します。受入 ID は `S01` などの正規形式とし、説明はシナリオ本文に置きます。初期 mapping は `plan` / `unverified` とし、正規の `work-item validate` と controls が不正 ID を拒否します。計画 mapping はテスト成功や人間の承認ではありません。
+
+このリポジトリの宣言済み検証は次のエントリを使います。
+
+```sh
+bash tests/ci/run_work_item_verification.sh --runtime <承認済み固定Runtime> \
+  --repo <ソースroot> --work-item <ID> --workers 1 --timeout-seconds <承認済み有限上限>
+```
+
+正規 validation と現在の `safeActions` を読み、許可され必要な場合だけ preflight を更新し、`run_repository_prechecks.sh` で既存の文書／読取予算、workflow／テストconsumer整合性、action固定版を検査してから Runtime 検証を呼びます。失敗時は高価な検証を開始せず、成功を権限や再利用可能な許可証にしません。用量 unknown や未検証の計画シナリオだけで Runtime 准入を上書きしません。Task mode は明示 `--task-caller` を渡し、呼出元を推測しません。`--plan-only` は事前検査やプロジェクト検証を起動せず Runtime に渡します。任意コマンド上書きは拒否します。裸の CLI／MCP に暗黙のリポジトリhookはなく、hosted CI が同じソース側検査を明示的に組み合わせます。
+
+### 明示的な用量ソースとcoverage
+
+`work-item usage import`／`work_item_usage_import` は明示された `openai-response-json-v1` の単一completed response JSONのみを既存の書込lock内で一度読み、digestを照合します。計数はsource報告で、来歴は `caller_claim` のままです。信頼済みadapterや完全なtask合計ではありません。再実行は元response IDと原バイトに束縛します。累積session合計を一回の呼出しとせず、host session directoryやproviderへアクセスせず、欠損数を推定しません。取得不能の実用量は `unknown`、理由、coverage、cutoffをMarkdown／summary／full Outcomeで表示します。凍結native reportの原バイトとcutoffは維持し、過去の欠損fieldは `historical_usage_not_recorded` と表示して現在の記録で補完しません。

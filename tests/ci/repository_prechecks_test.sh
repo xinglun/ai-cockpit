@@ -78,9 +78,18 @@ elif args[:2]==['work-item','validate']:
       'findings':[{'code':'acceptance_id_invalid','severity':'error','message':'invalid fixture ID'}] if blocked else []}))
 elif args[:2]==['work-item','status']:
     note('status')
+    actions=['run_verification']
+    if os.environ.get('PRECHECK_PROBE_PREFLIGHT')=='1' and not log.with_suffix('.refreshed').exists():actions=['run_preflight']
     print(json.dumps({'schemaVersion':1,'workItemId':'WI-PRECHECK',
       'lifecyclePhase':'checkpointed','humanDecisionRequired':False,'blocking':False,
-      'safeActions':[] if os.environ.get('PRECHECK_PROBE_INVALID')=='1' else ['run_verification']}))
+      'safeActions':[] if os.environ.get('PRECHECK_PROBE_INVALID')=='1' else actions}))
+elif args[0]=='preflight':
+    note('preflight')
+    assert '--contract' in args and '--work-item' not in args
+    contract=Path(args[args.index('--contract')+1])
+    assert contract.name=='WI-PRECHECK.contract.json' and contract.is_file()
+    log.with_suffix('.refreshed').touch()
+    print(json.dumps({'state':'ready'}))
 else:raise SystemExit('unexpected Runtime call: '+repr(args))
 """)
     runtime.chmod(0o755)
@@ -91,6 +100,14 @@ else:raise SystemExit('unexpected Runtime call: '+repr(args))
     calls = log.read_text().splitlines()
     assert calls[-4:] == ["budget", "consumers", "pins", "verify"], calls
     assert calls.count("verify") == 1
+    contract = repo / '.ai/work-items/active/WI-PRECHECK.contract.json'
+    contract.parent.mkdir(parents=True)
+    contract.write_text('{}')
+    log.unlink()
+    result = run(args, ROOT, dict(env, PRECHECK_PROBE_PREFLIGHT="1"))
+    assert result.returncode == 0, result.stderr
+    calls = log.read_text().splitlines()
+    assert calls == ["validate", "status", "preflight", "status", "budget", "consumers", "pins", "verify"], calls
     for name in [item[1] for item in leaves]:
         log.unlink()
         result = run(args, ROOT, dict(env, PRECHECK_PROBE_FAIL=name))

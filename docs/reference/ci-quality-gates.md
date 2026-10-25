@@ -151,3 +151,36 @@ mutable records.
 
 The same boundary applies to an object project: the shared Runtime is external,
 every request carries an explicit `--repo`, and repository evidence is isolated.
+
+
+## Cheap prerequisites and bounded Windows partition
+
+CI `route` runs `run_repository_prechecks.sh` before shared Rust compilation.
+Release input planning checks its workflow source before its first resolver
+build; release preflight checks the exact immutable release-source checkout
+before building the route tool. These reuse the existing source-local checks,
+including older sources that lack the new wrapper. Hosted execution uses the
+same barrier before declared commands. The canonical manifest retains every
+previous gate and adds a cheap prerequisite and its regression; every selected
+gate depends transitively on that barrier. Failure means blocked dependent
+commands, never passed coverage. Source, manifest, route and command bindings
+remain required; a stale or foreign passed report is not an implicit reuse.
+
+`windows-runtime-suites` has two isolated siblings, `boundaries` and
+`repository-library`, with `max-parallel: 2` and `fail-fast: false`. All thirteen
+original Rust commands execute exactly once, including the complete repository
+library and strict workspace Clippy; no test subset replaces full coverage.
+Each success-only marker binds its suite, repository, run/attempt and original
+source/tested revision receipt. Diagnostic revision uploads still run on failure.
+The stable `windows-runtime` check succeeds only when the entire matrix succeeds
+and both exact same-run artifacts and success markers agree. Missing, failed,
+cancelled or foreign records fail closed; a light route skips the Windows work.
+No test-result cache or new action/credential is introduced.
+
+Measure benefit only after equivalent real CI runs: compare the same route,
+full command set, runner/toolchain and source/native lane, recording route,
+quality, both suite and aggregate durations plus end-to-end wall time and summed
+runner time. Compilation may repeat across isolated suites. Structural
+parallelism is implemented; actual speedup and cost remain unmeasured until
+comparable authorized hosted evidence exists. An active implementation run and
+a documentation-only closeout run are not interchangeable baselines.
