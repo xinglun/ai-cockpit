@@ -11898,7 +11898,22 @@ struct VerifiedArchiveArtifacts {
     markdown_digest_mismatch: Option<QuarantinedArchiveArtifact>,
     task_outcome_report: Option<TaskOutcomeReport>,
     archived_summary: serde_json::Value,
+    archived_outcome: serde_json::Value,
+    archived_contract_digest: Digest,
+    archived_events_bytes: Option<Vec<u8>>,
+    verification_evidence_bytes: Option<Vec<u8>>,
+    archive_manifest_digest: Digest,
     archive_manifest: serde_json::Value,
+}
+
+#[derive(Clone, Debug)]
+enum ArchiveTaskOutcomeValidationContext {
+    OrdinaryRead,
+    InitialContractAmendmentRevalidation {
+        predecessor_contract_digest: Digest,
+        current_contract_digest: Digest,
+        verification_evidence_digest: Digest,
+    },
 }
 
 /// Inputs for archive report validation and delivery captured before the
@@ -11941,6 +11956,47 @@ fn verify_archive_manifest_with_report_options_and_hook(
     work_item_id: &str,
     manifest: &serde_json::Value,
     supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    after_outer_digest_checks: &mut dyn FnMut(),
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
+    verify_archive_manifest_with_context_and_hook(
+        root,
+        work_item_id,
+        manifest,
+        supersede_receipt,
+        ArchiveTaskOutcomeValidationContext::OrdinaryRead,
+        after_outer_digest_checks,
+    )
+}
+
+fn verify_archive_manifest_for_contract_amendment_revalidation(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    predecessor_contract_digest: Digest,
+    current_contract_digest: Digest,
+    verification_evidence_digest: Digest,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
+    let mut no_op = || {};
+    verify_archive_manifest_with_context_and_hook(
+        root,
+        work_item_id,
+        manifest,
+        None,
+        ArchiveTaskOutcomeValidationContext::InitialContractAmendmentRevalidation {
+            predecessor_contract_digest,
+            current_contract_digest,
+            verification_evidence_digest,
+        },
+        &mut no_op,
+    )
+}
+
+fn verify_archive_manifest_with_context_and_hook(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    validation_context: ArchiveTaskOutcomeValidationContext,
     after_outer_digest_checks: &mut dyn FnMut(),
 ) -> Result<VerifiedArchiveArtifacts, ObserverError> {
     if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
@@ -12298,6 +12354,7 @@ fn verify_archive_manifest_with_report_options_and_hook(
         manifest,
         &projection,
         supersede_receipt,
+        &validation_context,
     )?;
     let mismatched_report = if supersede_receipt.is_some() {
         let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
@@ -12320,10 +12377,16 @@ fn verify_archive_manifest_with_report_options_and_hook(
     } else {
         None
     };
+    let archive_manifest_digest = Digest::sha256_bytes(&projection.archive_manifest_bytes);
     Ok(VerifiedArchiveArtifacts {
         markdown_digest_mismatch: mismatched_report,
         task_outcome_report,
         archived_summary: projection.summary,
+        archived_outcome: projection.outcome,
+        archived_contract_digest: projection.contract.digest,
+        archived_events_bytes: projection.events_bytes,
+        verification_evidence_bytes: projection.verification_evidence_bytes,
+        archive_manifest_digest,
         archive_manifest: manifest.clone(),
     })
 }
@@ -12334,6 +12397,7 @@ fn validate_archived_task_outcome_projection_binding(
     manifest: &serde_json::Value,
     captured: &CapturedArchiveProjection,
     supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    validation_context: &ArchiveTaskOutcomeValidationContext,
 ) -> Result<Option<TaskOutcomeReport>, ObserverError> {
     let archive = root.join(".ai/work-items/archive");
     let summary_path = archive.join(format!("{work_item_id}.summary.json"));
@@ -12476,9 +12540,21 @@ fn validate_archived_task_outcome_projection_binding(
         });
     }
     if policy.contract_digest != *contract_hash {
+        let evidence_file_digest = Digest::sha256_bytes(evidence_bytes);
+        let exact_initial_revalidation_context = match validation_context {
+            ArchiveTaskOutcomeValidationContext::OrdinaryRead => false,
+            ArchiveTaskOutcomeValidationContext::InitialContractAmendmentRevalidation {
+                predecessor_contract_digest,
+                current_contract_digest,
+                verification_evidence_digest,
+            } => {
+                predecessor_contract_digest == &policy.contract_digest
+                    && current_contract_digest == contract_hash
+                    && verification_evidence_digest == &evidence_file_digest
+            }
+        };
         let recovery = load_recovery_decision(root, work_item_id, None)?;
         if let Some(recovery) = recovery {
-            let evidence_file_digest = Digest::sha256_bytes(evidence_bytes);
             if !archived_outcome_revalidation_receipt_matches(
                 &recovery,
                 work_item_id,
@@ -12494,12 +12570,13 @@ fn validate_archived_task_outcome_projection_binding(
                     message: "archived Task Outcome policy does not match the validated Contract amendment predecessor chain".into(),
                 });
             }
-        } else {
-            // The explicit revalidation operation verifies the frozen report
-            // before it writes its append-only successor receipt.  At this
-            // point the old report is accepted only against its fixed
-            // verification facts above; it is not treated as evidence that
-            // the amended Contract has passed current verification.
+        } else if !exact_initial_revalidation_context {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/decisions")
+                    .join(format!("{work_item_id}.recovery.json")),
+                message: "archived Task Outcome Contract differs from its fixed policy without an exact validated revalidation chain".into(),
+            });
         }
     }
     let policy_digest =

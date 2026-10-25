@@ -4184,6 +4184,298 @@ struct LegacyTerminalArchiveCapture {
 /// Capture a no-Git legacy terminal archive only for the explicit recovery
 /// selection lane. Every manifest-declared file remains byte-bound; this
 /// adapter does not claim a Git-authenticated archive introduction.
+fn reject_current_task_outcome_markers_in_legacy_archive(
+    root: &Path,
+    successor_id: &str,
+    manifest: &serde_json::Value,
+    summary: &serde_json::Value,
+    outcome: &serde_json::Value,
+    declared_events: Option<&[u8]>,
+) -> Result<(), ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{successor_id}.archive.json"));
+    let invalid = |detail: &str| {
+        recovery_decision_error(&manifest_path, "legacy_successor_evidence_invalid", detail)
+    };
+
+    let manifest_files = manifest["files"]
+        .as_object()
+        .ok_or_else(|| invalid("legacy successor archive file manifest is missing"))?;
+    if [
+        "taskReportPath",
+        "taskReportDigest",
+        "taskReportMarkdownPath",
+        "taskReportMarkdownDigest",
+    ]
+    .iter()
+    .any(|key| manifest_files.contains_key(*key))
+    {
+        return Err(invalid(
+            "no-Git legacy terminal archive cannot declare Task Outcome report artifacts",
+        ));
+    }
+    if summary
+        .as_object()
+        .is_some_and(|object| object.contains_key("taskOutcomeProjectionPolicy"))
+        || summary["lifecycleFacts"].as_object().is_some_and(|facts| {
+            facts.contains_key("taskOutcomeProjectionFinishBinding")
+                || facts.contains_key("taskOutcomeProjectionPredecessors")
+        })
+    {
+        return Err(invalid(
+            "no-Git legacy terminal archive contains a current Task Outcome Summary marker",
+        ));
+    }
+    if [
+        "taskOutcomeReport",
+        "taskReportDigest",
+        "taskReportMarkdownDigest",
+    ]
+    .iter()
+    .any(|key| {
+        outcome
+            .as_object()
+            .is_some_and(|object| object.contains_key(*key))
+    }) {
+        return Err(invalid(
+            "no-Git legacy terminal archive contains a current Task Outcome report marker",
+        ));
+    }
+
+    for suffix in ["task-report.json", "task-report.md"] {
+        let path = archive.join(format!("{successor_id}.{suffix}"));
+        match fs::symlink_metadata(&path) {
+            Ok(_) => {
+                return Err(recovery_decision_error(
+                    path,
+                    "legacy_successor_evidence_invalid",
+                    "no-Git legacy terminal archive contains an undeclared Task Outcome report artifact",
+                ));
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(source) => return Err(ObserverError::Read { path, source }),
+        }
+    }
+
+    let events_path = archive.join(format!("{successor_id}.events.jsonl"));
+    let events_bytes = if let Some(bytes) = declared_events {
+        Some(bytes.to_vec())
+    } else {
+        match fs::symlink_metadata(&events_path) {
+            Ok(metadata)
+                if metadata.file_type().is_file() && !metadata.file_type().is_symlink() =>
+            {
+                Some(
+                    super::read_governance_bytes(&events_path).map_err(|source| {
+                        ObserverError::Read {
+                            path: events_path.clone(),
+                            source,
+                        }
+                    })?,
+                )
+            }
+            Ok(_) => {
+                return Err(recovery_decision_error(
+                    events_path,
+                    "legacy_successor_evidence_invalid",
+                    "unmanifested legacy successor event stream is not a regular non-symlink file",
+                ));
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: events_path,
+                    source,
+                });
+            }
+        }
+    };
+    if let Some(bytes) = events_bytes {
+        let text = std::str::from_utf8(&bytes).map_err(|error| {
+            recovery_decision_error(
+                &events_path,
+                "legacy_successor_evidence_invalid",
+                format!("legacy successor event stream is not valid UTF-8: {error}"),
+            )
+        })?;
+        for (index, line) in text.lines().enumerate() {
+            if line.trim().is_empty() {
+                continue;
+            }
+            reject_duplicate_json_keys(line.as_bytes()).map_err(|message| {
+                recovery_decision_error(
+                    &events_path,
+                    "legacy_successor_evidence_invalid",
+                    format!(
+                        "legacy successor event at line {} is invalid: {message}",
+                        index + 1
+                    ),
+                )
+            })?;
+            let value: serde_json::Value = serde_json::from_str(line).map_err(|error| {
+                recovery_decision_error(
+                    &events_path,
+                    "legacy_successor_evidence_invalid",
+                    format!(
+                        "legacy successor event at line {} is invalid: {error}",
+                        index + 1
+                    ),
+                )
+            })?;
+            if value
+                .as_object()
+                .is_some_and(|object| object.contains_key("projectionBinding"))
+            {
+                return Err(recovery_decision_error(
+                    &events_path,
+                    "legacy_successor_evidence_invalid",
+                    "no-Git legacy terminal archive contains a current Task Outcome event binding",
+                ));
+            }
+        }
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod legacy_terminal_projection_marker_tests {
+    use super::*;
+    use serde_json::{Value, json};
+    use tempfile::tempdir;
+
+    #[derive(Clone, Copy, Debug)]
+    enum Marker {
+        Manifest(&'static str),
+        SummaryPolicy,
+        SummaryFinishBinding,
+        SummaryPredecessors,
+        OutcomeReport,
+        OutcomeJsonDigest,
+        OutcomeMarkdownDigest,
+        DeclaredEventBinding,
+        UnmanifestedEventBinding,
+        UnmanifestedJsonReport,
+        UnmanifestedMarkdownReport,
+    }
+
+    fn values() -> (Value, Value, Value) {
+        (
+            json!({"files": {}}),
+            json!({"lifecycleFacts": {}}),
+            json!({}),
+        )
+    }
+
+    fn assert_rejected(marker: Marker) {
+        let root = tempdir().expect("temporary legacy archive root");
+        let archive = root.path().join(".ai/work-items/archive");
+        fs::create_dir_all(&archive).expect("create archive directory");
+        let (mut manifest, mut summary, mut outcome) = values();
+        let successor_id = "WI-LEGACY-MARKER-TEST";
+        let mut declared_events = None;
+
+        match marker {
+            Marker::Manifest(key) => {
+                manifest["files"][key] = json!("marker");
+            }
+            Marker::SummaryPolicy => {
+                summary["taskOutcomeProjectionPolicy"] = json!({});
+            }
+            Marker::SummaryFinishBinding => {
+                summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] = json!({});
+            }
+            Marker::SummaryPredecessors => {
+                summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"] = json!([]);
+            }
+            Marker::OutcomeReport => {
+                outcome["taskOutcomeReport"] = json!({});
+            }
+            Marker::OutcomeJsonDigest => {
+                outcome["taskReportDigest"] = json!("sha256:marker");
+            }
+            Marker::OutcomeMarkdownDigest => {
+                outcome["taskReportMarkdownDigest"] = json!("sha256:marker");
+            }
+            Marker::DeclaredEventBinding => {
+                declared_events = Some(br#"{"projectionBinding":null}"#.as_slice());
+            }
+            Marker::UnmanifestedEventBinding => {
+                fs::write(
+                    archive.join(format!("{successor_id}.events.jsonl")),
+                    br#"{"projectionBinding":null}"#,
+                )
+                .expect("write unmanifested event stream");
+            }
+            Marker::UnmanifestedJsonReport => {
+                fs::write(
+                    archive.join(format!("{successor_id}.task-report.json")),
+                    b"{}",
+                )
+                .expect("write unmanifested JSON report");
+            }
+            Marker::UnmanifestedMarkdownReport => {
+                fs::write(
+                    archive.join(format!("{successor_id}.task-report.md")),
+                    b"# Report\n",
+                )
+                .expect("write unmanifested Markdown report");
+            }
+        }
+
+        let result = reject_current_task_outcome_markers_in_legacy_archive(
+            root.path(),
+            successor_id,
+            &manifest,
+            &summary,
+            &outcome,
+            declared_events,
+        );
+        assert!(
+            result.is_err(),
+            "legacy lane accepted current marker {marker:?}"
+        );
+    }
+
+    #[test]
+    fn legacy_lane_rejects_each_current_task_outcome_marker_and_residual_artifact() {
+        for marker in [
+            Marker::Manifest("taskReportPath"),
+            Marker::Manifest("taskReportDigest"),
+            Marker::Manifest("taskReportMarkdownPath"),
+            Marker::Manifest("taskReportMarkdownDigest"),
+            Marker::SummaryPolicy,
+            Marker::SummaryFinishBinding,
+            Marker::SummaryPredecessors,
+            Marker::OutcomeReport,
+            Marker::OutcomeJsonDigest,
+            Marker::OutcomeMarkdownDigest,
+            Marker::DeclaredEventBinding,
+            Marker::UnmanifestedEventBinding,
+            Marker::UnmanifestedJsonReport,
+            Marker::UnmanifestedMarkdownReport,
+        ] {
+            assert_rejected(marker);
+        }
+    }
+
+    #[test]
+    fn marker_free_legacy_lane_remains_readable() {
+        let root = tempdir().expect("temporary legacy archive root");
+        let archive = root.path().join(".ai/work-items/archive");
+        fs::create_dir_all(&archive).expect("create archive directory");
+        let (manifest, summary, outcome) = values();
+        reject_current_task_outcome_markers_in_legacy_archive(
+            root.path(),
+            "WI-LEGACY-MARKER-TEST",
+            &manifest,
+            &summary,
+            &outcome,
+            None,
+        )
+        .expect("marker-free historical archive remains eligible for legacy validation");
+    }
+}
+
 fn capture_legacy_terminal_archive(
     root: &Path,
     successor_id: &str,
@@ -4307,15 +4599,6 @@ fn capture_legacy_terminal_archive(
             ));
         }
     }
-    // A no-Git legacy adapter has no trusted renderer selection for reports.
-    // Such an archive must stay on the ordinary fixed-history path.
-    if captured.contains_key("taskReport") || captured.contains_key("taskReportMarkdown") {
-        return Err(recovery_decision_error(
-            archive.join(format!("{successor_id}.archive.json")),
-            "legacy_successor_evidence_invalid",
-            "no-Git terminal legacy adapter does not support Task Outcome report artifacts",
-        ));
-    }
     let contract_path = archive.join(format!("{successor_id}.contract.json"));
     let contract_document = super::parse_contract_document(
         captured
@@ -4349,6 +4632,14 @@ fn capture_legacy_terminal_archive(
             "legacy successor Contract identity is not repository-bound",
         ));
     }
+    reject_current_task_outcome_markers_in_legacy_archive(
+        root,
+        successor_id,
+        manifest,
+        &summary,
+        &outcome,
+        captured.get("events").map(Vec::as_slice),
+    )?;
     if let Some(events) = captured.get("events") {
         let events_path = archive.join(format!("{successor_id}.events.jsonl"));
         super::validate_task_outcome_events_bytes(
@@ -4580,13 +4871,9 @@ pub fn revalidate_archived_work_item_with_runtime(
             message: "archived revalidation requires an archive still awaiting close".into(),
         });
     }
-    verify_archive_manifest(&root, work_item_id, &manifest)?;
-
     let contract_path = archive.join(format!("{work_item_id}.contract.json"));
     let summary_path = archive.join(format!("{work_item_id}.summary.json"));
     let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
-    let summary = read_json(&summary_path)?;
-    let outcome = read_json(&outcome_path)?;
     let current_contract_digest = contract_digest(&contract_path)?;
     let evidence_path = root
         .join(".ai/evidence")
@@ -4628,6 +4915,57 @@ pub fn revalidate_archived_work_item_with_runtime(
             contract_path,
             "revalidation_binding_invalid",
             "archived Contract has not changed relative to its historical verification evidence",
+        ));
+    }
+    let expected_evidence_digest = evidence_digest.clone();
+    let verified_archive = super::verify_archive_manifest_for_contract_amendment_revalidation(
+        &root,
+        work_item_id,
+        &manifest,
+        historical_contract_digest.clone(),
+        current_contract_digest,
+        evidence_digest,
+    )?;
+    let summary = verified_archive.archived_summary.clone();
+    let outcome = verified_archive.archived_outcome.clone();
+    let current_contract_digest = verified_archive.archived_contract_digest.clone();
+    let archive_manifest_digest = verified_archive.archive_manifest_digest.clone();
+    let predecessor_events_digest = verified_archive
+        .archived_events_bytes
+        .as_deref()
+        .map(Digest::sha256_bytes);
+    let evidence_bytes = verified_archive
+        .verification_evidence_bytes
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: evidence_path.clone(),
+            message: "historical verification evidence was not captured by archive validation"
+                .into(),
+        })?;
+    let evidence_digest = Digest::sha256_bytes(evidence_bytes);
+    if evidence_digest != expected_evidence_digest {
+        return Err(recovery_decision_error(
+            &evidence_path,
+            "revalidation_evidence_digest_mismatch",
+            "captured historical verification evidence changed during revalidation",
+        ));
+    }
+    let captured_evidence_value: serde_json::Value = serde_json::from_slice(evidence_bytes)
+        .map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!("historical verification evidence JSON is invalid: {error}"),
+        })?;
+    if captured_evidence_value
+        .get("contractDigest")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+        .as_ref()
+        != Some(&historical_contract_digest)
+    {
+        return Err(recovery_decision_error(
+            &evidence_path,
+            "revalidation_evidence_invalid",
+            "captured verification evidence no longer selects the validated predecessor Contract",
         ));
     }
     // Resource-finalization receipts historically used a raw Contract-file
@@ -4683,17 +5021,6 @@ pub fn revalidate_archived_work_item_with_runtime(
         result["state"] = serde_json::json!("idempotent");
         return Ok(result);
     }
-    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
-    let predecessor_events_digest = if optional_regular_artifact(&events_path, "archived Events")? {
-        Some(Digest::sha256_bytes(
-            &super::read_governance_bytes(&events_path).map_err(|source| ObserverError::Read {
-                path: events_path.clone(),
-                source,
-            })?,
-        ))
-    } else {
-        None
-    };
     let receipt = serde_json::json!({
         "schemaVersion": 1,
         "decisionId": "work-item-recovery",
@@ -4712,7 +5039,7 @@ pub fn revalidate_archived_work_item_with_runtime(
             message: error.to_string(),
         })?,
         "predecessorEventsDigest": predecessor_events_digest,
-        "predecessorArchiveManifestDigest": Digest::sha256_bytes(&manifest_bytes),
+        "predecessorArchiveManifestDigest": archive_manifest_digest,
         "predecessorVerificationEvidenceDigest": evidence_digest,
         "predecessorFinalizationContractDigest": predecessor_finalization_contract_digest,
         "successorWorkItemId": &request.successor_work_item_id,
