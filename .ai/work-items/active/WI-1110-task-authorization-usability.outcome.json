@@ -20,9 +20,9 @@
     "The source implementation is opt-in and governs neither itself nor the host platform. No shared Runtime replacement, production authorization activation, external B or release is included. No old WI1087/WI1107 permission or old validation substitutes for this new Work Item.",
     "An explicit staged CLI/MCP start saves the complete typed initial declarations and supplied source references without implicitly running preflight or creating a checkpoint; the existing prepared MCP default stays compatible. A later admitted checkpoint occurs exactly once. Reuse the already merged native sensitive-amendment recovery: only a fresh current-Contract preflight and actual owner decision can resume; stale/foreign/tampered or missing provenance remains rejected. Read actual Runtime schema so the old b2 is not falsely claimed to support initial scenarios or staged MCP."
   ],
-  "createdAt": "2026-10-24T22:29:21.189011670Z",
+  "createdAt": "2026-10-25T00:32:07.616759518Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:0ce1a78eb65b371a3281186248a6ba845d72afe6c2c19259a0af86ed2272f1a4",
+  "evidenceDigest": "sha256:74233a776637f881cd3a63544dd08d7da96dfe2fd78d521ebb917d4fe87eea63",
   "evidenceRefs": [
     ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
   ],
@@ -48,7 +48,7 @@
         ".ai/evidence/WI-1110-task-authorization-usability.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
+      "repositorySnapshotDigest": "sha256:92112239a45bfde8660800cd110b5f3acd278dcf72cf88f7e3cc019355e5e131",
       "workItemId": "WI-1110-task-authorization-usability"
     },
     "format": "ai-cockpit.task-outcome",
@@ -56,148 +56,7 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.cbbe2d8cbfc9e55113baf152232240b2dd26902189a4b84d70c8c0c3c1879bf6.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.d21c47e6785321d579316ccfb76e6679d779fcb8e5f37252bf3235a8a8f2518b.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.f90839959e89f26f0e6ebc65bb1080af53914c8b795916d202f179980035ca23.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000001.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000001.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000002.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000002.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000003.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000003.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000004.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000004.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000005.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000005.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000006.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000006.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.verification-attempt.266917d84188db2aaae5ceb61dbf640c452cc8f75ad8e30bc1ab0a5c29228902.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1110-task-authorization-usability.verification-attempt.b33efbb451c8fb92c26233a91308b31f9ffd5f678f946560fe7b8ebc580dc2c6.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1110-task-authorization-usability.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
-        }
-      ],
+      "deliveredChanges": [],
       "evidence": [
         {
           "evidenceRefs": [
@@ -218,7 +77,15 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1110-task-authorization-usability.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
       "outcomeSummary": [
         {
           "evidenceRefs": [
@@ -270,7 +137,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-24T22:29:21.189011670Z",
+      "cutoff": "2026-10-25T00:32:07.616759518Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -287,8 +154,8 @@
     },
     "workItemId": "WI-1110-task-authorization-usability"
   },
-  "taskReportDigest": "sha256:a8652b1e1ebff7e859d1bd068fa3140e76b4a8159670822b01498258052e3a27",
-  "taskReportMarkdownDigest": "sha256:c8b5a22b66767b6350e85f90c22d770ea4e92afc672baea5fd8a9283852ab20d",
+  "taskReportDigest": "sha256:685345e9caac9ef7889fbaaa512b66dd934d7d7ef93af4e0d2b11d8b013c89f3",
+  "taskReportMarkdownDigest": "sha256:3450dc1113dcc84312c7e1b1e049c5fc9921647f4d38c05c228ad0f84f8ecda9",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -14,26 +14,7 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.cbbe2d8cbfc9e55113baf152232240b2dd26902189a4b84d70c8c0c3c1879bf6.json
-- Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.d21c47e6785321d579316ccfb76e6679d779fcb8e5f37252bf3235a8a8f2518b.json
-- Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.f90839959e89f26f0e6ebc65bb1080af53914c8b795916d202f179980035ca23.json
-- Changed path: .ai/decisions/WI-1110-task-authorization-usability.preflight-review.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000001.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000001.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000002.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000002.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000003.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000003.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000004.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000004.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000005.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000005.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000006.committed.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.contract-amendments/00000006.prepared.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.verification-attempt.266917d84188db2aaae5ceb61dbf640c452cc8f75ad8e30bc1ab0a5c29228902.json
-- Changed path: .ai/evidence/WI-1110-task-authorization-usability.verification-attempt.b33efbb451c8fb92c26233a91308b31f9ffd5f678f946560fe7b8ebc580dc2c6.json
-- Changed path: .ai/work-items/active/WI-1110-task-authorization-usability.contract.json
-- Changed path: .ai/work-items/active/WI-1110-task-authorization-usability.summary.json
+- None
 
 ## Findings
 
