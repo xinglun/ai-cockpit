@@ -1,14 +1,15 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    RuntimeContext, UsageAssurance, UsageCoverage, UsageReceipt, UsageRecordRequest,
-    UsageSourceKind, UsageUnit,
+    RuntimeContext, UsageAssurance, UsageCoverage, UsageImportRequest, UsageReceipt,
+    UsageRecordRequest, UsageSourceKind, UsageUnit,
 };
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, finish_work_item, outcome_render_input, preflight_work_item,
-    query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
-    record_verification, record_work_item_usage, render_human_outcome_with_view,
-    start_work_item_with_options, work_item_status_snapshot_with_runtime,
+    close_work_item_with_decision, finish_work_item, import_work_item_usage, outcome_render_input,
+    preflight_work_item, query_work_item_usage, read_work_item_usage,
+    read_work_item_usage_receipts, record_verification, record_work_item_usage,
+    render_human_outcome_with_view, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command, sync::Arc};
 
@@ -170,6 +171,93 @@ fn generated_markdown_includes_the_frozen_usage_counts_and_cutoff() {
     assert!(markdown.contains("caller_reported_usage_only"));
     assert!(markdown.contains(report["usage"]["cutoff"].as_str().expect("cutoff")));
     assert!(markdown.contains("caller claim"));
+}
+
+fn import_request(root: &std::path::Path, id: &str, bytes: &[u8]) -> UsageImportRequest {
+    fs::write(root.join(".ai/evidence/import-source.json"), bytes).expect("source fixture");
+    UsageImportRequest {
+        schema_version: 1,
+        repository_id: cockpit_repository::repository_id(root).to_string(),
+        work_item_id: id.into(),
+        source_format: "openai-response-json-v1".into(),
+        source_ref: ".ai/evidence/import-source.json".into(),
+        source_digest: Digest::sha256_bytes(bytes),
+        actor: None,
+        configured_model: None,
+        role: "implementer".into(),
+        phase: "implementation".into(),
+    }
+}
+
+#[test]
+fn imported_response_identity_rejects_rebinding_and_preserves_partial_counts() {
+    let root = repository();
+    let id = "WI-IMPORT-BOUND";
+    start(root.path(), id);
+    let bytes = br#"{"object":"response","status":"completed","id":"resp_shared","usage":{"input_tokens":7,"output_tokens":3}}"#;
+    let input = import_request(root.path(), id, bytes);
+    let first = import_work_item_usage(root.path(), &input, &runtime()).expect("import");
+    assert_eq!(first.model_assurance, UsageAssurance::Unknown);
+    assert_eq!(first.token_assurance, UsageAssurance::CallerClaim);
+    assert_eq!(
+        import_work_item_usage(root.path(), &input, &runtime()).expect("replay"),
+        first
+    );
+    let summary = read_work_item_usage(root.path(), id, None).expect("summary");
+    assert_eq!(summary.coverage, UsageCoverage::Partial);
+    assert_eq!(summary.totals.input_tokens, Some(7));
+    assert_eq!(summary.totals.output_tokens, Some(3));
+    assert_eq!(summary.totals.cached_input_tokens, None);
+    assert_eq!(summary.totals.reasoning_tokens, None);
+    assert_eq!(summary.receipt_refs.len(), 1);
+    fs::write(root.path().join(".ai/evidence/same-response.json"), bytes).expect("second path");
+    let mut relocated = input.clone();
+    relocated.source_ref = ".ai/evidence/same-response.json".into();
+    assert!(import_work_item_usage(root.path(), &relocated, &runtime()).is_err());
+    start(root.path(), "WI-IMPORT-FOREIGN");
+    let mut foreign = input.clone();
+    foreign.work_item_id = "WI-IMPORT-FOREIGN".into();
+    assert!(import_work_item_usage(root.path(), &foreign, &runtime()).is_err());
+    foreign = input.clone();
+    foreign.repository_id = Digest::sha256_bytes(b"foreign repo").to_string();
+    assert!(import_work_item_usage(root.path(), &foreign, &runtime()).is_err());
+    assert_eq!(
+        read_work_item_usage(root.path(), id, None)
+            .expect("unchanged")
+            .receipt_refs
+            .len(),
+        1
+    );
+}
+
+#[test]
+fn usage_import_rejects_changed_source_digest_and_duplicate_or_malformed_json() {
+    let root = repository();
+    let id = "WI-IMPORT-SOURCE";
+    start(root.path(), id);
+    let input = import_request(
+        root.path(),
+        id,
+        br#"{"object":"response","id":"resp_source","status":"completed","usage":null}"#,
+    );
+    fs::write(root.path().join(&input.source_ref), b"changed bytes").expect("changed source");
+    assert!(
+        import_work_item_usage(root.path(), &input, &runtime())
+            .expect_err("changed digest")
+            .to_string()
+            .contains("digest")
+    );
+    for bytes in [b"{ broken".as_slice(), br#"{"object":"response","id":"resp_source","status":"completed","usage":{"input_tokens":1,"input_tokens":9}}"#.as_slice()] {
+        let input = import_request(root.path(), id, bytes);
+        let error = import_work_item_usage(root.path(), &input, &runtime()).expect_err("invalid source").to_string();
+        assert!(error.contains("malformed") && error.contains("duplicate"), "{error}");
+    }
+    assert!(
+        read_work_item_usage(root.path(), id, None)
+            .expect("read only")
+            .receipt_refs
+            .is_empty()
+    );
 }
 
 #[test]
