@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1112-windows-archive-byte-preservation",
+  "contractDigest": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+  "materialManifestDigest": "sha256:c945d25dbdc9413cf7de35b9f37d167ffb3cbe5c789c16476a98eee2dc786986",
+  "profileDigest": "sha256:255c7d32ded491a3385ca53bef797236b7786d86589627b0f4b54fba0518816e",
+  "requestDigest": "sha256:add96e6a8640ad4e2c81e38ee0e5ed39c6f85fc325bfccb992447998a7b286c9",
+  "reviewedSourceHead": "8f561fe7422a7fbc8cd4464adaec66fb350db181",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; limited to WI-1112 material request sha256:d73ebcf8cc409fa693c2f17ee337cb8f35a2d0d48bc3f4daca2b2ae9d3286358 and manifest sha256:c945d25dbdc9413cf7de35b9f37d167ffb3cbe5c789c16476a98eee2dc786986; four current readable_committed_rust_syntax_unknown materials only; no future material changes)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:3afb7346672eed117d57f3ebe907984dbef755f9b0e342e010c7459cb13f2599"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:3f19a024873d8248b318c6f7eb5da6a2e47178b834df8ae83516db70476b6a11"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    }
+  ],
+  "rationale": "As agent:codex, record a self-declared review of exactly the four current readable_committed_rust_syntax_unknown materials. Ray confirmed WI-1112 sequence 3 and approved these same material identities under the current request and manifest in message Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0. The materials remain scanner Unknown; this receipt does not change that classification or claim Windows-hosted CI success.",
+  "residualRisk": "All four materials remain Unknown because the scanner cannot classify their Rust syntax. This decision is limited to the current WI-1112 Contract, request, manifest, cause, and four exact blob/hunk identities; any material or binding change requires a new review.",
+  "recordedAt": "2026-10-26T09:18:25Z",
+  "receiptDigest": "sha256:72fe1b0bdb68ccf07599a2dcb5b143444f7a16d9fca8c9fc63592e10719dc6c4"
+}

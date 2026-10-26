@@ -25,15 +25,74 @@
   "documentationImpact": null,
   "executionDecision": null,
   "goal": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity.",
-  "governancePolicy": null,
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi-1112-task-timeout-v1",
+    "rules": [
+      {
+        "approvalMode": "no_human_approval_for_low_risk",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 900,
+          "policyRefs": [
+            "wi-1112-task-timeout-v1"
+          ],
+          "reason": "Authorize the requested 900-second maximum for this Work Item's local task verification commands.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task"
+          ]
+        }
+      }
+    ]
+  },
   "governanceProfile": {
     "materialInspectionReview": {
       "acceptResidualRisk": true,
       "assurance": "self_declared",
-      "authoritySource": "conversation:Sentinel_557e7c4b92a88191ae6dc1c956b8f0d8 (Ray approval, 2026-10-26T06:28:48Z; limited to the three unchanged WI-1112 material identities in request sha256:4540aaead83a5e8e6bd6d280bbf9974fe76495e7084fd78664ec14761dd49e25 and manifest sha256:c0ae4111e231ec40ce0969ae6e0408613fadae1db8e892d5e15a1763958f0740; not future changes)",
+      "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending.",
       "permittedCause": "readable_committed_rust_syntax_unknown",
       "permittedUnknown": "repository_material_inspection_unavailable",
       "reviewerActor": "agent:codex",
+      "schemaVersion": 1
+    },
+    "taskAuthorization": {
+      "agentActor": "agent:codex",
+      "allowedActions": [
+        "modify_source",
+        "checkpoint",
+        "run_preflight",
+        "run_verification",
+        "review_development_amendment",
+        "record_governance_controls",
+        "record_material_review_decision",
+        "finish",
+        "archive_when_reviewed",
+        "publish_branch",
+        "create_pull_request",
+        "merge_pull_request",
+        "finalize_resources",
+        "record_finalization",
+        "finalize_verify",
+        "cleanup_resources",
+        "publish_native_closeout",
+        "cleanup_auxiliary_resources"
+      ],
+      "authoritySource": "conversation:Sentinel_98f28639a3bc819199a1088f18184b9d (user authorization, 2026-10-26T11:43:44Z; bounded WI-1112 lifecycle grant stated in assistant message Sentinel_40c2f8e9b07c81919e46513f48d06273).",
+      "closeoutActions": [
+        "publish_native_closeout",
+        "cleanup_auxiliary_resources"
+      ],
+      "expiresAt": "2026-11-02T12:00:00Z",
+      "publicTarget": {
+        "baseBranch": "codex/wi-1111-token-outcome-ci",
+        "provider": "github",
+        "repository": "xinglun/ai-cockpit"
+      },
       "schemaVersion": 1
     }
   },
@@ -65,6 +124,7 @@
     "verification"
   ],
   "requiredRuntimeCapabilities": [
+    "bounded-task-authorization",
     "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"

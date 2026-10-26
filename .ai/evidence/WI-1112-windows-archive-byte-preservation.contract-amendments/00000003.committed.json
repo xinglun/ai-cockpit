@@ -1,0 +1,89 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:267b15d36fab4e82e7eb8d20dbd493b50361520c5d398ebc54d539d51c75b376",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1112-windows-archive-byte-preservation",
+    "sequence": 3,
+    "changeId": "wi1112-current-material-authority-and-900s-timeout-20261026",
+    "requestDigest": "sha256:ec39145d4a7c280cc5c74df9cdf763ab3380d6c52f0db6177f6c12bdbf3ddcb9",
+    "reason": "Bind the current four-material self-declared review to Ray's exact approval, and set the approved local verification timeout ceiling to 900 seconds without changing commands, scope, evidence requirements, or assertions.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_557e7c4b92a88191ae6dc1c956b8f0d8 (Ray approval, 2026-10-26T06:28:48Z; limited to the three unchanged WI-1112 material identities in request sha256:4540aaead83a5e8e6bd6d280bbf9974fe76495e7084fd78664ec14761dd49e25 and manifest sha256:c0ae4111e231ec40ce0969ae6e0408613fadae1db8e892d5e15a1763958f0740; not future changes)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; limited to WI-1112 material request sha256:d73ebcf8cc409fa693c2f17ee337cb8f35a2d0d48bc3f4daca2b2ae9d3286358 and manifest sha256:c945d25dbdc9413cf7de35b9f37d167ffb3cbe5c789c16476a98eee2dc786986; four current readable_committed_rust_syntax_unknown materials only; no future material changes)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/governancePolicy",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi-1112-task-timeout-v1",
+          "rules": [
+            {
+              "approvalMode": "no_human_approval_for_low_risk",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi-1112-task-timeout-v1"
+                ],
+                "reason": "Authorize the requested 900-second maximum for this Work Item's local task verification commands.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:452192b7cbeef1059127b6f14cc2694002391e2af0db2e0b1f08707faa181335",
+    "newContractDigest": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+    "repositorySnapshotDigest": "sha256:6d68423578faec6edce5ffcf642894e285601e31aea97b191676e0b10d6ce2f9",
+    "environmentObservationDigest": "sha256:3fa7424b94464ce656fd0a1c9d42f323d3c647b8e4f7d8d938b5c04f57be7d07",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy",
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:f98eff7046dc8656655a93883f94fc28042cb1fdc28765df4594c2fb260928f8",
+    "journalDigest": "sha256:cce64bb925627cdab76cad6ee29b6be783fb5ace87baab9ee9598e9f091a94dd",
+    "recordedAt": "2026-10-26T09:05:28Z"
+  }
+}

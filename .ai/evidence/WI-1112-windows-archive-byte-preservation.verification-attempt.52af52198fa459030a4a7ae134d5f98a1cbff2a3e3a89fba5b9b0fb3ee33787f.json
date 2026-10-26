@@ -1,0 +1,24 @@
+{
+  "attemptId": "sha256:52af52198fa459030a4a7ae134d5f98a1cbff2a3e3a89fba5b9b0fb3ee33787f",
+  "commands": [],
+  "contractDigest": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+  "contractExecutionScopeDigest": "sha256:d56ab57bcf876ef98693eaa5f0315a6b83f788b6de3f5e0c82aec87194793bf3",
+  "createdAt": "2026-10-26T10:49:42Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1112-windows-archive-byte-preservation/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b62a90023bcdbc016e4d5fe41047bef1fe5455534f61f0199490c0a5a0f8a599",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}
