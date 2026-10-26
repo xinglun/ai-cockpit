@@ -3409,8 +3409,10 @@ pub(crate) fn delegated_review_is_current(
 mod tests {
     use super::{AmendmentFailpoint, set_amendment_failpoint};
     use crate::{
-        ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, attach,
-        checkpoint_work_item, preflight_work_item, read_work_item_contract_amendments,
+        ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract,
+        amend_work_item_contract_with_runtime, attach, checkpoint_work_item,
+        plan_work_item_material_review, preflight_work_item, preflight_work_item_with_runtime,
+        read_work_item_contract_amendments, record_work_item_material_review,
         start_work_item_with_options,
     };
     use serde_json::{Value, json};
@@ -3456,6 +3458,216 @@ mod tests {
 
     fn read_json(path: impl AsRef<Path>) -> Value {
         serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+    }
+
+    fn material_profile_amendment_fixture(
+        work_item_id: &str,
+    ) -> (
+        tempfile::TempDir,
+        cockpit_protocol::RuntimeContext,
+        PathBuf,
+        PathBuf,
+        PathBuf,
+        Vec<u8>,
+        Value,
+        Value,
+    ) {
+        let directory = tempfile::tempdir().expect("repository tempdir");
+        let root = directory.path();
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(root)
+                .status()
+                .expect("git init")
+                .success()
+        );
+        fs::write(root.join("README.md"), "baseline\n").expect("README");
+        assert!(
+            Command::new("git")
+                .args(["add", "README.md"])
+                .current_dir(root)
+                .status()
+                .expect("git add baseline")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.invalid",
+                    "commit",
+                    "-qm",
+                    "baseline",
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit baseline")
+                .success()
+        );
+        let base_revision = Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(root)
+            .output()
+            .expect("read baseline revision");
+        assert!(base_revision.status.success());
+        let base_revision = String::from_utf8(base_revision.stdout)
+            .expect("UTF-8 baseline revision")
+            .trim()
+            .to_owned();
+        attach(root).expect("attach repository");
+        fs::create_dir_all(root.join("src")).expect("source directory");
+        fs::write(
+            root.join("src/material.rs"),
+            "fn material() -> String { let mut x = String::from(\"token\"); x.push_str(\"ization\"); x }\n",
+        )
+        .expect("committed reviewable Rust material");
+        assert!(
+            Command::new("git")
+                .args(["add", "README.md", "src/material.rs"])
+                .current_dir(root)
+                .status()
+                .expect("git add fixture source")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.invalid",
+                    "commit",
+                    "-qm",
+                    "material review fixture",
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit source")
+                .success()
+        );
+
+        let mut contract: cockpit_protocol::Contract = serde_json::from_value(json!({
+            "protocolVersion": 1,
+            "repositoryId": crate::repository_id(root).to_string(),
+            "workItemId": work_item_id,
+            "intent": "review bounded committed material",
+            "goal": "retain exact material evidence across an interrupted profile amendment",
+            "scope": ["README.md", "src/material.rs"],
+            "outOfScope": [],
+            "risk": "high",
+            "authority": "authorized",
+            "acceptanceCriteria": ["preserve an exact profile transition during retry"],
+            "requiredEvidenceClasses": [],
+            "baseRevision": base_revision,
+            "projectProfileDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "repositorySnapshotDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }))
+        .expect("fixture Contract");
+        let project: Value = read_json(root.join(".ai/project.json"));
+        contract.project_profile_digest = project["profileDigest"]
+            .as_str()
+            .expect("project profile digest")
+            .parse()
+            .expect("typed project profile digest");
+        contract.governance_profile = Some(json!({
+            "materialInspectionReview": {
+                "schemaVersion": 1,
+                "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown",
+                "assurance": "self_declared",
+                "reviewerActor": "agent:fixture",
+                "authoritySource": "user:synthetic profile transition fixture",
+                "acceptResidualRisk": true
+            }
+        }));
+        contract.required_runtime_capabilities =
+            vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.into()];
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
+        persisted_contract["predecessorWorkItemId"] = Value::Null;
+        persisted_contract["predecessorContractDigest"] = Value::Null;
+        persisted_contract["recoveryDecisionPath"] = Value::Null;
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
+        )
+        .expect("write active fixture Contract");
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&json!({
+                "workItemId": work_item_id,
+                "state": "implementation_active",
+                "checkpointCount": 0,
+                "createdAt": "2026-10-07T00:00:00Z"
+            }))
+            .expect("Summary JSON"),
+        )
+        .expect("write active fixture Summary");
+
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(
+                b"profile-transition-amendment-failpoint",
+            ),
+        };
+        preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight current material profile");
+        let request = plan_work_item_material_review(root, work_item_id)
+            .expect("plan current reviewable syntax Unknown");
+        let input: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+            serde_json::from_value(json!({
+                "schemaVersion": 1,
+                "decision": "accept_permitted_unknowns",
+                "requestDigest": request.request_digest,
+                "reviewerActor": "agent:fixture",
+                "authoritySource": "user:synthetic profile transition fixture",
+                "assurance": "self_declared",
+                "evidenceRefs": [{
+                    "path": "docs/review-evidence.md",
+                    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                }],
+                "rationale": "Review only this isolated syntax Unknown.",
+                "residualRisk": "The isolated scanner does not parse this Rust syntax."
+            }))
+            .expect("typed self-declared material review input");
+        record_work_item_material_review(root, work_item_id, &input, &runtime)
+            .expect("write the exact prior test receipt");
+        let summary = read_json(&summary_path);
+        let pointer = summary["materialReviewReceipt"].clone();
+        let old_sidecar_path = root.join(pointer["path"].as_str().expect("sidecar path"));
+        let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old receipt sidecar");
+        let old_contract_digest =
+            cockpit_protocol::digest_json(&read_json(&contract_path)).expect("Contract digest");
+        let request = json!({
+            "schemaVersion": 1,
+            "changeId": format!("{work_item_id}-profile-transition-retry"),
+            "expectedContractDigest": old_contract_digest,
+            "reason": "preserve exact prior material review through a typed profile change",
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:fixture-updated"
+            }]
+        });
+        (
+            directory,
+            runtime,
+            contract_path,
+            summary_path,
+            old_sidecar_path,
+            old_sidecar_bytes,
+            pointer,
+            request,
+        )
     }
 
     #[test]
@@ -3871,5 +4083,191 @@ mod tests {
                 "exactly one prepared and one committed record for {suffix}"
             );
         }
+    }
+
+    #[test]
+    fn profile_transition_retries_exactly_once_after_durable_interruptions() {
+        for (suffix, failpoint, contract_replaced, commit_written) in [
+            ("PREPARED", AmendmentFailpoint::Prepared, false, false),
+            (
+                "CONTRACT_REPLACED",
+                AmendmentFailpoint::ContractReplaced,
+                true,
+                false,
+            ),
+            (
+                "COMMIT_MARKED",
+                AmendmentFailpoint::CommitMarked,
+                true,
+                true,
+            ),
+        ] {
+            let work_item_id = format!("WI-PROFILE-TRANSITION-{suffix}");
+            let (
+                directory,
+                runtime,
+                contract_path,
+                summary_path,
+                old_sidecar_path,
+                old_sidecar_bytes,
+                old_pointer,
+                request,
+            ) = material_profile_amendment_fixture(&work_item_id);
+            let root = directory.path();
+            let summary_before = fs::read(&summary_path).expect("Summary before interruption");
+            let prepared_path = super::amendment_record_path(root, &work_item_id, 1, "prepared");
+            let committed_path = super::amendment_record_path(root, &work_item_id, 1, "committed");
+
+            set_amendment_failpoint(failpoint);
+            let error =
+                amend_work_item_contract_with_runtime(root, &work_item_id, &request, "", &runtime)
+                    .expect_err("failpoint interrupts the exact typed profile transition");
+            assert!(
+                error.to_string().contains("injected interruption"),
+                "{error}"
+            );
+            assert!(prepared_path.is_file(), "prepared record survives {suffix}");
+            let prepared_before_retry: Value = read_json(&prepared_path);
+            let transition_before_retry =
+                prepared_before_retry["prepared"]["materialReviewProfileTransition"].clone();
+            assert!(
+                !transition_before_retry.is_null(),
+                "prepared transition survives interruption {suffix}"
+            );
+            assert_eq!(
+                committed_path.is_file(),
+                commit_written,
+                "commit boundary {suffix}"
+            );
+            let contract = read_json(&contract_path);
+            assert_eq!(
+                contract["governanceProfile"]["materialInspectionReview"]["reviewerActor"],
+                if contract_replaced {
+                    "agent:fixture-updated"
+                } else {
+                    "agent:fixture"
+                },
+                "Contract state at interruption {suffix}"
+            );
+            if commit_written {
+                assert_eq!(
+                    read_work_item_contract_amendments(root, &work_item_id)
+                        .expect("commit-marked journal is complete")
+                        .len(),
+                    1
+                );
+            } else {
+                assert!(
+                    read_work_item_contract_amendments(root, &work_item_id)
+                        .expect_err("uncommitted transition remains unreadable")
+                        .to_string()
+                        .contains("unresolved Contract amendment transaction")
+                );
+            }
+
+            amend_work_item_contract_with_runtime(root, &work_item_id, &request, "", &runtime)
+                .expect("retry resumes the same prepared transition");
+            let history = read_work_item_contract_amendments(root, &work_item_id)
+                .expect("recovered profile transition history");
+            assert_eq!(history.len(), 1, "retry adds no duplicate for {suffix}");
+            assert_eq!(history[0].sequence, 1);
+            assert_eq!(
+                history[0].change_id,
+                request["changeId"].as_str().expect("changeId")
+            );
+            assert_eq!(
+                history[0].material_review_profile_transition.as_ref(),
+                Some(&transition_before_retry),
+                "retry preserves the exact prepared transition payload {suffix}"
+            );
+            assert_eq!(
+                fs::read(&old_sidecar_path).expect("old immutable receipt"),
+                old_sidecar_bytes,
+                "recovery never changes old receipt bytes {suffix}"
+            );
+            assert_eq!(
+                fs::read(&summary_path).expect("Summary after retry"),
+                summary_before,
+                "uncheckpointed profile transition does not fabricate a receipt projection {suffix}"
+            );
+            let summary: Value = read_json(&summary_path);
+            assert_eq!(summary["materialReviewReceipt"], old_pointer, "{suffix}");
+        }
+    }
+
+    #[test]
+    fn committed_profile_transition_must_match_rehashed_prepared_payload() {
+        let work_item_id = "WI-PROFILE-TRANSITION-PAYLOAD-MISMATCH";
+        let (
+            directory,
+            runtime,
+            _contract_path,
+            summary_path,
+            old_sidecar_path,
+            old_sidecar_bytes,
+            old_pointer,
+            request,
+        ) = material_profile_amendment_fixture(work_item_id);
+        let root = directory.path();
+        amend_work_item_contract_with_runtime(root, work_item_id, &request, "", &runtime)
+            .expect("write a valid typed profile transition");
+
+        let prepared_path = super::amendment_record_path(root, work_item_id, 1, "prepared");
+        let committed_path = super::amendment_record_path(root, work_item_id, 1, "committed");
+        let mut prepared: super::PreparedRecord =
+            super::read_typed_record(&prepared_path).expect("prepared journal");
+        let transition = prepared
+            .prepared
+            .material_review_profile_transition
+            .as_mut()
+            .expect("prepared transition");
+        transition["nextRequest"]["requestDigest"] =
+            json!(cockpit_core::Digest::sha256_bytes(b"detached next request").to_string());
+        let mut transition_core = transition.clone();
+        transition_core
+            .as_object_mut()
+            .expect("transition object")
+            .remove("transitionDigest");
+        let transition_digest = cockpit_protocol::digest_json(&(
+            "ai-cockpit:material-review-profile-transition:v1",
+            transition_core,
+        ))
+        .expect("rehash transition payload");
+        transition["transitionDigest"] = json!(transition_digest.to_string());
+
+        prepared.prepared_digest =
+            super::record_digest(&prepared.prepared, &prepared_path).expect("prepared digest");
+        let prepared_digest = prepared.prepared_digest.clone();
+        fs::write(
+            &prepared_path,
+            serde_json::to_vec_pretty(&prepared).expect("prepared JSON"),
+        )
+        .expect("write rehashed prepared payload");
+        let mut committed: super::CommittedRecord =
+            super::read_typed_record(&committed_path).expect("committed journal");
+        committed.prepared_digest = prepared_digest;
+        fs::write(
+            &committed_path,
+            serde_json::to_vec_pretty(&committed).expect("committed JSON"),
+        )
+        .expect("bind commit to rehashed prepared payload");
+
+        let error = read_work_item_contract_amendments(root, work_item_id)
+            .expect_err("divergent prepared and committed transition payloads fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("committed record is detached from its prepared amendment"),
+            "unexpected mismatch rejection: {error}"
+        );
+        assert_eq!(
+            fs::read(&old_sidecar_path).expect("old immutable receipt"),
+            old_sidecar_bytes
+        );
+        assert_eq!(
+            read_json(&summary_path)["materialReviewReceipt"],
+            old_pointer,
+            "failed transition validation leaves the existing pointer unchanged"
+        );
     }
 }

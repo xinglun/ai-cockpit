@@ -8,7 +8,7 @@ use cockpit_repository::{
     read_work_item_contract_amendments, record_work_item_governance_controls_with_runtime,
     validate_material_review_decision,
 };
-use serde_json::json;
+use serde_json::{Value, json};
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -165,6 +165,106 @@ fn active_recorded_material_review_fixture() -> (
         sidecar_path,
         input,
     )
+}
+
+struct ValidProfileTransitionFixture {
+    directory: tempfile::TempDir,
+    runtime: cockpit_protocol::RuntimeContext,
+    contract_path: PathBuf,
+    summary_path: PathBuf,
+    old_sidecar_path: PathBuf,
+    old_sidecar_bytes: Vec<u8>,
+    old_pointer: Value,
+    current_input: MaterialInspectionReviewDecisionInput,
+}
+
+fn valid_profile_transition_fixture() -> ValidProfileTransitionFixture {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut current_input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let original_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let old_pointer = original_summary["materialReviewReceipt"].clone();
+    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
+    let old_contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
+    let reason = "preserve the prior exact review through an authorized profile amendment";
+    amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "material-review-profile-transition-fixture",
+            "expectedContractDigest": old_contract_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:Raydot-Updated"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect("typed profile amendment creates an exact transition");
+
+    let current_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("amended Contract"))
+            .expect("amended Contract JSON");
+    let current_contract_digest =
+        cockpit_protocol::digest_json(&current_contract).expect("current Contract digest");
+    let current_request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("current material request");
+    current_input.request_digest = current_request.request_digest.clone();
+    current_input.reviewer_actor = "agent:Raydot-Updated".into();
+
+    cockpit_repository::preflight_work_item(root, &contract_path)
+        .expect("preflight exact profile-amended Contract");
+    let preflight_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("preflight Summary"))
+            .expect("preflight Summary JSON");
+    let decision = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-MATERIAL",
+        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "contractDigest": current_contract_digest,
+        "preflightDecisionDigest": preflight_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": preflight_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-08T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "isolated fixture confirms only its exact amended Contract"
+    });
+    cockpit_repository::record_work_item_governance_controls(
+        root,
+        "WI-MATERIAL",
+        &json!({"decisionEvidence": decision}),
+    )
+    .expect("record fixture-only preflight decision");
+
+    ValidProfileTransitionFixture {
+        directory,
+        runtime,
+        contract_path,
+        summary_path,
+        old_sidecar_path,
+        old_sidecar_bytes,
+        old_pointer,
+        current_input,
+    }
+}
+
+fn rehash_profile_transition(transition: &mut Value) {
+    let mut core = transition.clone();
+    core.as_object_mut()
+        .expect("transition object")
+        .remove("transitionDigest");
+    let digest =
+        cockpit_protocol::digest_json(&("ai-cockpit:material-review-profile-transition:v1", core))
+            .expect("transition digest");
+    transition["transitionDigest"] = json!(digest.to_string());
 }
 
 #[test]
@@ -1412,6 +1512,10 @@ fn valid_profile_amendment_preserves_exact_prior_receipt_as_history() {
         "the transition itself must not discharge the current request's Unknown"
     );
     assert!(
+        !status.safe_actions.contains(&"finish".into()),
+        "a history transition alone cannot admit finish before a fresh current-request decision"
+    );
+    assert!(
         !status
             .effective_unknowns
             .contains(&"material_review_receipt_invalid".into()),
@@ -1491,6 +1595,453 @@ fn valid_profile_amendment_preserves_exact_prior_receipt_as_history() {
         transitions[0]["nextRequest"]["requestDigest"],
         request.request_digest.to_string()
     );
+}
+
+#[test]
+fn profile_transition_captured_fields_cannot_be_rebound_by_rehashing_local_digest() {
+    type TransitionMutation = (&'static str, fn(&mut Value));
+    let mutations: [TransitionMutation; 14] = [
+        ("schemaVersion", |transition| {
+            transition["schemaVersion"] = json!(2)
+        }),
+        ("repositoryId", |transition| {
+            transition["repositoryId"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign repo").to_string())
+        }),
+        ("workItemId", |transition| {
+            transition["workItemId"] = json!("WI-FOREIGN")
+        }),
+        ("previousContract", |transition| {
+            transition["previousContract"]["goal"] = json!("forged previous Contract")
+        }),
+        ("previousContractDigest", |transition| {
+            transition["previousContractDigest"] = json!(
+                cockpit_core::Digest::sha256_bytes(b"foreign predecessor Contract").to_string()
+            )
+        }),
+        ("nextContract", |transition| {
+            transition["nextContract"]["goal"] = json!("forged next Contract")
+        }),
+        ("nextContractDigest", |transition| {
+            transition["nextContractDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign successor Contract").to_string())
+        }),
+        ("previousProfileDigest", |transition| {
+            transition["previousProfileDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign previous profile").to_string())
+        }),
+        ("nextProfileDigest", |transition| {
+            transition["nextProfileDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign next profile").to_string())
+        }),
+        ("previousRequest", |transition| {
+            transition["previousRequest"]["requestDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign previous request").to_string())
+        }),
+        ("nextRequest", |transition| {
+            transition["nextRequest"]["requestDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign next request").to_string())
+        }),
+        ("previousPointer", |transition| {
+            transition["previousPointer"]["requestDigest"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"replayed pointer").to_string())
+        }),
+        ("previousReceipt", |transition| {
+            transition["previousReceipt"]["workItemId"] = json!("WI-FOREIGN")
+        }),
+        ("previousReceipt.repositoryId", |transition| {
+            transition["previousReceipt"]["repositoryId"] =
+                json!(cockpit_core::Digest::sha256_bytes(b"foreign receipt repo").to_string())
+        }),
+    ];
+
+    for (field, mutate) in mutations {
+        let fixture = valid_profile_transition_fixture();
+        let root = fixture.directory.path();
+        let committed_path =
+            root.join(".ai/evidence/WI-MATERIAL.contract-amendments/00000001.committed.json");
+        let original_committed = fs::read(&committed_path).expect("committed journal bytes");
+        let mut committed: Value =
+            serde_json::from_slice(&original_committed).expect("committed journal JSON");
+        let transition = committed["receipt"]["materialReviewProfileTransition"]
+            .as_object_mut()
+            .expect("committed transition object");
+        let mut transition = Value::Object(transition.clone());
+        mutate(&mut transition);
+        // An attacker can recompute the transition-local digest, but cannot
+        // detach it from the prepared record and committed journal anchor.
+        rehash_profile_transition(&mut transition);
+        committed["receipt"]["materialReviewProfileTransition"] = transition;
+        fs::write(
+            &committed_path,
+            serde_json::to_vec_pretty(&committed).expect("mutated committed journal"),
+        )
+        .expect("write isolated journal mutation");
+
+        let history = read_work_item_contract_amendments(root, "WI-MATERIAL");
+        assert!(
+            history.is_err(),
+            "{field} mutation must break its journal anchor"
+        );
+        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+            root,
+            "WI-MATERIAL",
+            &fixture.runtime,
+        );
+        match status {
+            Err(error) => assert!(
+                error.to_string().contains("digest chain")
+                    || error.to_string().contains("detached"),
+                "{field}: unexpected error: {error}"
+            ),
+            Ok(status) => {
+                assert!(
+                    status
+                        .effective_unknowns
+                        .contains(&"material_review_receipt_invalid".into()),
+                    "{field}: {status:#?}"
+                );
+                assert!(
+                    !status
+                        .safe_actions
+                        .contains(&"record_material_review_decision".into()),
+                    "{field}: invalid transition must not reopen recording"
+                );
+            }
+        }
+        assert_eq!(
+            fs::read(&fixture.old_sidecar_path).expect("prior immutable sidecar"),
+            fixture.old_sidecar_bytes,
+            "{field}: history bytes remain unchanged"
+        );
+        let summary: Value = serde_json::from_slice(
+            &fs::read(&fixture.summary_path).expect("Summary after rejection"),
+        )
+        .expect("Summary JSON");
+        assert_eq!(
+            summary["materialReviewReceipt"], fixture.old_pointer,
+            "{field}"
+        );
+    }
+}
+
+#[test]
+fn replaying_old_review_pointer_after_fresh_request_two_remains_stale() {
+    let fixture = valid_profile_transition_fixture();
+    let root = fixture.directory.path();
+    let fresh = cockpit_repository::record_work_item_material_review(
+        root,
+        "WI-MATERIAL",
+        &fixture.current_input,
+        &fixture.runtime,
+    )
+    .expect("record a fresh decision for request R2");
+    assert_eq!(fresh.request_digest, fixture.current_input.request_digest);
+
+    let current_summary: Value =
+        serde_json::from_slice(&fs::read(&fixture.summary_path).expect("current Summary"))
+            .expect("Summary JSON");
+    let fresh_pointer = current_summary["materialReviewReceipt"].clone();
+    assert_ne!(fresh_pointer, fixture.old_pointer);
+    assert_eq!(
+        current_summary["materialReviewReceiptHistory"],
+        json!([fixture.old_pointer.clone()])
+    );
+    let fresh_sidecar_path = root.join(
+        fresh_pointer["path"]
+            .as_str()
+            .expect("fresh request sidecar path"),
+    );
+    assert!(fresh_sidecar_path.is_file());
+
+    // Simulate a replay of R1's pointer after R2 was already recorded. The
+    // immutable R1 sidecar and R2 sidecar both remain present; neither is
+    // silently promoted to a current decision by the replay.
+    let mut replayed_summary = current_summary;
+    replayed_summary["materialReviewReceipt"] = fixture.old_pointer.clone();
+    fs::write(
+        &fixture.summary_path,
+        serde_json::to_vec_pretty(&replayed_summary).expect("replayed Summary"),
+    )
+    .expect("write isolated pointer replay");
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &fixture.runtime,
+    )
+    .expect("status rejects the old pointer as current authorization");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "old R1 remains stale after a fresh R2: {status:#?}"
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "replaying R1 cannot discharge current request Unknowns"
+    );
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "a fresh decision for the current request is still required"
+    );
+    assert!(fresh_sidecar_path.is_file());
+    assert_eq!(
+        fs::read(&fixture.old_sidecar_path).expect("prior sidecar remains"),
+        fixture.old_sidecar_bytes
+    );
+}
+
+#[test]
+fn profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause() {
+    let fixture = valid_profile_transition_fixture();
+    let root = fixture.directory.path();
+    fs::write(
+        root.join("src/material.rs"),
+        format!(
+            "{}\n// changed after the old review\n",
+            benign_syntax_unknown_source()
+        ),
+    )
+    .expect("change the reviewed hunk");
+    commit(root);
+    let changed_hunk_request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("current changed-hunk plan");
+    assert_ne!(
+        changed_hunk_request.request_digest.to_string(),
+        fixture.old_pointer["requestDigest"].as_str().unwrap()
+    );
+    let changed_hunk = changed_hunk_request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/material.rs")
+        .expect("current material entry");
+    assert_eq!(
+        changed_hunk.unknown_cause,
+        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+    );
+    let changed_hunk_status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &fixture.runtime,
+    )
+    .expect("changed source remains inspectable");
+    assert!(
+        changed_hunk_status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "changed hunk must not reuse the previous receipt: {changed_hunk_status:#?}"
+    );
+    assert!(
+        changed_hunk_status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+
+    let fixture = valid_profile_transition_fixture();
+    let root = fixture.directory.path();
+    fs::write(root.join("src/material.rs"), [0, 1, 2, 3, 4, 5])
+        .expect("change material to non-text bytes");
+    commit(root);
+    let changed_cause_request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("non-text material plan");
+    let changed_cause = changed_cause_request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/material.rs")
+        .expect("non-text material entry");
+    assert_eq!(
+        changed_cause.unknown_cause,
+        Some(MaterialUnknownCause::NonTextMaterial)
+    );
+    assert!(!changed_cause.reviewable);
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &fixture.runtime,
+    )
+    .expect("status keeps the changed Unknown cause visible");
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "a different, unreviewable Unknown cause cannot be renewed by the old transition: {status:#?}"
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert_eq!(
+        fs::read(&fixture.old_sidecar_path).expect("prior sidecar remains immutable"),
+        fixture.old_sidecar_bytes
+    );
+}
+
+#[test]
+fn profile_transition_does_not_cover_a_different_material_path() {
+    let fixture = valid_profile_transition_fixture();
+    let root = fixture.directory.path();
+    fs::rename(
+        root.join("src/material.rs"),
+        root.join("src/replacement.rs"),
+    )
+    .expect("move reviewed material to a different path");
+    commit(root);
+    cockpit_repository::preflight_work_item_with_runtime(
+        root,
+        &fixture.contract_path,
+        &fixture.runtime,
+    )
+    .expect("refresh preflight for the changed material path");
+
+    let request = plan_work_item_material_review(root, "WI-MATERIAL")
+        .expect("plan the exact request for the replacement path");
+    assert_ne!(
+        request.request_digest, fixture.current_input.request_digest,
+        "a path change must create a new exact request"
+    );
+    let prior_path = request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/material.rs");
+    let replacement = request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/replacement.rs")
+        .expect("replacement path is included in the current request");
+    assert!(prior_path.is_none());
+    assert_eq!(
+        replacement.unknown_cause,
+        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+    );
+    assert!(replacement.reviewable);
+
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &fixture.runtime,
+    )
+    .expect("status after path change");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let summary_before = fs::read(&fixture.summary_path).expect("Summary before stale replay");
+    let error = cockpit_repository::record_work_item_material_review(
+        root,
+        "WI-MATERIAL",
+        &fixture.current_input,
+        &fixture.runtime,
+    )
+    .expect_err("the old exact request cannot authorize the replacement path");
+    assert!(
+        error.to_string().contains("request digest")
+            || error.to_string().contains("current request"),
+        "unexpected stale request rejection: {error}"
+    );
+    assert_eq!(
+        fs::read(&fixture.summary_path).expect("Summary after rejected replay"),
+        summary_before,
+        "a rejected old request cannot replace the pointer"
+    );
+    assert_eq!(
+        fs::read(&fixture.old_sidecar_path).expect("old immutable receipt"),
+        fixture.old_sidecar_bytes
+    );
+}
+
+#[test]
+fn profile_transition_requires_both_prepared_and_committed_journal_records() {
+    for missing in ["prepared", "committed"] {
+        let fixture = valid_profile_transition_fixture();
+        let root = fixture.directory.path();
+        let path = root.join(format!(
+            ".ai/evidence/WI-MATERIAL.contract-amendments/00000001.{missing}.json"
+        ));
+        fs::remove_file(&path).expect("remove one transition journal side");
+
+        let error = read_work_item_contract_amendments(root, "WI-MATERIAL")
+            .expect_err("an incomplete append-only transition journal fails closed");
+        let message = error.to_string();
+        assert!(
+            message.contains("prepared")
+                || message.contains("committed")
+                || message.contains("unresolved"),
+            "unexpected rejection for missing {missing}: {message}"
+        );
+        assert_eq!(
+            fs::read(&fixture.old_sidecar_path).expect("prior immutable receipt"),
+            fixture.old_sidecar_bytes,
+            "missing {missing} record never rewrites the old receipt"
+        );
+        let summary: Value = serde_json::from_slice(
+            &fs::read(&fixture.summary_path).expect("Summary remains readable"),
+        )
+        .expect("Summary JSON");
+        assert_eq!(
+            summary["materialReviewReceipt"], fixture.old_pointer,
+            "missing {missing} record never changes the receipt pointer"
+        );
+    }
+}
+
+#[test]
+fn profile_transition_never_discharges_a_new_canonical_finding() {
+    let fixture = valid_profile_transition_fixture();
+    let root = fixture.directory.path();
+    let injection = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    fs::write(root.join("README.md"), format!("{injection}\n"))
+        .expect("introduce the canonical prompt-injection fixture");
+    commit(root);
+
+    let request = material_review_request(
+        root,
+        &serde_json::from_slice::<Contract>(
+            &fs::read(&fixture.contract_path).expect("current Contract"),
+        )
+        .expect("Contract JSON"),
+    )
+    .expect("finding is represented in the current request");
+    assert!(request.blocked_by_finding);
+    assert!(
+        request
+            .finding_codes
+            .contains(&"repository_prompt_injection".into())
+    );
+    let mut input = fixture.current_input;
+    input.request_digest = request.request_digest.clone();
+    let contract: Contract =
+        serde_json::from_slice(&fs::read(&fixture.contract_path).expect("current Contract"))
+            .expect("Contract JSON");
+    let error = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "runtime:material-review-test-runtime",
+        "2026-10-08T00:00:00Z",
+    )
+    .expect_err("a profile transition and prior receipt never make a Finding reviewable");
+    assert_eq!(error, MaterialReviewDecisionValidationError::FindingPresent);
+    assert!(fixture.old_sidecar_path.is_file());
 }
 
 #[test]
