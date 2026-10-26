@@ -30,4 +30,4 @@ lastVerifiedBy: WI-1112-windows-archive-byte-preservation
 
 ## 現在の状態
 
-検証済みで archived の WI-1111 から successor が作成され、その Windows repository-library job は失敗しました。Windows byte preservation、検証済み lineage の continuity、material reference identity、CLI/MCP successor handoff parity の各 test は成功しました。関連 repository material-review（41/41）、CLI material-review（4/4）、MCP material-review（2/2）、Outcome report（29/29）も成功しています。Contract 全体の verification、warning-free Clippy、hosted Windows CI は未実行です。前任の archive と失敗した hosted run は変更していません。
+検証済みで archived の WI-1111 から successor が作成され、その Windows repository-library job は失敗しました。Windows byte preservation、検証済み lineage の continuity、material reference identity、CLI/MCP successor handoff parity の各 test は成功しました。関連 repository material-review（41/41）、CLI material-review（4/4）、MCP material-review（2/2）、Outcome report（29/29）も成功しています。Contract 全体の verification と warning-free Clippy は Linux でローカル通過しました。hosted Windows CI は未実行であり、Windows hosted 成功とは報告しません。前任の archive と失敗した hosted run は変更していません。

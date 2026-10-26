@@ -30,4 +30,4 @@ lastVerifiedBy: WI-1112-windows-archive-byte-preservation
 
 ## 当前状态
 
-此 successor 从已验证并归档的 WI-1111 恢复创建；其 Windows repository-library job 已失败。Windows 字节保真测试、已验证 lineage 的连续性测试、材料参考身份测试及 CLI/MCP successor handoff 一致性测试均已通过；相关 repository material-review（41/41）、CLI material-review（4/4）、MCP material-review（2/2）和 Outcome report（29/29）测试通过。完整 Contract 验证、零警告 Clippy 与 hosted Windows CI 仍待执行。前任归档和失败的 hosted run 保持不变。
+此 successor 从已验证并归档的 WI-1111 恢复创建；其 Windows repository-library job 已失败。Windows 字节保真测试、已验证 lineage 的连续性测试、材料参考身份测试及 CLI/MCP successor handoff 一致性测试均已通过；相关 repository material-review（41/41）、CLI material-review（4/4）、MCP material-review（2/2）和 Outcome report（29/29）测试通过。完整 Contract 验证和零警告 Clippy 已在 Linux 本地通过；hosted Windows CI 仍待执行，不宣称 Windows hosted 已通过。前任归档和失败的 hosted run 保持不变。
