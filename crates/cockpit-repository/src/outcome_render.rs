@@ -433,12 +433,11 @@ fn register_delivery_continuity_observations(
                 let path = root.join(format!(".ai/work-items/{phase}/{predecessor_id}.{suffix}"));
                 let relative = format!(".ai/work-items/{phase}/{predecessor_id}.{suffix}");
                 ledger.register_file(relative, &path)?;
-                if suffix == "contract.json" || suffix == "summary.json" {
-                    if let Some(bytes) = ledger.cached_file_bytes(&path)? {
-                        if let Ok(value) = serde_json::from_slice::<Value>(bytes) {
-                            register_json_path_references(ledger, root, &value, &path)?;
-                        }
-                    }
+                if (suffix == "contract.json" || suffix == "summary.json")
+                    && let Some(bytes) = ledger.cached_file_bytes(&path)?
+                    && let Ok(value) = serde_json::from_slice::<Value>(bytes)
+                {
+                    register_json_path_references(ledger, root, &value, &path)?;
                 }
                 if suffix == "archive.json" {
                     register_manifest_references(ledger, root, &path)?;
