@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:689de5548b1204c76de880750d00a2a84676fa137bb99875220fb1329add5af4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:2ef517036af9ce5168a912a6cfaf8b54fd5c914f450284102ee4b4c94bc45b81",
+  "reason": "Actual user message conversation:Sentinel_caaa6f6d30c881918f2de81355b22508 at2026-10-25T10:00UTC: 确认 WI-1111 上述验证命令更正及 sequence 5 精确绑定，confirm_review。仍不包含公开推送、合并、版本发布、生产启用或共享 Runtime 替换。 Agent records this supplied actual user decision,not agent consent,coordinator judgment or independent human authentication. Only verification[12] gained required --repo .;46scope paths,12requiredscenarios,15declarations,900-second ceiling and workers1 remain. Existing checkpoint1 retained;this confirmation is not test or benefit evidence.",
+  "recordedAt": "2026-10-25T10:01:58.205178+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3c91eed0857abae9320f44393f5ebabc01990b01429430386f86f99d134c0609",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

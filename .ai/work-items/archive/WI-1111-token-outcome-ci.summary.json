@@ -1,0 +1,859 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "S01",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/0",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S02",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/1",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S03",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/2",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S04",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/3",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S05",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/4",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S06",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/5",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S07",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/6",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S08",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/7",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S09",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/8",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S10",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/9",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S11",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/10",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S12",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/11",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "D01",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/12",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed declaration only;implementation/test/delivery evidence not yet produced"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "S13",
+      "evidence": [
+        {
+          "locator": "/acceptanceCriteria/15",
+          "path": ".ai/work-items/active/WI-1111-token-outcome-ci.contract.json",
+          "type": "plan",
+          "verification": "unverified: owner-confirmed sequence-6 design declaration only; implementation, focused tests and formal verification remain unexecuted"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.10bf39a6102e2d6d510d809810b3bcf4391501f848237ff76382a958bb5a120e.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.273c23bb20053e651883da8b701952470c0d527713de172003250cc749a836aa.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.5171ff2fc3778d726cc05f39c192eafcfbc27abce33c2fa11e21b9cb8ee5a93f.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.6f00e630af64aba6002f22149d9e8ca493516c84f14e89b18c9f858c393aeab1.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.82e9baaf21f4365982756d2a9f509caa35a95ba896a71eeb8fe34bdc9fae453f.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.fbd3e1f158535cf136d11c415694831badd4787728b4b5873b715c7c40e0414b.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.recovery.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000004.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000005.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000005.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000006.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000006.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000007.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000007.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000008.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000008.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000009.committed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000009.prepared.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.0a35b019179bf26a715345ef7ab5ff8da65964a1a443449073f84ae19297f426.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.0f7c699f621678eacd3673643926a43e826190ccb168fb1a143e941a54a43e2f.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.9535773117020a8a3c518e35229624637bd5a22a36adffa02636b6fd5f99ba9c.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.9b43cddfcdb4dcbc087cdaba669704652d58e3fe432022d78a13cb867fd23ab1.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.a04b7a3af9ba5fa116d8e0c7466cf2c0c4c45851c855871a2bc124f679a17144.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.a6400b2ff9e252a58ebd85c4da5ca486d6d705d8e1b1456d57c89bc27cfe43ed.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.c04799e29827a158dfffcc5516a54961a659b41edd009fc5358a8b4b33d81c3b.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.cbe9fd6a67477b6507a617593aab703e9817034c30bd1cad18b4cf6dad6048fd.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.cf000da68a4da9d3b8039ef2ac2222d5a3630fda1843f02b5ff1cd99758278cf.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.e0d314592152de147e4f2b67cd6664a66e16e31f8a0af472941b34e1e5030313.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification.json",
+    ".ai/work-items/archive/WI-1111-token-outcome-ci.contract.json",
+    ".ai/work-items/archive/WI-1111-token-outcome-ci.events.jsonl",
+    ".ai/work-items/archive/WI-1111-token-outcome-ci.outcome.json",
+    ".ai/work-items/archive/WI-1111-token-outcome-ci.summary.json"
+  ],
+  "checkpointAt": "2026-10-25T08:17:14Z",
+  "checkpointContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "recorded": true,
+      "recordedAt": "2026-10-25T08:17:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:22b87593afca538880b3f0a33795614597abbf8538325b05dc7fbacce56b79a2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:3d871a0f04da41fa9533a75416cba8a7ac7cd753ef51952c97426db8aa514e7c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "reason": "Correct only the12 acceptance ID prefixes from scenario long names to supported S01..S12 syntax. Keep every acceptance body byte-identical,12 scenario identities/expected/verification plans unchanged,44 product paths/15 commands/finite900sec/workers1 and all later D01 obligations unchanged. Earlier strict controls rejection is retained. This correction is not evidence of passed criteria,permission expansion or a human decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T08:23:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5a382eb147b73eabcce12dee1c12f53225a16e417fb74f0e0afb73d4b7e05ce9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:5bdc0a496080c4710cb14fb94d5f9d9f3e0f021415cd996d2cb26b4a630ff163",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:3d871a0f04da41fa9533a75416cba8a7ac7cd753ef51952c97426db8aa514e7c",
+      "reason": "One bounded technical-plan correction accepted by coordinating Raydot: add the two existing strict MCP tool-list/schema consumers required by the already-planned usage import interface. Original44 product paths become46. Preserve exact acceptance bodies,12 unverified scenarios,15 verification declarations,900-second/workers1 budget and all authorization restrictions. No test/assertion removal or weakened count checks. Coordinator judgment is not actual owner confirm_review;await new exact human binding.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T08:37:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5a382eb147b73eabcce12dee1c12f53225a16e417fb74f0e0afb73d4b7e05ce9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:689de5548b1204c76de880750d00a2a84676fa137bb99875220fb1329add5af4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:5bdc0a496080c4710cb14fb94d5f9d9f3e0f021415cd996d2cb26b4a630ff163",
+      "reason": "The existing planned historical-document consumer requires --repo; the declared command exited2 before checking documentation. Add only --repo . to /verification/12. Keep46scope paths,12requiredscenario predicates,15declaration count,900-second/workers1 ceiling and all quality,coverage and authorization restrictions unchanged. Previous declaration failure is retained. This agent-submitted correction is not an owner confirm_review; any new actual human decision must bind the resulting current Contract/preflight/snapshot.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T09:43:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c91eed0857abae9320f44393f5ebabc01990b01429430386f86f99d134c0609",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:457b61f0c8b66880054226a402506d822b3a4b5ee1064fab23801e5d2a5592c9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:689de5548b1204c76de880750d00a2a84676fa137bb99875220fb1329add5af4",
+      "reason": "Complete the single WI-1111 correction for the reproduced historical Task Outcome projection failure. Generate a small typed TaskOutcomeProjectionPolicy during verification recording, bound to repository, Work Item, Contract, source snapshot, producer Runtime identity, JSON format/schema and Markdown renderer/version; finish must bind that predecessor policy and the canonical JSON/Markdown digests. Replay selects one renderer only from validated predecessor facts, never from Markdown, finish self-report metadata or usage. Preserve JSON schema v1 for this change, unknown usage, fixed historical Git/receipt roots and every original report byte; do not claim old Runtime binaries were verified or add a producer-signature/new-approval system. Add all necessary lifecycle, resource lifecycle, regression test and EN/ZH/JA reference paths in this one amendment. Add adversarial coverage for current Usage deletion with recomputed local digest, version/policy downgrade/deletion, unknown renderer, altered counters/refs, cross-identity, refresh, split/combined archive, close, repeat and rollback. Use candidate Runtime only in isolated fixtures; preserve the fixed governing Runtime and original 54-node/900-second/single-worker/zero-warning formal plan. No source change, public push, merge, release, production enablement, shared Runtime replacement, finish, archive or close is authorized by this amendment request.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T12:01:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c91eed0857abae9320f44393f5ebabc01990b01429430386f86f99d134c0609",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:86a8a052a905aefef9f880ebc7ea7653b612d47b6d31e7c86f8aeb25b2dcdfec",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:457b61f0c8b66880054226a402506d822b3a4b5ee1064fab23801e5d2a5592c9",
+      "reason": "Add the existing TaskOutcomeEvent test consumer to the reviewed WI scope so its initializer can be completed without changing its existing assertions or adding product scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T13:12:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fad30ae5c38c16021a5c569c742fbe90783c0db557d770fad5ed1aecd6d4949",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:c540101c1641e95b5bb2d66e8201862bbde54e78e4ffbe95b4d3646d4cec658c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:86a8a052a905aefef9f880ebc7ea7653b612d47b6d31e7c86f8aeb25b2dcdfec",
+      "reason": "Align the existing lifecycle refresh regression and the English, Chinese, and Japanese troubleshooting and architecture guidance with the reviewed source-change lifecycle: implicit source-change refresh is rejected, while the admitted retry, checkpoint, fresh preflight, verification, and explicit finish path remains available.",
+      "recorded": true,
+      "recordedAt": "2026-10-25T16:24:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1e191237c0b03f774e7706b18398833f20b2799bc2528323bf51f1c27193054c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1111-token-outcome-ci"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+      "previousContractHash": "sha256:c540101c1641e95b5bb2d66e8201862bbde54e78e4ffbe95b4d3646d4cec658c",
+      "reason": "Apply the user's explicit approval of the limited, cause-scoped material-inspection review profile for the current three committed Rust syntax Unknowns. Approval source: Sentinel_ac4979cc64388191841418f250c87945, 2026-10-26T03:04:48Z.",
+      "recorded": true,
+      "recordedAt": "2026-10-26T03:06:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1111-token-outcome-ci"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+  "createdAt": "2026-10-25T08:10:52Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e82828657b5878582cd9d6faacf9d0889e242855c88e57797e089df5ac29ce2a",
+    "reason": "Actual user confirmation from conversation Sentinel_3214ff6804fc819182cfc74681228a77 at 2026-10-26T03:11:11 UTC: “确认 WI-1111 sequence 9 上述精确绑定，confirm_review。” Recorded by agent:Codex through the fixed Runtime; this records the supplied user decision only.",
+    "recordedAt": "2026-10-26T03:12:29Z",
+    "recordedBy": "agent:Codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+    "schemaVersion": 1,
+    "workItemId": "WI-1111-token-outcome-ci"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Raydot delegated technical judgment as the agent representative, not a human signature or risk decision: HCI is the North Star. The implementation prioritizes task comprehension/control through preserved report history, explicit unknown usage, actionable projection diagnostics and automatic supported-version handling. Local implementation/formal evidence: .ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap); code review and candidate fixture evidence: independent code/evidence review: version-6 source review passed; version-8 formal evidence review accepted 54/54 and identified only evidence-package completeness corrections; private Library evidence libfile_07d40562ac388191aeb6b7c648b634c1 v9, evidence/candidate-e2e-e9/candidate-e2e-manifest.json (source HEAD e9e6526008f73459064026852d79bbaee6400c23; isolated candidate Runtime sha256:b39d15df9edfeef7a989c39d43dbc9b445ae2a073f30dcbcd2ff14291b785701; retry2 finish/archive/close/outcome read passed; first close attempt failed because fixture archive was uncommitted and is retained) Actual user-study outcome and measured user-visible benefit remain unknown."
+    ],
+    "reason": "Design intent is aligned with the recorded HCI North Star at the engineering level. This records the delegated agent’s assessment only; it does not claim measured user impact, actual token usage, hosted CI success, or human risk acceptance.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-26T03:55:35.429295737Z",
+      "recordedAt": "2026-10-26T03:55:35.429295737Z",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-25T08:10:52.305115336Z",
+      "recordedAt": "2026-10-25T08:10:52.305115336Z",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:de7dead1c68eae1856482eadb0f4acf85e6129bbf21aad58ef507a5dfb918816",
+    "path": ".ai/evidence/material-inspection-review/WI-1111-token-outcome-ci/99092156923ce9d1bd906919ab9cf163a5acfa7effea682805c7dc152dd5f1e9.json",
+    "receiptDigest": "sha256:11f7aea670d2ea401f109a2c9f2001f770cf03eafbc24c8e570f086aab13d772",
+    "requestDigest": "sha256:99092156923ce9d1bd906919ab9cf163a5acfa7effea682805c7dc152dd5f1e9"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-26T03:52:19Z",
+  "preflightContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-26T03:52:19Z",
+    "contractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+    "decisionDigest": "sha256:df53cca1583f00d0fed109c1c53d597c9989b9b5383887ea19267bc7de4c371f",
+    "decisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.json",
+    "repositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:0b439618ad71fbc3b8b4384d4c5352cf0ac9767257882729e86e00cb41798f8d"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "crates/cockpit-repository/tests/usage.rs plus CLI/MCP usage and Outcome tests in the formal workspace run; fixtures prove parsing/receipt behavior only, not actual task usage"
+      ],
+      "expected": "One supported explicitly supplied completed Responses object yields exact available nullable counters in one admitted native receipt through CLI/MCP. No new inference/API call,candidate self-approval,or claim that fixture counters are this task's actual usage.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S01-source-to-receipt",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "crates/cockpit-repository/tests/usage.rs: malformed/unsupported/nullable/numeric-boundary regression coverage; no current-session provider export was available"
+      ],
+      "expected": "Absent current-host export and unsupported/cumulative source formats stay unknown. Reject malformed/duplicate-key/nonterminal/invalid-ID/negative/fraction/overflow/subset-invalid objects. Nullable usage/details stay null;no guessed deltas or source-assurance promotion.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S02-source-boundary",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "repository usage tests for idempotency, stable identity, binding, duplicate and conflicting replay; provider-authenticated ownership is not claimed"
+      ],
+      "expected": "Same original source replay is idempotent;stable provider-prefixed response.id cannot change with filename/hash/role/WI. Changed event content,foreign request/native repo/WI binding,mixed unit and duplicate conflicts reject without new totals. This is native/request attribution,not proof of provider-authenticated WI ownership.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S03-identity-and-replay",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "repository/CLI tests for source path validation, symlink/size boundaries, single read and current admission; no forbidden host data was accessed"
+      ],
+      "expected": "No outside/symlink/reparse/changed-parent evidence,oversized source or closed-WI append. Read source once and recheck current native admission at publication; record/query separation retained.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S04-access-and-admission",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "protocol/repository Outcome and CLI/MCP parity tests; documentation acceptance across EN/ZH/JA; no human usability study is claimed"
+      ],
+      "expected": "Known/partial/no-receipt states display identical four counters,coverage/reason/cutoff/safe refs/model-role-phase provenance in JSON,Markdown,CLI/MCP summary/full,EN/ZH/JA. No omission or null-to-zero.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S05-output-parity",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "historical fixtures 1076 separate, 1078 combined, M1 ancestor, same-green preflight and v3 absent docs passed; private Library evidence libfile_07d40562ac388191aeb6b7c648b634c1 v9, evidence/candidate-e2e-e9/candidate-e2e-manifest.json (source HEAD e9e6526008f73459064026852d79bbaee6400c23; isolated candidate Runtime sha256:b39d15df9edfeef7a989c39d43dbc9b445ae2a073f30dcbcd2ff14291b785701; retry2 finish/archive/close/outcome read passed; first close attempt failed because fixture archive was uncommitted and is retained)"
+      ],
+      "expected": "Historical reports without a projection policy remain readable only through a finite route anchored in fixed Git revisions, original report bytes, and existing receipt/manifest bindings; bytes are never rewritten or backfilled. New outputs require the typed predecessor policy and finish binding. Unknown historical producer/renderer evidence is unsupported. Finish usage cutoff and archive report bytes remain frozen; admitted postarchive/preclose usage is a distinct close final report; late/foreign/tampered receipts reject.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S06-frozen-history",
+      "status": "verified",
+      "verificationPlan": "Use real fixed historical report and receipt material; replay each supported legacy renderer and assert byte identity. Use candidate Runtime fixtures for typed-policy generation, current finish binding, and exact original artifact retention. Exercise usage cutoff, archive and close boundaries without rewriting legacy bytes; unknown history remains unsupported. Then run the unchanged complete 54-node formal plan, 900 seconds per node, one worker, zero warnings."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "formal nodes repository_prechecks_test.sh, workflow_convergence_test.sh and no_warnings_quality_gate_test.sh passed; this is local/fixture evidence, not a live hosted marker run"
+      ],
+      "expected": "Every individual selected cheap failure blocks actual expensive marker on local managed entry,CI build,hosted verify;success proceeds once;plan-only starts no checks.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S07-cheap-first",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "formal nodes workflow_convergence_test.sh, action_runtime_policy_test.sh and repository_gate_manifest_test.sh passed; no external hosted workflow identity is claimed"
+      ],
+      "expected": "Budget13248,mandatory rules,all pinned workflow actions/policy/test consumers remain canonical;required gate set retained and expensive dependency closure contains barrier. Missing/stale/foreign/mutated identities reject.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S08-dag-and-consumers",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "local workflow partition, Windows command-multiset, artifact isolation and aggregation tests passed within formal workspace verification; actual Windows hosted execution/artifacts remain outstanding"
+      ],
+      "expected": "Original Windows command multiset exactly once across suites;both lineage-bound/non-light/bounded/isolated/distinct artifacts. Existing stable aggregation context rejects missing/failed/cancelled/partial/unexpected skipped suites;light-route intentional skip preserved. Missing/filtered/duplicated commands,removed wrappers/flags and continue-on-error reject.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S09-platform-partition",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "all 14 workspace packages included in formal test/check/clippy coverage; Clippy -D warnings, formatting and warning-gate checks passed; captured successful-run warning scan found 0 markers. Earlier ENOSPC attempt remains preserved and contains five build-failure warning lines; repository stdout truncation at 65536 bytes remains disclosed."
+      ],
+      "expected": "Source-stage checks preserve zero-warning wrappers,all14 necessary packages and unfiltered workspace coverage/current binding checks. Actual final-HEAD Linux/Windows CI remains the separately authorized post-finish delivery obligation; no platform success is inferred from fixtures.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S10-zero-warnings-and-completeness",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "local finite timing-protocol and structural partition/order tests passed; actual matched hosted timings, cost and claimed benefit remain unmeasured"
+      ],
+      "expected": "The finite timing comparison protocol distinguishes matched routes and runner cost from inferences; structural partition/order regressions preserve complete work. Actual CI timings and claimed benefit are evaluated in the separate post-finish delivery obligation; unavailable benefit stays unmeasured.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S11-measurement",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused boundary regressions during TDD and the complete15-check formal source-quality plan;record only actual execution evidence for this scenario. Full unfiltered workspace execution includes protocol/repository/CLI/MCP usage and Outcome tests. No fixture counts are claimed as actual task token consumption."
+    },
+    {
+      "description": null,
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "independent code/evidence review: version-6 source review passed; version-8 formal evidence review accepted 54/54 and identified only evidence-package completeness corrections",
+        "five historical failures were individually rerun and passed; original attempts and WI-1110 archive remain preserved; current formal run passed; detailed regression evidence is indexed in the private review package"
+      ],
+      "expected": "Focused real RED/GREEN for demonstrated bugs,all declared fresh checks,independent review;old failures and WI1110 archive retained. Newly added coverage is not falsely called RED.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S12-quality-and-preservation",
+      "status": "verified",
+      "verificationPlan": "TDD against all five preserved original historical projection failures, including the WI-1078 targeted reproduction. Add current-format Usage deletion with recomputed local digest, count/reference edits, truncation, missing/downgraded policy, counterfeit legacy selector, unknown renderer, and cross-repository/Work Item/Contract/source/Runtime negatives. Exercise refresh, split/combined archive, close, repeat, and injected write failure/rollback in isolated candidate Runtime fixtures. Preserve original failure receipts and all historical bytes; then execute all unchanged 54 formal nodes without reuse, one worker, 900 seconds/node, zero warnings."
+    },
+    {
+      "description": "Versioned canonical Task Outcome production and historical replay are bound to Runtime-validated predecessor facts.",
+      "evidence": [
+        ".ai/evidence/WI-1111-token-outcome-ci.verification.json (receiptDigest sha256:6dd8ccc4d1ff490875ab09b051d02d5345a4183efe7942541aa9e07834918e95; 54/54 nodes passed, 0 reused, one worker, 900-second per-node cap)",
+        "formal attempt 8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json; preserved full log /tmp/wi1111-formal54-e9-20261026/verification-retry.log",
+        "private Library evidence libfile_07d40562ac388191aeb6b7c648b634c1 v9, evidence/candidate-e2e-e9/candidate-e2e-manifest.json (source HEAD e9e6526008f73459064026852d79bbaee6400c23; isolated candidate Runtime sha256:b39d15df9edfeef7a989c39d43dbc9b445ae2a073f30dcbcd2ff14291b785701; retry2 finish/archive/close/outcome read passed; first close attempt failed because fixture archive was uncommitted and is retained)",
+        "version-bound policy, fixed-history selection, downgrade/identity rejection, refresh/archive/close regression tests passed in the formal workspace suite"
+      ],
+      "expected": "A typed policy is generated before report artifacts and binds repository, Work Item, Contract, source snapshot and producer Runtime to one fixed JSON format/schema and Markdown renderer/version. Finish binds the policy and both artifact digests. Fixed historical Git/receipt material selects one supported legacy renderer without rewriting bytes. Current Usage deletion, local digest recomputation, count/reference edits, truncation, missing/downgraded policy, counterfeit old-producer selection, unknown versions, or cross-identity bindings reject. Unknown usage remains unknown.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": "The declared local scenario outcome is supported by the cited tests/receipts. Limits in the evidence remain explicit; no hosted result, actual usage, or measured user benefit is inferred.",
+      "required": true,
+      "scenario": "S13-version-bound-outcome-projection",
+      "status": "verified",
+      "verificationPlan": "Use authentic fixed historical materials for legacy cases and isolated candidate Runtime fixtures for policy/finish/archive/close. Run targeted TDD first and then the unchanged 54-node formal plan at 900 seconds/node, one worker, no reuse and zero warnings."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-26T03:55:35.429295737Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-10",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-11",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-12",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-13",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-14",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1111-token-outcome-ci"
+}

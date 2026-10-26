@@ -1,0 +1,65 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:c6ddb056b19f25afffca05f050eb8eb06698f01a49d09748094b9946bfb41d6d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1111-token-outcome-ci",
+    "sequence": 2,
+    "changeId": "wi1111-complete-initial-finite-verification-policy",
+    "requestDigest": "sha256:6cbc556c7fc89d66006659782a841d6175879c48ca0802c809cee6698fd12fa3",
+    "reason": "Complete the initial reviewed finite900-second verification budget through typed Contract amendment before any checkpoint,implementation or test. Start supports complete scenarios but has no governancePolicy argument;do not hand edit generated Contract. Actual new binding owner review remains separately required.",
+    "changedValues": [
+      {
+        "path": "/governancePolicy",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi1111-bounded-source-verification-ceiling",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi1111-bounded-source-verification-ceiling"
+                ],
+                "reason": "Finite per-node900-second ceiling for the complete reviewed15 source-quality declarations and exact subsequent revision checks,workers1. Preserve single-authorized-human review and existing command/assertion/zero-warning checks. This declares a source-verification budget,not host permissions,task mode,public/merge/close permission,release,production activation or shared Runtime replacement.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task",
+                  "pre_ci",
+                  "pr",
+                  "merge"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:e76aff76b9e331cf641c61f24ef2fbb177f64f665bc808cf1cea413cd81b92a7",
+    "newContractDigest": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+    "repositorySnapshotDigest": "sha256:22b87593afca538880b3f0a33795614597abbf8538325b05dc7fbacce56b79a2",
+    "environmentObservationDigest": "sha256:28cc3a43170f80e56aaacc649ebfc65fb15c26e251ef82ac87f19354df4203d3",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy"
+    ],
+    "previousJournalDigest": "sha256:1757c2c60b5787cdfaa702573fa444fbc654041bd33289ca6bf2c61fa171da1d",
+    "journalDigest": "sha256:9b2a73f7a25625e450a72cd31abfdeab12b40d811b7941c4b00b2850b3618500",
+    "recordedAt": "2026-10-25T08:11:33Z"
+  }
+}

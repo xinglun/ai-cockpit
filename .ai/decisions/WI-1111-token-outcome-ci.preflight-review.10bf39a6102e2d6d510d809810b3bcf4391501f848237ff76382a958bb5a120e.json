@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e82828657b5878582cd9d6faacf9d0889e242855c88e57797e089df5ac29ce2a",
+  "reason": "Actual user confirmation from conversation Sentinel_3214ff6804fc819182cfc74681228a77 at 2026-10-26T03:11:11 UTC: “确认 WI-1111 sequence 9 上述精确绑定，confirm_review。” Recorded by agent:Codex through the fixed Runtime; this records the supplied user decision only.",
+  "recordedAt": "2026-10-26T03:12:29Z",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

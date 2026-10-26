@@ -1,0 +1,63 @@
+{
+  "sequence": 9,
+  "preparedDigest": "sha256:ecc17fc8b132e6f5e78ac96cc97dd5190c929d05eccd9be71b3966d6ed7804c0",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1111-token-outcome-ci",
+    "sequence": 9,
+    "changeId": "wi1111-material-review-limited-syntax-unknown",
+    "requestDigest": "sha256:463097113a56e6284fb3a366df121d1a189e662ca1b8c43a6fc416b0b02b7f1e",
+    "reason": "Apply the user's explicit approval of the limited, cause-scoped material-inspection review profile for the current three committed Rust syntax Unknowns. Approval source: Sentinel_ac4979cc64388191841418f250c87945, 2026-10-26T03:04:48Z.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_ac4979cc64388191841418f250c87945 (Ray approval, 2026-10-26T03:04:48Z)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c540101c1641e95b5bb2d66e8201862bbde54e78e4ffbe95b4d3646d4cec658c",
+    "newContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+    "repositorySnapshotDigest": "sha256:de810e7345da13f29cb07f08c773f7fec2ce64fa661775465f3f652b7f060764",
+    "environmentObservationDigest": "sha256:b1e1f419c9741b7e84edae8ba0800c3ab2c9f0a432c8443785ebc3e1297dd2a9",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1111-token-outcome-ci.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:d1d7e903b1eed6fb79864d6fdadaf8ec9379a3083b4a3faaabe85a2772c5bf7a",
+    "journalDigest": "sha256:eab10f80cbfcaa3b0b7dd3a12b2b5707d43dc4644579f48cdff314f69c60f43b",
+    "recordedAt": "2026-10-26T03:06:40Z"
+  }
+}

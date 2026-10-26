@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-26T03:55:46Z",
+  "files": {
+    "contractDigest": "sha256:e8e6f3a061ce382ceed35f86303dc443005e156c41b46fd0d6c64c2c5229032a",
+    "contractPath": ".ai/work-items/archive/WI-1111-token-outcome-ci.contract.json",
+    "eventsDigest": "sha256:45b93ef7b035081145b80101e80b5e36b2a699ae8407b02064e2b7d5c83ce79e",
+    "eventsPath": ".ai/work-items/archive/WI-1111-token-outcome-ci.events.jsonl",
+    "outcomeDigest": "sha256:1b0f51bf4a995224210c9d8a2402d03254fa26b0d2c406ce73fb0170028379a9",
+    "outcomePath": ".ai/work-items/archive/WI-1111-token-outcome-ci.outcome.json",
+    "summaryDigest": "sha256:88c195988a0d7b10e3a03f74991631fa9810f1b2fecf53d409f51eb545cbe88c",
+    "summaryPath": ".ai/work-items/archive/WI-1111-token-outcome-ci.summary.json",
+    "taskReportDigest": "sha256:7ac1029f598f4aa69e846375b23c98a46337ffccc9003d72efcd8e68076678f6",
+    "taskReportMarkdownDigest": "sha256:152c12cb57f38716246101903cadb51d7ad0f74e656273da457bd177016da667",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1111-token-outcome-ci.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1111-token-outcome-ci.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-26T03:55:46.328146179Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-26T03:55:46.328146179Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1111-token-outcome-ci"
+}

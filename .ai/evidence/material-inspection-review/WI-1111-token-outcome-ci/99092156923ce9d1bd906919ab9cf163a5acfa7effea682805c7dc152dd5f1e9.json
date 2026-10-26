@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1111-token-outcome-ci",
+  "contractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "materialManifestDigest": "sha256:9d6969e1a6153c69507da86a7094367eb4b8f08f59359532533f7e011bdfd5bd",
+  "profileDigest": "sha256:9067a50290e1d3b13603565a7a8e877d4852f89f3967eb7594720419e5b9e379",
+  "requestDigest": "sha256:99092156923ce9d1bd906919ab9cf163a5acfa7effea682805c7dc152dd5f1e9",
+  "reviewedSourceHead": "e9e6526008f73459064026852d79bbaee6400c23",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "authoritySource": "conversation:Sentinel_ac4979cc64388191841418f250c87945 (Ray approval, 2026-10-26T03:04:48Z)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.10bf39a6102e2d6d510d809810b3bcf4391501f848237ff76382a958bb5a120e.json",
+      "digest": "sha256:0bb24bd8c41db09d504ce06476e61189cbad4cf565b694246994a56df2dfba0c"
+    },
+    {
+      "path": ".ai/evidence/WI-1111-token-outcome-ci.contract-amendments/00000009.committed.json",
+      "digest": "sha256:e1bceedf9b2a4472cc6c218bf1ef7c63564585a7617c128009ab83b623411bf0"
+    },
+    {
+      "path": ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.9ecb62e3b0fe91c0ae6e50fe978c95096781d051b9f2ebb16d7f4e23e178935d.json",
+      "digest": "sha256:d2c3806c61b2445b5e858d84f10350ea5e3bac06d66054d45dbb61afc8146083"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:92a9271e350628c5a2e7a030f888e379e46e361404d9c3a35cb81fcd7066044a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    }
+  ],
+  "rationale": "I checked the exact committed request and its three listed Rust syntax Unknown hunks against the approved manifest. The independent review record found no P0/P1 or Finding in this bounded change set. This is an agent self-declared review only; it does not authenticate a human identity or reclassify any scanner Unknown as Clean.",
+  "residualRisk": "The repository scanner cannot classify these three committed Rust syntax hunks. They remain Unknown; this bounded review does not establish general scanner completeness or prove that future syntax constructs will be understood.",
+  "recordedAt": "2026-10-26T03:54:48Z",
+  "receiptDigest": "sha256:11f7aea670d2ea401f109a2c9f2001f770cf03eafbc24c8e570f086aab13d772"
+}

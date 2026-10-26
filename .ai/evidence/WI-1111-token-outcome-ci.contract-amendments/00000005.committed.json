@@ -1,0 +1,38 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:d079e877de7c295911ed7ce8cd65c3867dd63b8f4cd2112955939c24f4163a2c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1111-token-outcome-ci",
+    "sequence": 5,
+    "changeId": "wi1111-explicit-repository-document-promotion-command",
+    "requestDigest": "sha256:5c12c1b84efc4500bb79e1932740270f878e1deeb3208d950caddffae82cda55",
+    "reason": "The existing planned historical-document consumer requires --repo; the declared command exited2 before checking documentation. Add only --repo . to /verification/12. Keep46scope paths,12requiredscenario predicates,15declaration count,900-second/workers1 ceiling and all quality,coverage and authorization restrictions unchanged. Previous declaration failure is retained. This agent-submitted correction is not an owner confirm_review; any new actual human decision must bind the resulting current Contract/preflight/snapshot.",
+    "changedValues": [
+      {
+        "path": "/verification/12",
+        "operation": "replace",
+        "oldValue": "python3 tests/docs/promote_closed_work_item.py --check-all",
+        "newValue": "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+      }
+    ],
+    "previousContractDigest": "sha256:5bdc0a496080c4710cb14fb94d5f9d9f3e0f021415cd996d2cb26b4a630ff163",
+    "newContractDigest": "sha256:689de5548b1204c76de880750d00a2a84676fa137bb99875220fb1329add5af4",
+    "repositorySnapshotDigest": "sha256:3c91eed0857abae9320f44393f5ebabc01990b01429430386f86f99d134c0609",
+    "environmentObservationDigest": "sha256:4b690f1d4d3f74f52e31e3c7474156e236cfaca1cc550b6026d703f97f455ba1",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification/12"
+    ],
+    "previousJournalDigest": "sha256:0d44489f50a440384601e4188ed9ff1638c33d0b85df310cd58c06195b247981",
+    "journalDigest": "sha256:257c767a87377edc60865ea5cbd1f36c140e35603b4491269f9a2e708d60cc8d",
+    "recordedAt": "2026-10-25T09:43:31Z"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:9d3ef1581934f0da1d2313b806588b707fdcf3e46bd20229363757f3ca3c1e73",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1111-token-outcome-ci",
+    "sequence": 1,
+    "changeId": "legacy-a3107f48607a8d57b44dfdcf0deebb569660b5c1257b41426f1c0eb043fe6141",
+    "requestDigest": "sha256:be87031b8e9c4ccbfda9ff504d02630fb73899aefcc1ce3ee4a3a0651dd6c2d1",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:a3107f48607a8d57b44dfdcf0deebb569660b5c1257b41426f1c0eb043fe6141",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)"
+        ],
+        "newValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)",
+          "conversation:Sentinel_e009be3dcc088191be8efb509cec97d0 (actual user request:CI acceleration in next WI)"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)",
+          "conversation:Sentinel_e009be3dcc088191be8efb509cec97d0 (actual user request:CI acceleration in next WI)"
+        ],
+        "newValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)",
+          "conversation:Sentinel_e009be3dcc088191be8efb509cec97d0 (actual user request:CI acceleration in next WI)",
+          "conversation:Sentinel_40d17c3fbb248191911b18fd5dd0a60d (actual user request:durable cheap prechecks in next planned WI)"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)",
+          "conversation:Sentinel_e009be3dcc088191be8efb509cec97d0 (actual user request:CI acceleration in next WI)",
+          "conversation:Sentinel_40d17c3fbb248191911b18fd5dd0a60d (actual user request:durable cheap prechecks in next planned WI)"
+        ],
+        "newValue": [
+          "conversation:Sentinel_10d95c6377708191a8b3776e3bccbd3d (actual user request:token collection to Outcome repair)",
+          "conversation:Sentinel_e009be3dcc088191be8efb509cec97d0 (actual user request:CI acceleration in next WI)",
+          "conversation:Sentinel_40d17c3fbb248191911b18fd5dd0a60d (actual user request:durable cheap prechecks in next planned WI)",
+          "Ordinary finite44-path plan independently reviewed and accepted by coordinating Raydot on2026-10-25;technical planning authority only,not owner confirm_review/public permission"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c53065872a94f68cd958c188b1dcb138493160403354ee6a232037b834e0fc63",
+    "newContractDigest": "sha256:e76aff76b9e331cf641c61f24ef2fbb177f64f665bc808cf1cea413cd81b92a7",
+    "repositorySnapshotDigest": "sha256:22b87593afca538880b3f0a33795614597abbf8538325b05dc7fbacce56b79a2",
+    "environmentObservationDigest": "sha256:28cc3a43170f80e56aaacc649ebfc65fb15c26e251ef82ac87f19354df4203d3",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:1757c2c60b5787cdfaa702573fa444fbc654041bd33289ca6bf2c61fa171da1d",
+    "recordedAt": "2026-10-25T08:10:52Z"
+  }
+}
