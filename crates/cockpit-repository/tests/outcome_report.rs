@@ -199,8 +199,7 @@ fn fixed_git_anchored_pre_policy_archive_remains_readable() {
     assert_eq!(report.schema_version, 1);
 }
 
-#[test]
-fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
+fn real_wi1111_to_wi1112_material_reference_at(revision: &str) -> (serde_json::Value, String) {
     const CURRENT_ID: &str = "WI-1112-windows-archive-byte-preservation";
     const RECOVERY_RECEIPT: &str = ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json";
 
@@ -214,10 +213,10 @@ fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
     preserve_ai_bytes_in_fixture(&root);
     assert!(
         Command::new("git")
-            .args(["checkout", "--quiet", "--detach", "HEAD"])
+            .args(["checkout", "--quiet", "--detach", revision])
             .current_dir(&root)
             .status()
-            .expect("checkout committed predecessor archive fixture")
+            .expect("checkout committed source snapshot for lineage fixture")
             .success()
     );
 
@@ -275,6 +274,28 @@ fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
             panic!("separate material review reference projection missing: {projection}")
         });
 
+    let rendered = render_human_outcome_with_view(&input, "en", OutcomeRenderView::Full);
+    (serde_json::Value::Object(material.clone()), rendered)
+}
+
+#[test]
+fn real_wi1111_to_wi1112_current_reference_is_not_review_authority() {
+    let source = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .canonicalize()
+        .expect("source repository");
+    let current_head = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(source)
+        .output()
+        .expect("read current committed source revision");
+    assert!(current_head.status.success(), "read current HEAD failed");
+    let revision = String::from_utf8(current_head.stdout)
+        .expect("HEAD is UTF-8")
+        .trim()
+        .to_owned();
+    let (material, rendered) = real_wi1111_to_wi1112_material_reference_at(&revision);
+
     assert_eq!(
         material["predecessorWorkItemId"],
         "WI-1111-token-outcome-ci"
@@ -287,11 +308,19 @@ fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
     assert_eq!(material["satisfiesCurrentReview"], false);
     assert_eq!(material["priorHunkIdentity"], "not_retained");
     assert_eq!(material["priorScannerIdentity"], "not_attested_in_receipt");
-    assert!(
-        material["sameContentBlobs"]
-            .as_array()
-            .is_some_and(|items| !items.is_empty()),
-        "the real predecessor receipt should identify unchanged source blobs: {material:?}"
+    let same_content_paths = material["sameContentBlobs"]
+        .as_array()
+        .expect("same-content references are an array")
+        .iter()
+        .map(|blob| blob["path"].as_str().expect("blob path is a string"))
+        .collect::<Vec<_>>();
+    assert_eq!(
+        same_content_paths,
+        [
+            "crates/cockpit-cli/tests/usage.rs",
+            "crates/cockpit-repository/tests/usage.rs"
+        ],
+        "show exact unchanged predecessor bytes without treating them as current authority: {material:?}"
     );
     assert!(
         material["contextDifferences"]
@@ -299,9 +328,69 @@ fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
             .is_some_and(|items| items.iter().any(|value| value == "contract")),
         "the successor Contract must remain visibly distinct: {material:?}"
     );
+    assert!(
+        material["contextDifferences"]
+            .as_array()
+            .is_some_and(|items| items.iter().any(|value| value == "scope")),
+        "the changed scope must be explicit beside the read-only byte references: {material:?}"
+    );
 
-    let rendered = render_human_outcome_with_view(&input, "en", OutcomeRenderView::Full);
-    assert!(rendered.contains("Same committed file bytes"), "{rendered}");
+    assert!(
+        rendered.contains("Same committed file bytes verified: 2"),
+        "{rendered}"
+    );
+    assert!(
+        rendered.contains("does not authorize the current review"),
+        "{rendered}"
+    );
+}
+
+#[test]
+fn real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority() {
+    const ORIGINAL_WI1112_REVIEW_HEAD: &str = "52851ee8058d99de9af6717829ec18052b1f57ef";
+    let (material, rendered) =
+        real_wi1111_to_wi1112_material_reference_at(ORIGINAL_WI1112_REVIEW_HEAD);
+
+    assert_eq!(
+        material["predecessorWorkItemId"],
+        "WI-1111-token-outcome-ci"
+    );
+    assert_eq!(material["state"], "context_changed");
+    assert_eq!(material["referenceOnly"], true);
+    assert_eq!(material["satisfiesCurrentReview"], false);
+    assert_eq!(material["priorHunkIdentity"], "not_retained");
+    assert_eq!(material["priorScannerIdentity"], "not_attested_in_receipt");
+    let same_content_paths = material["sameContentBlobs"]
+        .as_array()
+        .expect("same-content references are an array")
+        .iter()
+        .map(|blob| blob["path"].as_str().expect("blob path is a string"))
+        .collect::<Vec<_>>();
+    assert_eq!(
+        same_content_paths,
+        [
+            "crates/cockpit-cli/tests/usage.rs",
+            "crates/cockpit-repository/src/outcome_render.rs",
+            "crates/cockpit-repository/tests/usage.rs"
+        ],
+        "all three real predecessor-reviewed blobs match the original source snapshot: {material:?}"
+    );
+    assert!(
+        material["contextDifferences"]
+            .as_array()
+            .is_some_and(|items| items.iter().any(|value| value == "contract")),
+        "the successor Contract must remain visibly distinct: {material:?}"
+    );
+    assert!(
+        material["contextDifferences"]
+            .as_array()
+            .is_some_and(|items| items.iter().any(|value| value == "scope")),
+        "the changed scope must be explicit beside the read-only byte references: {material:?}"
+    );
+    assert!(
+        rendered.contains("Same committed file bytes verified: 3"),
+        "{rendered}"
+    );
     assert!(
         rendered.contains("does not authorize the current review"),
         "{rendered}"

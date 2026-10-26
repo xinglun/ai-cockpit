@@ -2023,9 +2023,6 @@ fn material_review_reference_projection(
         {
             return Some(unavailable("predecessor_review_source_reference_invalid"));
         }
-        if !path_is_in_scope(&reference.path, &current_contract.scope) {
-            continue;
-        }
         let Ok(old_bytes) =
             super::git_revision_blob_bytes(root, reviewed_source_head, &reference.path)
         else {
@@ -2034,16 +2031,11 @@ fn material_review_reference_projection(
         if Digest::sha256_bytes(&old_bytes) != reference.digest {
             return Some(unavailable("predecessor_review_source_blob_mismatch"));
         }
-        let current_entries = current_request
-            .entries
-            .iter()
-            .filter(|entry| entry.path == reference.path)
-            .collect::<Vec<_>>();
-        if current_entries.len() != 1
-            || current_entries[0].after_blob_digest.as_ref() != Some(&reference.digest)
-        {
-            continue;
-        }
+        // This is a read-only reference to bytes in the authenticated
+        // predecessor receipt, not a claim that the path belongs to the
+        // successor's current review scope. Keep unchanged predecessor bytes
+        // visible while the context differences below make any scope or
+        // Contract change explicit and the projection remains non-authorizing.
         let Ok(current_bytes) = super::git_revision_blob_bytes(
             root,
             &current_request.reviewed_source_head,
@@ -2069,6 +2061,9 @@ fn material_review_reference_projection(
     }
     if predecessor_contract.base_revision != current_contract.base_revision {
         context_differences.push("base_revision".into());
+    }
+    if predecessor_contract.scope != current_contract.scope {
+        context_differences.push("scope".into());
     }
     if current_profile_digest.as_ref() != Some(&receipt.profile_digest) {
         context_differences.push("review_profile".into());
