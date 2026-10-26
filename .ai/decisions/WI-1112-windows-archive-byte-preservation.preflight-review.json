@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:452192b7cbeef1059127b6f14cc2694002391e2af0db2e0b1f08707faa181335",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:cb62283627ca5798997e1470461679e1e7a52923f8f25c8cf63f75b2b6dfa718",
+  "reason": "Ray's actual response Sentinel_1d470f90ec648191ab148fbf8ad2df7a confirms this exact WI-1112 sequence 2 Contract, preflight, and snapshot. Human decision actor is Ray; the native record was submitted by agent:Codex.",
+  "recordedAt": "2026-10-26T06:35:25Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dcad740bb61f2d3ab1e4dd69c6500edfaaaf9d54dddb43f81d7126a6baa0b97e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

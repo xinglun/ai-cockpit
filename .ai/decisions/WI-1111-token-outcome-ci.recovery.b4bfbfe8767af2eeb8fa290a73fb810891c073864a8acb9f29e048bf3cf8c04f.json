@@ -1,0 +1,28 @@
+{
+  "actor": "human:Sentinel_f6246a6432188191a2292585ee13c4f0",
+  "authoritySource": "Explicit user confirmation in delegated instruction message Sentinel_f6246a6432188191a2292585ee13c4f0 at 2026-10-26T05:56:36Z",
+  "decidedAt": "2026-10-26T05:56:36Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/1074",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/40271040290/job/121404907259"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "predecessorEventsDigest": "sha256:45b93ef7b035081145b80101e80b5e36b2a699ae8407b02064e2b7d5c83ce79e",
+  "predecessorOutcomeDigest": "sha256:c09b216a71908972a0609b1245f50dc328189e8693afefb1d98ce6e95d3a794b",
+  "predecessorSummaryDigest": "sha256:f436968ec888d06f37de9cd5535a38fa5a6173c6e86d3336d828b82fa9343cc5",
+  "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+  "reason": "Immutable failed delivery: archived WI-1111 PR #1074 at HEAD 46a4afbcee7a56a2ec1a4b97f8838c8cb077aef9 has a real hosted Windows repository-library failure in Actions run 40271040290 (176 passed, 4 failed). Two fixed-history receipt/path tests reported hostname contains invalid characters; two strict historical Markdown byte-comparison tests failed on LF/CRLF differences. Request a bounded corrective successor while preserving WI-1111 archive and failure evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After this human-authorized successor scaffold is created, populate and review WI-1112's exact Windows path and .ai byte-preservation scope, then continue only through current Runtime-admitted Contract, start, preflight, checkpoint, and verification actions. Preserve WI-1111 archived bytes and all CI failure evidence; do not treat this recovery decision as verification success or authorization for public delivery, merge, release, deployment, shared Runtime replacement, or close.",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1112-windows-archive-byte-preservation",
+  "workItemId": "WI-1111-token-outcome-ci"
+}
