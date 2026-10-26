@@ -517,7 +517,7 @@ fn register_json_path_references(
                 register_json_path_references(ledger, root, value, source)?;
             }
         }
-        Value::String(raw) if raw.starts_with(".ai/") => {
+        Value::String(raw) if raw.starts_with(".ai/") && !super::scope_pattern_has_glob(raw) => {
             let relative = Path::new(raw);
             if relative.components().any(|component| {
                 matches!(
@@ -4335,7 +4335,8 @@ mod render_tests {
     use super::{
         FinalizationProjection, HumanDecisionProjection, ObservationLedger, OutcomeRenderInput,
         assemble_outcome_render_input_with_hook, finalization_action_projection,
-        finalization_action_projection_for_context, render_human_outcome,
+        finalization_action_projection_for_context, register_json_path_references,
+        render_human_outcome,
     };
     use crate::{
         WorkItemStartOptions, attach, checkpoint_work_item, preflight_work_item,
@@ -4376,6 +4377,36 @@ mod render_tests {
             governance_reasons: Vec::new(),
             finalization: None,
         }
+    }
+
+    #[test]
+    fn json_scope_globs_are_not_treated_as_file_references() {
+        let root = tempfile::tempdir().expect("tempdir");
+        fs::create_dir_all(root.path().join(".ai/evidence")).expect("create evidence directory");
+        fs::write(root.path().join(".ai/evidence/proof.json"), b"proof bytes")
+            .expect("write referenced evidence");
+
+        let source = root.path().join(".ai/work-items/active/WI-A.contract.json");
+        let value = serde_json::json!({
+            "scope": [".ai/**"],
+            "evidenceRefs": [".ai/evidence/proof.json"]
+        });
+        let mut ledger = ObservationLedger::new(root.path());
+        register_json_path_references(&mut ledger, root.path(), &value, &source)
+            .expect("register concrete file references without treating scope globs as paths");
+
+        assert_eq!(
+            ledger
+                .cached_file_bytes(&root.path().join(".ai/evidence/proof.json"))
+                .expect("concrete evidence reference was registered"),
+            Some(b"proof bytes".as_slice())
+        );
+        assert!(
+            ledger
+                .cached_file_bytes(&root.path().join(".ai/**"))
+                .is_err(),
+            "a scope glob must not be registered as a repository file dependency"
+        );
     }
 
     fn input(
