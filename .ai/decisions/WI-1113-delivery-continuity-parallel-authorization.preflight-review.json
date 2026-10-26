@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:6556df0b99ddead95989fec7437876b67735f32a8fdebefbebd4560c8c852edf",
+  "reason": "Owner confirmed the exact WI-1113 sequence 3 preflight binding in conversation:Sentinel_ba577148259c81918a1a32ad65b3340c at 2026-10-26T21:22Z. This record was submitted by agent:codex at 2026-10-26T21:23:34Z; it confirms the amended plan only and does not claim implementation, scenario verification, material review, or test success.",
+  "recordedAt": "2026-10-26T21:23:34Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:72770906617086feb92b3f8ad91eaf4af30913010b2f0272cfc14fb4f9568875",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

@@ -1,0 +1,38 @@
+{
+  "actor": "agent:codex",
+  "archiveManifestDigest": "sha256:a5c59cf49bf42fd8c60ab5a05e244c96e27942d31d612407b00096e8755f31b4",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:dca16e58f402735cb103ca64e4139b6d7b5199ec1c3ce2d958b210e4db503290",
+      "path": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.contract.json"
+    },
+    "events": {
+      "digest": "sha256:8218df720941c5900f777d5bd72893be0017327e6fa56b63e302831c1ec32243",
+      "path": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:7d4755aecabc00e7934dad68c7b7f16291917951560159fba8fe6e0cc4e7f40b",
+      "path": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:cb8ef3fa412181c83f953e61a2dc07b6d5cea0968898d426d7aaf20741b78e39",
+      "path": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.summary.json"
+    }
+  },
+  "authoritySource": "conversation:Sentinel_c103127de82c8191943133d548823b23 (user exact confirmation at 2026-10-26T21:06:00Z for WI-1112 disposition=replaced, WI-1113 successor, and the listed Contract/Summary/snapshot/sequence-2 Contract/Runtime bindings). The seven-boundary WI-1113 authorization source is conversation:Sentinel_536af122cd648191b5c75a93b2e7946e. Executing actor is agent:codex; no human identity is impersonated.",
+  "contractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Retire WI-1112 as replaced by WI-1113, whose current sequence-2 Contract canonical digest is sha256:71882bb06b0ddde46d51a1e033fa3f946e399490a2737faf2315b662db72a1fd and explicitly binds WI-1112 as predecessor. Preserve the original records byte-for-byte; record verificationClaim=not_verified. This is not verification, completion, PR transfer, or close.",
+  "recordedAt": "2026-10-26T21:07:23Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d08ad8bf813c518b3ece06a627f4521e2ca52eec2652a8ecbec1a156cf73223f",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "summaryDigest": "sha256:6e04a2d4ef98cbb4af44672ede1c55ad969f3f20d5ce7b5ea61e6e0e2a742f9d",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

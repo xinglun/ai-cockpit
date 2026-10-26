@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:2c2986e69c05391537bc7a9b2cdd1b2636a96d3c40a184e2226a6dd1872341e1",
+  "reason": "Owner confirmed WI-1113 sequence 4 scenario field correction and this exact binding in conversation Sentinel_7096eedac3b881918db4c3f19f3ec717 at 2026-10-26 22:14 UTC; the decision was submitted by agent:codex. This confirms the current amended Contract only; it does not assert scenario verification or test success.",
+  "recordedAt": "2026-10-26T22:14:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:516ce9a1511fb5c2f3de7fdd96a4c5136661bdc42ae5d8f5a5c4cc9d75efe4c9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

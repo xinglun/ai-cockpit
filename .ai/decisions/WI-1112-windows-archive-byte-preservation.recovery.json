@@ -1,0 +1,25 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_6557de73d764819190de0d282111f924 (user confirmed the exact successor binding at 2026-10-26T19:49:00Z; original direction Sentinel_9099bdc431d48191bf04681f20513744; include the material-recovery design defect in successor scope per Sentinel_31e8fe7a681c81919d136307b819ac2c).",
+  "decidedAt": "2026-10-26T19:49:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/40325952382",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/40330620147"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+  "predecessorEventsDigest": "sha256:8218df720941c5900f777d5bd72893be0017327e6fa56b63e302831c1ec32243",
+  "predecessorOutcomeDigest": "sha256:ed78e15ffa62e982a0ce63f5d0252492b97b4840d2ebb35680e29c86d5abda3a",
+  "predecessorSummaryDigest": "sha256:6e04a2d4ef98cbb4af44672ede1c55ad969f3f20d5ce7b5ea61e6e0e2a742f9d",
+  "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
+  "reason": "WI-1112 remains blocked at its finish lifecycle because its material-review receipt is invalid after the profile amendment. Preserve all predecessor source, native records, and CI failures, and continue the work under the named successor. This decision does not claim verification or completion.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Prepare and govern the successor's inherited repair, material-receipt migration, and parallel scoped-authorization plan through its native lifecycle. Retire WI-1112 as replaced only under a later exact binding, preserving its unverified status.",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

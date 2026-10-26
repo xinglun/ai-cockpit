@@ -1,0 +1,53 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:91bccb7c78bbb77b10cfd199a7646695fca693fe06d20e4536efe1efb3da8d2b",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+    "sequence": 3,
+    "changeId": "wi1113-preserve-complete-intent-as-start-text-20261026",
+    "requestDigest": "sha256:a5c5478fdd663b4f8bf42949c07bb59ebcbc31062245491ec92049f842a70654",
+    "reason": "The fixed Runtime staged-start path accepts a textual intent and activation checks otherwise reject the recovery scaffold at /intent. Convert only the structured intent to the exact textual value already present in the complete sequence-2 start declaration; the complete JSON payload is preserved verbatim as readable text, and no goal, scope, out-of-scope item, risk, authority, acceptance criterion, verification command, scenario, task authorization, or profile field changes.",
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "replace",
+        "oldValue": {
+          "businessGoal": "Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.",
+          "constraints": [
+            "Append-only evidence only; preserve old receipts and failures.",
+            "Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.",
+            "Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.",
+            "No global Git configuration or CI workflow changes."
+          ],
+          "nonGoals": [
+            "No cross-repository grants.",
+            "No wildcard or future Work Item authorization.",
+            "No automatic PR, branch, or resource ownership transfer.",
+            "No Runtime replacement, release, production action, or implicit close."
+          ],
+          "problem": "A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.",
+          "rationale": "Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.",
+          "userGoal": "Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects."
+        },
+        "newValue": "WI-1113 intent details (preserved from the typed plan):\n{\n  \"businessGoal\": \"Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.\",\n  \"constraints\": [\n    \"Append-only evidence only; preserve old receipts and failures.\",\n    \"Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.\",\n    \"Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.\",\n    \"No global Git configuration or CI workflow changes.\"\n  ],\n  \"nonGoals\": [\n    \"No cross-repository grants.\",\n    \"No wildcard or future Work Item authorization.\",\n    \"No automatic PR, branch, or resource ownership transfer.\",\n    \"No Runtime replacement, release, production action, or implicit close.\"\n  ],\n  \"problem\": \"A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.\",\n  \"rationale\": \"Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.\",\n  \"userGoal\": \"Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects.\"\n}"
+      }
+    ],
+    "previousContractDigest": "sha256:71882bb06b0ddde46d51a1e033fa3f946e399490a2737faf2315b662db72a1fd",
+    "newContractDigest": "sha256:23facb190fff47ebef551255140fb8e9b3d356a09e040f758a51032e599ae9e6",
+    "repositorySnapshotDigest": "sha256:d08ad8bf813c518b3ece06a627f4521e2ca52eec2652a8ecbec1a156cf73223f",
+    "environmentObservationDigest": "sha256:4bbec1a9c71813b336f8c9dbf508ad49eb57b083a1360980636d91e41f86b80f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:41a618661e0079c72e75cec35354245241521dd76afbbac5892ac4de010369b1",
+    "journalDigest": "sha256:85ef33d0f135b4320bbce70714bd67f5d125977095916586f1bd62bce1c7f810",
+    "recordedAt": "2026-10-26T21:13:13Z"
+  }
+}

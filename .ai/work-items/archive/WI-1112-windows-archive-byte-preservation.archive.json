@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-10-26T21:07:23Z",
+  "files": {
+    "contractDigest": "sha256:dca16e58f402735cb103ca64e4139b6d7b5199ec1c3ce2d958b210e4db503290",
+    "contractPath": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.contract.json",
+    "eventsDigest": "sha256:8218df720941c5900f777d5bd72893be0017327e6fa56b63e302831c1ec32243",
+    "eventsPath": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.events.jsonl",
+    "outcomeDigest": "sha256:7d4755aecabc00e7934dad68c7b7f16291917951560159fba8fe6e0cc4e7f40b",
+    "outcomePath": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.outcome.json",
+    "summaryDigest": "sha256:cb8ef3fa412181c83f953e61a2dc07b6d5cea0968898d426d7aaf20741b78e39",
+    "summaryPath": ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}
