@@ -88,6 +88,11 @@ pub struct ContractAmendmentReceipt {
     pub invalidated_evidence: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub delegated_review: Option<DelegatedDevelopmentReview>,
+    /// Append-only provenance for an explicitly amended material-review
+    /// profile. This preserves the prior exact request and receipt but does
+    /// not authorize review under the new profile.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub material_review_profile_transition: Option<Value>,
     pub policy_review_required: bool,
     pub policy_review_requirements: Vec<String>,
     pub previous_journal_digest: Digest,
@@ -120,6 +125,8 @@ struct PreparedAmendment {
     policy_review_requirements: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     delegated_review: Option<DelegatedDevelopmentReview>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    material_review_profile_transition: Option<Value>,
     legacy_input_digest: Option<Digest>,
     prepared_at: String,
 }
@@ -2272,6 +2279,8 @@ fn load_history_with_predecessor(
                 != (!prepared.prepared.policy_review_requirements.is_empty()
                     && prepared.prepared.delegated_review.is_none())
             || receipt.delegated_review != prepared.prepared.delegated_review
+            || receipt.material_review_profile_transition
+                != prepared.prepared.material_review_profile_transition
             || receipt.policy_review_requirements != prepared.prepared.policy_review_requirements
             || receipt.previous_journal_digest != previous_digest
             || journal_digest(&receipt)? != receipt.journal_digest
@@ -2629,8 +2638,18 @@ fn prepare_transaction(
         previous_summary,
         &repository_snapshot_digest,
     )?;
+    let material_review_profile_transition = super::material_review::prepare_profile_transition(
+        root,
+        work_item_id,
+        &previous_contract,
+        &previous_contract_digest,
+        &new_contract,
+        &new_contract_digest,
+        previous_summary,
+    )?;
     let prepared = PreparedAmendment {
         delegated_review,
+        material_review_profile_transition,
         schema_version: 1,
         repository_id: super::repository_id(root).to_string(),
         work_item_id: work_item_id.into(),
@@ -2729,6 +2748,7 @@ fn commit_prepared(
         invalidated_required_checks,
         invalidated_evidence,
         delegated_review: data.delegated_review.clone(),
+        material_review_profile_transition: data.material_review_profile_transition.clone(),
         policy_review_required: !data.policy_review_requirements.is_empty()
             && data.delegated_review.is_none(),
         policy_review_requirements: data.policy_review_requirements.clone(),

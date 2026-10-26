@@ -24,7 +24,7 @@ use cockpit_protocol::{
     MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
     MaterialInspectionReviewDecisionReceipt, RuntimeContext, digest_json,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sha2::{Digest as _, Sha256};
 #[cfg(not(any(unix, windows)))]
 use std::fs::OpenOptions;
@@ -46,7 +46,7 @@ const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 const MAX_ACTIVE_CONTRACT_BYTES: u64 = MAX_BOUNDED_GIT_OUTPUT_BYTES as u64;
 const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum MaterialScannerAssessment {
     Clean,
@@ -54,8 +54,8 @@ pub enum MaterialScannerAssessment {
     Unknown,
 }
 
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MaterialReviewEntry {
     pub path: String,
     pub kind: String,
@@ -67,8 +67,8 @@ pub struct MaterialReviewEntry {
     pub after_blob_digest: Option<Digest>,
 }
 
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MaterialReviewRequest {
     pub schema_version: u32,
     pub repository_id: String,
@@ -92,6 +92,49 @@ pub struct MaterialReviewRequest {
     /// Provenance only. It is excluded from request_digest so an identical
     /// source manifest in a legitimate descendant remains comparable.
     pub reviewed_source_head: String,
+}
+
+impl<'de> Deserialize<'de> for MaterialUnknownCause {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        match value.as_str() {
+            "missing_complete_source" => Ok(Self::MissingCompleteSource),
+            "non_text_material" => Ok(Self::NonTextMaterial),
+            "source_over_budget" => Ok(Self::SourceOverBudget),
+            "invalid_provenance" => Ok(Self::InvalidProvenance),
+            "parse_unavailable" => Ok(Self::ParseUnavailable),
+            "analysis_incomplete" => Ok(Self::AnalysisIncomplete),
+            "readable_committed_rust_syntax_unknown" => {
+                Ok(Self::ReadableCommittedRustSyntaxUnknown)
+            }
+            _ => Err(serde::de::Error::custom("unknown material-review cause")),
+        }
+    }
+}
+
+/// A profile transition is provenance only: it preserves the exact prior
+/// decision and its request so a later reader can classify that decision as
+/// stale history. It never approves the new profile or discharges its Unknowns.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct MaterialReviewProfileTransition {
+    schema_version: u32,
+    repository_id: String,
+    work_item_id: String,
+    previous_contract: serde_json::Value,
+    previous_contract_digest: Digest,
+    next_contract: serde_json::Value,
+    next_contract_digest: Digest,
+    previous_profile_digest: Digest,
+    next_profile_digest: Digest,
+    previous_request: MaterialReviewRequest,
+    next_request: MaterialReviewRequest,
+    previous_pointer: serde_json::Value,
+    previous_receipt: MaterialInspectionReviewDecisionReceipt,
+    transition_digest: Digest,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -1565,6 +1608,327 @@ pub(crate) fn require_material_review_gate(
     Ok(projection)
 }
 
+pub(super) fn prepare_profile_transition(
+    root: &Path,
+    work_item_id: &str,
+    previous_contract_value: &serde_json::Value,
+    previous_contract_digest: &Digest,
+    next_contract_value: &serde_json::Value,
+    next_contract_digest: &Digest,
+    previous_summary: &serde_json::Value,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let previous_contract: Contract = serde_json::from_value(previous_contract_value.clone())
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("previous amendment Contract is invalid: {error}"),
+        })?;
+    let next_contract: Contract =
+        serde_json::from_value(next_contract_value.clone()).map_err(|error| {
+            ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: format!("next amendment Contract is invalid: {error}"),
+            }
+        })?;
+    if previous_contract.repository_id != repository_id(root).to_string()
+        || next_contract.repository_id != previous_contract.repository_id
+        || previous_contract.work_item_id != work_item_id
+        || next_contract.work_item_id != work_item_id
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "material-review profile transition changed Work Item identity".into(),
+        });
+    }
+    let previous_profile = previous_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("previous material-review profile is invalid: {message}"),
+        })?;
+    let next_profile = next_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("next material-review profile is invalid: {message}"),
+        })?;
+    let previous_profile_digest = previous_profile
+        .as_ref()
+        .map(json_digest)
+        .transpose()
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: error.to_string(),
+        })?;
+    let next_profile_digest =
+        next_profile
+            .as_ref()
+            .map(json_digest)
+            .transpose()
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: error.to_string(),
+            })?;
+    if previous_profile_digest == next_profile_digest {
+        return Ok(None);
+    }
+
+    let Some(previous_pointer) = previous_summary
+        .get("materialReviewReceipt")
+        .filter(|pointer| !pointer.is_null())
+        .cloned()
+    else {
+        return Ok(None);
+    };
+    if previous_profile.is_none() || next_profile.is_none() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "cannot transition a material-review profile while a receipt exists unless both profiles are enabled".into(),
+        });
+    }
+
+    let previous_request = material_review_request_with_contract_digest(
+        root,
+        &previous_contract,
+        previous_contract_digest,
+    )
+    .map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: format!("cannot validate the prior material-review request: {error}"),
+    })?;
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let previous_receipt = match read_material_review_receipt(
+        root,
+        &previous_contract,
+        previous_contract_digest,
+        &previous_request,
+        &summary_path,
+    )? {
+        MaterialReviewReceiptState::Current(receipt) => *receipt,
+        MaterialReviewReceiptState::Stale => {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "cannot change a material-review profile while its receipt is stale; record a current decision first".into(),
+            });
+        }
+        MaterialReviewReceiptState::Missing => {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "material-review Summary pointer disappeared while preparing a profile transition".into(),
+            });
+        }
+    };
+    let next_request =
+        material_review_request_with_contract_digest(root, &next_contract, next_contract_digest)
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: format!("cannot bind the next material-review request: {error}"),
+            })?;
+    let mut transition = MaterialReviewProfileTransition {
+        schema_version: 1,
+        repository_id: previous_contract.repository_id.clone(),
+        work_item_id: work_item_id.to_owned(),
+        previous_contract: previous_contract_value.clone(),
+        previous_contract_digest: previous_contract_digest.clone(),
+        next_contract: next_contract_value.clone(),
+        next_contract_digest: next_contract_digest.clone(),
+        previous_profile_digest: previous_profile_digest.expect("profile is present"),
+        next_profile_digest: next_profile_digest.expect("profile is present"),
+        previous_request,
+        next_request,
+        previous_pointer,
+        previous_receipt,
+        transition_digest: Digest::sha256_bytes(b"uncommitted-material-review-profile-transition"),
+    };
+    let mut value = serde_json::to_value(&transition).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: format!("cannot encode material-review profile transition: {error}"),
+    })?;
+    transition.transition_digest = material_review_profile_transition_digest(&value)?;
+    value["transitionDigest"] = serde_json::json!(transition.transition_digest);
+    Ok(Some(value))
+}
+
+fn material_review_profile_transition_digest(
+    transition: &serde_json::Value,
+) -> Result<Digest, ObserverError> {
+    let mut core = transition.clone();
+    core.as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "profile transition must be a JSON object".into(),
+        })?
+        .remove("transitionDigest");
+    digest_json(&("ai-cockpit:material-review-profile-transition:v1", core)).map_err(|error| {
+        ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        }
+    })
+}
+
+fn validate_material_review_profile_transition(
+    transition_value: &serde_json::Value,
+    amendment: &super::ContractAmendmentReceipt,
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    pointer: &serde_json::Value,
+    current_contract: &Contract,
+    current_profile_digest: &Digest,
+) -> Result<bool, ObserverError> {
+    let transition: MaterialReviewProfileTransition =
+        serde_json::from_value(transition_value.clone()).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid profile transition record: {error}"),
+        })?;
+    let actual_digest = material_review_profile_transition_digest(transition_value)?;
+    if transition.schema_version != 1
+        || transition.transition_digest != actual_digest
+        || transition.repository_id != current_contract.repository_id
+        || transition.work_item_id != current_contract.work_item_id
+        || transition.repository_id != amendment.repository_id
+        || transition.work_item_id != amendment.work_item_id
+        || transition.previous_contract_digest != amendment.previous_contract_digest
+        || transition.next_contract_digest != amendment.new_contract_digest
+        || transition.previous_contract_digest != receipt.contract_digest
+        || transition.previous_receipt != *receipt
+        || transition.previous_pointer != *pointer
+        || transition.previous_profile_digest != receipt.profile_digest
+        || transition.next_profile_digest != *current_profile_digest
+    {
+        return Ok(false);
+    }
+
+    let previous_contract: Contract = serde_json::from_value(transition.previous_contract.clone())
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid previous Contract in profile transition: {error}"),
+        })?;
+    let next_contract: Contract = serde_json::from_value(transition.next_contract.clone())
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid next Contract in profile transition: {error}"),
+        })?;
+    if json_digest(&transition.previous_contract).map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: error.to_string(),
+    })? != transition.previous_contract_digest
+        || json_digest(&transition.next_contract).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })? != transition.next_contract_digest
+    {
+        return Ok(false);
+    }
+    let previous_profile = previous_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid previous profile in transition: {message}"),
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "previous profile is missing from transition".into(),
+        })?;
+    let next_profile = next_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid next profile in transition: {message}"),
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "next profile is missing from transition".into(),
+        })?;
+    if json_digest(&previous_profile).map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: error.to_string(),
+    })? != transition.previous_profile_digest
+        || json_digest(&next_profile).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })? != transition.next_profile_digest
+        || previous_contract.repository_id != transition.repository_id
+        || next_contract.repository_id != transition.repository_id
+        || previous_contract.work_item_id != transition.work_item_id
+        || next_contract.work_item_id != transition.work_item_id
+        || current_contract.repository_id != transition.repository_id
+        || current_contract.work_item_id != transition.work_item_id
+    {
+        return Ok(false);
+    }
+    let previous_request_digest = material_review_request_digest(&transition.previous_request)
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })?;
+    let next_request_digest =
+        material_review_request_digest(&transition.next_request).map_err(|error| {
+            ObserverError::State {
+                path: "material-review-profile-transition".into(),
+                message: error.to_string(),
+            }
+        })?;
+    if previous_request_digest != transition.previous_request.request_digest
+        || next_request_digest != transition.next_request.request_digest
+        || transition.previous_request.contract_digest != transition.previous_contract_digest
+        || transition.next_request.contract_digest != transition.next_contract_digest
+        || transition
+            .previous_request
+            .material_inspection_review_profile_digest
+            .as_ref()
+            != Some(&transition.previous_profile_digest)
+        || transition
+            .next_request
+            .material_inspection_review_profile_digest
+            .as_ref()
+            != Some(&transition.next_profile_digest)
+        || transition.previous_request.repository_id != transition.repository_id
+        || transition.next_request.repository_id != transition.repository_id
+        || transition.previous_request.work_item_id != transition.work_item_id
+        || transition.next_request.work_item_id != transition.work_item_id
+        || receipt.request_digest != transition.previous_request.request_digest
+        || receipt.profile_digest != transition.previous_profile_digest
+    {
+        return Ok(false);
+    }
+    receipt
+        .validate_integrity()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message,
+        })?;
+    let input = MaterialInspectionReviewDecisionInput {
+        schema_version: receipt.schema_version,
+        decision: receipt.decision,
+        request_digest: receipt.request_digest.clone(),
+        reviewer_actor: receipt.reviewer_actor.clone(),
+        authority_source: receipt.authority_source.clone(),
+        assurance: receipt.assurance,
+        evidence_refs: receipt.evidence_refs.clone(),
+        rationale: receipt.rationale.clone(),
+        residual_risk: receipt.residual_risk.clone(),
+    };
+    let expected = validate_material_review_decision_with_contract_digest(
+        &previous_contract,
+        &transition.previous_contract_digest,
+        &transition.previous_request,
+        &input,
+        &receipt.recorded_by,
+        &receipt.recorded_at,
+    )
+    .map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: format!(
+            "prior review does not validate against its captured Contract and request: {error}"
+        ),
+    })?;
+    if expected != *receipt || transition.next_profile_digest != *current_profile_digest {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
 fn read_material_review_receipt(
     root: &Path,
     contract: &Contract,
@@ -1744,13 +2108,6 @@ fn read_material_review_receipt(
             path: summary_path.to_path_buf(),
             message: error.to_string(),
         })?;
-    if receipt.profile_digest != current_profile_digest {
-        return Err(ObserverError::State {
-            path: sidecar_path,
-            message: "material-review receipt is bound to a different current review profile"
-                .into(),
-        });
-    }
     let contract_was_amended = receipt.contract_digest != *contract_digest;
     if contract_was_amended
         && (!stale_request
@@ -1764,6 +2121,24 @@ fn read_material_review_receipt(
         return Err(ObserverError::State {
             path: sidecar_path,
             message: "material-review receipt is bound to a different current Contract without a validated amendment chain".into(),
+        });
+    }
+    if receipt.profile_digest != current_profile_digest
+        && (!stale_request
+            || !contract_was_amended
+            || !material_review_profile_transition_reaches(
+                &root,
+                &contract.work_item_id,
+                &summary["materialReviewReceipt"],
+                &receipt,
+                contract,
+                contract_digest,
+                &current_profile_digest,
+            )?)
+    {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review receipt is bound to a different current review profile without a validated append-only profile transition".into(),
         });
     }
     let reviewed_source_head =
@@ -1848,6 +2223,54 @@ fn material_review_contract_amendment_chain_reaches(
         previous_contract_digest,
         current_contract_digest,
     ))
+}
+
+fn material_review_profile_transition_reaches(
+    root: &Path,
+    work_item_id: &str,
+    pointer: &serde_json::Value,
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    current_contract: &Contract,
+    current_contract_digest: &Digest,
+    current_profile_digest: &Digest,
+) -> Result<bool, ObserverError> {
+    let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
+    let digests = amendments
+        .iter()
+        .map(|amendment| {
+            (
+                amendment.previous_contract_digest.clone(),
+                amendment.new_contract_digest.clone(),
+            )
+        })
+        .collect::<Vec<_>>();
+    let mut valid_transitions = 0;
+    for amendment in &amendments {
+        let Some(transition) = amendment.material_review_profile_transition.as_ref() else {
+            continue;
+        };
+        if amendment.previous_contract_digest != receipt.contract_digest
+            || (amendment.new_contract_digest != *current_contract_digest
+                && !material_review_contract_amendment_digests_form_chain(
+                    digests.clone(),
+                    &amendment.new_contract_digest,
+                    current_contract_digest,
+                ))
+        {
+            continue;
+        }
+        if validate_material_review_profile_transition(
+            transition,
+            amendment,
+            receipt,
+            pointer,
+            current_contract,
+            current_profile_digest,
+        )? {
+            valid_transitions += 1;
+        }
+    }
+    Ok(valid_transitions == 1)
 }
 
 fn material_review_contract_amendment_digests_form_chain(

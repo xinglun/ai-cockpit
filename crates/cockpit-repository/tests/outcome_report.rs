@@ -2615,3 +2615,48 @@ fn archived_report_tamper_is_red_and_not_reprojected_as_verified() {
             .any(|unknown| unknown == "outcome_report_invalid")
     );
 }
+
+#[test]
+fn archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes() {
+    let directory = repository();
+    let work_item_id = "WI-136-SINGLE-BYTE-TAMPER";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let artifact_path = directory.path().join(format!(
+        ".ai/work-items/archive/{work_item_id}.task-report.md"
+    ));
+    let original = fs::read(&artifact_path).expect("archived Markdown bytes");
+    assert!(!original.is_empty(), "fixture report must contain bytes");
+    let original_digest = Digest::sha256_bytes(&original);
+    let mut tampered = original.clone();
+    tampered[0] ^= 1;
+    assert_eq!(
+        original
+            .iter()
+            .zip(&tampered)
+            .filter(|(left, right)| left != right)
+            .count(),
+        1,
+        "fixture must change exactly one byte"
+    );
+    let tampered_digest = Digest::sha256_bytes(&tampered);
+    assert_ne!(original_digest, tampered_digest);
+    fs::write(&artifact_path, &tampered).expect("write exact one-byte mutation");
+
+    let observed = outcome_v2(directory.path(), work_item_id).expect("read tampered archive");
+    assert_eq!(observed.state, OutcomeState::Unknown);
+    assert!(
+        observed
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "outcome_report_invalid"),
+        "a single-byte artifact mutation with its declared digest unchanged must be rejected"
+    );
+    assert_eq!(
+        fs::read(&artifact_path).expect("tampered bytes remain on disk"),
+        tampered,
+        "read-only projection must not rewrite or normalize the protected artifact"
+    );
+}

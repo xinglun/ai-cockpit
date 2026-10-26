@@ -1328,6 +1328,231 @@ fn stale_receipt_after_valid_contract_amendment_is_classified_stale() {
 }
 
 #[test]
+fn valid_profile_amendment_preserves_exact_prior_receipt_as_history() {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let original_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let old_pointer = original_summary["materialReviewReceipt"].clone();
+    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
+    let old_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
+    let reason = "preserve the exact prior review when the owner changes the review profile";
+    amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "material-review-profile-transition",
+            "expectedContractDigest": old_contract_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:Raydot-Updated"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect("record the profile change through the typed amendment route");
+
+    let current_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("amended Contract"))
+            .expect("amended Contract JSON");
+    let current_contract_digest =
+        cockpit_protocol::digest_json(&current_contract).expect("current Contract digest");
+    let request = plan_work_item_material_review(root, "WI-MATERIAL")
+        .expect("new exact request after profile amendment");
+    assert_ne!(request.contract_digest, old_contract_digest);
+    input.request_digest = request.request_digest.clone();
+    input.reviewer_actor = "agent:Raydot-Updated".into();
+
+    cockpit_repository::preflight_work_item(root, &contract_path)
+        .expect("refresh preflight for the profile-amended Contract");
+    let current_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("preflight Summary"))
+            .expect("preflight Summary JSON");
+    let preflight_decision = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-MATERIAL",
+        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "contractDigest": current_contract_digest,
+        "preflightDecisionDigest": current_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": current_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-08T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "test fixture confirms its exact amended Contract"
+    });
+    cockpit_repository::record_work_item_governance_controls(
+        root,
+        "WI-MATERIAL",
+        &json!({"decisionEvidence": preflight_decision}),
+    )
+    .expect("record only the test fixture's exact preflight decision");
+
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after profile amendment");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "a valid profile transition must preserve the prior decision as stale history: {status:#?}"
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "the transition itself must not discharge the current request's Unknown"
+    );
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into()),
+        "a valid typed amendment must not turn an intact historic receipt into corruption"
+    );
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let committed_path =
+        root.join(".ai/evidence/WI-MATERIAL.contract-amendments/00000001.committed.json");
+    let committed_bytes = fs::read(&committed_path).expect("committed transition record");
+    let mut committed: serde_json::Value =
+        serde_json::from_slice(&committed_bytes).expect("committed transition JSON");
+    committed["receipt"]["materialReviewProfileTransition"]["transitionDigest"] =
+        json!("sha256:0000000000000000000000000000000000000000000000000000000000000000");
+    fs::write(
+        &committed_path,
+        serde_json::to_vec_pretty(&committed).expect("tampered transition record"),
+    )
+    .expect("tamper only the isolated test journal");
+    let tampered_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime);
+    match tampered_status {
+        Err(error) => assert!(
+            error.to_string().contains("digest chain"),
+            "unexpected transition integrity rejection: {error}"
+        ),
+        Ok(snapshot) => {
+            assert!(
+                snapshot
+                    .effective_unknowns
+                    .contains(&"material_review_receipt_invalid".into())
+            );
+            assert!(
+                !snapshot
+                    .safe_actions
+                    .contains(&"record_material_review_decision".into())
+            );
+        }
+    }
+    fs::write(&committed_path, &committed_bytes)
+        .expect("restore the original isolated test journal bytes");
+
+    let renewed =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect("record a fresh decision for the new exact request");
+    assert_eq!(renewed.request_digest, request.request_digest);
+    assert_eq!(
+        fs::read(&old_sidecar_path).expect("prior sidecar remains immutable"),
+        old_sidecar_bytes
+    );
+    let renewed_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("updated Summary"))
+            .expect("updated Summary JSON");
+    assert_eq!(
+        renewed_summary["materialReviewReceiptHistory"],
+        json!([old_pointer])
+    );
+    assert_eq!(
+        renewed_summary["materialReviewReceipt"]["requestDigest"],
+        request.request_digest.to_string()
+    );
+    let transitions = cockpit_repository::read_work_item_contract_amendments(root, "WI-MATERIAL")
+        .expect("read the append-only Contract amendment chain")
+        .into_iter()
+        .filter_map(|amendment| amendment.material_review_profile_transition)
+        .collect::<Vec<_>>();
+    assert_eq!(transitions.len(), 1);
+    assert_eq!(
+        transitions[0]["previousReceipt"]["receiptDigest"],
+        old_pointer["receiptDigest"]
+    );
+    assert_eq!(
+        transitions[0]["nextRequest"]["requestDigest"],
+        request.request_digest.to_string()
+    );
+}
+
+#[test]
+fn profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale() {
+    let (directory, runtime, contract_path, _summary_path, old_sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    fs::write(
+        root.join("README.md"),
+        "change the exact material request before attempting a profile transition\n",
+    )
+    .expect("change committed source");
+    commit(root);
+
+    let before_contract = fs::read(&contract_path).expect("previous Contract bytes");
+    let before_history =
+        cockpit_repository::read_work_item_contract_amendments(root, "WI-MATERIAL")
+            .expect("empty amendment history before profile transition");
+    assert!(before_history.is_empty());
+    let previous_contract: serde_json::Value =
+        serde_json::from_slice(&before_contract).expect("previous Contract JSON");
+    let previous_digest =
+        cockpit_protocol::digest_json(&previous_contract).expect("previous Contract digest");
+    let reason = "do not migrate an already stale decision into a profile transition";
+    let error = amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "reject-stale-material-profile-transition",
+            "expectedContractDigest": previous_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:Raydot-Updated"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect_err("a stale prior decision cannot be relabeled as a valid transition");
+    assert!(
+        error.to_string().contains("receipt is stale"),
+        "unexpected pre-amendment rejection: {error}"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract was not rewritten"),
+        before_contract
+    );
+    assert!(
+        cockpit_repository::read_work_item_contract_amendments(root, "WI-MATERIAL")
+            .expect("no prepared or committed amendment was written")
+            .is_empty()
+    );
+    assert!(
+        old_sidecar_path.is_file(),
+        "prior sidecar remains preserved"
+    );
+}
+
+#[test]
 fn stale_receipt_without_contract_amendment_chain_remains_invalid() {
     let (directory, runtime, contract_path, _summary_path, _old_sidecar_path, _input) =
         active_recorded_material_review_fixture();
