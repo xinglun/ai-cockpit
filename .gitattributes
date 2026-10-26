@@ -1,4 +1,5 @@
 /.ai export-ignore
+/.ai/** -text
 /.worktrees export-ignore
 /dist export-ignore
 /target export-ignore

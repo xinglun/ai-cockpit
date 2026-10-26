@@ -311,6 +311,24 @@ fn human_cli_output(binary: &str, repo: &Path, id: &str, language: &str) -> Stri
     String::from_utf8(output.stdout).expect("human CLI UTF-8")
 }
 
+fn continuity_section<'a>(handoff: &'a str, heading: &str) -> &'a str {
+    let start = handoff
+        .find(heading)
+        .expect("continuity heading is present");
+    let tail = &handoff[start..];
+    let end = [
+        "\nCross-WI coordination:",
+        "\n跨 WI 协调:",
+        "\nCross-WI coordination",
+        "\nWI 間調整:",
+    ]
+    .iter()
+    .filter_map(|marker| tail.find(marker))
+    .min()
+    .unwrap_or(tail.len());
+    &tail[..end]
+}
+
 fn human_semantic_lines(text: &str) -> Vec<&str> {
     text.lines()
         .filter(|line| {
@@ -599,6 +617,221 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
                 "language={language}, fragment={fragment:?}, cli={cli_handoff}, mcp={mcp_handoff}"
             );
         }
+    }
+}
+
+#[test]
+fn successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewriting_archive() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let predecessor = "WI-CLI-MCP-CONTINUITY-PREDECESSOR";
+    let successor = "WI-CLI-MCP-CONTINUITY-SUCCESSOR";
+    let repo = repository();
+    run_json(binary, repo.path(), &["attach"]);
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "start",
+            "--id",
+            predecessor,
+            "--intent",
+            "preserve the original local delivery while continuing externally",
+            "--goal",
+            "show the archived predecessor and active successor in the handoff",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "A1: the successor handoff distinguishes local archive from pending external validation",
+            "--required-evidence",
+            "verification",
+        ],
+    );
+    common::plan(binary, repo.path(), predecessor);
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "preflight",
+            "--contract",
+            &format!(".ai/work-items/active/{predecessor}.contract.json"),
+        ],
+    );
+    run_json(binary, repo.path(), &["checkpoint", "--id", predecessor]);
+    let controls_path = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls_path.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+                    "locator": "successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewriting_archive",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            predecessor,
+            "--input",
+            controls_path.path().to_str().expect("controls path"),
+        ],
+    );
+    run_json(
+        binary,
+        repo.path(),
+        &["verify", "--work-item", predecessor, "--command", "true"],
+    );
+    run_json(binary, repo.path(), &["finish", "--id", predecessor]);
+    run_json(binary, repo.path(), &["archive", "--id", predecessor]);
+
+    let archive = repo.path().join(".ai/work-items/archive");
+    let archived_bytes = [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "events.jsonl",
+        "task-report.json",
+        "task-report.md",
+        "archive.json",
+    ]
+    .into_iter()
+    .map(|suffix| {
+        let path = archive.join(format!("{predecessor}.{suffix}"));
+        (
+            path.clone(),
+            fs::read(path).expect("read frozen archive artifact"),
+        )
+    })
+    .collect::<Vec<_>>();
+    let archived_contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{predecessor}.contract.json"))).expect("archived Contract"),
+    )
+    .expect("Contract JSON");
+    let archived_summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{predecessor}.summary.json"))).expect("archived Summary"),
+    )
+    .expect("Summary JSON");
+    let archived_outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(archive.join(format!("{predecessor}.outcome.json"))).expect("archived Outcome"),
+    )
+    .expect("Outcome JSON");
+    let archived_events =
+        fs::read(archive.join(format!("{predecessor}.events.jsonl"))).expect("archived Events");
+    let runtime = current_runtime_context(binary);
+    let recovery = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "successor",
+        "workItemId": predecessor,
+        "repositoryId": archived_contract["repositoryId"],
+        "predecessorWorkItemId": predecessor,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&archived_contract).unwrap(),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&archived_summary).unwrap(),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&archived_outcome).unwrap(),
+        "predecessorEventsDigest": format!("sha256:{}", hex::encode(Sha256::digest(&archived_events))),
+        "successorWorkItemId": successor,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:test-owner",
+        "authoritySource": "test-fixture",
+        "reason": "continue the delivery after preserving its verified local archive",
+        "evidenceRefs": [format!(".ai/work-items/archive/{predecessor}.outcome.json")],
+        "policyRefs": ["docs/reference/agent-workflow.md"],
+        "decidedAt": "2026-10-26T00:00:00Z",
+        "resumeCondition": "continue and verify the successor Work Item"
+    });
+    let recovery_path = tempfile::NamedTempFile::new().expect("recovery input");
+    fs::write(
+        recovery_path.path(),
+        serde_json::to_vec_pretty(&recovery).expect("recovery JSON"),
+    )
+    .expect("write recovery input");
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "work-item",
+            "recover",
+            "--id",
+            predecessor,
+            "--input",
+            recovery_path.path().to_str().expect("recovery path"),
+        ],
+    );
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "start",
+            "--id",
+            successor,
+            "--intent",
+            "repair the externally failed delivery without rewriting history",
+            "--goal",
+            "preserve predecessor history and make the current next action clear",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "A1: successor lineage is shown without claiming provider delivery",
+            "--required-evidence",
+            "verification",
+        ],
+    );
+
+    let runtime = current_runtime_context(binary);
+    for (language, continuity_heading, pending_fragment) in [
+        (
+            "en",
+            "Delivery continuity v1",
+            "External validation: pending",
+        ),
+        ("zh", "交付连续性 v1", "外部验证：待完成"),
+        ("ja", "引き継ぎ継続性 v1", "外部検証：保留中"),
+    ] {
+        let cli_handoff = human_cli_output(binary, repo.path(), successor, language);
+        let response = cockpit_mcp::handle_request_for_repo(
+            &serde_json::json!({
+                "jsonrpc": "2.0",
+                "id": 3,
+                "method": "tools/call",
+                "params": {"name": "work_item_outcome", "arguments": {"workItemId": successor, "language": language}}
+            }),
+            repo.path(),
+            &runtime,
+        );
+        assert_eq!(response["result"]["isError"], false, "{response}");
+        let mcp_handoff = response["result"]["structuredContent"]["humanHandoff"]
+            .as_str()
+            .expect("MCP human handoff");
+        assert_eq!(
+            continuity_section(&cli_handoff, continuity_heading),
+            continuity_section(mcp_handoff, continuity_heading),
+            "language={language}: CLI and MCP must render the same continuity facts"
+        );
+        assert!(cli_handoff.contains(continuity_heading), "{cli_handoff}");
+        assert!(cli_handoff.contains(predecessor), "{cli_handoff}");
+        assert!(cli_handoff.contains(pending_fragment), "{cli_handoff}");
+    }
+    for (path, bytes) in archived_bytes {
+        assert_eq!(fs::read(&path).expect("read preserved archive"), bytes);
     }
 }
 

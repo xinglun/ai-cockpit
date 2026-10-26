@@ -651,6 +651,90 @@ fn recovery_successor_can_continue_a_bound_archived_ancestor_chain() {
         },
     )
     .expect("a selected ancestor chain must not self-block the successor start");
+
+    let predecessor_archive = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{second}"));
+    let frozen_archive_bytes = [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "events.jsonl",
+        "task-report.json",
+        "task-report.md",
+        "archive.json",
+    ]
+    .into_iter()
+    .map(|suffix| {
+        let path = predecessor_archive.with_file_name(format!("{second}.{suffix}"));
+        (
+            path.clone(),
+            fs::read(path).expect("predecessor archive artifact"),
+        )
+    })
+    .collect::<Vec<_>>();
+    let handoff = outcome_render_input_with_runtime(directory.path(), third, &runtime)
+        .expect("successor handoff derives continuity from its validated lineage");
+    let continuity = handoff
+        .delivery_continuity
+        .as_ref()
+        .expect("active successor handoff includes continuity");
+    assert_eq!(continuity.schema_version, 1);
+    assert_eq!(continuity.state, "in_progress");
+    assert_eq!(continuity.predecessor_work_item_id.as_deref(), Some(second));
+    assert_eq!(continuity.predecessor_archive_state, "verified_archived");
+    assert_eq!(continuity.external_validation_state, "pending");
+    assert_eq!(
+        continuity.successor_lifecycle_state,
+        "implementation_active"
+    );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), third, &runtime)
+        .expect("current action admission");
+    let action = continuity
+        .runtime_admitted_next_action
+        .as_deref()
+        .expect("a supplied Runtime produces an admitted next action");
+    assert!(status.safe_actions.iter().any(|safe| safe == action));
+    let rendered = render_human_outcome(&handoff, "en");
+    assert!(rendered.contains("Delivery continuity v1"));
+    assert!(rendered.contains("External validation: pending"));
+    for (path, bytes) in frozen_archive_bytes {
+        assert_eq!(
+            fs::read(&path).expect("read frozen predecessor artifact"),
+            bytes
+        );
+    }
+
+    let successor_contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{third}.contract.json"));
+    let successor_contract: Value =
+        serde_json::from_slice(&fs::read(&successor_contract_path).unwrap()).unwrap();
+    let recovery_path = directory.path().join(
+        successor_contract["recoveryDecisionPath"]
+            .as_str()
+            .expect("bound recovery path"),
+    );
+    let mut damaged_recovery: Value =
+        serde_json::from_slice(&fs::read(&recovery_path).unwrap()).unwrap();
+    damaged_recovery["successorWorkItemId"] = json!("WI-UNRELATED");
+    fs::write(
+        &recovery_path,
+        serde_json::to_vec_pretty(&damaged_recovery).unwrap(),
+    )
+    .unwrap();
+    let invalid = outcome_render_input_with_runtime(directory.path(), third, &runtime)
+        .expect("invalid lineage remains explainable in the handoff");
+    let continuity = invalid
+        .delivery_continuity
+        .as_ref()
+        .expect("a declared but invalid predecessor remains visible as unknown");
+    assert_eq!(continuity.state, "unknown");
+    assert_eq!(continuity.predecessor_work_item_id, None);
+    assert_eq!(continuity.runtime_admitted_next_action, None);
+    let rendered = render_human_outcome(&invalid, "en");
+    assert!(rendered.contains("lineage is unverified"));
+    assert!(!rendered.contains("delivery complete"));
 }
 
 fn write_forged_supersede(

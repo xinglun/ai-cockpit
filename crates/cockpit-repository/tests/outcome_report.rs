@@ -11,7 +11,131 @@ use cockpit_repository::{
     preflight_work_item, record_recovery_decision, record_verification,
     render_human_outcome_with_view, start_work_item_with_options,
 };
-use std::{fs, process::Command};
+use std::{fs, path::Path, process::Command};
+
+fn clone_shared_no_checkout(source: &std::path::Path, destination: &std::path::Path) {
+    let output = Command::new("git")
+        .args(["clone", "--quiet", "--shared", "--no-checkout", "--", "."])
+        .arg(destination)
+        .current_dir(source)
+        .output()
+        .expect("clone fixed repository from its Git working directory");
+    assert!(
+        output.status.success(),
+        "fixed repository clone failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+fn preserve_ai_bytes_in_fixture(root: &std::path::Path) {
+    fs::write(root.join(".git/info/attributes"), b"/.ai/** -text\n")
+        .expect("preserve exact historical fixture bytes");
+}
+
+#[test]
+fn current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf() {
+    let source = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .canonicalize()
+        .expect("source repository");
+    let relative = ".ai/work-items/archive/WI-1111-token-outcome-ci.task-report.md";
+    let source_attributes = Command::new("git")
+        .args(["check-attr", "text", "--", relative])
+        .current_dir(&source)
+        .output()
+        .expect("check repository attribute for archived report");
+    assert!(source_attributes.status.success());
+    assert_eq!(
+        String::from_utf8_lossy(&source_attributes.stdout).trim(),
+        format!("{relative}: text: unset"),
+        "repository .gitattributes must disable text conversion for .ai artifacts"
+    );
+    let checkout = tempfile::tempdir().expect("temporary checkout root");
+    let root = checkout.path().join("current checkout with spaces");
+    clone_shared_no_checkout(&source, &root);
+    fs::copy(source.join(".gitattributes"), root.join(".gitattributes"))
+        .expect("install current repository attributes in fixture");
+    assert!(
+        Command::new("git")
+            .args(["config", "core.autocrlf", "true"])
+            .current_dir(&root)
+            .status()
+            .expect("enable fixture-local autocrlf")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["checkout", "--quiet", "HEAD", "--", relative])
+            .current_dir(&root)
+            .status()
+            .expect("checkout archived report using current repository attributes")
+            .success()
+    );
+    let fixture_attributes = Command::new("git")
+        .args(["check-attr", "text", "--", relative])
+        .current_dir(&root)
+        .output()
+        .expect("check cloned repository attribute for archived report");
+    assert!(fixture_attributes.status.success());
+    assert_eq!(
+        String::from_utf8_lossy(&fixture_attributes.stdout).trim(),
+        format!("{relative}: text: unset"),
+        "the cloned repository .gitattributes must disable text conversion"
+    );
+    let expected = Command::new("git")
+        .args(["show", &format!("HEAD:{relative}")])
+        .current_dir(&root)
+        .output()
+        .expect("read archived report blob");
+    assert!(expected.status.success(), "git show failed: {expected:?}");
+    let actual = fs::read(root.join(relative)).expect("read checked-out archived report");
+    assert_eq!(
+        actual, expected.stdout,
+        "repository attributes must preserve exact .ai bytes with core.autocrlf=true"
+    );
+}
+
+#[test]
+fn historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf() {
+    const REVISION: &str = "d18be4f8624d08f91fe1c961dfed287cfe9543df";
+    let source = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .canonicalize()
+        .expect("source repository");
+    let checkout = tempfile::tempdir().expect("temporary historical checkout root");
+    let root = checkout.path().join("historical checkout with spaces");
+    clone_shared_no_checkout(&source, &root);
+    assert!(
+        Command::new("git")
+            .args(["config", "core.autocrlf", "true"])
+            .current_dir(&root)
+            .status()
+            .expect("enable fixture-local autocrlf")
+            .success()
+    );
+    preserve_ai_bytes_in_fixture(&root);
+    assert!(
+        Command::new("git")
+            .args(["checkout", "--quiet", "--detach", REVISION])
+            .current_dir(&root)
+            .status()
+            .expect("checkout fixed historical revision")
+            .success()
+    );
+    let relative =
+        ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.task-report.md";
+    let expected = Command::new("git")
+        .args(["show", &format!("{REVISION}:{relative}")])
+        .current_dir(&root)
+        .output()
+        .expect("read historical report blob");
+    assert!(expected.status.success(), "git show failed: {expected:?}");
+    let actual = fs::read(root.join(relative)).expect("read checked-out historical report");
+    assert_eq!(
+        actual, expected.stdout,
+        "historical checkout must preserve exact .ai bytes with core.autocrlf=true"
+    );
+}
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -52,13 +176,8 @@ fn fixed_git_anchored_pre_policy_archive_remains_readable() {
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let checkout = tempfile::tempdir().expect("temporary historical checkout root");
     let root = checkout.path().join("repository");
-    let clone = Command::new("git")
-        .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
-        .arg(&source)
-        .arg(&root)
-        .status()
-        .expect("clone fixed historical repository");
-    assert!(clone.success(), "historical repository clone failed");
+    clone_shared_no_checkout(&source, &root);
+    preserve_ai_bytes_in_fixture(&root);
     let checkout_status = Command::new("git")
         .args(["checkout", "--quiet", "--detach", FIXED_ARCHIVE_REVISION])
         .current_dir(&root)
@@ -78,6 +197,115 @@ fn fixed_git_anchored_pre_policy_archive_remains_readable() {
     assert_eq!(report.work_item_id, WORK_ITEM_ID);
     assert_eq!(report.format, "ai-cockpit.task-outcome");
     assert_eq!(report.schema_version, 1);
+}
+
+#[test]
+fn real_wi1111_to_wi1112_reference_is_content_only_not_review_authority() {
+    const CURRENT_ID: &str = "WI-1112-windows-archive-byte-preservation";
+    const RECOVERY_RECEIPT: &str = ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json";
+
+    let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .canonicalize()
+        .expect("source repository");
+    let checkout = tempfile::tempdir().expect("temporary WI-1112 fixture root");
+    let root = checkout.path().join("repository");
+    clone_shared_no_checkout(&source, &root);
+    preserve_ai_bytes_in_fixture(&root);
+    assert!(
+        Command::new("git")
+            .args(["checkout", "--quiet", "--detach", "HEAD"])
+            .current_dir(&root)
+            .status()
+            .expect("checkout committed predecessor archive fixture")
+            .success()
+    );
+
+    for relative in [
+        format!(".ai/work-items/active/{CURRENT_ID}.contract.json"),
+        RECOVERY_RECEIPT.to_owned(),
+    ] {
+        let from = source.join(&relative);
+        let to = root.join(&relative);
+        fs::create_dir_all(to.parent().expect("native fixture parent"))
+            .expect("create native fixture parent");
+        fs::copy(&from, &to).unwrap_or_else(|error| {
+            panic!(
+                "copy real WI-1112 lineage input {}: {error}",
+                from.display()
+            )
+        });
+    }
+
+    let outcome = OutcomeV2 {
+        schema_version: 2,
+        repository_id: cockpit_repository::repository_id(&root).to_string(),
+        work_item_id: CURRENT_ID.into(),
+        state: OutcomeState::Unknown,
+        decision_state: Some(DecisionState::Yellow),
+        summary: "successor fixture for a reference-only predecessor review".into(),
+        acceptance_results: vec![],
+        unknowns: vec![],
+        evidence_refs: vec![],
+        human_benefit_report: HumanBenefitReport {
+            state: OutcomeState::Unknown,
+            user_visible_changes: vec![],
+            affected_users: vec![],
+            unknowns: vec![],
+            evidence_refs: vec![],
+        },
+        task_outcome_report: None,
+        failed_gate: None,
+        recovery_condition: None,
+        recovery_decision: None,
+        historical_status: None,
+        governance_reasons: vec![],
+        finalization: None,
+    };
+    let input = outcome_render_input_from_outcome(&root, outcome);
+    let delivery = input
+        .delivery_continuity
+        .as_ref()
+        .expect("real WI-1111 predecessor continuity");
+    let projection = serde_json::to_value(delivery).expect("structured continuity projection");
+    let material = projection
+        .get("materialReviewReference")
+        .and_then(serde_json::Value::as_object)
+        .unwrap_or_else(|| {
+            panic!("separate material review reference projection missing: {projection}")
+        });
+
+    assert_eq!(
+        material["predecessorWorkItemId"],
+        "WI-1111-token-outcome-ci"
+    );
+    assert_eq!(
+        material["state"], "context_changed",
+        "material reference: {material:?}"
+    );
+    assert_eq!(material["referenceOnly"], true);
+    assert_eq!(material["satisfiesCurrentReview"], false);
+    assert_eq!(material["priorHunkIdentity"], "not_retained");
+    assert_eq!(material["priorScannerIdentity"], "not_attested_in_receipt");
+    assert!(
+        material["sameContentBlobs"]
+            .as_array()
+            .is_some_and(|items| !items.is_empty()),
+        "the real predecessor receipt should identify unchanged source blobs: {material:?}"
+    );
+    assert!(
+        material["contextDifferences"]
+            .as_array()
+            .is_some_and(|items| items.iter().any(|value| value == "contract")),
+        "the successor Contract must remain visibly distinct: {material:?}"
+    );
+
+    let rendered = render_human_outcome_with_view(&input, "en", OutcomeRenderView::Full);
+    assert!(rendered.contains("Same committed file bytes"), "{rendered}");
+    assert!(
+        rendered.contains("does not authorize the current review"),
+        "{rendered}"
+    );
 }
 
 fn commit_fixture_source(path: &std::path::Path, source: &str) {
@@ -1918,15 +2146,8 @@ fn fixed_wi754_outcome_digest_selects_the_later_bound_receipt() {
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let checkout = tempfile::tempdir().expect("temporary historical checkout root");
     let root = checkout.path().join("repository");
-    assert!(
-        Command::new("git")
-            .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
-            .arg(&source)
-            .arg(&root)
-            .status()
-            .expect("clone fixed history")
-            .success()
-    );
+    clone_shared_no_checkout(&source, &root);
+    preserve_ai_bytes_in_fixture(&root);
     assert!(
         Command::new("git")
             .args(["checkout", "--quiet", "--detach", "HEAD"])

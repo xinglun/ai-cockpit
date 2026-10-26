@@ -68,6 +68,15 @@ accepted receipt が必要です。unknown の receipt はこの境界を進め�
 各 segment を独立した assistant message として出力できます。この event は準備済み handoff payload のみを示し、
 `full_handoff_only` や `unknown` を host display confirmation に昇格させるものではありません。
 
+## Successor delivery continuity
+
+Runtime が predecessor/successor recovery chain と predecessor archive を検証した場合、active
+successor handoff に独立 versioned read-only continuity projection を追加できます。保持された local
+archive、external validation の pending 状態、active successor の lifecycle、Runtime が現在 admit する
+場合のみ次の action を示します。lineage が欠落または無効なら unknown とし、delivery 済みまたは完了と
+推定しません。この projection は predecessor の Contract、Summary、Outcome、Events、report、archive
+manifest を書き換えません。`OutcomeDelivery.deliveryState` は handoff transport state のままです。
+
 既定の summary は四つのセクションです。
 
 1. 結果：現在の検証、ライフサイクル、人間の判断、ガバナンスシグナル

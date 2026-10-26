@@ -60,6 +60,14 @@ Codex 或 Claude 对话已经展示 assistant 消息。本仓库没有 Codex 或
 独立 assistant 消息输出，不必重新读取仓库或概括正文。这些事件只证明已准备的交接载荷，不能把
 `full_handoff_only` 或 `unknown` 提升为宿主已展示确认。
 
+## Successor 交付连续性
+
+当 Runtime 验证 predecessor/successor recovery chain 与前任 archive 后，活动 successor handoff
+可以附带独立版本化、只读的连续性投影。它说明本地 archive 是否保留、外部验证是否待完成、当前
+successor 生命周期，以及仅在 Runtime 当前准入时显示的下一动作。lineage 缺失或无效时显示为
+unknown，不得推断为已交付或已完成。此投影不会改写前任 Contract、Summary、Outcome、Events、报告
+或 archive manifest；`OutcomeDelivery.deliveryState` 仍表示 handoff 传输状态。
+
 默认摘要包含四个部分：
 
 1. 结果：当前验证、生命周期、人工决定和治理信号

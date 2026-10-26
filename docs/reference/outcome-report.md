@@ -78,6 +78,17 @@ own assistant message without re-reading the repository or summarizing the
 body. The events prove only the prepared handoff payload; they do not upgrade
 `full_handoff_only` or `unknown` into host display confirmation.
 
+## Successor delivery continuity
+
+An active successor handoff may add a separately versioned, read-only continuity
+projection when the Runtime verifies the predecessor/successor recovery chain
+and predecessor archive. It identifies the preserved local archive, whether
+external validation is still pending, the active successor lifecycle, and a
+next action only when Runtime currently admits it. Invalid or missing lineage
+is shown as unknown, never as delivered or complete. This projection does not
+rewrite the predecessor Contract, Summary, Outcome, Events, reports, or archive
+manifest; `OutcomeDelivery.deliveryState` remains a handoff transport state.
+
 The default summary has four sections:
 
 1. Result: current verification, lifecycle, human decision, and governance signal

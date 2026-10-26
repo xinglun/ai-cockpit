@@ -14680,6 +14680,25 @@ mod task_outcome_projection_diagnostic_tests {
     const WI754_RECEIPT_REVISION: &str = "b8c90f327e82597ecc78d982611426c6eb78b3c7";
     const WI754_ID: &str = "WI-754-runtime-recovery-digest-revalidation";
 
+    fn clone_shared_no_checkout(source: &Path, destination: &Path) {
+        let output = Command::new("git")
+            .args(["clone", "--quiet", "--shared", "--no-checkout", "--", "."])
+            .arg(destination)
+            .current_dir(source)
+            .output()
+            .expect("clone fixed history from its Git working directory");
+        assert!(
+            output.status.success(),
+            "fixed history clone failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn preserve_ai_bytes_in_fixture(root: &Path) {
+        fs::write(root.join(".git/info/attributes"), b"/.ai/** -text\n")
+            .expect("preserve exact historical evidence bytes");
+    }
+
     fn wi754_checkout_at_archive_introduction()
     -> (tempfile::TempDir, PathBuf, serde_json::Value, Vec<u8>) {
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -14688,15 +14707,8 @@ mod task_outcome_projection_diagnostic_tests {
             .expect("source repository");
         let checkout = tempfile::tempdir().expect("temporary WI-754 checkout");
         let root = checkout.path().join("repository");
-        assert!(
-            Command::new("git")
-                .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
-                .arg(&source)
-                .arg(&root)
-                .status()
-                .expect("clone fixed history")
-                .success()
-        );
+        clone_shared_no_checkout(&source, &root);
+        preserve_ai_bytes_in_fixture(&root);
         assert!(
             Command::new("git")
                 .args(["checkout", "--quiet", "--detach", WI754_ARCHIVE_REVISION])

@@ -28,6 +28,7 @@ capabilityClaims:
 | 历史 direct-merge 提示 base 与 Contract 不一致 | bundled merge 的真实第一 parent 可能不同于 Work Item 冻结时的 Contract base。 | 重新运行 `work-item finalize-recovery-plan --merge-commit <sha>`；保留 `pullRequest.baseRevision` 为真实第一 parent，保留 `historical.contractBaseRevision` 为归档 Contract base，并复制准确的 `resourceContext`/branch/worktree identity。不要修改任一历史事实或虚构 PR。 |
 | 历史 direct-merge 提示 `resourceContext.<field>` 不匹配 | receipt identity 中有字段与 Contract 或 plan 输出不同。 | 以 `finalize-recovery-plan` 输出的完整 `suggestedReceipt` 为起点，不要重建协议字段；只填写列出的人工字段，保持 context/branch/worktree 原值后重试。拒绝时 Runtime 不会写入半成品记录。 |
 | `finalize` 或 `finalize-recovery` 拒绝 Runtime 自己的 direct-merge 计划 | 计划生成器与应用校验器发生了契约分歧。 | 将计划和失败输入保留在 `.ai/` 之外，不要修改生成记录或虚构 PR，并报告 Runtime 版本、摘要和完整错误。完整计划收据必须能通过两个应用入口往返验证。 |
+| successor 材料计划列出 predecessor 曾审阅的 Unknown | 该上下文只说明精确的历史匹配；它不是继承的决定，也不满足 successor 请求。 | 按正常流程审阅当前请求。变化或新增的路径、blob、hunk、cause、Contract scope、scanner、policy 或 profile 仍未解决。 |
 | Verification 重新执行而非 reuse | identity binding 变化或 reuse 未授权。 | 把 rerun 当作安全行为，检查 receipt reason。 |
 | MCP 要求 repository binding | server 未用 repository-bound adapter 启动。 | 配置 `mcp --repo <path>` 并保持路径显式。 |
 | Release asset/tag 不存在 | 公开分发证据尚未就绪。 | 停止安装，等待不可变 Release 和匹配制品。 |

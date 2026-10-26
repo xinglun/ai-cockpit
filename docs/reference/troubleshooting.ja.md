@@ -28,6 +28,7 @@ capabilityClaims:
 | historical direct-merge が Contract と base の不一致を示す | bundled merge の実際の第一 parent が Work Item の凍結時 Contract base と異なる場合があります。 | `work-item finalize-recovery-plan --merge-commit <sha>` を再実行し、`pullRequest.baseRevision` は実際の第一 parent、`historical.contractBaseRevision` は archived Contract base として保持し、正確な `resourceContext`/branch/worktree identity を使います。どちらの事実も変更せず、PR を捏造しません。 |
 | historical direct-merge が `resourceContext.<field>` の不一致を示す | receipt identity のフィールドが Contract または plan 出力と異なります。 | `finalize-recovery-plan` が出力した完全な `suggestedReceipt` を起点にし、protocol field を再構成しません。human field だけを入力し、context/branch/worktree をそのまま保持して再試行します。拒否時に Runtime は不完全な record を書きません。 |
 | `finalize` または `finalize-recovery` が Runtime 自身の direct-merge plan を拒否する | plan 生成と apply validator の契約がずれている。 | plan と失敗入力を `.ai/` の外に保持し、生成 record の編集や PR の捏造をせず、Runtime version/digest と完全なエラーを報告する。完全な plan receipt は両方の apply 入口で round-trip できなければならない。 |
+| successor の material plan に predecessor が review 済みの Unknown が表示される | その context は正確な過去一致だけを示します。decision を継承せず、successor request も満たしません。 | 現在の request を通常どおり review します。変更・追加された path、blob、hunk、cause、Contract scope、scanner、policy、profile は未解決のままです。 |
 | Verification が reuse でなく rerun | identity binding が変化、または reuse が未承認。 | rerun を安全な動作として扱い receipt reason を確認する。 |
 | MCP が repository binding を要求 | repository-bound adapter なしで server を起動した。 | `mcp --repo <path>` を設定し path を明示する。 |
 | Release asset/tag がない | public distribution evidence が未準備。 | install を停止し、immutable Release と matching asset を待つ。 |

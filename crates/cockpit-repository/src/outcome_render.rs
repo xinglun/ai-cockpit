@@ -2,7 +2,8 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
     FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
-    HumanDecision, OutcomeClaim, OutcomeDelivery, OutcomeDeliverySegment,
+    HumanDecision, MaterialInspectionReviewAssurance, MaterialInspectionReviewDecision,
+    MaterialInspectionReviewDecisionReceipt, OutcomeClaim, OutcomeDelivery, OutcomeDeliverySegment,
     OutcomeFinalizationCleanupProjection, OutcomeFinalizationProjection,
     OutcomeFinalizationResource, OutcomeFinalizationResourceDisposition, OutcomeReleaseProjection,
     OutcomeState, OutcomeV2, ResourceFinalizationBranchState, ResourceFinalizationPullRequestState,
@@ -10,7 +11,9 @@ use cockpit_protocol::{
     TaskOutcomeReport, UsageAssurance, UsageCoverage, UsageSourceKind, UsageSummary,
     UsageTokenCounts,
 };
+use serde::Serialize;
 use serde_json::Value;
+use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -52,6 +55,10 @@ pub type FinalizationProjection = OutcomeFinalizationProjection;
 #[derive(Clone, Debug)]
 pub struct OutcomeRenderInput {
     pub outcome: OutcomeV2,
+    /// Separately versioned, read-only continuity facts for a validated
+    /// predecessor/successor chain. These are rendered for the human handoff
+    /// and are not inserted into the canonical Task Outcome report.
+    pub delivery_continuity: Option<DeliveryContinuityProjection>,
     /// The legacy lifecycle projection, when present, read inside the same
     /// guarded observation as `outcome`.  CLI/MCP may expose this additive
     /// compatibility shape without performing an unguarded second read.
@@ -62,6 +69,55 @@ pub struct OutcomeRenderInput {
     pub finalization: FinalizationProjection,
     pub reason_keys: Vec<String>,
     pub assembly: Option<OutcomeAssemblyMetadata>,
+}
+
+/// A handoff view over local archive state and external delivery obligations.
+/// It is deliberately separate from `OutcomeDelivery.delivery_state`, which
+/// only describes the assistant-message transport boundary.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DeliveryContinuityProjection {
+    pub schema_version: u32,
+    pub state: String,
+    pub predecessor_work_item_id: Option<String>,
+    pub predecessor_archive_state: String,
+    pub predecessor_archive_manifest_digest: Option<Digest>,
+    pub external_validation_state: String,
+    pub external_binding_state: String,
+    pub successor_lifecycle_state: String,
+    pub runtime_admitted_next_action: Option<String>,
+    pub material_review_reference: Option<MaterialReviewReferenceProjection>,
+    pub reason: Option<String>,
+}
+
+/// Read-only context from an authenticated predecessor material-review
+/// receipt. It reports source-blob overlap only; it is not scanner output,
+/// review authority, or a substitute for the current request.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MaterialReviewReferenceProjection {
+    pub schema_version: u32,
+    pub state: String,
+    pub predecessor_work_item_id: String,
+    pub predecessor_contract_digest: Digest,
+    pub predecessor_request_digest: Option<Digest>,
+    pub reference_only: bool,
+    pub satisfies_current_review: bool,
+    pub same_content_blobs: Vec<MaterialReviewBlobReference>,
+    pub context_differences: Vec<String>,
+    pub prior_hunk_identity: String,
+    pub prior_scanner_identity: String,
+    pub prior_policy_identity: String,
+    pub current_unknown_codes: Vec<String>,
+    pub current_finding_codes: Vec<String>,
+    pub reason: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct MaterialReviewBlobReference {
+    pub path: String,
+    pub digest: Digest,
 }
 
 pub fn outcome_render_input(
@@ -102,11 +158,13 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
             ));
     let human_decision = load_human_decision(root, &outcome.work_item_id);
     let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
+    let delivery_continuity = delivery_continuity_projection(root, &outcome, None);
     OutcomeRenderInput {
         legacy_outcome: load_legacy_outcome_projection(root, &outcome.work_item_id),
         finalization: finalization_projection_from_outcome(root, &outcome),
         reason_keys: governance_reason_keys_from_outcome(&outcome),
         outcome,
+        delivery_continuity,
         human_decision,
         archived_unclosed,
         lifecycle_status,
@@ -180,6 +238,7 @@ fn assemble_outcome_render_input_with_hook(
                 ));
         let human_decision = load_human_decision(context.root(), work_item_id);
         let lifecycle_status = lifecycle_status(context.root(), &outcome, historical, superseded);
+        let delivery_continuity = delivery_continuity_projection(context.root(), &outcome, runtime);
         let finalization =
             finalization_projection(&ledger, context.root(), work_item_id, &outcome, runtime);
         let reason_keys = governance_reason_keys(context.root(), work_item_id, &outcome, runtime);
@@ -191,6 +250,7 @@ fn assemble_outcome_render_input_with_hook(
             finalization,
             reason_keys,
             outcome,
+            delivery_continuity,
             human_decision,
             archived_unclosed,
             lifecycle_status,
@@ -284,6 +344,7 @@ fn assembly_observation_ledger(
             },
         )?;
     }
+    register_delivery_continuity_observations(&mut ledger, root, work_item_id)?;
     ledger.register_file(
         format!(".ai/evidence/{work_item_id}.verification.json"),
         &root.join(format!(".ai/evidence/{work_item_id}.verification.json")),
@@ -331,6 +392,68 @@ fn assembly_observation_ledger(
     }
     register_decision_references(&mut ledger, root, work_item_id)?;
     Ok(ledger)
+}
+
+/// Add the exact predecessor-chain records and receipt references consumed by
+/// the continuity projection to the same observation boundary as the current
+/// Outcome. No predecessor material request is reconstructed here.
+fn register_delivery_continuity_observations(
+    ledger: &mut ObservationLedger,
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(), ObserverError> {
+    let contract_path = match outcome_contract_path(root, work_item_id) {
+        Ok(path) => path,
+        Err(_) => return Ok(()),
+    };
+    let Some(contract_bytes) = ledger.cached_file_bytes(&contract_path)? else {
+        return Ok(());
+    };
+    let contract_value = match serde_json::from_slice::<Value>(contract_bytes) {
+        Ok(value) => value,
+        Err(_) => return Ok(()),
+    };
+    register_json_path_references(ledger, root, &contract_value, &contract_path)?;
+    let Ok(lineage) = super::recovery_predecessor_lineage_for_candidate(root, work_item_id) else {
+        return Ok(());
+    };
+    for predecessor_id in lineage {
+        if predecessor_id == work_item_id {
+            continue;
+        }
+        for phase in ["active", "archive"] {
+            for suffix in [
+                "contract.json",
+                "summary.json",
+                "outcome.json",
+                "task-report.json",
+                "task-report.md",
+                "archive.json",
+            ] {
+                let path = root.join(format!(".ai/work-items/{phase}/{predecessor_id}.{suffix}"));
+                let relative = format!(".ai/work-items/{phase}/{predecessor_id}.{suffix}");
+                ledger.register_file(relative, &path)?;
+                if suffix == "contract.json" || suffix == "summary.json" {
+                    if let Some(bytes) = ledger.cached_file_bytes(&path)? {
+                        if let Ok(value) = serde_json::from_slice::<Value>(bytes) {
+                            register_json_path_references(ledger, root, &value, &path)?;
+                        }
+                    }
+                }
+                if suffix == "archive.json" {
+                    register_manifest_references(ledger, root, &path)?;
+                }
+            }
+            let events = root.join(format!(
+                ".ai/work-items/{phase}/{predecessor_id}.events.jsonl"
+            ));
+            ledger.register_file(
+                format!(".ai/work-items/{phase}/{predecessor_id}.events.jsonl"),
+                &events,
+            )?;
+        }
+    }
+    Ok(())
 }
 
 fn register_manifest_references(
@@ -1664,6 +1787,7 @@ fn archive_outcome_render_input(
     let reason_keys = outcome.governance_reasons.clone();
     OutcomeRenderInput {
         outcome,
+        delivery_continuity: None,
         legacy_outcome: Some(legacy_outcome),
         // A later close decision is not part of this immutable delivery.
         human_decision: HumanDecisionProjection::Missing,
@@ -1673,6 +1797,415 @@ fn archive_outcome_render_input(
         reason_keys,
         assembly: None,
     }
+}
+
+fn delivery_continuity_projection(
+    root: &Path,
+    outcome: &OutcomeV2,
+    runtime: Option<&RuntimeContext>,
+) -> Option<DeliveryContinuityProjection> {
+    let contract_path = outcome_contract_path(root, &outcome.work_item_id).ok()?;
+    let contract = match super::read_contract(&contract_path) {
+        Ok(contract) => contract,
+        Err(_) => return None,
+    };
+    let predecessor_id = contract.predecessor_work_item_id.clone()?;
+    let unknown = |reason: &str| DeliveryContinuityProjection {
+        schema_version: 1,
+        state: "unknown".into(),
+        predecessor_work_item_id: None,
+        predecessor_archive_state: "unknown".into(),
+        predecessor_archive_manifest_digest: None,
+        external_validation_state: "unknown".into(),
+        external_binding_state: "unknown".into(),
+        successor_lifecycle_state: "unknown".into(),
+        runtime_admitted_next_action: None,
+        material_review_reference: None,
+        reason: Some(reason.into()),
+    };
+    let lineage =
+        match super::recovery_predecessor_lineage_for_candidate(root, &outcome.work_item_id) {
+            Ok(lineage) if lineage.contains(&predecessor_id) => lineage,
+            Ok(_) => return Some(unknown("recovery_lineage_unverified")),
+            Err(_) => return Some(unknown("recovery_lineage_unverified")),
+        };
+    let _ = lineage;
+    let predecessor_contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{predecessor_id}.contract.json"));
+    let predecessor_contract_document =
+        match super::read_contract_document(&predecessor_contract_path) {
+            Ok(document)
+                if contract.predecessor_contract_digest.as_ref() == Some(&document.digest) =>
+            {
+                document
+            }
+            _ => return Some(unknown("predecessor_contract_binding_invalid")),
+        };
+    let predecessor_contract = predecessor_contract_document.contract;
+    if predecessor_contract.repository_id != contract.repository_id
+        || contract.repository_id != repository_id(root).to_string()
+    {
+        return Some(unknown("predecessor_repository_identity_invalid"));
+    }
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{predecessor_id}.archive.json"));
+    let manifest_bytes = match super::read_governance_bytes(&manifest_path) {
+        Ok(bytes) => bytes,
+        Err(_) => return Some(unknown("predecessor_archive_missing")),
+    };
+    let manifest = match serde_json::from_slice::<Value>(&manifest_bytes) {
+        Ok(manifest) => manifest,
+        Err(_) => return Some(unknown("predecessor_archive_invalid")),
+    };
+    if manifest["workItemId"] != predecessor_id
+        || manifest["state"] != "archived"
+        || super::verify_archive_manifest(root, &predecessor_id, &manifest).is_err()
+    {
+        return Some(unknown("predecessor_archive_unverified"));
+    }
+    let archive_manifest_digest = Digest::sha256_bytes(&manifest_bytes);
+    let current_contract_digest = match super::read_contract_document(&contract_path) {
+        Ok(document) => document.digest,
+        Err(_) => return Some(unknown("successor_contract_binding_unavailable")),
+    };
+    let material_review_reference = material_review_reference_projection(
+        root,
+        &contract,
+        &current_contract_digest,
+        &predecessor_contract,
+        &predecessor_contract_document.digest,
+    );
+    let binding_state = match effective_resource_context(root, &contract.work_item_id, &contract) {
+        Ok(Some(_)) => "bound",
+        Ok(None) => "not_bound",
+        Err(_) => return Some(unknown("successor_resource_binding_unavailable")),
+    };
+    let status = runtime.and_then(|runtime| {
+        super::work_item_status_snapshot_with_runtime(root, &contract.work_item_id, runtime).ok()
+    });
+    if runtime.is_some() && status.is_none() {
+        return Some(DeliveryContinuityProjection {
+            schema_version: 1,
+            state: "unknown".into(),
+            predecessor_work_item_id: Some(predecessor_id),
+            predecessor_archive_state: "verified_archived".into(),
+            predecessor_archive_manifest_digest: Some(archive_manifest_digest),
+            external_validation_state: "pending".into(),
+            external_binding_state: binding_state.into(),
+            successor_lifecycle_state: "unknown".into(),
+            runtime_admitted_next_action: None,
+            material_review_reference,
+            reason: Some("successor_status_unavailable".into()),
+        });
+    }
+    let (successor_lifecycle_state, next_action) = match status.as_ref() {
+        Some(status) => {
+            let action = status
+                .action_explanation
+                .as_ref()
+                .and_then(|explanation| explanation.recommended_action.as_deref())
+                .filter(|action| status.safe_actions.iter().any(|safe| safe == action))
+                .map(str::to_owned);
+            (status.lifecycle_phase.clone(), action)
+        }
+        None => ("runtime_status_not_supplied".into(), None),
+    };
+    Some(DeliveryContinuityProjection {
+        schema_version: 1,
+        state: "in_progress".into(),
+        predecessor_work_item_id: Some(predecessor_id),
+        predecessor_archive_state: "verified_archived".into(),
+        predecessor_archive_manifest_digest: Some(archive_manifest_digest),
+        external_validation_state: "pending".into(),
+        external_binding_state: binding_state.into(),
+        successor_lifecycle_state,
+        runtime_admitted_next_action: next_action,
+        material_review_reference,
+        reason: Some(if binding_state == "not_bound" {
+            "external_provider_validation_not_bound".into()
+        } else {
+            "external_provider_validation_not_verified".into()
+        }),
+    })
+}
+
+fn material_review_reference_projection(
+    root: &Path,
+    current_contract: &cockpit_protocol::Contract,
+    current_contract_digest: &Digest,
+    predecessor_contract: &cockpit_protocol::Contract,
+    predecessor_contract_digest: &Digest,
+) -> Option<MaterialReviewReferenceProjection> {
+    let current_profile_digest = match current_contract.material_inspection_review_profile() {
+        Ok(Some(profile)) => cockpit_protocol::digest_json(&profile).ok(),
+        Ok(None) => None,
+        Err(_) => return None,
+    };
+    let unavailable = |reason: &str| MaterialReviewReferenceProjection {
+        schema_version: 1,
+        state: "unavailable".into(),
+        predecessor_work_item_id: predecessor_contract.work_item_id.clone(),
+        predecessor_contract_digest: predecessor_contract_digest.clone(),
+        predecessor_request_digest: None,
+        reference_only: true,
+        satisfies_current_review: false,
+        same_content_blobs: Vec::new(),
+        context_differences: vec!["contract".into()],
+        prior_hunk_identity: "not_retained".into(),
+        prior_scanner_identity: "not_attested_in_receipt".into(),
+        prior_policy_identity: "not_retained_in_receipt".into(),
+        current_unknown_codes: Vec::new(),
+        current_finding_codes: Vec::new(),
+        reason: Some(reason.into()),
+    };
+    let Some((receipt, summary_request_digest)) =
+        read_predecessor_material_review_receipt(root, &predecessor_contract.work_item_id)
+    else {
+        return Some(unavailable("predecessor_review_receipt_unavailable"));
+    };
+    if receipt.repository_id != current_contract.repository_id
+        || receipt.work_item_id != predecessor_contract.work_item_id
+        || receipt.contract_digest != *predecessor_contract_digest
+        || summary_request_digest != receipt.request_digest
+        || receipt.assurance != MaterialInspectionReviewAssurance::SelfDeclared
+        || receipt.decision != MaterialInspectionReviewDecision::AcceptPermittedUnknowns
+    {
+        return Some(unavailable("predecessor_review_receipt_identity_invalid"));
+    }
+    let Ok(Some(predecessor_profile)) = predecessor_contract.material_inspection_review_profile()
+    else {
+        return Some(unavailable("predecessor_review_profile_unavailable"));
+    };
+    let Ok(predecessor_profile_digest) = cockpit_protocol::digest_json(&predecessor_profile) else {
+        return Some(unavailable("predecessor_review_profile_invalid"));
+    };
+    if receipt.profile_digest != predecessor_profile_digest {
+        return Some(unavailable("predecessor_review_profile_binding_invalid"));
+    }
+    let Ok(current_request) =
+        super::plan_work_item_material_review(root, &current_contract.work_item_id)
+    else {
+        return Some(unavailable("current_material_request_unavailable"));
+    };
+    if current_request.work_item_id != current_contract.work_item_id
+        || current_request.repository_id != current_contract.repository_id
+        || current_request.contract_digest != *current_contract_digest
+        || receipt.reviewed_source_head.is_none()
+    {
+        return Some(unavailable("current_material_request_identity_invalid"));
+    }
+    let reviewed_source_head = receipt.reviewed_source_head.as_deref().unwrap_or_default();
+    let Ok(git) = cockpit_git::GitRepository::discover(root) else {
+        return Some(unavailable("source_history_unavailable"));
+    };
+    if !git
+        .is_ancestor_bounded(
+            reviewed_source_head,
+            &current_request.reviewed_source_head,
+            1024,
+        )
+        .unwrap_or(false)
+    {
+        return Some(unavailable("predecessor_review_source_not_ancestor"));
+    }
+
+    let mut seen = BTreeSet::new();
+    let mut same_content_blobs = Vec::new();
+    for reference in &receipt.evidence_refs {
+        if reference.path.starts_with(".ai/") {
+            continue;
+        }
+        if !safe_material_source_path(&reference.path)
+            || !seen.insert(reference.path.as_str())
+            || !path_is_in_scope(&reference.path, &predecessor_contract.scope)
+        {
+            return Some(unavailable("predecessor_review_source_reference_invalid"));
+        }
+        if !path_is_in_scope(&reference.path, &current_contract.scope) {
+            continue;
+        }
+        let Ok(old_bytes) =
+            super::git_revision_blob_bytes(root, reviewed_source_head, &reference.path)
+        else {
+            return Some(unavailable("predecessor_review_source_blob_unavailable"));
+        };
+        if Digest::sha256_bytes(&old_bytes) != reference.digest {
+            return Some(unavailable("predecessor_review_source_blob_mismatch"));
+        }
+        let current_entries = current_request
+            .entries
+            .iter()
+            .filter(|entry| entry.path == reference.path)
+            .collect::<Vec<_>>();
+        if current_entries.len() != 1
+            || current_entries[0].after_blob_digest.as_ref() != Some(&reference.digest)
+        {
+            continue;
+        }
+        let Ok(current_bytes) = super::git_revision_blob_bytes(
+            root,
+            &current_request.reviewed_source_head,
+            &reference.path,
+        ) else {
+            return Some(unavailable("current_source_blob_unavailable"));
+        };
+        if Digest::sha256_bytes(&current_bytes) == reference.digest {
+            same_content_blobs.push(MaterialReviewBlobReference {
+                path: reference.path.clone(),
+                digest: reference.digest.clone(),
+            });
+        }
+    }
+    if seen.is_empty() {
+        return Some(unavailable("predecessor_review_has_no_source_references"));
+    }
+    same_content_blobs.sort_by(|left, right| left.path.cmp(&right.path));
+
+    let mut context_differences = Vec::new();
+    if receipt.contract_digest != *current_contract_digest {
+        context_differences.push("contract".into());
+    }
+    if predecessor_contract.base_revision != current_contract.base_revision {
+        context_differences.push("base_revision".into());
+    }
+    if current_profile_digest.as_ref() != Some(&receipt.profile_digest) {
+        context_differences.push("review_profile".into());
+    }
+    if receipt.material_manifest_digest != current_request.material_manifest_digest {
+        context_differences.push("material_manifest".into());
+    }
+    if receipt.request_digest != current_request.request_digest {
+        context_differences.push("request".into());
+    }
+    context_differences.sort();
+    context_differences.dedup();
+
+    Some(MaterialReviewReferenceProjection {
+        schema_version: 1,
+        state: if context_differences.is_empty() {
+            "content_matches_context_unverified".into()
+        } else {
+            "context_changed".into()
+        },
+        predecessor_work_item_id: predecessor_contract.work_item_id.clone(),
+        predecessor_contract_digest: predecessor_contract_digest.clone(),
+        predecessor_request_digest: Some(receipt.request_digest),
+        reference_only: true,
+        satisfies_current_review: false,
+        same_content_blobs,
+        context_differences,
+        prior_hunk_identity: "not_retained".into(),
+        prior_scanner_identity: "not_attested_in_receipt".into(),
+        prior_policy_identity: "not_retained_in_receipt".into(),
+        current_unknown_codes: current_request.raw_unknown_codes,
+        current_finding_codes: current_request.finding_codes,
+        reason: Some("prior_review_is_read_only_context_not_current_authority".into()),
+    })
+}
+
+fn safe_material_source_path(path: &str) -> bool {
+    !path.is_empty()
+        && path.len() <= 512
+        && !path.starts_with('/')
+        && !path.contains('\\')
+        && !path.chars().any(char::is_control)
+        && path
+            .split('/')
+            .all(|component| !component.is_empty() && component != "." && component != "..")
+        && !path.starts_with(".ai/")
+}
+
+fn path_is_in_scope(path: &str, scope: &[String]) -> bool {
+    scope.iter().any(|pattern| {
+        matches!(
+            super::scope_pattern_relation(pattern, path),
+            super::ScopeRelation::Overlap
+        )
+    })
+}
+
+fn read_predecessor_material_review_receipt(
+    root: &Path,
+    predecessor_id: &str,
+) -> Option<(MaterialInspectionReviewDecisionReceipt, Digest)> {
+    let archive = root.join(".ai/work-items/archive");
+    let summary_name = format!("{predecessor_id}.summary.json");
+    let summary_path = archive.join(&summary_name);
+    let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority()).ok()?;
+    let ai_path = root.join(".ai");
+    let ai = super::open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path).ok()?;
+    let work_items_path = ai_path.join("work-items");
+    let work_items =
+        super::open_cap_directory_nofollow_strict(&ai, "work-items", &work_items_path).ok()?;
+    let archive_dir =
+        super::open_cap_directory_nofollow_strict(&work_items, "archive", &archive).ok()?;
+    let summary_bytes = super::read_cap_file_nofollow_bounded(
+        &archive_dir,
+        &summary_name,
+        &summary_path,
+        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )
+    .ok()?;
+    super::reject_duplicate_json_keys(&summary_bytes).ok()?;
+    let summary: Value = serde_json::from_slice(&summary_bytes).ok()?;
+    if summary["workItemId"] != predecessor_id {
+        return None;
+    }
+    let pointer = summary.get("materialReviewReceipt")?;
+    let path = pointer.get("path")?.as_str()?;
+    let file_digest = pointer.get("digest")?.as_str()?.parse::<Digest>().ok()?;
+    let request_digest = pointer
+        .get("requestDigest")?
+        .as_str()?
+        .parse::<Digest>()
+        .ok()?;
+    let receipt_digest = pointer
+        .get("receiptDigest")?
+        .as_str()?
+        .parse::<Digest>()
+        .ok()?;
+    let request_hex = request_digest.as_str().strip_prefix("sha256:")?;
+    let expected_path =
+        format!(".ai/evidence/material-inspection-review/{predecessor_id}/{request_hex}.json");
+    if path != expected_path {
+        return None;
+    }
+    let evidence_path = root.join(".ai/evidence");
+    let evidence =
+        super::open_cap_directory_nofollow_strict(&ai, "evidence", &evidence_path).ok()?;
+    let review_path = evidence_path.join("material-inspection-review");
+    let review = super::open_cap_directory_nofollow_strict(
+        &evidence,
+        "material-inspection-review",
+        &review_path,
+    )
+    .ok()?;
+    let predecessor_path = review_path.join(predecessor_id);
+    let predecessor_dir =
+        super::open_cap_directory_nofollow_strict(&review, predecessor_id, &predecessor_path)
+            .ok()?;
+    let receipt_name = format!("{request_hex}.json");
+    let receipt_path = predecessor_path.join(&receipt_name);
+    let receipt_bytes = super::read_cap_file_nofollow_bounded(
+        &predecessor_dir,
+        &receipt_name,
+        &receipt_path,
+        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )
+    .ok()?;
+    super::reject_duplicate_json_keys(&receipt_bytes).ok()?;
+    if Digest::sha256_bytes(&receipt_bytes) != file_digest {
+        return None;
+    }
+    let receipt: MaterialInspectionReviewDecisionReceipt =
+        serde_json::from_slice(&receipt_bytes).ok()?;
+    receipt.validate_integrity().ok()?;
+    if receipt.request_digest != request_digest || receipt.receipt_digest != receipt_digest {
+        return None;
+    }
+    Some((receipt, request_digest))
 }
 
 fn segment_outcome_delivery_body(
@@ -1714,6 +2247,96 @@ fn localized_delivery_next_action(language: &str) -> String {
         "zh" => "Runtime 已准备并返回完整正文；宿主是否接受或展示未知，请将同一正文作为独立 assistant 消息转发。".into(),
         "ja" => "Runtime は完全な本文を準備して返しました。ホストの受理・表示は不明です。同じ本文を独立した assistant message として転送してください。".into(),
         _ => "Runtime prepared and returned the complete body; host acceptance or display is unknown. Forward the same body as an independent assistant message.".into(),
+    }
+}
+
+fn append_delivery_continuity(
+    body: String,
+    projection: Option<&DeliveryContinuityProjection>,
+    language: &str,
+) -> String {
+    let Some(projection) = projection else {
+        return body;
+    };
+    let section = if projection.state == "unknown" {
+        match language {
+            "zh" => format!(
+                "交付连续性 v{}\n- 前任关联未验证；不推断完成或已交付。\n- 整体交付状态：未知。",
+                projection.schema_version
+            ),
+            "ja" => format!(
+                "引き継ぎ継続性 v{}\n- predecessor の関連付けを検証できません。完了または納品済みとは推定しません。\n- 全体の納品状態：不明。",
+                projection.schema_version
+            ),
+            _ => format!(
+                "Delivery continuity v{}\n- Predecessor lineage is unverified; no completion or delivery claim is inferred.\n- Overall delivery: unknown.",
+                projection.schema_version
+            ),
+        }
+    } else {
+        let predecessor = projection
+            .predecessor_work_item_id
+            .as_deref()
+            .unwrap_or("unknown");
+        let next = projection
+            .runtime_admitted_next_action
+            .as_deref()
+            .unwrap_or("unknown");
+        match language {
+            "zh" => format!(
+                "交付连续性 v{}\n- 前任本地归档：{predecessor} 已验证并保留。\n- 外部验证：待完成（尚无已验证的 provider/CI 结果）。\n- 当前修复状态：{}。\n- Runtime 允许的下一步：{next}。\n- 整体交付状态：进行中。",
+                projection.schema_version, projection.successor_lifecycle_state
+            ),
+            "ja" => format!(
+                "引き継ぎ継続性 v{}\n- predecessor のローカル archive：{predecessor} は検証済みで保持されています。\n- 外部検証：保留中（検証済み provider/CI 結果はありません）。\n- 現在の修復状態：{}。\n- Runtime が許可する次の操作：{next}。\n- 全体の納品状態：進行中。",
+                projection.schema_version, projection.successor_lifecycle_state
+            ),
+            _ => format!(
+                "Delivery continuity v{}\n- Predecessor local archive: {predecessor} is verified and preserved.\n- External validation: pending (no verified provider/CI result is bound).\n- Active repair: {}.\n- Runtime-admitted next action: {next}.\n- Overall delivery: in progress.",
+                projection.schema_version, projection.successor_lifecycle_state
+            ),
+        }
+    };
+    let material_reference = projection
+        .material_review_reference
+        .as_ref()
+        .map(|reference| render_material_review_reference(reference, language));
+    match material_reference {
+        Some(reference) => format!("{body}\n\n{section}\n\n{reference}"),
+        None => format!("{body}\n\n{section}"),
+    }
+}
+
+fn render_material_review_reference(
+    reference: &MaterialReviewReferenceProjection,
+    language: &str,
+) -> String {
+    let matching = reference.same_content_blobs.len();
+    let current_unknowns = reference.current_unknown_codes.len();
+    let context = if reference.context_differences.is_empty() {
+        "context equivalence is not established".to_owned()
+    } else {
+        reference.context_differences.join(", ")
+    };
+    match language {
+        "zh" => format!(
+            "前任材料审阅参考 v{}（{}）\n- 已核实相同的已提交文件字节：{matching} 项；这是内容参照，不表示扫描器或审阅上下文相同。\n- 上下文差异：{context}。\n- 前次 hunk 身份未保留，scanner 身份未由回执证明，policy 身份未保留。\n- 仅供只读参考；不授权或满足当前审阅。当前 Findings：{} 项；当前 Unknown：{current_unknowns} 项。",
+            reference.schema_version,
+            reference.predecessor_work_item_id,
+            reference.current_finding_codes.len()
+        ),
+        "ja" => format!(
+            "前任の材料レビュー参照 v{}（{}）\n- 同一のコミット済みファイル bytes を確認：{matching} 件。これは内容の参照であり、scanner やレビュー context が同じことを意味しません。\n- context の差異：{context}。\n- 前回の hunk identity は保存されておらず、scanner identity は receipt で証明されず、policy identity も保存されていません。\n- 読み取り専用の参考情報です。現在のレビューを許可も充足もしません。現在の Finding：{} 件、Unknown：{current_unknowns} 件。",
+            reference.schema_version,
+            reference.predecessor_work_item_id,
+            reference.current_finding_codes.len()
+        ),
+        _ => format!(
+            "Prior material review reference v{} ({})\n- Same committed file bytes verified: {matching}; this is content context only and does not establish the same scanner or review context.\n- Context differences: {context}.\n- Prior hunk identity was not retained; scanner identity is not attested by the receipt; policy identity was not retained.\n- Read-only reference only; it does not authorize the current review or satisfy it. Current Findings: {}; current Unknowns remain: {current_unknowns}.",
+            reference.schema_version,
+            reference.predecessor_work_item_id,
+            reference.current_finding_codes.len()
+        ),
     }
 }
 
@@ -2005,16 +2628,20 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
             not_recorded
         )
     );
-    format!(
-        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}{usage_items}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
-        result_items[0],
-        result_items[1],
-        result_items[2],
-        result_items[3],
-        result_items[4],
-        result_items[5],
-        bullet_lines(&key_change_items, not_recorded),
-        bullet_lines(&uncertainty_items, not_recorded),
+    append_delivery_continuity(
+        format!(
+            "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}{usage_items}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
+            result_items[0],
+            result_items[1],
+            result_items[2],
+            result_items[3],
+            result_items[4],
+            result_items[5],
+            bullet_lines(&key_change_items, not_recorded),
+            bullet_lines(&uncertainty_items, not_recorded),
+        ),
+        input.delivery_continuity.as_ref(),
+        language,
     )
 }
 
@@ -3014,19 +3641,23 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
             not_recorded
         )
     );
-    format!(
-        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}{usage_section}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
-        bullet_lines(&completed_items, not_recorded),
-        bullet_lines(&problems_found, not_recorded),
-        bullet_lines(&stop_items, not_recorded),
-        bullet_lines(&resolved_items, not_recorded),
-        bullet_lines(&avoided_items, not_recorded),
-        bullet_lines(&remaining_risks, not_recorded),
-        bullet_lines(&unknowns_all, not_recorded),
-        bullet_lines(&decision_items, not_recorded),
-        bullet_lines(&verification_items, not_recorded),
-        bullet_lines(&impact_items, not_recorded),
-        bullet_lines(&outcome.evidence_refs, not_recorded),
+    append_delivery_continuity(
+        format!(
+            "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}{usage_section}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
+            bullet_lines(&completed_items, not_recorded),
+            bullet_lines(&problems_found, not_recorded),
+            bullet_lines(&stop_items, not_recorded),
+            bullet_lines(&resolved_items, not_recorded),
+            bullet_lines(&avoided_items, not_recorded),
+            bullet_lines(&remaining_risks, not_recorded),
+            bullet_lines(&unknowns_all, not_recorded),
+            bullet_lines(&decision_items, not_recorded),
+            bullet_lines(&verification_items, not_recorded),
+            bullet_lines(&impact_items, not_recorded),
+            bullet_lines(&outcome.evidence_refs, not_recorded),
+        ),
+        input.delivery_continuity.as_ref(),
+        language,
     )
 }
 
@@ -3759,6 +4390,7 @@ mod render_tests {
     ) -> OutcomeRenderInput {
         OutcomeRenderInput {
             outcome: base_outcome(),
+            delivery_continuity: None,
             legacy_outcome: None,
             human_decision,
             archived_unclosed,
