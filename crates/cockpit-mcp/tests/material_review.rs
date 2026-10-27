@@ -85,7 +85,7 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 37);
+    assert_eq!(tools.len(), 44);
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (

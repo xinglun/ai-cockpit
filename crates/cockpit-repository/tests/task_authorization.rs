@@ -667,6 +667,142 @@ fn concurrent_member_start_reserves_one_quota_atomically() {
 }
 
 #[test]
+fn parallel_batch_members_keep_independent_grants_and_partial_ledgers() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path().to_path_buf();
+    let second_id = "WI-TASK-AUTHORIZATION-B";
+    add_batch_member(&root, second_id, "agent:task-worker-b");
+    let receipt = reviewed_batch(
+        &root,
+        vec![batch_member_request(WI), batch_member_request(second_id)],
+    );
+    let first_member = receipt
+        .manifest
+        .members
+        .iter()
+        .find(|member| member.work_item_id == WI)
+        .expect("first explicit member");
+    let second_member = receipt
+        .manifest
+        .members
+        .iter()
+        .find(|member| member.work_item_id == second_id)
+        .expect("second explicit member");
+    assert_ne!(first_member.parent_grant_id, second_member.parent_grant_id);
+
+    let starts = [first_member, second_member].map(|member| {
+        cockpit_protocol::TaskAuthorizationBatchStartRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: member.work_item_id.clone(),
+            operation_id: format!("verify-{}", member.work_item_id),
+            action: "run_verification".into(),
+            caller: batch_caller(member),
+        }
+    });
+    let workers = starts.map(|request| {
+        let root = root.clone();
+        thread::spawn(move || {
+            cockpit_repository::reserve_task_authorization_batch_start(&root, &request, &runtime())
+        })
+    });
+    for worker in workers {
+        worker
+            .join()
+            .expect("independent member start worker")
+            .expect("each exact member has its own start quota");
+    }
+
+    let failed_check = cockpit_protocol::TaskAuthorizationBatchCheckRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: format!("verify-{WI}"),
+        check_id: "git diff --check".into(),
+        caller: batch_caller(first_member),
+    };
+    let attempt = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        &root,
+        &failed_check,
+        &runtime(),
+    )
+    .expect("reserve first member check");
+    cockpit_repository::record_task_authorization_batch_check_outcome(
+        &root,
+        &cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: WI.into(),
+            operation_id: failed_check.operation_id.clone(),
+            check_id: failed_check.check_id,
+            attempt: attempt.attempt.expect("attempt number"),
+            outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed,
+            evidence_ref: "local:first-member-failure".into(),
+            evidence_digest: Digest::sha256_bytes(b"first member failed"),
+            reason: "only the first member check failed".into(),
+            caller: batch_caller(first_member),
+        },
+        &runtime(),
+    )
+    .expect("append first member failure");
+
+    let first_ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("first member ledger");
+    let second_ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        second_id,
+        &runtime(),
+    )
+    .expect("second member ledger");
+    assert!(first_ledger.events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+            && event.outcome == Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed)
+    }));
+    assert!(second_ledger.events.iter().all(|event| {
+        event.kind != cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+    }));
+    assert_eq!(first_ledger.starts_used, 1);
+    assert_eq!(second_ledger.starts_used, 1);
+
+    cockpit_repository::terminate_task_authorization_batch_member(
+        &root,
+        &cockpit_protocol::TaskAuthorizationBatchTerminationRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: WI.into(),
+            decision: cockpit_protocol::TaskAuthorizationTerminationDecision::Withdrawn,
+            caller: batch_caller(first_member),
+            reason: "withdraw only the failed member".into(),
+        },
+        &runtime(),
+    )
+    .expect("withdraw first member only");
+    let first_after = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("first member after termination");
+    let second_after = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        second_id,
+        &runtime(),
+    )
+    .expect("second member remains independent");
+    assert_eq!(first_after.authorization_state, "withdrawn");
+    assert_eq!(second_after.authorization_state, "active");
+    assert_eq!(second_after.starts_used, 1);
+}
+
+#[test]
 fn retry_is_limited_to_named_unchanged_check_and_preserves_first_failure() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
     let root = directory.path();

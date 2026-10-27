@@ -593,6 +593,14 @@ WI 間の期限／取消と外部 B は対象外。隔離テストでの確認�
 
 認可は交付完了・撤回・期限の最初の事象で終了します。controls の `taskAuthorizationTermination` に `schemaVersion:1`、現在の `grantId`、`decision:"withdrawn"` または `"completed"`、明示 caller、reason を記録します。不変の記録は冪等で、権限を狭めるだけであり、認可復活や業務成功を作りません。各境界で期限を確認し、残り時間が不変の宣言済み予算より短い場合は子プロセスを開始しません。実行中の操作は安全な境界で観測し、盲目的にロールバックしません。
 
+### 追記専用の一括認可ライフサイクル
+
+明示した同一 repository の WI 一覧に対し、`work-item authorization-manifest plan --repo <repo> --input <request.json>` で決定的な読み取り専用 manifest を作ります。同じ manifest を `work-item authorization-manifest review --repo <repo> --manifest <manifest.json> --review <review.json>` で審査します。不変 receipt は判断を束縛し、列挙した各 WI に個別の子 grant を発行します。MCP では `work_item_authorization_manifest_plan` と `work_item_authorization_manifest_review` を使います。
+
+各 member は `work-item authorization-manifest start|check|outcome|inspect|terminate --repo <repo> --input <request.json>` で個別に操作します。`start` と `check` は作業前に quota reservation を追記し、`outcome` は予約済み attempt の結果を記録します。不確定な結果は process、operation receipt、永続状態を inspect するまで再試行できません。retry は正確に同じ内容の check に限られ、先の失敗を保持します。`terminate` は選択した member の子 grant だけを失効します。`work-item authorization-manifest ledger --repo <repo> --manifest-digest <digest> --work-item-id <id>` で追記履歴を確認できます。MCP 対応名は `work_item_authorization_batch_start`、`_check`、`_outcome`、`_inspect`、`_terminate`、`_ledger` です。
+
+各要求は対応する厳格な `TaskAuthorizationBatch*` JSON schema を使います。member、budget、action、caller、target、expiry は manifest に束縛され、判断による member 追加や権限移転はできません。結果は member ごとに独立し、すべての必須 member と check が実際に満たされた場合にのみ集計成功になります。self-declared caller は人間や host の本人認証ではありません。
+
 archive 後は宣言済み残余交付／資源操作だけが可能です。別途有効なネイティブの人間 close 後は、事前認可済み closeout 公開と補助資源整理だけを許し、ソース作業を再開できません。交付完了時は completed を記録し、撤回や期限で停止します。人間 close は別判断です。本 WI はこの機能で自己承認せず、共有 Runtime・外部 B・本番権限を有効化しません。
 
 ### 明示的な使用量ソースの取込み

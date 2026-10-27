@@ -75,6 +75,13 @@ fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidde
         vec!["work-item", "usage", "record", "--help"],
         vec!["work-item", "authorization-manifest", "--help"],
         vec!["work-item", "authorization-manifest", "plan", "--help"],
+        vec!["work-item", "authorization-manifest", "review", "--help"],
+        vec!["work-item", "authorization-manifest", "start", "--help"],
+        vec!["work-item", "authorization-manifest", "check", "--help"],
+        vec!["work-item", "authorization-manifest", "outcome", "--help"],
+        vec!["work-item", "authorization-manifest", "inspect", "--help"],
+        vec!["work-item", "authorization-manifest", "terminate", "--help"],
+        vec!["work-item", "authorization-manifest", "ledger", "--help"],
         vec!["audit", "--help"],
         vec!["audit", "query", "--help"],
         vec!["audit", "export", "--help"],
@@ -299,6 +306,359 @@ fn current_runtime_context(binary: &str) -> cockpit_protocol::RuntimeContext {
         protocol_version: cockpit_protocol::PROTOCOL_VERSION,
         runtime_digest: digest,
     }
+}
+
+#[test]
+fn explicit_batch_authorization_manifest_has_cli_mcp_parity() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    cockpit_repository::attach(repo.path()).expect("attach repository");
+    let runtime = current_runtime_context(binary);
+    let work_item_id = "WI-CLI-MCP-BATCH";
+    let actor = "agent:batch-worker";
+    let authority_source = "conversation:batch-owner-selected-WI-CLI-MCP-BATCH";
+    let policy = cockpit_protocol::TaskAuthorizationPolicy {
+        schema_version: 1,
+        agent_actor: actor.into(),
+        authority_source: authority_source.into(),
+        allowed_actions: vec!["run_verification".into()],
+        closeout_actions: Vec::new(),
+        expires_at: Some("2099-01-01T00:00:00Z".into()),
+        public_target: None,
+    };
+    cockpit_repository::start_work_item_with_options(
+        repo.path(),
+        work_item_id,
+        "prepare one explicit batch member",
+        "exercise CLI and MCP batch lifecycle parity",
+        &["README.md".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            task_authorization: Some(policy),
+            authority: "authorized".into(),
+            acceptance_criteria: vec![
+                "only the exact member and its finite budget are recorded".into(),
+            ],
+            verification_commands: vec!["git diff --check".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start bounded member");
+    let contract_path = repo.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    cockpit_repository::preflight_work_item_with_runtime_report(
+        repo.path(),
+        &contract_path,
+        &runtime,
+    )
+    .expect("preflight member policy");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("member Contract"))
+            .expect("Contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            repo.path()
+                .join(format!(".ai/work-items/active/{work_item_id}.summary.json")),
+        )
+        .expect("member Summary"),
+    )
+    .expect("Summary JSON");
+    cockpit_repository::record_work_item_governance_controls_with_runtime(
+        repo.path(),
+        work_item_id,
+        &serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1,
+            "decisionId":"contract-preflight-review",
+            "decision":"confirm_review",
+            "workItemId":work_item_id,
+            "repositoryId":cockpit_repository::repository_id(repo.path()),
+            "contractDigest":cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":"2026-10-27T00:00:00Z",
+            "recordedBy":"agent:test-recorder",
+            "reason":"synthetic isolated member owner confirmation"
+        }}),
+        &runtime,
+    )
+    .expect("confirm exact member policy in isolated fixture");
+
+    let make_input = |value: &serde_json::Value| {
+        let file = tempfile::NamedTempFile::new().expect("temporary request file");
+        fs::write(
+            file.path(),
+            serde_json::to_vec(value).expect("request JSON"),
+        )
+        .expect("write request JSON");
+        file
+    };
+    let request = serde_json::json!({
+        "schemaVersion":1,
+        "repositoryId":cockpit_repository::repository_id(repo.path()),
+        "members":[{
+            "workItemId":work_item_id,
+            "actions":["run_verification"],
+            "expiresAt":"2098-01-01T00:00:00Z",
+            "budget":{"startQuota":1,"retryBudgetByCheck":{"git diff --check":1}}
+        }]
+    });
+    let request_file = make_input(&request);
+    let cli_plan = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "plan", "--repo"])
+        .arg(repo.path())
+        .args(["--input"])
+        .arg(request_file.path())
+        .output()
+        .expect("CLI manifest plan");
+    assert!(
+        cli_plan.status.success(),
+        "CLI plan failed: {}",
+        String::from_utf8_lossy(&cli_plan.stderr)
+    );
+    let cli_manifest: serde_json::Value =
+        serde_json::from_slice(&cli_plan.stdout).expect("CLI manifest JSON");
+    let mcp_plan = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{
+            "name":"work_item_authorization_manifest_plan","arguments":{"request":request}
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(mcp_plan["result"]["isError"], false, "{mcp_plan}");
+    let mcp_manifest = &mcp_plan["result"]["structuredContent"];
+    assert_eq!(
+        cli_manifest, *mcp_manifest,
+        "canonical member manifest differs"
+    );
+    let manifest_digest = cli_manifest["manifestDigest"]
+        .as_str()
+        .expect("manifest digest");
+
+    let manifest_file = make_input(&cli_manifest);
+    let review = serde_json::json!({
+        "schemaVersion":1,
+        "repositoryId":cli_manifest["repositoryId"],
+        "manifestDigest":manifest_digest,
+        "decision":"confirm_review",
+        "reviewerActor":"human:fixture-owner",
+        "authoritySource":"conversation:owner-confirmed-exact-batch",
+        "recordedAt":"2026-10-27T00:01:00Z",
+        "reason":"confirm this exact member, action, destination, and finite budget"
+    });
+    let review_file = make_input(&review);
+    let cli_review = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "review", "--repo"])
+        .arg(repo.path())
+        .args(["--manifest"])
+        .arg(manifest_file.path())
+        .args(["--review"])
+        .arg(review_file.path())
+        .output()
+        .expect("CLI exact manifest review");
+    assert!(
+        cli_review.status.success(),
+        "CLI review failed: {}",
+        String::from_utf8_lossy(&cli_review.stderr)
+    );
+    let cli_receipt: serde_json::Value =
+        serde_json::from_slice(&cli_review.stdout).expect("CLI receipt JSON");
+    let mcp_review = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":2,"method":"tools/call","params":{
+            "name":"work_item_authorization_manifest_review","arguments":{
+                "manifest":cli_manifest,
+                "review":review
+            }
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(mcp_review["result"]["isError"], false, "{mcp_review}");
+    assert_eq!(cli_receipt, mcp_review["result"]["structuredContent"]);
+
+    let member_caller = serde_json::json!({
+        "schemaVersion":1,
+        "actor":actor,
+        "authoritySource":authority_source,
+        "assurance":"self_declared"
+    });
+    let start_request = serde_json::json!({
+        "schemaVersion":1,
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id,
+        "operationId":"parity-check-run",
+        "action":"run_verification",
+        "caller":member_caller
+    });
+    let start_file = make_input(&start_request);
+    let cli_start = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "start", "--repo"])
+        .arg(repo.path())
+        .args(["--input"])
+        .arg(start_file.path())
+        .output()
+        .expect("CLI batch start");
+    assert!(
+        cli_start.status.success(),
+        "CLI start failed: {}",
+        String::from_utf8_lossy(&cli_start.stderr)
+    );
+    let cli_start_event: serde_json::Value =
+        serde_json::from_slice(&cli_start.stdout).expect("CLI start event");
+    assert_eq!(cli_start_event["kind"], "start_reserved");
+    let ledger_args = serde_json::json!({
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id
+    });
+    let mcp_ledger = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":3,"method":"tools/call","params":{
+            "name":"work_item_authorization_batch_ledger","arguments":ledger_args
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(mcp_ledger["result"]["isError"], false, "{mcp_ledger}");
+    assert_eq!(
+        mcp_ledger["result"]["structuredContent"]["events"][0],
+        cli_start_event
+    );
+
+    let check_request = serde_json::json!({
+        "schemaVersion":1,
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id,
+        "operationId":"parity-check-run",
+        "checkId":"git diff --check",
+        "caller":member_caller
+    });
+    let mcp_check = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":4,"method":"tools/call","params":{
+            "name":"work_item_authorization_batch_check","arguments":{"request":check_request}
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(mcp_check["result"]["isError"], false, "{mcp_check}");
+    assert_eq!(mcp_check["result"]["structuredContent"]["attempt"], 1);
+
+    let unknown_outcome = serde_json::json!({
+        "schemaVersion":1,
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id,
+        "operationId":"parity-check-run",
+        "checkId":"git diff --check",
+        "attempt":1,
+        "outcome":"unknown",
+        "evidenceRef":"local:interrupted-check",
+        "evidenceDigest":cockpit_core::Digest::sha256_bytes(b"interrupted result"),
+        "reason":"the check process exited before its result was observed",
+        "caller":member_caller
+    });
+    let outcome_file = make_input(&unknown_outcome);
+    let cli_unknown = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "outcome", "--repo"])
+        .arg(repo.path())
+        .args(["--input"])
+        .arg(outcome_file.path())
+        .output()
+        .expect("CLI uncertain result record");
+    assert!(
+        cli_unknown.status.success(),
+        "CLI unknown result failed: {}",
+        String::from_utf8_lossy(&cli_unknown.stderr)
+    );
+    let retry_file = make_input(&check_request);
+    let blocked_retry = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "check", "--repo"])
+        .arg(repo.path())
+        .args(["--input"])
+        .arg(retry_file.path())
+        .output()
+        .expect("CLI blocked retry");
+    assert!(!blocked_retry.status.success());
+    assert!(
+        String::from_utf8_lossy(&blocked_retry.stderr)
+            .contains("uncertain_outcome_requires_inspection")
+    );
+
+    let inspection_request = serde_json::json!({
+        "schemaVersion":1,
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id,
+        "operationId":"parity-check-run",
+        "checkId":"git diff --check",
+        "attempt":1,
+        "inspectedOutcome":"not_started",
+        "evidenceRef":"local:process-inspection",
+        "evidenceDigest":cockpit_core::Digest::sha256_bytes(b"verified no process effect"),
+        "reason":"inspection confirms the check never started",
+        "caller":member_caller
+    });
+    let mcp_inspection = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":5,"method":"tools/call","params":{
+            "name":"work_item_authorization_batch_inspect","arguments":{"request":inspection_request}
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(
+        mcp_inspection["result"]["isError"], false,
+        "{mcp_inspection}"
+    );
+    let retry = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "check", "--repo"])
+        .arg(repo.path())
+        .args(["--input"])
+        .arg(retry_file.path())
+        .output()
+        .expect("CLI admitted retry after inspection");
+    assert!(
+        retry.status.success(),
+        "CLI retry failed: {}",
+        String::from_utf8_lossy(&retry.stderr)
+    );
+    let retry_event: serde_json::Value =
+        serde_json::from_slice(&retry.stdout).expect("retry event");
+    assert_eq!(retry_event["attempt"], 2);
+
+    let termination = serde_json::json!({
+        "schemaVersion":1,
+        "manifestDigest":manifest_digest,
+        "workItemId":work_item_id,
+        "decision":"withdrawn",
+        "caller":member_caller,
+        "reason":"fixture member authority is no longer required"
+    });
+    let mcp_termination = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":6,"method":"tools/call","params":{
+            "name":"work_item_authorization_batch_terminate","arguments":{"request":termination}
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(
+        mcp_termination["result"]["isError"], false,
+        "{mcp_termination}"
+    );
+    let cli_ledger = Command::new(binary)
+        .args(["work-item", "authorization-manifest", "ledger", "--repo"])
+        .arg(repo.path())
+        .args([
+            "--manifest-digest",
+            manifest_digest,
+            "--work-item-id",
+            work_item_id,
+        ])
+        .output()
+        .expect("CLI member ledger");
+    assert!(
+        cli_ledger.status.success(),
+        "CLI ledger failed: {}",
+        String::from_utf8_lossy(&cli_ledger.stderr)
+    );
+    let cli_ledger: serde_json::Value =
+        serde_json::from_slice(&cli_ledger.stdout).expect("CLI ledger JSON");
+    assert_eq!(cli_ledger["authorizationState"], "withdrawn");
+    assert_eq!(cli_ledger["events"].as_array().expect("events").len(), 6);
 }
 
 fn human_cli_output(binary: &str, repo: &Path, id: &str, language: &str) -> String {

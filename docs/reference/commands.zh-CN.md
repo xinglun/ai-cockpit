@@ -546,6 +546,14 @@ Runtime 在原生命周期锁内，将独立 `delegatedReview` 绑定到原生 p
 
 交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
 
+### 追加式批量授权生命周期
+
+对明确列出的同仓库 WI，使用 `work-item authorization-manifest plan --repo <repo> --input <request.json>` 生成确定性的只读清单。随后用 `work-item authorization-manifest review --repo <repo> --manifest <manifest.json> --review <review.json>` 审阅同一份清单；不可变回执绑定决定，并为每个列出的 WI 单独生成子授权。MCP 对应工具为 `work_item_authorization_manifest_plan` 和 `work_item_authorization_manifest_review`。
+
+对单个成员依次使用 `work-item authorization-manifest start|check|outcome|inspect|terminate --repo <repo> --input <request.json>`。`start` 和 `check` 会先追加额度预留；`outcome` 记录该预留尝试的结果。结果不确定时，必须先检查进程、操作回执和持久状态，再预留新尝试。重试只适用于精确且未变的检查，并保留之前的失败。`terminate` 只撤销该成员的子授权。用 `work-item authorization-manifest ledger --repo <repo> --manifest-digest <digest> --work-item-id <id>` 读取该成员的追加式历史。MCP 对应 `work_item_authorization_batch_start`、`_check`、`_outcome`、`_inspect`、`_terminate` 和 `_ledger`。
+
+每个请求采用对应的严格 `TaskAuthorizationBatch*` JSON schema。成员、预算、操作、caller、目标及期限都绑定到清单；一个决定不能增加成员或转移授权。成员结果独立记录，只有所有必需成员和检查都实际满足时聚合结果才成功。这些自声明 caller 字段不是真人或宿主身份认证。
+
 归档后仅允许已声明的剩余交付／资源操作；真实原生真人 close 后，只保留预授权的原生收尾发布和辅助清理，不能重新修改业务源码。收尾交付结束应记录 completed，撤回或到期则停止。真人关闭单独决定。本能力显式选择，本 WI 不用它自批、不替换共享 Runtime、不启用外部 B 或生产权限。
 
 ### 显式用量来源导入
