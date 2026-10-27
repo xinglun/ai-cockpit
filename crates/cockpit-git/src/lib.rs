@@ -3503,6 +3503,7 @@ mod path_introduction_tests {
         let root = directory.path();
         git(root, &["rm", "--", "records/safe.json"]);
         commit(root, "delete record");
+        fs::create_dir_all(root.join("records")).expect("recreate records directory");
         fs::write(root.join("records/safe.json"), b"re-added bytes\n").expect("re-add file");
         git(root, &["add", "--", "records/safe.json"]);
         let head = commit(root, "re-add record");
