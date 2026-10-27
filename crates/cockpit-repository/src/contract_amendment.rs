@@ -2347,6 +2347,44 @@ pub(crate) fn validated_amendment_predecessor(
     }))
 }
 
+/// Prove that one historical Contract digest reaches the current Contract
+/// through the append-only amendment journal and any committed native
+/// activation continuity edge. Unlike verification predecessor recovery,
+/// material-review receipt continuity does not require a checkpointed
+/// verification for the historical Contract.
+pub(crate) fn validated_contract_transition_chain_reaches(
+    root: &Path,
+    work_item_id: &str,
+    predecessor: &Digest,
+    current: &Digest,
+) -> Result<bool, ObserverError> {
+    if predecessor == current {
+        return Ok(true);
+    }
+    let (history, pending, candidate) =
+        load_history_with_predecessor(root, work_item_id, false, Some(predecessor))?;
+    if pending.is_some()
+        || history
+            .last()
+            .is_none_or(|tail| tail.new_contract_digest != *current)
+    {
+        return Ok(false);
+    }
+    validate_transition_chain(root, work_item_id, &history, Some(current))?;
+    let Some(candidate) = candidate else {
+        return Ok(false);
+    };
+    if record_digest(&candidate.contract, root)? != *predecessor {
+        return Ok(false);
+    }
+    let contract: Contract = serde_json::from_value(candidate.contract)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    Ok(
+        contract.repository_id == super::repository_id(root).to_string()
+            && contract.work_item_id == work_item_id,
+    )
+}
+
 fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {
     let count = fs::read_dir(directory)
         .map_err(|source| ObserverError::Read {

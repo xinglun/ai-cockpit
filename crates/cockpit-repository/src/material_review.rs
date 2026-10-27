@@ -2212,17 +2212,12 @@ fn material_review_contract_amendment_chain_reaches(
     previous_contract_digest: &Digest,
     current_contract_digest: &Digest,
 ) -> Result<bool, ObserverError> {
-    let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
-    Ok(material_review_contract_amendment_digests_form_chain(
-        amendments.into_iter().map(|amendment| {
-            (
-                amendment.previous_contract_digest,
-                amendment.new_contract_digest,
-            )
-        }),
+    super::contract_amendment::validated_contract_transition_chain_reaches(
+        root,
+        work_item_id,
         previous_contract_digest,
         current_contract_digest,
-    ))
+    )
 }
 
 fn material_review_profile_transition_reaches(
@@ -2235,15 +2230,6 @@ fn material_review_profile_transition_reaches(
     current_profile_digest: &Digest,
 ) -> Result<bool, ObserverError> {
     let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
-    let digests = amendments
-        .iter()
-        .map(|amendment| {
-            (
-                amendment.previous_contract_digest.clone(),
-                amendment.new_contract_digest.clone(),
-            )
-        })
-        .collect::<Vec<_>>();
     let mut valid_transitions = 0;
     for amendment in &amendments {
         let Some(transition) = amendment.material_review_profile_transition.as_ref() else {
@@ -2251,11 +2237,12 @@ fn material_review_profile_transition_reaches(
         };
         if amendment.previous_contract_digest != receipt.contract_digest
             || (amendment.new_contract_digest != *current_contract_digest
-                && !material_review_contract_amendment_digests_form_chain(
-                    digests.clone(),
+                && !super::contract_amendment::validated_contract_transition_chain_reaches(
+                    root,
+                    work_item_id,
                     &amendment.new_contract_digest,
                     current_contract_digest,
-                ))
+                )?)
         {
             continue;
         }
@@ -2273,6 +2260,7 @@ fn material_review_profile_transition_reaches(
     Ok(valid_transitions == 1)
 }
 
+#[cfg(test)]
 fn material_review_contract_amendment_digests_form_chain(
     amendments: impl IntoIterator<Item = (Digest, Digest)>,
     previous_contract_digest: &Digest,
@@ -2575,6 +2563,260 @@ pub fn record_work_item_material_review_with_caller(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{
+        WorkItemStartOptions, amend_work_item_contract_with_runtime, attach, scaffold_work_item,
+        start_work_item_with_options_and_runtime,
+    };
+    use cockpit_protocol::{RuntimeContext, digest_json};
+    use serde_json::json;
+    use std::{path::PathBuf, process::Command};
+
+    fn run_git(root: &Path, args: &[&str]) {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run git");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn git_text(root: &Path, args: &[&str]) -> String {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run git");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout)
+            .expect("git output is UTF-8")
+            .trim()
+            .to_owned()
+    }
+
+    fn activation_bridge_fixture(
+        work_item_id: &str,
+    ) -> (tempfile::TempDir, Digest, Digest, PathBuf) {
+        let directory = tempfile::tempdir().expect("repository");
+        let root = directory.path();
+        run_git(root, &["init", "-q"]);
+        run_git(
+            root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "--quiet",
+                "-m",
+                "fixture baseline",
+            ],
+        );
+        attach(root).expect("attach");
+        std::fs::write(root.join("README.md"), "activation bridge fixture\n").expect("README");
+        run_git(root, &["add", "README.md", ".ai"]);
+        run_git(
+            root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--quiet",
+                "-m",
+                "fixture repository baseline",
+            ],
+        );
+        let base = git_text(root, &["rev-parse", "HEAD"]);
+        run_git(root, &["branch", "-M", "main"]);
+        run_git(
+            root,
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://example.invalid/activation-bridge.git",
+            ],
+        );
+        run_git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+        run_git(
+            root,
+            &[
+                "symbolic-ref",
+                "refs/remotes/origin/HEAD",
+                "refs/remotes/origin/main",
+            ],
+        );
+        run_git(root, &["checkout", "-qb", "activation-bridge-fixture"]);
+
+        scaffold_work_item(root, work_item_id, "implementation").expect("scaffold");
+        let contract_path = root.join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        let scaffolded: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("scaffold Contract"))
+                .expect("valid scaffold Contract");
+        let before_start = json!({
+            "schemaVersion":1,
+            "changeId":"declare-activation-fixture",
+            "expectedContractDigest":digest_json(&scaffolded).expect("scaffold digest"),
+            "reason":"isolated native activation continuity fixture",
+            "changes":[
+                {"path":"/intent","operation":"set","value":"Exercise material review continuity"},
+                {"path":"/goal","operation":"set","value":"Retain exact receipt provenance across activation"},
+                {"path":"/scope","operation":"replace","value":["README.md"]},
+                {"path":"/risk","operation":"set","value":"normal"},
+                {"path":"/authority","operation":"set","value":"authorized"},
+                {"path":"/acceptanceCriteria","operation":"replace","value":["only validated continuity is accepted"]},
+                {"path":"/verification","operation":"replace","value":["git diff --check"]}
+            ]
+        });
+        let runtime = RuntimeContext {
+            runtime_version: env!("CARGO_PKG_VERSION").into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: Digest::sha256_bytes(b"isolated activation bridge test Runtime"),
+        };
+        amend_work_item_contract_with_runtime(root, work_item_id, &before_start, "", &runtime)
+            .expect("declare fixture before activation");
+        start_work_item_with_options_and_runtime(
+            root,
+            work_item_id,
+            "Exercise material review continuity",
+            "Retain exact receipt provenance across activation",
+            &["README.md".into()],
+            &WorkItemStartOptions {
+                risk: "normal".into(),
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["only validated continuity is accepted".into()],
+                verification_commands: vec!["git diff --check".into()],
+                ..WorkItemStartOptions::default()
+            },
+            &runtime,
+        )
+        .expect("record native activation transition");
+
+        let receipt_contract: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("activated Contract"))
+                .expect("valid activated Contract");
+        let receipt_digest = digest_json(&receipt_contract).expect("receipt Contract digest");
+        let after_activation = json!({
+            "schemaVersion":1,
+            "changeId":"append-after-activation",
+            "expectedContractDigest":receipt_digest,
+            "reason":"advance the exact Contract after the activation boundary",
+            "changes":[
+                {"path":"/acceptanceCriteria","operation":"replace","value":["validated activation is a required chain edge"]}
+            ]
+        });
+        amend_work_item_contract_with_runtime(root, work_item_id, &after_activation, "", &runtime)
+            .expect("amend after activation");
+        let current_contract: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("current Contract"))
+                .expect("valid current Contract");
+        let current_digest = digest_json(&current_contract).expect("current Contract digest");
+        let transition_directory =
+            root.join(format!(".ai/evidence/{work_item_id}.activation-transition"));
+        (
+            directory,
+            receipt_digest,
+            current_digest,
+            transition_directory,
+        )
+    }
+
+    fn rebind_activation_record(
+        transition_directory: &Path,
+        mutate: impl FnOnce(&mut serde_json::Value),
+    ) {
+        let prepared_path = transition_directory.join("prepared.json");
+        let committed_path = transition_directory.join("committed.json");
+        let mut prepared: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(&prepared_path).expect("prepared activation record"),
+        )
+        .expect("valid prepared activation record");
+        mutate(&mut prepared["record"]);
+        let record_digest = digest_json(&prepared["record"]).expect("updated record digest");
+        prepared["recordDigest"] = json!(record_digest);
+        std::fs::write(
+            &prepared_path,
+            serde_json::to_vec_pretty(&prepared).expect("encode prepared record"),
+        )
+        .expect("write prepared test fixture");
+        let mut committed: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(&committed_path).expect("committed activation record"),
+        )
+        .expect("valid committed activation record");
+        committed["preparedDigest"] = json!(record_digest);
+        std::fs::write(
+            committed_path,
+            serde_json::to_vec_pretty(&committed).expect("encode committed record"),
+        )
+        .expect("write committed test fixture");
+    }
+
+    #[test]
+    fn material_review_receipt_chain_accepts_validated_activation_bridge() {
+        let work_item_id = "WI-MATERIAL-ACTIVATION-BRIDGE";
+        let (directory, receipt, current, _) = activation_bridge_fixture(work_item_id);
+        assert!(
+            material_review_contract_amendment_chain_reaches(
+                directory.path(),
+                work_item_id,
+                &receipt,
+                &current,
+            )
+            .expect("validate native activation bridge")
+        );
+    }
+
+    #[test]
+    fn material_review_receipt_chain_rejects_tampered_activation_bindings() {
+        let work_item_id = "WI-MATERIAL-ACTIVATION-BRIDGE";
+        for (field, value) in [
+            ("journalSequence", json!(999)),
+            (
+                "journalDigest",
+                json!(Digest::sha256_bytes(b"foreign journal")),
+            ),
+            (
+                "previousContractDigest",
+                json!(Digest::sha256_bytes(b"foreign previous Contract")),
+            ),
+            (
+                "newContractDigest",
+                json!(Digest::sha256_bytes(b"foreign new Contract")),
+            ),
+            ("workItemId", json!("WI-FOREIGN")),
+        ] {
+            let (directory, receipt, current, transition_directory) =
+                activation_bridge_fixture(work_item_id);
+            rebind_activation_record(&transition_directory, |record| {
+                record[field] = value;
+            });
+            let result = material_review_contract_amendment_chain_reaches(
+                directory.path(),
+                work_item_id,
+                &receipt,
+                &current,
+            );
+            assert!(
+                !matches!(result, Ok(true)),
+                "tampered {field} must not validate an activation bridge"
+            );
+        }
+    }
 
     #[test]
     fn material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract() {
