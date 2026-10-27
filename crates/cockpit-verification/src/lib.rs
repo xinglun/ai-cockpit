@@ -3264,7 +3264,7 @@ fn reap_verification_supervisor_children() -> Result<(), CleanupUncertainty> {
                     std::thread::sleep(Duration::from_millis(10));
                     continue;
                 }
-                return Err(cleanup_uncertainty(&error.phase, &error.reason, &remaining));
+                return Err(cleanup_uncertainty(error.phase, &error.reason, &remaining));
             }
             return Ok(());
         }

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsString;
-use std::io::Read;
+use std::io::{Read, Write};
 #[cfg(unix)]
 use std::os::fd::AsRawFd;
 use std::path::PathBuf;
@@ -1755,13 +1755,23 @@ impl GitRepository {
 
     fn output_bounded_args_until(
         &self,
+        stage: &'static str,
         args: &[OsString],
         max_output_bytes: usize,
         deadline: Instant,
         total_timeout: Duration,
     ) -> Result<BoundedGitOutput, GitError> {
+        let started = Instant::now();
         let remaining = deadline.saturating_duration_since(Instant::now());
         if remaining.is_zero() {
+            Self::emit_path_introduction_timeout_diagnostic(
+                stage,
+                total_timeout,
+                remaining,
+                started.elapsed(),
+                false,
+                false,
+            );
             return Err(GitError::CommandTimeout {
                 timeout_ms: total_timeout.as_millis().min(u64::MAX as u128) as u64,
             });
@@ -1778,7 +1788,57 @@ impl GitRepository {
             use std::os::unix::process::CommandExt;
             command.process_group(0);
         }
-        bounded_process_output_with_timeout(command, max_output_bytes, remaining)
+        let result = bounded_process_output_with_timeout(command, max_output_bytes, remaining);
+        match &result {
+            Err(GitError::CommandTimeout { .. }) => {
+                Self::emit_path_introduction_timeout_diagnostic(
+                    stage,
+                    total_timeout,
+                    remaining,
+                    started.elapsed(),
+                    true,
+                    true,
+                );
+            }
+            Err(GitError::OutputPipeCloseTimeout { .. }) => {
+                Self::emit_path_introduction_timeout_diagnostic(
+                    stage,
+                    total_timeout,
+                    remaining,
+                    started.elapsed(),
+                    true,
+                    false,
+                );
+            }
+            _ => {}
+        }
+        result
+    }
+
+    fn emit_path_introduction_timeout_diagnostic(
+        stage: &'static str,
+        total_timeout: Duration,
+        remaining_before: Duration,
+        stage_elapsed: Duration,
+        command_spawned: bool,
+        direct_child_reaped: bool,
+    ) {
+        if !matches!(
+            std::env::var("AI_COCKPIT_GIT_PATH_INTRODUCTION_DIAGNOSTICS").as_deref(),
+            Ok("1")
+        ) {
+            return;
+        }
+        let line = format!(
+            "ai-cockpit git-path-introduction timeout stage={stage} total_budget_ms={} remaining_before_ms={} stage_elapsed_ms={} command_spawned={command_spawned} direct_child_reaped={direct_child_reaped} descendants_reaped=not_asserted\n",
+            total_timeout.as_millis(),
+            remaining_before.as_millis(),
+            stage_elapsed.as_millis(),
+        );
+        // Diagnostic output is best-effort: a write error never replaces the
+        // original bounded Git error. stderr may still block if its reader
+        // stops consuming a full pipe, so callers should direct it to a file.
+        let _ = std::io::stderr().lock().write_all(line.as_bytes());
     }
 
     /// Find the unique committed introduction of one literal repository path.
@@ -1815,6 +1875,7 @@ impl GitRepository {
         let deadline = Instant::now() + timeout;
 
         let shallow = self.output_bounded_args_until(
+            "shallow_status",
             &[
                 "--no-replace-objects".into(),
                 "rev-parse".into(),
@@ -1841,6 +1902,7 @@ impl GitRepository {
         }
 
         let current_head = self.output_bounded_args_until(
+            "head_verification",
             &[
                 "--no-replace-objects".into(),
                 "rev-parse".into(),
@@ -1870,6 +1932,7 @@ impl GitRepository {
 
         let pathspec = format!(":(literal){literal_repo_path}");
         let history = self.output_bounded_args_until(
+            "path_history",
             &[
                 "--no-replace-objects".into(),
                 "log".into(),
@@ -1974,6 +2037,7 @@ impl GitRepository {
         let revision = introductions.pop().expect("one path introduction");
 
         let ancestry = self.output_bounded_args_until(
+            "introduction_ancestry",
             &[
                 "--no-replace-objects".into(),
                 "merge-base".into(),
@@ -1992,6 +2056,7 @@ impl GitRepository {
         }
 
         let tree = self.output_bounded_args_until(
+            "introduction_tree",
             &[
                 "--no-replace-objects".into(),
                 "ls-tree".into(),
@@ -2043,6 +2108,7 @@ impl GitRepository {
         }
 
         let blob = self.output_bounded_args_until(
+            "introduction_blob",
             &[
                 "--no-replace-objects".into(),
                 "cat-file".into(),
