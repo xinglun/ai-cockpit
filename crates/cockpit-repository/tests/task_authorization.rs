@@ -6,7 +6,7 @@ use cockpit_repository::{
     repository_id, start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
-use std::{fs, path::Path, process::Command};
+use std::{fs, path::Path, process::Command, thread};
 
 const WI: &str = "WI-TASK-AUTHORIZATION";
 
