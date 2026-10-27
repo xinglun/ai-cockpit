@@ -3756,6 +3756,15 @@ fn governance_red_interlocked_request_is_generated_by_mcp() {
 
 #[test]
 fn interlocked_request_rejects_invalid_provenance_without_writes() {
+    let root = amended_request_fixture(true);
+    let protocol_root = root.path().join(".ai");
+    let baseline_protocol = FixtureTreeSnapshot::capture(&protocol_root);
+    let repo = root.path().to_str().expect("repository path");
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let contract_path = root.path().join(&relative);
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
     for case in [
         "marker_missing",
         "marker_hash",
@@ -3772,13 +3781,10 @@ fn interlocked_request_rejects_invalid_provenance_without_writes() {
         "recovered",
         "archived",
     ] {
-        let root = amended_request_fixture(true);
-        let repo = root.path().to_str().expect("repository path");
-        let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
-        let contract_path = root.path().join(&relative);
-        let summary_path = root
-            .path()
-            .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+        // Each case begins from the same complete, byte-preserved protocol
+        // state. Rebuild the native fixture once, then restore only its .ai
+        // tree between adversarial mutations.
+        baseline_protocol.restore(&protocol_root);
         let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
             .expect("Summary JSON");
         match case {
@@ -3852,6 +3858,7 @@ fn interlocked_request_rejects_invalid_provenance_without_writes() {
         let before_summary = fs::read(&summary_path).expect("Summary before rejection");
         let before_contract = fs::read(&contract_path).expect("Contract before rejection");
         let before_history = amendment_history_bytes(root.path());
+        let before_protocol = FixtureTreeSnapshot::capture(&protocol_root);
         let cli = run_cli(&["preflight", "--repo", repo, "--contract", &relative]);
         assert!(
             !cli.status.success(),
@@ -3883,18 +3890,26 @@ fn interlocked_request_rejects_invalid_provenance_without_writes() {
             before_history,
             "{case}"
         );
+        assert_eq!(
+            FixtureTreeSnapshot::capture(&protocol_root),
+            before_protocol,
+            "{case}: rejected request generation must preserve the entire protocol tree"
+        );
     }
 }
 
 #[test]
 fn interlocked_request_covers_each_eligible_nonterminal_phase() {
+    let root = amended_request_fixture(true);
+    let protocol_root = root.path().join(".ai");
+    let baseline_protocol = FixtureTreeSnapshot::capture(&protocol_root);
+    let repo = root.path().to_str().expect("repository path");
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
     for phase in ["implementation_active", "checkpointed", "finish_ready"] {
-        let root = amended_request_fixture(true);
-        let repo = root.path().to_str().expect("repository path");
-        let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
-        let path = root
-            .path()
-            .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+        baseline_protocol.restore(&protocol_root);
         let mut summary: Value =
             serde_json::from_slice(&fs::read(&path).expect("Summary")).expect("Summary JSON");
         summary["state"] = json!(phase);
