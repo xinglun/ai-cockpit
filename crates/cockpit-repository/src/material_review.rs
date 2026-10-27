@@ -2652,8 +2652,10 @@ mod tests {
             ],
         );
         attach(root).expect("attach");
+        std::fs::write(root.join(".gitattributes"), b"/.ai/** -text\n")
+            .expect("preserve native evidence bytes in cloned fixture repositories");
         std::fs::write(root.join("README.md"), "activation bridge fixture\n").expect("README");
-        run_git(root, &["add", "README.md", ".ai"]);
+        run_git(root, &["add", "README.md", ".gitattributes", ".ai"]);
         run_git(
             root,
             &[

@@ -1225,26 +1225,64 @@ fn read_activation_transition(
     }
     let git = cockpit_git::GitRepository::discover(root)
         .map_err(|error| state_error(&directory, error.to_string()))?;
-    let head = git
+    let topology = git
         .topology()
-        .map_err(|error| state_error(&directory, error.to_string()))?
+        .map_err(|error| state_error(&directory, error.to_string()))?;
+    let head = topology
         .head
         .ok_or_else(|| state_error(&directory, "activation history requires a committed HEAD"))?;
-    let prepared_bytes = read_committed_activation_bytes(
+    let local_owner = topology
+        .branch
+        .as_ref()
+        .map(|branch| ActivationOwnerBinding {
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            common_directory_id: Digest::sha256_bytes(
+                topology.common_dir.to_string_lossy().as_bytes(),
+            ),
+            branch: branch.clone(),
+        });
+    let prepared_current_bytes =
+        fs::read(&prepared_path).map_err(|source| ObserverError::Read {
+            path: prepared_path.clone(),
+            source,
+        })?;
+    let committed_current_bytes =
+        fs::read(&committed_path).map_err(|source| ObserverError::Read {
+            path: committed_path.clone(),
+            source,
+        })?;
+    let candidate: PreparedActivationTransition =
+        serde_json::from_slice(&prepared_current_bytes)
+            .map_err(|error| state_error(&prepared_path, error.to_string()))?;
+    let local_owner_matches = local_owner.as_ref() == Some(&candidate.record.owner);
+    let prepared_anchor = activation_path_history_anchor(
         &git,
         &head,
         &prepared_path,
         &format!(".ai/evidence/{id}.activation-transition/prepared.json"),
+        &prepared_current_bytes,
     )?;
-    let committed_bytes = read_committed_activation_bytes(
+    let committed_anchor = activation_path_history_anchor(
         &git,
         &head,
         &committed_path,
         &format!(".ai/evidence/{id}.activation-transition/committed.json"),
+        &committed_current_bytes,
     )?;
-    let prepared: PreparedActivationTransition = serde_json::from_slice(&prepared_bytes)
+    let both_committed = prepared_anchor == ActivationPathHistoryAnchor::Committed
+        && committed_anchor == ActivationPathHistoryAnchor::Committed;
+    let pending_for_exact_owner = local_owner_matches
+        && prepared_anchor == ActivationPathHistoryAnchor::NotIntroduced
+        && committed_anchor == ActivationPathHistoryAnchor::NotIntroduced;
+    if !both_committed && !pending_for_exact_owner {
+        return Err(state_error(
+            directory,
+            "activation transaction has no committed introduction for this checkout unless both records are still new to their exact owner",
+        ));
+    }
+    let prepared: PreparedActivationTransition = serde_json::from_slice(&prepared_current_bytes)
         .map_err(|error| state_error(&prepared_path, error.to_string()))?;
-    let committed: ContinuityCommit = serde_json::from_slice(&committed_bytes)
+    let committed: ContinuityCommit = serde_json::from_slice(&committed_current_bytes)
         .map_err(|error| state_error(&committed_path, error.to_string()))?;
     let record = &prepared.record;
     let expected_start = json!({
@@ -1300,31 +1338,35 @@ fn read_activation_transition(
     Ok(Some(prepared))
 }
 
-fn read_committed_activation_bytes(
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ActivationPathHistoryAnchor {
+    Committed,
+    NotIntroduced,
+}
+
+fn activation_path_history_anchor(
     git: &cockpit_git::GitRepository,
     head: &str,
     path: &Path,
     literal_repo_path: &str,
-) -> Result<Vec<u8>, ObserverError> {
-    let introduction = git
-        .first_path_introduction_bounded(head, literal_repo_path)
-        .map_err(|error| {
-            state_error(
-                path,
-                format!("cannot prove committed activation history: {error}"),
-            )
-        })?;
-    let current_bytes = fs::read(path).map_err(|source| ObserverError::Read {
-        path: path.to_path_buf(),
-        source,
-    })?;
-    if introduction.bytes != current_bytes {
-        return Err(state_error(
+    current_bytes: &[u8],
+) -> Result<ActivationPathHistoryAnchor, ObserverError> {
+    match git.first_path_introduction_bounded(head, literal_repo_path) {
+        Ok(introduction) if introduction.bytes == current_bytes => {
+            Ok(ActivationPathHistoryAnchor::Committed)
+        }
+        Ok(_) => Err(state_error(
             path,
             "activation record bytes differ from their first committed introduction",
-        ));
+        )),
+        Err(cockpit_git::GitError::PathNotIntroduced(_)) => {
+            Ok(ActivationPathHistoryAnchor::NotIntroduced)
+        }
+        Err(error) => Err(state_error(
+            path,
+            format!("cannot prove committed activation history: {error}"),
+        )),
     }
-    Ok(current_bytes)
 }
 
 pub(crate) fn validate_transition_chain(
@@ -3539,6 +3581,8 @@ mod tests {
         let root = directory.path();
         git(root, &["config", "user.name", "AI Cockpit Fixture"]);
         git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join(".gitattributes"), b"/.ai/** -text\n")
+            .expect("preserve native evidence bytes in cloned fixture repositories");
         fs::write(root.join("README.md"), "portable activation fixture\n").expect("fixture README");
         git(root, &["add", "--all"]);
         git(root, &["commit", "--quiet", "--allow-empty", "-m", "base"]);
@@ -3620,6 +3664,96 @@ mod tests {
         super::validate_transition_chain(root, &id, &history, None)
             .expect("source checkout validates its own activation");
         (directory, id)
+    }
+
+    #[test]
+    fn activation_owner_can_read_its_uncommitted_start_transaction() {
+        let (source, id) = portable_activation_transition_fixture();
+        let root = source.path();
+        git(root, &["reset", "--mixed", "HEAD^"]);
+
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read the committed amendment history");
+        super::validate_transition_chain(root, &id, &history, None)
+            .expect("the recorded local owner can read its pending native start transaction");
+    }
+
+    #[test]
+    fn foreign_checkout_cannot_read_an_uncommitted_activation_transaction() {
+        let (source, id) = portable_activation_transition_fixture();
+        let source_root = source.path();
+        git(source_root, &["reset", "--mixed", "HEAD^"]);
+
+        let clone_temp = tempfile::tempdir().expect("clone parent");
+        let clone_root = clone_temp.path().join("checkout");
+        git(
+            source_root,
+            &[
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                source_root.to_str().expect("source path"),
+                clone_root.to_str().expect("clone path"),
+            ],
+        );
+        let source_activation =
+            source_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let clone_activation = clone_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        fs::create_dir_all(&clone_activation).expect("create isolated activation directory");
+        for file_name in ["prepared.json", "committed.json"] {
+            fs::copy(
+                source_activation.join(file_name),
+                clone_activation.join(file_name),
+            )
+            .expect("copy the uncommitted activation bytes");
+        }
+
+        let history = crate::read_work_item_contract_amendments(&clone_root, &id)
+            .expect("read the clone's committed amendment history");
+        let error = super::validate_transition_chain(&clone_root, &id, &history, None)
+            .expect_err("a foreign checkout must not accept another owner's uncommitted record");
+        assert!(
+            error.to_string().contains("no committed introduction"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn local_owner_must_match_the_first_committed_activation_bytes() {
+        let (source, id) = portable_activation_transition_fixture();
+        let root = source.path();
+        let directory = root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let prepared_path = directory.join("prepared.json");
+        let committed_path = directory.join("committed.json");
+        let mut prepared = read_json(&prepared_path);
+        prepared["record"]["runtime"]["runtimeVersion"] = json!("resealed altered runtime");
+        let prepared_digest = super::record_digest(&prepared["record"], &prepared_path)
+            .expect("digest altered record");
+        prepared["recordDigest"] = serde_json::to_value(&prepared_digest).unwrap();
+        let mut committed = read_json(&committed_path);
+        committed["preparedDigest"] = serde_json::to_value(prepared_digest).unwrap();
+        fs::write(
+            &prepared_path,
+            serde_json::to_vec(&prepared).expect("serialize altered prepared record"),
+        )
+        .expect("write resealed prepared record");
+        fs::write(
+            &committed_path,
+            serde_json::to_vec(&committed).expect("serialize altered commit record"),
+        )
+        .expect("write resealed commit record");
+
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read committed amendment history");
+        let error = super::validate_transition_chain(root, &id, &history, None).expect_err(
+            "the local owner cannot rewrite records after their committed introduction",
+        );
+        assert!(
+            error
+                .to_string()
+                .contains("bytes differ from their first committed introduction"),
+            "{error}"
+        );
     }
 
     fn start_checkpointed(root: &Path, work_item_id: &str) -> PathBuf {

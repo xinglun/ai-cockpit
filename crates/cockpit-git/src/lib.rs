@@ -1747,8 +1747,9 @@ impl GitRepository {
     }
 
     /// Find the unique committed introduction of one literal repository path.
-    /// The requested full object ID must still be the repository's current
-    /// HEAD. The entire lookup shares one deadline and rejects shallow,
+    /// A commit introduces the path only when it is added relative to every
+    /// parent tree. The requested full object ID must still be the repository's
+    /// current HEAD. The entire lookup shares one deadline and rejects shallow,
     /// ambiguous, malformed, over-limit, or non-ancestor history.
     pub fn first_path_introduction_bounded(
         &self,
@@ -1841,7 +1842,11 @@ impl GitRepository {
                 "--topo-order".into(),
                 "--reverse".into(),
                 "--no-renames".into(),
-                "--format=%H".into(),
+                "--root".into(),
+                "-m".into(),
+                "--raw".into(),
+                "--no-abbrev".into(),
+                "--format=%H %P".into(),
                 "--diff-filter=A".into(),
                 current_head.clone().into(),
                 "--".into(),
@@ -1856,21 +1861,73 @@ impl GitRepository {
         }
         let history_text =
             std::str::from_utf8(&history.stdout).map_err(|_| GitError::InvalidUtf8)?;
-        let mut introductions = Vec::new();
+        let mut candidate_additions = BTreeMap::<String, (usize, usize)>::new();
+        let mut current_commit: Option<(String, usize)> = None;
+        let mut addition_entries = 0usize;
         for revision in history_text.lines() {
-            if revision.is_empty() || !valid_commit_oid(revision) {
+            if revision.is_empty() {
+                continue;
+            }
+            if revision.starts_with(':') {
+                let (metadata, _path) = revision.split_once('\t').ok_or_else(|| {
+                    GitError::Command("git returned a malformed raw path addition".into())
+                })?;
+                let fields = metadata.split_ascii_whitespace().collect::<Vec<_>>();
+                if fields.len() != 5 || fields[4] != "A" {
+                    return Err(GitError::Command(
+                        "git returned a malformed raw path addition".into(),
+                    ));
+                }
+                let (commit, _) = current_commit.as_ref().ok_or_else(|| {
+                    GitError::Command("git returned a path addition without a commit".into())
+                })?;
+                let entry = candidate_additions.get_mut(commit).ok_or_else(|| {
+                    GitError::Command("git returned a path addition without a commit".into())
+                })?;
+                entry.1 += 1;
+                addition_entries += 1;
+                if addition_entries > history_limit {
+                    return Err(GitError::HistoryEntryLimitExceeded {
+                        count: addition_entries,
+                        limit: history_limit,
+                    });
+                }
+                continue;
+            }
+
+            let mut fields = revision.split_ascii_whitespace();
+            let commit = fields.next().unwrap_or_default();
+            if !valid_commit_oid(commit) {
                 return Err(GitError::Command(
                     "git returned malformed path introduction history".into(),
                 ));
             }
-            introductions.push(revision.to_owned());
-            if introductions.len() > history_limit {
-                return Err(GitError::HistoryEntryLimitExceeded {
-                    count: introductions.len(),
-                    limit: history_limit,
-                });
+            let parents = fields.collect::<Vec<_>>();
+            if parents.iter().any(|parent| !valid_commit_oid(parent)) {
+                return Err(GitError::Command(
+                    "git returned malformed path introduction parents".into(),
+                ));
             }
+            let parent_count = parents.len();
+            let entry = candidate_additions
+                .entry(commit.to_owned())
+                .or_insert((parent_count, 0));
+            if entry.0 != parent_count {
+                return Err(GitError::Command(
+                    "git returned inconsistent path introduction parents".into(),
+                ));
+            }
+            current_commit = Some((commit.to_owned(), parent_count));
         }
+        if candidate_additions.is_empty() {
+            return Err(GitError::PathNotIntroduced(literal_repo_path.to_owned()));
+        }
+        let mut introductions = candidate_additions
+            .into_iter()
+            .filter_map(|(revision, (parent_count, additions))| {
+                (additions == parent_count.max(1)).then_some(revision)
+            })
+            .collect::<Vec<_>>();
         if introductions.is_empty() {
             return Err(GitError::PathNotIntroduced(literal_repo_path.to_owned()));
         }
@@ -3400,6 +3457,63 @@ mod path_introduction_tests {
         (directory, base, head)
     }
 
+    fn repository_with_merge_introduced_file() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+
+        git(root, &["checkout", "-qb", "left"]);
+        fs::write(root.join("left.txt"), "left\n").expect("left file");
+        git(root, &["add", "--", "left.txt"]);
+        commit(root, "left change");
+
+        git(root, &["checkout", "-qb", "right", &base]);
+        fs::write(root.join("right.txt"), "right\n").expect("right file");
+        git(root, &["add", "--", "right.txt"]);
+        commit(root, "right change");
+
+        git(root, &["checkout", "--quiet", "left"]);
+        git(root, &["merge", "--no-commit", "--no-ff", "right"]);
+        let path = "records/activation.json";
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join(path), b"merge-introduced activation\n").expect("record file");
+        git(root, &["add", "--", path]);
+        let merge = commit(root, "merge introduces activation record");
+        (directory, base, merge)
+    }
+
+    fn repository_with_file_from_one_merge_parent() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+
+        git(root, &["checkout", "-qb", "left"]);
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join("records/activation.json"), b"side-introduced\n").expect("record file");
+        git(root, &["add", "--", "records/activation.json"]);
+        let introduction = commit(root, "left introduces activation record");
+
+        git(root, &["checkout", "-qb", "right", &base]);
+        fs::write(root.join("right.txt"), "right\n").expect("right file");
+        git(root, &["add", "--", "right.txt"]);
+        commit(root, "right change");
+
+        git(root, &["checkout", "--quiet", "left"]);
+        git(root, &["merge", "--no-commit", "--no-ff", "right"]);
+        let merge = commit(root, "merge file from left parent");
+        (directory, introduction, merge)
+    }
+
     #[test]
     fn first_path_introduction_reads_the_literal_path_from_its_first_commit() {
         let directory = tempfile::tempdir().expect("temporary repository");
@@ -3432,6 +3546,73 @@ mod path_introduction_tests {
         assert_eq!(introduction.revision, first_revision);
         assert_eq!(introduction.blob_oid, expected_blob.trim());
         assert_eq!(introduction.bytes, b"historical activation record\n");
+    }
+
+    #[test]
+    fn first_path_introduction_can_be_a_root_commit() {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join("records/activation.json"), b"root activation\n").expect("record file");
+        git(root, &["add", "--", "records/activation.json"]);
+        let head = commit(root, "root adds activation record");
+
+        let repository = GitRepository::discover(root).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&head, "records/activation.json")
+            .expect("find root-commit introduction");
+
+        assert_eq!(introduction.revision, head);
+        assert_eq!(introduction.bytes, b"root activation\n");
+    }
+
+    #[test]
+    fn first_path_introduction_in_a_merge_is_found_when_absent_from_every_parent() {
+        let (directory, _base, merge) = repository_with_merge_introduced_file();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&merge, "records/activation.json")
+            .expect("find file introduced by the merge commit");
+
+        assert_eq!(introduction.revision, merge);
+        assert_eq!(introduction.bytes, b"merge-introduced activation\n");
+    }
+
+    #[test]
+    fn merge_introduction_followed_by_delete_and_readd_is_ambiguous() {
+        let (directory, _base, _merge) = repository_with_merge_introduced_file();
+        let root = directory.path();
+        git(root, &["rm", "--", "records/activation.json"]);
+        commit(root, "delete merge-introduced activation");
+        fs::create_dir_all(root.join("records")).expect("recreate record directory");
+        fs::write(
+            root.join("records/activation.json"),
+            b"replacement activation\n",
+        )
+        .expect("reintroduced record");
+        git(root, &["add", "--", "records/activation.json"]);
+        let head = commit(root, "re-add activation record");
+
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/activation.json"),
+            Err(GitError::AmbiguousPathIntroduction { count: 2 })
+        ));
+    }
+
+    #[test]
+    fn merge_does_not_reintroduce_a_file_already_present_in_one_parent() {
+        let (directory, introduction, merge) = repository_with_file_from_one_merge_parent();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        let result = repository
+            .first_path_introduction_bounded(&merge, "records/activation.json")
+            .expect("find the side-branch introduction without counting the merge");
+
+        assert_eq!(result.revision, introduction);
+        assert_eq!(result.bytes, b"side-introduced\n");
     }
 
     #[test]

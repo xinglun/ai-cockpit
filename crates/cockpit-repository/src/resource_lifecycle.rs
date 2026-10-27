@@ -5527,7 +5527,7 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     // historical or current recipes remain rejected.
     const SUPPORTED_TRANSITIONS: &[(&str, &str)] = &[(
         "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40",
-        "sha256:b0f39049386d47edadfd2ca02a44844272497e7c84130562ae9e16de6581382a",
+        "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b",
     )];
     SUPPORTED_TRANSITIONS
         .iter()
@@ -9706,7 +9706,7 @@ mod post_merge_sync_tests {
         );
         assert_eq!(
             Digest::sha256_bytes(current_projection.as_bytes()).to_string(),
-            "sha256:b0f39049386d47edadfd2ca02a44844272497e7c84130562ae9e16de6581382a"
+            "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b"
         );
         assert_ne!(
             Digest::sha256_bytes(&historical),
