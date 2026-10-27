@@ -3344,8 +3344,8 @@ where
 
 #[cfg(test)]
 mod path_introduction_tests {
-    use super::GitRepository;
-    use std::{fs, path::Path, process::Command};
+    use super::{GitError, GitRepository, PATH_INTRODUCTION_OUTPUT_LIMIT};
+    use std::{fs, path::Path, process::Command, time::Duration};
 
     fn git(root: &Path, args: &[&str]) -> Vec<u8> {
         let output = Command::new("git")
@@ -3381,6 +3381,25 @@ mod path_introduction_tests {
             .to_owned()
     }
 
+    fn repository_with_introduced_file() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+        fs::create_dir_all(root.join("records")).expect("records directory");
+        fs::write(root.join("records/safe.json"), b"first bytes\n").expect("record file");
+        git(root, &["add", "--", "records/safe.json"]);
+        commit(root, "introduce record");
+        fs::write(root.join("README.md"), "later head\n").expect("later README");
+        git(root, &["add", "--", "README.md"]);
+        let head = commit(root, "advance head");
+        (directory, base, head)
+    }
+
     #[test]
     fn first_path_introduction_reads_the_literal_path_from_its_first_commit() {
         let directory = tempfile::tempdir().expect("temporary repository");
@@ -3413,5 +3432,106 @@ mod path_introduction_tests {
         assert_eq!(introduction.revision, first_revision);
         assert_eq!(introduction.blob_oid, expected_blob.trim());
         assert_eq!(introduction.bytes, b"historical activation record\n");
+    }
+
+    #[test]
+    fn path_introduction_rejects_invalid_paths_stale_head_and_missing_path() {
+        let (directory, base, head) = repository_with_introduced_file();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        for invalid in [
+            "../outside.json",
+            "/absolute.json",
+            "records//empty.json",
+            "records/./dot.json",
+            "records/..\\outside.json",
+            "C:\\outside.json",
+        ] {
+            assert!(
+                matches!(
+                    repository.first_path_introduction_bounded(&head, invalid),
+                    Err(GitError::InvalidLiteralPath(_))
+                ),
+                "invalid path was accepted: {invalid}"
+            );
+        }
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&base, "records/safe.json"),
+            Err(GitError::HeadChanged { .. })
+        ));
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/absent.json"),
+            Err(GitError::PathNotIntroduced(_))
+        ));
+    }
+
+    #[test]
+    fn path_introduction_rejects_shallow_history_and_both_resource_limits() {
+        let (directory, _, head) = repository_with_introduced_file();
+        let root = directory.path();
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_with_limits(
+                &head,
+                "records/safe.json",
+                1,
+                10,
+                Duration::from_secs(1),
+            ),
+            Err(GitError::OutputLimitExceeded { limit: 1 })
+        ));
+        assert!(matches!(
+            repository.first_path_introduction_with_limits(
+                &head,
+                "records/safe.json",
+                PATH_INTRODUCTION_OUTPUT_LIMIT,
+                0,
+                Duration::from_secs(1),
+            ),
+            Err(GitError::HistoryEntryLimitExceeded { count: 1, limit: 0 })
+        ));
+        fs::write(root.join(".git/shallow"), format!("{head}\n"))
+            .expect("mark isolated fixture history shallow");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/safe.json"),
+            Err(GitError::ShallowHistory)
+        ));
+    }
+
+    #[test]
+    fn path_introduction_rejects_delete_and_readd_as_ambiguous() {
+        let (directory, _, head_before_readd) = repository_with_introduced_file();
+        let root = directory.path();
+        git(root, &["rm", "--", "records/safe.json"]);
+        commit(root, "delete record");
+        fs::write(root.join("records/safe.json"), b"re-added bytes\n").expect("re-add file");
+        git(root, &["add", "--", "records/safe.json"]);
+        let head = commit(root, "re-add record");
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/safe.json"),
+            Err(GitError::AmbiguousPathIntroduction { count: 2 })
+        ));
+        assert_ne!(head_before_readd, head);
+    }
+}
+
+#[cfg(all(test, unix))]
+mod bounded_deadline_tests {
+    use super::{GitError, bounded_process_output_with_timeout};
+    use std::{
+        os::unix::process::CommandExt,
+        process::Command,
+        time::{Duration, Instant},
+    };
+
+    #[test]
+    fn command_deadline_kills_and_reaps_its_process_group() {
+        let mut command = Command::new("sh");
+        command.args(["-c", "exec sleep 5"]).process_group(0);
+        let started = Instant::now();
+        let error = bounded_process_output_with_timeout(command, 1024, Duration::from_millis(50))
+            .expect_err("sleep must exceed the small deadline");
+        assert!(matches!(error, GitError::CommandTimeout { timeout_ms: 50 }));
+        assert!(started.elapsed() < Duration::from_secs(2));
     }
 }
