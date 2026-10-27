@@ -246,11 +246,41 @@ query_validate() {
 
 validation_report_is_valid() {
   local report_path=$1
-  jq -e 'type == "object"
-    and (.state | type == "string")
-    and (.unknowns | type == "array")
-    and (.findings | type == "array")
-    and all(.findings[]; .severity != "error")' "$report_path" >/dev/null
+  local contract_path=$2
+  jq -e --slurpfile contract "$contract_path" '
+    def nonblank: type == "string" and (gsub("^\\s+|\\s+$"; "") | length) > 0;
+    if type != "object"
+      or (.state | type != "string")
+      or (.unknowns | type != "array")
+      or (.findings | type != "array")
+      or any(.unknowns[]; type != "string")
+      or any(.findings[]; type != "object" or (.code | type != "string") or (.severity | type != "string"))
+    then false
+    else
+      . as $report
+      | $contract[0] as $document
+      | [$report.findings[] | select(.severity == "error")] as $errors
+      | [$report.unknowns[] | select(startswith("required_scenario_unverified:")) | ltrimstr("required_scenario_unverified:")] as $unknown_scenarios
+      | [$document.scenarioCoverage[]? | select(type == "object") | select(.required == true and .status == "unverified")] as $planned
+      | all($report.findings[]; .severity != "error")
+        or (
+          $report.state == "blocked"
+          and $report.scenarioCoverage == "blocked"
+          and ($document.scenarioCoverage | type == "array")
+          and all($document.scenarioCoverage[]; type == "object")
+          and ($errors | length) > 0
+          and all($errors[]; .code == "required_scenario_unverified")
+          and all($errors[]; (.message | nonblank))
+          and all($report.unknowns[]; startswith("required_scenario_unverified:"))
+          and all($planned[]; (.scenario | nonblank) and ((.expected // .expectedResult) | nonblank) and (.verificationPlan | nonblank))
+          and ($planned | length) > 0
+          and ($planned | length) == ($errors | length)
+          and ($planned | length) == ($unknown_scenarios | length)
+          and ($unknown_scenarios | unique | length) == ($unknown_scenarios | length)
+          and (($planned | map(.scenario) | sort) == ($unknown_scenarios | sort))
+          and (($errors | map(.message) | sort) == ($planned | map("required scenario \(.scenario) is unverified") | sort))
+        )
+    end' "$report_path" >/dev/null
 }
 
 status_allows() {
@@ -485,7 +515,7 @@ if ! query_validate "$validation_before" "$artifact_dir/hosted-runtime-validatio
     "$artifact_dir/hosted-runtime-validation-before.stderr" >&2
   exit 1
 fi
-if ! validation_report_is_valid "$validation_before"; then
+if ! validation_report_is_valid "$validation_before" "$contract"; then
   verification_state=invalidated
   failure_reason=validation_report_invalid
   write_orchestration_report
@@ -627,7 +657,7 @@ else
       "$artifact_dir/hosted-runtime-validation-after.stderr" >&2
     exit 1
   fi
-  if ! validation_report_is_valid "$validation_after"; then
+  if ! validation_report_is_valid "$validation_after" "$contract"; then
     verification_state=invalidated
     failure_reason=validation_report_invalid
     write_orchestration_report

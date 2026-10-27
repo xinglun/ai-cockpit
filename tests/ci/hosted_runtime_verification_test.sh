@@ -11,7 +11,32 @@ make_runtime() {
   mkdir -p "$directory/repository/.ai/evidence"
   mkdir -p "$directory/repository/.ai/work-items/active"
   printf 'fixture source\n' >"$directory/repository/README.md"
-  printf '{"workItemId":"WI-HOSTED-TEST","verification":["cargo test --locked --workspace"]}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  FAKE_MODE="$mode" FAKE_CONTRACT="$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" python3 - <<'PY'
+import json
+import os
+from pathlib import Path
+
+mode = os.environ["FAKE_MODE"]
+contract = {
+    "workItemId": "WI-HOSTED-TEST",
+    "verification": ["cargo test --locked --workspace"],
+}
+if mode.startswith("planned-scenario-"):
+    contract["scenarioCoverage"] = [
+        {
+            "scenario": name,
+            "required": True,
+            "status": "unverified",
+            "evidence": [],
+            "expected": f"{name} behaves as declared",
+            "verificationPlan": f"Run the focused {name} regression",
+        }
+        for name in ("scenario-alpha", "scenario-beta")
+    ]
+    if mode == "planned-scenario-empty-plan":
+        del contract["scenarioCoverage"][0]["verificationPlan"]
+Path(os.environ["FAKE_CONTRACT"]).write_text(json.dumps(contract) + "\n")
+PY
   : >"$directory/repository/.ai/evidence/.keep"
   printf '{"workItemId":"WI-HOSTED-TEST","passed":true,"contractDigest":"sha256:%064d","repositorySnapshotDigest":"sha256:%064d"}\n' 1 1 \
     >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification.json"
@@ -48,6 +73,20 @@ path.write_text(
     "if args[:2] == ['work-item', 'validate']:\n"
     "    mode = os.environ['FAKE_MODE']\n"
     "    if mode == 'invalid-validation': print(json.dumps({'state': 'blocked'}))\n"
+    "    elif mode.startswith('planned-scenario-'):\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "        scenarios = contract.get('scenarioCoverage', [])\n"
+    "        pending_names = [item['scenario'] for item in scenarios if item.get('required') is True and item.get('status') == 'unverified']\n"
+    "        if mode == 'planned-scenario-mismatch': pending_names = ['scenario-not-in-contract']\n"
+    "        findings = [{'code': 'required_scenario_unverified', 'message': 'required scenario ' + name + ' is unverified', 'severity': 'error'} for name in pending_names]\n"
+    "        if mode == 'planned-scenario-message-mismatch':\n"
+    "            findings = [{'code': 'required_scenario_unverified', 'message': 'required scenario foreign-scenario is unverified', 'severity': 'error'} for _ in pending_names]\n"
+    "        unknowns = ['required_scenario_unverified:' + name for name in pending_names]\n"
+    "        if mode == 'planned-scenario-mixed-error':\n"
+    "            findings.append({'code': 'material_review_receipt_invalid', 'message': 'material review is invalid', 'severity': 'error'})\n"
+    "            unknowns.append('material_review_receipt_invalid')\n"
+    "        print(json.dumps({'state': 'blocked', 'scenarioCoverage': 'blocked', 'unknowns': unknowns, 'findings': findings}))\n"
     "    else: print(json.dumps({'state': 'blocked', 'unknowns': [], 'findings': []}))\n"
     "elif args[:2] == ['work-item', 'status']:\n"
     "    state = Path(os.environ['FAKE_STATE'])\n"
@@ -61,7 +100,7 @@ path.write_text(
     "        if mode == 'existing-fresh-mismatched-receipt': contract_digest = 'sha256:' + '4' * 64\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': ['run_verification']}))\n"
     "    elif mode in ('stale', 'stale-deferred', 'caller-valid', 'caller-mismatch') and count <= 2: actions = ['run_preflight']\n"
-    "    elif mode == 'blocked': actions = []\n"
+    "    elif mode in ('blocked', 'planned-scenario-unadmitted'): actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count >= 3: actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count <= 2: actions = ['run_preflight']\n"
     "    else: actions = ['run_verification']\n"
@@ -102,6 +141,9 @@ path.write_text(
     "    if mode == 'timeout-runtime-rejected':\n"
     "        print('fixture Runtime rejects timeout above its effective policy ceiling', file=sys.stderr)\n"
     "        raise SystemExit(1)\n"
+    "    if mode == 'planned-scenario-verify-fails':\n"
+    "        print('fixture project verification failed', file=sys.stderr)\n"
+    "        raise SystemExit(23)\n"
     "    if mode.startswith('caller-'):\n"
     "        if '--task-caller' not in args:\n"
     "            print('task_authorization_caller_required', file=sys.stderr)\n"
@@ -121,7 +163,7 @@ path.write_text(
     "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0, 'stdout': '', 'stderr': '', 'stdoutTruncated': False, 'stderrTruncated': False}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
     "    evidence = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'contractDigest': contract_digest, 'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'receipt': receipt}\n"
     "    evidence_path = repository / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
-    "    if mode == 'wrong-work-item-id':\n"
+    "    if mode in ('wrong-work-item-id', 'planned-scenario-bad-receipt'):\n"
     "        evidence['workItemId'] = 'WI-OTHER'\n"
     "        evidence['receipt']['workItemId'] = 'WI-OTHER'\n"
     "        evidence['receipt']['planReceipt']['workItemId'] = 'WI-OTHER'\n"
@@ -788,6 +830,55 @@ run_helper invalid-validation false
 jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
   "$tmp/invalid-validation/artifacts/hosted-runtime-orchestration.json" >/dev/null
 assert_no_commands "$tmp/invalid-validation/commands.jsonl" verify
+
+run_helper planned-scenario-valid true
+jq -e '.state == "blocked" and .scenarioCoverage == "blocked" and (.findings | length == 2) and all(.findings[]; .code == "required_scenario_unverified")' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-validation-before.json" >/dev/null
+jq -e '.state == "blocked" and .scenarioCoverage == "blocked" and all(.findings[]; .code == "required_scenario_unverified")' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-validation-after.json" >/dev/null
+jq -e 'all(.scenarioCoverage[]; .required == true and .status == "unverified" and (.evidence | length == 0))' \
+  "$tmp/planned-scenario-valid/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" >/dev/null
+jq -e '.verificationState == "passed" and .failureReason == null' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-valid/commands.jsonl" >/dev/null
+assert_no_commands "$tmp/planned-scenario-valid/commands.jsonl" finish archive close
+
+run_helper planned-scenario-mixed-error false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-mixed-error/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-mixed-error/commands.jsonl" preflight verify
+
+run_helper planned-scenario-empty-plan false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-empty-plan/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-empty-plan/commands.jsonl" preflight verify
+
+run_helper planned-scenario-mismatch false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-mismatch/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-mismatch/commands.jsonl" preflight verify
+
+run_helper planned-scenario-message-mismatch false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-message-mismatch/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-message-mismatch/commands.jsonl" preflight verify
+
+run_helper planned-scenario-unadmitted false
+jq -e '.verificationState == "not_started" and .failureReason == "no_admitted_preflight_or_verification_action"' \
+  "$tmp/planned-scenario-unadmitted/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-unadmitted/commands.jsonl" preflight verify
+
+run_helper planned-scenario-bad-receipt false
+jq -e '.verificationState == "invalidated" and .failureReason == "formal_verification_evidence_identity_mismatch"' \
+  "$tmp/planned-scenario-bad-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-bad-receipt/commands.jsonl" >/dev/null
+test ! -s "$tmp/planned-scenario-bad-receipt/artifacts/hosted-runtime-verification.json"
+
+run_helper planned-scenario-verify-fails false
+jq -e '.verificationState == "failed" and .failureReason == "verification_failed"' \
+  "$tmp/planned-scenario-verify-fails/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-verify-fails/commands.jsonl" >/dev/null
+test ! -s "$tmp/planned-scenario-verify-fails/artifacts/hosted-runtime-verification.json"
 
 printf 'timeout regression passed: bounded=1, default=1, unrelated=1, invalid=5, Runtime-refusal=1\n'
 printf 'hosted Runtime verification orchestration regression passed\n'
