@@ -1604,15 +1604,17 @@ fn profile_transition_preserves_prior_receipt_after_ai_only_commit() {
     let root = directory.path();
     let old_head = git(root, &["rev-parse", "HEAD"]);
     let original_summary: Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
-            .expect("Summary JSON");
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
     let old_pointer = original_summary["materialReviewReceipt"].clone();
     let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("immutable prior receipt");
 
     commit(root);
     let new_head = git(root, &["rev-parse", "HEAD"]);
     assert_ne!(old_head, new_head);
-    let committed_paths = git(root, &["diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"]);
+    let committed_paths = git(
+        root,
+        &["diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"],
+    );
     assert!(
         committed_paths.lines().all(|path| path.starts_with(".ai/")),
         "the intervening commit must change only .ai records: {committed_paths}"
@@ -1620,9 +1622,8 @@ fn profile_transition_preserves_prior_receipt_after_ai_only_commit() {
     cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
         .expect("refresh the exact unchanged profile at the .ai-only head");
 
-    let old_contract: Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-            .expect("Contract JSON");
+    let old_contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
     let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
     let reason = "preserve a historic receipt across a metadata-only source advance";
     amend_work_item_contract_with_runtime(
@@ -1674,8 +1675,8 @@ fn profile_transition_preserves_prior_receipt_after_ai_only_commit() {
     )
     .expect("record fixture-only review for the amended Contract");
 
-    let amendments = read_work_item_contract_amendments(root, "WI-MATERIAL")
-        .expect("append-only amendments");
+    let amendments =
+        read_work_item_contract_amendments(root, "WI-MATERIAL").expect("append-only amendments");
     let transition = amendments
         .last()
         .and_then(|amendment| amendment.material_review_profile_transition.as_ref())
@@ -1698,15 +1699,24 @@ fn profile_transition_preserves_prior_receipt_after_ai_only_commit() {
     assert_eq!(amended_summary["materialReviewReceipt"], old_pointer);
     assert_eq!(transition["previousPointer"], old_pointer);
 
-    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
-        root,
-        "WI-MATERIAL",
-        &runtime,
-    )
-    .expect("status keeps the old decision as history");
-    assert!(status.effective_unknowns.contains(&"material_review_receipt_stale".into()));
-    assert!(status.effective_unknowns.contains(&"repository_material_inspection_unavailable".into()));
-    assert!(!status.effective_unknowns.contains(&"material_review_receipt_invalid".into()));
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status keeps the old decision as history");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
 }
 
 #[test]

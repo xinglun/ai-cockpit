@@ -5511,13 +5511,27 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     if historical.contains(&b'\r') || compiled.contains(&b'\r') {
         return false;
     }
-    match (
+    let (Some(historical), Some(compiled)) = (
         historical_analysis_recipe_projection(&historical),
         historical_analysis_recipe_projection(&compiled),
-    ) {
-        (Some(historical), Some(compiled)) => historical == compiled,
-        _ => false,
+    ) else {
+        return false;
+    };
+    if historical == compiled {
+        return true;
     }
+    let historical_digest = Digest::sha256_bytes(historical.as_bytes()).to_string();
+    let compiled_digest = Digest::sha256_bytes(compiled.as_bytes()).to_string();
+    // Keep historical compatibility explicit and directed. These fingerprints
+    // bind the complete token-normalized digest recipe at both ends; unknown
+    // historical or current recipes remain rejected.
+    const SUPPORTED_TRANSITIONS: &[(&str, &str)] = &[(
+        "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40",
+        "sha256:b0f39049386d47edadfd2ca02a44844272497e7c84130562ae9e16de6581382a",
+    )];
+    SUPPORTED_TRANSITIONS
+        .iter()
+        .any(|(previous, current)| *previous == historical_digest && *current == compiled_digest)
 }
 
 fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
@@ -9683,11 +9697,23 @@ mod post_merge_sync_tests {
         )
         .unwrap();
         let current = include_bytes!("material_review.rs");
+        let historical_projection =
+            super::historical_analysis_recipe_projection(&historical).unwrap();
+        let current_projection = super::historical_analysis_recipe_projection(current).unwrap();
+        assert_eq!(
+            Digest::sha256_bytes(historical_projection.as_bytes()).to_string(),
+            "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40"
+        );
+        assert_eq!(
+            Digest::sha256_bytes(current_projection.as_bytes()).to_string(),
+            "sha256:b0f39049386d47edadfd2ca02a44844272497e7c84130562ae9e16de6581382a"
+        );
         assert_ne!(
             Digest::sha256_bytes(&historical),
             Digest::sha256_bytes(current)
         );
         assert!(super::analysis_recipe_source_matches(&historical, current));
+        assert!(!super::analysis_recipe_source_matches(current, &historical));
 
         let historical = String::from_utf8(historical).unwrap();
         for (before, after) in [
@@ -9766,6 +9792,15 @@ mod post_merge_sync_tests {
         assert!(!super::analysis_recipe_source_matches(
             lone_cr.as_bytes(),
             current
+        ));
+        let changed_current = String::from_utf8(current.to_vec()).unwrap().replacen(
+            "material-analysis-implementation:v1",
+            "material-analysis-implementation:v2",
+            1,
+        );
+        assert!(!super::analysis_recipe_source_matches(
+            historical.as_bytes(),
+            changed_current.as_bytes()
         ));
     }
 

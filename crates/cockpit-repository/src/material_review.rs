@@ -1742,7 +1742,9 @@ pub(super) fn prepare_profile_transition(
     if previous_request_digest != previous_request.request_digest {
         return Err(ObserverError::State {
             path: summary_path.clone(),
-            message: "prior material-review request changed while capturing its historic source head".into(),
+            message:
+                "prior material-review request changed while capturing its historic source head"
+                    .into(),
         });
     }
     let next_request =
