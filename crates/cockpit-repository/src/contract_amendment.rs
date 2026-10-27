@@ -3687,24 +3687,41 @@ mod tests {
         );
         assert_eq!(fs::read(&committed_path).unwrap(), committed_before);
 
-        let mut altered = read_json(&prepared_path);
-        altered["record"]["owner"]["worktreePath"] = json!("/spoofed/checkout");
-        let altered_digest = super::record_digest(&altered["record"], &prepared_path)
-            .expect("reseal altered prepared record");
-        altered["recordDigest"] = serde_json::to_value(&altered_digest).unwrap();
-        let mut altered_commit = read_json(&committed_path);
-        altered_commit["preparedDigest"] = serde_json::to_value(altered_digest).unwrap();
-        fs::write(&prepared_path, serde_json::to_vec(&altered).unwrap())
-            .expect("write isolated tampered owner fixture");
-        fs::write(
-            &committed_path,
-            serde_json::to_vec(&altered_commit).unwrap(),
-        )
-        .expect("write internally consistent isolated commit fixture");
-        assert!(
-            super::validate_transition_chain(&clone_root, &id, &history, None).is_err(),
-            "a re-sealed owner change must not replace the committed historical blob"
-        );
+        let original_prepared = fs::read(&prepared_path).unwrap();
+        let original_committed = fs::read(&committed_path).unwrap();
+        for field in ["owner", "repository", "work_item"] {
+            let mut altered = read_json(&prepared_path);
+            match field {
+                "owner" => {
+                    altered["record"]["owner"]["worktreePath"] = json!("/spoofed/checkout");
+                }
+                "repository" => altered["record"]["repositoryId"] = json!("sha256:foreign"),
+                "work_item" => altered["record"]["workItemId"] = json!("WI-FOREIGN"),
+                _ => unreachable!(),
+            }
+            let altered_digest = super::record_digest(&altered["record"], &prepared_path)
+                .expect("reseal altered prepared record");
+            altered["recordDigest"] = serde_json::to_value(&altered_digest).unwrap();
+            let mut altered_commit = read_json(&committed_path);
+            altered_commit["preparedDigest"] = serde_json::to_value(altered_digest).unwrap();
+            fs::write(&prepared_path, serde_json::to_vec(&altered).unwrap())
+                .expect("write isolated tampered prepared fixture");
+            fs::write(
+                &committed_path,
+                serde_json::to_vec(&altered_commit).unwrap(),
+            )
+            .expect("write internally consistent isolated commit fixture");
+            let error = super::validate_transition_chain(&clone_root, &id, &history, None)
+                .expect_err("re-sealed foreign bindings must not replace committed blobs");
+            assert!(
+                error
+                    .to_string()
+                    .contains("bytes differ from their first committed introduction"),
+                "field={field}: {error}"
+            );
+            fs::write(&prepared_path, &original_prepared).expect("restore exact prepared bytes");
+            fs::write(&committed_path, &original_committed).expect("restore exact committed bytes");
+        }
     }
 
     fn material_profile_amendment_fixture(
