@@ -1455,7 +1455,7 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
-    run_repository_verification_inner(root, request, process_observer, |_| {}, None)
+    run_repository_verification_inner(root, request, process_observer, |_| {}, None, None)
 }
 
 #[cfg(all(test, unix))]
@@ -1472,6 +1472,7 @@ where
         request,
         |_node_id, _process_id, _started| Ok(()),
         post_prepare,
+        None,
         None,
     )
 }
@@ -1494,6 +1495,31 @@ where
         process_observer,
         |_| {},
         Some((runtime, caller)),
+        None,
+    )
+}
+
+/// Execute an admitted task verification through a per-command supervisor.
+/// The supervisor is selected by the governing CLI Runtime and keeps its own
+/// subprocess tree isolated from the caller that records native admission.
+pub fn run_repository_verification_with_task_authorization_supervised<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+    supervisor: cockpit_verification::VerificationSupervisorLaunch,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
+        Some(supervisor),
     )
 }
 
@@ -1570,6 +1596,7 @@ fn run_repository_verification_inner<F, H>(
         &RuntimeContext,
         Option<&cockpit_protocol::TaskAuthorizationCaller>,
     )>,
+    process_supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
 ) -> Result<RepositoryVerificationRun, ObserverError>
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
@@ -1612,12 +1639,25 @@ where
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let mut receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
-        vec![command],
-        request.workers,
-        move |node_id, process_id, started| observer(node_id, process_id, started),
-        Arc::clone(&start_gate),
-    )
+    let observer_callback =
+        move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
+    let mut receipt = match process_supervisor.clone() {
+        Some(supervisor) => {
+            cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+                supervisor,
+            )
+        }
+        None => cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
+            vec![command],
+            request.workers,
+            observer_callback,
+            Arc::clone(&start_gate),
+        ),
+    }
     .map_err(|error| ObserverError::State {
         path: root.clone(),
         message: error.to_string(),
@@ -1702,12 +1742,24 @@ where
             )
         };
         let observer = Arc::clone(&process_observer);
-        receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
-            vec![command],
-            request.workers,
-            move |node_id, process_id, started| observer(node_id, process_id, started),
-            Arc::clone(&start_gate),
-        )
+        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+            observer(node_id, process_id, started)
+        };
+        receipt = match process_supervisor {
+            Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+                supervisor,
+            ),
+            None => cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+            ),
+        }
         .map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
@@ -19876,6 +19928,7 @@ mod post_prepare_identity_tests {
                 fs::write(path, bytes).unwrap();
             },
             Some((&runtime, Some(&caller))),
+            None,
         );
         let second = second.unwrap();
         assert!(!second.receipt.passed);

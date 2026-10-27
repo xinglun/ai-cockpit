@@ -1740,6 +1740,18 @@ fn record_ordinary_cleanup_command(
 }
 
 fn main() {
+    // Run the per-command verification supervisor on the process leader
+    // thread so Linux subreaper ownership survives the CLI's normal worker
+    // thread and remains available while it reaps adopted children.
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__verification-supervisor"))
+    {
+        if let Err(error) = cockpit_verification::run_verification_supervisor_stdio() {
+            eprintln!("{error}");
+            std::process::exit(1);
+        }
+        return;
+    }
     // The CLI's dispatch stack exceeds the Windows process default in
     // unoptimized builds. Keep parsing and command execution on an explicit,
     // bounded stack instead of relying on the platform linker default.
@@ -1768,6 +1780,12 @@ fn main() {
 }
 
 fn run() -> Result<()> {
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__verification-supervisor"))
+    {
+        return cockpit_verification::run_verification_supervisor_stdio()
+            .map_err(anyhow::Error::msg);
+    }
     if std::env::args_os().nth(1).as_deref()
         == Some(std::ffi::OsStr::new("__composition-supervisor"))
     {
@@ -2587,6 +2605,8 @@ fn run() -> Result<()> {
             }
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
+            let supervisor_executable =
+                std::env::current_exe().context("resolve governing Runtime executable")?;
             let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
@@ -2634,10 +2654,11 @@ fn run() -> Result<()> {
                                 let process_concurrency = Arc::clone(&process_concurrency);
                                 let caller = task_caller.as_ref();
                                 let runtime = &runtime_context;
+                                let supervisor_executable = supervisor_executable.clone();
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
-                                    let run = cockpit_repository::run_repository_verification_with_task_authorization(
+                                    let run = cockpit_repository::run_repository_verification_with_task_authorization_supervised(
                                         repository_root,
                                         request,
                                         runtime,
@@ -2645,6 +2666,10 @@ fn run() -> Result<()> {
                                         move |_node_id, _process_id, started| {
                                             process_concurrency.observe(started)
                                         },
+                                        cockpit_verification::VerificationSupervisorLaunch::new(
+                                            supervisor_executable,
+                                            vec!["__verification-supervisor".into()],
+                                        ),
                                     );
                                     let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
                                     let _ = progress_sender.send((node_id, Some(passed)));

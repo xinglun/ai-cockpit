@@ -29,9 +29,10 @@ use cockpit_evidence::{
 };
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
-use std::io::Read;
+use std::io::{BufRead, BufReader, Read, Write};
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Condvar, Mutex, mpsc};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -42,6 +43,16 @@ pub const DEFAULT_EXECUTION_SECONDS: u64 = cockpit_protocol::DEFAULT_VERIFICATIO
 pub const MAX_ALLOWED_EXECUTION_SECONDS: u64 = cockpit_protocol::MAX_VERIFICATION_TIMEOUT_SECONDS;
 /// Compatibility alias for consumers that used the old default timeout name.
 pub const MAX_EXECUTION_SECONDS: u64 = DEFAULT_EXECUTION_SECONDS;
+const MAX_SUPERVISOR_REQUEST_BYTES: usize = 1024 * 1024;
+const MAX_SUPERVISOR_RESPONSE_BYTES: usize = 1024 * 1024;
+const SUPERVISOR_STARTUP_DEADLINE: Duration = Duration::from_secs(10);
+const SUPERVISOR_CLEANUP_GRACE: Duration = Duration::from_secs(10);
+const SUPERVISOR_PROTOCOL_CLOSE_GRACE: Duration = Duration::from_secs(2);
+const SUPERVISOR_PARENT_CLEANUP_GRACE: Duration = Duration::from_secs(
+    SUPERVISOR_CLEANUP_GRACE.as_secs() + SUPERVISOR_PROTOCOL_CLOSE_GRACE.as_secs(),
+);
+const MAX_CLEANUP_REMAINING_PIDS: usize = 128;
+const MAX_CLEANUP_DIAGNOSTIC_BYTES: usize = 4096;
 
 /// A machine-readable measurement captured by a repository-local performance
 /// fixture.  The identity fields are intentionally required: a timing value
@@ -2147,6 +2158,7 @@ where
         now_epoch_seconds,
         Some(Arc::new(observer)),
         None,
+        None,
     )
 }
 
@@ -2161,6 +2173,43 @@ pub type ProcessAdmissionCheck =
 pub type ProcessStartGate = Arc<
     dyn Fn(&str, &mut dyn FnMut() -> Result<Child, String>) -> Result<Child, String> + Send + Sync,
 >;
+
+/// Exact executable used to start one isolated verification-command supervisor.
+/// The supervisor must be the same Runtime executable that admitted the parent
+/// verification request.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct VerificationSupervisorLaunch {
+    executable: PathBuf,
+    arguments: Vec<String>,
+    #[cfg(test)]
+    extra_environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+}
+
+impl VerificationSupervisorLaunch {
+    pub fn new(executable: impl Into<PathBuf>, arguments: Vec<String>) -> Self {
+        Self {
+            executable: executable.into(),
+            arguments,
+            #[cfg(test)]
+            extra_environment: Vec::new(),
+        }
+    }
+
+    #[cfg(test)]
+    fn test_harness(executable: impl Into<PathBuf>, arguments: Vec<String>) -> Self {
+        let mut launch = Self::new(executable, arguments);
+        launch
+            .extra_environment
+            .push(("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST".into(), "1".into()));
+        launch
+    }
+
+    #[cfg(test)]
+    fn with_test_environment(mut self, key: &str, value: impl Into<std::ffi::OsString>) -> Self {
+        self.extra_environment.push((key.into(), value.into()));
+        self
+    }
+}
 
 /// Execute bounded commands with both durable process observation and a
 /// caller-owned gate immediately around child creation.
@@ -2188,6 +2237,38 @@ where
         now_epoch_seconds,
         Some(Arc::new(observer)),
         Some(start_gate),
+        None,
+    )
+}
+
+/// Execute through an isolated per-command supervisor while preserving the
+/// caller-owned gate through the actual command spawn handshake.
+pub fn execute_bounded_with_process_observer_and_start_gate_supervised<O>(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    observer: O,
+    start_gate: ProcessStartGate,
+    supervisor: VerificationSupervisorLaunch,
+) -> Result<VerificationReceipt, ExecutionError>
+where
+    O: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+        Some(Arc::new(observer)),
+        Some(start_gate),
+        Some(supervisor),
     )
 }
 
@@ -2273,6 +2354,7 @@ fn execute_verification_plan_bounded_with_budget_at(
         now_epoch_seconds,
         None,
         None,
+        None,
     )
 }
 
@@ -2285,6 +2367,7 @@ fn execute_verification_plan_bounded_with_observer_at(
     now_epoch_seconds: i64,
     process_observer: Option<ProcessObserver>,
     process_start_gate: Option<ProcessStartGate>,
+    process_supervisor: Option<VerificationSupervisorLaunch>,
 ) -> Result<VerificationReceipt, ExecutionError> {
     if max_workers == 0 {
         return Err(ExecutionError::InvalidWorkerCount);
@@ -2348,6 +2431,7 @@ fn execute_verification_plan_bounded_with_observer_at(
         let scheduler = Arc::clone(&scheduler);
         let process_observer = process_observer.clone();
         let process_start_gate = process_start_gate.clone();
+        let process_supervisor = process_supervisor.clone();
         workers.push(std::thread::spawn(move || -> Result<(), ExecutionError> {
             loop {
                 let command = {
@@ -2368,10 +2452,11 @@ fn execute_verification_plan_bounded_with_observer_at(
                 let Some(command) = command else {
                     return Ok(());
                 };
-                let outcome = execute_captured(
+                let outcome = execute_captured_with_supervisor(
                     &command,
                     process_observer.as_ref(),
                     process_start_gate.as_ref(),
+                    process_supervisor.as_ref(),
                 );
                 let (lock, ready) = &*scheduler;
                 let mut state = lock.lock().map_err(|_| ExecutionError::WorkerPoisoned)?;
@@ -2626,7 +2711,7 @@ fn encode_hex(bytes: &[u8]) -> String {
     encoded
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 struct ExecutionOutcome {
     spawned: bool,
     passed: bool,
@@ -2642,6 +2727,1583 @@ struct ExecutionOutcome {
     elapsed_ms: u128,
     timeout_seconds: u64,
     deadline_ms: u128,
+    cleanup_uncertain: Option<CleanupUncertainty>,
+}
+
+/// Private execution diagnostic only. It is transported between the parent
+/// and per-command supervisor and rendered into stderr; it is not part of the
+/// reusable receipt identity or its digest domain.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct CleanupUncertainty {
+    phase: String,
+    reason: String,
+    remaining_pids: Vec<u32>,
+    remaining_pids_truncated: bool,
+}
+
+/// Private supervisor wire form. serde's internally tagged enum buffering
+/// cannot deserialize `u128` fields through serde_json's Content visitor, so
+/// the two full-width counters cross this private process boundary as
+/// canonical decimal strings. They are restored losslessly before receipt
+/// construction or digest calculation.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct VerificationSupervisorOutcomeWire {
+    spawned: bool,
+    passed: bool,
+    exit_code: Option<i32>,
+    termination_signal: Option<i32>,
+    stdout: Vec<u8>,
+    stderr: Vec<u8>,
+    stdout_truncated: bool,
+    stderr_truncated: bool,
+    output_digest: Option<String>,
+    output_truncated: bool,
+    timed_out: bool,
+    elapsed_ms: String,
+    timeout_seconds: u64,
+    deadline_ms: String,
+    cleanup_uncertain: Option<CleanupUncertainty>,
+}
+
+impl From<ExecutionOutcome> for VerificationSupervisorOutcomeWire {
+    fn from(outcome: ExecutionOutcome) -> Self {
+        Self {
+            spawned: outcome.spawned,
+            passed: outcome.passed,
+            exit_code: outcome.exit_code,
+            termination_signal: outcome.termination_signal,
+            stdout: outcome.stdout,
+            stderr: outcome.stderr,
+            stdout_truncated: outcome.stdout_truncated,
+            stderr_truncated: outcome.stderr_truncated,
+            output_digest: outcome.output_digest,
+            output_truncated: outcome.output_truncated,
+            timed_out: outcome.timed_out,
+            elapsed_ms: outcome.elapsed_ms.to_string(),
+            timeout_seconds: outcome.timeout_seconds,
+            deadline_ms: outcome.deadline_ms.to_string(),
+            cleanup_uncertain: outcome.cleanup_uncertain,
+        }
+    }
+}
+
+impl TryFrom<VerificationSupervisorOutcomeWire> for ExecutionOutcome {
+    type Error = String;
+
+    fn try_from(wire: VerificationSupervisorOutcomeWire) -> Result<Self, Self::Error> {
+        Ok(Self {
+            spawned: wire.spawned,
+            passed: wire.passed,
+            exit_code: wire.exit_code,
+            termination_signal: wire.termination_signal,
+            stdout: wire.stdout,
+            stderr: wire.stderr,
+            stdout_truncated: wire.stdout_truncated,
+            stderr_truncated: wire.stderr_truncated,
+            output_digest: wire.output_digest,
+            output_truncated: wire.output_truncated,
+            timed_out: wire.timed_out,
+            elapsed_ms: parse_supervisor_u128("elapsed_ms", &wire.elapsed_ms)?,
+            timeout_seconds: wire.timeout_seconds,
+            deadline_ms: parse_supervisor_u128("deadline_ms", &wire.deadline_ms)?,
+            cleanup_uncertain: wire.cleanup_uncertain,
+        })
+    }
+}
+
+fn parse_supervisor_u128(field: &str, value: &str) -> Result<u128, String> {
+    if value.is_empty()
+        || !value.bytes().all(|byte| byte.is_ascii_digit())
+        || (value.len() > 1 && value.starts_with('0'))
+    {
+        return Err(format!(
+            "verification supervisor {field} must be a canonical unsigned decimal string"
+        ));
+    }
+    value
+        .parse::<u128>()
+        .map_err(|_| format!("verification supervisor {field} exceeds the supported u128 range"))
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct VerificationSupervisorRequest {
+    schema_version: u32,
+    command_id: String,
+    program: String,
+    args: Vec<String>,
+    current_dir: Option<SupervisorOsString>,
+    environment: Vec<(SupervisorOsString, SupervisorOsString)>,
+    clear_environment: bool,
+    timeout_seconds: u64,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(transparent)]
+struct SupervisorOsString(Vec<u32>);
+
+impl SupervisorOsString {
+    fn from_os(value: &std::ffi::OsStr) -> Self {
+        #[cfg(unix)]
+        {
+            use std::os::unix::ffi::OsStrExt;
+            Self(
+                value
+                    .as_bytes()
+                    .iter()
+                    .map(|byte| u32::from(*byte))
+                    .collect(),
+            )
+        }
+        #[cfg(windows)]
+        {
+            use std::os::windows::ffi::OsStrExt;
+            Self(value.encode_wide().map(u32::from).collect())
+        }
+        #[cfg(not(any(unix, windows)))]
+        {
+            Self(
+                value
+                    .to_string_lossy()
+                    .encode_utf16()
+                    .map(u32::from)
+                    .collect(),
+            )
+        }
+    }
+
+    fn into_os(self) -> Result<std::ffi::OsString, String> {
+        #[cfg(unix)]
+        {
+            use std::os::unix::ffi::OsStringExt;
+            let bytes = self
+                .0
+                .into_iter()
+                .map(|unit| u8::try_from(unit).map_err(|_| "invalid Unix OS string byte"))
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(std::ffi::OsString::from_vec(bytes))
+        }
+        #[cfg(windows)]
+        {
+            use std::os::windows::ffi::OsStringExt;
+            let units = self
+                .0
+                .into_iter()
+                .map(|unit| u16::try_from(unit).map_err(|_| "invalid Windows OS string unit"))
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(std::ffi::OsString::from_wide(&units))
+        }
+        #[cfg(not(any(unix, windows)))]
+        {
+            let units = self
+                .0
+                .into_iter()
+                .map(|unit| u16::try_from(unit).map_err(|_| "invalid OS string unit"))
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(std::ffi::OsString::from(String::from_utf16_lossy(&units)))
+        }
+    }
+}
+
+impl VerificationSupervisorRequest {
+    fn from_command(command: &VerificationCommand) -> Self {
+        Self {
+            schema_version: 1,
+            command_id: command.id.clone(),
+            program: command.program.clone(),
+            args: command.args.clone(),
+            current_dir: command
+                .current_dir
+                .as_ref()
+                .map(|path| SupervisorOsString::from_os(path.as_os_str())),
+            environment: command
+                .environment
+                .iter()
+                .map(|(key, value)| {
+                    (
+                        SupervisorOsString::from_os(key),
+                        SupervisorOsString::from_os(value),
+                    )
+                })
+                .collect(),
+            clear_environment: command.clear_environment,
+            timeout_seconds: command.timeout_seconds,
+        }
+    }
+
+    fn into_command(self) -> Result<VerificationCommand, String> {
+        if self.schema_version != 1 {
+            return Err("unsupported verification supervisor request schema".into());
+        }
+        if self.command_id.is_empty() || self.program.is_empty() {
+            return Err("verification supervisor command identity is empty".into());
+        }
+        validate_timeout_seconds(self.timeout_seconds, &self.command_id)
+            .map_err(|error| error.to_string())?;
+        let current_dir = self
+            .current_dir
+            .map(SupervisorOsString::into_os)
+            .transpose()?
+            .map(PathBuf::from);
+        let environment = self
+            .environment
+            .into_iter()
+            .map(|(key, value)| Ok((key.into_os()?, value.into_os()?)))
+            .collect::<Result<Vec<_>, String>>()?;
+        let mut command = VerificationCommand::new(
+            &self.command_id,
+            &self.program,
+            self.args,
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_environment(environment)
+        .with_timeout_seconds(self.timeout_seconds);
+        command.current_dir = current_dir;
+        command.clear_environment = self.clear_environment;
+        Ok(command)
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(tag = "messageType", rename_all = "camelCase", deny_unknown_fields)]
+enum VerificationSupervisorMessage {
+    Started {
+        process_id: Option<u32>,
+        error: Option<String>,
+    },
+    Outcome {
+        outcome: VerificationSupervisorOutcomeWire,
+    },
+    Error {
+        message: String,
+    },
+}
+
+type VerificationSupervisorMessages = mpsc::Receiver<Result<VerificationSupervisorMessage, String>>;
+const CLEANUP_UNCERTAIN_LAUNCH_PREFIX: &str = "__verification_cleanup_uncertain__:";
+
+/// Entry point for the private CLI supervisor mode. One helper process owns
+/// exactly one verification command; Linux descendant reaping is scoped to
+/// this process and waits for its observed child PIDs only.
+pub fn run_verification_supervisor_stdio() -> Result<(), String> {
+    #[cfg(all(unix, not(target_os = "linux")))]
+    return Err("verification subprocess supervision is unsupported on this Unix platform".into());
+
+    #[cfg(target_os = "linux")]
+    initialize_composition_supervisor_backend()?;
+
+    let request_bytes = {
+        let stdin = std::io::stdin();
+        let input = stdin.lock();
+        let mut bytes = Vec::new();
+        let count = input
+            .take((MAX_SUPERVISOR_REQUEST_BYTES + 1) as u64)
+            .read_until(b'\n', &mut bytes)
+            .map_err(|error| format!("read verification supervisor request: {error}"))?;
+        if count == 0 || bytes.len() > MAX_SUPERVISOR_REQUEST_BYTES || bytes.last() != Some(&b'\n')
+        {
+            let message = "verification supervisor request is empty, oversized, or unterminated";
+            write_supervisor_start_message(None, Some(message))?;
+            return Err(message.into());
+        }
+        bytes.pop();
+        bytes
+    };
+    let request: VerificationSupervisorRequest = match serde_json::from_slice(&request_bytes) {
+        Ok(request) => request,
+        Err(error) => {
+            let message = format!("decode verification supervisor request: {error}");
+            write_supervisor_start_message(None, Some(&message))?;
+            return Err(message);
+        }
+    };
+    let command = match request.into_command() {
+        Ok(command) => command,
+        Err(error) => {
+            write_supervisor_start_message(None, Some(&error))?;
+            return Err(error);
+        }
+    };
+
+    let cancelled = Arc::new(AtomicBool::new(false));
+    let watcher_cancelled = Arc::clone(&cancelled);
+    let watcher = std::thread::Builder::new()
+        .name("verification-parent-watch".into())
+        .spawn(move || {
+            let stdin = std::io::stdin();
+            let mut input = stdin.lock();
+            let mut byte = [0_u8; 1];
+            match input.read(&mut byte) {
+                Ok(0) => watcher_cancelled.store(true, Ordering::Release),
+                Ok(_) | Err(_) => watcher_cancelled.store(true, Ordering::Release),
+            }
+        })
+        .map_err(|error| {
+            let message = format!("start verification parent watcher: {error}");
+            let _ = write_supervisor_start_message(None, Some(&message));
+            message
+        })?;
+    drop(watcher);
+
+    let mut announce_started = |process_id| write_supervisor_start_message(Some(process_id), None);
+    let mut outcome = execute_captured_inner(
+        &command,
+        None,
+        None,
+        Some(&cancelled),
+        Some(&mut announce_started),
+    );
+
+    #[cfg(target_os = "linux")]
+    if let Err(uncertainty) = reap_verification_supervisor_children() {
+        outcome.exit_code = None;
+        apply_cleanup_uncertainty(&mut outcome, uncertainty);
+    }
+
+    let response = serde_json::to_vec(&VerificationSupervisorMessage::Outcome {
+        outcome: outcome.into(),
+    })
+    .map_err(|error| format!("encode verification supervisor outcome: {error}"))?;
+    if response.len() + 1 > MAX_SUPERVISOR_RESPONSE_BYTES {
+        return Err("verification supervisor outcome exceeds its byte limit".into());
+    }
+    let mut stderr = std::io::stderr().lock();
+    write_supervisor_outcome_message(&response, &mut stderr)?;
+    Ok(())
+}
+
+fn write_supervisor_start_message(
+    process_id: Option<u32>,
+    error: Option<&str>,
+) -> Result<(), String> {
+    #[cfg(test)]
+    if process_id.is_some()
+        && std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_STARTED").is_some()
+    {
+        if let Some(marker) = std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_MARKER") {
+            let marker = PathBuf::from(marker);
+            let deadline = Instant::now() + Duration::from_secs(2);
+            while !marker.exists() && Instant::now() < deadline {
+                std::thread::sleep(Duration::from_millis(5));
+            }
+        }
+        return Err("injected verification supervisor Started channel failure".into());
+    }
+    let message = VerificationSupervisorMessage::Started {
+        process_id,
+        error: error.map(str::to_owned),
+    };
+    let mut stderr = std::io::stderr().lock();
+    serde_json::to_writer(&mut stderr, &message)
+        .map_err(|error| format!("encode verification supervisor start: {error}"))?;
+    stderr
+        .write_all(b"\n")
+        .and_then(|()| stderr.flush())
+        .map_err(|error| format!("write verification supervisor start: {error}"))
+}
+
+fn write_supervisor_outcome_message(
+    response: &[u8],
+    stderr: &mut impl Write,
+) -> Result<(), String> {
+    #[cfg(test)]
+    if std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_OUTCOME").is_some() {
+        return Err("injected verification supervisor Outcome channel failure".into());
+    }
+    stderr
+        .write_all(response)
+        .and_then(|()| stderr.write_all(b"\n"))
+        .and_then(|()| stderr.flush())
+        .map_err(|error| format!("write verification supervisor outcome: {error}"))
+}
+
+#[cfg(target_os = "linux")]
+fn reap_verification_supervisor_children() -> Result<(), CleanupUncertainty> {
+    let leader = std::process::id();
+    let deadline = Instant::now() + SUPERVISOR_CLEANUP_GRACE;
+    let mut observed = BTreeMap::<libc::pid_t, VerificationProcessIdentity>::new();
+    let mut scan_budget = VerificationProcScanBudget::default();
+    let mut scan_failure: Option<VerificationChildScanError> = None;
+    let mut fatal_failure: Option<(&'static str, String)> = None;
+    loop {
+        if Instant::now() >= deadline {
+            let (phase, reason) = scan_failure
+                .as_ref()
+                .map(|error| (error.phase, error.reason.as_str()))
+                .unwrap_or((
+                    "deadline",
+                    "verification supervisor child reap exceeded its cleanup deadline",
+                ));
+            return Err(cleanup_uncertainty(
+                phase,
+                reason,
+                &observed.keys().copied().collect(),
+            ));
+        }
+        // This supervisor is a dedicated process for one verification command.
+        // waitpid(-1) is process-local here: this dedicated supervisor owns one
+        // verification command and has no other worker's children. ECHILD is
+        // the only definitive clean boundary. The bounded /proc stat scan is
+        // used only to identify and signal direct children; its emptiness never
+        // proves cleanup.
+        let mut status = 0;
+        let waited = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+        let no_waitable_children =
+            waited < 0 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD);
+        if waited > 0 {
+            observed.remove(&waited);
+            continue;
+        }
+        if waited < 0 && !no_waitable_children {
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::EINTR) {
+                continue;
+            }
+            fatal_failure = Some((
+                "wait_children",
+                format!("wait for owned verification child: {error}"),
+            ));
+        }
+
+        let children =
+            match observe_verification_supervisor_children(leader, deadline, &mut scan_budget) {
+                Ok(snapshot) => {
+                    scan_failure = None;
+                    snapshot.children
+                }
+                Err(error) if error.retryable => {
+                    observed.extend(error.observed_children.clone());
+                    scan_failure = Some(error);
+                    BTreeMap::new()
+                }
+                Err(error) => {
+                    observed.extend(error.observed_children.clone());
+                    fatal_failure = Some((error.phase, error.reason.clone()));
+                    scan_failure = Some(error);
+                    BTreeMap::new()
+                }
+            };
+        observed.extend(children);
+
+        // This dedicated process is a child subreaper. Its direct children
+        // include the command and any orphaned descendants adopted after the
+        // command exits. Keep the reaper scoped to those direct children.
+        let mut still_present = BTreeSet::new();
+        let mut no_longer_present = Vec::new();
+        let mut identity_failure: Option<(libc::pid_t, String)> = None;
+        for (pid, identity) in &observed {
+            match observe_verification_process(*pid) {
+                Ok(Some(current))
+                    if current.start_time_ticks == identity.start_time_ticks
+                        && current.parent_process_id == leader as libc::pid_t =>
+                {
+                    still_present.insert(*pid);
+                    let killed = unsafe { libc::kill(*pid, libc::SIGKILL) };
+                    if killed != 0 {
+                        let error = std::io::Error::last_os_error();
+                        if error.raw_os_error() != Some(libc::ESRCH)
+                            && error.raw_os_error() != Some(libc::EINTR)
+                        {
+                            fatal_failure = Some((
+                                "signal_child",
+                                format!("terminate owned verification descendant {pid}: {error}"),
+                            ));
+                        }
+                    }
+                }
+                Ok(Some(current)) if current.start_time_ticks == identity.start_time_ticks => {
+                    identity_failure = Some((
+                        *pid,
+                        format!(
+                            "owned verification child changed parent from {leader} to {}",
+                            current.parent_process_id
+                        ),
+                    ));
+                }
+                Ok(_) => {
+                    no_longer_present.push(*pid);
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                    no_longer_present.push(*pid);
+                }
+                Err(error) => {
+                    identity_failure = Some((*pid, error.to_string()));
+                }
+            }
+        }
+        for pid in no_longer_present {
+            observed.remove(&pid);
+        }
+        if let Some((pid, reason)) = identity_failure {
+            fatal_failure = Some((
+                "verify_child_identity",
+                format!("verify owned verification descendant {pid}: {reason}"),
+            ));
+            scan_failure = Some(VerificationChildScanError {
+                phase: "verify_child_identity",
+                reason: format!("verify owned verification descendant {pid}: {reason}"),
+                retryable: false,
+                observed_children: observed.clone(),
+            });
+        }
+
+        if let Some((phase, reason)) = fatal_failure {
+            return Err(cleanup_uncertainty(
+                phase,
+                &reason,
+                &observed.keys().copied().collect(),
+            ));
+        }
+
+        let remaining: BTreeSet<_> = observed.keys().copied().collect();
+        if no_waitable_children && still_present.is_empty() && remaining.is_empty() {
+            if let Some(error) = scan_failure.as_ref() {
+                if error.retryable && Instant::now() < deadline {
+                    std::thread::sleep(Duration::from_millis(10));
+                    continue;
+                }
+                return Err(cleanup_uncertainty(&error.phase, &error.reason, &remaining));
+            }
+            return Ok(());
+        }
+        if Instant::now() < deadline {
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct VerificationProcessIdentity {
+    parent_process_id: libc::pid_t,
+    start_time_ticks: u64,
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Debug)]
+struct VerificationChildScanError {
+    phase: &'static str,
+    reason: String,
+    retryable: bool,
+    observed_children: BTreeMap<libc::pid_t, VerificationProcessIdentity>,
+}
+
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_SUPERVISOR_DESCENDANTS: usize = 4096;
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_PROC_ENTRIES: usize = 65_536;
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_PROC_STAT_BYTES: usize = 16 * 1024;
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_PROC_SCAN_BYTES: usize = 16 * 1024 * 1024;
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_PROC_CLEANUP_ENTRIES: usize = 1_048_576;
+#[cfg(target_os = "linux")]
+const MAX_VERIFICATION_PROC_CLEANUP_BYTES: usize = 128 * 1024 * 1024;
+
+#[cfg(target_os = "linux")]
+#[derive(Default)]
+struct VerificationProcScanBudget {
+    entries_scanned: usize,
+    stat_bytes_read: usize,
+}
+
+#[cfg(target_os = "linux")]
+struct VerificationDirectChildSnapshot {
+    children: BTreeMap<libc::pid_t, VerificationProcessIdentity>,
+}
+
+#[cfg(target_os = "linux")]
+fn observe_verification_supervisor_children(
+    leader: u32,
+    deadline: Instant,
+    budget: &mut VerificationProcScanBudget,
+) -> Result<VerificationDirectChildSnapshot, VerificationChildScanError> {
+    let leader = leader as libc::pid_t;
+    let mut children = BTreeMap::new();
+    let mut process_entries_scanned = 0_usize;
+    let mut stat_bytes_read = 0_usize;
+    let mut disappearing_process = None;
+    let entries = std::fs::read_dir("/proc").map_err(|error| VerificationChildScanError {
+        phase: "enumerate_proc",
+        reason: format!("enumerate /proc for verification children: {error}"),
+        retryable: is_recoverable_cleanup_io(&error),
+        observed_children: children.clone(),
+    })?;
+
+    for entry in entries {
+        if Instant::now() >= deadline {
+            return Err(VerificationChildScanError {
+                phase: "scan_proc",
+                reason: "verification /proc scan exceeded cleanup deadline".into(),
+                retryable: true,
+                observed_children: children,
+            });
+        }
+        process_entries_scanned = process_entries_scanned.saturating_add(1);
+        budget.entries_scanned = budget.entries_scanned.saturating_add(1);
+        if process_entries_scanned > MAX_VERIFICATION_PROC_ENTRIES {
+            return Err(VerificationChildScanError {
+                phase: "scan_proc",
+                reason: "verification /proc entry count exceeds its bound".into(),
+                retryable: false,
+                observed_children: children,
+            });
+        }
+        if budget.entries_scanned > MAX_VERIFICATION_PROC_CLEANUP_ENTRIES {
+            return Err(VerificationChildScanError {
+                phase: "scan_proc",
+                reason: "verification cleanup /proc entry budget exceeded".into(),
+                retryable: false,
+                observed_children: children,
+            });
+        }
+        let entry = entry.map_err(|error| VerificationChildScanError {
+            phase: "read_proc_entry",
+            reason: format!("read /proc entry: {error}"),
+            retryable: is_recoverable_cleanup_io(&error),
+            observed_children: children.clone(),
+        })?;
+        let Some(name) = entry.file_name().to_str().map(str::to_owned) else {
+            continue;
+        };
+        let Ok(pid) = name.parse::<libc::pid_t>() else {
+            continue;
+        };
+        if pid <= 1 || pid == leader {
+            continue;
+        }
+        match read_verification_process_identity(pid) {
+            Ok(Some((identity, bytes_read))) => {
+                stat_bytes_read = stat_bytes_read.saturating_add(bytes_read);
+                budget.stat_bytes_read = budget.stat_bytes_read.saturating_add(bytes_read);
+                if stat_bytes_read > MAX_VERIFICATION_PROC_SCAN_BYTES {
+                    return Err(VerificationChildScanError {
+                        phase: "scan_proc",
+                        reason: "verification /proc stat bytes exceed their bound".into(),
+                        retryable: false,
+                        observed_children: children,
+                    });
+                }
+                if budget.stat_bytes_read > MAX_VERIFICATION_PROC_CLEANUP_BYTES {
+                    return Err(VerificationChildScanError {
+                        phase: "scan_proc",
+                        reason: "verification cleanup /proc byte budget exceeded".into(),
+                        retryable: false,
+                        observed_children: children,
+                    });
+                }
+                if identity.parent_process_id == leader {
+                    children.insert(pid, identity);
+                    if children.len() > MAX_VERIFICATION_SUPERVISOR_DESCENDANTS {
+                        return Err(VerificationChildScanError {
+                            phase: "scan_proc",
+                            reason: "verification direct child count exceeds its bound".into(),
+                            retryable: false,
+                            observed_children: children,
+                        });
+                    }
+                }
+            }
+            Ok(None) => {
+                disappearing_process.get_or_insert(pid);
+            }
+            Err(error) if is_recoverable_cleanup_io(&error) => {
+                return Err(VerificationChildScanError {
+                    phase: "read_proc_stat",
+                    reason: format!("read /proc/{pid}/stat: {error}"),
+                    retryable: true,
+                    observed_children: children,
+                });
+            }
+            Err(error) => {
+                return Err(VerificationChildScanError {
+                    phase: "read_proc_stat",
+                    reason: format!("read /proc/{pid}/stat: {error}"),
+                    retryable: false,
+                    observed_children: children,
+                });
+            }
+        };
+    }
+    if let Some(pid) = disappearing_process {
+        return Err(VerificationChildScanError {
+            phase: "proc_entry_race",
+            reason: format!("/proc/{pid}/stat disappeared during bounded scan"),
+            retryable: true,
+            observed_children: children,
+        });
+    }
+    Ok(VerificationDirectChildSnapshot { children })
+}
+
+#[cfg(target_os = "linux")]
+fn observe_verification_process(
+    pid: libc::pid_t,
+) -> std::io::Result<Option<VerificationProcessIdentity>> {
+    read_verification_process_identity(pid).map(|identity| identity.map(|(identity, _)| identity))
+}
+
+#[cfg(target_os = "linux")]
+fn read_verification_process_identity(
+    pid: libc::pid_t,
+) -> std::io::Result<Option<(VerificationProcessIdentity, usize)>> {
+    let file = match std::fs::File::open(format!("/proc/{pid}/stat")) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error),
+    };
+    let mut bytes = Vec::with_capacity(512);
+    file.take(MAX_VERIFICATION_PROC_STAT_BYTES as u64 + 1)
+        .read_to_end(&mut bytes)?;
+    if bytes.len() > MAX_VERIFICATION_PROC_STAT_BYTES {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            format!("Linux process stat exceeds {MAX_VERIFICATION_PROC_STAT_BYTES} bytes"),
+        ));
+    }
+    let Some(end_comm) = bytes.iter().rposition(|byte| *byte == b')') else {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "malformed Linux process stat record",
+        ));
+    };
+    let stat_pid_end = bytes.iter().position(|byte| *byte == b' ').ok_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "Linux process stat record has no pid delimiter",
+        )
+    })?;
+    let stat_pid = std::str::from_utf8(&bytes[..stat_pid_end])
+        .map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat pid is not ASCII",
+            )
+        })?
+        .parse::<libc::pid_t>()
+        .map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat pid is invalid",
+            )
+        })?;
+    if stat_pid != pid {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "Linux process stat pid does not match requested pid",
+        ));
+    }
+    let fields = std::str::from_utf8(&bytes[end_comm + 1..])
+        .map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat fields are not ASCII",
+            )
+        })?
+        .split_whitespace()
+        .collect::<Vec<_>>();
+    let parent_process_id = fields
+        .get(1)
+        .ok_or_else(|| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat record is missing parent pid",
+            )
+        })?
+        .parse::<libc::pid_t>()
+        .map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat parent pid is invalid",
+            )
+        })?;
+    let start_time_ticks = fields
+        .get(19)
+        .ok_or_else(|| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat record is missing start time",
+            )
+        })?
+        .parse::<u64>()
+        .map_err(|_| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Linux process stat start time is invalid",
+            )
+        })?;
+    Ok(Some((
+        VerificationProcessIdentity {
+            parent_process_id,
+            start_time_ticks,
+        },
+        bytes.len(),
+    )))
+}
+
+#[cfg(target_os = "linux")]
+fn is_recoverable_cleanup_io(error: &std::io::Error) -> bool {
+    matches!(
+        error.kind(),
+        std::io::ErrorKind::Interrupted | std::io::ErrorKind::WouldBlock
+    )
+}
+
+#[cfg(target_os = "linux")]
+fn cleanup_uncertainty(
+    phase: &str,
+    reason: &str,
+    remaining_pids: &BTreeSet<libc::pid_t>,
+) -> CleanupUncertainty {
+    let mut pids = Vec::with_capacity(remaining_pids.len().min(MAX_CLEANUP_REMAINING_PIDS));
+    let mut truncated = false;
+    for pid in remaining_pids {
+        if pids.len() == MAX_CLEANUP_REMAINING_PIDS {
+            truncated = true;
+            break;
+        }
+        if let Ok(pid) = u32::try_from(*pid) {
+            pids.push(pid);
+        }
+    }
+    CleanupUncertainty {
+        phase: phase.to_owned(),
+        reason: truncate_diagnostic(reason, MAX_CLEANUP_DIAGNOSTIC_BYTES / 2),
+        remaining_pids: pids,
+        remaining_pids_truncated: truncated,
+    }
+}
+
+fn truncate_diagnostic(value: &str, max_bytes: usize) -> String {
+    if value.len() <= max_bytes {
+        return value.to_owned();
+    }
+    let mut end = max_bytes;
+    while !value.is_char_boundary(end) {
+        end -= 1;
+    }
+    value[..end].to_owned()
+}
+
+fn apply_cleanup_uncertainty(outcome: &mut ExecutionOutcome, uncertainty: CleanupUncertainty) {
+    outcome.passed = false;
+    outcome.cleanup_uncertain = Some(uncertainty.clone());
+    let marker = b"\ncleanup_uncertain: ";
+    let diagnostic = serde_json::to_vec(&uncertainty)
+        .unwrap_or_else(|_| b"{\"phase\":\"serialize\",\"reason\":\"encoding failure\"}".to_vec());
+    let diagnostic = &diagnostic[..diagnostic.len().min(MAX_CLEANUP_DIAGNOSTIC_BYTES)];
+    let reserved = marker.len().saturating_add(diagnostic.len());
+    let keep = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(reserved);
+    if outcome.stderr.len() > keep {
+        outcome.stderr.truncate(keep);
+        outcome.stderr_truncated = true;
+    }
+    outcome.stderr.extend_from_slice(marker);
+    outcome.stderr.extend_from_slice(diagnostic);
+    outcome.output_truncated = outcome.stdout_truncated || outcome.stderr_truncated;
+    outcome.output_digest = execution_outcome_digest(outcome);
+}
+
+fn merge_cleanup_uncertainty(outcome: &mut ExecutionOutcome, additional: CleanupUncertainty) {
+    let Some(mut combined) = outcome.cleanup_uncertain.take() else {
+        apply_cleanup_uncertainty(outcome, additional);
+        return;
+    };
+    let marker = b"\ncleanup_uncertain: ";
+    if let Some(position) = outcome
+        .stderr
+        .windows(marker.len())
+        .rposition(|window| window == marker)
+    {
+        outcome.stderr.truncate(position);
+    }
+    if combined.phase != additional.phase {
+        combined.phase =
+            truncate_diagnostic(&format!("{};{}", combined.phase, additional.phase), 256);
+    }
+    if combined.reason != additional.reason {
+        combined.reason = truncate_diagnostic(
+            &format!("{};{}", combined.reason, additional.reason),
+            MAX_CLEANUP_DIAGNOSTIC_BYTES / 2,
+        );
+    }
+    combined.remaining_pids.extend(additional.remaining_pids);
+    combined.remaining_pids.sort_unstable();
+    combined.remaining_pids.dedup();
+    if combined.remaining_pids.len() > MAX_CLEANUP_REMAINING_PIDS {
+        combined.remaining_pids.truncate(MAX_CLEANUP_REMAINING_PIDS);
+        combined.remaining_pids_truncated = true;
+    }
+    combined.remaining_pids_truncated |= additional.remaining_pids_truncated;
+    apply_cleanup_uncertainty(outcome, combined);
+}
+
+#[cfg(not(target_os = "linux"))]
+fn execution_outcome_digest(outcome: &ExecutionOutcome) -> Option<String> {
+    let identity = OutputIdentity {
+        success: outcome.passed,
+        exit_code: outcome.exit_code,
+        termination_signal: outcome.termination_signal,
+        stdout: &outcome.stdout,
+        stderr: &outcome.stderr,
+        stdout_truncated: outcome.stdout_truncated,
+        stderr_truncated: outcome.stderr_truncated,
+        timed_out: outcome.timed_out,
+    };
+    serde_json::to_vec(&identity)
+        .ok()
+        .map(|bytes| Digest::sha256_bytes(&bytes).to_string())
+}
+
+#[cfg(target_os = "linux")]
+fn execution_outcome_digest(outcome: &ExecutionOutcome) -> Option<String> {
+    let identity = OutputIdentity {
+        success: outcome.passed,
+        exit_code: outcome.exit_code,
+        termination_signal: outcome.termination_signal,
+        stdout: &outcome.stdout,
+        stderr: &outcome.stderr,
+        stdout_truncated: outcome.stdout_truncated,
+        stderr_truncated: outcome.stderr_truncated,
+        timed_out: outcome.timed_out,
+    };
+    serde_json::to_vec(&identity)
+        .ok()
+        .map(|bytes| Digest::sha256_bytes(&bytes).to_string())
+}
+
+fn execute_captured_with_supervisor(
+    command: &VerificationCommand,
+    observer: Option<&ProcessObserver>,
+    process_start_gate: Option<&ProcessStartGate>,
+    supervisor: Option<&VerificationSupervisorLaunch>,
+) -> ExecutionOutcome {
+    let Some(supervisor) = supervisor else {
+        return execute_captured(command, observer, process_start_gate);
+    };
+    execute_supervised_captured(command, observer, process_start_gate, supervisor)
+}
+
+fn execute_supervised_captured(
+    command: &VerificationCommand,
+    observer: Option<&ProcessObserver>,
+    process_start_gate: Option<&ProcessStartGate>,
+    supervisor: &VerificationSupervisorLaunch,
+) -> ExecutionOutcome {
+    let started = Instant::now();
+    let timeout_seconds = command.timeout_seconds;
+    let deadline_ms =
+        unix_epoch_millis().saturating_add(u128::from(timeout_seconds).saturating_mul(1_000));
+    let mut target_process_id = None;
+    let mut startup_reader = None;
+    let mut message_receiver = None;
+    let mut initial_message = None;
+    #[cfg(windows)]
+    let mut windows_tree = None;
+    let mut spawn = || {
+        #[cfg(windows)]
+        {
+            spawn_verification_supervisor(
+                command,
+                supervisor,
+                &mut target_process_id,
+                &mut startup_reader,
+                &mut message_receiver,
+                &mut initial_message,
+                &mut windows_tree,
+            )
+        }
+        #[cfg(not(windows))]
+        {
+            spawn_verification_supervisor(
+                command,
+                supervisor,
+                &mut target_process_id,
+                &mut startup_reader,
+                &mut message_receiver,
+                &mut initial_message,
+            )
+        }
+    };
+    let worker = match process_start_gate {
+        Some(gate) => gate(&command.id, &mut spawn),
+        None => spawn(),
+    };
+    let mut worker = match worker {
+        Ok(worker) => worker,
+        Err(error) => {
+            return failed_execution_outcome(started, timeout_seconds, deadline_ms, error);
+        }
+    };
+    let worker_id = worker.id();
+    let Some(target_id) = target_process_id else {
+        if let Some(VerificationSupervisorMessage::Outcome { outcome: wire }) =
+            initial_message.take()
+        {
+            close_supervisor_input(&mut worker);
+            let mut forced = false;
+            let status = wait_supervisor_cleanup(
+                &mut worker,
+                worker_id,
+                SUPERVISOR_PARENT_CLEANUP_GRACE,
+                &mut forced,
+            );
+            join_startup_reader(&mut startup_reader);
+            let mut outcome = match ExecutionOutcome::try_from(wire) {
+                Ok(outcome) => outcome,
+                Err(error) => {
+                    return failed_cleanup_uncertain_outcome(
+                        started,
+                        timeout_seconds,
+                        deadline_ms,
+                        "decode_initial_outcome",
+                        &error,
+                        &[worker_id],
+                    );
+                }
+            };
+            if forced || status.is_none() {
+                merge_cleanup_uncertainty(
+                    &mut outcome,
+                    parent_cleanup_uncertainty(
+                        "parent_forced_supervisor_termination",
+                        "supervisor did not finish after its initial outcome",
+                        &[worker_id],
+                    ),
+                );
+            }
+            if status.is_some_and(|status| !status.success()) {
+                outcome.passed = false;
+            }
+            outcome.deadline_ms = deadline_ms;
+            outcome.elapsed_ms = started.elapsed().as_millis();
+            outcome.output_digest = execution_outcome_digest(&outcome);
+            return outcome;
+        }
+        let forced =
+            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+        join_startup_reader(&mut startup_reader);
+        return if forced {
+            failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "parent_forced_supervisor_termination",
+                "supervisor did not stop after the bounded parent-close grace",
+                &[worker_id],
+            )
+        } else {
+            failed_execution_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "verification supervisor omitted the command process identity".into(),
+            )
+        };
+    };
+
+    if let Some(observer) = observer
+        && let Err(error) = observer(&command.id, target_id, true)
+    {
+        close_supervisor_input(&mut worker);
+        let forced =
+            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+        join_startup_reader(&mut startup_reader);
+        let _ = observer(&command.id, target_id, false);
+        #[cfg(windows)]
+        drop(windows_tree);
+        return if forced {
+            failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "observer_failure_cleanup",
+                &error,
+                &[worker_id, target_id],
+            )
+        } else {
+            observer_failed_outcome(started, timeout_seconds, deadline_ms, error)
+        };
+    }
+
+    let command_deadline = Instant::now() + Duration::from_secs(timeout_seconds);
+    let mut parent_timed_out = false;
+    let mut cleanup_forced_termination = false;
+    let worker_status = loop {
+        match worker.try_wait() {
+            Ok(Some(status)) => break Some(status),
+            Ok(None) if composition::owner_interruption_signal().is_some() => {
+                close_supervisor_input(&mut worker);
+                break wait_supervisor_cleanup(
+                    &mut worker,
+                    worker_id,
+                    SUPERVISOR_PARENT_CLEANUP_GRACE,
+                    &mut cleanup_forced_termination,
+                );
+            }
+            Ok(None) if Instant::now() < command_deadline + SUPERVISOR_CLEANUP_GRACE => {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            Ok(None) if !parent_timed_out => {
+                parent_timed_out = true;
+                close_supervisor_input(&mut worker);
+                match wait_supervisor_cleanup(
+                    &mut worker,
+                    worker_id,
+                    SUPERVISOR_PARENT_CLEANUP_GRACE,
+                    &mut cleanup_forced_termination,
+                ) {
+                    Some(status) => break Some(status),
+                    None => break None,
+                }
+            }
+            Ok(None) => break None,
+            Err(error) => {
+                close_supervisor_input(&mut worker);
+                let _ = terminate_supervisor_worker(
+                    &mut worker,
+                    worker_id,
+                    SUPERVISOR_PARENT_CLEANUP_GRACE,
+                );
+                join_startup_reader(&mut startup_reader);
+                #[cfg(windows)]
+                drop(windows_tree);
+                return failed_cleanup_uncertain_outcome(
+                    started,
+                    timeout_seconds,
+                    deadline_ms,
+                    "parent_wait_error",
+                    &format!("wait for verification supervisor: {error}"),
+                    &[worker_id, target_id],
+                );
+            }
+        }
+    };
+    close_supervisor_input(&mut worker);
+    #[cfg(windows)]
+    drop(windows_tree);
+    let response = if worker_status.is_some() {
+        match message_receiver.as_ref() {
+            Some(receiver) => receiver
+                .recv_timeout(SUPERVISOR_STARTUP_DEADLINE)
+                .map_err(|error| format!("read verification supervisor outcome: {error}"))
+                .and_then(|message| message),
+            None => Err("verification supervisor message channel is unavailable".into()),
+        }
+    } else {
+        Err("verification supervisor did not exit within its cleanup deadline".into())
+    };
+    join_startup_reader(&mut startup_reader);
+    let observer_error =
+        observer.and_then(|observer| observer(&command.id, target_id, false).err());
+    let mut outcome = match response {
+        Ok(VerificationSupervisorMessage::Outcome { outcome }) => {
+            match ExecutionOutcome::try_from(outcome) {
+                Ok(outcome) => outcome,
+                Err(error) => {
+                    return failed_cleanup_uncertain_outcome(
+                        started,
+                        timeout_seconds,
+                        deadline_ms,
+                        "decode_outcome",
+                        &format!("decode verification supervisor outcome: {error}"),
+                        &[target_id],
+                    );
+                }
+            }
+        }
+        Ok(VerificationSupervisorMessage::Error { message }) => {
+            return failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "supervisor_error_message",
+                &format!("verification supervisor failed: {message}"),
+                &[target_id],
+            );
+        }
+        Ok(_) => {
+            return failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "unexpected_supervisor_message",
+                "verification supervisor returned an unexpected message",
+                &[target_id],
+            );
+        }
+        Err(error) => {
+            return failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "supervisor_outcome_channel",
+                &error,
+                &[target_id],
+            );
+        }
+    };
+    if worker_status.is_none() {
+        outcome.passed = false;
+        outcome.timed_out |= parent_timed_out;
+        outcome.exit_code = None;
+        append_observer_error(
+            &mut outcome.stderr,
+            Some("verification supervisor did not exit within its cleanup deadline"),
+        );
+        outcome.output_truncated = outcome.stdout_truncated || outcome.stderr_truncated;
+    } else if worker_status.is_some_and(|status| !status.success()) {
+        outcome.passed = false;
+        outcome.exit_code = None;
+        append_observer_error(
+            &mut outcome.stderr,
+            Some("verification supervisor exited unsuccessfully"),
+        );
+        outcome.output_truncated = outcome.stdout_truncated || outcome.stderr_truncated;
+    }
+    if parent_timed_out {
+        outcome.passed = false;
+        outcome.timed_out = true;
+        outcome.exit_code = None;
+    }
+    if let Some(error) = observer_error {
+        outcome.passed = false;
+        append_observer_error(&mut outcome.stderr, Some(&error));
+        outcome.output_truncated = outcome.stdout_truncated || outcome.stderr_truncated;
+    }
+    if cleanup_forced_termination {
+        let uncertainty = parent_cleanup_uncertainty(
+            "parent_forced_supervisor_termination",
+            "supervisor did not stop within the bounded parent-close grace",
+            &[worker_id, target_id],
+        );
+        merge_cleanup_uncertainty(&mut outcome, uncertainty);
+    }
+    outcome.deadline_ms = deadline_ms;
+    outcome.elapsed_ms = started.elapsed().as_millis();
+    outcome.output_digest = execution_outcome_digest(&outcome);
+    outcome
+}
+
+fn spawn_verification_supervisor(
+    command: &VerificationCommand,
+    supervisor: &VerificationSupervisorLaunch,
+    target_process_id: &mut Option<u32>,
+    startup_reader: &mut Option<std::thread::JoinHandle<()>>,
+    message_receiver: &mut Option<VerificationSupervisorMessages>,
+    initial_message: &mut Option<VerificationSupervisorMessage>,
+    #[cfg(windows)] windows_tree: &mut Option<WindowsProcessTree>,
+) -> Result<Child, String> {
+    let request = VerificationSupervisorRequest::from_command(command);
+    let mut request_bytes = serde_json::to_vec(&request)
+        .map_err(|error| format!("encode verification supervisor request: {error}"))?;
+    if request_bytes.len() + 1 > MAX_SUPERVISOR_REQUEST_BYTES {
+        return Err("verification supervisor request exceeds its byte limit".into());
+    }
+    request_bytes.push(b'\n');
+    let mut process = Command::new(&supervisor.executable);
+    process
+        .args(&supervisor.arguments)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped());
+    #[cfg(test)]
+    process.envs(supervisor.extra_environment.iter().cloned());
+    #[cfg(unix)]
+    {
+        use std::os::unix::process::CommandExt;
+        process.process_group(0);
+    }
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        process.creation_flags(windows_sys::Win32::System::Threading::CREATE_SUSPENDED);
+    }
+    let mut child = process
+        .spawn()
+        .map_err(|error| format!("spawn verification supervisor: {error}"))?;
+    let worker_id = child.id();
+    #[cfg(windows)]
+    {
+        let Some(tree) = WindowsProcessTree::attach(&child) else {
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+            return Err("attach verification supervisor to its process job".into());
+        };
+        if !resume_suspended_process(&child) {
+            drop(tree);
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+            return Err("resume verification supervisor process".into());
+        }
+        *windows_tree = Some(tree);
+    }
+    let Some(stderr) = child.stderr.take() else {
+        terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+        return Err("verification supervisor stderr pipe is unavailable".into());
+    };
+    let (sender, receiver) = mpsc::sync_channel(4);
+    let reader = std::thread::Builder::new()
+        .name("verification-supervisor-messages".into())
+        .spawn(move || {
+            read_supervisor_messages(stderr, sender);
+        });
+    let reader = match reader {
+        Ok(reader) => reader,
+        Err(error) => {
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+            return Err(format!(
+                "start verification supervisor handshake reader: {error}"
+            ));
+        }
+    };
+    *startup_reader = Some(reader);
+    let write_result = match child.stdin.as_mut() {
+        Some(stdin) => stdin.write_all(&request_bytes).and_then(|()| stdin.flush()),
+        None => Err(std::io::Error::new(
+            std::io::ErrorKind::BrokenPipe,
+            "verification supervisor stdin pipe is unavailable",
+        )),
+    };
+    if let Err(error) = write_result {
+        close_supervisor_input(&mut child);
+        let _ = terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+        join_startup_reader(startup_reader);
+        let message = format!("write verification supervisor request: {error}");
+        return Err(uncertain_launch_error(
+            &message,
+            &parent_cleanup_uncertainty("request_channel", &message, &[worker_id]),
+        ));
+    }
+    let start_message = match receiver.recv_timeout(SUPERVISOR_STARTUP_DEADLINE) {
+        Ok(Ok(message)) => message,
+        Ok(Err(error)) => {
+            close_supervisor_input(&mut child);
+            let _ =
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            join_startup_reader(startup_reader);
+            return Err(uncertain_launch_error(
+                &error,
+                &parent_cleanup_uncertainty("startup_message_channel", &error, &[worker_id]),
+            ));
+        }
+        Err(error) => {
+            close_supervisor_input(&mut child);
+            let _ =
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            join_startup_reader(startup_reader);
+            let message = format!("verification supervisor start handshake failed: {error}");
+            return Err(uncertain_launch_error(
+                &message,
+                &parent_cleanup_uncertainty("startup_handshake", &message, &[worker_id]),
+            ));
+        }
+    };
+    match start_message {
+        VerificationSupervisorMessage::Started {
+            process_id: Some(process_id),
+            error: None,
+        } if process_id != 0 => *target_process_id = Some(process_id),
+        message @ VerificationSupervisorMessage::Outcome { .. } => {
+            *initial_message = Some(message);
+            *message_receiver = Some(receiver);
+            return Ok(child);
+        }
+        VerificationSupervisorMessage::Started {
+            error: Some(error), ..
+        } => {
+            close_supervisor_input(&mut child);
+            let forced =
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            join_startup_reader(startup_reader);
+            return Err(if forced {
+                uncertain_launch_error(
+                    &error,
+                    &parent_cleanup_uncertainty("startup_error_cleanup", &error, &[worker_id]),
+                )
+            } else {
+                error
+            });
+        }
+        _ => {
+            close_supervisor_input(&mut child);
+            let _ =
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            join_startup_reader(startup_reader);
+            let message = "verification supervisor returned an invalid start identity";
+            return Err(uncertain_launch_error(
+                message,
+                &parent_cleanup_uncertainty(message, message, &[worker_id]),
+            ));
+        }
+    }
+    *message_receiver = Some(receiver);
+    Ok(child)
+}
+
+fn read_supervisor_messages(
+    stderr: impl Read,
+    sender: mpsc::SyncSender<Result<VerificationSupervisorMessage, String>>,
+) {
+    let mut reader = BufReader::new(stderr).take((MAX_SUPERVISOR_RESPONSE_BYTES + 1) as u64);
+    let mut total_bytes = 0_usize;
+    loop {
+        let mut line = Vec::new();
+        let count = match reader.read_until(b'\n', &mut line) {
+            Ok(count) => count,
+            Err(error) => {
+                let _ = sender.send(Err(format!(
+                    "read verification supervisor message: {error}"
+                )));
+                return;
+            }
+        };
+        if count == 0 {
+            let _ = sender.send(Err(
+                "verification supervisor closed before its outcome".into()
+            ));
+            return;
+        }
+        total_bytes = total_bytes.saturating_add(count);
+        if total_bytes > MAX_SUPERVISOR_RESPONSE_BYTES || line.last() != Some(&b'\n') {
+            let _ = sender.send(Err(
+                "verification supervisor messages exceed the byte limit or are unterminated".into(),
+            ));
+            return;
+        }
+        line.pop();
+        let message = match serde_json::from_slice::<VerificationSupervisorMessage>(&line) {
+            Ok(message) => message,
+            Err(error) => {
+                let _ = sender.send(Err(format!(
+                    "decode verification supervisor message: {error}"
+                )));
+                return;
+            }
+        };
+        let finished = matches!(
+            &message,
+            VerificationSupervisorMessage::Outcome { .. }
+                | VerificationSupervisorMessage::Error { .. }
+        );
+        if sender.send(Ok(message)).is_err() || finished {
+            return;
+        }
+    }
+}
+
+fn join_startup_reader(reader: &mut Option<std::thread::JoinHandle<()>>) {
+    if let Some(reader) = reader.take() {
+        let _ = reader.join();
+    }
+}
+
+fn close_supervisor_input(child: &mut Child) {
+    drop(child.stdin.take());
+}
+
+fn wait_supervisor_cleanup(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+) -> Option<std::process::ExitStatus> {
+    let deadline = Instant::now() + grace;
+    loop {
+        match child.try_wait() {
+            Ok(Some(status)) => return Some(status),
+            Ok(None) if Instant::now() < deadline => {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            Ok(None) | Err(_) => {
+                *forced_termination = true;
+                terminate_descendants(child_id);
+                let _ = child.kill();
+                return child.wait().ok();
+            }
+        }
+    }
+}
+
+fn terminate_supervisor_worker(child: &mut Child, child_id: u32, grace: Duration) -> bool {
+    close_supervisor_input(child);
+    let mut forced_termination = false;
+    if wait_supervisor_cleanup(child, child_id, grace, &mut forced_termination).is_none() {
+        forced_termination = true;
+        terminate_descendants(child_id);
+        let _ = child.kill();
+        let _ = child.wait();
+    }
+    forced_termination
+}
+
+fn failed_execution_outcome(
+    started: Instant,
+    timeout_seconds: u64,
+    deadline_ms: u128,
+    error: String,
+) -> ExecutionOutcome {
+    let cleanup_uncertainty = parse_uncertain_launch_error(&error);
+    let message = if cleanup_uncertainty.is_some() {
+        "verification supervisor cleanup could not be confirmed".to_owned()
+    } else {
+        error
+    };
+    let mut outcome = observer_failed_outcome(started, timeout_seconds, deadline_ms, message);
+    if let Some(uncertainty) = cleanup_uncertainty {
+        apply_cleanup_uncertainty(&mut outcome, uncertainty);
+    }
+    outcome.output_digest = execution_outcome_digest(&outcome);
+    outcome
+}
+
+fn uncertain_launch_error(reason: &str, uncertainty: &CleanupUncertainty) -> String {
+    let encoded = serde_json::to_string(uncertainty).unwrap_or_else(|_| {
+        "{\"phase\":\"encode\",\"reason\":\"cleanup uncertainty encoding failed\",\"remainingPids\":[],\"remainingPidsTruncated\":false}".into()
+    });
+    format!("{CLEANUP_UNCERTAIN_LAUNCH_PREFIX}{encoded}\n{reason}")
+}
+
+fn parse_uncertain_launch_error(error: &str) -> Option<CleanupUncertainty> {
+    let encoded = error.strip_prefix(CLEANUP_UNCERTAIN_LAUNCH_PREFIX)?;
+    let (encoded, _) = encoded.split_once('\n').unwrap_or((encoded, ""));
+    serde_json::from_str(encoded).ok()
+}
+
+fn parent_cleanup_uncertainty(phase: &str, reason: &str, known_pids: &[u32]) -> CleanupUncertainty {
+    let mut pids = known_pids.to_vec();
+    pids.sort_unstable();
+    pids.dedup();
+    let truncated = pids.len() > MAX_CLEANUP_REMAINING_PIDS;
+    pids.truncate(MAX_CLEANUP_REMAINING_PIDS);
+    CleanupUncertainty {
+        phase: phase.to_owned(),
+        reason: truncate_diagnostic(reason, MAX_CLEANUP_DIAGNOSTIC_BYTES / 2),
+        remaining_pids: pids,
+        remaining_pids_truncated: truncated,
+    }
+}
+
+fn failed_cleanup_uncertain_outcome(
+    started: Instant,
+    timeout_seconds: u64,
+    deadline_ms: u128,
+    phase: &str,
+    reason: &str,
+    known_pids: &[u32],
+) -> ExecutionOutcome {
+    let mut outcome = observer_failed_outcome(
+        started,
+        timeout_seconds,
+        deadline_ms,
+        "verification supervisor cleanup could not be confirmed".into(),
+    );
+    apply_cleanup_uncertainty(
+        &mut outcome,
+        parent_cleanup_uncertainty(phase, reason, known_pids),
+    );
+    outcome
 }
 
 #[derive(Serialize)]
@@ -2673,6 +4335,16 @@ fn execute_captured(
     command: &VerificationCommand,
     observer: Option<&ProcessObserver>,
     process_start_gate: Option<&ProcessStartGate>,
+) -> ExecutionOutcome {
+    execute_captured_inner(command, observer, process_start_gate, None, None)
+}
+
+fn execute_captured_inner(
+    command: &VerificationCommand,
+    observer: Option<&ProcessObserver>,
+    process_start_gate: Option<&ProcessStartGate>,
+    cancellation: Option<&AtomicBool>,
+    mut on_started: Option<&mut dyn FnMut(u32) -> Result<(), String>>,
 ) -> ExecutionOutcome {
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
@@ -2730,6 +4402,7 @@ fn execute_captured(
                 elapsed_ms: started.elapsed().as_millis(),
                 timeout_seconds,
                 deadline_ms,
+                cleanup_uncertain: None,
             };
         }
     };
@@ -2755,6 +4428,7 @@ fn execute_captured(
                 elapsed_ms: started.elapsed().as_millis(),
                 timeout_seconds,
                 deadline_ms,
+                cleanup_uncertain: None,
             };
         }
     };
@@ -2778,7 +4452,17 @@ fn execute_captured(
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
             deadline_ms,
+            cleanup_uncertain: None,
         };
+    }
+    if let Some(on_started) = on_started.as_mut()
+        && let Err(error) = on_started(child_id)
+    {
+        terminate_process_tree(&mut child, child_id);
+        let _ = child.wait();
+        #[cfg(windows)]
+        drop(process_tree);
+        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
     }
     if let Some(observer) = observer
         && let Err(error) = observer(&command.id, child_id, true)
@@ -2798,6 +4482,10 @@ fn execute_captured(
     let (status, mut timed_out) = loop {
         match child.try_wait() {
             Ok(Some(status)) => break (Some(status), false),
+            Ok(None) if cancellation.is_some_and(|flag| flag.load(Ordering::Acquire)) => {
+                terminate_process_tree(&mut child, child_id);
+                break (child.wait().ok(), false);
+            }
             Ok(None) if composition::owner_interruption_signal().is_some() => {
                 terminate_process_tree(&mut child, child_id);
                 break (child.wait().ok(), false);
@@ -2840,6 +4528,7 @@ fn execute_captured(
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
             deadline_ms,
+            cleanup_uncertain: None,
         };
     };
     let termination_signal = status_termination_signal(&status);
@@ -2863,6 +4552,7 @@ fn execute_captured(
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
             deadline_ms,
+            cleanup_uncertain: None,
         };
     }
     let identity = OutputIdentity {
@@ -2893,6 +4583,7 @@ fn execute_captured(
         elapsed_ms: started.elapsed().as_millis(),
         timeout_seconds,
         deadline_ms,
+        cleanup_uncertain: None,
     }
 }
 
@@ -2919,6 +4610,7 @@ fn observer_failed_outcome(
         elapsed_ms: started.elapsed().as_millis(),
         timeout_seconds,
         deadline_ms,
+        cleanup_uncertain: None,
     }
 }
 
@@ -3254,6 +4946,7 @@ struct SchedulerState {
     total: usize,
     resource_budget: usize,
     reserved_resources: usize,
+    cleanup_uncertain: bool,
     metrics: RuntimeMetrics,
 }
 
@@ -3297,11 +4990,15 @@ impl SchedulerState {
             total,
             resource_budget,
             reserved_resources: 0,
+            cleanup_uncertain: false,
             metrics: RuntimeMetrics::new(),
         }
     }
 
     fn take_ready(&mut self) -> Option<VerificationCommand> {
+        if self.cleanup_uncertain {
+            return None;
+        }
         let position = self.ready.iter().position(|id| {
             self.commands.get(id).is_some_and(|command| {
                 self.reserved_resources
@@ -3341,11 +5038,25 @@ impl SchedulerState {
         if protected && outcome.spawned {
             self.metrics.protected_nodes_executed += 1;
         }
+        let cleanup_uncertain = outcome.cleanup_uncertain.is_some();
         if !outcome.passed {
             self.metrics.passed = false;
         }
         let passed = outcome.passed;
         self.metrics.outcomes.insert(id.into(), outcome);
+        if cleanup_uncertain {
+            self.cleanup_uncertain = true;
+            let pending = self.commands.keys().cloned().collect::<Vec<_>>();
+            self.completed = self.completed.saturating_add(pending.len());
+            self.blocked.extend(pending);
+            self.commands.clear();
+            self.remaining_dependencies.clear();
+            self.ready.clear();
+            return;
+        }
+        if self.cleanup_uncertain {
+            return;
+        }
         let dependents = self.dependents.get(id).cloned().unwrap_or_default();
         if passed {
             for dependent in dependents {
@@ -3553,6 +5264,7 @@ mod tests {
                 elapsed_ms: 0,
                 timeout_seconds: command.timeout_seconds,
                 deadline_ms: 0,
+                cleanup_uncertain: None,
             },
         );
 
@@ -3563,6 +5275,581 @@ mod tests {
         assert!(
             state.take_ready().is_none(),
             "failed dependency must not make its dependent ready"
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn proc_fallback_reads_bounded_process_snapshot_without_spawning_children() {
+        let started = Instant::now();
+        let mut budget = VerificationProcScanBudget::default();
+        let snapshot = observe_verification_supervisor_children(
+            std::process::id(),
+            started + Duration::from_secs(9),
+            &mut budget,
+        )
+        .expect("bounded /proc stat scan must not treat a missing children file as empty");
+        let elapsed_ms = started.elapsed().as_millis();
+        assert!(budget.entries_scanned > 0);
+        assert!(budget.stat_bytes_read > 0);
+        assert!(elapsed_ms < 9_000, "bounded scan took {elapsed_ms}ms");
+        eprintln!(
+            "verification_proc_scan_entries={} stat_bytes={} direct_children={} elapsed_ms={elapsed_ms}",
+            budget.entries_scanned,
+            budget.stat_bytes_read,
+            snapshot.children.len(),
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn verifier_command_supervisor_reaps_detached_descendant() {
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let supervisor = VerificationSupervisorLaunch::test_harness(
+            executable,
+            vec![
+                "--exact".into(),
+                "tests::verifier_supervisor_worker_entry".into(),
+                "--nocapture".into(),
+            ],
+        );
+        let command = VerificationCommand::new(
+            "detached-descendant-probe",
+            "sh",
+            vec![
+                "-c".into(),
+                "setsid /bin/sleep 30 >/dev/null 2>&1 & echo $!".into(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_timeout_seconds(2);
+        let gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
+        let receipt = execute_bounded_with_process_observer_and_start_gate_supervised(
+            vec![command],
+            1,
+            |_node_id, _process_id, _started| Ok(()),
+            gate,
+            supervisor,
+        )
+        .expect("execute detached-descendant probe under supervisor");
+        assert!(receipt.passed, "supervised probe failed: {receipt:?}");
+        let stdout = decode_hex_bytes(&receipt.execution_records[0].stdout_hex)
+            .expect("decode supervised child stdout");
+        let child_pid = String::from_utf8_lossy(&stdout)
+            .trim()
+            .parse::<libc::pid_t>()
+            .expect("read detached child PID");
+        eprintln!("supervisor_detached_descendant_pid={child_pid}");
+        assert_eq!(
+            std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
+            false,
+            "verification must reap a descendant that detached into another process group"
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    fn run_direct_supervisor_probe(
+        node_id: &str,
+        program: &str,
+        args: Vec<String>,
+        timeout_seconds: u64,
+    ) -> (VerificationReceipt, u32) {
+        use std::sync::atomic::{AtomicU32, Ordering};
+
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let supervisor = VerificationSupervisorLaunch::test_harness(
+            executable,
+            vec![
+                "--exact".into(),
+                "tests::verifier_supervisor_worker_entry".into(),
+                "--nocapture".into(),
+            ],
+        );
+        let command =
+            VerificationCommand::new(node_id, program, args, VerificationReusePolicy::NeverReuse)
+                .with_timeout_seconds(timeout_seconds);
+        let child_pid = Arc::new(AtomicU32::new(0));
+        let observed_pid = Arc::clone(&child_pid);
+        let gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
+        let receipt = execute_bounded_with_process_observer_and_start_gate_supervised(
+            vec![command],
+            1,
+            move |_node_id, process_id, started| {
+                if started {
+                    observed_pid.store(process_id, Ordering::Release);
+                }
+                Ok(())
+            },
+            gate,
+            supervisor,
+        )
+        .expect("execute direct-child probe under supervisor");
+        (receipt, child_pid.load(Ordering::Acquire))
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn verifier_command_supervisor_returns_successful_direct_child_outcome() {
+        let (receipt, child_pid) =
+            run_direct_supervisor_probe("direct-child-success-probe", "/usr/bin/true", vec![], 5);
+        assert!(receipt.passed, "successful child must pass: {receipt:?}");
+        assert_eq!(receipt.execution_records.len(), 1);
+        assert_eq!(receipt.execution_records[0].exit_code, Some(0));
+        assert!(!receipt.execution_records[0].timed_out);
+        assert_ne!(child_pid, 0);
+        assert!(!std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists());
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn verifier_command_supervisor_records_nonzero_direct_child_exit() {
+        let (receipt, child_pid) =
+            run_direct_supervisor_probe("direct-child-failure-probe", "/usr/bin/false", vec![], 5);
+        assert!(!receipt.passed, "nonzero child must fail: {receipt:?}");
+        assert_eq!(receipt.execution_records.len(), 1);
+        assert_eq!(receipt.execution_records[0].exit_code, Some(1));
+        assert!(!receipt.execution_records[0].timed_out);
+        assert_ne!(child_pid, 0);
+        assert!(!std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists());
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn verifier_command_supervisor_cancels_and_reaps_timed_out_direct_child() {
+        let (receipt, child_pid) = run_direct_supervisor_probe(
+            "direct-child-timeout-probe",
+            "/bin/sleep",
+            vec!["30".into()],
+            1,
+        );
+
+        assert!(!receipt.passed, "timed-out command must not pass");
+        assert_eq!(receipt.execution_records.len(), 1);
+        assert!(
+            receipt.execution_records[0].timed_out,
+            "expected the command timeout to be recorded: {:?}",
+            receipt.execution_records[0]
+        );
+        assert_eq!(receipt.execution_records[0].exit_code, None);
+        assert_ne!(child_pid, 0, "supervised command PID must be observed");
+        assert!(
+            !std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
+            "supervisor must terminate and reap the timed-out direct child"
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn supervisor_started_channel_failure_still_reaps_detached_child() {
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-supervisor-start-channel-{}-{}.pid",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let _ = std::fs::remove_file(&marker);
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let supervisor = VerificationSupervisorLaunch::test_harness(
+            executable,
+            vec![
+                "--exact".into(),
+                "tests::verifier_supervisor_worker_entry".into(),
+                "--nocapture".into(),
+                "--test-threads=1".into(),
+            ],
+        )
+        .with_test_environment("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_STARTED", "1")
+        .with_test_environment(
+            "AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_MARKER",
+            marker.clone().into_os_string(),
+        );
+        let command = VerificationCommand::new(
+            "started-channel-failure-probe",
+            "/bin/sh",
+            vec![
+                "-c".into(),
+                "setsid /bin/sleep 30 >/dev/null 2>&1 & echo $! > \"$MARKER\"; wait".into(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_environment(vec![("MARKER".into(), marker.as_os_str().to_owned())])
+        .with_timeout_seconds(5);
+        let gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
+        let receipt = execute_bounded_with_process_observer_and_start_gate_supervised(
+            vec![command],
+            1,
+            |_node_id, _process_id, _started| Ok(()),
+            gate,
+            supervisor,
+        )
+        .expect("started-message failure must still produce a failed outcome");
+
+        assert!(!receipt.passed);
+        assert_eq!(receipt.execution_records.len(), 1);
+        let stderr = decode_hex_bytes(&receipt.execution_records[0].stderr_hex)
+            .expect("decode failed start-channel stderr");
+        assert!(
+            String::from_utf8_lossy(&stderr)
+                .contains("injected verification supervisor Started channel failure")
+        );
+        let child_pid = std::fs::read_to_string(&marker)
+            .expect("command wrote detached child PID before channel failure")
+            .trim()
+            .parse::<libc::pid_t>()
+            .expect("parse detached PID");
+        assert!(
+            !std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
+            "Started channel failure must not bypass descendant cleanup"
+        );
+        let _ = std::fs::remove_file(marker);
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn supervisor_outcome_channel_failure_is_uncertain_after_cleanup() {
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-supervisor-outcome-channel-{}-{}.pid",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let _ = std::fs::remove_file(&marker);
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let supervisor = VerificationSupervisorLaunch::test_harness(
+            executable,
+            vec![
+                "--exact".into(),
+                "tests::verifier_supervisor_worker_entry".into(),
+                "--nocapture".into(),
+                "--test-threads=1".into(),
+            ],
+        )
+        .with_test_environment("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_OUTCOME", "1");
+        let command = VerificationCommand::new(
+            "outcome-channel-failure-probe",
+            "/bin/sh",
+            vec![
+                "-c".into(),
+                "setsid /bin/sleep 30 >/dev/null 2>&1 & echo $! > \"$MARKER\"".into(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_environment(vec![("MARKER".into(), marker.as_os_str().to_owned())])
+        .with_timeout_seconds(5);
+        let gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
+        let receipt = execute_bounded_with_process_observer_and_start_gate_supervised(
+            vec![command],
+            1,
+            |_node_id, _process_id, _started| Ok(()),
+            gate,
+            supervisor,
+        )
+        .expect("a missing outcome remains a failed receipt");
+
+        assert!(!receipt.passed);
+        assert_eq!(receipt.execution_records.len(), 1);
+        let stderr = decode_hex_bytes(&receipt.execution_records[0].stderr_hex)
+            .expect("decode uncertain cleanup diagnostic");
+        let stderr = String::from_utf8_lossy(&stderr);
+        assert!(stderr.contains("cleanup_uncertain"), "{stderr}");
+        assert!(stderr.contains("supervisor_outcome_channel"), "{stderr}");
+        let child_pid = std::fs::read_to_string(&marker)
+            .expect("command wrote detached child PID")
+            .trim()
+            .parse::<libc::pid_t>()
+            .expect("parse detached PID");
+        assert!(
+            !std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
+            "outcome-channel failure happens only after supervisor cleanup"
+        );
+        let _ = std::fs::remove_file(marker);
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn supervisor_parent_disconnect_cancels_and_reaps_detached_child() {
+        use std::os::unix::process::CommandExt;
+
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-supervisor-parent-disconnect-{}-{}.pid",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let _ = std::fs::remove_file(&marker);
+        let command = VerificationCommand::new(
+            "parent-disconnect-probe",
+            "/bin/sh",
+            vec![
+                "-c".into(),
+                "setsid /bin/sleep 30 >/dev/null 2>&1 & echo $! > \"$MARKER\"; wait".into(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_environment(vec![("MARKER".into(), marker.as_os_str().to_owned())])
+        .with_timeout_seconds(5);
+        let request = VerificationSupervisorRequest::from_command(&command);
+        let mut request_bytes = serde_json::to_vec(&request).expect("encode supervisor request");
+        request_bytes.push(b'\n');
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let mut worker = Command::new(executable)
+            .args([
+                "--exact",
+                "tests::verifier_supervisor_worker_entry",
+                "--nocapture",
+                "--test-threads=1",
+            ])
+            .env("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST", "1")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .process_group(0)
+            .spawn()
+            .expect("spawn isolated supervisor test worker");
+        let mut stdin = worker.stdin.take().expect("worker stdin");
+        stdin
+            .write_all(&request_bytes)
+            .and_then(|()| stdin.flush())
+            .expect("send command request");
+        let stderr = worker.stderr.take().expect("worker stderr");
+        let (sender, receiver) = mpsc::sync_channel(4);
+        let reader = std::thread::Builder::new()
+            .name("test-supervisor-disconnect-reader".into())
+            .spawn(move || read_supervisor_messages(stderr, sender))
+            .expect("start response reader");
+        assert!(matches!(
+            receiver.recv_timeout(SUPERVISOR_STARTUP_DEADLINE),
+            Ok(Ok(VerificationSupervisorMessage::Started {
+                process_id: Some(_),
+                error: None
+            }))
+        ));
+        let marker_deadline = Instant::now() + Duration::from_secs(5);
+        while !marker.exists() && Instant::now() < marker_deadline {
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        let child_pid = std::fs::read_to_string(&marker)
+            .expect("detached child starts before parent disconnect")
+            .trim()
+            .parse::<libc::pid_t>()
+            .expect("parse detached PID");
+        drop(stdin);
+        let outcome = loop {
+            match receiver.recv_timeout(SUPERVISOR_PARENT_CLEANUP_GRACE) {
+                Ok(Ok(VerificationSupervisorMessage::Outcome { outcome })) => break outcome,
+                Ok(Ok(VerificationSupervisorMessage::Started { .. })) => continue,
+                Ok(Ok(VerificationSupervisorMessage::Error { message })) => {
+                    panic!("supervisor errored after parent disconnect: {message}")
+                }
+                Ok(Err(error)) => panic!("read disconnect outcome: {error}"),
+                Err(error) => panic!("await disconnect outcome: {error}"),
+            }
+        };
+        let status = worker.wait().expect("reap supervisor worker");
+        reader.join().expect("join response reader");
+        let outcome = ExecutionOutcome::try_from(outcome).expect("decode outcome");
+        assert!(status.success());
+        assert!(!outcome.passed);
+        assert!(outcome.cleanup_uncertain.is_none());
+        assert!(
+            !std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
+            "parent disconnect must cancel and reap the detached child"
+        );
+        let _ = std::fs::remove_file(marker);
+    }
+
+    #[test]
+    fn cleanup_uncertainty_stops_scheduler_before_unstarted_work() {
+        let commands = vec![
+            VerificationCommand::new(
+                "a-cleanup",
+                "true",
+                Vec::new(),
+                VerificationReusePolicy::NeverReuse,
+            ),
+            VerificationCommand::new(
+                "b-next",
+                "true",
+                Vec::new(),
+                VerificationReusePolicy::NeverReuse,
+            ),
+            VerificationCommand::new(
+                "c-retry",
+                "true",
+                Vec::new(),
+                VerificationReusePolicy::NeverReuse,
+            ),
+        ];
+        let mut state = SchedulerState::new(commands, 3);
+        let current = state.take_ready().expect("first command starts");
+        let pending = state.commands.keys().cloned().collect::<BTreeSet<_>>();
+        assert_eq!(pending.len(), 2);
+        let mut outcome = ExecutionOutcome {
+            spawned: true,
+            passed: true,
+            exit_code: Some(0),
+            termination_signal: None,
+            stdout: Vec::new(),
+            stderr: Vec::new(),
+            stdout_truncated: false,
+            stderr_truncated: false,
+            output_digest: None,
+            output_truncated: false,
+            timed_out: false,
+            elapsed_ms: 1,
+            timeout_seconds: current.timeout_seconds,
+            deadline_ms: 0,
+            cleanup_uncertain: None,
+        };
+        let uncertainty = CleanupUncertainty {
+            phase: "deadline".into(),
+            reason: "injected bounded cleanup deadline".into(),
+            remaining_pids: vec![424_242],
+            remaining_pids_truncated: false,
+        };
+        let digest_before_metadata = execution_outcome_digest(&outcome);
+        outcome.cleanup_uncertain = Some(uncertainty.clone());
+        assert_eq!(
+            execution_outcome_digest(&outcome),
+            digest_before_metadata,
+            "the cleanup metadata itself is outside the existing digest identity"
+        );
+        outcome.cleanup_uncertain = None;
+        apply_cleanup_uncertainty(&mut outcome, uncertainty);
+        let diagnostic = String::from_utf8_lossy(&outcome.stderr);
+        assert!(diagnostic.contains("cleanup_uncertain"));
+        assert!(diagnostic.contains("424242"));
+        assert!(!outcome.passed);
+        state.complete(&current.id, false, current.resource_weight, outcome);
+
+        assert!(state.cleanup_uncertain);
+        assert!(!state.metrics.passed);
+        assert!(state.take_ready().is_none(), "no later command may start");
+        assert_eq!(state.completed, state.total);
+        assert!(pending.is_subset(&state.blocked));
+        assert!(
+            state.metrics.outcomes[&current.id]
+                .cleanup_uncertain
+                .as_ref()
+                .expect("retain cleanup uncertainty")
+                .remaining_pids
+                .contains(&424_242)
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn verifier_supervisor_worker_entry() {
+        if std::env::var("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST").as_deref() != Ok("1") {
+            return;
+        }
+        if let Err(error) = run_verification_supervisor_stdio() {
+            eprintln!("verification supervisor worker failed: {error}");
+            std::process::exit(1);
+        }
+    }
+
+    #[test]
+    fn supervisor_message_reader_rejects_eof_after_start_without_outcome() {
+        let (sender, receiver) = mpsc::sync_channel(2);
+        let started = VerificationSupervisorMessage::Started {
+            process_id: Some(123),
+            error: None,
+        };
+        let mut bytes = serde_json::to_vec(&started).expect("encode start message");
+        bytes.push(b'\n');
+
+        read_supervisor_messages(std::io::Cursor::new(bytes), sender);
+
+        assert!(matches!(
+            receiver
+                .recv()
+                .expect("read start message")
+                .expect("valid start"),
+            VerificationSupervisorMessage::Started {
+                process_id: Some(123),
+                error: None,
+            }
+        ));
+        assert_eq!(
+            receiver
+                .recv()
+                .expect("read EOF error")
+                .expect_err("missing outcome must fail closed"),
+            "verification supervisor closed before its outcome"
+        );
+    }
+
+    #[test]
+    fn supervisor_outcome_message_roundtrips_u128_boundaries() {
+        let outcome = ExecutionOutcome {
+            spawned: true,
+            passed: false,
+            exit_code: None,
+            termination_signal: Some(9),
+            stdout: vec![0, 255],
+            stderr: vec![1, 128],
+            stdout_truncated: false,
+            stderr_truncated: true,
+            output_digest: Some("sha256:probe".into()),
+            output_truncated: true,
+            timed_out: true,
+            elapsed_ms: u128::MAX,
+            timeout_seconds: 900,
+            deadline_ms: u128::MAX - 1,
+            cleanup_uncertain: None,
+        };
+        let expected_digest = execution_outcome_digest(&outcome);
+        let encoded = serde_json::to_vec(&VerificationSupervisorMessage::Outcome {
+            outcome: outcome.clone().into(),
+        })
+        .expect("encode supervisor outcome");
+        let decoded = serde_json::from_slice::<VerificationSupervisorMessage>(&encoded)
+            .expect("decode supervisor outcome with exact u128 values");
+
+        let VerificationSupervisorMessage::Outcome { outcome: wire } = decoded else {
+            panic!("expected an outcome message");
+        };
+        let outcome = ExecutionOutcome::try_from(wire).expect("restore exact outcome values");
+        assert_eq!(outcome.elapsed_ms, u128::MAX);
+        assert_eq!(outcome.deadline_ms, u128::MAX - 1);
+        assert_eq!(execution_outcome_digest(&outcome), expected_digest);
+    }
+
+    #[test]
+    fn supervisor_outcome_wire_rejects_invalid_u128_values() {
+        let outcome = ExecutionOutcome {
+            spawned: true,
+            passed: true,
+            exit_code: Some(0),
+            termination_signal: None,
+            stdout: Vec::new(),
+            stderr: Vec::new(),
+            stdout_truncated: false,
+            stderr_truncated: false,
+            output_digest: None,
+            output_truncated: false,
+            timed_out: false,
+            elapsed_ms: 0,
+            timeout_seconds: 1,
+            deadline_ms: 0,
+            cleanup_uncertain: None,
+        };
+
+        let mut negative = VerificationSupervisorOutcomeWire::from(outcome.clone());
+        negative.elapsed_ms = "-1".into();
+        let error = ExecutionOutcome::try_from(negative).expect_err("negative must be rejected");
+        assert!(error.contains("canonical unsigned decimal"));
+
+        let mut overflow = VerificationSupervisorOutcomeWire::from(outcome.clone());
+        overflow.deadline_ms = "340282366920938463463374607431768211456".into();
+        let error = ExecutionOutcome::try_from(overflow).expect_err("overflow must be rejected");
+        assert!(error.contains("exceeds the supported u128 range"));
+
+        let mut non_string_number = serde_json::to_value(VerificationSupervisorMessage::Outcome {
+            outcome: VerificationSupervisorOutcomeWire::from(outcome),
+        })
+        .expect("encode valid outcome envelope");
+        non_string_number["outcome"]["elapsed_ms"] = serde_json::json!(-1);
+        assert!(
+            serde_json::from_value::<VerificationSupervisorMessage>(non_string_number).is_err()
         );
     }
 }
