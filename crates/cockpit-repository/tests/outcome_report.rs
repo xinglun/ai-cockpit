@@ -220,12 +220,17 @@ fn real_wi1111_to_wi1112_material_reference_at(revision: &str) -> (serde_json::V
             .success()
     );
 
-    for relative in [
-        format!(".ai/work-items/active/{CURRENT_ID}.contract.json"),
-        RECOVERY_RECEIPT.to_owned(),
+    let active_contract = format!(".ai/work-items/active/{CURRENT_ID}.contract.json");
+    let archived_contract = format!(".ai/work-items/archive/{CURRENT_ID}.contract.json");
+    let contract_source = [active_contract.as_str(), archived_contract.as_str()]
+        .into_iter()
+        .map(|relative| source.join(relative))
+        .find(|candidate| candidate.is_file())
+        .expect("real WI-1112 Contract is retained in active or archive history");
+    for (from, to) in [
+        (contract_source, root.join(&active_contract)),
+        (source.join(RECOVERY_RECEIPT), root.join(RECOVERY_RECEIPT)),
     ] {
-        let from = source.join(&relative);
-        let to = root.join(&relative);
         fs::create_dir_all(to.parent().expect("native fixture parent"))
             .expect("create native fixture parent");
         fs::copy(&from, &to).unwrap_or_else(|error| {
