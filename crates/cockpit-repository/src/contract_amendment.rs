@@ -1223,8 +1223,29 @@ fn read_activation_transition(
             "unresolved activation transition transaction",
         ));
     }
-    let prepared: PreparedActivationTransition = read_typed_record(&prepared_path)?;
-    let committed: ContinuityCommit = read_typed_record(&committed_path)?;
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| state_error(&directory, error.to_string()))?;
+    let head = git
+        .topology()
+        .map_err(|error| state_error(&directory, error.to_string()))?
+        .head
+        .ok_or_else(|| state_error(&directory, "activation history requires a committed HEAD"))?;
+    let prepared_bytes = read_committed_activation_bytes(
+        &git,
+        &head,
+        &prepared_path,
+        &format!(".ai/evidence/{id}.activation-transition/prepared.json"),
+    )?;
+    let committed_bytes = read_committed_activation_bytes(
+        &git,
+        &head,
+        &committed_path,
+        &format!(".ai/evidence/{id}.activation-transition/committed.json"),
+    )?;
+    let prepared: PreparedActivationTransition = serde_json::from_slice(&prepared_bytes)
+        .map_err(|error| state_error(&prepared_path, error.to_string()))?;
+    let committed: ContinuityCommit = serde_json::from_slice(&committed_bytes)
+        .map_err(|error| state_error(&committed_path, error.to_string()))?;
     let record = &prepared.record;
     let expected_start = json!({
         "eventType":"work_item_started", "occurredAt":record.recorded_at,
@@ -1240,7 +1261,6 @@ fn read_activation_transition(
         || record.capability != ACTIVATION_CONTINUITY_CAPABILITY
         || record.repository_id != super::repository_id(root).to_string()
         || record.work_item_id != id
-        || record.owner != observed_activation_owner(root)?
         || record.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
         || record.runtime.runtime_version.trim().is_empty()
         || !super::valid_git_object_id(&record.observed_head)
@@ -1278,6 +1298,33 @@ fn read_activation_transition(
         ));
     }
     Ok(Some(prepared))
+}
+
+fn read_committed_activation_bytes(
+    git: &cockpit_git::GitRepository,
+    head: &str,
+    path: &Path,
+    literal_repo_path: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let introduction = git
+        .first_path_introduction_bounded(head, literal_repo_path)
+        .map_err(|error| {
+            state_error(
+                path,
+                format!("cannot prove committed activation history: {error}"),
+            )
+        })?;
+    let current_bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    if introduction.bytes != current_bytes {
+        return Err(state_error(
+            path,
+            "activation record bytes differ from their first committed introduction",
+        ));
+    }
+    Ok(current_bytes)
 }
 
 pub(crate) fn validate_transition_chain(
