@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:176633363658a0a796bb2c3ff5e7ce7f8e26071cf4c37466e75e66b6a870f6c9",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c94cfb2b814080219354b030fb97e564db3c099b6758a0c811d828b30faafdc2",
+  "reason": "Recorded the owner's explicit sequence 6 confirmation in conversation Sentinel_2a656b9742908191b92a53e0488d196c at 2026-10-27 03:02 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the approved two-file CI repair scope only; it does not claim implementation acceptance, material review, scenario verification, test success, or merge.",
+  "recordedAt": "2026-10-27T03:02:26Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1aa41c41ae397d473f026b4a94b85b8aa85de0e6c60226a2cbb09ac66f2328ea",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

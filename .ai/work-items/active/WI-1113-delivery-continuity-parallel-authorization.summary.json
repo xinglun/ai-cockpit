@@ -78,20 +78,86 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:176633363658a0a796bb2c3ff5e7ce7f8e26071cf4c37466e75e66b6a870f6c9",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+      "reason": "User approved exactly two additional CI regression paths after the first hosted run exposed the MCP RPC tool-list and historical material-recipe compatibility failures; no other scope, Contract profile, target, authority, or CI budget changes.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T02:55:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1aa41c41ae397d473f026b4a94b85b8aa85de0e6c60226a2cbb09ac66f2328ea",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:176633363658a0a796bb2c3ff5e7ce7f8e26071cf4c37466e75e66b6a870f6c9",
+      "reason": "Apply the user's 2026-10-27 03:21 UTC approval in conversation Sentinel_fca56bc08d408191bf0486c99258a634 to add exactly crates/cockpit-git/src/lib.rs for a bounded read-only path-introduction lookup needed to verify committed activation history across CI checkouts. Preserve the existing embedded owner bytes and strict local writer checks; no other Contract field, permission, profile, target, or CI budget changes.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T03:23:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:240ea07fe075c0b897d535a9c7ab8e3b8453cb2bf852d0c0182083c1a7446fa4",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:33b0a5890d0a76bbf59fd64cae001a22afdc0447cdd87fe3243519631dcad72b",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+    "contractDigest": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:3f4698a3286429d25d589b4982fee59e3f9426833e359e7c146cae932dcf8ec7",
-    "reason": "Recorded the owner's explicit sequence 5 confirmation in conversation Sentinel_f8d50ac3cfa88191b27b9e6fac73a4bc at 2026-10-27 01:52 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the main-target and four-file CI caller transport plan only; it does not claim implementation acceptance, material review, scenario verification, test success, or merge.",
-    "recordedAt": "2026-10-27T01:52:48Z",
+    "preflightDecisionDigest": "sha256:e98f18f21ff5793f370bc54799812378373651d14cc793297c79e2500663c6d1",
+    "reason": "Recorded the owner's explicit sequence 7 confirmation in conversation Sentinel_dc2b6fdf3f248191a9d5304b9fd95299 at 2026-10-27 03:27 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the approved addition of only crates/cockpit-git/src/lib.rs for bounded read-only Git path-introduction history; it does not assert implementation acceptance, material review, scenario verification, test success, or merge.",
+    "recordedAt": "2026-10-27T03:28:52Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:3182427a2d26303cec4f6a3600aa062490ff3dcd84c047d9f13a463e5b2a43d0",
+    "repositorySnapshotDigest": "sha256:240ea07fe075c0b897d535a9c7ab8e3b8453cb2bf852d0c0182083c1a7446fa4",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -118,10 +184,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-27T02:01:21Z",
-  "preflightContractDigest": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
-  "preflightDecisionDigest": "sha256:dfd1983f644198ba1d8e1434fc25ed72780c390ca92c6bd734db51964756e71c",
-  "preflightRepositorySnapshotDigest": "sha256:a399e662de0780ed8a65b0061872237e700e4d45fefd6798fad16613b4454b02",
+  "preflightAt": "2026-10-27T03:51:31Z",
+  "preflightContractDigest": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+  "preflightDecisionDigest": "sha256:f10601477fef626818723dadc169a3100217b529644615337c5771b3a026aa63",
+  "preflightRepositorySnapshotDigest": "sha256:419ca434661f104d2b6ec3e4d6eeb370df97f4d7b8acfa69031ebdc156f51cc8",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -354,7 +420,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-27T01:53:11.293742982+00:00",
+  "updatedAt": "2026-10-27T03:29:01.001939740+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -362,7 +428,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+    "contractHash": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -377,7 +443,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-27T01:49:18Z"
+    "recordedAt": "2026-10-27T03:23:38Z"
   },
   "verificationRecoveryReconciled": "sha256:4fb10f7d3f64dc4deda8cf2cdc13d4a1a3eb5347c2523b0b8c59ad9903b7986c",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"

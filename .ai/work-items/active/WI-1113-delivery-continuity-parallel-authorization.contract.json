@@ -504,7 +504,10 @@
     ".github/workflows/ci.yml",
     "tests/ci/run_hosted_runtime_verification.sh",
     "tests/ci/hosted_runtime_verification_test.sh",
-    "tests/ci/workflow_convergence_test.sh"
+    "tests/ci/workflow_convergence_test.sh",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-git/src/lib.rs"
   ],
   "sources": [
     {
