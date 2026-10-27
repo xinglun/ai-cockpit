@@ -449,6 +449,25 @@ assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
 assert "target/release/ai-cockpit" in hosted_verification
 assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in hosted_verification
+assert 'caller_file="$RUNNER_TEMP/wi1113-task-caller.json"' in hosted_verification
+assert '"schemaVersion": 1' in hosted_verification and '"actor": "agent:codex"' in hosted_verification
+assert '"assurance": "self_declared"' in hosted_verification
+assert 'caller_args=(--task-caller "$caller_file")' in hosted_verification
+assert '"${caller_args[@]}"' in hosted_verification
+caller_match = re.search(r"<<'TASK_CALLER_JSON'\n(.*?)\n\s*TASK_CALLER_JSON", hosted_verification, re.S)
+assert caller_match, "WI-1113 caller must be an explicit temporary JSON input"
+caller = json.loads(caller_match.group(1))
+contract_path = Path(sys.argv[1]).parents[2] / ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.contract.json"
+task_authorization = json.loads(contract_path.read_text(encoding="utf-8"))["governanceProfile"]["taskAuthorization"]
+assert caller == {
+    "schemaVersion": 1,
+    "actor": task_authorization["agentActor"],
+    "authoritySource": task_authorization["authoritySource"],
+    "assurance": "self_declared",
+}
+quality_permissions = workflow.split("  quality:", 1)[1].split("  windows-runtime-suites:", 1)[0]
+assert re.search(r"permissions:\s+contents:\s+read", quality_permissions)
+assert "id-token:" not in workflow
 assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")

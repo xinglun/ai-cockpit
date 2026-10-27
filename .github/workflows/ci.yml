@@ -325,11 +325,28 @@ jobs:
           CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: ${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh
         run: |
           set -euo pipefail
+          caller_args=()
+          if [[ "$(jq -er '.workItemId' "$ROUTE_CONTRACT_PATH")" == WI-1113-delivery-continuity-parallel-authorization ]]; then
+            caller_file="$RUNNER_TEMP/wi1113-task-caller.json"
+            (
+              umask 077
+              cat >"$caller_file" <<'TASK_CALLER_JSON'
+          {
+            "schemaVersion": 1,
+            "actor": "agent:codex",
+            "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain).",
+            "assurance": "self_declared"
+          }
+          TASK_CALLER_JSON
+            )
+            caller_args=(--task-caller "$caller_file")
+          fi
           tests/ci/run_hosted_runtime_verification.sh \
             target/release/ai-cockpit \
             "$GITHUB_WORKSPACE" \
             "$ROUTE_CONTRACT_PATH" \
-            target
+            target \
+            "${caller_args[@]}"
       - name: Evaluate Rust Contract-aware quality gate
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash

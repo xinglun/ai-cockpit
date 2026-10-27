@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-if [[ $# -ne 4 ]]; then
-  printf 'usage: %s <runtime-bin> <repository> <contract> <artifact-dir>\n' "$0" >&2
+if [[ $# -ne 4 && $# -ne 6 ]] || { [[ $# -eq 6 ]] && [[ $5 != --task-caller ]]; }; then
+  printf 'usage: %s <runtime-bin> <repository> <contract> <artifact-dir> [--task-caller <file>]\n' "$0" >&2
   exit 2
 fi
 
@@ -10,12 +10,17 @@ runtime_bin=$1
 repository=$2
 contract=$3
 artifact_dir=$4
+task_caller_file=""
+if [[ $# -eq 6 ]]; then task_caller_file=$6; fi
 repository=$(cd "$repository" && pwd -P) || exit 2
 source_repository=$repository
 execution_repository=$source_repository
 if [[ "$runtime_bin" != /* ]]; then runtime_bin="$source_repository/$runtime_bin"; fi
 if [[ "$contract" != /* ]]; then contract="$source_repository/$contract"; fi
 if [[ "$artifact_dir" != /* ]]; then artifact_dir="$source_repository/$artifact_dir"; fi
+if [[ -n "$task_caller_file" && "$task_caller_file" != /* ]]; then
+  task_caller_file="$source_repository/$task_caller_file"
+fi
 contract_directory=$(cd "$(dirname "$contract")" && pwd -P) || exit 2
 contract="$contract_directory/$(basename "$contract")"
 if [[ ! -x "$runtime_bin" ]]; then
@@ -104,6 +109,24 @@ if [[ ! "$work_item_id" =~ ^[A-Za-z0-9_-]+$ ]]; then
   write_orchestration_report
   printf 'Work Item ID is unsafe for the canonical evidence path\n' >&2
   exit 1
+fi
+
+task_caller_args=()
+if [[ -n "$task_caller_file" ]]; then
+  if [[ ! -f "$task_caller_file" || -L "$task_caller_file" || ! -r "$task_caller_file" ]] \
+    || ! jq -e 'type == "object"
+      and (keys == ["actor", "assurance", "authoritySource", "schemaVersion"])
+      and .schemaVersion == 1
+      and (.actor | type == "string" and length > 0)
+      and (.authoritySource | type == "string" and length > 0)
+      and .assurance == "self_declared"' "$task_caller_file" >/dev/null; then
+    verification_state=invalidated
+    failure_reason=task_caller_invalid
+    write_orchestration_report
+    printf 'explicit task caller must be a readable regular JSON file with the exact schemaVersion/actor/authoritySource/assurance fields\n' >&2
+    exit 1
+  fi
+  task_caller_args=(--task-caller "$task_caller_file")
 fi
 
 cleanup_execution_worktree() {
@@ -531,6 +554,14 @@ if jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' "
     verification_state=reused
   fi
 else
+  if [[ -z "$task_caller_file" ]] \
+    && jq -e '.governanceProfile.taskAuthorization? != null' "$contract" >/dev/null; then
+    verification_state=invalidated
+    failure_reason=task_caller_required
+    write_orchestration_report
+    printf 'task-authorized Work Item verification requires an explicit --task-caller file\n' >&2
+    exit 1
+  fi
   if ! prepare_isolated_execution; then
     [[ -n "$failure_reason" ]] || failure_reason=isolated_worktree_preparation_failed
     verification_state=failed
@@ -542,7 +573,8 @@ else
     preflight_exit=0
     "$runtime_bin" preflight \
       --repo "$execution_repository" \
-      --contract "$contract" >"$preflight_output" 2>"$artifact_dir/hosted-runtime-preflight.stderr" || preflight_exit=$?
+      --contract "$contract" \
+      "${task_caller_args[@]}" >"$preflight_output" 2>"$artifact_dir/hosted-runtime-preflight.stderr" || preflight_exit=$?
     if [[ "$preflight_exit" != 0 ]]; then
       preflight_state=failed
       failure_reason=preflight_failed
@@ -652,7 +684,7 @@ PY
   "$runtime_bin" verify \
     --repo "$execution_repository" \
     --work-item "$work_item_id" \
-    --workers 1 "${verification_timeout_args[@]}" \
+    --workers 1 "${verification_timeout_args[@]}" "${task_caller_args[@]}" \
     >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
   if [[ "$verification_exit" != 0 ]]; then
     verification_state=failed

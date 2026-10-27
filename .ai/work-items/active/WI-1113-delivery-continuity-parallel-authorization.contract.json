@@ -15,11 +15,11 @@
     "Render per-member partial, failed, pending, and successful results independently. Aggregate success is possible only when every required member and check is actually satisfied.",
     "Provide equivalent CLI and MCP payload validation and explanations, plus English, Japanese, and Simplified Chinese documentation.",
     "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at five total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved.",
-    "Do not edit workflow definitions, weaken tests, normalize protected evidence, publish secrets or unrelated personal data, merge into main, release, enable production, replace the fixed Runtime, or record native close without its own exact confirmation.",
-    "Bind taskAuthorization.publicTarget, the eventual GitHub PR base branch, and its native resourceContext.baseBranch to codex/wi-1111-token-outcome-ci in xinglun/ai-cockpit. Bind the actual PR head to codex/wi-1113-delivery-continuity-parallel-authorization in the provider resource record; the current TaskAuthorizationPolicy has no headBranch field, so do not claim the policy alone binds the head.",
+    "Do not edit workflow definitions except add the explicit caller-file argument to the existing hosted Work Item verification invocation in .github/workflows/ci.yml. The caller input must contain exactly schemaVersion=1, actor=agent:codex, the Contract-bound authoritySource, and assurance=self_declared; pass it only to preflight and verify. Missing or mismatched caller data fails closed. Do not change workflow permissions (retain contents: read), triggers, jobs, or other workflow steps; do not weaken tests, normalize protected evidence, publish secrets or unrelated personal data, release, enable production, replace the fixed Runtime, or record native close without its own exact confirmation.",
+    "Bind taskAuthorization.publicTarget and the eventual GitHub PR base to main in xinglun/ai-cockpit. After the actual PR exists, bind its exact URL, head branch codex/wi-1113-delivery-continuity-parallel-authorization, head revision, base main/revision, and native resourceContext. Keep the active Contract.baseRevision, current provider main comparison base, PR-tested merge revision, and final merge commit as distinct identities; the TaskAuthorizationPolicy does not bind the head branch.",
     "Keep predecessor recovery identity and the active Contract baseline as distinct facts. The fixed Runtime's normal staged activation may set Contract.baseRevision from the discovered repository default; read back that native value and preserve predecessor HEAD 5a942f93acaf0a514a291e39674465feddfa69e7, Contract.baseRevision, provider comparison base, PR-tested merge revision, and final merge commit as separate identities. Do not force them equal or change the remote default.",
-    "Preserve PR #1074 (WI-1111 to main) and PR #1075 (WI-1112 to WI-1111) without retargeting or closing them. The current WI-1113 branch starts from #1075's head, so a WI-1113 PR to WI-1111 includes the inherited WI-1112 changes plus WI-1113 changes. Keep the PR draft while required review and checks are pending; review the full cumulative diff and record provenance for inherited and new changes. Do not require #1075 to merge first, and do not describe the cumulative PR as a pure WI-1113-only delta. Any merge remains subject to all current checks, review, and native admission.",
-    "Use the existing CI workflow without editing it: pull_request is enabled for any base branch, while push is restricted to main. Count each WI-1113 automatic hosted run, entry failure and rerun against the five-run ledger. A merge into the non-main WI-1111 branch does not trigger this workflow’s push event; after merge, verify the exact merge commit and read back PR/resource state, and report no post-merge hosted CI unless a real run exists for that exact revision.",
+    "Preserve PR #1074 (WI-1111 to main) and PR #1075 (WI-1112 to WI-1111) without retargeting or closing them. A WI-1113 PR directly to main contains the full inherited WI-1111, WI-1112, and WI-1113 cumulative diff; review its complete contents and provenance and do not describe it as WI-1113-only. Keep the new PR draft while required checks and review are pending. Do not require #1075 to merge first. Any merge remains subject to current checks, review, and native/provider admission.",
+    "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the five-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision.",
     "For pre-merge evidence, bind the actual provider PR number, URL, head branch/revision, base branch/revision and native resourceContext to the WI-1113 Work Item. Treat the Contract baseline, provider comparison base, PR-tested merge revision and final merge commit as separate identities and preserve each exact value."
   ],
   "adoptionBootstrapPaths": [],
@@ -80,7 +80,11 @@
       "crates/cockpit-cli/tests/lifecycle.rs",
       "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
       "tests/ci/quality_route_test.py",
-      "tests/ci/resolve_work_item_test.sh"
+      "tests/ci/resolve_work_item_test.sh",
+      ".github/workflows/ci.yml",
+      "tests/ci/run_hosted_runtime_verification.sh",
+      "tests/ci/hosted_runtime_verification_test.sh",
+      "tests/ci/workflow_convergence_test.sh"
     ],
     "maxWorkers": 1,
     "reason": "Serialize edits to shared source/docs in this WI. Test parallel authorization only with independent Work Item fixtures, each having its own atomic lease and state.",
@@ -149,11 +153,11 @@
         "record_finalization",
         "finalize_verify"
       ],
-      "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant).",
+      "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain).",
       "closeoutActions": [],
       "expiresAt": "2026-11-03T12:00:00Z",
       "publicTarget": {
-        "baseBranch": "codex/wi-1111-token-outcome-ci",
+        "baseBranch": "main",
         "provider": "github",
         "repository": "xinglun/ai-cockpit"
       },
@@ -163,18 +167,18 @@
   "guidelines": [],
   "humanDecisionPoints": null,
   "implementationSurface": null,
-  "intent": "WI-1113 intent details (preserved from the typed plan):\n{\n  \"businessGoal\": \"Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.\",\n  \"constraints\": [\n    \"Append-only evidence only; preserve old receipts and failures.\",\n    \"Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.\",\n    \"Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.\",\n    \"No global Git configuration or CI workflow changes.\"\n  ],\n  \"nonGoals\": [\n    \"No cross-repository grants.\",\n    \"No wildcard or future Work Item authorization.\",\n    \"No automatic PR, branch, or resource ownership transfer.\",\n    \"No Runtime replacement, release, production action, or implicit close.\"\n  ],\n  \"problem\": \"A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.\",\n  \"rationale\": \"Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.\",\n  \"userGoal\": \"Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects.\"\n}",
+  "intent": "WI-1113 intent details (preserved from the typed plan):\n{\n  \"businessGoal\": \"Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.\",\n  \"constraints\": [\n    \"Append-only evidence only; preserve old receipts and failures.\",\n    \"Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.\",\n    \"Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.\",\n    \"No global Git configuration. The sole CI workflow exception is the explicit caller-file transport argument at the existing hosted verification invocation; no workflow permission, trigger, job, or other step changes.\"\n  ],\n  \"nonGoals\": [\n    \"No cross-repository grants.\",\n    \"No wildcard or future Work Item authorization.\",\n    \"No automatic PR, branch, or resource ownership transfer.\",\n    \"No Runtime replacement, release, production action, or implicit close.\"\n  ],\n  \"problem\": \"A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.\",\n  \"rationale\": \"Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.\",\n  \"userGoal\": \"Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects.\"\n}",
   "mode": "implementation",
   "notCodable": null,
   "operation": null,
   "outOfScope": [
-    ".github/workflows/**",
     "global or user Git configuration",
     "any WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, recovery receipt, or archive bytes",
     "automatic inheritance of WI-1112 taskAuthorization or material-risk decisions",
     "cross-repository authorization, wildcard/future Work Item selection, shared budget pools, arbitrary command retries, or automatic future membership",
     "automatic PR/branch/resource transfer, automatic deletion, and provider authentication changes",
-    "merging WI-1111 into main, release, production enablement, shared Runtime replacement, and native close without its own exact human confirmation"
+    "Any workflow-definition change except the one explicit caller-file argument at the existing hosted verification invocation in .github/workflows/ci.yml; workflow permissions, triggers, jobs, and other steps remain unchanged.",
+    "Release, production enablement, shared Runtime replacement, and native close without their own exact confirmation."
   ],
   "performanceImpact": null,
   "preReviewWarnings": [],
@@ -414,30 +418,30 @@
     },
     {
       "evidence": [],
-      "expected": "TaskAuthorization publicTarget.baseBranch and actual PR/resourceContext base branch identify codex/wi-1111-token-outcome-ci; PR head identifies WI-1113. The active Contract.baseRevision is whatever the fixed Runtime records on normal staged activation and remains distinct from predecessor recovery HEAD 5a942, provider comparison base, tested PR merge revision, and post-merge commit.",
-      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and actual PR/resourceContext base branch identify codex/wi-1111-token-outcome-ci; PR head identifies WI-1113. The active Contract.baseRevision is whatever the fixed Runtime records on normal staged activation and remains distinct from predecessor recovery HEAD 5a942, provider comparison base, tested PR merge revision, and post-merge commit.",
+      "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
       "required": true,
       "scenario": "pr_policy_and_provider_target_alignment",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; then read the actual provider PR and native resource receipt to compare repository, head, base, and recorded Contract baseline separately."
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
     },
     {
       "evidence": [],
-      "expected": "While #1075 remains open and WI-1113 starts at its head, the WI-1113-to-WI-1111 comparison exposes the full inherited WI-1112 plus WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, and review full-diff provenance; do not require #1075 to merge first or call the comparison a pure WI-1113 delta.",
-      "expectedOutcome": "While #1075 remains open and WI-1113 starts at its head, the WI-1113-to-WI-1111 comparison exposes the full inherited WI-1112 plus WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, and review full-diff provenance; do not require #1075 to merge first or call the comparison a pure WI-1113 delta.",
+      "expected": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+      "expectedOutcome": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
       "required": true,
       "scenario": "stacked_pr_overlap_is_visible",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision stacked_pr_comparison_preserves_full_inherited_and_new_provenance -- --exact --test-threads=1; also inspect provider compare and trace cumulative hunks to WI-1112 or WI-1113 without requiring #1075 to merge."
+      "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
     },
     {
       "evidence": [],
-      "expected": "Existing pull_request CI covers the selected PR base; existing push CI only covers main. After a merge to the WI-1111 branch, report exact Git/native readback and do not claim a hosted push run for that non-main branch unless one actually exists.",
-      "expectedOutcome": "Existing pull_request CI covers the selected PR base; existing push CI only covers main. After a merge to the WI-1111 branch, report exact Git/native readback and do not claim a hosted push run for that non-main branch unless one actually exists.",
+      "expected": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+      "expectedOutcome": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
       "required": true,
-      "scenario": "non_main_merge_no_fabricated_push_ci",
+      "scenario": "main_merge_post_merge_push_ci_readback",
       "status": "unverified",
-      "verificationPlan": "Run python3 -m unittest tests.ci.quality_route_test; after any authorized merge, read actual provider workflow/event records for the exact merge commit and assert no non-main push CI is claimed without a real run."
+      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the five-run budget."
     }
   ],
   "scope": [
@@ -496,7 +500,11 @@
     "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.ja.md",
     "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.zh-CN.md",
     "tests/ci/quality_route_test.py",
-    "tests/ci/resolve_work_item_test.sh"
+    "tests/ci/resolve_work_item_test.sh",
+    ".github/workflows/ci.yml",
+    "tests/ci/run_hosted_runtime_verification.sh",
+    "tests/ci/hosted_runtime_verification_test.sh",
+    "tests/ci/workflow_convergence_test.sh"
   ],
   "sources": [
     {

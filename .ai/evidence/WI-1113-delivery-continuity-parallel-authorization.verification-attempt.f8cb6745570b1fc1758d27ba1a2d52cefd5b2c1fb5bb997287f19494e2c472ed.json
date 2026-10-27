@@ -1,0 +1,170 @@
+{
+  "attemptId": "sha256:f8cb6745570b1fc1758d27ba1a2d52cefd5b2c1fb5bb997287f19494e2c472ed",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--all-targets",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "commandDigest": "sha256:cae8f02aa8cea78cae98eb69e1b39781c8093e81c54162207fa53ed7a54e9518",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+  "contractExecutionScopeDigest": "sha256:3ec3ac387435513ab8642821c9f44127e056f54d90bad23abf92517c31671e67",
+  "createdAt": "2026-10-27T00:15:14Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:cae8f02aa8cea78cae98eb69e1b39781c8093e81c54162207fa53ed7a54e9518",
+      "deadlineMs": 1793061011533,
+      "elapsedMs": 3022,
+      "exitCode": null,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": false,
+      "stderr": "4e6f20737563682066696c65206f72206469726563746f727920286f73206572726f72203229",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 3402,
+      "executionElapsedMs": 3025,
+      "maxConcurrentProcesses": 0,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 0,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 3402,
+    "executionElapsedMs": 3025,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:cae8f02aa8cea78cae98eb69e1b39781c8093e81c54162207fa53ed7a54e9518",
+        "deadlineMs": 1793061011533,
+        "elapsedMs": 3022,
+        "exitCode": null,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": false,
+        "stderr": "4e6f20737563682066696c65206f72206469726563746f727920286f73206572726f72203229",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900
+      }
+    ],
+    "filesHashed": 4,
+    "filesRead": 4,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 0,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 3025,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [
+        "wi-1113-local-check-timeout-v1"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:33b0a5890d0a76bbf59fd64cae001a22afdc0447cdd87fe3243519631dcad72b",
+      "requiredAssurance": "self_declared",
+      "requiredTier": "T0",
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "effective:ai-cockpit-project-v1:wi-1113-local-check-timeout-v1: Authorize a maximum of 900 seconds for each local verification check; this ceiling does not skip or weaken any test."
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 900,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 1,
+    "processesSpawned": 0,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": null,
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "runtimeVersion": "1.0.1",
+    "timeoutSeconds": 900,
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:33b0a5890d0a76bbf59fd64cae001a22afdc0447cdd87fe3243519631dcad72b",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

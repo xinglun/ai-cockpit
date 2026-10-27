@@ -4,28 +4,12 @@
     "journalRelevant": true
   },
   "changedPaths": [
-    ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
-    ".ai/decisions/WI-1112-windows-archive-byte-preservation.retirement.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000001.committed.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000001.prepared.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000002.prepared.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000003.committed.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000003.prepared.json",
-    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json",
-    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.events.jsonl",
-    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.outcome.json",
-    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json",
-    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.contract.json",
-    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.summary.json",
-    ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.archive.json",
-    ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.contract.json",
-    ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.events.jsonl",
-    ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.outcome.json",
-    ".ai/work-items/archive/WI-1112-windows-archive-byte-preservation.summary.json"
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.bb11c30aa553a0215900e862c1e257b8f1c8f83addef33234a52739c0b9e131e.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.f8cb6745570b1fc1758d27ba1a2d52cefd5b2c1fb5bb997287f19494e2c472ed.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.summary.json"
   ],
   "checkpointAt": "2026-10-26T21:26:39Z",
-  "checkpointContractDigest": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+  "checkpointContractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -61,20 +45,53 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+      "reason": "Apply the user's 2026-10-27 01:43 UTC approval to bind only WI-1113 to main and to include exactly the four named CI caller-transport files. Preserve every required check, all five hosted runs, unchanged PRs #1074/#1075, the fixed Runtime, and all existing workflow permissions. Caller metadata remains self-declared; it is explicit and passed only to preflight/verify. No feature scope or authentication boundary is added.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T01:49:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3182427a2d26303cec4f6a3600aa062490ff3dcd84c047d9f13a463e5b2a43d0",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:72770906617086feb92b3f8ad91eaf4af30913010b2f0272cfc14fb4f9568875",
+  "checkpointRepositorySnapshotDigest": "sha256:33b0a5890d0a76bbf59fd64cae001a22afdc0447cdd87fe3243519631dcad72b",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+    "contractDigest": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:2c2986e69c05391537bc7a9b2cdd1b2636a96d3c40a184e2226a6dd1872341e1",
-    "reason": "Owner confirmed WI-1113 sequence 4 scenario field correction and this exact binding in conversation Sentinel_7096eedac3b881918db4c3f19f3ec717 at 2026-10-26 22:14 UTC; the decision was submitted by agent:codex. This confirms the current amended Contract only; it does not assert scenario verification or test success.",
-    "recordedAt": "2026-10-26T22:14:00Z",
+    "preflightDecisionDigest": "sha256:3f4698a3286429d25d589b4982fee59e3f9426833e359e7c146cae932dcf8ec7",
+    "reason": "Recorded the owner's explicit sequence 5 confirmation in conversation Sentinel_f8d50ac3cfa88191b27b9e6fac73a4bc at 2026-10-27 01:52 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the main-target and four-file CI caller transport plan only; it does not claim implementation acceptance, material review, scenario verification, test success, or merge.",
+    "recordedAt": "2026-10-27T01:52:48Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:516ce9a1511fb5c2f3de7fdd96a4c5136661bdc42ae5d8f5a5c4cc9d75efe4c9",
+    "repositorySnapshotDigest": "sha256:3182427a2d26303cec4f6a3600aa062490ff3dcd84c047d9f13a463e5b2a43d0",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -101,10 +118,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-26T22:40:14Z",
-  "preflightContractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
-  "preflightDecisionDigest": "sha256:498017d0b76a571cb2598d938b3a1063f4cbbc62f2c469c10f603a2da349c889",
-  "preflightRepositorySnapshotDigest": "sha256:9f36e77bca21ff2017bca8b7c8dbd2e5fda03f7aeb3800b3106a4df152b23100",
+  "preflightAt": "2026-10-27T01:49:55Z",
+  "preflightContractDigest": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+  "preflightDecisionDigest": "sha256:3f4698a3286429d25d589b4982fee59e3f9426833e359e7c146cae932dcf8ec7",
+  "preflightRepositorySnapshotDigest": "sha256:3182427a2d26303cec4f6a3600aa062490ff3dcd84c047d9f13a463e5b2a43d0",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -328,20 +345,40 @@
     },
     {
       "evidence": [],
-      "expected": "Existing pull_request CI covers the selected PR base; existing push CI only covers main. After a merge to the WI-1111 branch, report exact Git/native readback and do not claim a hosted push run for that non-main branch unless one actually exists.",
-      "expectedOutcome": "Existing pull_request CI covers the selected PR base; existing push CI only covers main. After a merge to the WI-1111 branch, report exact Git/native readback and do not claim a hosted push run for that non-main branch unless one actually exists.",
+      "expected": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+      "expectedOutcome": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
       "required": true,
-      "scenario": "non_main_merge_no_fabricated_push_ci",
+      "scenario": "main_merge_post_merge_push_ci_readback",
       "status": "unverified",
-      "verificationPlan": "Run python3 -m unittest tests.ci.quality_route_test; after any authorized merge, read actual provider workflow/event records for the exact merge commit and assert no non-main push CI is claimed without a real run."
+      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the five-run budget."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-26T22:15:30.729013214+00:00",
+  "updatedAt": "2026-10-27T01:53:11.293742982+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-26T22:06:09Z"
+    "contractHash": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+    "invalidatedRequiredChecks": [
+      "aiAgentRisk",
+      "aiScope",
+      "aiStatus",
+      "aiStatusCheck",
+      "aiSummary",
+      "aiWorkItem",
+      "full-workspace-tests",
+      "independent-review",
+      "material-transition-regressions",
+      "parallel-authorization-regressions",
+      "windows-hosted-ci",
+      "zero-warning-clippy"
+    ],
+    "recordedAt": "2026-10-27T01:49:18Z"
   },
+  "verificationRecoveryReconciled": "sha256:4fb10f7d3f64dc4deda8cf2cdc13d4a1a3eb5347c2523b0b8c59ad9903b7986c",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
 }

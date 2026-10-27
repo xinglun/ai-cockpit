@@ -60,7 +60,7 @@ path.write_text(
     "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "        if mode == 'existing-fresh-mismatched-receipt': contract_digest = 'sha256:' + '4' * 64\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': ['run_verification']}))\n"
-    "    elif mode in ('stale', 'stale-deferred') and count <= 2: actions = ['run_preflight']\n"
+    "    elif mode in ('stale', 'stale-deferred', 'caller-valid', 'caller-mismatch') and count <= 2: actions = ['run_preflight']\n"
     "    elif mode == 'blocked': actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count >= 3: actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count <= 2: actions = ['run_preflight']\n"
@@ -84,6 +84,17 @@ path.write_text(
     "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'not_verified', 'evidenceFreshness': {'state': 'stale_or_invalid'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': actions}))\n"
     "elif args and args[0] == 'preflight':\n"
+    "    mode = os.environ['FAKE_MODE']\n"
+    "    if mode.startswith('caller-'):\n"
+    "        if '--task-caller' not in args:\n"
+    "            print('task_authorization_caller_required', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        caller = json.loads(Path(args[args.index('--task-caller') + 1]).read_text())\n"
+    "        policy = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())['governanceProfile']['taskAuthorization']\n"
+    "        if caller.get('schemaVersion') != 1 or caller.get('actor') != policy['agentActor'] or caller.get('authoritySource') != policy['authoritySource'] or caller.get('assurance') != 'self_declared':\n"
+    "            print('task_authorization_caller_mismatch', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
     "    print(json.dumps({'kind': 'preflight', 'state': 'passed'}))\n"
     "elif args and args[0] == 'verify':\n"
     "    assert args[args.index('--workers') + 1] == '1'\n"
@@ -91,6 +102,14 @@ path.write_text(
     "    if mode == 'timeout-runtime-rejected':\n"
     "        print('fixture Runtime rejects timeout above its effective policy ceiling', file=sys.stderr)\n"
     "        raise SystemExit(1)\n"
+    "    if mode.startswith('caller-'):\n"
+    "        if '--task-caller' not in args:\n"
+    "            print('task_authorization_caller_required', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
+    "        caller = json.loads(Path(args[args.index('--task-caller') + 1]).read_text())\n"
+    "        if caller.get('schemaVersion') != 1 or caller.get('actor') != 'agent:fixture' or caller.get('authoritySource') != 'fixture:explicit-owner' or caller.get('assurance') != 'self_declared':\n"
+    "            print('task_authorization_caller_mismatch', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
     "    repository = Path(args[args.index('--repo') + 1])\n"
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
@@ -292,6 +311,43 @@ PY
     "$directory/initial-summary.json"
   mkdir -p "$directory/runner-temp"
   local result=0
+  local caller_arguments=()
+  if [[ "$mode" == caller-valid || "$mode" == caller-missing || "$mode" == caller-mismatch ]]; then
+    python3 - "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["governanceProfile"] = {
+    "taskAuthorization": {
+        "agentActor": "agent:fixture",
+        "authoritySource": "fixture:explicit-owner",
+    }
+}
+path.write_text(json.dumps(contract), encoding="utf-8")
+PY
+    git -C "$directory/repository" add .ai/work-items/active/WI-HOSTED-TEST.contract.json
+    git -C "$directory/repository" commit -qm 'declare explicit caller fixture policy'
+    if [[ "$mode" != caller-missing ]]; then
+      python3 - "$directory/task-caller.json" "$mode" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+mode = sys.argv[2]
+caller = {
+    "schemaVersion": 1,
+    "actor": "agent:fixture" if mode != "caller-mismatch" else "agent:wrong",
+    "authoritySource": "fixture:explicit-owner",
+    "assurance": "self_declared",
+}
+Path(sys.argv[1]).write_text(json.dumps(caller), encoding="utf-8")
+PY
+      caller_arguments=(--task-caller "$directory/task-caller.json")
+    fi
+  fi
   if [[ "$defer_worktree" == true ]]; then
     RUNNER_TEMP="$directory/runner-temp" AI_COCKPIT_DEFER_WORKTREE_CLEANUP=true \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
@@ -299,7 +355,7 @@ PY
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
-        "$directory/artifacts" || result=$?
+        "$directory/artifacts" "${caller_arguments[@]}" || result=$?
   else
     AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
@@ -307,7 +363,7 @@ PY
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
-        "$directory/artifacts" || result=$?
+        "$directory/artifacts" "${caller_arguments[@]}" || result=$?
   fi
   if [[ "$expect_success" == true && "$result" != 0 ]]; then
     printf 'hosted Runtime helper failed unexpectedly for mode %s (exit %s)\n' "$mode" "$result" >&2
@@ -336,6 +392,42 @@ for command in sys.argv[2:]:
     assert not any(args and args[0] == command for args in commands), (command, commands)
 PY
 }
+
+run_helper caller-valid true
+python3 - "$tmp/caller-valid/commands.jsonl" "$tmp/caller-valid/task-caller.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+caller = sys.argv[2]
+preflight, = [args for args in commands if args[0] == "preflight"]
+verify, = [args for args in commands if args[0] == "verify"]
+for args in (preflight, verify):
+    assert args[args.index("--task-caller") + 1] == caller
+for args in commands:
+    if args[0] not in ("preflight", "verify"):
+        assert "--task-caller" not in args, args
+PY
+
+run_helper caller-missing false
+assert_no_commands "$tmp/caller-missing/commands.jsonl" preflight verify
+jq -e '.verificationState == "invalidated" and .failureReason == "task_caller_required"' \
+  "$tmp/caller-missing/artifacts/hosted-runtime-orchestration.json" >/dev/null
+
+run_helper caller-mismatch false
+grep -F -q 'task_authorization_caller_mismatch' \
+  "$tmp/caller-mismatch/artifacts/hosted-runtime-preflight.stderr"
+python3 - "$tmp/caller-mismatch/commands.jsonl" "$tmp/caller-mismatch/task-caller.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+preflight, = [args for args in commands if args[0] == "preflight"]
+assert preflight[preflight.index("--task-caller") + 1] == sys.argv[2]
+assert not any(args[0] == "verify" for args in commands)
+PY
 
 # Missing timeout forwarding must fail this consumer-boundary assertion; the
 # fake Runtime only avoids running the full project suite inside this test.

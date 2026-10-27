@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:16d686965a4df7a1a869762c457b6c2ed6e87d24d706c94628f44e8aaccbacef",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3f4698a3286429d25d589b4982fee59e3f9426833e359e7c146cae932dcf8ec7",
+  "reason": "Recorded the owner's explicit sequence 5 confirmation in conversation Sentinel_f8d50ac3cfa88191b27b9e6fac73a4bc at 2026-10-27 01:52 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the main-target and four-file CI caller transport plan only; it does not claim implementation acceptance, material review, scenario verification, test success, or merge.",
+  "recordedAt": "2026-10-27T01:52:48Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3182427a2d26303cec4f6a3600aa062490ff3dcd84c047d9f13a463e5b2a43d0",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}
