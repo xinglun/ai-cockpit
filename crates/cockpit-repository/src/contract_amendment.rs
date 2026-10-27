@@ -3521,7 +3521,7 @@ mod tests {
         crate::scaffold_work_item(root, &id, "implementation").expect("create not_ready scaffold");
         let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
         let initial_contract = read_json(&contract_path);
-        super::amend_work_item_contract(
+        crate::amend_work_item_contract(
             root,
             &id,
             &json!({
