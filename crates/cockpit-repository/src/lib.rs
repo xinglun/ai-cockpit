@@ -15580,6 +15580,7 @@ mod task_outcome_projection_diagnostic_tests {
             "WI-936-interface-ssot",
             "WI-903-precheckpoint-contract-scope",
             "WI-937-outcome-archive-delivery-facts",
+            "WI-819-docs-gate-convergence",
             "WI-769-performance-terminal-docs",
             "WI-771-wi770-doc-promotion",
         ] {
@@ -15599,6 +15600,15 @@ mod task_outcome_projection_diagnostic_tests {
                 .expect("historical producer version");
             let markdown = fs::read(archive.join(format!("{work_item_id}.task-report.md")))
                 .expect("preserved historical Markdown");
+            if work_item_id == "WI-819-docs-gate-convergence" {
+                assert_eq!(runtime_version, "0.2.91");
+                assert_eq!(
+                    Digest::sha256_bytes(&markdown).to_string(),
+                    "sha256:e6aff8f3a80611f246d5cf30c17cc22e32ba66e93597f682d63c8a76d9981742"
+                );
+                assert!(markdown.ends_with(b"\n\n"));
+                assert!(!markdown.ends_with(b"\n\n\n"));
+            }
             assert_eq!(
                 task_outcome_markdown_legacy_for_runtime(&report, runtime_version)
                     .expect("supported fixed historical renderer")
@@ -16468,9 +16478,9 @@ pub(crate) fn task_outcome_markdown_legacy_for_runtime(
 ) -> Result<String, String> {
     let mut markdown = task_outcome_markdown_legacy_v1(report);
     match fixed_runtime_version {
-        // The 0.2.87/90/99/100 Task Outcome writers left one extra terminal blank
-        // line. The exact bytes are part of those committed historical reports.
-        "0.2.87" | "0.2.89" | "0.2.90" | "0.2.99" | "0.2.100" => {
+        // The 0.2.87/89/90/91/99/100 Task Outcome writers left one extra
+        // terminal blank line. Their exact bytes are committed historical reports.
+        "0.2.87" | "0.2.89" | "0.2.90" | "0.2.91" | "0.2.99" | "0.2.100" => {
             markdown.push('\n');
         }
         // The 1.0.1 writer normalized the report to exactly one terminal LF.
