@@ -5,10 +5,14 @@
 //! when two CLI invocations advance the same Work Item at once.
 
 use cockpit_core::Digest;
+use cockpit_protocol::{
+    AssuranceLevel, RuntimeContext, TaskAuthorizationCaller, TaskAuthorizationPolicy,
+};
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, finish_work_item, preflight_work_item, record_verification,
-    start_work_item_with_options,
+    close_work_item_with_decision, finish_work_item, preflight_work_item,
+    preflight_work_item_with_runtime_report, record_verification,
+    record_work_item_governance_controls_with_runtime, repository_id, start_work_item_with_options,
 };
 use serde_json::Value;
 use std::sync::{Arc, Barrier};
@@ -49,6 +53,114 @@ fn repository() -> tempfile::TempDir {
 fn contract_path(root: &Path, id: &str) -> std::path::PathBuf {
     root.join(".ai/work-items/active")
         .join(format!("{id}.contract.json"))
+}
+
+fn batch_runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"lifecycle-cross-process-batch-start"),
+    }
+}
+
+fn prepare_batch_start_member(
+    root: &Path,
+    work_item_id: &str,
+) -> cockpit_protocol::TaskAuthorizationBatchReceipt {
+    let policy = TaskAuthorizationPolicy {
+        schema_version: 1,
+        agent_actor: "agent:cross-process-batch-worker".into(),
+        authority_source: "conversation:cross-process-batch-fixture-owner".into(),
+        allowed_actions: vec!["run_verification".into()],
+        closeout_actions: Vec::new(),
+        expires_at: Some("2099-01-01T00:00:00Z".into()),
+        public_target: None,
+    };
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        "exercise cross-process batch quota",
+        "prove one member start quota is reserved atomically across processes",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            task_authorization: Some(policy),
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["one durable start reservation wins".into()],
+            verification_commands: vec!["git diff --check".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start batch member Work Item");
+
+    let contract_path = contract_path(root, work_item_id);
+    preflight_work_item_with_runtime_report(root, &contract_path, &batch_runtime())
+        .expect("preflight batch member Work Item");
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+        .expect("valid contract JSON");
+    let summary: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")))
+            .expect("summary"),
+    )
+    .expect("valid summary JSON");
+    record_work_item_governance_controls_with_runtime(
+        root,
+        work_item_id,
+        &serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1,
+            "decisionId":"contract-preflight-review",
+            "decision":"confirm_review",
+            "workItemId":work_item_id,
+            "repositoryId":repository_id(root),
+            "contractDigest":cockpit_protocol::digest_json(&contract).expect("contract digest"),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),
+            "recordedBy":"agent:test-recorder",
+            "reason":"synthetic owner confirmation for isolated concurrency fixture"
+        }}),
+        &batch_runtime(),
+    )
+    .expect("record exact member owner review");
+
+    let request = cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository_id(root).to_string(),
+        members: vec![cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+            work_item_id: work_item_id.into(),
+            actions: vec!["run_verification".into()],
+            expires_at: "2098-01-01T00:00:00Z".into(),
+            budget: cockpit_protocol::TaskAuthorizationBatchBudget {
+                start_quota: 1,
+                retry_budget_by_check: std::collections::BTreeMap::from([(
+                    "git diff --check".into(),
+                    2,
+                )]),
+            },
+        }],
+    };
+    let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request,
+        &batch_runtime(),
+    )
+    .expect("prepare exact batch manifest");
+    let review = cockpit_protocol::TaskAuthorizationBatchReview {
+        schema_version: 1,
+        repository_id: manifest.repository_id.clone(),
+        manifest_digest: manifest.manifest_digest.clone(),
+        decision: cockpit_protocol::TaskAuthorizationBatchDecision::ConfirmReview,
+        reviewer_actor: "human:owner".into(),
+        authority_source: "conversation:owner-confirmed-exact-manifest".into(),
+        recorded_at: chrono::Utc::now().to_rfc3339(),
+        reason: "confirm this exact isolated member and its one-start quota".into(),
+    };
+    cockpit_repository::record_task_authorization_batch_review(
+        root,
+        &manifest,
+        &review,
+        &batch_runtime(),
+    )
+    .expect("persist exact batch review")
 }
 
 /// Bring a Work Item to the point where `finish_work_item` is allowed.
@@ -225,6 +337,193 @@ fn cross_process_finish_child() {
         serde_json::to_vec(&value).expect("encode child result"),
     )
     .expect("write child result");
+}
+
+#[test]
+fn concurrent_member_start_reserves_one_quota_atomically() {
+    if env::var_os("COCKPIT_BATCH_START_CHILD_ROOT").is_some() {
+        return;
+    }
+
+    const WORK_ITEM_ID: &str = "WI-CROSS-PROCESS-BATCH-START";
+    let directory = repository();
+    let root = directory.path();
+    let receipt = prepare_batch_start_member(root, WORK_ITEM_ID);
+    let member = receipt
+        .manifest
+        .members
+        .first()
+        .expect("one explicitly reviewed member")
+        .clone();
+    let gate = root.join(".ai/batch-start-child-gate");
+    let mut children = Vec::with_capacity(2);
+    let mut ready_paths = Vec::with_capacity(2);
+    let mut result_paths = Vec::with_capacity(2);
+    let mut spawn_error = None;
+
+    for index in 0..2 {
+        let ready_path = root.join(format!(".ai/batch-start-child-ready-{index}"));
+        let result_path = root.join(format!(".ai/batch-start-child-result-{index}.json"));
+        let child = Command::new(env::current_exe().expect("current test executable"))
+            .args(["--exact", "concurrent_member_start_child", "--nocapture"])
+            .env("COCKPIT_BATCH_START_CHILD_ROOT", root)
+            .env("COCKPIT_BATCH_START_CHILD_WI", WORK_ITEM_ID)
+            .env(
+                "COCKPIT_BATCH_START_CHILD_MANIFEST",
+                receipt.manifest.manifest_digest.to_string(),
+            )
+            .env(
+                "COCKPIT_BATCH_START_CHILD_OPERATION",
+                format!("run-{index}"),
+            )
+            .env("COCKPIT_BATCH_START_CHILD_ACTOR", &member.actor)
+            .env(
+                "COCKPIT_BATCH_START_CHILD_AUTHORITY",
+                &member.authority_source,
+            )
+            .env("COCKPIT_BATCH_START_CHILD_GATE", &gate)
+            .env("COCKPIT_BATCH_START_CHILD_READY", &ready_path)
+            .env("COCKPIT_BATCH_START_CHILD_RESULT", &result_path)
+            .spawn();
+        match child {
+            Ok(child) => {
+                children.push(child);
+                ready_paths.push(ready_path);
+                result_paths.push(result_path);
+            }
+            Err(error) => {
+                spawn_error = Some(error.to_string());
+                break;
+            }
+        }
+    }
+
+    if children.len() != 2 {
+        let _ = fs::write(&gate, b"release");
+        for mut child in children {
+            let _ = child.wait();
+        }
+        panic!("must spawn both quota contenders: {spawn_error:?}");
+    }
+
+    let ready_deadline = Instant::now() + Duration::from_secs(15);
+    while !ready_paths.iter().all(|path| path.is_file()) && Instant::now() < ready_deadline {
+        thread::sleep(Duration::from_millis(5));
+    }
+    let both_ready = ready_paths.iter().all(|path| path.is_file());
+    let gate_result = fs::write(&gate, b"release");
+    let child_statuses = children
+        .into_iter()
+        .map(|mut child| child.wait().expect("wait for quota contender process"))
+        .collect::<Vec<_>>();
+
+    assert!(
+        both_ready,
+        "both independent processes must reach the barrier"
+    );
+    gate_result.expect("release both independent contenders");
+    assert!(
+        child_statuses.iter().all(std::process::ExitStatus::success),
+        "both child test processes must finish cleanly: {child_statuses:?}"
+    );
+
+    let results = result_paths
+        .iter()
+        .map(|path| {
+            let bytes = fs::read(path).unwrap_or_else(|error| panic!("read {path:?}: {error}"));
+            serde_json::from_slice::<Value>(&bytes)
+                .unwrap_or_else(|error| panic!("parse {path:?}: {error}"))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        results.iter().filter(|result| result["ok"] == true).count(),
+        1
+    );
+    assert_eq!(
+        results
+            .iter()
+            .filter(|result| result["ok"] == false)
+            .count(),
+        1
+    );
+    assert!(
+        results
+            .iter()
+            .filter_map(|result| result["error"].as_str())
+            .any(|error| error.contains("start_quota_exhausted"))
+    );
+
+    let ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        root,
+        &receipt.manifest.manifest_digest,
+        WORK_ITEM_ID,
+        &batch_runtime(),
+    )
+    .expect("read durable member ledger");
+    assert_eq!(ledger.starts_used, 1);
+    assert_eq!(ledger.start_quota, 1);
+    assert_eq!(ledger.events.len(), 1);
+    assert_eq!(
+        ledger.events[0].kind,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved
+    );
+}
+
+#[test]
+fn concurrent_member_start_child() {
+    let Some(root) = env::var_os("COCKPIT_BATCH_START_CHILD_ROOT") else {
+        return;
+    };
+    let work_item_id = env::var("COCKPIT_BATCH_START_CHILD_WI").expect("Work Item id");
+    let manifest_digest = env::var("COCKPIT_BATCH_START_CHILD_MANIFEST")
+        .expect("manifest digest")
+        .parse::<Digest>()
+        .expect("valid manifest digest");
+    let operation_id = env::var("COCKPIT_BATCH_START_CHILD_OPERATION").expect("operation id");
+    let actor = env::var("COCKPIT_BATCH_START_CHILD_ACTOR").expect("member actor");
+    let authority_source =
+        env::var("COCKPIT_BATCH_START_CHILD_AUTHORITY").expect("member authority source");
+    let gate = env::var_os("COCKPIT_BATCH_START_CHILD_GATE").expect("start gate");
+    let ready = env::var_os("COCKPIT_BATCH_START_CHILD_READY").expect("ready marker");
+    let result_path = env::var_os("COCKPIT_BATCH_START_CHILD_RESULT").expect("result path");
+    fs::write(&ready, b"ready").expect("signal child ready");
+
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while !Path::new(&gate).exists() {
+        assert!(
+            Instant::now() < deadline,
+            "timed out waiting for parent to release quota barrier"
+        );
+        thread::sleep(Duration::from_millis(5));
+    }
+
+    let request = cockpit_protocol::TaskAuthorizationBatchStartRequest {
+        schema_version: 1,
+        manifest_digest,
+        work_item_id,
+        operation_id,
+        action: "run_verification".into(),
+        caller: TaskAuthorizationCaller {
+            schema_version: 1,
+            actor,
+            authority_source,
+            assurance: AssuranceLevel::SelfDeclared,
+        },
+    };
+    let result = cockpit_repository::reserve_task_authorization_batch_start(
+        Path::new(&root),
+        &request,
+        &batch_runtime(),
+    );
+    let value = match result {
+        Ok(_) => serde_json::json!({"ok":true}),
+        Err(error) => serde_json::json!({"ok":false,"error":error.to_string()}),
+    };
+    fs::write(
+        result_path,
+        serde_json::to_vec(&value).expect("encode contender result"),
+    )
+    .expect("write contender result");
 }
 
 #[test]
