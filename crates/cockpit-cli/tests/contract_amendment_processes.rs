@@ -4129,6 +4129,11 @@ fn activation_checkpoint_fixture() -> tempfile::TempDir {
         ],
     );
     git(
+        &origin,
+        &["config", "--local", "maintenance.autoDetach", "false"],
+    );
+    git(&origin, &["config", "--local", "gc.autoDetach", "false"]);
+    git(
         &root,
         &[
             "remote",
