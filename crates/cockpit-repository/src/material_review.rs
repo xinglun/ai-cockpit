@@ -1686,7 +1686,7 @@ pub(super) fn prepare_profile_transition(
         });
     }
 
-    let previous_request = material_review_request_with_contract_digest(
+    let mut previous_request = material_review_request_with_contract_digest(
         root,
         &previous_contract,
         previous_contract_digest,
@@ -1719,6 +1719,32 @@ pub(super) fn prepare_profile_transition(
             });
         }
     };
+    let reviewed_source_head = previous_receipt
+        .reviewed_source_head
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "prior material-review receipt lacks reviewed source-head provenance".into(),
+        })?;
+    // The request digest deliberately excludes reviewedSourceHead. Preserve
+    // the receipt's exact historic head in the transition while retaining the
+    // current request's unchanged manifest and digest. read_material_review_receipt
+    // above has already checked that this historic head is an ancestor of the
+    // current checkout and that the receipt matches every digest-bound field.
+    previous_request.reviewed_source_head = reviewed_source_head.to_owned();
+    let previous_request_digest =
+        material_review_request_digest(&previous_request).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!("cannot validate the captured prior request: {error}"),
+            }
+        })?;
+    if previous_request_digest != previous_request.request_digest {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "prior material-review request changed while capturing its historic source head".into(),
+        });
+    }
     let next_request =
         material_review_request_with_contract_digest(root, &next_contract, next_contract_digest)
             .map_err(|error| ObserverError::State {

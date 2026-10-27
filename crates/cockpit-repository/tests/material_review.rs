@@ -1598,6 +1598,118 @@ fn valid_profile_amendment_preserves_exact_prior_receipt_as_history() {
 }
 
 #[test]
+fn profile_transition_preserves_prior_receipt_after_ai_only_commit() {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let old_head = git(root, &["rev-parse", "HEAD"]);
+    let original_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+    let old_pointer = original_summary["materialReviewReceipt"].clone();
+    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("immutable prior receipt");
+
+    commit(root);
+    let new_head = git(root, &["rev-parse", "HEAD"]);
+    assert_ne!(old_head, new_head);
+    let committed_paths = git(root, &["diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"]);
+    assert!(
+        committed_paths.lines().all(|path| path.starts_with(".ai/")),
+        "the intervening commit must change only .ai records: {committed_paths}"
+    );
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+        .expect("refresh the exact unchanged profile at the .ai-only head");
+
+    let old_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
+    let reason = "preserve a historic receipt across a metadata-only source advance";
+    amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "material-review-profile-after-ai-only-commit",
+            "expectedContractDigest": old_contract_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:Raydot-Updated"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect("typed profile transition must accept the exact historical request");
+
+    let amended_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("amended Contract"))
+            .expect("Contract JSON");
+    let amended_contract_digest =
+        cockpit_protocol::digest_json(&amended_contract).expect("amended Contract digest");
+    cockpit_repository::preflight_work_item(root, &contract_path)
+        .expect("preflight the exact amended Contract");
+    let current_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("preflight Summary"))
+            .expect("Summary JSON");
+    let decision = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-MATERIAL",
+        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "contractDigest": amended_contract_digest,
+        "preflightDecisionDigest": current_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": current_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-08T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "isolated fixture confirms only its exact amended Contract"
+    });
+    cockpit_repository::record_work_item_governance_controls(
+        root,
+        "WI-MATERIAL",
+        &json!({"decisionEvidence": decision}),
+    )
+    .expect("record fixture-only review for the amended Contract");
+
+    let amendments = read_work_item_contract_amendments(root, "WI-MATERIAL")
+        .expect("append-only amendments");
+    let transition = amendments
+        .last()
+        .and_then(|amendment| amendment.material_review_profile_transition.as_ref())
+        .expect("typed material profile transition");
+    assert_eq!(
+        transition["previousRequest"]["reviewedSourceHead"],
+        old_head
+    );
+    assert_eq!(
+        transition["previousRequest"]["requestDigest"],
+        old_pointer["requestDigest"]
+    );
+    assert_eq!(
+        fs::read(&old_sidecar_path).expect("prior sidecar remains immutable"),
+        old_sidecar_bytes
+    );
+    let amended_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("amended Summary"))
+            .expect("Summary JSON");
+    assert_eq!(amended_summary["materialReviewReceipt"], old_pointer);
+    assert_eq!(transition["previousPointer"], old_pointer);
+
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &runtime,
+    )
+    .expect("status keeps the old decision as history");
+    assert!(status.effective_unknowns.contains(&"material_review_receipt_stale".into()));
+    assert!(status.effective_unknowns.contains(&"repository_material_inspection_unavailable".into()));
+    assert!(!status.effective_unknowns.contains(&"material_review_receipt_invalid".into()));
+}
+
+#[test]
 fn profile_transition_captured_fields_cannot_be_rebound_by_rehashing_local_digest() {
     type TransitionMutation = (&'static str, fn(&mut Value));
     let mutations: [TransitionMutation; 14] = [
