@@ -380,14 +380,16 @@ pub fn reserve_task_authorization_batch_start(
         &root,
         &receipt,
         &member,
-        &request.operation_id,
-        cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved,
-        Some(request.action.clone()),
-        None,
-        None,
-        None,
-        None,
-        "reserve one start for this exact member operation",
+        BatchEventDraft {
+            operation_id: request.operation_id.clone(),
+            kind: cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved,
+            action: Some(request.action.clone()),
+            check_id: None,
+            attempt: None,
+            outcome: None,
+            evidence: None,
+            reason: "reserve one start for this exact member operation".into(),
+        },
     )?;
     let persisted = append_batch_member_event(&root, &member, event)?;
     guard.require_subject(&root, &member.work_item_id)?;
@@ -513,14 +515,16 @@ pub fn reserve_task_authorization_batch_check_attempt(
         &root,
         &receipt,
         &member,
-        &request.operation_id,
-        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved,
-        None,
-        Some(request.check_id.clone()),
-        Some(next_attempt),
-        None,
-        None,
-        format!("reserve declared check attempt {next_attempt}"),
+        BatchEventDraft {
+            operation_id: request.operation_id.clone(),
+            kind: cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved,
+            action: None,
+            check_id: Some(request.check_id.clone()),
+            attempt: Some(next_attempt),
+            outcome: None,
+            evidence: None,
+            reason: format!("reserve declared check attempt {next_attempt}"),
+        },
     )?;
     let persisted = append_batch_member_event(&root, &member, event)?;
     guard.require_subject(&root, &member.work_item_id)?;
@@ -585,17 +589,19 @@ pub fn record_task_authorization_batch_check_outcome(
         &root,
         &receipt,
         &member,
-        &request.operation_id,
-        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded,
-        None,
-        Some(request.check_id.clone()),
-        Some(request.attempt),
-        Some(request.outcome),
-        Some((
-            request.evidence_ref.clone(),
-            request.evidence_digest.clone(),
-        )),
-        request.reason.clone(),
+        BatchEventDraft {
+            operation_id: request.operation_id.clone(),
+            kind: cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded,
+            action: None,
+            check_id: Some(request.check_id.clone()),
+            attempt: Some(request.attempt),
+            outcome: Some(request.outcome),
+            evidence: Some((
+                request.evidence_ref.clone(),
+                request.evidence_digest.clone(),
+            )),
+            reason: request.reason.clone(),
+        },
     )?;
     let persisted = append_batch_member_event(&root, &member, event)?;
     guard.require_subject(&root, &member.work_item_id)?;
@@ -674,17 +680,19 @@ pub fn inspect_task_authorization_batch_check_outcome(
         &root,
         &receipt,
         &member,
-        &request.operation_id,
-        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeInspected,
-        None,
-        Some(request.check_id.clone()),
-        Some(request.attempt),
-        Some(request.inspected_outcome),
-        Some((
-            request.evidence_ref.clone(),
-            request.evidence_digest.clone(),
-        )),
-        request.reason.clone(),
+        BatchEventDraft {
+            operation_id: request.operation_id.clone(),
+            kind: cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeInspected,
+            action: None,
+            check_id: Some(request.check_id.clone()),
+            attempt: Some(request.attempt),
+            outcome: Some(request.inspected_outcome),
+            evidence: Some((
+                request.evidence_ref.clone(),
+                request.evidence_digest.clone(),
+            )),
+            reason: request.reason.clone(),
+        },
     )?;
     let persisted = append_batch_member_event(&root, &member, event)?;
     guard.require_subject(&root, &member.work_item_id)?;
@@ -734,14 +742,16 @@ pub fn terminate_task_authorization_batch_member(
         &root,
         &receipt,
         &member,
-        &operation_id,
-        cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated,
-        Some(decision),
-        None,
-        None,
-        None,
-        None,
-        request.reason.clone(),
+        BatchEventDraft {
+            operation_id,
+            kind: cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated,
+            action: Some(decision),
+            check_id: None,
+            attempt: None,
+            outcome: None,
+            evidence: None,
+            reason: request.reason.clone(),
+        },
     )?;
     let persisted = append_batch_member_event(&root, &member, event)?;
     guard.require_subject(&root, &member.work_item_id)?;
@@ -1008,18 +1018,22 @@ fn validate_batch_evidence(
     Ok(())
 }
 
-fn new_batch_event(
-    root: &Path,
-    receipt: &cockpit_protocol::TaskAuthorizationBatchReceipt,
-    member: &cockpit_protocol::TaskAuthorizationBatchMember,
-    operation_id: &str,
+struct BatchEventDraft {
+    operation_id: String,
     kind: cockpit_protocol::TaskAuthorizationBatchEventKind,
     action: Option<String>,
     check_id: Option<String>,
     attempt: Option<u32>,
     outcome: Option<cockpit_protocol::TaskAuthorizationBatchAttemptOutcome>,
     evidence: Option<(String, cockpit_core::Digest)>,
-    reason: impl Into<String>,
+    reason: String,
+}
+
+fn new_batch_event(
+    root: &Path,
+    receipt: &cockpit_protocol::TaskAuthorizationBatchReceipt,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    draft: BatchEventDraft,
 ) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
     let grant_id = receipt
         .child_grants
@@ -1035,15 +1049,18 @@ fn new_batch_event(
         manifest_digest: receipt.manifest.manifest_digest.clone(),
         grant_id,
         sequence: 0,
-        operation_id: operation_id.to_owned(),
-        kind,
-        action,
-        check_id,
-        attempt,
-        outcome,
-        evidence_ref: evidence.as_ref().map(|(reference, _)| reference.clone()),
-        evidence_digest: evidence.map(|(_, digest)| digest),
-        reason: reason.into(),
+        operation_id: draft.operation_id,
+        kind: draft.kind,
+        action: draft.action,
+        check_id: draft.check_id,
+        attempt: draft.attempt,
+        outcome: draft.outcome,
+        evidence_ref: draft
+            .evidence
+            .as_ref()
+            .map(|(reference, _)| reference.clone()),
+        evidence_digest: draft.evidence.map(|(_, digest)| digest),
+        reason: draft.reason,
         recorded_at: super::now(),
         record_digest: cockpit_core::Digest::sha256_bytes(b""),
     };
