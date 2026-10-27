@@ -9,6 +9,8 @@ use cockpit_repository::{
 };
 use serde_json::{Value, json};
 use std::fs;
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
 use std::sync::OnceLock;
@@ -16,16 +18,261 @@ use std::sync::OnceLock;
 const WORK_ITEM_ID: &str = "WI-CLI-AMEND-PARITY";
 
 fn git(root: &Path, args: &[&str]) {
-    let output = Command::new("git")
-        .args(args)
-        .current_dir(root)
-        .output()
-        .expect("git command");
+    let output = git_output(root, args);
     assert!(
         output.status.success(),
         "git {args:?}: {}",
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+fn git_output(root: &Path, args: &[&str]) -> Output {
+    Command::new("git")
+        .args([
+            "-c",
+            "maintenance.autoDetach=false",
+            "-c",
+            "gc.autoDetach=false",
+        ])
+        .args(args)
+        .current_dir(root)
+        .output()
+        .expect("git command")
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct FixturePermissions {
+    #[cfg(not(unix))]
+    readonly: bool,
+    #[cfg(unix)]
+    mode: u32,
+}
+
+impl FixturePermissions {
+    fn read(path: &Path) -> Self {
+        let permissions = fs::metadata(path).expect("fixture metadata").permissions();
+        Self {
+            #[cfg(not(unix))]
+            readonly: permissions.readonly(),
+            #[cfg(unix)]
+            mode: permissions.mode(),
+        }
+    }
+
+    fn apply(&self, path: &Path) {
+        #[cfg(unix)]
+        let permissions = fs::Permissions::from_mode(self.mode);
+        #[cfg(not(unix))]
+        let permissions = {
+            let mut permissions = fs::metadata(path)
+                .expect("fixture metadata before permission restore")
+                .permissions();
+            permissions.set_readonly(self.readonly);
+            permissions
+        };
+        fs::set_permissions(path, permissions).expect("restore fixture permissions");
+    }
+
+    fn make_writable(path: &Path, is_directory: bool) {
+        let mut permissions = fs::metadata(path)
+            .expect("fixture metadata before removal")
+            .permissions();
+        #[cfg(unix)]
+        {
+            let minimum = if is_directory { 0o700 } else { 0o600 };
+            permissions.set_mode(permissions.mode() | minimum);
+        }
+        #[cfg(not(unix))]
+        permissions.set_readonly(false);
+        fs::set_permissions(path, permissions).expect("make fixture entry removable");
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum FixtureNode {
+    Directory,
+    File(Vec<u8>),
+    Symlink { target: PathBuf, directory: bool },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct FixtureEntry {
+    relative_path: PathBuf,
+    node: FixtureNode,
+    permissions: Option<FixturePermissions>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct FixtureTreeSnapshot {
+    root_permissions: FixturePermissions,
+    entries: Vec<FixtureEntry>,
+}
+
+impl FixtureTreeSnapshot {
+    fn capture(root: &Path) -> Self {
+        fn walk(root: &Path, current: &Path, entries: &mut Vec<FixtureEntry>) {
+            let mut children: Vec<_> = fs::read_dir(current)
+                .expect("read fixture directory")
+                .map(|entry| entry.expect("fixture directory entry").path())
+                .collect();
+            children.sort();
+            for path in children {
+                let relative_path = path
+                    .strip_prefix(root)
+                    .expect("fixture child stays beneath root")
+                    .to_path_buf();
+                let metadata = fs::symlink_metadata(&path).expect("fixture entry metadata");
+                let (node, permissions) = if metadata.file_type().is_symlink() {
+                    let directory = fs::metadata(&path)
+                        .map(|target| target.is_dir())
+                        .unwrap_or(false);
+                    (
+                        FixtureNode::Symlink {
+                            target: fs::read_link(&path).expect("fixture symlink target"),
+                            directory,
+                        },
+                        None,
+                    )
+                } else if metadata.is_dir() {
+                    let permissions = FixturePermissions::read(&path);
+                    walk(root, &path, entries);
+                    (FixtureNode::Directory, Some(permissions))
+                } else if metadata.is_file() {
+                    (
+                        FixtureNode::File(fs::read(&path).expect("fixture file bytes")),
+                        Some(FixturePermissions::read(&path)),
+                    )
+                } else {
+                    panic!("unsupported fixture entry type: {}", path.display());
+                };
+                entries.push(FixtureEntry {
+                    relative_path,
+                    node,
+                    permissions,
+                });
+            }
+        }
+
+        let mut entries = Vec::new();
+        walk(root, root, &mut entries);
+        entries.sort_by(|left, right| left.relative_path.cmp(&right.relative_path));
+        Self {
+            root_permissions: FixturePermissions::read(root),
+            entries,
+        }
+    }
+
+    fn restore(&self, root: &Path) {
+        fn clear(path: &Path) {
+            let children: Vec<_> = fs::read_dir(path)
+                .expect("read fixture directory before restore")
+                .map(|entry| entry.expect("fixture directory entry").path())
+                .collect();
+            for child in children {
+                let metadata = fs::symlink_metadata(&child).expect("fixture entry metadata");
+                if metadata.file_type().is_symlink() {
+                    #[cfg(windows)]
+                    {
+                        if fs::metadata(&child)
+                            .map(|target| target.is_dir())
+                            .unwrap_or(false)
+                        {
+                            fs::remove_dir(&child).expect("remove fixture directory symlink");
+                        } else {
+                            fs::remove_file(&child).expect("remove fixture file symlink");
+                        }
+                    }
+                    #[cfg(not(windows))]
+                    fs::remove_file(&child).expect("remove fixture symlink");
+                } else if metadata.is_dir() {
+                    FixturePermissions::make_writable(&child, true);
+                    clear(&child);
+                    fs::remove_dir(&child).expect("remove fixture directory");
+                } else {
+                    FixturePermissions::make_writable(&child, false);
+                    fs::remove_file(&child).expect("remove fixture file");
+                }
+            }
+        }
+
+        FixturePermissions::make_writable(root, true);
+        clear(root);
+
+        let mut directories: Vec<_> = self
+            .entries
+            .iter()
+            .filter(|entry| entry.node == FixtureNode::Directory)
+            .collect();
+        directories.sort_by_key(|entry| entry.relative_path.components().count());
+        for entry in &directories {
+            fs::create_dir(root.join(&entry.relative_path)).expect("restore fixture directory");
+        }
+
+        for entry in &self.entries {
+            let path = root.join(&entry.relative_path);
+            match &entry.node {
+                FixtureNode::Directory => {}
+                FixtureNode::File(bytes) => {
+                    fs::write(&path, bytes).expect("restore fixture file bytes");
+                    entry
+                        .permissions
+                        .as_ref()
+                        .expect("file permissions")
+                        .apply(&path);
+                }
+                FixtureNode::Symlink { target, directory } => {
+                    #[cfg(unix)]
+                    std::os::unix::fs::symlink(target, &path).expect("restore fixture symlink");
+                    #[cfg(windows)]
+                    if *directory {
+                        std::os::windows::fs::symlink_dir(target, &path)
+                            .expect("restore fixture directory symlink");
+                    } else {
+                        std::os::windows::fs::symlink_file(target, &path)
+                            .expect("restore fixture file symlink");
+                    }
+                    #[cfg(not(any(unix, windows)))]
+                    panic!(
+                        "symlink restoration is unsupported on this platform: {}",
+                        path.display()
+                    );
+                    let _ = directory;
+                }
+            }
+        }
+
+        directories
+            .sort_by_key(|entry| std::cmp::Reverse(entry.relative_path.components().count()));
+        for entry in directories {
+            entry
+                .permissions
+                .as_ref()
+                .expect("directory permissions")
+                .apply(&root.join(&entry.relative_path));
+        }
+        self.root_permissions.apply(root);
+        assert_eq!(
+            Self::capture(root),
+            *self,
+            "fixture restoration must reproduce all file bytes and permissions"
+        );
+    }
+}
+
+#[test]
+fn fixture_tree_snapshot_restores_bytes_and_permissions() {
+    let directory = tempfile::tempdir().expect("fixture snapshot test directory");
+    let root = directory.path();
+    fs::create_dir_all(root.join("nested")).expect("nested directory");
+    fs::write(root.join("nested/file"), b"original bytes").expect("fixture file");
+    #[cfg(unix)]
+    fs::set_permissions(root.join("nested/file"), fs::Permissions::from_mode(0o640))
+        .expect("set fixture mode");
+    let baseline = FixtureTreeSnapshot::capture(root);
+    fs::write(root.join("nested/file"), b"mutated bytes").expect("mutate fixture file");
+    fs::write(root.join("new-file"), b"remove me").expect("new fixture file");
+    baseline.restore(root);
+    assert_eq!(FixtureTreeSnapshot::capture(root), baseline);
 }
 
 fn repository() -> tempfile::TempDir {
@@ -4183,16 +4430,18 @@ fn legacy_activation_fixture() -> tempfile::TempDir {
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
         .expect("Contract JSON");
     let runtime = candidate_runtime();
-    let head = Command::new("git")
-        .args(["rev-parse", "HEAD"])
-        .current_dir(&root)
-        .output()
-        .expect("fixture HEAD");
-    let branch = Command::new("git")
-        .args(["branch", "--show-current"])
-        .current_dir(&root)
-        .output()
-        .expect("fixture branch");
+    let head = git_output(&root, &["rev-parse", "HEAD"]);
+    assert!(
+        head.status.success(),
+        "fixture HEAD: {}",
+        String::from_utf8_lossy(&head.stderr)
+    );
+    let branch = git_output(&root, &["branch", "--show-current"]);
+    assert!(
+        branch.status.success(),
+        "fixture branch: {}",
+        String::from_utf8_lossy(&branch.stderr)
+    );
     let input = directory.path().join("registration.json");
     fs::write(&input, serde_json::to_vec(&json!({
         "schemaVersion":1, "repositoryId":contract["repositoryId"], "workItemId":id,
@@ -4561,6 +4810,8 @@ fn recovery_metadata_bytes(root: &Path) -> Vec<(PathBuf, Vec<u8>)> {
 
 #[test]
 fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
+    let directory = legacy_activation_fixture();
+    let baseline = FixtureTreeSnapshot::capture(directory.path());
     for case in [
         "missing_start",
         "missing_checkpoint",
@@ -4573,7 +4824,7 @@ fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
         "new_forward_marker",
         "orphan_recovery_marker",
     ] {
-        let directory = legacy_activation_fixture();
+        baseline.restore(directory.path());
         let root = directory.path().join("repo");
         let id = "WI-CLI-ACTIVATION-CONTINUITY";
         let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
@@ -4715,6 +4966,8 @@ fn fixture_present_recovery_decision(root: &Path, request: &Value) -> Value {
 
 #[test]
 fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
+    let directory = legacy_activation_fixture();
+    let baseline = FixtureTreeSnapshot::capture(directory.path());
     for case in [
         "request",
         "summary",
@@ -4731,7 +4984,7 @@ fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
         "pending_amendment",
         "unknown_field",
     ] {
-        let directory = legacy_activation_fixture();
+        baseline.restore(directory.path());
         let root = directory.path().join("repo");
         let id = "WI-CLI-ACTIVATION-CONTINUITY";
         let planned = run_cli(&[
