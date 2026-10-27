@@ -3472,6 +3472,109 @@ mod tests {
         directory
     }
 
+    fn git(root: &Path, args: &[&str]) -> String {
+        let output = std::process::Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run fixture git command");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout).expect("fixture git output is UTF-8")
+    }
+
+    fn portable_activation_transition_fixture() -> (tempfile::TempDir, String) {
+        let directory = repository();
+        let root = directory.path();
+        git(root, &["config", "user.name", "AI Cockpit Fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "portable activation fixture\n").expect("fixture README");
+        git(root, &["add", "--all"]);
+        git(root, &["commit", "--quiet", "--allow-empty", "-m", "base"]);
+        git(root, &["branch", "-M", "main"]);
+        let base = git(root, &["rev-parse", "HEAD"]).trim().to_owned();
+        git(
+            root,
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://example.invalid/activation-fixture.git",
+            ],
+        );
+        git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+        git(
+            root,
+            &[
+                "symbolic-ref",
+                "refs/remotes/origin/HEAD",
+                "refs/remotes/origin/main",
+            ],
+        );
+        git(root, &["checkout", "-qb", "activation-fixture"]);
+
+        let id = "WI-PORTABLE-ACTIVATION".to_owned();
+        crate::scaffold_work_item(root, &id, "implementation").expect("create not_ready scaffold");
+        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+        let initial_contract = read_json(&contract_path);
+        super::amend_work_item_contract(
+            root,
+            &id,
+            &json!({
+                "schemaVersion":1,
+                "changeId":"declare-before-portable-activation",
+                "expectedContractDigest":cockpit_protocol::digest_json(&initial_contract).unwrap(),
+                "reason":"isolated historical transition fixture",
+                "changes":[
+                    {"path":"/intent","operation":"set","value":"Bound native activation"},
+                    {"path":"/goal","operation":"set","value":"Preserve exact activation evidence"},
+                    {"path":"/scope","operation":"replace","value":["README.md"]},
+                    {"path":"/risk","operation":"set","value":"normal"},
+                    {"path":"/authority","operation":"set","value":"authorized"},
+                    {"path":"/acceptanceCriteria","operation":"replace","value":["only a committed transition is evidence"]},
+                    {"path":"/verification","operation":"replace","value":["git diff --check"]}
+                ]
+            }),
+            "",
+        )
+        .expect("record pre-activation Contract amendment");
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"portable activation fixture"),
+        };
+        crate::start_work_item_with_options_and_runtime(
+            root,
+            &id,
+            "Bound native activation",
+            "Preserve exact activation evidence",
+            &["README.md".into()],
+            &crate::WorkItemStartOptions {
+                risk: "normal".into(),
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["only a committed transition is evidence".into()],
+                verification_commands: vec!["git diff --check".into()],
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .expect("perform native activation");
+        git(root, &["add", "--all"]);
+        git(
+            root,
+            &["commit", "--quiet", "-m", "commit activation evidence"],
+        );
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read committed amendment history");
+        super::validate_transition_chain(root, &id, &history, None)
+            .expect("source checkout validates its own activation");
+        (directory, id)
+    }
+
     fn start_checkpointed(root: &Path, work_item_id: &str) -> PathBuf {
         start_work_item_with_options(
             root,
@@ -3496,6 +3599,65 @@ mod tests {
 
     fn read_json(path: impl AsRef<Path>) -> Value {
         serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+    }
+
+    #[test]
+    fn committed_activation_transition_is_readable_from_a_detached_clone_but_not_written_there() {
+        let (source, id) = portable_activation_transition_fixture();
+        let source_root = source.path();
+        let clone_temp = tempfile::tempdir().expect("clone parent");
+        let clone_root = clone_temp.path().join("checkout");
+        git(
+            source_root,
+            &[
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                source_root.to_str().expect("source path"),
+                clone_root.to_str().expect("clone path"),
+            ],
+        );
+        git(&clone_root, &["checkout", "--detach", "--quiet", "HEAD"]);
+
+        let history = crate::read_work_item_contract_amendments(&clone_root, &id)
+            .expect("read the clone's committed amendment history");
+        super::validate_transition_chain(&clone_root, &id, &history, None)
+            .expect("committed historical owner should be readable from another detached checkout");
+
+        let directory = clone_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let prepared_path = directory.join("prepared.json");
+        let committed_path = directory.join("committed.json");
+        let prepared: super::PreparedActivationTransition =
+            super::read_typed_record(&prepared_path).expect("read exact prepared record");
+        let committed_before = fs::read(&committed_path).expect("committed bytes");
+        let error = super::commit_activation_transition(&clone_root, &id, &prepared)
+            .expect_err("a clone may read history but cannot write as the recorded owner");
+        assert!(
+            error
+                .to_string()
+                .contains("activation changed before its commit marker"),
+            "{error}"
+        );
+        assert_eq!(fs::read(&committed_path).unwrap(), committed_before);
+
+        let mut altered = read_json(&prepared_path);
+        altered["record"]["owner"]["worktreePath"] = json!("/spoofed/checkout");
+        let altered_digest = super::record_digest(&altered["record"], &prepared_path)
+            .expect("reseal altered prepared record");
+        altered["recordDigest"] = serde_json::to_value(&altered_digest).unwrap();
+        let mut altered_commit = read_json(&committed_path);
+        altered_commit["preparedDigest"] = serde_json::to_value(altered_digest).unwrap();
+        fs::write(&prepared_path, serde_json::to_vec(&altered).unwrap())
+            .expect("write isolated tampered owner fixture");
+        fs::write(
+            &committed_path,
+            serde_json::to_vec(&altered_commit).unwrap(),
+        )
+        .expect("write internally consistent isolated commit fixture");
+        assert!(
+            super::validate_transition_chain(&clone_root, &id, &history, None).is_err(),
+            "a re-sealed owner change must not replace the committed historical blob"
+        );
     }
 
     fn material_profile_amendment_fixture(
