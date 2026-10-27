@@ -73,6 +73,8 @@ fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidde
         vec!["work-item", "outcome", "--help"],
         vec!["work-item", "usage", "--help"],
         vec!["work-item", "usage", "record", "--help"],
+        vec!["work-item", "authorization-manifest", "--help"],
+        vec!["work-item", "authorization-manifest", "plan", "--help"],
         vec!["audit", "--help"],
         vec!["audit", "query", "--help"],
         vec!["audit", "export", "--help"],
@@ -87,6 +89,10 @@ fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidde
         if args == ["work-item", "outcome", "--help"] {
             assert!(help.contains("--display-timezone"));
             assert!(help.contains("IANA timezone"));
+        }
+        if args == ["work-item", "authorization-manifest", "plan", "--help"] {
+            assert!(help.contains("--repo"));
+            assert!(help.contains("--input"));
         }
     }
     for docs in [

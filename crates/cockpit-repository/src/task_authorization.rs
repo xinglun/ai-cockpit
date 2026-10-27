@@ -8,6 +8,211 @@ use cockpit_protocol::{
 use serde_json::{Value, json};
 use std::path::{Component, Path, PathBuf};
 
+/// Prepare a deterministic batch authorization manifest from current native
+/// Work Item records. This operation is read-only; it neither records the
+/// owner decision nor issues durable child grants.
+pub fn prepare_task_authorization_batch_manifest(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchManifest, ObserverError> {
+    request
+        .validate()
+        .map_err(|e| error(root, format!("task_authorization_batch_request_invalid: {e}")))?;
+    let root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
+    let repository_id = super::repository_id(&root).to_string();
+    if request.repository_id != repository_id {
+        return Err(error(
+            &root,
+            "task_authorization_batch_repository_mismatch",
+        ));
+    }
+
+    let mut members = Vec::with_capacity(request.members.len());
+    let mut repository_snapshot = None;
+    for requested in &request.members {
+        super::validate_work_item_id(&requested.work_item_id)?;
+        let relative = own_path(&root, &requested.work_item_id, "contract")?;
+        if !relative.starts_with(".ai/work-items/active") {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_requires_active_member: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+        let contract_value = native_json(&root, &relative)?;
+        if contract_value["repositoryId"] != repository_id
+            || contract_value["workItemId"] != requested.work_item_id
+        {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_member_identity_mismatch: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+        let contract: Contract = serde_json::from_value(contract_value.clone())
+            .map_err(|e| error(&root, e.to_string()))?;
+        let policy = contract
+            .task_authorization_policy()
+            .map_err(|e| error(&root, e))?
+            .ok_or_else(|| {
+                error(
+                    &root,
+                    format!(
+                        "task_authorization_batch_member_has_no_owner_policy: {}",
+                        requested.work_item_id
+                    ),
+                )
+            })?;
+        policy.validate().map_err(|e| error(&root, e))?;
+        let projection = assess(&root, &requested.work_item_id, &contract, &policy, runtime)?;
+        if projection.state != "active" {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_member_not_active: {} ({})",
+                    requested.work_item_id, projection.state
+                ),
+            ));
+        }
+        let parent_grant_id = projection
+            .grant_id
+            .ok_or_else(|| error(&root, "task_authorization_batch_parent_grant_missing"))?;
+        let scope_digest = projection
+            .scope_digest
+            .ok_or_else(|| error(&root, "task_authorization_batch_scope_digest_missing"))?;
+
+        let allowed = policy
+            .allowed_actions
+            .iter()
+            .map(String::as_str)
+            .collect::<std::collections::BTreeSet<_>>();
+        let requested_actions = requested
+            .actions
+            .iter()
+            .map(String::as_str)
+            .collect::<std::collections::BTreeSet<_>>();
+        if requested.actions.is_empty()
+            || requested_actions.len() != requested.actions.len()
+            || requested
+                .actions
+                .iter()
+                .any(|action| !allowed.contains(action.as_str()))
+        {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_actions_exceed_member_policy: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+        let requested_expiry = chrono::DateTime::parse_from_rfc3339(&requested.expires_at)
+            .map_err(|e| error(&root, format!("invalid batch member expiry: {e}")))?;
+        if let Some(parent_expiry) = policy.expires_at.as_deref() {
+            let parent_expiry = chrono::DateTime::parse_from_rfc3339(parent_expiry)
+                .map_err(|e| error(&root, format!("invalid parent task expiry: {e}")))?;
+            if requested_expiry > parent_expiry {
+                return Err(error(
+                    &root,
+                    format!(
+                        "task_authorization_batch_expiry_exceeds_parent: {}",
+                        requested.work_item_id
+                    ),
+                ));
+            }
+        }
+        requested
+            .budget
+            .validate()
+            .map_err(|e| error(&root, e))?;
+        let declared_checks = contract
+            .verification
+            .iter()
+            .map(|declaration| match declaration {
+                cockpit_protocol::VerificationDeclaration::Legacy(command) => command.as_str(),
+                cockpit_protocol::VerificationDeclaration::Check(check) => check.check.as_str(),
+            })
+            .collect::<std::collections::BTreeSet<_>>();
+        if requested
+            .budget
+            .retry_budget_by_check
+            .keys()
+            .any(|check| !declared_checks.contains(check.as_str()))
+        {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_retry_check_not_declared: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+
+        let status = super::work_item_status_snapshot_with_runtime(
+            &root,
+            &requested.work_item_id,
+            runtime,
+        )?;
+        if status.repository_id != repository_id
+            || status.source_digests.get("contract")
+                != Some(&cockpit_protocol::digest_json(&contract_value).map_err(|e| {
+                    error(&root, e.to_string())
+                })?)
+        {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_member_changed_during_plan: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+        if repository_snapshot
+            .as_ref()
+            .is_some_and(|snapshot| snapshot != &status.snapshot_digest)
+        {
+            return Err(error(
+                &root,
+                "task_authorization_batch_repository_snapshot_changed_during_plan",
+            ));
+        }
+        repository_snapshot = Some(status.snapshot_digest.clone());
+
+        let current_contract_digest =
+            cockpit_protocol::digest_json(&contract_value).map_err(|e| error(&root, e.to_string()))?;
+        if native_json(&root, &relative)? != contract_value {
+            return Err(error(
+                &root,
+                format!(
+                    "task_authorization_batch_member_changed_during_plan: {}",
+                    requested.work_item_id
+                ),
+            ));
+        }
+        members.push(cockpit_protocol::TaskAuthorizationBatchMember {
+            work_item_id: requested.work_item_id.clone(),
+            contract_digest: current_contract_digest,
+            snapshot_digest: status.snapshot_digest,
+            scope_digest,
+            parent_grant_id,
+            actor: policy.agent_actor,
+            authority_source: policy.authority_source,
+            expires_at: requested.expires_at.clone(),
+            actions: requested.actions.clone(),
+            public_target: policy.public_target,
+            budget: requested.budget.clone(),
+        });
+    }
+
+    cockpit_protocol::TaskAuthorizationBatchManifest::new(repository_id, members)
+        .map_err(|e| error(&root, e))
+}
+
 fn error(path: &Path, message: impl Into<String>) -> ObserverError {
     ObserverError::State {
         path: path.into(),

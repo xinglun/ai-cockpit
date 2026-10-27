@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 36] = [
+const TOOL_NAMES: [&str; 37] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -24,6 +24,7 @@ const TOOL_NAMES: [&str; 36] = [
     "work_item_usage_record",
     "work_item_usage_import",
     "work_item_material_review_plan",
+    "work_item_authorization_manifest_plan",
     "work_item_material_review_record",
     "work_item_activation_recovery_plan",
     "work_item_activation_recovery_record",
@@ -712,6 +713,40 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["workItemId"],
         ),
+        "work_item_authorization_manifest_plan" => object_schema(
+            json!({
+                "request": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "schemaVersion": {"type":"integer", "const": cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION},
+                        "repositoryId": string_property("Repository identity shared by every explicit member."),
+                        "members": {
+                            "type":"array", "minItems":1,
+                            "items": {
+                                "type":"object", "additionalProperties":false,
+                                "properties": {
+                                    "workItemId": string_property("One explicitly selected active Work Item; wildcards and future members are not supported."),
+                                    "actions": {"type":"array", "minItems":1, "items":{"type":"string", "enum":cockpit_protocol::TASK_AUTHORIZATION_ACTIONS}},
+                                    "expiresAt": {"type":"string", "format":"date-time"},
+                                    "budget": {
+                                        "type":"object", "additionalProperties":false,
+                                        "properties": {
+                                            "startQuota": {"type":"integer", "minimum":1},
+                                            "retryBudgetByCheck": {"type":"object", "additionalProperties":{"type":"integer", "minimum":0, "maximum":2}}
+                                        },
+                                        "required":["startQuota"]
+                                    }
+                                },
+                                "required":["workItemId","actions","expiresAt","budget"]
+                            }
+                        }
+                    },
+                    "required":["schemaVersion","repositoryId","members"]
+                }
+            }),
+            &["request"],
+        ),
         "work_item_material_review_record" => object_schema(
             json!({
                 "workItemId": string_property("Active Work Item whose material-review decision is being recorded."),
@@ -956,6 +991,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Build the canonical read-only committed-source material-review request for an active Work Item.",
         ),
         (
+            "work_item_authorization_manifest_plan",
+            "Prepare a deterministic read-only manifest for explicit same-repository Work Items; it records no owner decision and issues no durable grants.",
+        ),
+        (
             "work_item_material_review_record",
             "Record a typed self-declared material-review decision only when the exact Contract opt-in and current Runtime action admission allow it.",
         ),
@@ -1075,6 +1114,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_usage_record" => Some(&["request"][..]),
         "work_item_usage_import" => Some(&["request"][..]),
         "work_item_material_review_plan" => Some(&["workItemId"][..]),
+        "work_item_authorization_manifest_plan" => Some(&["request"][..]),
         "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
         "work_item_activation_recovery_plan" => Some(&["workItemId"][..]),
         "work_item_activation_recovery_record" => Some(&["workItemId", "decision"][..]),
@@ -1340,6 +1380,17 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         }
         "work_item_material_review_plan" => {
             require_string(object, "workItemId", name)?;
+        }
+        "work_item_authorization_manifest_plan" => {
+            let value = object
+                .get("request")
+                .ok_or_else(|| format!("invalid arguments for {name}: request is required"))?;
+            let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                serde_json::from_value(value.clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+            request
+                .validate()
+                .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
         }
         "work_item_activation_recovery_plan" => {
             require_string(object, "workItemId", name)?;
@@ -2222,6 +2273,21 @@ pub fn handle_request_for_repo(
                     serde_json::to_value(request).map_err(|error| error.to_string())
                 })
         }),
+        "work_item_authorization_manifest_plan" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                    serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                request.validate().map_err(|error| error.to_string())?;
+                cockpit_repository::prepare_task_authorization_batch_manifest(
+                    repo, &request, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|manifest| {
+                    serde_json::to_value(manifest).map_err(|error| error.to_string())
+                })
+            })
+        }
         "work_item_material_review_record" => require_compatible(repo, runtime).and_then(|_| {
             let work_item_id = arguments["workItemId"]
                 .as_str()

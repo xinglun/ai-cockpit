@@ -129,7 +129,10 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
-pub use task_authorization::{assess_task_authorization, task_authorization_timeout};
+pub use task_authorization::{
+    assess_task_authorization, prepare_task_authorization_batch_manifest,
+    task_authorization_timeout,
+};
 
 /// Compatibility controls cannot supply the Runtime identity required by
 /// activation continuity/recovery. Those items use the admitted Runtime

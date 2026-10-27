@@ -9,7 +9,15 @@ pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
 pub mod review_authority;
+pub mod task_authorization;
 pub mod usage;
+
+pub use task_authorization::{
+    TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION, TaskAuthorizationBatchBudget,
+    TaskAuthorizationBatchDecision, TaskAuthorizationBatchManifest,
+    TaskAuthorizationBatchMember, TaskAuthorizationBatchMemberRequest,
+    TaskAuthorizationBatchRequest, TaskAuthorizationBatchReview, TaskAuthorizationChildGrant,
+};
 
 pub use audit_query::{
     AUDIT_QUERY_SCHEMA_VERSION, AuditEvidenceRef, AuditQueryCoverage, AuditQueryFilters,

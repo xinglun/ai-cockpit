@@ -716,6 +716,11 @@ enum WorkItemCommand {
         #[command(subcommand)]
         command: WorkItemMaterialReviewCommand,
     },
+    /// Prepare a deterministic read-only authorization manifest for explicit same-repository Work Items.
+    AuthorizationManifest {
+        #[command(subcommand)]
+        command: WorkItemAuthorizationManifestCommand,
+    },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
     ReconcileArtifacts {
@@ -975,6 +980,17 @@ enum WorkItemMaterialReviewCommand {
         #[arg(long, help = "Active Work Item identifier.")]
         id: String,
         #[arg(long, help = "Strict MaterialInspectionReviewDecisionInput JSON file.")]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemAuthorizationManifestCommand {
+    /// Build the exact member manifest without recording a decision or issuing grants.
+    Plan {
+        #[arg(long, help = "Repository path for current native member bindings.")]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchRequest JSON file.")]
         input: PathBuf,
     },
 }
@@ -3413,6 +3429,22 @@ fn run() -> Result<()> {
                     )
                     .context("record Work Item material review decision")?;
                     println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
+            WorkItemCommand::AuthorizationManifest { command } => match command {
+                WorkItemAuthorizationManifestCommand::Plan { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                        serde_json::from_slice(&fs::read(&input).context("read authorization batch request")?)
+                            .context("parse strict TaskAuthorizationBatchRequest")?;
+                    request.validate().context("validate authorization batch request")?;
+                    let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("prepare read-only authorization batch manifest")?;
+                    println!("{}", serde_json::to_string_pretty(&manifest)?);
                 }
             },
             WorkItemCommand::ReconcileArtifacts { repo, id } => {

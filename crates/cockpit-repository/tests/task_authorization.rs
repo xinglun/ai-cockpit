@@ -89,21 +89,56 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
 }
 
 fn record_owner(root: &Path) {
-    let contract_path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    record_owner_for(root, WI);
+}
+
+fn record_owner_for(root: &Path, work_item_id: &str) {
+    let contract_path = root.join(format!(".ai/work-items/active/{work_item_id}.contract.json"));
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
     let summary: Value = serde_json::from_slice(
-        &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
+        &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"))).unwrap(),
     )
     .unwrap();
-    record_work_item_governance_controls_with_runtime(root, WI, &::serde_json::json!({"decisionEvidence":{
+    record_work_item_governance_controls_with_runtime(root, work_item_id, &::serde_json::json!({"decisionEvidence":{
         "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
-        "workItemId":WI, "repositoryId":repository_id(root),
+        "workItemId":work_item_id, "repositoryId":repository_id(root),
         "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "preflightDecisionDigest":summary["preflightDecisionDigest"],
         "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
         "recordedAt":chrono::Utc::now().to_rfc3339(), "recordedBy":"agent:test-recorder",
         "reason":"Synthetic isolated owner confirmation; not external identity authentication."
     }}), &runtime()).unwrap();
+}
+
+fn add_batch_member(root: &Path, work_item_id: &str, actor: &str) {
+    let policy = cockpit_protocol::TaskAuthorizationPolicy {
+        schema_version: 1,
+        agent_actor: actor.into(),
+        authority_source: format!("conversation:owner-{work_item_id}"),
+        allowed_actions: vec!["modify_source".into(), "run_verification".into()],
+        closeout_actions: Vec::new(),
+        expires_at: Some("2099-01-01T00:00:00Z".into()),
+        public_target: None,
+    };
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        "prepare explicitly selected batch member",
+        "exercise independent authorization membership",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            task_authorization: Some(policy),
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["batch member stays independently bound".into()],
+            verification_commands: vec!["git diff --check".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start explicit batch member");
+    let contract_path = root.join(format!(".ai/work-items/active/{work_item_id}.contract.json"));
+    preflight_work_item_with_runtime_report(root, &contract_path, &runtime())
+        .expect("preflight batch member");
+    record_owner_for(root, work_item_id);
 }
 
 fn status(root: &Path) -> Value {
@@ -316,6 +351,124 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
         before["taskAuthorization"]["grantId"]
     );
     assert!(!after["humanDecisionRequired"].as_bool().unwrap());
+}
+
+fn batch_member_request(work_item_id: &str) -> cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+    cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+        work_item_id: work_item_id.into(),
+        actions: vec!["modify_source".into(), "run_verification".into()],
+        expires_at: "2098-01-01T00:00:00Z".into(),
+        budget: cockpit_protocol::TaskAuthorizationBatchBudget {
+            start_quota: 1,
+            retry_budget_by_check: std::collections::BTreeMap::from([(
+                "git diff --check".into(),
+                2,
+            )]),
+        },
+    }
+}
+
+#[test]
+fn authorization_manifest_binds_explicit_members_and_is_order_independent() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let second_id = "WI-TASK-AUTHORIZATION-B";
+    add_batch_member(root, second_id, "agent:task-worker-b");
+    let repository = repository_id(root).to_string();
+    let request = |members| cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository.clone(),
+        members,
+    };
+    let first = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![batch_member_request(second_id), batch_member_request(WI)]),
+        &runtime(),
+    )
+    .expect("current independently reviewed members");
+    let reordered = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![batch_member_request(WI), batch_member_request(second_id)]),
+        &runtime(),
+    )
+    .expect("same canonical explicit set");
+    assert_eq!(first, reordered);
+    assert_eq!(first.members.len(), 2);
+    assert_eq!(first.members[0].work_item_id, WI);
+    assert_eq!(first.members[1].work_item_id, second_id);
+    assert_ne!(first.members[0].parent_grant_id, first.members[1].parent_grant_id);
+    assert_ne!(first.members[0].scope_digest, first.members[1].scope_digest);
+    assert!(first.members.iter().all(|member| member.budget.start_quota == 1));
+    assert!(first.validate().is_ok());
+
+    let one = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![batch_member_request(WI)]),
+        &runtime(),
+    )
+    .expect("an omitted member is not implicitly added");
+    assert_eq!(one.members.len(), 1);
+    assert_eq!(one.members[0].work_item_id, WI);
+}
+
+#[test]
+fn authorization_manifest_rejects_foreign_members_actions_checks_and_expiry() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let base = batch_member_request(WI);
+    let make_request = |repository_id: String,
+                        members: Vec<cockpit_protocol::TaskAuthorizationBatchMemberRequest>| {
+        cockpit_protocol::TaskAuthorizationBatchRequest {
+            schema_version: 1,
+            repository_id,
+            members,
+        }
+    };
+    let valid_repo = repository_id(root).to_string();
+
+    assert!(cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &make_request("sha256:foreign-repository".into(), vec![base.clone()]),
+        &runtime(),
+    )
+    .is_err());
+
+    let mut outside_action = base.clone();
+    outside_action.actions.push("create_pull_request".into());
+    assert!(cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &make_request(valid_repo.clone(), vec![outside_action]),
+        &runtime(),
+    )
+    .is_err());
+
+    let mut unknown_check = base.clone();
+    unknown_check
+        .budget
+        .retry_budget_by_check
+        .insert("arbitrary command".into(), 1);
+    assert!(cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &make_request(valid_repo.clone(), vec![unknown_check]),
+        &runtime(),
+    )
+    .is_err());
+
+    let mut late_expiry = base.clone();
+    late_expiry.expires_at = "2100-01-01T00:00:00Z".into();
+    assert!(cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &make_request(valid_repo.clone(), vec![late_expiry]),
+        &runtime(),
+    )
+    .is_err());
+
+    assert!(cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &make_request(valid_repo, vec![base.clone(), base]),
+        &runtime(),
+    )
+    .is_err());
 }
 
 #[test]
