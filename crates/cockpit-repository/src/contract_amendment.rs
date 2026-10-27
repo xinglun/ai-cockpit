@@ -3682,7 +3682,7 @@ mod tests {
         assert!(
             error
                 .to_string()
-                .contains("activation changed before its commit marker"),
+                .contains("activation owner requires a named branch"),
             "{error}"
         );
         assert_eq!(fs::read(&committed_path).unwrap(), committed_before);
