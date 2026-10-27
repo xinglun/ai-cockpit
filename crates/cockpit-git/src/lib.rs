@@ -2985,3 +2985,77 @@ where
     normalized.dedup();
     normalized
 }
+
+#[cfg(test)]
+mod path_introduction_tests {
+    use super::GitRepository;
+    use std::{fs, path::Path, process::Command};
+
+    fn git(root: &Path, args: &[&str]) -> Vec<u8> {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("git command");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output.stdout
+    }
+
+    fn commit(root: &Path, message: &str) -> String {
+        git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                message,
+            ],
+        );
+        String::from_utf8(git(root, &["rev-parse", "HEAD"]))
+            .expect("commit OID")
+            .trim()
+            .to_owned()
+    }
+
+    #[test]
+    fn first_path_introduction_reads_the_literal_path_from_its_first_commit() {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        let relative = "records/[activation]*.json";
+        let path = root.join(relative);
+        fs::create_dir_all(path.parent().expect("record parent")).expect("record directory");
+        fs::write(&path, b"historical activation record\n").expect("first bytes");
+        git(root, &["add", "--", ":(literal)records/[activation]*.json"]);
+        let first_revision = commit(root, "add activation record");
+
+        fs::write(&path, b"later working-tree version\n").expect("modify record");
+        git(root, &["add", "--", ":(literal)records/[activation]*.json"]);
+        let head = commit(root, "modify record later");
+        git(root, &["checkout", "--detach", "--quiet", &head]);
+
+        let expected_blob = String::from_utf8(git(
+            root,
+            &["rev-parse", &format!("{first_revision}:{relative}")],
+        ))
+        .expect("blob OID");
+        let repository = GitRepository::discover(root).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&head, relative)
+            .expect("find first literal-path introduction");
+
+        assert_eq!(introduction.revision, first_revision);
+        assert_eq!(introduction.blob_oid, expected_blob.trim());
+        assert_eq!(introduction.bytes, b"historical activation record\n");
+    }
+}
