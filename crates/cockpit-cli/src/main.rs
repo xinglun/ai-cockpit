@@ -3441,6 +3441,7 @@ fn run() -> Result<()> {
                         .context("parse strict TaskAuthorizationBatchRequest")?;
                     request
                         .validate()
+                        .map_err(anyhow::Error::msg)
                         .context("validate authorization batch request")?;
                     let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
                         &repo,
