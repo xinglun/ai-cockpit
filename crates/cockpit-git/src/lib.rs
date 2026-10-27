@@ -1215,6 +1215,8 @@ fn append_cleanup_error(error: String, cleanup: Result<(), String>) -> String {
 
 struct BoundedProcess {
     child: Child,
+    reaped: bool,
+    termination_requested: bool,
     #[cfg(windows)]
     job: Option<windows_job::Job>,
 }
@@ -1234,6 +1236,8 @@ impl BoundedProcess {
                 .map_err(|error| GitError::Command(error.to_string()))?;
             let process = Self {
                 child,
+                reaped: false,
+                termination_requested: false,
                 job: Some(job),
             };
             assign_job_before_resume(
@@ -1250,11 +1254,30 @@ impl BoundedProcess {
             let child = command
                 .spawn()
                 .map_err(|error| GitError::Command(error.to_string()))?;
-            Ok(Self { child })
+            Ok(Self {
+                child,
+                reaped: false,
+                termination_requested: false,
+            })
         }
     }
 
+    fn try_wait(&mut self) -> std::io::Result<Option<std::process::ExitStatus>> {
+        let status = self.child.try_wait()?;
+        if status.is_some() {
+            self.reaped = true;
+        }
+        Ok(status)
+    }
+
+    fn wait(&mut self) -> std::io::Result<std::process::ExitStatus> {
+        let status = self.child.wait()?;
+        self.reaped = true;
+        Ok(status)
+    }
+
     fn terminate(&mut self) {
+        self.termination_requested = true;
         #[cfg(unix)]
         {
             // Every bounded Git child owns a fresh process group. Killing the
@@ -1296,14 +1319,15 @@ impl BoundedProcess {
         // is still suspended outside the job and must be killed directly.
         self.job.take();
         let _ = self.child.kill();
-        self.child
-            .wait()
+        self.termination_requested = true;
+        self.wait()
             .map(|_| ())
             .map_err(|error| format!("could not wait for failed suspended Git process: {error}"))
     }
 
     #[cfg(windows)]
     fn terminate_job(&mut self) {
+        self.termination_requested = true;
         if let Some(job) = self.job.take() {
             let _ = job.terminate();
             drop(job);
@@ -1313,6 +1337,17 @@ impl BoundedProcess {
     #[cfg(windows)]
     fn terminate_descendants_after_parent_exit(&mut self) {
         self.terminate_job();
+    }
+}
+
+impl Drop for BoundedProcess {
+    fn drop(&mut self) {
+        if !self.reaped && !self.termination_requested {
+            self.terminate();
+        }
+        if !self.reaped {
+            let _ = self.wait();
+        }
     }
 }
 
@@ -2645,11 +2680,13 @@ impl GitRepository {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum BoundedStream {
     Stdout,
     Stderr,
 }
+
+type BoundedReaderTask = Box<dyn FnOnce() + Send + 'static>;
 
 enum BoundedReadMessage {
     Chunk(BoundedStream, Vec<u8>),
@@ -2743,12 +2780,45 @@ fn bounded_process_output_with_timeout(
 }
 
 fn bounded_process_output_inner(
-    mut command: Command,
+    command: Command,
     max_output_bytes: usize,
     timeout: Option<Duration>,
 ) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner_with_reader_spawner(
+        command,
+        max_output_bytes,
+        timeout,
+        spawn_bounded_reader,
+    )
+}
+
+fn spawn_bounded_reader(
+    stream: BoundedStream,
+    task: BoundedReaderTask,
+) -> std::io::Result<thread::JoinHandle<()>> {
+    let name = bounded_stream_name(stream);
+    thread::Builder::new().name(name.to_owned()).spawn(task)
+}
+
+fn bounded_stream_name(stream: BoundedStream) -> &'static str {
+    match stream {
+        BoundedStream::Stdout => "stdout",
+        BoundedStream::Stderr => "stderr",
+    }
+}
+
+fn bounded_process_output_inner_with_reader_spawner<F>(
+    mut command: Command,
+    max_output_bytes: usize,
+    timeout: Option<Duration>,
+    mut spawn_reader: F,
+) -> Result<BoundedGitOutput, GitError>
+where
+    F: FnMut(BoundedStream, BoundedReaderTask) -> std::io::Result<thread::JoinHandle<()>>,
+{
     let started = Instant::now();
     command.env("GIT_NO_LAZY_FETCH", "1");
+    command.stdin(Stdio::null());
     command.stdout(Stdio::piped()).stderr(Stdio::piped());
     let mut child = BoundedProcess::spawn(command)?;
     let stdout = child
@@ -2766,17 +2836,45 @@ fn bounded_process_output_inner(
     let stdout_sender = sender.clone();
     let stdout_cancelled = Arc::clone(&reader_cancelled);
     let stderr_cancelled = Arc::clone(&reader_cancelled);
-    let stdout_reader = thread::spawn(move || {
-        forward_pipe(
-            stdout,
-            BoundedStream::Stdout,
-            stdout_sender,
-            stdout_cancelled,
-        )
-    });
-    let stderr_reader = thread::spawn(move || {
-        forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)
-    });
+    let stdout_reader = match spawn_reader(
+        BoundedStream::Stdout,
+        Box::new(move || {
+            forward_pipe(
+                stdout,
+                BoundedStream::Stdout,
+                stdout_sender,
+                stdout_cancelled,
+            )
+        }),
+    ) {
+        Ok(reader) => reader,
+        Err(error) => {
+            return Err(fail_bounded_reader_start(
+                &mut child,
+                BoundedStream::Stdout,
+                error,
+                &reader_cancelled,
+                receiver,
+                Vec::new(),
+            ));
+        }
+    };
+    let stderr_reader = match spawn_reader(
+        BoundedStream::Stderr,
+        Box::new(move || forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)),
+    ) {
+        Ok(reader) => reader,
+        Err(error) => {
+            return Err(fail_bounded_reader_start(
+                &mut child,
+                BoundedStream::Stderr,
+                error,
+                &reader_cancelled,
+                receiver,
+                vec![stdout_reader],
+            ));
+        }
+    };
 
     let mut stdout_bytes = Vec::new();
     let mut stderr_bytes = Vec::new();
@@ -2857,7 +2955,7 @@ fn bounded_process_output_inner(
         }
 
         if !process_exit_observed {
-            match child.child.try_wait() {
+            match child.try_wait() {
                 Ok(Some(_)) => {
                     process_exit_observed = true;
                     #[cfg(windows)]
@@ -2886,7 +2984,6 @@ fn bounded_process_output_inner(
         }
     }
     let status = child
-        .child
         .wait()
         .map_err(|error| GitError::Command(error.to_string()))?;
     let stdout_panicked = stdout_reader.join().is_err();
@@ -2929,6 +3026,36 @@ fn request_bounded_termination(child: &mut BoundedProcess, requested_at: &mut Op
         terminate_bounded_process_group(child);
         *requested_at = Some(Instant::now());
     }
+}
+
+fn fail_bounded_reader_start(
+    child: &mut BoundedProcess,
+    stream: BoundedStream,
+    error: std::io::Error,
+    reader_cancelled: &AtomicBool,
+    receiver: mpsc::Receiver<BoundedReadMessage>,
+    readers: Vec<thread::JoinHandle<()>>,
+) -> GitError {
+    reader_cancelled.store(true, Ordering::Release);
+    drop(receiver);
+    child.terminate();
+
+    let wait_error = child.wait().err();
+    let mut reader_panicked = false;
+    for reader in readers {
+        reader_panicked |= reader.join().is_err();
+    }
+    let mut message = format!(
+        "failed to spawn Git {} output reader thread: {error}",
+        bounded_stream_name(stream)
+    );
+    if let Some(wait_error) = wait_error {
+        message.push_str(&format!("; failed to reap Git child: {wait_error}"));
+    }
+    if reader_panicked {
+        message.push_str("; an output reader panicked during cleanup");
+    }
+    GitError::Command(message)
 }
 
 fn command_error(stderr: &[u8]) -> GitError {
@@ -3694,6 +3821,147 @@ mod path_introduction_tests {
             Err(GitError::AmbiguousPathIntroduction { count: 2 })
         ));
         assert_ne!(head_before_readd, head);
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod bounded_reader_spawn_failure_tests {
+    use super::{
+        BoundedProcess, BoundedReaderTask, BoundedStream, GitError,
+        bounded_process_output_inner_with_reader_spawner, kill, spawn_bounded_reader,
+    };
+    use std::{
+        fs, io,
+        os::unix::process::CommandExt,
+        path::Path,
+        process::{Command, Stdio},
+        thread,
+        time::{Duration, Instant, SystemTime, UNIX_EPOCH},
+    };
+
+    const WNOHANG: i32 = 1;
+    const ECHILD: i32 = 10;
+
+    unsafe extern "C" {
+        fn waitpid(pid: i32, status: *mut i32, options: i32) -> i32;
+    }
+
+    fn child_command(pid_path: &Path) -> Command {
+        let mut command = Command::new("sh");
+        command
+            .args([
+                "-c",
+                "printf '%s' \"$$\" > \"$COCKPIT_GIT_TEST_PID_FILE\"; exec sleep 30",
+            ])
+            .env("COCKPIT_GIT_TEST_PID_FILE", pid_path)
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .process_group(0);
+        command
+    }
+
+    fn test_directory() -> std::path::PathBuf {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock after Unix epoch")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!(
+            "cockpit-git-reader-spawn-{}-{nonce}",
+            std::process::id()
+        ));
+        fs::create_dir(&path).expect("create isolated test directory");
+        path
+    }
+
+    fn wait_for_pid(path: &Path, timeout: Duration) -> Option<i32> {
+        let deadline = Instant::now() + timeout;
+        loop {
+            if let Ok(value) = fs::read_to_string(path)
+                && let Ok(pid) = value.parse::<i32>()
+            {
+                return Some(pid);
+            }
+            if Instant::now() >= deadline {
+                return None;
+            }
+            thread::sleep(Duration::from_millis(10));
+        }
+    }
+
+    fn assert_child_was_reaped(pid: i32) {
+        let mut status = 0;
+        let result = unsafe { waitpid(pid, &mut status, WNOHANG) };
+        if result == pid || result == 0 {
+            // Keep the regression itself from leaving a zombie if it catches
+            // a future cleanup regression.
+            let _ = unsafe { kill(-pid, 9) };
+            let _ = unsafe { waitpid(pid, &mut status, 0) };
+            panic!("bounded Git child {pid} was not reaped by its owner");
+        }
+        assert_eq!(result, -1, "waitpid should report ECHILD for child {pid}");
+        assert_eq!(
+            io::Error::last_os_error().raw_os_error(),
+            Some(ECHILD),
+            "bounded Git child {pid} must not remain waitable"
+        );
+    }
+
+    fn assert_reader_spawn_failure_reaps_child(failing_stream: BoundedStream) {
+        let directory = test_directory();
+        let pid_path = directory.join("child.pid");
+        let mut child_started = false;
+        let result = bounded_process_output_inner_with_reader_spawner(
+            child_command(&pid_path),
+            1024,
+            Some(Duration::from_secs(5)),
+            |stream, task: BoundedReaderTask| {
+                if stream == failing_stream {
+                    child_started = wait_for_pid(&pid_path, Duration::from_secs(5)).is_some();
+                    Err(io::Error::new(
+                        io::ErrorKind::WouldBlock,
+                        "injected reader thread creation failure",
+                    ))
+                } else {
+                    spawn_bounded_reader(stream, task)
+                }
+            },
+        );
+
+        assert!(child_started, "test child must be alive before injection");
+        assert!(matches!(
+            result,
+            Err(GitError::Command(message))
+                if message.contains("reader thread")
+                    && message.contains("injected reader thread creation failure")
+        ));
+        let pid = fs::read_to_string(&pid_path)
+            .expect("test child wrote its pid")
+            .parse::<i32>()
+            .expect("test child pid is numeric");
+        assert_child_was_reaped(pid);
+        fs::remove_dir_all(directory).expect("remove isolated test directory");
+    }
+
+    #[test]
+    fn stdout_reader_creation_failure_terminates_and_reaps_git_child() {
+        assert_reader_spawn_failure_reaps_child(BoundedStream::Stdout);
+    }
+
+    #[test]
+    fn stderr_reader_creation_failure_joins_stdout_and_reaps_git_child() {
+        assert_reader_spawn_failure_reaps_child(BoundedStream::Stderr);
+    }
+
+    #[test]
+    fn dropping_bounded_process_terminates_and_reaps_child() {
+        let directory = test_directory();
+        let pid_path = directory.join("child.pid");
+        let child = BoundedProcess::spawn(child_command(&pid_path)).expect("spawn bounded child");
+        let pid = wait_for_pid(&pid_path, Duration::from_secs(5)).expect("test child started");
+        drop(child);
+        assert_child_was_reaped(pid);
+        fs::remove_dir_all(directory).expect("remove isolated test directory");
     }
 }
 
