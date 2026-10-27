@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    TaskAuthorizationBatchBudget, TaskAuthorizationBatchDecision,
-    TaskAuthorizationBatchManifest, TaskAuthorizationBatchMember,
-    TaskAuthorizationBatchReview, TaskAuthorizationTarget,
+    TaskAuthorizationBatchBudget, TaskAuthorizationBatchDecision, TaskAuthorizationBatchManifest,
+    TaskAuthorizationBatchMember, TaskAuthorizationBatchReceipt, TaskAuthorizationBatchReview,
+    TaskAuthorizationTarget,
 };
 use std::collections::BTreeMap;
 
@@ -50,12 +50,18 @@ fn review(manifest: &TaskAuthorizationBatchManifest) -> TaskAuthorizationBatchRe
 fn exact_member_set_has_a_stable_digest_and_independent_child_grants() {
     let first = TaskAuthorizationBatchManifest::new(
         "sha256:repo",
-        vec![member("WI-B", "create_pull_request"), member("WI-A", "modify_source")],
+        vec![
+            member("WI-B", "create_pull_request"),
+            member("WI-A", "modify_source"),
+        ],
     )
     .expect("manifest");
     let reordered = TaskAuthorizationBatchManifest::new(
         "sha256:repo",
-        vec![member("WI-A", "modify_source"), member("WI-B", "create_pull_request")],
+        vec![
+            member("WI-A", "modify_source"),
+            member("WI-B", "create_pull_request"),
+        ],
     )
     .expect("same canonical manifest");
     assert_eq!(first, reordered);
@@ -66,16 +72,24 @@ fn exact_member_set_has_a_stable_digest_and_independent_child_grants() {
         .expect("exact review claim derives separate candidates");
     assert_eq!(grants.len(), 2);
     assert_ne!(grants[0].grant_id, grants[1].grant_id);
-    assert_ne!(grants[0].member.parent_grant_id, grants[1].member.parent_grant_id);
+    assert_ne!(
+        grants[0].member.parent_grant_id,
+        grants[1].member.parent_grant_id
+    );
     assert_eq!(grants[0].member.actions, ["modify_source"]);
     assert_eq!(grants[1].member.actions, ["create_pull_request"]);
-    assert!(grants.iter().all(|grant| grant.manifest_digest == first.manifest_digest));
+    assert!(
+        grants
+            .iter()
+            .all(|grant| grant.manifest_digest == first.manifest_digest)
+    );
 }
 
 #[test]
 fn review_for_another_manifest_cannot_issue_child_grants() {
-    let manifest = TaskAuthorizationBatchManifest::new("sha256:repo", vec![member("WI-A", "modify_source")])
-        .expect("manifest");
+    let manifest =
+        TaskAuthorizationBatchManifest::new("sha256:repo", vec![member("WI-A", "modify_source")])
+            .expect("manifest");
     let mut wrong = review(&manifest);
     wrong.manifest_digest = digest("different manifest");
     assert!(manifest.derive_child_grant_candidates(&wrong).is_err());
@@ -86,18 +100,66 @@ fn review_for_another_manifest_cannot_issue_child_grants() {
 }
 
 #[test]
-fn manifest_rejects_duplicates_invalid_actions_and_unbounded_retry_budgets() {
-    assert!(TaskAuthorizationBatchManifest::new(
+fn immutable_batch_receipt_binds_review_runtime_and_all_child_grants() {
+    let manifest = TaskAuthorizationBatchManifest::new(
         "sha256:repo",
-        vec![member("WI-A", "modify_source"), member("WI-A", "modify_source")],
+        vec![
+            member("WI-A", "modify_source"),
+            member("WI-B", "run_verification"),
+        ],
     )
-    .is_err());
+    .expect("manifest");
+    let receipt = TaskAuthorizationBatchReceipt::new(
+        manifest,
+        review(
+            &TaskAuthorizationBatchManifest::new(
+                "sha256:repo",
+                vec![
+                    member("WI-B", "run_verification"),
+                    member("WI-A", "modify_source"),
+                ],
+            )
+            .expect("same manifest"),
+        ),
+        "1.0.1",
+        digest("fixed runtime"),
+        "2026-10-27T00:00:00Z",
+    )
+    .expect("exact review receipt");
+    receipt
+        .validate_integrity()
+        .expect("valid immutable receipt");
+    assert_eq!(receipt.child_grants.len(), 2);
+    assert_eq!(receipt.child_grants[0].work_item_id, "WI-A");
+    assert_eq!(receipt.child_grants[1].work_item_id, "WI-B");
+    assert!(receipt.recorded_by.starts_with("runtime:1.0.1:sha256:"));
+
+    let mut changed = receipt.clone();
+    changed.child_grants[0].member.actions = vec!["merge_pull_request".into()];
+    assert!(changed.validate_integrity().is_err());
+}
+
+#[test]
+fn manifest_rejects_duplicates_invalid_actions_and_unbounded_retry_budgets() {
+    assert!(
+        TaskAuthorizationBatchManifest::new(
+            "sha256:repo",
+            vec![
+                member("WI-A", "modify_source"),
+                member("WI-A", "modify_source")
+            ],
+        )
+        .is_err()
+    );
 
     let mut unknown = member("WI-A", "arbitrary_command");
     assert!(TaskAuthorizationBatchManifest::new("sha256:repo", vec![unknown.clone()]).is_err());
 
     unknown.actions = vec!["modify_source".into()];
-    unknown.budget.retry_budget_by_check.insert("cargo test".into(), 3);
+    unknown
+        .budget
+        .retry_budget_by_check
+        .insert("cargo test".into(), 3);
     assert!(TaskAuthorizationBatchManifest::new("sha256:repo", vec![unknown.clone()]).is_err());
 
     unknown.budget.retry_budget_by_check.clear();

@@ -130,8 +130,11 @@ use execution_context::{
 };
 pub use governance_controls::*;
 pub use task_authorization::{
-    assess_task_authorization, prepare_task_authorization_batch_manifest,
-    task_authorization_timeout,
+    assess_task_authorization, inspect_task_authorization_batch_check_outcome,
+    inspect_task_authorization_batch_member, prepare_task_authorization_batch_manifest,
+    record_task_authorization_batch_check_outcome, record_task_authorization_batch_review,
+    reserve_task_authorization_batch_check_attempt, reserve_task_authorization_batch_start,
+    task_authorization_timeout, terminate_task_authorization_batch_member,
 };
 
 /// Compatibility controls cannot supply the Runtime identity required by

@@ -3435,9 +3435,13 @@ fn run() -> Result<()> {
                 WorkItemAuthorizationManifestCommand::Plan { repo, input } => {
                     require_compatible(&repo, &runtime_context)?;
                     let request: cockpit_protocol::TaskAuthorizationBatchRequest =
-                        serde_json::from_slice(&fs::read(&input).context("read authorization batch request")?)
-                            .context("parse strict TaskAuthorizationBatchRequest")?;
-                    request.validate().context("validate authorization batch request")?;
+                        serde_json::from_slice(
+                            &fs::read(&input).context("read authorization batch request")?,
+                        )
+                        .context("parse strict TaskAuthorizationBatchRequest")?;
+                    request
+                        .validate()
+                        .context("validate authorization batch request")?;
                     let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
                         &repo,
                         &request,

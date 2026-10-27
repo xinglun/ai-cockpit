@@ -13,10 +13,15 @@ pub mod task_authorization;
 pub mod usage;
 
 pub use task_authorization::{
-    TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION, TaskAuthorizationBatchBudget,
-    TaskAuthorizationBatchDecision, TaskAuthorizationBatchManifest,
-    TaskAuthorizationBatchMember, TaskAuthorizationBatchMemberRequest,
-    TaskAuthorizationBatchRequest, TaskAuthorizationBatchReview, TaskAuthorizationChildGrant,
+    TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION, TaskAuthorizationBatchAttemptOutcome,
+    TaskAuthorizationBatchBudget, TaskAuthorizationBatchCheckRequest,
+    TaskAuthorizationBatchDecision, TaskAuthorizationBatchEvent, TaskAuthorizationBatchEventKind,
+    TaskAuthorizationBatchInspectionRequest, TaskAuthorizationBatchManifest,
+    TaskAuthorizationBatchMember, TaskAuthorizationBatchMemberLedger,
+    TaskAuthorizationBatchMemberRequest, TaskAuthorizationBatchOutcomeRequest,
+    TaskAuthorizationBatchReceipt, TaskAuthorizationBatchRequest, TaskAuthorizationBatchReview,
+    TaskAuthorizationBatchStartRequest, TaskAuthorizationBatchTerminationRequest,
+    TaskAuthorizationChildGrant,
 };
 
 pub use audit_query::{

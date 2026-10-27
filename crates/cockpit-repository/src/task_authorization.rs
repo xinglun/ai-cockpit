@@ -1,12 +1,23 @@
 //! Local native owner provenance and current task authority. Evidence freshness is separate.
-use super::{ObserverError, legacy_closeout_source::PinnedRoot};
+use super::{
+    ObserverError, acquire_lifecycle_lock, create_and_open_cap_directory,
+    legacy_closeout_source::{PinnedRoot, read_regular_cap_bounded},
+    open_cap_directory_nofollow_strict,
+};
+use crate::evidence_store::write_cap_immutable;
+use cap_std::fs::Dir;
 use chrono::{DateTime, Utc};
 use cockpit_protocol::{
     AssuranceLevel, Contract, PreflightDecisionEvidence, RuntimeContext, TaskAuthorizationPolicy,
     TaskAuthorizationProjection, TaskAuthorizationTerminationRequest,
 };
 use serde_json::{Value, json};
+use std::fs;
 use std::path::{Component, Path, PathBuf};
+
+const TASK_AUTHORIZATION_BATCH_DIRECTORY: &str = "task-authorization-batches";
+const TASK_AUTHORIZATION_BATCH_MAX_BYTES: u64 = 1024 * 1024;
+const TASK_AUTHORIZATION_BATCH_MAX_EVENTS: usize = 4096;
 
 /// Prepare a deterministic batch authorization manifest from current native
 /// Work Item records. This operation is read-only; it neither records the
@@ -16,16 +27,16 @@ pub fn prepare_task_authorization_batch_manifest(
     request: &cockpit_protocol::TaskAuthorizationBatchRequest,
     runtime: &RuntimeContext,
 ) -> Result<cockpit_protocol::TaskAuthorizationBatchManifest, ObserverError> {
-    request
-        .validate()
-        .map_err(|e| error(root, format!("task_authorization_batch_request_invalid: {e}")))?;
+    request.validate().map_err(|e| {
+        error(
+            root,
+            format!("task_authorization_batch_request_invalid: {e}"),
+        )
+    })?;
     let root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
     let repository_id = super::repository_id(&root).to_string();
     if request.repository_id != repository_id {
-        return Err(error(
-            &root,
-            "task_authorization_batch_repository_mismatch",
-        ));
+        return Err(error(&root, "task_authorization_batch_repository_mismatch"));
     }
 
     let mut members = Vec::with_capacity(request.members.len());
@@ -126,10 +137,7 @@ pub fn prepare_task_authorization_batch_manifest(
                 ));
             }
         }
-        requested
-            .budget
-            .validate()
-            .map_err(|e| error(&root, e))?;
+        requested.budget.validate().map_err(|e| error(&root, e))?;
         let declared_checks = contract
             .verification
             .iter()
@@ -153,16 +161,14 @@ pub fn prepare_task_authorization_batch_manifest(
             ));
         }
 
-        let status = super::work_item_status_snapshot_with_runtime(
-            &root,
-            &requested.work_item_id,
-            runtime,
-        )?;
+        let status =
+            super::work_item_status_snapshot_with_runtime(&root, &requested.work_item_id, runtime)?;
         if status.repository_id != repository_id
             || status.source_digests.get("contract")
-                != Some(&cockpit_protocol::digest_json(&contract_value).map_err(|e| {
-                    error(&root, e.to_string())
-                })?)
+                != Some(
+                    &cockpit_protocol::digest_json(&contract_value)
+                        .map_err(|e| error(&root, e.to_string()))?,
+                )
         {
             return Err(error(
                 &root,
@@ -183,8 +189,8 @@ pub fn prepare_task_authorization_batch_manifest(
         }
         repository_snapshot = Some(status.snapshot_digest.clone());
 
-        let current_contract_digest =
-            cockpit_protocol::digest_json(&contract_value).map_err(|e| error(&root, e.to_string()))?;
+        let current_contract_digest = cockpit_protocol::digest_json(&contract_value)
+            .map_err(|e| error(&root, e.to_string()))?;
         if native_json(&root, &relative)? != contract_value {
             return Err(error(
                 &root,
@@ -211,6 +217,1225 @@ pub fn prepare_task_authorization_batch_manifest(
 
     cockpit_protocol::TaskAuthorizationBatchManifest::new(repository_id, members)
         .map_err(|e| error(&root, e))
+}
+
+/// Persist one exact owner review and its independently derived child grants.
+/// The request is re-planned under every member lifecycle lock, in sorted WI
+/// order, so a member cannot change between review binding and the atomic
+/// receipt publication. Replaying the exact decision is idempotent.
+pub fn record_task_authorization_batch_review(
+    root: &Path,
+    manifest: &cockpit_protocol::TaskAuthorizationBatchManifest,
+    review: &cockpit_protocol::TaskAuthorizationBatchReview,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchReceipt, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    manifest.validate().map_err(|source| {
+        error(
+            &root,
+            format!("task_authorization_batch_manifest_invalid: {source}"),
+        )
+    })?;
+    if manifest.repository_id != super::repository_id(&root).to_string() {
+        return Err(error(&root, "task_authorization_batch_repository_mismatch"));
+    }
+    let request = request_from_manifest(manifest);
+
+    // Manifest members are uniquely sorted, so all callers acquire locks in
+    // the same order and cannot deadlock while binding a multi-WI decision.
+    let mut guards = Vec::with_capacity(manifest.members.len());
+    for member in &manifest.members {
+        guards.push(acquire_lifecycle_lock(&root, &member.work_item_id)?);
+    }
+    let current = prepare_task_authorization_batch_manifest(&root, &request, runtime)?;
+    if current != *manifest {
+        return Err(error(
+            &root,
+            "task_authorization_batch_manifest_stale_before_owner_decision",
+        ));
+    }
+    let candidate = cockpit_protocol::TaskAuthorizationBatchReceipt::new(
+        manifest.clone(),
+        review.clone(),
+        runtime.runtime_version.clone(),
+        runtime.runtime_digest.clone(),
+        super::now(),
+    )
+    .map_err(|source| {
+        error(
+            &root,
+            format!("task_authorization_batch_review_invalid: {source}"),
+        )
+    })?;
+
+    let (pinned, directory, path) = open_task_authorization_batch_directory(&root, true)?;
+    let name = batch_receipt_name(&candidate.manifest.manifest_digest)
+        .map_err(|source| error(&path, source))?;
+    let receipt_path = path.join(&name);
+    if let Some(existing) = read_batch_receipt_file(&root, &directory, &receipt_path, &name)? {
+        if existing.manifest == candidate.manifest
+            && existing.review == candidate.review
+            && existing.runtime_version == candidate.runtime_version
+            && existing.runtime_digest == candidate.runtime_digest
+        {
+            pinned.require_current()?;
+            return Ok(existing);
+        }
+        return Err(error(
+            &receipt_path,
+            "task_authorization_batch_manifest_already_reviewed_with_different_decision",
+        ));
+    }
+    let bytes = serde_json::to_vec_pretty(&candidate).map_err(|source| {
+        error(
+            &receipt_path,
+            format!("serialize task authorization batch receipt: {source}"),
+        )
+    })?;
+    if bytes.len() as u64 > TASK_AUTHORIZATION_BATCH_MAX_BYTES {
+        return Err(error(
+            &receipt_path,
+            "task_authorization_batch_receipt_too_large",
+        ));
+    }
+    write_cap_immutable(&directory, &name, &receipt_path, &bytes)?;
+    pinned.require_current()?;
+    let persisted =
+        read_batch_receipt_file(&root, &directory, &receipt_path, &name)?.ok_or_else(|| {
+            error(
+                &receipt_path,
+                "task_authorization_batch_receipt_not_persisted",
+            )
+        })?;
+    for (guard, member) in guards.iter().zip(&manifest.members) {
+        // The guard subject is already bound at acquisition; explicitly
+        // revalidate its pinned root before returning the new authority.
+        guard.require_subject(&root, &member.work_item_id)?;
+    }
+    if persisted != candidate {
+        return Err(error(
+            &receipt_path,
+            "task_authorization_batch_receipt_readback_mismatch",
+        ));
+    }
+    Ok(persisted)
+}
+
+/// Atomically reserve one member start. The member lifecycle lock covers the
+/// quota read and immutable event publication; exact request replay returns
+/// the original reservation instead of spending quota again.
+pub fn reserve_task_authorization_batch_start(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchStartRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let (root, receipt, member, guard) = lock_and_load_batch_member(
+        root,
+        &request.manifest_digest,
+        &request.work_item_id,
+        runtime,
+    )?;
+    require_active_batch_member(&root, &member, runtime)?;
+    validate_batch_caller(&root, &member, &request.caller)?;
+    validate_operation_id(&root, &request.operation_id)?;
+    if request.schema_version != cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION
+        || !member.actions.contains(&request.action)
+    {
+        return Err(error(
+            &root,
+            "task_authorization_batch_start_request_invalid",
+        ));
+    }
+    let events = read_batch_member_events(&root, &receipt, &member, true)?;
+    ensure_child_grant_not_terminated(&root, &events)?;
+    if let Some(existing) = events.iter().find(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved
+            && event.operation_id == request.operation_id
+    }) {
+        if existing.action.as_deref() == Some(&request.action) {
+            guard.require_subject(&root, &member.work_item_id)?;
+            return Ok(existing.clone());
+        }
+        return Err(error(
+            &root,
+            "task_authorization_batch_operation_id_conflict",
+        ));
+    }
+    let starts = events
+        .iter()
+        .filter(|event| {
+            event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved
+        })
+        .count();
+    if starts >= member.budget.start_quota as usize {
+        return Err(error(
+            &root,
+            "task_authorization_batch_start_quota_exhausted",
+        ));
+    }
+    let event = new_batch_event(
+        &root,
+        &receipt,
+        &member,
+        &request.operation_id,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved,
+        Some(request.action.clone()),
+        None,
+        None,
+        None,
+        None,
+        "reserve one start for this exact member operation",
+    )?;
+    let persisted = append_batch_member_event(&root, &member, event)?;
+    guard.require_subject(&root, &member.work_item_id)?;
+    Ok(persisted)
+}
+
+/// Reserve the first attempt or a permitted retry of one exact declared check.
+/// An unresolved or uncertain predecessor must be inspected before another
+/// attempt can be reserved.
+pub fn reserve_task_authorization_batch_check_attempt(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchCheckRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let (root, receipt, member, guard) = lock_and_load_batch_member(
+        root,
+        &request.manifest_digest,
+        &request.work_item_id,
+        runtime,
+    )?;
+    require_active_batch_member(&root, &member, runtime)?;
+    validate_batch_caller(&root, &member, &request.caller)?;
+    validate_operation_id(&root, &request.operation_id)?;
+    if request.schema_version != cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION
+        || !member
+            .actions
+            .iter()
+            .any(|action| action == "run_verification")
+        || request.check_id.trim().is_empty()
+        || request.check_id.trim() != request.check_id
+    {
+        return Err(error(
+            &root,
+            "task_authorization_batch_check_request_invalid",
+        ));
+    }
+    let contract = current_member_contract(&root, &member)?;
+    let declared_checks = contract
+        .verification
+        .iter()
+        .map(|declaration| match declaration {
+            cockpit_protocol::VerificationDeclaration::Legacy(command) => command.as_str(),
+            cockpit_protocol::VerificationDeclaration::Check(check) => check.check.as_str(),
+        })
+        .collect::<std::collections::BTreeSet<_>>();
+    if !declared_checks.contains(request.check_id.as_str()) {
+        return Err(error(&root, "task_authorization_batch_check_not_declared"));
+    }
+    let events = read_batch_member_events(&root, &receipt, &member, true)?;
+    ensure_child_grant_not_terminated(&root, &events)?;
+    if !events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved
+            && event.operation_id == request.operation_id
+    }) {
+        return Err(error(&root, "task_authorization_batch_start_required"));
+    }
+    let reservations = events
+        .iter()
+        .filter(|event| {
+            event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved
+                && event.operation_id == request.operation_id
+                && event.check_id.as_deref() == Some(&request.check_id)
+        })
+        .collect::<Vec<_>>();
+    let next_attempt = (reservations.len() + 1) as u32;
+    for (index, reservation) in reservations.iter().enumerate() {
+        if reservation.attempt != Some((index + 1) as u32) {
+            return Err(error(
+                &root,
+                "task_authorization_batch_attempt_sequence_invalid",
+            ));
+        }
+    }
+    if let Some(previous) = reservations.last() {
+        let outcome = latest_check_outcome(
+            &events,
+            &request.operation_id,
+            &request.check_id,
+            next_attempt - 1,
+        );
+        match outcome {
+            None => {
+                return Err(error(
+                    &root,
+                    "task_authorization_batch_attempt_outcome_unresolved",
+                ));
+            }
+            Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Unknown) => {
+                return Err(error(
+                    &root,
+                    "task_authorization_batch_uncertain_outcome_requires_inspection",
+                ));
+            }
+            Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Passed) => {
+                return Err(error(
+                    &root,
+                    "task_authorization_batch_check_already_passed",
+                ));
+            }
+            Some(
+                cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed
+                | cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::NotStarted,
+            ) => {}
+        }
+        if previous.attempt.is_none() {
+            return Err(error(&root, "task_authorization_batch_attempt_invalid"));
+        }
+    }
+    let additional_attempts = next_attempt.saturating_sub(1) as u8;
+    let permitted = member
+        .budget
+        .retry_budget_by_check
+        .get(&request.check_id)
+        .copied()
+        .unwrap_or_default();
+    if additional_attempts > permitted {
+        return Err(error(
+            &root,
+            "task_authorization_batch_retry_budget_exhausted",
+        ));
+    }
+    let event = new_batch_event(
+        &root,
+        &receipt,
+        &member,
+        &request.operation_id,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved,
+        None,
+        Some(request.check_id.clone()),
+        Some(next_attempt),
+        None,
+        None,
+        format!("reserve declared check attempt {next_attempt}"),
+    )?;
+    let persisted = append_batch_member_event(&root, &member, event)?;
+    guard.require_subject(&root, &member.work_item_id)?;
+    Ok(persisted)
+}
+
+/// Append the result of a reserved check attempt. Failed records stay in the
+/// journal when a bounded retry is later admitted.
+pub fn record_task_authorization_batch_check_outcome(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchOutcomeRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let (root, receipt, member, guard) = lock_and_load_batch_member(
+        root,
+        &request.manifest_digest,
+        &request.work_item_id,
+        runtime,
+    )?;
+    validate_batch_caller(&root, &member, &request.caller)?;
+    validate_operation_id(&root, &request.operation_id)?;
+    validate_batch_evidence(&root, &request.evidence_ref, &request.reason)?;
+    if request.schema_version != cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION
+        || request.attempt == 0
+        || request.check_id.trim().is_empty()
+        || request.check_id.trim() != request.check_id
+        || request.outcome == cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::NotStarted
+    {
+        return Err(error(
+            &root,
+            "task_authorization_batch_outcome_request_invalid",
+        ));
+    }
+    let events = read_batch_member_events(&root, &receipt, &member, true)?;
+    ensure_reserved_check_attempt(
+        &root,
+        &events,
+        &request.operation_id,
+        &request.check_id,
+        request.attempt,
+    )?;
+    if let Some(existing) = find_check_result(
+        &events,
+        &request.operation_id,
+        &request.check_id,
+        request.attempt,
+    ) {
+        if existing.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+            && existing.outcome == Some(request.outcome)
+            && existing.evidence_ref.as_deref() == Some(&request.evidence_ref)
+            && existing.evidence_digest.as_ref() == Some(&request.evidence_digest)
+            && existing.reason == request.reason
+        {
+            return Ok(existing.clone());
+        }
+        return Err(error(
+            &root,
+            "task_authorization_batch_attempt_result_conflict",
+        ));
+    }
+    let event = new_batch_event(
+        &root,
+        &receipt,
+        &member,
+        &request.operation_id,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded,
+        None,
+        Some(request.check_id.clone()),
+        Some(request.attempt),
+        Some(request.outcome),
+        Some((
+            request.evidence_ref.clone(),
+            request.evidence_digest.clone(),
+        )),
+        request.reason.clone(),
+    )?;
+    let persisted = append_batch_member_event(&root, &member, event)?;
+    guard.require_subject(&root, &member.work_item_id)?;
+    Ok(persisted)
+}
+
+/// Resolve an uncertain result only after inspecting the exact attempt and
+/// attaching evidence. The old `unknown` event remains immutable.
+pub fn inspect_task_authorization_batch_check_outcome(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchInspectionRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let (root, receipt, member, guard) = lock_and_load_batch_member(
+        root,
+        &request.manifest_digest,
+        &request.work_item_id,
+        runtime,
+    )?;
+    validate_batch_caller(&root, &member, &request.caller)?;
+    validate_operation_id(&root, &request.operation_id)?;
+    validate_batch_evidence(&root, &request.evidence_ref, &request.reason)?;
+    if request.schema_version != cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION
+        || request.attempt == 0
+        || request.check_id.trim().is_empty()
+        || request.check_id.trim() != request.check_id
+        || request.inspected_outcome
+            == cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Unknown
+    {
+        return Err(error(
+            &root,
+            "task_authorization_batch_inspection_request_invalid",
+        ));
+    }
+    let events = read_batch_member_events(&root, &receipt, &member, true)?;
+    ensure_reserved_check_attempt(
+        &root,
+        &events,
+        &request.operation_id,
+        &request.check_id,
+        request.attempt,
+    )?;
+    match find_check_result(
+        &events,
+        &request.operation_id,
+        &request.check_id,
+        request.attempt,
+    ) {
+        Some(existing)
+            if existing.kind
+                == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeInspected
+                && existing.outcome == Some(request.inspected_outcome)
+                && existing.evidence_ref.as_deref() == Some(&request.evidence_ref)
+                && existing.evidence_digest.as_ref() == Some(&request.evidence_digest)
+                && existing.reason == request.reason =>
+        {
+            return Ok(existing.clone());
+        }
+        Some(existing)
+            if existing.kind
+                == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+                && existing.outcome
+                    == Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Unknown) =>
+        {
+            // Inspection is the only route from an unknown outcome to a safe
+            // retry or a resolved pass/fail result.
+        }
+        _ => {
+            return Err(error(
+                &root,
+                "task_authorization_batch_attempt_is_not_uncertain",
+            ));
+        }
+    }
+    let event = new_batch_event(
+        &root,
+        &receipt,
+        &member,
+        &request.operation_id,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeInspected,
+        None,
+        Some(request.check_id.clone()),
+        Some(request.attempt),
+        Some(request.inspected_outcome),
+        Some((
+            request.evidence_ref.clone(),
+            request.evidence_digest.clone(),
+        )),
+        request.reason.clone(),
+    )?;
+    let persisted = append_batch_member_event(&root, &member, event)?;
+    guard.require_subject(&root, &member.work_item_id)?;
+    Ok(persisted)
+}
+
+/// Terminate only the selected child grant. Expiry remains a derived state;
+/// termination appends a receipt and never edits another member's ledger.
+pub fn terminate_task_authorization_batch_member(
+    root: &Path,
+    request: &cockpit_protocol::TaskAuthorizationBatchTerminationRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let (root, receipt, member, guard) = lock_and_load_batch_member(
+        root,
+        &request.manifest_digest,
+        &request.work_item_id,
+        runtime,
+    )?;
+    validate_batch_caller(&root, &member, &request.caller)?;
+    validate_batch_evidence(&root, "native-task-authorization-batch", &request.reason)?;
+    if request.schema_version != cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION {
+        return Err(error(
+            &root,
+            "task_authorization_batch_termination_request_invalid",
+        ));
+    }
+    let events = read_batch_member_events(&root, &receipt, &member, true)?;
+    if let Some(existing) = events
+        .iter()
+        .find(|event| event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated)
+    {
+        let decision = format!("{:?}", request.decision).to_lowercase();
+        if existing.action.as_deref() == Some(decision.as_str())
+            && existing.reason == request.reason
+        {
+            return Ok(existing.clone());
+        }
+        return Err(error(
+            &root,
+            "task_authorization_batch_termination_conflict",
+        ));
+    }
+    let operation_id = format!("terminate-{}", member.work_item_id);
+    let decision = format!("{:?}", request.decision).to_lowercase();
+    let event = new_batch_event(
+        &root,
+        &receipt,
+        &member,
+        &operation_id,
+        cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated,
+        Some(decision),
+        None,
+        None,
+        None,
+        None,
+        request.reason.clone(),
+    )?;
+    let persisted = append_batch_member_event(&root, &member, event)?;
+    guard.require_subject(&root, &member.work_item_id)?;
+    Ok(persisted)
+}
+
+/// Read the exact child grant, quota usage, and append-only per-member events.
+pub fn inspect_task_authorization_batch_member(
+    root: &Path,
+    manifest_digest: &cockpit_core::Digest,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchMemberLedger, ObserverError> {
+    let (root, receipt, member, guard) =
+        lock_and_load_batch_member(root, manifest_digest, work_item_id, runtime)?;
+    let events = read_batch_member_events(&root, &receipt, &member, false)?;
+    let starts_used = events
+        .iter()
+        .filter(|event| {
+            event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::StartReserved
+        })
+        .count() as u32;
+    let now = Utc::now();
+    let expiry = DateTime::parse_from_rfc3339(&member.expires_at)
+        .map_err(|source| error(&root, format!("invalid batch member expiry: {source}")))?;
+    let parent_state = current_member_authorization_state(&root, &member, runtime)?;
+    let terminal_state = events
+        .iter()
+        .find(|event| event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated)
+        .and_then(|event| event.action.as_deref());
+    let (authorization_state, next_action) = if expiry <= now {
+        ("expired", "do_not_start")
+    } else if let Some(state) = terminal_state {
+        (state, "do_not_start")
+    } else if parent_state != "active" {
+        (parent_state.as_str(), "do_not_start")
+    } else {
+        ("active", "continue_exact_member")
+    };
+    let mut blockers = Vec::new();
+    if authorization_state != "active" {
+        blockers.push(format!(
+            "task_authorization_batch_member_{authorization_state}"
+        ));
+    }
+    if starts_used >= member.budget.start_quota {
+        blockers.push("task_authorization_batch_start_quota_exhausted".into());
+    }
+    if has_unresolved_attempt(&events) {
+        blockers.push("task_authorization_batch_attempt_outcome_unresolved".into());
+    }
+    guard.require_subject(&root, work_item_id)?;
+    Ok(cockpit_protocol::TaskAuthorizationBatchMemberLedger {
+        schema_version: cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION,
+        repository_id: receipt.repository_id,
+        work_item_id: member.work_item_id.clone(),
+        manifest_digest: receipt.manifest.manifest_digest,
+        grant_id: receipt
+            .child_grants
+            .iter()
+            .find(|grant| grant.work_item_id == member.work_item_id)
+            .expect("receipt validates every manifest grant")
+            .grant_id
+            .clone(),
+        authorization_state: authorization_state.into(),
+        starts_used,
+        start_quota: member.budget.start_quota,
+        events,
+        blockers,
+        next_action: next_action.into(),
+    })
+}
+
+fn lock_and_load_batch_member(
+    root: &Path,
+    manifest_digest: &cockpit_core::Digest,
+    work_item_id: &str,
+    _runtime: &RuntimeContext,
+) -> Result<
+    (
+        PathBuf,
+        cockpit_protocol::TaskAuthorizationBatchReceipt,
+        cockpit_protocol::TaskAuthorizationBatchMember,
+        super::LifecycleLockGuard,
+    ),
+    ObserverError,
+> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    super::validate_work_item_id(work_item_id)?;
+    let guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    let receipt = read_task_authorization_batch_receipt(&root, manifest_digest)?;
+    let member = receipt
+        .manifest
+        .members
+        .iter()
+        .find(|member| member.work_item_id == work_item_id)
+        .cloned()
+        .ok_or_else(|| error(&root, "task_authorization_batch_member_not_selected"))?;
+    let grant = receipt
+        .child_grants
+        .iter()
+        .find(|grant| grant.work_item_id == work_item_id)
+        .ok_or_else(|| error(&root, "task_authorization_batch_child_grant_missing"))?;
+    if grant.member != member || grant.manifest_digest != *manifest_digest {
+        return Err(error(
+            &root,
+            "task_authorization_batch_child_grant_mismatch",
+        ));
+    }
+    guard.require_subject(&root, work_item_id)?;
+    Ok((root, receipt, member, guard))
+}
+
+fn read_task_authorization_batch_receipt(
+    root: &Path,
+    digest: &cockpit_core::Digest,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchReceipt, ObserverError> {
+    let (pinned, directory, path) = open_task_authorization_batch_directory(root, false)?;
+    let name = batch_receipt_name(digest).map_err(|source| error(&path, source))?;
+    let receipt_path = path.join(&name);
+    let receipt = read_batch_receipt_file(root, &directory, &receipt_path, &name)?
+        .ok_or_else(|| error(&receipt_path, "task_authorization_batch_receipt_missing"))?;
+    if receipt.manifest.manifest_digest != *digest {
+        return Err(error(
+            &receipt_path,
+            "task_authorization_batch_digest_mismatch",
+        ));
+    }
+    pinned.require_current()?;
+    Ok(receipt)
+}
+
+fn current_member_contract(
+    root: &Path,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+) -> Result<Contract, ObserverError> {
+    let relative = own_path(root, &member.work_item_id, "contract")?;
+    if !relative.starts_with(".ai/work-items/active") {
+        return Err(error(root, "task_authorization_batch_member_not_active"));
+    }
+    let value = native_json(root, &relative)?;
+    let digest =
+        cockpit_protocol::digest_json(&value).map_err(|source| error(root, source.to_string()))?;
+    if digest != member.contract_digest
+        || value["repositoryId"] != super::repository_id(root).to_string()
+        || value["workItemId"] != member.work_item_id
+    {
+        return Err(error(
+            root,
+            "task_authorization_batch_contract_binding_changed",
+        ));
+    }
+    serde_json::from_value(value).map_err(|source| error(root, source.to_string()))
+}
+
+fn current_member_authorization_state(
+    root: &Path,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    runtime: &RuntimeContext,
+) -> Result<String, ObserverError> {
+    let relative = own_path(root, &member.work_item_id, "contract")?;
+    if !relative.starts_with(".ai/work-items/active") {
+        return Ok("archived".into());
+    }
+    let value = native_json(root, &relative)?;
+    let digest =
+        cockpit_protocol::digest_json(&value).map_err(|source| error(root, source.to_string()))?;
+    if digest != member.contract_digest
+        || value["repositoryId"] != super::repository_id(root).to_string()
+        || value["workItemId"] != member.work_item_id
+    {
+        return Ok("contract_changed".into());
+    }
+    let contract: Contract =
+        serde_json::from_value(value).map_err(|source| error(root, source.to_string()))?;
+    let policy = contract
+        .task_authorization_policy()
+        .map_err(|source| error(root, source))?
+        .ok_or_else(|| error(root, "task_authorization_batch_parent_policy_missing"))?;
+    let projection = assess(root, &member.work_item_id, &contract, &policy, runtime)?;
+    if projection.grant_id.as_ref() != Some(&member.parent_grant_id)
+        || projection.scope_digest.as_ref() != Some(&member.scope_digest)
+        || policy.agent_actor != member.actor
+        || policy.authority_source != member.authority_source
+    {
+        return Ok("parent_grant_changed".into());
+    }
+    if projection.state != "active" {
+        return Ok(format!("parent_{}", projection.state));
+    }
+    let expiry = DateTime::parse_from_rfc3339(&member.expires_at)
+        .map_err(|source| error(root, format!("invalid batch member expiry: {source}")))?;
+    if expiry <= Utc::now() {
+        return Ok("expired".into());
+    }
+    if let Some(parent_expiry) = policy.expires_at.as_deref()
+        && DateTime::parse_from_rfc3339(parent_expiry)
+            .map_err(|source| error(root, format!("invalid parent grant expiry: {source}")))?
+            <= Utc::now()
+    {
+        return Ok("parent_expired".into());
+    }
+    Ok("active".into())
+}
+
+fn require_active_batch_member(
+    root: &Path,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    let state = current_member_authorization_state(root, member, runtime)?;
+    if state == "active" {
+        Ok(())
+    } else {
+        Err(error(
+            root,
+            format!("task_authorization_batch_member_{state}"),
+        ))
+    }
+}
+
+fn validate_batch_caller(
+    root: &Path,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    caller: &cockpit_protocol::TaskAuthorizationCaller,
+) -> Result<(), ObserverError> {
+    if caller.schema_version != 1
+        || caller.actor != member.actor
+        || caller.authority_source != member.authority_source
+        || caller.assurance != cockpit_protocol::AssuranceLevel::SelfDeclared
+    {
+        return Err(error(root, "task_authorization_batch_caller_mismatch"));
+    }
+    Ok(())
+}
+
+fn validate_operation_id(root: &Path, operation_id: &str) -> Result<(), ObserverError> {
+    if operation_id.trim().is_empty()
+        || operation_id.trim() != operation_id
+        || operation_id.len() > 512
+        || operation_id.chars().any(char::is_control)
+    {
+        return Err(error(root, "task_authorization_batch_operation_id_invalid"));
+    }
+    Ok(())
+}
+
+fn validate_batch_evidence(
+    root: &Path,
+    evidence_ref: &str,
+    reason: &str,
+) -> Result<(), ObserverError> {
+    if evidence_ref.trim().is_empty()
+        || evidence_ref.trim() != evidence_ref
+        || evidence_ref.len() > 4096
+        || reason.trim().is_empty()
+        || reason.len() > 16 * 1024
+    {
+        return Err(error(root, "task_authorization_batch_evidence_invalid"));
+    }
+    Ok(())
+}
+
+fn new_batch_event(
+    root: &Path,
+    receipt: &cockpit_protocol::TaskAuthorizationBatchReceipt,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    operation_id: &str,
+    kind: cockpit_protocol::TaskAuthorizationBatchEventKind,
+    action: Option<String>,
+    check_id: Option<String>,
+    attempt: Option<u32>,
+    outcome: Option<cockpit_protocol::TaskAuthorizationBatchAttemptOutcome>,
+    evidence: Option<(String, cockpit_core::Digest)>,
+    reason: impl Into<String>,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let grant_id = receipt
+        .child_grants
+        .iter()
+        .find(|grant| grant.work_item_id == member.work_item_id)
+        .ok_or_else(|| error(root, "task_authorization_batch_child_grant_missing"))?
+        .grant_id
+        .clone();
+    let mut event = cockpit_protocol::TaskAuthorizationBatchEvent {
+        schema_version: cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION,
+        repository_id: receipt.repository_id.clone(),
+        work_item_id: member.work_item_id.clone(),
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        grant_id,
+        sequence: 0,
+        operation_id: operation_id.to_owned(),
+        kind,
+        action,
+        check_id,
+        attempt,
+        outcome,
+        evidence_ref: evidence.as_ref().map(|(reference, _)| reference.clone()),
+        evidence_digest: evidence.map(|(_, digest)| digest),
+        reason: reason.into(),
+        recorded_at: super::now(),
+        record_digest: cockpit_core::Digest::sha256_bytes(b""),
+    };
+    event.record_digest = event
+        .computed_digest()
+        .map_err(|source| error(root, source))?;
+    Ok(event)
+}
+
+fn open_batch_member_event_directory(
+    root: &Path,
+    manifest_digest: &cockpit_core::Digest,
+    work_item_id: &str,
+    create: bool,
+) -> Result<(PinnedRoot, Dir, PathBuf), ObserverError> {
+    let (pinned, mut directory, mut path) = open_task_authorization_batch_directory(root, create)?;
+    let digest_name = batch_receipt_name(manifest_digest)
+        .map_err(|source| error(&path, source))?
+        .trim_end_matches(".json")
+        .to_owned();
+    directory = open_batch_child_directory(&directory, &path, &digest_name, create)?;
+    path.push(&digest_name);
+    directory = open_batch_child_directory(&directory, &path, "members", create)?;
+    path.push("members");
+    directory = open_batch_child_directory(&directory, &path, work_item_id, create)?;
+    path.push(work_item_id);
+    directory = open_batch_child_directory(&directory, &path, "events", create)?;
+    path.push("events");
+    pinned.require_current()?;
+    Ok((pinned, directory, path))
+}
+
+fn open_batch_child_directory(
+    parent: &Dir,
+    parent_path: &Path,
+    name: &str,
+    create: bool,
+) -> Result<Dir, ObserverError> {
+    let path = parent_path.join(name);
+    if create {
+        create_and_open_cap_directory(parent, name, &path)
+    } else {
+        open_cap_directory_nofollow_strict(parent, name, &path)
+    }
+}
+
+fn read_batch_member_events(
+    root: &Path,
+    receipt: &cockpit_protocol::TaskAuthorizationBatchReceipt,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    create: bool,
+) -> Result<Vec<cockpit_protocol::TaskAuthorizationBatchEvent>, ObserverError> {
+    let (_, _, batch_path) = open_task_authorization_batch_directory(root, false)?;
+    let event_path = batch_path
+        .join(
+            batch_receipt_name(&receipt.manifest.manifest_digest)
+                .map_err(|source| error(&batch_path, source))?
+                .trim_end_matches(".json"),
+        )
+        .join("members")
+        .join(&member.work_item_id)
+        .join("events");
+    if !create {
+        match fs::symlink_metadata(&event_path) {
+            Err(source) if source.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: event_path,
+                    source,
+                });
+            }
+            Ok(metadata) if !metadata.is_dir() || metadata.file_type().is_symlink() => {
+                return Err(error(
+                    &event_path,
+                    "task_authorization_batch_event_directory_invalid",
+                ));
+            }
+            Ok(_) => {}
+        }
+    }
+    let (pinned, directory, path) = open_batch_member_event_directory(
+        root,
+        &receipt.manifest.manifest_digest,
+        &member.work_item_id,
+        create,
+    )?;
+    let entries = directory.entries().map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    let mut names = Vec::new();
+    for (index, entry) in entries.enumerate() {
+        if index >= TASK_AUTHORIZATION_BATCH_MAX_EVENTS {
+            return Err(error(
+                &path,
+                "task_authorization_batch_event_budget_exceeded",
+            ));
+        }
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let name = entry.file_name();
+        let name = name
+            .to_str()
+            .ok_or_else(|| error(&path, "task_authorization_batch_event_filename_invalid"))?;
+        if !name.ends_with(".json") {
+            return Err(error(
+                &path,
+                "task_authorization_batch_event_filename_invalid",
+            ));
+        }
+        names.push(name.to_owned());
+    }
+    names.sort();
+    let mut events = Vec::with_capacity(names.len());
+    for name in names {
+        let bytes = read_regular_cap_bounded(
+            &directory,
+            &name,
+            &path.join(&name),
+            TASK_AUTHORIZATION_BATCH_MAX_BYTES,
+        )?;
+        super::reject_duplicate_json_keys(&bytes).map_err(|source| {
+            error(
+                &path,
+                format!("task_authorization_batch_event_invalid: {source}"),
+            )
+        })?;
+        let event: cockpit_protocol::TaskAuthorizationBatchEvent = serde_json::from_slice(&bytes)
+            .map_err(|source| {
+            error(
+                &path,
+                format!("task_authorization_batch_event_invalid: {source}"),
+            )
+        })?;
+        event
+            .validate_integrity()
+            .map_err(|source| error(&path, source))?;
+        let expected = batch_event_name(event.sequence, &event.record_digest)
+            .map_err(|source| error(&path, source))?;
+        if name != expected
+            || event.repository_id != receipt.repository_id
+            || event.work_item_id != member.work_item_id
+            || event.manifest_digest != receipt.manifest.manifest_digest
+            || event.grant_id
+                != receipt
+                    .child_grants
+                    .iter()
+                    .find(|grant| grant.work_item_id == member.work_item_id)
+                    .ok_or_else(|| error(&path, "task_authorization_batch_child_grant_missing"))?
+                    .grant_id
+            || event.sequence != (events.len() + 1) as u64
+        {
+            return Err(error(&path, "task_authorization_batch_event_chain_invalid"));
+        }
+        events.push(event);
+    }
+    pinned.require_current()?;
+    Ok(events)
+}
+
+fn append_batch_member_event(
+    root: &Path,
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+    mut event: cockpit_protocol::TaskAuthorizationBatchEvent,
+) -> Result<cockpit_protocol::TaskAuthorizationBatchEvent, ObserverError> {
+    let receipt = read_task_authorization_batch_receipt(root, &event.manifest_digest)?;
+    let events = read_batch_member_events(root, &receipt, member, true)?;
+    if events.len() >= TASK_AUTHORIZATION_BATCH_MAX_EVENTS {
+        return Err(error(
+            root,
+            "task_authorization_batch_event_budget_exceeded",
+        ));
+    }
+    event.sequence = (events.len() + 1) as u64;
+    event.record_digest = event
+        .computed_digest()
+        .map_err(|source| error(root, source))?;
+    let (pinned, directory, path) =
+        open_batch_member_event_directory(root, &event.manifest_digest, &event.work_item_id, true)?;
+    let name = batch_event_name(event.sequence, &event.record_digest)
+        .map_err(|source| error(&path, source))?;
+    let bytes = serde_json::to_vec_pretty(&event)
+        .map_err(|source| error(&path, format!("serialize batch event: {source}")))?;
+    write_cap_immutable(&directory, &name, &path.join(&name), &bytes)?;
+    pinned.require_current()?;
+    let refreshed = read_batch_member_events(root, &receipt, member, false)?;
+    if refreshed.last() != Some(&event) {
+        return Err(error(
+            &path,
+            "task_authorization_batch_event_readback_mismatch",
+        ));
+    }
+    Ok(event)
+}
+
+fn batch_event_name(sequence: u64, digest: &cockpit_core::Digest) -> Result<String, String> {
+    let digest = digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| "task authorization batch event digest prefix is invalid".to_owned())?;
+    if digest.len() != 64 || !digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err("task authorization batch event digest is invalid".into());
+    }
+    Ok(format!("{sequence:08}-{digest}.json"))
+}
+
+fn find_check_result<'a>(
+    events: &'a [cockpit_protocol::TaskAuthorizationBatchEvent],
+    operation_id: &str,
+    check_id: &str,
+    attempt: u32,
+) -> Option<&'a cockpit_protocol::TaskAuthorizationBatchEvent> {
+    events.iter().rev().find(|event| {
+        matches!(
+            event.kind,
+            cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+                | cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeInspected
+        ) && event.operation_id == operation_id
+            && event.check_id.as_deref() == Some(check_id)
+            && event.attempt == Some(attempt)
+    })
+}
+
+fn latest_check_outcome(
+    events: &[cockpit_protocol::TaskAuthorizationBatchEvent],
+    operation_id: &str,
+    check_id: &str,
+    attempt: u32,
+) -> Option<cockpit_protocol::TaskAuthorizationBatchAttemptOutcome> {
+    find_check_result(events, operation_id, check_id, attempt).and_then(|event| event.outcome)
+}
+
+fn ensure_reserved_check_attempt(
+    root: &Path,
+    events: &[cockpit_protocol::TaskAuthorizationBatchEvent],
+    operation_id: &str,
+    check_id: &str,
+    attempt: u32,
+) -> Result<(), ObserverError> {
+    if events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved
+            && event.operation_id == operation_id
+            && event.check_id.as_deref() == Some(check_id)
+            && event.attempt == Some(attempt)
+    }) {
+        Ok(())
+    } else {
+        Err(error(root, "task_authorization_batch_attempt_not_reserved"))
+    }
+}
+
+fn ensure_child_grant_not_terminated(
+    root: &Path,
+    events: &[cockpit_protocol::TaskAuthorizationBatchEvent],
+) -> Result<(), ObserverError> {
+    if events
+        .iter()
+        .any(|event| event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::Terminated)
+    {
+        Err(error(root, "task_authorization_batch_member_terminated"))
+    } else {
+        Ok(())
+    }
+}
+
+fn has_unresolved_attempt(events: &[cockpit_protocol::TaskAuthorizationBatchEvent]) -> bool {
+    events
+        .iter()
+        .filter(|event| {
+            event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckAttemptReserved
+        })
+        .any(|reservation| {
+            reservation
+                .check_id
+                .as_deref()
+                .zip(reservation.attempt)
+                .is_none_or(|(check, attempt)| {
+                    matches!(
+                        latest_check_outcome(events, &reservation.operation_id, check, attempt),
+                        None | Some(
+                            cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Unknown
+                        )
+                    )
+                })
+        })
+}
+
+fn request_from_manifest(
+    manifest: &cockpit_protocol::TaskAuthorizationBatchManifest,
+) -> cockpit_protocol::TaskAuthorizationBatchRequest {
+    cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION,
+        repository_id: manifest.repository_id.clone(),
+        members: manifest
+            .members
+            .iter()
+            .map(
+                |member| cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+                    work_item_id: member.work_item_id.clone(),
+                    actions: member.actions.clone(),
+                    expires_at: member.expires_at.clone(),
+                    budget: member.budget.clone(),
+                },
+            )
+            .collect(),
+    }
+}
+
+fn batch_receipt_name(digest: &cockpit_core::Digest) -> Result<String, String> {
+    let value = digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| "task authorization batch digest prefix is invalid".to_owned())?;
+    if value.len() != 64 || !value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err("task authorization batch digest is invalid".into());
+    }
+    Ok(format!("{value}.json"))
+}
+
+fn open_task_authorization_batch_directory(
+    root: &Path,
+    create: bool,
+) -> Result<(PinnedRoot, Dir, PathBuf), ObserverError> {
+    let pinned = PinnedRoot::open(root)?;
+    let root_directory = pinned.directory()?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_directory, ".ai", &ai_path)?;
+    let evidence_path = ai_path.join("evidence");
+    let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &evidence_path)?;
+    let directory_path = evidence_path.join(TASK_AUTHORIZATION_BATCH_DIRECTORY);
+    let directory = if create {
+        create_and_open_cap_directory(
+            &evidence,
+            TASK_AUTHORIZATION_BATCH_DIRECTORY,
+            &directory_path,
+        )?
+    } else {
+        open_cap_directory_nofollow_strict(
+            &evidence,
+            TASK_AUTHORIZATION_BATCH_DIRECTORY,
+            &directory_path,
+        )?
+    };
+    pinned.require_current()?;
+    Ok((pinned, directory, directory_path))
+}
+
+fn read_batch_receipt_file(
+    root: &Path,
+    directory: &Dir,
+    path: &Path,
+    name: &str,
+) -> Result<Option<cockpit_protocol::TaskAuthorizationBatchReceipt>, ObserverError> {
+    let bytes =
+        match read_regular_cap_bounded(directory, name, path, TASK_AUTHORIZATION_BATCH_MAX_BYTES) {
+            Ok(bytes) => bytes,
+            Err(ObserverError::Read { source, .. })
+                if source.kind() == std::io::ErrorKind::NotFound =>
+            {
+                return Ok(None);
+            }
+            Err(error) => return Err(error),
+        };
+    super::reject_duplicate_json_keys(&bytes).map_err(|source| {
+        error(
+            path,
+            format!("task_authorization_batch_duplicate_key: {source}"),
+        )
+    })?;
+    let receipt: cockpit_protocol::TaskAuthorizationBatchReceipt = serde_json::from_slice(&bytes)
+        .map_err(|source| {
+        error(
+            path,
+            format!("task_authorization_batch_receipt_invalid: {source}"),
+        )
+    })?;
+    receipt
+        .validate_integrity()
+        .map_err(|source| error(path, source))?;
+    if receipt.repository_id != super::repository_id(root).to_string()
+        || batch_receipt_name(&receipt.manifest.manifest_digest)
+            .map_err(|source| error(path, source))?
+            != name
+    {
+        return Err(error(
+            path,
+            "task_authorization_batch_receipt_identity_mismatch",
+        ));
+    }
+    Ok(Some(receipt))
 }
 
 fn error(path: &Path, message: impl Into<String>) -> ObserverError {
