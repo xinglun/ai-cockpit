@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
+use std::ffi::OsString;
 use std::io::Read;
 #[cfg(unix)]
 use std::os::fd::AsRawFd;
@@ -67,6 +68,10 @@ unsafe extern "C" {
 
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
 pub const MAX_BOUNDED_GIT_OUTPUT_BYTES: usize = 64 * 1024 * 1024;
+const PATH_INTRODUCTION_TIMEOUT: Duration = Duration::from_secs(10);
+const PATH_INTRODUCTION_OUTPUT_LIMIT: usize = 1024 * 1024;
+const PATH_INTRODUCTION_HISTORY_LIMIT: usize = 4096;
+const PATH_INTRODUCTION_BLOB_LIMIT: usize = 1024 * 1024;
 const GIT_OUTPUT_CHUNK_BYTES: usize = 8 * 1024;
 const BOUNDED_PIPE_CLOSE_TIMEOUT: Duration = Duration::from_secs(1);
 
@@ -1585,6 +1590,15 @@ pub struct BoundedGitOutput {
     exit_code: Option<i32>,
 }
 
+/// The unique first committed introduction of one literal repository path.
+/// `bytes` are read from the anchored blob object, not from the working tree.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PathIntroduction {
+    pub revision: String,
+    pub blob_oid: String,
+    pub bytes: Vec<u8>,
+}
+
 pub struct GitRepository {
     root: PathBuf,
 }
@@ -1636,8 +1650,26 @@ pub enum GitError {
         "git output pipes did not close within {timeout_ms}ms after termination; descendant cleanup could not be confirmed"
     )]
     OutputPipeCloseTimeout { timeout_ms: u64 },
+    #[error("git command exceeded its bounded deadline of {timeout_ms}ms")]
+    CommandTimeout { timeout_ms: u64 },
     #[error("Git revision must be a full 40- or 64-digit object ID: {0}")]
     InvalidRevision(String),
+    #[error("Git path must be one literal repository-relative path: {0}")]
+    InvalidLiteralPath(String),
+    #[error("requested Git HEAD {requested} does not match current HEAD {current}")]
+    HeadChanged { requested: String, current: String },
+    #[error("cannot prove a first path introduction from shallow Git history")]
+    ShallowHistory,
+    #[error("path has no committed introduction in the requested history: {0}")]
+    PathNotIntroduced(String),
+    #[error("path introduction history has {count} entries; the bounded limit is {limit}")]
+    HistoryEntryLimitExceeded { count: usize, limit: usize },
+    #[error("path has {count} add commits and no unique immutable first introduction")]
+    AmbiguousPathIntroduction { count: usize },
+    #[error("Git path introduction tree entry is missing or malformed: {0}")]
+    InvalidPathIntroductionTree(String),
+    #[error("Git path introduction revision is not an ancestor of the requested HEAD")]
+    IntroductionNotAncestor,
     #[error("git topology path could not be resolved: {0}")]
     InvalidTopology(PathBuf),
 }
@@ -1684,6 +1716,259 @@ impl GitRepository {
             command.process_group(0);
         }
         bounded_process_output(command, max_output_bytes)
+    }
+
+    fn output_bounded_args_until(
+        &self,
+        args: &[OsString],
+        max_output_bytes: usize,
+        deadline: Instant,
+        total_timeout: Duration,
+    ) -> Result<BoundedGitOutput, GitError> {
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err(GitError::CommandTimeout {
+                timeout_ms: total_timeout.as_millis().min(u64::MAX as u128) as u64,
+            });
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(args)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output_with_timeout(command, max_output_bytes, remaining)
+    }
+
+    /// Find the unique committed introduction of one literal repository path.
+    /// The requested full object ID must still be the repository's current
+    /// HEAD. The entire lookup shares one deadline and rejects shallow,
+    /// ambiguous, malformed, over-limit, or non-ancestor history.
+    pub fn first_path_introduction_bounded(
+        &self,
+        head_oid: &str,
+        literal_repo_path: &str,
+    ) -> Result<PathIntroduction, GitError> {
+        self.first_path_introduction_with_limits(
+            head_oid,
+            literal_repo_path,
+            PATH_INTRODUCTION_OUTPUT_LIMIT,
+            PATH_INTRODUCTION_HISTORY_LIMIT,
+            PATH_INTRODUCTION_TIMEOUT,
+        )
+    }
+
+    fn first_path_introduction_with_limits(
+        &self,
+        head_oid: &str,
+        literal_repo_path: &str,
+        output_limit: usize,
+        history_limit: usize,
+        timeout: Duration,
+    ) -> Result<PathIntroduction, GitError> {
+        if !valid_commit_oid(head_oid) {
+            return Err(GitError::InvalidRevision(head_oid.to_owned()));
+        }
+        validate_literal_repo_path(literal_repo_path)?;
+        let deadline = Instant::now() + timeout;
+
+        let shallow = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "rev-parse".into(),
+                "--is-shallow-repository".into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !shallow.success {
+            return Err(command_error(&shallow.stderr));
+        }
+        match std::str::from_utf8(&shallow.stdout)
+            .map_err(|_| GitError::InvalidUtf8)?
+            .trim()
+        {
+            "false" => {}
+            "true" => return Err(GitError::ShallowHistory),
+            _ => {
+                return Err(GitError::Command(
+                    "git did not return a valid shallow-repository status".into(),
+                ));
+            }
+        }
+
+        let current_head = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "rev-parse".into(),
+                "--verify".into(),
+                "HEAD^{commit}".into(),
+            ],
+            256,
+            deadline,
+            timeout,
+        )?;
+        if !current_head.success {
+            return Err(command_error(&current_head.stderr));
+        }
+        let current_head = std::str::from_utf8(&current_head.stdout)
+            .map_err(|_| GitError::InvalidUtf8)?
+            .trim()
+            .to_owned();
+        if !valid_commit_oid(&current_head) {
+            return Err(GitError::InvalidRevision(current_head));
+        }
+        if !head_oid.eq_ignore_ascii_case(&current_head) {
+            return Err(GitError::HeadChanged {
+                requested: head_oid.to_owned(),
+                current: current_head,
+            });
+        }
+
+        let pathspec = format!(":(literal){literal_repo_path}");
+        let history = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "log".into(),
+                "--full-history".into(),
+                "--topo-order".into(),
+                "--reverse".into(),
+                "--no-renames".into(),
+                "--format=%H".into(),
+                "--diff-filter=A".into(),
+                current_head.clone().into(),
+                "--".into(),
+                pathspec.into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !history.success {
+            return Err(command_error(&history.stderr));
+        }
+        let history_text =
+            std::str::from_utf8(&history.stdout).map_err(|_| GitError::InvalidUtf8)?;
+        let mut introductions = Vec::new();
+        for revision in history_text.lines() {
+            if revision.is_empty() || !valid_commit_oid(revision) {
+                return Err(GitError::Command(
+                    "git returned malformed path introduction history".into(),
+                ));
+            }
+            introductions.push(revision.to_owned());
+            if introductions.len() > history_limit {
+                return Err(GitError::HistoryEntryLimitExceeded {
+                    count: introductions.len(),
+                    limit: history_limit,
+                });
+            }
+        }
+        if introductions.is_empty() {
+            return Err(GitError::PathNotIntroduced(literal_repo_path.to_owned()));
+        }
+        if introductions.len() != 1 {
+            return Err(GitError::AmbiguousPathIntroduction {
+                count: introductions.len(),
+            });
+        }
+        let revision = introductions.pop().expect("one path introduction");
+
+        let ancestry = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "merge-base".into(),
+                "--is-ancestor".into(),
+                revision.clone().into(),
+                current_head.into(),
+            ],
+            256,
+            deadline,
+            timeout,
+        )?;
+        match ancestry.exit_code {
+            Some(0) => {}
+            Some(1) => return Err(GitError::IntroductionNotAncestor),
+            _ => return Err(command_error(&ancestry.stderr)),
+        }
+
+        let tree = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "ls-tree".into(),
+                "-z".into(),
+                "--full-tree".into(),
+                revision.clone().into(),
+                "--".into(),
+                format!(":(literal){literal_repo_path}").into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !tree.success {
+            return Err(command_error(&tree.stderr));
+        }
+        let entries = tree
+            .stdout
+            .split(|byte| *byte == 0)
+            .filter(|entry| !entry.is_empty())
+            .collect::<Vec<_>>();
+        if entries.len() != 1 {
+            return Err(GitError::InvalidPathIntroductionTree(
+                literal_repo_path.to_owned(),
+            ));
+        }
+        let tab = entries[0]
+            .iter()
+            .position(|byte| *byte == b'\t')
+            .ok_or_else(|| GitError::InvalidPathIntroductionTree(literal_repo_path.to_owned()))?;
+        let header = std::str::from_utf8(&entries[0][..tab]).map_err(|_| GitError::InvalidUtf8)?;
+        let path = &entries[0][tab + 1..];
+        let mut fields = header.split_ascii_whitespace();
+        let mode = fields.next();
+        let kind = fields.next();
+        let blob_oid = fields.next();
+        if fields.next().is_some()
+            || !matches!(mode, Some("100644" | "100755"))
+            || kind != Some("blob")
+            || path != literal_repo_path.as_bytes()
+        {
+            return Err(GitError::InvalidPathIntroductionTree(
+                literal_repo_path.to_owned(),
+            ));
+        }
+        let blob_oid = blob_oid.expect("tree entry has a blob object ID");
+        if !valid_commit_oid(blob_oid) {
+            return Err(GitError::InvalidRevision(blob_oid.to_owned()));
+        }
+
+        let blob = self.output_bounded_args_until(
+            &[
+                "--no-replace-objects".into(),
+                "cat-file".into(),
+                "blob".into(),
+                blob_oid.into(),
+            ],
+            PATH_INTRODUCTION_BLOB_LIMIT,
+            deadline,
+            timeout,
+        )?;
+        if !blob.success {
+            return Err(command_error(&blob.stderr));
+        }
+        Ok(PathIntroduction {
+            revision,
+            blob_oid: blob_oid.to_owned(),
+            bytes: blob.stdout,
+        })
     }
 
     /// Read the tracked index flags through a fixed, read-only Git command.
@@ -2386,9 +2671,26 @@ fn forward_pipe<R: BoundedPipeReader>(
 }
 
 fn bounded_process_output(
-    mut command: Command,
+    command: Command,
     max_output_bytes: usize,
 ) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner(command, max_output_bytes, None)
+}
+
+fn bounded_process_output_with_timeout(
+    command: Command,
+    max_output_bytes: usize,
+    timeout: Duration,
+) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner(command, max_output_bytes, Some(timeout))
+}
+
+fn bounded_process_output_inner(
+    mut command: Command,
+    max_output_bytes: usize,
+    timeout: Option<Duration>,
+) -> Result<BoundedGitOutput, GitError> {
+    let started = Instant::now();
     command.env("GIT_NO_LAZY_FETCH", "1");
     command.stdout(Stdio::piped()).stderr(Stdio::piped());
     let mut child = BoundedProcess::spawn(command)?;
@@ -2422,8 +2724,10 @@ fn bounded_process_output(
     let mut stdout_bytes = Vec::new();
     let mut stderr_bytes = Vec::new();
     let mut overflow = false;
+    let mut timed_out = false;
     let mut read_error = None;
     let mut process_exit_observed = false;
+    let mut pipes_disconnected = false;
     let mut termination_requested_at = None;
     loop {
         if termination_requested_at.is_some_and(|requested_at: Instant| {
@@ -2449,7 +2753,15 @@ fn bounded_process_output(
             });
         }
 
-        match receiver.recv_timeout(Duration::from_millis(50)) {
+        let poll_interval = if timeout.is_some() {
+            Duration::from_millis(10)
+        } else {
+            Duration::from_millis(50)
+        };
+        let poll_timeout = timeout.map_or(poll_interval, |limit| {
+            limit.saturating_sub(started.elapsed()).min(poll_interval)
+        });
+        match receiver.recv_timeout(poll_timeout) {
             Ok(BoundedReadMessage::Chunk(stream, bytes)) => {
                 let target = match stream {
                     BoundedStream::Stdout => &mut stdout_bytes,
@@ -2471,7 +2783,20 @@ fn bounded_process_output(
                 }
             }
             Err(mpsc::RecvTimeoutError::Timeout) => {}
-            Err(mpsc::RecvTimeoutError::Disconnected) => break,
+            Err(mpsc::RecvTimeoutError::Disconnected) => {
+                if timeout.is_some() {
+                    pipes_disconnected = true;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if timeout.is_some_and(|limit| started.elapsed() >= limit)
+            && termination_requested_at.is_none()
+        {
+            timed_out = true;
+            request_bounded_termination(&mut child, &mut termination_requested_at);
         }
 
         if !process_exit_observed {
@@ -2496,6 +2821,12 @@ fn bounded_process_output(
                 }
             }
         }
+        if pipes_disconnected && process_exit_observed {
+            break;
+        }
+        if pipes_disconnected {
+            thread::sleep(Duration::from_millis(10));
+        }
     }
     let status = child
         .child
@@ -2506,6 +2837,14 @@ fn bounded_process_output(
     if overflow {
         return Err(GitError::OutputLimitExceeded {
             limit: max_output_bytes,
+        });
+    }
+    if timed_out {
+        return Err(GitError::CommandTimeout {
+            timeout_ms: timeout
+                .unwrap_or_default()
+                .as_millis()
+                .min(u64::MAX as u128) as u64,
         });
     }
     if let Some(error) = read_error {
@@ -2771,6 +3110,23 @@ fn unsupported_source_patch_v1(reason: &str) -> GitError {
 
 fn valid_commit_oid(head: &str) -> bool {
     matches!(head.len(), 40 | 64) && head.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+fn validate_literal_repo_path(path: &str) -> Result<(), GitError> {
+    let drive_prefixed = path.as_bytes().get(1) == Some(&b':')
+        && path.as_bytes().first().is_some_and(u8::is_ascii_alphabetic);
+    if path.is_empty()
+        || path.as_bytes().contains(&0)
+        || path.starts_with('/')
+        || path.contains('\\')
+        || drive_prefixed
+        || path
+            .split('/')
+            .any(|part| part.is_empty() || part == "." || part == "..")
+    {
+        return Err(GitError::InvalidLiteralPath(path.to_owned()));
+    }
+    Ok(())
 }
 
 fn status_v2_has_changes(status: &str) -> bool {
