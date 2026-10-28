@@ -498,20 +498,53 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+      "reason": "Apply the explicit owner approval at 2026-10-28 14:41 UTC in conversation Sentinel_0b6339e1be5481919b922fc9bb634b79 to include exactly tests/ci/run_workspace_package_tests.sh and tests/ci/workspace_package_coverage_test.sh for compatibility between the authentic hosted verification plan and full Cargo workspace-package coverage, with positive and negative regressions. Do not weaken complete-package coverage, warning capture, identity or provenance validation, invent a coverage manifest or provider evidence, skip any package, or change Runtime identity or permissions. Preserve CI10 failed coverage evidence and every prior attempt; the total hosted CI cap remains fifteen with ten used, not fifteen additional runs. This scope preparation does not execute tests, approve a new exact human review, commit, push, or trigger CI11.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T14:48:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+    "contractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
-    "reason": "Recorded the owner explicit WI-1113 sequence 17 confirm_review in conversation Sentinel_781f12133a1c8191b0d40639a68c5042 at 2026-10-28 08:00 UTC. It confirms only the exact current Contract/preflight/snapshot and approved isolated Runtime, total hosted CI cap fifteen retaining seven already-used runs, 28 frozen inherited source paths from 5a942f93acaf0a514a291e39674465feddfa69e7 with exact blob/mode final-publication checks, and this WI-specific immutable material-review receipt directory. It does not approve pending material Unknowns, authenticate a reviewer, grant edits to inherited paths, release/dispatch/production permissions, or verify the new Contract.",
-    "recordedAt": "2026-10-28T08:00:00Z",
+    "reason": "Record the real owner sequence 18 exact confirm_review in conversation Sentinel_70a29707d3008191b8f3486a97fdee5d at 2026-10-28 14:55 UTC, received with the parent transcript. This confirms only the two named coverage script paths and their exact Contract/preflight/snapshot/approved 87d3 isolated Runtime binding. Complete-package coverage, warning capture, receipt identity and provenance, the total hosted CI cap of fifteen with ten already-used attempts, and all existing restrictions remain. It does not turn stale material or verification into passing evidence and does not authorize a new Runtime, cache deletion, release or production action.",
+    "recordedAt": "2026-10-28T14:55:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
+    "repositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -576,10 +609,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-28T13:13:16Z",
-  "preflightContractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
-  "preflightDecisionDigest": "sha256:7181bc9d84b8a4147d308df9294d0a88cfa1020ee0b570aee49f08b722232e0c",
-  "preflightRepositorySnapshotDigest": "sha256:2a40b0e5d0d7bbe2011a896599054030a2768c692ab6ddc7a40f00d52f1872b8",
+  "preflightAt": "2026-10-28T14:49:48Z",
+  "preflightContractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -877,7 +910,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-28T08:09:03.016469589+00:00",
+  "updatedAt": "2026-10-28T14:56:28.747547914+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -885,7 +918,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+    "contractHash": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -900,7 +933,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-28T07:53:19Z"
+    "recordedAt": "2026-10-28T14:48:30Z"
   },
   "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"

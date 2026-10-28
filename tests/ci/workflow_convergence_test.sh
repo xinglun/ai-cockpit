@@ -9,6 +9,7 @@ resolver="$root/tests/ci/resolve_work_item.sh"
 
 python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
+import hashlib
 import importlib.util
 import json
 import re
@@ -20,6 +21,88 @@ workflow = Path(sys.argv[1]).read_text(encoding="utf-8")
 route = Path(sys.argv[2]).read_text(encoding="utf-8")
 runner = Path(sys.argv[3]).read_text(encoding="utf-8")
 resolver = Path(sys.argv[4]).read_text(encoding="utf-8") if Path(sys.argv[4]).exists() else ""
+
+# The fixed public corpus is raw test data, including its final LF. Check its
+# checkout contract before compilation, without changing the payload or scanner.
+corpus_root = Path(sys.argv[1]).resolve().parents[2]
+corpus_path = "tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+corpus_rule = f"/{corpus_path} -text"
+corpus_digest = "a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814"
+
+def require_corpus_bytes(raw):
+    assert len(raw) == 43, "fixed corpus must retain its original 43 bytes"
+    assert hashlib.sha256(raw).hexdigest() == corpus_digest, "fixed corpus SHA256 mismatch"
+
+def corpus_git(repository, *args):
+    return subprocess.run(
+        ["git", "-C", str(repository), "-c", "maintenance.autoDetach=false",
+         "-c", "gc.autoDetach=false", *args],
+        check=True, stdout=subprocess.PIPE,
+    ).stdout
+
+def corpus_attributes(repository, paths):
+    fields = corpus_git(repository, "check-attr", "-z", "text", "diff", "--", *paths).split(b"\0")[:-1]
+    assert len(fields) == len(paths) * 6
+    return {(fields[i].decode(), fields[i + 1].decode()): fields[i + 2].decode()
+            for i in range(0, len(fields), 3)}
+
+corpus_raw = corpus_git(corpus_root, "show", f"HEAD:{corpus_path}")
+require_corpus_bytes(corpus_raw)
+corpus_rules = (corpus_root / ".gitattributes").read_text(encoding="utf-8").splitlines()
+corpus_old_rules = [line for line in corpus_rules if line.strip() != corpus_rule]
+with tempfile.TemporaryDirectory(prefix="fixed-corpus-checkout-") as temporary:
+    checkout = Path(temporary)
+    corpus_git(checkout, "init", "-q")
+    corpus_git(checkout, "config", "--local", "core.autocrlf", "false")
+    target = checkout / corpus_path
+    target.parent.mkdir(parents=True)
+    target.write_bytes(corpus_raw)
+    attributes = checkout / ".gitattributes"
+    attributes.write_text("\n".join(corpus_old_rules) + "\n", encoding="utf-8")
+    corpus_git(checkout, "add", ".")
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "original corpus byte contract")
+    corpus_parent = corpus_path.rsplit("/", 1)[0]
+    probes = [corpus_path, corpus_path + ".other", f"{corpus_parent}/other.txt",
+              f"{corpus_parent}/nested/material.txt",
+              ".ai/evidence/fixture.json", "src/other.rs"]
+    before_attributes = corpus_attributes(checkout, probes)
+    target.unlink()  # Materialize a fresh checkout instead of reusing index stat data.
+    corpus_git(checkout, "-c", "core.autocrlf=true", "checkout-index", "--force", "--", corpus_path)
+    old_checkout = target.read_bytes()
+    assert len(old_checkout) == 44
+    assert hashlib.sha256(old_checkout).hexdigest() == "378a97fa8af550855178dc5e8733f0dd5fb2b88b3270cef6c1d885959cd12fe1"
+    assert old_checkout != corpus_raw, "old rules must reproduce the CRLF transport defect"
+    attributes.write_text("\n".join([*corpus_old_rules, corpus_rule]) + "\n", encoding="utf-8")
+    corpus_git(checkout, "add", ".gitattributes")
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "preserve only the fixed corpus bytes")
+    after_attributes = corpus_attributes(checkout, probes)
+    assert {key for key in before_attributes if before_attributes[key] != after_attributes[key]} == {(corpus_path, "text")}
+    assert after_attributes[(corpus_path, "text")] == "unset"
+    assert after_attributes[(corpus_path, "diff")] != "unset", "the corpus must retain visible text diffs"
+    for mode in ("false", "true", "input"):
+        target.unlink()
+        corpus_git(checkout, "-c", f"core.autocrlf={mode}", "checkout-index", "--force", "--", corpus_path)
+        assert target.read_bytes() == corpus_raw, mode
+        require_corpus_bytes(target.read_bytes())
+    # Corrupt only an isolated fixture blob; the real public corpus is unchanged.
+    target.write_bytes(b"X" + corpus_raw[1:])
+    corpus_git(checkout, "add", "--", corpus_path)
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "negative corpus identity fixture")
+    try:
+        require_corpus_bytes(corpus_git(checkout, "show", f"HEAD:{corpus_path}"))
+    except AssertionError as error:
+        assert str(error) == "fixed corpus SHA256 mismatch"
+    else:
+        raise AssertionError("a changed corpus blob must be rejected")
+assert corpus_rules.count(corpus_rule) == 1, "the fixed corpus requires one exact -text rule"
+source_attributes = corpus_attributes(corpus_root, [corpus_path])
+assert source_attributes[(corpus_path, "text")] == "unset"
+assert source_attributes[(corpus_path, "diff")] != "unset"
+require_corpus_bytes((corpus_root / corpus_path).read_bytes())
+print("fixed corpus byte contract: old CRLF defect, false/true/input, exact scope and tamper rejection passed")
 
 def job_block(name):
     marker = f"  {name}:\n"

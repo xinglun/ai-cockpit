@@ -3,3 +3,5 @@
 /.worktrees export-ignore
 /dist export-ignore
 /target export-ignore
+# Preserve the immutable public conformance corpus, including its final LF.
+/tests/conformance/fixtures/repository-prompt-injection/repository/material.txt -text

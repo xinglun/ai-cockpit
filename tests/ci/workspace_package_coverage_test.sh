@@ -22,9 +22,9 @@ export "${runner_variable}=$root/tests/ci/run_process_observer_test_runner.sh"
 
 cat >"$tmp/metadata.json" <<'JSON'
 {"packages":[
-  {"name":"package-b","source":null,"version":"1.0.0"},
+  {"name":"package-b","source":null,"version":"1.0.0","targets":[{"name":"package_b","kind":["lib"],"test":true}]},
   {"name":"external","source":"registry+example","version":"1.0.0"},
-  {"name":"package-a","source":null,"version":"1.0.0"}
+  {"name":"package-a","source":null,"version":"1.0.0","targets":[{"name":"package_a","kind":["lib"],"test":true}]}
 ]}
 JSON
 cat >"$tmp/fake-cargo" <<'SH'
@@ -127,7 +127,7 @@ runtime_path.write_text(
     "with Path(os.environ['FAKE_RUNTIME_LOG']).open('a', encoding='utf-8') as log: log.write(json.dumps(args) + '\\n')\n"
     "expected = ['work-item', 'status', '--repo', str(Path(os.environ['AI_COCKPIT_VERIFICATION_REPOSITORY'])), '--id', 'WI-HOSTED-RECEIPT', '--json']\n"
     "if args != expected: raise SystemExit('unexpected Runtime status query: ' + repr(args) + '; expected: ' + repr(expected))\n"
-    "print(json.dumps({'workItemId': 'WI-HOSTED-RECEIPT', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'sourceDigests': {'contract': os.environ['FAKE_CURRENT_CONTRACT_DIGEST'], 'repositorySnapshot': os.environ['FAKE_CURRENT_SNAPSHOT_DIGEST']}}))\n",
+    "print(json.dumps({'workItemId': 'WI-HOSTED-RECEIPT', 'verification': 'verified', 'evidenceFreshness': {'state': os.environ.get('FAKE_FRESHNESS_STATE', 'fresh')}, 'sourceDigests': {'contract': os.environ['FAKE_CURRENT_CONTRACT_DIGEST'], 'repositorySnapshot': os.environ['FAKE_CURRENT_SNAPSHOT_DIGEST']}}))\n",
     encoding="utf-8",
 )
 runtime_path.chmod(0o755)
@@ -833,5 +833,587 @@ PY
   serial_receipt_case_count=$((serial_receipt_case_count + 1))
 done
 printf 'serial/targeted receipt regression cases passed: %s\n' "$serial_receipt_case_count"
+
+# Ordinary targeted plans have no workspace coverage manifest. They are not
+# package coverage evidence: after validating their native identity, run every
+# package instead of inventing a manifest from package names in commands.
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+python3 - "$tmp/hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+  "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+  "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[1:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+receipt = formal["receipt"]
+plan = receipt["planReceipt"]
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["verification"][2] = "cargo test --locked -p package-a --lib -- --test-threads=1"
+old_nodes = set(plan.pop("coverageManifest")["nodeIds"])
+receipt["results"] = [r for r in receipt["results"] if r["nodeId"] not in old_nodes]
+receipt["executionRecords"] = [r for r in receipt["executionRecords"] if r["nodeId"] not in old_nodes]
+receipt["results"].append({"nodeId": "project-command-2", "passed": True,
+                           "reused": False, "action": "execute", "satisfiedBy": "execution"})
+receipt["executionRecords"].append({"nodeId": "project-command-2", "commandDigest": "sha256:" + "5" * 64,
+                                   "spawned": True, "passed": True, "exitCode": 0})
+receipt["nodesPlanned"] = receipt["nodesExecuted"] = len(receipt["results"])
+receipt["nodesReused"] = 0
+plan["executedNodes"] = [r["nodeId"] for r in receipt["results"]]
+plan["reusedNodes"] = []
+contract_path.write_text(json.dumps(contract), encoding="utf-8")
+digest = "sha256:" + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+digest_path.write_text(digest, encoding="utf-8")
+formal["contractDigest"] = digest
+raw = json.dumps(formal).encode()
+receipt_path.write_bytes(raw)
+evidence_path.write_bytes(raw)
+PY
+refresh_hosted_orchestration passed
+PACKAGE_LOG="$tmp/targeted-fallback-packages.log" WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+    --cargo "$tmp/fake-cargo" --report "$tmp/targeted-fallback-report.json"
+diff -u <(printf '%s\n' package-a package-b) "$tmp/targeted-fallback-packages.log"
+jq -e '.state == "passed" and .executed == .planned and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned and .groupTimeoutSeconds == 900 and .groupCleanupGraceSeconds == 30 and .workers == 1 and .testThreads == 1' \
+  "$tmp/targeted-fallback-report.json" >/dev/null
+
+cp "$tmp/hosted-verification.json" "$tmp/valid-targeted-verification.json"
+cp "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" "$tmp/valid-targeted-contract.json"
+cat >"$tmp/slow-cargo" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$3" >>"$PACKAGE_LOG"
+printf '%s\n' "$$" >"$PACKAGE_LOG.pid"
+exec sleep 10
+SH
+cat >"$tmp/warning-cargo" <<'SH'
+#!/usr/bin/env bash
+printf '%s\n' "$3" >>"$PACKAGE_LOG"
+printf 'warning: a genuine fresh package diagnostic\n' >&2
+SH
+chmod +x "$tmp/slow-cargo" "$tmp/warning-cargo"
+targeted_fallback_case_count=0
+for fallback_case in full_package multi_targets null_manifest reused_targeted \
+  workspace_without_manifest filtered wrapped env_options nested_env filtered_plus_valid workspace_plus_valid \
+  foreign_package bad_digest failed_result \
+  missing_result duplicate_result bad_accounting wrong_contract wrong_snapshot wrong_runtime \
+  mismatched_original malformed_manifest native_timed_out no_tests missing_record \
+  native_reuse_inconsistent runtime_stale fresh_failure fresh_timeout fresh_warning; do
+  cp "$tmp/valid-targeted-verification.json" "$tmp/hosted-verification.json"
+  cp "$tmp/valid-targeted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+  python3 - "$fallback_case" "$tmp/hosted-verification.json" \
+    "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+    "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+    "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+case = sys.argv[1]
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[2:])
+formal = json.loads(receipt_path.read_text())
+receipt = formal["receipt"]
+plan = receipt["planReceipt"]
+contract = json.loads(contract_path.read_text())
+node = "project-command-2"
+record = next(r for r in receipt["executionRecords"] if r["nodeId"] == node)
+result = next(r for r in receipt["results"] if r["nodeId"] == node)
+commands = {
+    "full_package": "cargo test --locked -p package-a --all-targets -- --test-threads=1",
+    "multi_targets": "cargo test --locked --package package-b --lib --bin app --test rpc --test unit -- --test-threads 1",
+    "workspace_without_manifest": "cargo test --locked --workspace -- --test-threads=1",
+    "filtered": "cargo test --locked -p package-a --lib -- one_test",
+    "wrapped": "FOO=1 cargo test --locked -p package-a --lib",
+    "env_options": "env -i cargo test --locked -p package-a --lib",
+    "nested_env": "env FOO=1 env BAR=2 cargo test --locked -p package-a --lib",
+    "foreign_package": "cargo test --locked -p foreign --all-targets",
+    "no_tests": "cargo fmt --all -- --check",
+}
+if case in commands:
+    contract["verification"][2] = commands[case]
+if case in {"filtered_plus_valid", "workspace_plus_valid"}:
+    contract["verification"].append("cargo test --locked -p package-a -- one_test" if case == "filtered_plus_valid" else "cargo test --locked --workspace")
+if case == "null_manifest":
+    plan["coverageManifest"] = None
+elif case == "malformed_manifest":
+    plan["coverageManifest"] = {}
+elif case == "bad_digest":
+    record["commandDigest"] = "not-a-digest"
+elif case == "native_timed_out":
+    record["timedOut"] = True
+elif case == "failed_result":
+    result["passed"] = False
+elif case == "missing_result":
+    receipt["results"].remove(result)
+    receipt["executionRecords"].remove(record)
+    plan["executedNodes"].remove(node)
+    receipt["nodesPlanned"] -= 1
+    receipt["nodesExecuted"] -= 1
+elif case == "duplicate_result":
+    receipt["results"].append(dict(result))
+    receipt["nodesPlanned"] += 1
+    receipt["nodesExecuted"] += 1
+elif case == "bad_accounting":
+    receipt["nodesExecuted"] -= 1
+elif case == "missing_record":
+    receipt["executionRecords"].remove(record)
+elif case in {"reused_targeted", "native_reuse_inconsistent"}:
+    plan["executedNodes"].remove(node)
+    plan["reusedNodes"] = [node]
+    receipt["nodesExecuted"] -= 1
+    receipt["nodesReused"] += 1
+    if case == "reused_targeted":
+        result.update(reused=True, action="reuse", satisfiedBy="reused_receipt")
+        receipt["executionRecords"].remove(record)
+contract_path.write_text(json.dumps(contract))
+digest = "sha256:" + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+digest_path.write_text(digest)
+formal["contractDigest"] = digest
+if case == "wrong_contract":
+    formal["contractDigest"] = "sha256:" + "f" * 64
+elif case == "wrong_snapshot":
+    formal["repositorySnapshotDigest"] = plan["repositorySnapshotDigest"] = "sha256:" + "f" * 64
+elif case == "wrong_runtime":
+    formal["runtimeDigest"] = "sha256:" + "f" * 64
+raw = json.dumps(formal).encode()
+receipt_path.write_bytes(raw)
+evidence_path.write_bytes(raw)
+if case == "mismatched_original":
+    evidence_path.write_bytes(raw + b"\n")
+PY
+  refresh_hosted_orchestration passed
+  fallback_cargo="$tmp/fake-cargo"
+  freshness=fresh
+  fallback_timeout=900
+  case "$fallback_case" in
+    runtime_stale) freshness=stale ;;
+    fresh_failure) fallback_cargo="$tmp/failing-diagnostic-cargo" ;;
+    fresh_timeout) fallback_cargo="$tmp/slow-cargo"; fallback_timeout=1 ;;
+    fresh_warning) fallback_cargo="$tmp/warning-cargo" ;;
+  esac
+  fallback_exit=0
+  PACKAGE_LOG="$tmp/fallback-$fallback_case-packages.log" WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 \
+  WORKSPACE_TEST_TIMEOUT_SECONDS="$fallback_timeout" FAKE_FRESHNESS_STATE="$freshness" \
+  FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+      --cargo "$fallback_cargo" --report "$tmp/fallback-$fallback_case-report.json" \
+      >"$tmp/fallback-$fallback_case.stdout" 2>"$tmp/fallback-$fallback_case.stderr" || fallback_exit=$?
+  case "$fallback_case" in
+    full_package|multi_targets|null_manifest|reused_targeted)
+      test "$fallback_exit" == 0 || { cat "$tmp/fallback-$fallback_case.stderr" >&2; exit 1; }
+      diff -u <(printf '%s\n' package-a package-b) "$tmp/fallback-$fallback_case-packages.log"
+      jq -e '.state == "passed" and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned' \
+        "$tmp/fallback-$fallback_case-report.json" >/dev/null
+      ;;
+    fresh_failure|fresh_timeout|fresh_warning)
+      test "$fallback_exit" != 0
+      jq -e '.state == "failed" and .failurePhase == "package_test" and .failedPackage == "package-a" and .executed == [] and .omitted == .planned' \
+        "$tmp/fallback-$fallback_case-report.json" >/dev/null
+      if [[ "$fallback_case" == fresh_timeout ]]; then
+        jq -e '.failedExitCode == 124 and .groupTimeoutSeconds == 1' "$tmp/fallback-$fallback_case-report.json" >/dev/null
+        diff -u <(printf '%s\n' package-a) "$tmp/fallback-$fallback_case-packages.log"
+        test -f "$tmp/fallback-$fallback_case-packages.log.pid"
+        ! kill -0 "$(<"$tmp/fallback-$fallback_case-packages.log.pid")" 2>/dev/null
+      fi
+      ;;
+    *)
+      test "$fallback_exit" != 0
+      jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+        "$tmp/fallback-$fallback_case-report.json" >/dev/null
+      test ! -e "$tmp/fallback-$fallback_case-packages.log"
+      ;;
+  esac
+  targeted_fallback_case_count=$((targeted_fallback_case_count + 1))
+done
+printf 'targeted fallback regression cases passed: %s\n' "$targeted_fallback_case_count"
+for invalid_timeout in 0 901 1.5 invalid; do
+  if WORKSPACE_TEST_TIMEOUT_SECONDS="$invalid_timeout" "$root/tests/ci/run_workspace_package_tests.sh" \
+      --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/invalid-timeout-report.json" \
+      >"$tmp/invalid-timeout.stdout" 2>"$tmp/invalid-timeout.stderr"; then
+    printf 'coverage accepted an invalid timeout: %s\n' "$invalid_timeout" >&2
+    exit 1
+  fi
+  grep -q 'timeout must be an integer from 1 to 900' "$tmp/invalid-timeout.stderr"
+done
+
+# The grouping source is metadata, never the hosted command's package names.
+mkdir -p "$tmp/grouped-package"
+cat >"$tmp/grouped-package/Cargo.toml" <<'TOML'
+[package]
+name = "package-a"
+version = "1.0.0"
+[[test]]
+name = "integration"
+test = false
+bench = true
+[[test]]
+name = "disabled"
+test = false
+bench = false
+[[bench]]
+name = "performance"
+test = false
+TOML
+python3 - "$tmp/metadata.json" "$tmp/grouped-metadata.json" "$tmp/grouped-package/Cargo.toml" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+metadata = json.loads(Path(sys.argv[1]).read_text())
+package = next(p for p in metadata["packages"] if p["name"] == "package-a")
+package["manifest_path"] = sys.argv[3]
+package["targets"] = [
+    {"name": "library", "kind": ["lib"], "test": False},
+    {"name": "app", "kind": ["bin"], "test": False},
+    {"name": "integration", "kind": ["test"], "test": False},
+    {"name": "sample", "kind": ["example"], "test": False},
+    {"name": "performance", "kind": ["bench"], "test": False},
+    {"name": "disabled", "kind": ["test"], "test": False},
+    {"name": "build-script-build", "kind": ["custom-build"], "test": False},
+]
+Path(sys.argv[2]).write_text(json.dumps(metadata))
+PY
+cat >"$tmp/group-cargo" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+python3 - "$GROUP_LOG" "$@" <<'PY'
+import json
+import sys
+with open(sys.argv[1], "a", encoding="utf-8") as stream:
+    stream.write(json.dumps(sys.argv[2:]) + "\n")
+PY
+SH
+chmod +x "$tmp/group-cargo"
+GROUP_LOG="$tmp/groups.log" AI_COCKPIT_VERIFICATION_RECEIPT= \
+WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 \
+  "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/grouped-metadata.json" \
+    --cargo "$tmp/group-cargo" --report "$tmp/grouped-report.json"
+python3 - "$tmp/groups.log" "$tmp/grouped-report.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+actual = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+assert len(actual) == 6, actual
+assert [args[5:args.index("--")] for args in actual] == [
+    ["--lib"], ["--bin", "app"], ["--test", "integration"],
+    ["--example", "sample"], ["--bench", "performance"], ["--lib"],
+], actual
+report = json.loads(Path(sys.argv[2]).read_text())
+assert report["state"] == "passed" and report["executed"] == ["package-a", "package-b"]
+assert len(report["groups"]) == 6 and all(g["state"] == "passed" for g in report["groups"])
+assert sum(not t["selected"] for t in report["targetInventory"]) == 2
+PY
+
+# No malformed / incomplete inventory may become empty or partial green.
+inventory_case_count=0
+for inventory_case in missing_targets empty_targets duplicate_target unknown_kind bad_test_flag required_feature disabled_only inconsistent_manifest; do
+  python3 - "$tmp/grouped-metadata.json" "$tmp/invalid-inventory.json" "$inventory_case" <<'PY'
+import json
+import sys
+from pathlib import Path
+m = json.loads(Path(sys.argv[1]).read_text())
+p = next(p for p in m["packages"] if p["name"] == "package-a")
+case = sys.argv[3]
+if case == "missing_targets": del p["targets"]
+elif case == "empty_targets": p["targets"] = []
+elif case == "duplicate_target": p["targets"].append(dict(p["targets"][0]))
+elif case == "unknown_kind": p["targets"][0]["kind"] = ["future-kind"]
+elif case == "bad_test_flag": p["targets"][0]["test"] = "false"
+elif case == "required_feature": p["targets"][0]["required-features"] = ["not-proven-enabled"]
+elif case == "disabled_only": p["targets"] = [t for t in p["targets"] if t["name"] == "disabled"]
+elif case == "inconsistent_manifest": p["targets"].append({"name":"missing-declaration","kind":["test"],"test":False})
+Path(sys.argv[2]).write_text(json.dumps(m))
+PY
+  if GROUP_LOG="$tmp/invalid-$inventory_case-groups.log" AI_COCKPIT_VERIFICATION_RECEIPT= \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/invalid-inventory.json" \
+      --cargo "$tmp/group-cargo" --report "$tmp/invalid-$inventory_case-report.json" \
+      >"$tmp/invalid-$inventory_case.stdout" 2>"$tmp/invalid-$inventory_case.stderr"; then
+    printf 'coverage accepted invalid target inventory: %s\n' "$inventory_case" >&2
+    exit 1
+  fi
+  jq -e '.state == "failed" and .failurePhase == "target_inventory" and .executed == []' \
+    "$tmp/invalid-$inventory_case-report.json" >/dev/null
+  test ! -e "$tmp/invalid-$inventory_case-groups.log"
+  inventory_case_count=$((inventory_case_count + 1))
+done
+printf 'target inventory rejection cases passed: %s\n' "$inventory_case_count"
+
+# A failing first worker waits for the already-running sibling and never
+# launches another group. This exercises actual concurrent fake processes.
+cat >"$tmp/two-worker-cargo" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$3" >>"$GROUP_EVENT_LOG.started"
+if [[ "$3" == package-a ]]; then
+  for ((i=0; i<500; i++)); do
+    [[ -f "$GROUP_EVENT_LOG.running" ]] && exit 17
+    sleep 0.01
+  done
+  exit 19
+fi
+printf '%s\n' "$$" >"$GROUP_EVENT_LOG.running"
+sleep 0.2
+printf '%s\n' finished >"$GROUP_EVENT_LOG.finished"
+SH
+chmod +x "$tmp/two-worker-cargo"
+python3 - "$tmp/metadata.json" "$tmp/two-worker-metadata.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+m = json.loads(Path(sys.argv[1]).read_text())
+m["packages"].append({"name":"package-c","source":None,"targets":[{"name":"package_c","kind":["lib"],"test":True}]})
+Path(sys.argv[2]).write_text(json.dumps(m))
+PY
+if GROUP_EVENT_LOG="$tmp/two-worker" AI_COCKPIT_VERIFICATION_RECEIPT= \
+  WORKSPACE_TEST_WORKERS=2 WORKSPACE_TEST_THREADS=1 \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/two-worker-metadata.json" \
+      --cargo "$tmp/two-worker-cargo" --report "$tmp/two-worker-report.json" \
+      >"$tmp/two-worker.stdout" 2>"$tmp/two-worker.stderr"; then
+  printf 'coverage accepted a concurrent failed group\n' >&2
+  exit 1
+fi
+test -f "$tmp/two-worker.finished"
+! kill -0 "$(<"$tmp/two-worker.running")" 2>/dev/null
+jq -e '.state == "failed" and .failedPackage == "package-a" and .executed == ["package-b"] and .omitted == ["package-a", "package-c"] and (.groups | map(select(.state == "not_run")) | length) == 1' \
+  "$tmp/two-worker-report.json" >/dev/null
+diff -u <(printf '%s\n' package-a package-b) <(sort "$tmp/two-worker.started")
+
+# Ignore TERM in the command process itself; GNU timeout must reach its finite
+# KILL boundary. This is not an arbitrary detached-descendant cleanup claim.
+cat >"$tmp/ignore-term-cargo" <<'SH'
+#!/usr/bin/env bash
+exec python3 - "$GROUP_PID_FILE" <<'PY'
+import os
+import signal
+import sys
+from pathlib import Path
+signal.signal(signal.SIGTERM, signal.SIG_IGN)
+Path(sys.argv[1]).write_text(str(os.getpid()))
+while True:
+    signal.pause()
+PY
+SH
+chmod +x "$tmp/ignore-term-cargo"
+if GROUP_PID_FILE="$tmp/ignore-term.pid" AI_COCKPIT_VERIFICATION_RECEIPT= \
+  WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_TIMEOUT_SECONDS=1 \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+      --cargo "$tmp/ignore-term-cargo" --report "$tmp/ignore-term-report.json" \
+      >"$tmp/ignore-term.stdout" 2>"$tmp/ignore-term.stderr"; then
+  printf 'coverage accepted a KILL-terminated group\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failedExitCode == 137 and .executed == [] and (.groups | map(select(.state == "not_run")) | length) == 1' \
+  "$tmp/ignore-term-report.json" >/dev/null
+python3 - "$tmp/ignore-term.pid" <<'PY'
+import sys
+from pathlib import Path
+pid = Path(sys.argv[1]).read_text()
+stat = Path("/proc") / pid / "stat"
+assert not stat.exists(), "KILL fixture process still present: " + (stat.read_text() if stat.exists() else pid)
+PY
+printf 'group concurrency and TERM/KILL regressions passed\n'
+
+# Exercise the actual owner reaper with an in-memory OS/clock. In particular,
+# an endless stream of exited children must not bypass the cleanup deadline.
+python3 - "$root/tests/ci/run_workspace_package_tests.sh" <<'PY'
+import ast
+import errno
+import io
+import types
+import sys
+from pathlib import Path
+
+source = Path(sys.argv[1]).read_text().split('cat >"$tmp/group-owner.py" <<\'PY\'\n', 1)[1].split('\nPY\n', 1)[0]
+tree = ast.parse(source)
+function = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "reap_group_children")
+code = compile(ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[])), "actual-group-owner", "exec")
+for case in ["echild", "reaped_then_echild", "alive", "continuous_exits", "wait_error"]:
+    clock = [0]
+    calls = [0]
+    def monotonic():
+        clock[0] += 1
+        return clock[0]
+    def waitpid(pid, flags):
+        assert pid == -1
+        calls[0] += 1
+        assert calls[0] <= 5, "reaping failed to respect its deadline"
+        if case == "wait_error": raise OSError(errno.EIO, "injected")
+        if case == "echild" or (case == "reaped_then_echild" and calls[0] > 1): raise ChildProcessError()
+        return (123, 0) if case in {"continuous_exits", "reaped_then_echild"} else (0, 0)
+    scope = dict(os=types.SimpleNamespace(waitpid=waitpid, WNOHANG=1),
+                 time=types.SimpleNamespace(monotonic=monotonic, sleep=lambda _: None),
+                 sys=types.SimpleNamespace(stderr=io.StringIO()), errno=errno)
+    exec(code, scope)
+    failure = None
+    try: scope["reap_group_children"](4)
+    except SystemExit as error: failure = str(error)
+    if case in {"echild", "reaped_then_echild"}: assert failure is None
+    else: assert failure and failure.startswith("target-group cleanup uncertain:")
+watchdog_guard = next(n for n in tree.body if isinstance(n, ast.If) and isinstance(n.test, ast.Name) and n.test.id == "watchdog_failed")
+for failed in [False, True]:
+    failure = None
+    try:
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[watchdog_guard], type_ignores=[])), "actual-owner-watchdog-guard", "exec"), {"watchdog_failed": failed})
+    except SystemExit as error: failure = str(error)
+    assert bool(failure) == failed
+print("owner bounded-reaping and watchdog logic passed: 7 cases")
+guard = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "kill_held_group")
+guard_code = compile(ast.fix_missing_locations(ast.Module(body=[guard], type_ignores=[])), "actual-owner-group-guard", "exec")
+for case in ["owned", "reaped", "not_child", "foreign_pgid", "foreign_sid", "signal_error"]:
+    masks = []
+    kills = []
+    def mask(how, values):
+        masks.append(how)
+        return {"previous"}
+    def waitid(kind, pid, flags):
+        assert (kind, pid, flags) == (1, 123, 14)
+        if case == "not_child": raise ChildProcessError()
+    def killpg(pid, signum):
+        assert (pid, signum) == (123, 9)
+        if case == "signal_error": raise PermissionError()
+        kills.append((pid, signum))
+    scope = dict(signal=types.SimpleNamespace(pthread_sigmask=mask, SIG_BLOCK=0, SIG_SETMASK=2, SIGTERM=15, SIGINT=2, SIGKILL=9),
+                 os=types.SimpleNamespace(getpgrp=lambda: 999, waitid=waitid, P_PID=1, WEXITED=2, WNOHANG=4, WNOWAIT=8,
+                                          getpgid=lambda _: 777 if case == "foreign_pgid" else 123,
+                                          getsid=lambda _: 888 if case == "foreign_sid" else 123, killpg=killpg))
+    exec(guard_code, scope)
+    result = scope["kill_held_group"](types.SimpleNamespace(pid=123, returncode=0 if case == "reaped" else None))
+    assert result is (case == "owned") and kills == ([(123, 9)] if case == "owned" else [])
+    assert masks == [0, 2], "the signal mask must always be restored"
+print("held command-group ownership guard passed: 6 cases")
+PY
+
+# Signal the live, identity-checked private owner, not a guessed process group.
+# A missing forwarding path must fail after the bounded command finishes.
+cat >"$tmp/signal-cargo" <<'SH'
+#!/usr/bin/env bash
+exec python3 - "$GROUP_SIGNAL_MARKER" <<'PY'
+import json
+import os
+import time
+import sys
+from pathlib import Path
+timer = os.getppid()
+stat = Path(f"/proc/{timer}/stat").read_text()
+owner = int(stat[stat.rfind(")") + 2:].split()[1])
+raw = Path(f"/proc/{owner}/stat").read_text()
+Path(sys.argv[1]).write_text(json.dumps({"owner": owner, "starttime": raw[raw.rfind(")") + 2:].split()[19], "command": os.getpid()}))
+time.sleep(30)
+PY
+SH
+chmod +x "$tmp/signal-cargo"
+python3 - "$root/tests/ci/run_workspace_package_tests.sh" "$tmp/metadata.json" "$tmp/signal-cargo" "$tmp" <<'PY'
+import json
+import os
+import signal
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+runner, metadata, cargo, temporary = sys.argv[1:]
+for signum in [signal.SIGTERM, signal.SIGINT]:
+    prefix = Path(temporary) / f"owner-signal-{signum}"
+    marker = Path(str(prefix) + ".marker")
+    report = Path(str(prefix) + ".json")
+    env = dict(os.environ, AI_COCKPIT_VERIFICATION_RECEIPT="", WORKSPACE_TEST_WORKERS="1",
+               WORKSPACE_TEST_TIMEOUT_SECONDS="20", GROUP_SIGNAL_MARKER=str(marker))
+    with Path(str(prefix) + ".log").open("wb") as stream:
+        process = subprocess.Popen([runner, "--metadata", metadata, "--cargo", cargo, "--report", str(report)], env=env, stdout=stream, stderr=subprocess.STDOUT)
+        deadline = time.monotonic() + 10
+        while not marker.is_file() and time.monotonic() < deadline and process.poll() is None:
+            time.sleep(0.01)
+        assert marker.is_file(), "target group did not reach the signal fixture"
+        entry = json.loads(marker.read_text())
+        raw = Path(f"/proc/{entry['owner']}/stat").read_text()
+        assert raw[raw.rfind(")") + 2:].split()[19] == entry["starttime"]
+        started = time.monotonic()
+        os.kill(entry["owner"], signum)
+        code = process.wait(timeout=60)
+        assert code != 0 and time.monotonic() - started < 10, "owner did not promptly forward cancellation"
+    observed = json.loads(report.read_text())
+    assert observed["state"] == "failed" and observed["failedExitCode"] == 128 + signum
+    assert observed["executed"] == [] and len([g for g in observed["groups"] if g["state"] == "not_run"]) == 1
+    assert not Path(f"/proc/{entry['owner']}").exists()
+    assert not Path(f"/proc/{entry['command']}").exists()
+print("owner TERM/INT forwarding passed: 2 cases")
+PY
+
+# A timer that never enforces its deadline must not leave the actual command
+# and its same-group descendant alive when the owner reports failure.
+mkdir -p "$tmp/broken-watchdog-tools"
+cat >"$tmp/broken-watchdog-tools/timeout" <<'PY'
+#!/usr/bin/env python3
+import subprocess
+import sys
+assert sys.argv[1:3] == ["--signal=TERM", "--kill-after=30s"]
+assert sys.argv[3] == "1s"
+child = subprocess.Popen(sys.argv[4:])
+raise SystemExit(child.wait())
+PY
+cat >"$tmp/watchdog-command" <<'PY'
+#!/usr/bin/env python3
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import time
+signal.signal(signal.SIGTERM, signal.SIG_IGN)
+child = subprocess.Popen([sys.executable, "-c", "import signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); time.sleep(90)"])
+identities = []
+for pid in [os.getpid(), child.pid]:
+    stat = Path(f"/proc/{pid}/stat").read_text()
+    fields = stat[stat.rfind(")") + 2:].split()
+    identities.append({"pid": pid, "starttime": fields[19]})
+Path(os.environ["BROKEN_WATCHDOG_MARKER"]).write_text(json.dumps(identities))
+time.sleep(90)
+PY
+chmod +x "$tmp/broken-watchdog-tools/timeout" "$tmp/watchdog-command"
+watchdog_exit=0
+PATH="$tmp/broken-watchdog-tools:$PATH" BROKEN_WATCHDOG_MARKER="$tmp/watchdog-command-pids.json" \
+AI_COCKPIT_VERIFICATION_RECEIPT= WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_TIMEOUT_SECONDS=1 \
+  "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+    --cargo "$tmp/watchdog-command" --report "$tmp/broken-watchdog-report.json" \
+    >"$tmp/broken-watchdog.stdout" 2>"$tmp/broken-watchdog.stderr" || watchdog_exit=$?
+test "$watchdog_exit" != 0
+python3 - "$tmp/broken-watchdog-report.json" "$tmp/watchdog-command-pids.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+report = json.loads(Path(sys.argv[1]).read_text())
+assert report["state"] == "failed" and report["executed"] == []
+assert "target-group cleanup uncertain:" in report["failureDiagnosticTail"]
+assert len([g for g in report["groups"] if g["state"] == "not_run"]) == 1
+remaining = []
+for identity in json.loads(Path(sys.argv[2]).read_text()):
+    path = Path(f"/proc/{identity['pid']}/stat")
+    if path.exists():
+        raw = path.read_text()
+        fields = raw[raw.rfind(")") + 2:].split()
+        if fields[19] == identity["starttime"]:
+            remaining.append(dict(identity, state=fields[0], ppid=fields[1]))
+print(json.dumps({"brokenWatchdogState": report["state"], "remainingOriginalProcesses": remaining}))
+assert not remaining, "broken watchdog left the owned command tree unreaped"
+PY
+printf 'real broken-watchdog command-group cleanup regression passed\n'
 
 printf 'workspace package coverage regression passed\n'

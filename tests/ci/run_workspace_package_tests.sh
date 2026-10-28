@@ -10,7 +10,8 @@ hosted_verification_orchestration="${AI_COCKPIT_VERIFICATION_ORCHESTRATION:-}"
 runtime_bin="${AI_COCKPIT_RUNTIME_BIN:-$root/target/release/ai-cockpit}"
 verification_repository="${AI_COCKPIT_VERIFICATION_REPOSITORY:-$root}"
 workers="${WORKSPACE_TEST_WORKERS:-2}"
-test_threads="${WORKSPACE_TEST_THREADS:-4}"
+test_threads="${WORKSPACE_TEST_THREADS:-1}"
+group_timeout_seconds="${WORKSPACE_TEST_TIMEOUT_SECONDS:-900}"
 while (($#)); do
   case "$1" in
     --metadata) metadata=${2:?}; shift 2 ;;
@@ -28,6 +29,10 @@ if [[ ! "$test_threads" =~ ^[1-9][0-9]*$ ]]; then
   printf 'workspace test thread count must be a positive integer\n' >&2
   exit 2
 fi
+if [[ ! "$group_timeout_seconds" =~ ^[1-9][0-9]{0,2}$ ]] || ((group_timeout_seconds > 900)); then
+  printf 'workspace group timeout must be an integer from 1 to 900 seconds\n' >&2
+  exit 2
+fi
 
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/workspace-packages.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
@@ -37,6 +42,102 @@ trap 'rm -rf "$tmp"' EXIT
 : >"$tmp/hosted-runtime-executed"
 : >"$tmp/coverage-run-executed"
 mkdir -p "$tmp/results"
+printf '{"groups":[],"inventory":[]}\n' >"$tmp/group-plan.json"
+: >"$tmp/groups"
+# Each group has its own process-level child set. GNU timeout may itself die
+# on KILL; this owner survives outside that group and reaps adopted exits.
+cat >"$tmp/group-owner.py" <<'PY'
+import ctypes
+import errno
+import os
+import signal
+import subprocess
+import sys
+import time
+
+if sys.platform != "linux":
+    raise SystemExit("fresh grouped coverage requires Linux subreaper supervision")
+libc = ctypes.CDLL(None, use_errno=True)
+enabled = ctypes.c_int()
+if (libc.prctl(36, 1, 0, 0, 0) != 0 or libc.prctl(37, ctypes.byref(enabled), 0, 0, 0) != 0
+        or enabled.value != 1):
+    raise SystemExit("cannot enable and verify the target-group subreaper")
+child = None
+interrupted = 0
+
+def forward(signum, frame):
+    global interrupted
+    interrupted = signum
+    if child is not None and child.poll() is None:
+        try:
+            child.send_signal(signum)
+        except ProcessLookupError:
+            pass
+
+def kill_held_group(process):
+    # The handler can poll/reap the direct child. Mask it only for this short
+    # ownership check + signal, so the held leader PID cannot be recycled.
+    previous_mask = signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGTERM, signal.SIGINT})
+    try:
+        if process.returncode is not None or process.pid <= 1 or process.pid == os.getpgrp():
+            return False
+        # WNOWAIT proves this is still our child without consuming its status.
+        os.waitid(os.P_PID, process.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT)
+        if os.getpgid(process.pid) != process.pid or os.getsid(process.pid) != process.pid:
+            return False
+        os.killpg(process.pid, signal.SIGKILL)
+        return True
+    except OSError:
+        return False
+    finally:
+        signal.pthread_sigmask(signal.SIG_SETMASK, previous_mask)
+
+signal.signal(signal.SIGTERM, forward)
+signal.signal(signal.SIGINT, forward)
+if interrupted:
+    raise SystemExit(128 + interrupted)
+try:
+    child = subprocess.Popen(sys.argv[2:], start_new_session=True)
+except OSError as error:
+    raise SystemExit("cannot start target group: " + str(error))
+if interrupted and child.poll() is None:
+    child.send_signal(interrupted)
+watchdog_failed = False
+try:
+    code = child.wait(timeout=int(sys.argv[1]) + 31)
+except subprocess.TimeoutExpired:
+    watchdog_failed = True
+    if not kill_held_group(child):
+        print("target-group cleanup uncertain: cannot establish held command-group ownership", file=sys.stderr)
+    try:
+        code = child.wait(timeout=30)
+    except subprocess.TimeoutExpired:
+        raise SystemExit("target-group cleanup uncertain: direct child did not exit")
+# Direct-child status belongs to Popen until this point. Only this dedicated
+# group owner uses waitpid(-1), after Popen has consumed that status.
+def reap_group_children(deadline):
+    while time.monotonic() < deadline:
+        try:
+            pid, status = os.waitpid(-1, os.WNOHANG)
+        except ChildProcessError:
+            return
+        except OSError as error:
+            if error.errno == errno.EINTR:
+                continue
+            raise SystemExit("target-group cleanup uncertain: waitpid failed")
+        if pid > 0:
+            print(f"target-group reaped owned pid={pid} status={status}", file=sys.stderr)
+        else:
+            time.sleep(0.01)
+    raise SystemExit("target-group cleanup uncertain: reap deadline exceeded")
+
+reap_group_children(time.monotonic() + 30)
+if watchdog_failed:
+    raise SystemExit("target-group cleanup uncertain: timeout command exceeded its deadline")
+if interrupted:
+    raise SystemExit(128 + interrupted)
+raise SystemExit(code if code >= 0 else 128 - code)
+PY
 state=passed
 receipt_verification_state=not_provided
 failure_phase=""
@@ -223,33 +324,86 @@ if (
     or plan.get("repositorySnapshotDigest") != snapshot_digest
 ):
     reject("hosted Runtime plan receipt is not bound to the formal evidence identity")
-coverage = plan.get("coverageManifest")
-if not isinstance(coverage, dict) or coverage.get("workspaceMembers") != expected:
-    reject("hosted Runtime plan does not bind the complete Cargo workspace package set")
-node_ids = coverage.get("nodeIds")
-command_digests = coverage.get("commandDigests")
+contract_directory = repository_path / ".ai" / "work-items" / "active"
+contract_path = contract_directory / f"{work_item_id}.contract.json"
 if (
-    not isinstance(node_ids, list)
-    or not isinstance(command_digests, list)
-    or len(node_ids) != len(expected)
-    or len(command_digests) != len(expected)
-    or any(not isinstance(digest, str) or not digest_pattern.fullmatch(digest) for digest in command_digests)
+    (repository_path / ".ai").is_symlink()
+    or (repository_path / ".ai/work-items").is_symlink()
+    or contract_directory.is_symlink()
+    or contract_path.is_symlink()
+    or not contract_path.is_file()
 ):
-    reject("hosted Runtime test manifest has invalid package command bindings")
-indices = set()
-for package, node in zip(expected, node_ids):
-    if not isinstance(node, str):
-        reject("hosted Runtime test manifest has a non-string package node")
-    match = re.fullmatch(r"project-command-(0|[1-9][0-9]*)-package-(.+)", node)
-    if not match or match.group(2) != package:
-        reject("hosted Runtime test manifest package node does not match metadata")
-    indices.add(int(match.group(1)))
-if len(indices) != 1:
-    reject("hosted Runtime test manifest mixes command indices")
-command_index = indices.pop()
-expected_nodes = [f"project-command-{command_index}-package-{package}" for package in expected]
-if node_ids != expected_nodes:
-    reject("hosted Runtime test manifest is missing or duplicating packages")
+    reject("current Runtime-bound Contract is missing or unsafe")
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+observed_contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+if observed_contract_digest != contract_digest:
+    reject("current Contract bytes do not match the Runtime-bound Contract digest")
+declarations = contract.get("verification") if isinstance(contract, dict) else None
+if contract.get("workItemId") != work_item_id or not isinstance(declarations, list):
+    reject("current Runtime-bound Contract has no verification declaration")
+all_node_ids = []
+result_by_id = {}
+for result in results:
+    node_id = result.get("nodeId") if isinstance(result, dict) else None
+    if not isinstance(node_id, str) or not node_id:
+        reject("hosted Runtime receipt contains an invalid verification node identity")
+    if result.get("passed") is not True:
+        reject(f"hosted Runtime verification node failed: {node_id}")
+    all_node_ids.append(node_id)
+    result_by_id[node_id] = result
+if len(set(all_node_ids)) != len(all_node_ids):
+    reject("hosted Runtime receipt contains duplicate verification nodes")
+reused_nodes = plan.get("reusedNodes")
+executed_nodes = plan.get("executedNodes")
+if (
+    not isinstance(reused_nodes, list)
+    or any(not isinstance(node, str) for node in reused_nodes)
+    or len(set(reused_nodes)) != len(reused_nodes)
+    or not isinstance(executed_nodes, list)
+    or any(not isinstance(node, str) for node in executed_nodes)
+    or len(set(executed_nodes)) != len(executed_nodes)
+):
+    reject("hosted Runtime plan is missing valid node accounting")
+if (
+    set(reused_nodes).intersection(executed_nodes)
+    or sorted(reused_nodes + executed_nodes) != sorted(all_node_ids)
+    or len(executed_nodes) != nodes_executed
+    or len(reused_nodes) != nodes_reused
+):
+    reject("hosted Runtime plan execution accounting does not match its formal receipt")
+records = receipt.get("executionRecords")
+if not isinstance(records, list):
+    reject("hosted Runtime receipt is missing execution records")
+record_by_id = {}
+for record in records:
+    if not isinstance(record, dict) or not isinstance(record.get("nodeId"), str):
+        reject("hosted Runtime receipt contains an invalid execution record")
+    if record["nodeId"] in record_by_id:
+        reject("hosted Runtime receipt contains duplicate execution records")
+    record_by_id[record["nodeId"]] = record
+evidence_directory = repository_path / ".ai" / "evidence"
+evidence_path = evidence_directory / f"{work_item_id}.verification.json"
+if (
+    (repository_path / ".ai").is_symlink()
+    or evidence_directory.is_symlink()
+    or evidence_path.is_symlink()
+    or not evidence_path.is_file()
+):
+    reject("Runtime-authored formal verification evidence is missing or unsafe")
+evidence_bytes = evidence_path.read_bytes()
+if artifact_bytes != evidence_bytes:
+    reject("coverage evidence is not byte-identical to Runtime-authored formal evidence")
+evidence = json.loads(evidence_bytes)
+if (
+    evidence.get("workItemId") != work_item_id
+    or evidence.get("passed") is not True
+    or evidence.get("runtimeDigest") != actual_digest
+    or evidence.get("repositoryId") != repository_id
+    or evidence.get("repositorySnapshotDigest") != snapshot_digest
+):
+    reject("Runtime-authored formal verification evidence identity is invalid")
 
 def unfiltered_serial_test_args(args):
     if not isinstance(args, list) or any(not isinstance(arg, str) or not arg for arg in args):
@@ -301,29 +455,119 @@ def additional_targeted_test(program, args):
             return False
     return package is not None and bool(targets)
 
-if not complete_workspace_test(coverage.get("sourceProgram"), coverage.get("sourceArgs")):
-    reject("hosted Runtime manifest is not a complete unfiltered Cargo workspace test")
-contract_directory = repository_path / ".ai" / "work-items" / "active"
-contract_path = contract_directory / f"{work_item_id}.contract.json"
+coverage = plan.get("coverageManifest")
+if coverage is None:
+    # A passing targeted plan is not a complete-package coverage proof. Only
+    # after the common native identity/provenance/accounting checks above may
+    # this route request genuine fresh execution of every metadata package.
+    def ordinary_targeted_test(words):
+        args = unfiltered_serial_test_args(words[1:])
+        if words[:2] != ["cargo", "test"] or not args:
+            return False
+        package = None
+        flags = set()
+        targets = set()
+        index = 1
+        while index < len(args):
+            arg = args[index]
+            if arg in {"--locked", "--all-features", "--all-targets", "--lib"} and arg not in flags:
+                flags.add(arg)
+                index += 1
+            elif arg in {"-p", "--package"} and package is None and index + 1 < len(args):
+                package = args[index + 1]
+                if package not in expected:
+                    return False
+                index += 2
+            elif arg in {"--test", "--bin"} and index + 1 < len(args):
+                target = (arg, args[index + 1])
+                if not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_.-]*", target[1]) or target in targets:
+                    return False
+                targets.add(target)
+                index += 2
+            else:
+                return False
+        return package is not None and not ("--all-targets" in flags and (targets or "--lib" in flags))
+
+    targeted_nodes = []
+    for index, declaration in enumerate(declarations):
+        source = declaration if isinstance(declaration, str) else declaration.get("check") if isinstance(declaration, dict) else None
+        if not isinstance(source, str):
+            reject("current Contract has an unsupported verification declaration")
+        try:
+            words = shlex.split(source)
+        except ValueError:
+            reject("current Contract has malformed verification command quoting")
+        # Use the same conservative env grammar as the manifest branch.
+        assignment_count = 0
+        for word in words:
+            if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.+", word):
+                break
+            assignment_count += 1
+        command = words[assignment_count:]
+        explicit_env = command[:1] == ["env"]
+        if explicit_env:
+            command = command[1:]
+            while command and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.+", command[0]):
+                command = command[1:]
+            if not command or command[0] == "env" or command[0].startswith("-"):
+                reject("current Contract has unsupported env command syntax")
+        if command[:2] != ["cargo", "test"]:
+            continue
+        if assignment_count or explicit_env or not ordinary_targeted_test(words):
+            reject("unmanifested Runtime plan has a filtered, workspace, or unsupported Cargo test")
+        node = f"project-command-{index}"
+        targeted_nodes.append(node)
+        result = result_by_id.get(node)
+        if not isinstance(result, dict) or any(other.startswith(node + "-package-") for other in all_node_ids):
+            reject("unmanifested Runtime plan omits an ordinary targeted test result")
+        if node in reused_nodes:
+            if (result.get("reused") is not True or result.get("action") != "reuse"
+                    or result.get("satisfiedBy") != "reused_receipt" or node in record_by_id):
+                reject("unmanifested Runtime plan has inconsistent reused targeted evidence")
+        else:
+            record = record_by_id.get(node)
+            if (result.get("reused") is not False or result.get("action") != "execute"
+                    or result.get("satisfiedBy") != "execution" or not isinstance(record, dict)
+                    or not isinstance(record.get("commandDigest"), str)
+                    or not digest_pattern.fullmatch(record["commandDigest"])
+                    or record.get("spawned") is not True or record.get("passed") is not True
+                    or record.get("exitCode") != 0 or record.get("timedOut") is True):
+                reject("unmanifested Runtime plan has inconsistent executed targeted evidence")
+    if not targeted_nodes:
+        reject("unmanifested Runtime plan has no supported ordinary targeted test")
+    print(json.dumps({"coverageRequired": expected, "hostedRuntimeExecuted": []}))
+    raise SystemExit(0)
+if not isinstance(coverage, dict) or coverage.get("workspaceMembers") != expected:
+    reject("hosted Runtime plan does not bind the complete Cargo workspace package set")
+node_ids = coverage.get("nodeIds")
+command_digests = coverage.get("commandDigests")
 if (
-    (repository_path / ".ai").is_symlink()
-    or (repository_path / ".ai/work-items").is_symlink()
-    or contract_directory.is_symlink()
-    or contract_path.is_symlink()
-    or not contract_path.is_file()
+    not isinstance(node_ids, list)
+    or not isinstance(command_digests, list)
+    or len(node_ids) != len(expected)
+    or len(command_digests) != len(expected)
+    or any(not isinstance(digest, str) or not digest_pattern.fullmatch(digest) for digest in command_digests)
 ):
-    reject("current Runtime-bound Contract is missing or unsafe")
-contract = json.loads(contract_path.read_text(encoding="utf-8"))
-observed_contract_digest = "sha256:" + hashlib.sha256(
-    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-).hexdigest()
-if observed_contract_digest != contract_digest:
-    reject("current Contract bytes do not match the Runtime-bound Contract digest")
-declarations = contract.get("verification") if isinstance(contract, dict) else None
-if contract.get("workItemId") != work_item_id or not isinstance(declarations, list):
-    reject("current Runtime-bound Contract has no verification declaration")
+    reject("hosted Runtime test manifest has invalid package command bindings")
+indices = set()
+for package, node in zip(expected, node_ids):
+    if not isinstance(node, str):
+        reject("hosted Runtime test manifest has a non-string package node")
+    match = re.fullmatch(r"project-command-(0|[1-9][0-9]*)-package-(.+)", node)
+    if not match or match.group(2) != package:
+        reject("hosted Runtime test manifest package node does not match metadata")
+    indices.add(int(match.group(1)))
+if len(indices) != 1:
+    reject("hosted Runtime test manifest mixes command indices")
+command_index = indices.pop()
 if command_index >= len(declarations):
     reject("hosted Runtime test command index is outside the current Contract")
+expected_nodes = [f"project-command-{command_index}-package-{package}" for package in expected]
+if node_ids != expected_nodes:
+    reject("hosted Runtime test manifest is missing or duplicating packages")
+
+if not complete_workspace_test(coverage.get("sourceProgram"), coverage.get("sourceArgs")):
+    reject("hosted Runtime manifest is not a complete unfiltered Cargo workspace test")
 test_declarations = []
 targeted_declarations = []
 assignment_name = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
@@ -365,18 +609,6 @@ for index, declaration in enumerate(declarations):
             reject("current Contract declares a filtered or unsupported Cargo test")
 if test_declarations != [command_index]:
     reject("hosted Runtime test manifest has no unique matching Contract declaration")
-all_node_ids = []
-result_by_id = {}
-for result in results:
-    node_id = result.get("nodeId") if isinstance(result, dict) else None
-    if not isinstance(node_id, str) or not node_id:
-        reject("hosted Runtime receipt contains an invalid verification node identity")
-    if result.get("passed") is not True:
-        reject(f"hosted Runtime verification node failed: {node_id}")
-    all_node_ids.append(node_id)
-    result_by_id[node_id] = result
-if len(set(all_node_ids)) != len(all_node_ids):
-    reject("hosted Runtime receipt contains duplicate verification nodes")
 if not set(expected_nodes).issubset(result_by_id):
     reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
 if any(f"project-command-{index}" not in result_by_id for index in targeted_declarations):
@@ -387,34 +619,6 @@ if any(
     for node in all_node_ids
 ):
     reject("hosted Runtime receipt contains an undeclared package test node")
-reused_nodes = plan.get("reusedNodes")
-executed_nodes = plan.get("executedNodes")
-if (
-    not isinstance(reused_nodes, list)
-    or any(not isinstance(node, str) for node in reused_nodes)
-    or len(set(reused_nodes)) != len(reused_nodes)
-    or not isinstance(executed_nodes, list)
-    or any(not isinstance(node, str) for node in executed_nodes)
-    or len(set(executed_nodes)) != len(executed_nodes)
-):
-    reject("hosted Runtime plan is missing valid node accounting")
-if (
-    set(reused_nodes).intersection(executed_nodes)
-    or sorted(reused_nodes + executed_nodes) != sorted(all_node_ids)
-    or len(executed_nodes) != nodes_executed
-    or len(reused_nodes) != nodes_reused
-):
-    reject("hosted Runtime plan execution accounting does not match its formal receipt")
-records = receipt.get("executionRecords")
-if not isinstance(records, list):
-    reject("hosted Runtime receipt is missing execution records")
-record_by_id = {}
-for record in records:
-    if not isinstance(record, dict) or not isinstance(record.get("nodeId"), str):
-        reject("hosted Runtime receipt contains an invalid execution record")
-    if record["nodeId"] in record_by_id:
-        reject("hosted Runtime receipt contains duplicate execution records")
-    record_by_id[record["nodeId"]] = record
 warning_capture_required = set()
 for node, digest in zip(expected_nodes, command_digests):
     result = result_by_id[node]
@@ -466,27 +670,6 @@ else:
     hosted_runtime_executed = [package for package in expected if package not in reused_packages]
     coverage_required = [package for package in expected if package in reused_packages or package in warning_capture_required]
 
-evidence_directory = repository_path / ".ai" / "evidence"
-evidence_path = evidence_directory / f"{work_item_id}.verification.json"
-if (
-    (repository_path / ".ai").is_symlink()
-    or evidence_directory.is_symlink()
-    or evidence_path.is_symlink()
-    or not evidence_path.is_file()
-):
-    reject("Runtime-authored formal verification evidence is missing or unsafe")
-evidence_bytes = evidence_path.read_bytes()
-if artifact_bytes != evidence_bytes:
-    reject("coverage evidence is not byte-identical to Runtime-authored formal evidence")
-evidence = json.loads(evidence_bytes)
-if (
-    evidence.get("workItemId") != work_item_id
-    or evidence.get("passed") is not True
-    or evidence.get("runtimeDigest") != actual_digest
-    or evidence.get("repositoryId") != repository_id
-    or evidence.get("repositorySnapshotDigest") != snapshot_digest
-):
-    reject("Runtime-authored formal verification evidence identity is invalid")
 print(json.dumps({"coverageRequired": coverage_required, "hostedRuntimeExecuted": hosted_runtime_executed}))
 PY
   then
@@ -515,6 +698,119 @@ if [[ "$state" == passed ]]; then
   done <"$tmp/coverage-required"
   package_count=${#packages[@]}
   if ((package_count > 0)); then
+    if ! python3 - "$metadata" "$tmp/coverage-required" "$tmp/group-plan.json" \
+      >"$tmp/groups" 2>"$tmp/group-diagnostic" <<'PY'
+import hashlib
+import json
+import re
+import sys
+import tomllib
+from pathlib import Path
+
+metadata_path, required_path, plan_path = map(Path, sys.argv[1:])
+raw = metadata_path.read_bytes()
+metadata = json.loads(raw)
+required = required_path.read_text().splitlines()
+packages = {}
+for package in metadata["packages"]:
+    if package.get("source") is not None:
+        continue
+    name = package.get("name")
+    if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_-]*", name) or name in packages:
+        raise SystemExit("metadata has invalid or duplicate workspace package names")
+    packages[name] = package
+groups = []
+inventory = []
+lib_kinds = {"lib", "rlib", "dylib", "cdylib", "staticlib", "proc-macro"}
+rank = {"lib": 0, "bin": 1, "test": 2, "example": 3, "bench": 4}
+
+def bench_enabled(package, kind, name, tested):
+    # Metadata exposes `test`, but not `bench`. For test=false integration /
+    # bench targets, retain Cargo's union of tested and benched targets.
+    path = Path(package.get("manifest_path", ""))
+    if path.name != "Cargo.toml" or path.is_symlink() or not path.is_file():
+        raise SystemExit("test=false target requires a regular Cargo.toml to resolve bench selection")
+    try:
+        manifest = tomllib.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        raise SystemExit("cannot inspect target bench selection in Cargo.toml")
+    entries = manifest.get(kind, [])
+    if not isinstance(entries, list) or any(not isinstance(e, dict) or "name" not in e for e in entries):
+        raise SystemExit("target bench selection has unsupported unnamed or malformed declarations")
+    matches = [e for e in entries if e["name"] == name]
+    if len(matches) > 1:
+        raise SystemExit("target bench selection has duplicate declarations")
+    entry = matches[0] if matches else {}
+    manifest_test = entry.get("test", kind == "test")
+    bench = entry.get("bench", kind == "bench")
+    if type(manifest_test) is not bool or manifest_test != tested or type(bench) is not bool:
+        raise SystemExit("target test/bench flags disagree with metadata or are malformed")
+    return bench
+
+for package_name in required:
+    package = packages.get(package_name)
+    if package is None or not isinstance(package.get("targets"), list) or not package["targets"]:
+        raise SystemExit("fresh coverage requires the complete metadata target inventory")
+    package_groups = []
+    seen = set()
+    for target in package["targets"]:
+        if not isinstance(target, dict):
+            raise SystemExit("metadata target is malformed")
+        kinds = target.get("kind")
+        name = target.get("name")
+        tested = target.get("test")
+        if (not isinstance(kinds, list) or not kinds or any(not isinstance(k, str) for k in kinds)
+                or len(kinds) != len(set(kinds)) or not isinstance(name, str)
+                or not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_.-]*", name) or type(tested) is not bool):
+            raise SystemExit("metadata target kind/name/test fields are invalid")
+        if set(kinds).issubset(lib_kinds):
+            kind = "lib"
+        elif len(kinds) == 1 and kinds[0] in {"bin", "test", "example", "bench", "custom-build"}:
+            kind = kinds[0]
+        else:
+            raise SystemExit("metadata has an unsupported target kind")
+        key = (kind, name)
+        if key in seen or (kind == "lib" and any(k == "lib" for k, _ in seen)):
+            raise SystemExit("metadata target inventory has duplicate targets")
+        seen.add(key)
+        features = target.get("required-features", [])
+        if not isinstance(features, list) or features:
+            raise SystemExit("required-feature target selection cannot be proven from no-deps metadata")
+        selected = kind != "custom-build"
+        reason = "explicit_all_targets_selection" if selected else "cargo_build_dependency"
+        if kind in {"test", "bench"} and not tested:
+            selected = bench_enabled(package, kind, name, tested)
+            if not selected:
+                reason = "test_and_bench_disabled"
+        item = {"package": package_name, "kind": kind, "name": name,
+                "test": tested, "selected": selected, "reason": reason}
+        inventory.append(item)
+        if selected:
+            args = ["--lib"] if kind == "lib" else ["--" + kind, name]
+            package_groups.append({"id": f"{package_name}/{kind}/{name}",
+                                   "package": package_name, "kind": kind, "name": name, "args": args})
+    if not package_groups:
+        raise SystemExit("package has no selected test groups; empty coverage cannot pass")
+    groups.extend(sorted(package_groups, key=lambda g: (rank[g["kind"]], g["name"])))
+plan = {"metadataDigest": "sha256:" + hashlib.sha256(raw).hexdigest(),
+        "groups": groups, "inventory": sorted(inventory, key=lambda i: (i["package"], i["kind"], i["name"]))}
+plan_path.write_text(json.dumps(plan, sort_keys=True) + "\n")
+for group in groups:
+    print(json.dumps(group, sort_keys=True))
+PY
+    then
+      state=failed
+      failure_phase=target_inventory
+      failure_diagnostic_tail=$(tail -c 12000 "$tmp/group-diagnostic")
+      : >"$tmp/groups"
+    fi
+  fi
+  if ((package_count > 0)) && ! command -v timeout >/dev/null 2>&1; then
+    state=failed
+    failure_phase=runner_setup
+    failure_diagnostic_tail="GNU timeout is required for bounded target-group execution"
+  fi
+  if ((package_count > 0)) && [[ "$state" == passed ]]; then
     rustc_bin="${RUSTC:-rustc}"
     if ! rustc_info=$("$rustc_bin" -vV 2>&1); then
       state=failed
@@ -739,15 +1035,22 @@ PY
     fi
   fi
   pids=()
+  groups=()
+  while IFS= read -r group; do groups+=("$group"); done <"$tmp/groups"
+  group_count=${#groups[@]}
   active=0
   next=0
-  while { [[ "$state" == passed ]] && ((next < package_count)) || ((active > 0)); }; do
-    while [[ "$state" == passed ]] && ((next < package_count && active < workers)); do
-      package=${packages[$next]}
+  while { [[ "$state" == passed ]] && ((next < group_count)) || ((active > 0)); }; do
+    while [[ "$state" == passed ]] && ((next < group_count && active < workers)); do
+      package=$(jq -er '.package' <<<"${groups[$next]}")
+      selector=()
+      while IFS= read -r argument; do selector+=("$argument"); done < <(jq -r '.args[]' <<<"${groups[$next]}")
       index=$next
       (
         set +e
-        (cd "$root" && "$cargo_bin" test -p "$package" --target "$host_target" --all-targets -- --test-threads="$test_threads") \
+        (cd "$root" && python3 "$tmp/group-owner.py" "$group_timeout_seconds" \
+          timeout --signal=TERM --kill-after=30s "${group_timeout_seconds}s" \
+          "$cargo_bin" test -p "$package" --target "$host_target" "${selector[@]}" -- --test-threads="$test_threads") \
           >"$tmp/results/$index.log" 2>&1
         result=$?
         if [[ "$result" == 0 ]]; then
@@ -770,7 +1073,7 @@ PY
         if [[ "$result" != 0 && "$state" == passed ]]; then
           state=failed
           failure_phase=package_test
-          failed_package=${packages[$index]}
+          failed_package=$(jq -er '.package' <<<"${groups[$index]}")
           failed_index=$index
           failed_exit_code=$result
         fi
@@ -790,13 +1093,25 @@ fi
 # Completion order is intentionally independent from the worker schedule so
 # the report remains deterministic and can be compared across CI runs.
 : >"$tmp/coverage-run-executed"
-if [[ "$state" == passed || -n "$failed_index" ]]; then
-  for index in "${!packages[@]}"; do
-    if [[ -f "$tmp/results/$index.status" ]] && [[ "$(<"$tmp/results/$index.status")" == 0 ]]; then
-      printf '%s\n' "${packages[$index]}" >>"$tmp/coverage-run-executed"
-    fi
-  done
-fi
+python3 - "$tmp/group-plan.json" "$tmp/results" "$tmp/coverage-run-executed" "$tmp/group-results.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+plan_path, results_path, completed_path, groups_path = map(Path, sys.argv[1:])
+plan = json.loads(plan_path.read_text())
+results = []
+by_package = {}
+for index, group in enumerate(plan["groups"]):
+    status_path = results_path / f"{index}.status"
+    code = int(status_path.read_text()) if status_path.is_file() else None
+    result = dict(group, exitCode=code, state="not_run" if code is None else "passed" if code == 0 else "failed")
+    results.append(result)
+    by_package.setdefault(group["package"], []).append(code)
+complete = [name for name, statuses in sorted(by_package.items()) if statuses and all(code == 0 for code in statuses)]
+completed_path.write_text("".join(name + "\n" for name in complete))
+groups_path.write_text(json.dumps(dict(plan, groups=results), sort_keys=True) + "\n")
+PY
 python3 - "$tmp/planned" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$tmp/executed" <<'PY'
 import sys
 
@@ -810,7 +1125,7 @@ with open(executed_path, "w", encoding="utf-8") as stream:
 PY
 
 mkdir -p "$(dirname "$report")"
-python3 - "$tmp/planned" "$tmp/executed" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" "$receipt_verification_state" <<'PY'
+python3 - "$tmp/planned" "$tmp/executed" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" "$receipt_verification_state" "$group_timeout_seconds" "$workers" "$test_threads" "$tmp/group-results.json" <<'PY'
 import json
 import sys
 
@@ -830,7 +1145,19 @@ report = {
     "schemaVersion": 1,
     "state": sys.argv[6],
     "verificationReceiptState": sys.argv[11],
+    "groupTimeoutSeconds": int(sys.argv[12]),
+    "groupCleanupGraceSeconds": 30,
+    "groupReapGraceSeconds": 30,
+    "groupOwnerDeadlineSlackSeconds": 1,
+    "groupOwnerForceKillGraceSeconds": 30,
+    "workers": int(sys.argv[13]),
+    "testThreads": int(sys.argv[14]),
 }
+group_results = json.loads(open(sys.argv[15], encoding="utf-8").read())
+report["groups"] = group_results["groups"]
+report["targetInventory"] = group_results["inventory"]
+if "metadataDigest" in group_results:
+    report["groupMetadataDigest"] = group_results["metadataDigest"]
 if sys.argv[7]:
     report["failurePhase"] = sys.argv[7]
 if sys.argv[8]:
@@ -845,6 +1172,9 @@ PY
 if [[ "$state" != passed ]]; then
   printf 'workspace package coverage failed: phase=%s package=%s exitCode=%s\n' \
     "$failure_phase" "$failed_package" "$failed_exit_code" >&2
+  if [[ -n "$failure_diagnostic_tail" ]]; then
+    printf '%s\n' "$failure_diagnostic_tail" >&2
+  fi
   exit 1
 fi
 printf 'workspace package coverage passed: %s packages\n' "$(wc -l <"$tmp/executed" | tr -d ' ')"

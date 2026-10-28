@@ -576,7 +576,9 @@
     "tests/ci/repository_prechecks_test.sh",
     "tests/ci/run_repository_prechecks.sh",
     "tests/ci/run_work_item_verification.sh",
-    ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/**"
+    ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/**",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/workspace_package_coverage_test.sh"
   ],
   "sources": [
     {
