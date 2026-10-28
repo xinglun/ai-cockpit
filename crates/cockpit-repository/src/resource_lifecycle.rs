@@ -5511,30 +5511,62 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     if historical.contains(&b'\r') || compiled.contains(&b'\r') {
         return false;
     }
-    let (Some(historical), Some(compiled)) = (
+    let (Some(historical_v1), Some(compiled_v1)) = (
         historical_analysis_recipe_projection(&historical),
         historical_analysis_recipe_projection(&compiled),
     ) else {
         return false;
     };
-    if historical == compiled {
+    if historical_v1 == compiled_v1 {
         return true;
     }
-    let historical_digest = Digest::sha256_bytes(historical.as_bytes()).to_string();
-    let compiled_digest = Digest::sha256_bytes(compiled.as_bytes()).to_string();
-    // Keep historical compatibility explicit and directed. These fingerprints
-    // bind the complete token-normalized digest recipe at both ends; unknown
-    // historical or current recipes remain rejected.
-    const SUPPORTED_TRANSITIONS: &[(&str, &str)] = &[(
+    let historical_v1_digest = Digest::sha256_bytes(historical_v1.as_bytes()).to_string();
+    let compiled_v1_digest = Digest::sha256_bytes(compiled_v1.as_bytes()).to_string();
+    // Version 1 includes test-only source items. Keep its original directed
+    // compatibility record intact for historical source pairs.
+    const SUPPORTED_V1_TRANSITIONS: &[(&str, &str)] = &[(
         "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40",
         "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b",
     )];
-    SUPPORTED_TRANSITIONS
-        .iter()
-        .any(|(previous, current)| *previous == historical_digest && *current == compiled_digest)
+    if SUPPORTED_V1_TRANSITIONS.iter().any(|(previous, current)| {
+        *previous == historical_v1_digest && *current == compiled_v1_digest
+    }) {
+        return true;
+    }
+
+    let (Some(historical_v2), Some(compiled_v2)) = (
+        production_analysis_recipe_projection_v2(&historical),
+        production_analysis_recipe_projection_v2(&compiled),
+    ) else {
+        return false;
+    };
+    if historical_v2 == compiled_v2 {
+        return true;
+    }
+    let historical_v2_digest = Digest::sha256_bytes(historical_v2.as_bytes()).to_string();
+    let compiled_v2_digest = Digest::sha256_bytes(compiled_v2.as_bytes()).to_string();
+    // Version 2 projects out top-level items with exactly one `#[cfg(test)]`
+    // attribute; composite and additional attributes remain significant. The
+    // source pair below was computed from the exact historical Git blob and
+    // current source projection; it does not replace or broaden version 1.
+    const SUPPORTED_V2_TRANSITIONS: &[(&str, &str)] = &[(
+        "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
+        "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+    )];
+    SUPPORTED_V2_TRANSITIONS.iter().any(|(previous, current)| {
+        *previous == historical_v2_digest && *current == compiled_v2_digest
+    })
 }
 
 fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
+    analysis_recipe_projection(source, false)
+}
+
+fn production_analysis_recipe_projection_v2(source: &[u8]) -> Option<String> {
+    analysis_recipe_projection(source, true)
+}
+
+fn analysis_recipe_projection(source: &[u8], omit_test_only_items: bool) -> Option<String> {
     use syn::spanned::Spanned;
 
     let source = std::str::from_utf8(source).ok()?;
@@ -5546,6 +5578,10 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
     let mut implementation_count = 0;
     let mut obsolete_import_count = 0;
     for item in &module.items {
+        if omit_test_only_items && exact_top_level_cfg_test_item(item)? {
+            omitted.push(item.span().byte_range());
+            continue;
+        }
         if let syn::Item::Fn(function) = item {
             match function.sig.ident.to_string().as_str() {
                 "record_work_item_material_review" => {
@@ -5617,6 +5653,41 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
         .parse::<proc_macro2::TokenStream>()
         .ok()
         .map(|tokens| tokens.to_string())
+}
+
+fn exact_top_level_cfg_test_item(item: &syn::Item) -> Option<bool> {
+    let attrs = match item {
+        syn::Item::Const(value) => &value.attrs,
+        syn::Item::Enum(value) => &value.attrs,
+        syn::Item::ExternCrate(value) => &value.attrs,
+        syn::Item::Fn(value) => &value.attrs,
+        syn::Item::ForeignMod(value) => &value.attrs,
+        syn::Item::Impl(value) => &value.attrs,
+        syn::Item::Macro(value) => &value.attrs,
+        syn::Item::Mod(value) => &value.attrs,
+        syn::Item::Static(value) => &value.attrs,
+        syn::Item::Struct(value) => &value.attrs,
+        syn::Item::Trait(value) => &value.attrs,
+        syn::Item::TraitAlias(value) => &value.attrs,
+        syn::Item::Type(value) => &value.attrs,
+        syn::Item::Union(value) => &value.attrs,
+        syn::Item::Use(value) => &value.attrs,
+        syn::Item::Verbatim(_) => return None,
+        _ => return None,
+    };
+    if attrs.len() != 1 {
+        return Some(false);
+    }
+    let syn::Meta::List(meta) = &attrs[0].meta else {
+        return Some(false);
+    };
+    if !meta.path.is_ident("cfg") {
+        return Some(false);
+    }
+    Some(matches!(
+        meta.parse_args::<syn::Meta>(),
+        Ok(syn::Meta::Path(path)) if path.is_ident("test")
+    ))
 }
 
 fn historical_writer_has_only_local_effects(function: &syn::ItemFn) -> bool {
@@ -9696,24 +9767,96 @@ mod post_merge_sync_tests {
             "crates/cockpit-repository/src/material_review.rs",
         )
         .unwrap();
+        let version_1_current = super::git_blob_bytes(
+            &root,
+            "77bb6c63b03b8d629c097944df9d1af9ec8afe92",
+            "crates/cockpit-repository/src/material_review.rs",
+        )
+        .unwrap();
         let current = include_bytes!("material_review.rs");
         let historical_projection =
             super::historical_analysis_recipe_projection(&historical).unwrap();
-        let current_projection = super::historical_analysis_recipe_projection(current).unwrap();
+        let version_1_current_projection =
+            super::historical_analysis_recipe_projection(&version_1_current).unwrap();
         assert_eq!(
             Digest::sha256_bytes(historical_projection.as_bytes()).to_string(),
             "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40"
         );
         assert_eq!(
-            Digest::sha256_bytes(current_projection.as_bytes()).to_string(),
+            Digest::sha256_bytes(version_1_current_projection.as_bytes()).to_string(),
             "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b"
+        );
+        assert_ne!(
+            super::historical_analysis_recipe_projection(current).unwrap(),
+            version_1_current_projection,
+            "version 1 must retain its historical sensitivity to test-only source"
         );
         assert_ne!(
             Digest::sha256_bytes(&historical),
             Digest::sha256_bytes(current)
         );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            &version_1_current
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            &version_1_current,
+            &historical
+        ));
+
+        let historical_v2 = super::production_analysis_recipe_projection_v2(&historical).unwrap();
+        let current_v2 = super::production_analysis_recipe_projection_v2(current).unwrap();
+        assert_eq!(
+            super::production_analysis_recipe_projection_v2(&version_1_current).unwrap(),
+            current_v2,
+            "adding the Windows fixture configuration must not change the version 2 production projection"
+        );
+        eprintln!(
+            "version 2 production recipe fingerprints: historical={} current={}",
+            Digest::sha256_bytes(historical_v2.as_bytes()),
+            Digest::sha256_bytes(current_v2.as_bytes())
+        );
         assert!(super::analysis_recipe_source_matches(&historical, current));
         assert!(!super::analysis_recipe_source_matches(current, &historical));
+
+        let current_text = String::from_utf8(current.to_vec()).unwrap();
+        let fixture_only_change = current_text.replace(
+            "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"false\"]);",
+            "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"true\"]);",
+        );
+        assert_ne!(fixture_only_change, current_text);
+        assert_eq!(
+            super::production_analysis_recipe_projection_v2(current),
+            super::production_analysis_recipe_projection_v2(fixture_only_change.as_bytes())
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            fixture_only_change.as_bytes()
+        ));
+
+        let helper_only_change = current_text.replace(
+            "fn material_review_contract_amendment_digests_form_chain(",
+            "fn material_review_contract_amendment_digests_form_chain_test_only(",
+        );
+        assert_ne!(helper_only_change, current_text);
+        assert_eq!(
+            super::production_analysis_recipe_projection_v2(current),
+            super::production_analysis_recipe_projection_v2(helper_only_change.as_bytes())
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            helper_only_change.as_bytes()
+        ));
+
+        let unsupported_cfg = current_text.replace(
+            "#[cfg(test)]\nmod tests {",
+            "#[cfg(any(test, feature = \"fixture-test\"))]\nmod tests {",
+        );
+        assert_ne!(unsupported_cfg, current_text);
+        assert!(!super::analysis_recipe_source_matches(
+            &historical,
+            unsupported_cfg.as_bytes()
+        ));
 
         let historical = String::from_utf8(historical).unwrap();
         for (before, after) in [

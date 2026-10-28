@@ -73,17 +73,26 @@ impl FixturePermissions {
         fs::set_permissions(path, permissions).expect("restore fixture permissions");
     }
 
-    fn make_writable(path: &Path, is_directory: bool) {
+    fn make_writable(path: &Path, _is_directory: bool) {
         let mut permissions = fs::metadata(path)
             .expect("fixture metadata before removal")
             .permissions();
         #[cfg(unix)]
         {
-            let minimum = if is_directory { 0o700 } else { 0o600 };
+            let minimum = if _is_directory { 0o700 } else { 0o600 };
             permissions.set_mode(permissions.mode() | minimum);
         }
         #[cfg(not(unix))]
-        permissions.set_readonly(false);
+        {
+            #[cfg_attr(
+                windows,
+                expect(
+                    clippy::permissions_set_readonly_false,
+                    reason = "On Windows this clears FILE_ATTRIBUTE_READONLY; Unix uses owner-only mode bits above."
+                )
+            )]
+            permissions.set_readonly(false);
+        }
         fs::set_permissions(path, permissions).expect("make fixture entry removable");
     }
 }
@@ -272,6 +281,34 @@ fn fixture_tree_snapshot_restores_bytes_and_permissions() {
     fs::write(root.join("nested/file"), b"mutated bytes").expect("mutate fixture file");
     fs::write(root.join("new-file"), b"remove me").expect("new fixture file");
     baseline.restore(root);
+    assert_eq!(FixtureTreeSnapshot::capture(root), baseline);
+}
+
+#[cfg(windows)]
+#[test]
+fn fixture_tree_snapshot_restores_windows_readonly_file() {
+    let directory = tempfile::tempdir().expect("fixture snapshot test directory");
+    let root = directory.path();
+    let file = root.join("readonly-file");
+    fs::write(&file, b"original bytes").expect("fixture file");
+    let mut permissions = fs::metadata(&file).expect("fixture metadata").permissions();
+    permissions.set_readonly(true);
+    fs::set_permissions(&file, permissions).expect("make fixture file readonly");
+
+    let baseline = FixtureTreeSnapshot::capture(root);
+    fs::write(root.join("extra-file"), b"remove me").expect("extra fixture file");
+    baseline.restore(root);
+
+    assert_eq!(
+        fs::read(&file).expect("restored fixture bytes"),
+        b"original bytes"
+    );
+    assert!(
+        fs::metadata(&file)
+            .expect("restored fixture metadata")
+            .permissions()
+            .readonly()
+    );
     assert_eq!(FixtureTreeSnapshot::capture(root), baseline);
 }
 
