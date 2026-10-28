@@ -3109,7 +3109,16 @@ mod tests {
     #[test]
     fn comparison_combines_current_review_and_complete_clean_blob() {
         let directory = tempfile::tempdir().expect("isolated repository");
-        let root = directory.path();
+        // Exercise normalization on every platform, including Windows' verbatim
+        // canonical prefix. Internal receipt readers require canonical paths.
+        let fixture_root = directory.path().join("..").join(
+            directory
+                .path()
+                .file_name()
+                .expect("fixture directory name"),
+        );
+        let canonical_root = fs::canonicalize(&fixture_root).expect("canonical fixture root");
+        let root = canonical_root.as_path();
         run_git(root, &["init", "-q"]);
         run_git(root, &["config", "core.autocrlf", "false"]);
         fs::create_dir(root.join("src")).unwrap();
@@ -3206,11 +3215,32 @@ mod tests {
         }))
         .unwrap();
         record_work_item_material_review(root, &contract.work_item_id, &input, &runtime).unwrap();
+        // A relative Summary must still fail the canonical-root boundary,
+        // regardless of platform-specific PathBuf parent normalization.
+        let alias_summary = Path::new(".ai/work-items/active/WI-COMPARISON-UNION.summary.json");
+        let alias_readback = read_material_review_receipt(
+            root,
+            &contract,
+            &request.contract_digest,
+            &request,
+            alias_summary,
+        );
+        assert!(
+            alias_readback.is_err(),
+            "a relative Summary must not bypass the reader boundary: {alias_readback:?}"
+        );
         let mut projection =
             material_review_gate_projection(root, &contract, &summary_path).unwrap();
         assert!(
             projection.review_receipt_digest.is_some(),
-            "a real current receipt is required"
+            "a real current receipt is required; projection={projection:?}; readback={:?}",
+            read_material_review_receipt(
+                root,
+                &contract,
+                &request.contract_digest,
+                &request,
+                &summary_path,
+            )
         );
         assert!(projection.effective_unknowns.is_empty());
         let comparison = GitRepository::discover(root)
