@@ -9848,15 +9848,26 @@ mod post_merge_sync_tests {
             helper_only_change.as_bytes()
         ));
 
-        let unsupported_cfg = current_text.replace(
-            "#[cfg(test)]\nmod tests {",
-            "#[cfg(any(test, feature = \"fixture-test\"))]\nmod tests {",
-        );
-        assert_ne!(unsupported_cfg, current_text);
-        assert!(!super::analysis_recipe_source_matches(
-            &historical,
-            unsupported_cfg.as_bytes()
-        ));
+        let current_lf = current_text.replace("\r\n", "\n");
+        for (line_ending_name, line_ending) in [("LF", "\n"), ("CRLF", "\r\n")] {
+            let source = current_lf.replace('\n', line_ending);
+            assert!(
+                super::analysis_recipe_source_matches(&historical, source.as_bytes()),
+                "unmutated {line_ending_name} fixture must remain compatible"
+            );
+            let before = format!("#[cfg(test)]{line_ending}mod tests {{");
+            let after =
+                format!("#[cfg(any(test, feature = \"fixture-test\"))]{line_ending}mod tests {{");
+            let unsupported_cfg = source.replacen(before.as_str(), after.as_str(), 1);
+            assert_ne!(
+                unsupported_cfg, source,
+                "{line_ending_name} fixture mutation must change its source"
+            );
+            assert!(
+                !super::analysis_recipe_source_matches(&historical, unsupported_cfg.as_bytes()),
+                "{line_ending_name} composite cfg must remain unsupported"
+            );
+        }
 
         let historical = String::from_utf8(historical).unwrap();
         for (before, after) in [

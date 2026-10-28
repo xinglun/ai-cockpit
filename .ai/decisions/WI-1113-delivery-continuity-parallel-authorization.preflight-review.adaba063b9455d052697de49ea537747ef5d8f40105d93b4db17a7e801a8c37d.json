@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "reason": "Recorded the owner explicit WI-1113 sequence 17 confirm_review in conversation Sentinel_781f12133a1c8191b0d40639a68c5042 at 2026-10-28 08:00 UTC. It confirms only the exact current Contract/preflight/snapshot and approved isolated Runtime, total hosted CI cap fifteen retaining seven already-used runs, 28 frozen inherited source paths from 5a942f93acaf0a514a291e39674465feddfa69e7 with exact blob/mode final-publication checks, and this WI-specific immutable material-review receipt directory. It does not approve pending material Unknowns, authenticate a reviewer, grant edits to inherited paths, release/dispatch/production permissions, or verify the new Contract.",
+  "recordedAt": "2026-10-28T08:00:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

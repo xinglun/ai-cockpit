@@ -26,7 +26,7 @@ lastVerifiedBy: WI-1113-delivery-continuity-parallel-authorization
 
 ## 検証計画
 
-Contract は必須 25 scenario と 19 verification command を宣言しています。Windows path/byte 整合性、正しい／不正な successor lineage、archive と delivery の区別、exact material reference と delta、append-only transition の拒否例、amendment 前 lint、明示的 batch membership と独立 grant、atomic quota、bounded retry と不確実な実行結果、partial result、CLI/MCP parity、scope/target/expiry を対象にします。Runtime が実証を記録するまで全 scenario は `unverified` です。hosted PR run は自動 trigger・入口失敗・rerun を含め合計 5 回まで。local check は各 900 秒、1 worker、同一条件の同一 check に対する追加試行 2 回までです。
+Contract は必須 25 scenario と 19 verification command を宣言しています。Windows path/byte 整合性、正しい／不正な successor lineage、archive と delivery の区別、exact material reference と delta、append-only transition の拒否例、amendment 前 lint、明示的 batch membership と独立 grant、atomic quota、bounded retry と不確実な実行結果、partial result、CLI/MCP parity、scope/target/expiry を対象にします。Runtime が実証を記録するまで全 scenario は `unverified` です。hosted CI run は合計 15 回までで、使用済み 7 回を保持し、自動 trigger・入口失敗・rerun・merge 後の main push run をすべて含めます。local check は各 900 秒、1 worker、同一条件の同一 check に対する追加試行 2 回までです。
 
 
 ## PR 比較と base

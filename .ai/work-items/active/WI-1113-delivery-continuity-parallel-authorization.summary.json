@@ -432,20 +432,86 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:779b2a47d5512309b4050fa4736a677c116a4262ae69e88fd7e946f7ab703c7c",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
+      "reason": "Apply the owner approval in conversation Sentinel_a075cc7351108191bde4ab8f7111ced0 at 2026-10-28 07:24 UTC to raise only the total WI-1113 hosted CI limit from ten to fifteen and synchronize current budget/caller declarations. Seven hosted runs have already been consumed and remain counted; preserve all attempts, historical five/ten-run approval text, required checks, 900-second check ceiling, one-worker execution, task/pr/merge stages, scope, target, permissions and approval requirements. No new product functionality or release/production authority.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T07:30:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:779b2a47d5512309b4050fa4736a677c116a4262ae69e88fd7e946f7ab703c7c",
+      "reason": "Apply the owner approval in conversation Sentinel_f5b8e8cb7bf48191bfdd8deebb8fca14 at 2026-10-28 07:49 UTC of the 28 exact predecessor source paths as frozen cumulative delivery only, plus this Work Item-specific immutable material-review receipt directory. Every source blob and mode has been compared against commit 5a942f93acaf0a514a291e39674465feddfa69e7 and current source head 7f9f79d59f24c8023550ce05aa1d57d71f0082ff and is identical; final candidate publication must repeat that comparison and stop on mismatch. Preserve sequence 16 as history and carry its user-approved total hosted CI cap of fifteen, with all seven prior runs still counted. Scope membership alone does not enforce blob immutability; the explicit frozen-content acceptance and required final comparison remain in force. No edits to inherited paths, release/dispatch/production actions, new workflow permissions, whole-directory evidence access, or automatic material approval are authorized. Seven current material Unknowns require substantive exact-request review, and old receipts remain immutable.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T07:53:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
+    "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:61a7110feac02d8a5e474a8dee3c5fb737cd95793db86a1db4c3112b676ab97a",
-    "reason": "Recorded the owner's explicit WI-1113 sequence 15 confirmation in conversation Sentinel_3726a2c8d93481919ce0d9c1cf3e2631 at 2026-10-28 05:01 UTC. This confirms only the exact WI-1113 contract-amendment journal directory scope pattern; other Work Items, historical bytes, verification criteria, permissions, and delivery target remain unchanged.",
-    "recordedAt": "2026-10-28T05:01:00Z",
+    "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+    "reason": "Recorded the owner explicit WI-1113 sequence 17 confirm_review in conversation Sentinel_781f12133a1c8191b0d40639a68c5042 at 2026-10-28 08:00 UTC. It confirms only the exact current Contract/preflight/snapshot and approved isolated Runtime, total hosted CI cap fifteen retaining seven already-used runs, 28 frozen inherited source paths from 5a942f93acaf0a514a291e39674465feddfa69e7 with exact blob/mode final-publication checks, and this WI-specific immutable material-review receipt directory. It does not approve pending material Unknowns, authenticate a reviewer, grant edits to inherited paths, release/dispatch/production permissions, or verify the new Contract.",
+    "recordedAt": "2026-10-28T08:00:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
+    "repositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -486,10 +552,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-28T04:55:52Z",
-  "preflightContractDigest": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
-  "preflightDecisionDigest": "sha256:61a7110feac02d8a5e474a8dee3c5fb737cd95793db86a1db4c3112b676ab97a",
-  "preflightRepositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
+  "preflightAt": "2026-10-28T07:55:41Z",
+  "preflightContractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:77d585a5cb0ee56429d55eb453adffe2ff0ad63df43afec543d78a5e0f53aaec",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -770,7 +836,7 @@
       "required": true,
       "scenario": "main_merge_post_merge_push_ci_readback",
       "status": "unverified",
-      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the five-run budget."
+      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the fifteen-run budget."
     }
   ],
   "state": "checkpointed",
@@ -787,7 +853,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-28T05:02:12.703948404+00:00",
+  "updatedAt": "2026-10-28T08:09:03.016469589+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -795,7 +861,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
+    "contractHash": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -810,7 +876,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-28T04:52:12Z"
+    "recordedAt": "2026-10-28T07:53:19Z"
   },
   "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
