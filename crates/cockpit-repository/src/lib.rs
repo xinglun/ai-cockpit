@@ -14738,6 +14738,18 @@ mod task_outcome_projection_diagnostic_tests {
     const WI754_RECEIPT_REVISION: &str = "b8c90f327e82597ecc78d982611426c6eb78b3c7";
     const WI754_ID: &str = "WI-754-runtime-recovery-digest-revalidation";
 
+    fn disable_fixture_autocrlf(root: &Path) {
+        assert!(
+            Command::new("git")
+                .args(["config", "--local", "core.autocrlf", "false"])
+                .current_dir(root)
+                .status()
+                .expect("set temporary repository line-ending policy")
+                .success(),
+            "could not set temporary repository core.autocrlf=false"
+        );
+    }
+
     fn clone_shared_no_checkout(source: &Path, destination: &Path) {
         let output = Command::new("git")
             .args(["clone", "--quiet", "--shared", "--no-checkout", "--", "."])
@@ -14766,6 +14778,7 @@ mod task_outcome_projection_diagnostic_tests {
         let checkout = tempfile::tempdir().expect("temporary WI-754 checkout");
         let root = checkout.path().join("repository");
         clone_shared_no_checkout(&source, &root);
+        disable_fixture_autocrlf(&root);
         preserve_ai_bytes_in_fixture(&root);
         assert!(
             Command::new("git")
@@ -14837,6 +14850,7 @@ mod task_outcome_projection_diagnostic_tests {
                 .expect("git init")
                 .success()
         );
+        disable_fixture_autocrlf(root.path());
         assert!(
             Command::new("git")
                 .args(["add", "."])
@@ -14940,6 +14954,7 @@ mod task_outcome_projection_diagnostic_tests {
                 .expect("git init")
                 .success()
         );
+        disable_fixture_autocrlf(root.path());
         assert!(
             Command::new("git")
                 .args(["add", "."])

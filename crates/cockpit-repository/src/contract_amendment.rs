@@ -3557,6 +3557,10 @@ mod tests {
                 .expect("git init")
                 .success()
         );
+        git(
+            directory.path(),
+            &["config", "--local", "core.autocrlf", "false"],
+        );
         attach(directory.path()).expect("attach repository");
         directory
     }
@@ -3880,6 +3884,7 @@ mod tests {
                 .expect("git init")
                 .success()
         );
+        git(root, &["config", "--local", "core.autocrlf", "false"]);
         fs::write(root.join("README.md"), "baseline\n").expect("README");
         assert!(
             Command::new("git")

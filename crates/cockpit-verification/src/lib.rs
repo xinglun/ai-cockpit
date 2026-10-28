@@ -2181,7 +2181,7 @@ pub type ProcessStartGate = Arc<
 pub struct VerificationSupervisorLaunch {
     executable: PathBuf,
     arguments: Vec<String>,
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     extra_environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
 }
 
@@ -2190,12 +2190,12 @@ impl VerificationSupervisorLaunch {
         Self {
             executable: executable.into(),
             arguments,
-            #[cfg(test)]
+            #[cfg(all(test, target_os = "linux"))]
             extra_environment: Vec::new(),
         }
     }
 
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     fn test_harness(executable: impl Into<PathBuf>, arguments: Vec<String>) -> Self {
         let mut launch = Self::new(executable, arguments);
         launch
@@ -2204,7 +2204,7 @@ impl VerificationSupervisorLaunch {
         launch
     }
 
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     fn with_test_environment(mut self, key: &str, value: impl Into<std::ffi::OsString>) -> Self {
         self.extra_environment.push((key.into(), value.into()));
         self
@@ -3082,7 +3082,7 @@ fn write_supervisor_start_message(
     process_id: Option<u32>,
     error: Option<&str>,
 ) -> Result<(), String> {
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     if process_id.is_some()
         && std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_STARTED").is_some()
     {
@@ -3112,7 +3112,7 @@ fn write_supervisor_outcome_message(
     response: &[u8],
     stderr: &mut impl Write,
 ) -> Result<(), String> {
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     if std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_FAIL_OUTCOME").is_some() {
         return Err("injected verification supervisor Outcome channel failure".into());
     }
@@ -4014,7 +4014,7 @@ fn spawn_verification_supervisor(
         .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::piped());
-    #[cfg(test)]
+    #[cfg(all(test, target_os = "linux"))]
     process.envs(supervisor.extra_environment.iter().cloned());
     #[cfg(unix)]
     {

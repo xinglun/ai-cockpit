@@ -2637,6 +2637,7 @@ mod tests {
         let directory = tempfile::tempdir().expect("repository");
         let root = directory.path();
         run_git(root, &["init", "-q"]);
+        run_git(root, &["config", "--local", "core.autocrlf", "false"]);
         run_git(
             root,
             &[

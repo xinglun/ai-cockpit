@@ -1876,6 +1876,10 @@ mod registered_worktree_file_tests {
         run(root.path(), &["init", "-q"]);
         run(
             root.path(),
+            &["config", "--local", "core.autocrlf", "false"],
+        );
+        run(
+            root.path(),
             &["config", "user.email", "test@example.invalid"],
         );
         run(root.path(), &["config", "user.name", "Coordination test"]);
