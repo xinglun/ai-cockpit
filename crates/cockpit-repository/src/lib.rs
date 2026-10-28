@@ -18078,14 +18078,12 @@ fn documentation_projection_is_required(
         "docs/reference/reference-parity.zh-CN.md".into(),
         "docs/reference/reference-parity.ja.md".into(),
     ];
-    if contract.scope.iter().any(|scope| {
-        projection_paths
-            .iter()
-            .any(|path| scope_pattern_relation(scope, path) != ScopeRelation::Disjoint)
-    }) || contract.acceptance_criteria.iter().any(|criterion| {
-        let criterion = criterion.to_ascii_lowercase();
-        criterion.contains("parity ledger") || criterion.contains("parity registration")
-    }) {
+    if scope_requires_documentation_projection(&contract.scope, &projection_paths)
+        || contract.acceptance_criteria.iter().any(|criterion| {
+            let criterion = criterion.to_ascii_lowercase();
+            criterion.contains("parity ledger") || criterion.contains("parity registration")
+        })
+    {
         return Ok(true);
     }
 
@@ -18095,6 +18093,14 @@ fn documentation_projection_is_required(
         return Ok(true);
     }
     Ok(false)
+}
+
+fn scope_requires_documentation_projection(scope: &[String], projection_paths: &[String]) -> bool {
+    scope.iter().any(|scope| {
+        projection_paths
+            .iter()
+            .any(|path| scope_pattern_matches_path(scope, path) != Some(false))
+    })
 }
 
 /// Return missing or malformed reader-projection facts only when the explicit
@@ -18829,8 +18835,115 @@ fn static_scope_prefix(value: &str) -> Option<String> {
     (!components.is_empty()).then(|| components.join("/"))
 }
 
+fn static_prefixes_are_disjoint(left: &str, right: &str) -> bool {
+    !exact_path_is_under_prefix(left, right) && !exact_path_is_under_prefix(right, left)
+}
+
 fn exact_path_is_under_prefix(path: &str, prefix: &str) -> bool {
     path == prefix || path.starts_with(&format!("{prefix}/"))
+}
+
+/// Match an exact repository-relative path against the deliberately supported
+/// subset of Contract scope patterns. This is separate from pattern overlap:
+/// unsupported glob forms remain unknown and cannot grant path membership.
+fn scope_pattern_matches_path(pattern: &str, path: &str) -> Option<bool> {
+    let pattern_raw = pattern.trim().replace('\\', "/");
+    let path_raw = path.trim().replace('\\', "/");
+    if scope_pattern_is_unsafe(&pattern_raw) || scope_pattern_is_unsafe(&path_raw) {
+        return None;
+    }
+
+    let pattern = normalized_scope_pattern(pattern);
+    let path = normalized_scope_pattern(path);
+    if pattern.is_empty() || path.is_empty() || scope_pattern_has_glob(&path) {
+        return None;
+    }
+    if pattern == path || pattern == "**" {
+        return Some(true);
+    }
+    if let Some(prefix) = simple_scope_prefix(&pattern) {
+        return Some(exact_path_is_under_prefix(&path, prefix));
+    }
+    if !scope_pattern_has_glob(&pattern) {
+        return Some(false);
+    }
+    if let Some(matches) = single_component_file_pattern_matches_path(&pattern, &path) {
+        return Some(matches);
+    }
+    static_scope_prefix(&pattern)
+        .filter(|prefix| static_prefixes_are_disjoint(prefix, &path))
+        .map(|_| false)
+}
+
+fn declared_scope_allows_path(scope: &[String], out_of_scope: &[String], path: &str) -> bool {
+    scope
+        .iter()
+        .any(|pattern| scope_pattern_matches_path(pattern, path) == Some(true))
+        && out_of_scope
+            .iter()
+            .all(|pattern| scope_pattern_matches_path(pattern, path) == Some(false))
+}
+
+/// Match the deliberately narrow `*` syntax supported for a single filename
+/// component against one exact repository-relative path. It does not support
+/// wildcards in directory components or other glob metacharacters.
+fn single_component_file_pattern_matches_path(pattern: &str, path: &str) -> Option<bool> {
+    if simple_scope_prefix(pattern).is_some() {
+        return None;
+    }
+    let (pattern_directory, pattern_name) = pattern
+        .rsplit_once('/')
+        .map_or(("", pattern), |(directory, name)| (directory, name));
+    if pattern_name.is_empty()
+        || !pattern_name.contains('*')
+        || pattern_name
+            .chars()
+            .any(|character| matches!(character, '?' | '[' | ']' | '{' | '}'))
+        || pattern_directory.split('/').any(scope_pattern_has_glob)
+    {
+        return None;
+    }
+
+    let (path_directory, path_name) = path
+        .rsplit_once('/')
+        .map_or(("", path), |(directory, name)| (directory, name));
+    if pattern_directory != path_directory {
+        return Some(false);
+    }
+    Some(filename_component_glob_matches(pattern_name, path_name))
+}
+
+fn filename_component_glob_matches(pattern: &str, value: &str) -> bool {
+    let pattern = pattern.chars().collect::<Vec<_>>();
+    let value = value.chars().collect::<Vec<_>>();
+    let (mut pattern_index, mut value_index) = (0, 0);
+    let mut last_star = None;
+    let mut last_star_value_index = 0;
+
+    while value_index < value.len() {
+        if pattern_index < pattern.len()
+            && pattern[pattern_index] != '*'
+            && pattern[pattern_index] == value[value_index]
+        {
+            pattern_index += 1;
+            value_index += 1;
+        } else if pattern_index < pattern.len() && pattern[pattern_index] == '*' {
+            last_star = Some(pattern_index);
+            pattern_index += 1;
+            last_star_value_index = value_index;
+        } else if let Some(star_index) = last_star {
+            pattern_index = star_index + 1;
+            last_star_value_index += 1;
+            value_index = last_star_value_index;
+        } else {
+            return false;
+        }
+    }
+
+    while pattern_index < pattern.len() && pattern[pattern_index] == '*' {
+        pattern_index += 1;
+    }
+    pattern_index == pattern.len()
 }
 
 fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
@@ -18847,7 +18960,7 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if left == right {
         return ScopeRelation::Overlap;
     }
-    if matches!(left.as_str(), "*" | "**") || matches!(right.as_str(), "*" | "**") {
+    if left == "**" || right == "**" {
         return ScopeRelation::Overlap;
     }
 
@@ -18856,7 +18969,6 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if left_exact && right_exact {
         return ScopeRelation::Disjoint;
     }
-
     // A shared literal directory prefix is not enough to prove overlap for
     // complex globs, but distinct static prefixes prove disjointness. This
     // keeps common code scopes such as `src/**/*.rs` from conservatively
@@ -18865,8 +18977,7 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if let (Some(left_prefix), Some(right_prefix)) =
         (static_scope_prefix(&left), static_scope_prefix(&right))
         && left_prefix != right_prefix
-        && !left_prefix.starts_with(&format!("{right_prefix}/"))
-        && !right_prefix.starts_with(&format!("{left_prefix}/"))
+        && static_prefixes_are_disjoint(&left_prefix, &right_prefix)
     {
         return ScopeRelation::Disjoint;
     }
@@ -20447,5 +20558,186 @@ mod canonical_clean_comparison_tests {
         assert!(!comparison_material_is_completely_inspected(
             &snapshot, &finding
         ));
+    }
+}
+
+#[cfg(test)]
+mod scope_pattern_relation_tests {
+    use super::{
+        ScopeRelation, declared_scope_allows_path, scope_pattern_matches_path,
+        scope_pattern_relation, scope_requires_documentation_projection,
+    };
+
+    const RECEIPT_PATTERN: &str = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.*.json";
+
+    #[test]
+    fn single_component_filename_pattern_matches_exact_digest_receipts() {
+        for digest in ["a".repeat(64), "b".repeat(64)] {
+            let receipt =
+                format!(".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.{digest}.json");
+            assert_eq!(
+                scope_pattern_matches_path(RECEIPT_PATTERN, &receipt),
+                Some(true),
+                "receipt path: {receipt}"
+            );
+        }
+    }
+
+    #[test]
+    fn single_component_filename_pattern_rejects_foreign_or_mismatched_paths() {
+        for path in [
+            ".ai/decisions/WI-OTHER.preflight-review.aaaaaaaa.json",
+            ".ai/decisions/WI-TASK-AUTHORIZATION.xpreflight-review.aaaaaaaa.json",
+            ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.toml",
+            ".ai/other/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json",
+            ".ai/decisions/nested/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json",
+        ] {
+            assert_eq!(
+                scope_pattern_matches_path(RECEIPT_PATTERN, path),
+                Some(false),
+                "out-of-pattern path: {path}"
+            );
+        }
+    }
+
+    #[test]
+    fn star_is_limited_to_one_path_component() {
+        assert_eq!(
+            scope_pattern_matches_path("*", "directory/file.json"),
+            Some(false)
+        );
+        assert_eq!(scope_pattern_matches_path("*", "file.json"), Some(true));
+        assert_eq!(
+            scope_pattern_matches_path("directory/*.json", "directory/nested/file.json"),
+            Some(false)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("directory/*.json", "directory/file.json"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("**", "directory/nested/file.json"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_relation("*", "directory/file.json"),
+            ScopeRelation::Unknown,
+            "pattern overlap stays separate from path membership"
+        );
+    }
+
+    #[test]
+    fn unsafe_or_unsupported_patterns_remain_unknown() {
+        for (pattern, path) in [
+            (
+                RECEIPT_PATTERN,
+                "../.ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                RECEIPT_PATTERN,
+                "/.ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                ".ai/**/preflight-review.*.json",
+                ".ai/decisions/preflight-review.a.json",
+            ),
+            (
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.?.json",
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                ".ai/decisions/WI-*/preflight-review.*.json",
+                ".ai/decisions/WI-TASK-AUTHORIZATION/preflight-review.a.json",
+            ),
+        ] {
+            assert_eq!(
+                scope_pattern_matches_path(pattern, path),
+                None,
+                "unsupported or unsafe membership: {pattern:?} ↔ {path:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn an_out_of_scope_match_or_unknown_still_denies_membership() {
+        let scope = vec![RECEIPT_PATTERN.to_owned()];
+        let receipt = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json";
+        assert!(declared_scope_allows_path(&scope, &[], receipt));
+        assert!(!declared_scope_allows_path(
+            &scope,
+            &[receipt.to_owned()],
+            receipt
+        ));
+        assert!(!declared_scope_allows_path(
+            &scope,
+            &[".ai/**/preflight-review.*.json".to_owned()],
+            receipt
+        ));
+    }
+
+    #[test]
+    fn unrelated_code_scope_does_not_require_documentation_projection() {
+        let scope = vec!["src/**/*.rs".to_owned()];
+        let projections = vec!["docs/reference/commands.md".to_owned()];
+        assert!(!scope_requires_documentation_projection(
+            &scope,
+            &projections
+        ));
+    }
+
+    #[test]
+    fn unrelated_out_of_scope_prefix_does_not_block_receipt_membership() {
+        let scope = vec![RECEIPT_PATTERN.to_owned()];
+        let out_of_scope = vec!["other/**/*.rs".to_owned()];
+        let receipt = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json";
+        assert!(declared_scope_allows_path(&scope, &out_of_scope, receipt));
+    }
+
+    #[test]
+    fn exact_paths_and_directory_prefix_patterns_keep_their_existing_meaning() {
+        assert_eq!(
+            scope_pattern_relation(
+                "crates/cockpit-repository/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            ScopeRelation::Overlap
+        );
+        assert_eq!(
+            scope_pattern_relation("docs/work-items/**", "crates/cockpit-repository/src/lib.rs"),
+            ScopeRelation::Disjoint
+        );
+        assert_eq!(
+            scope_pattern_relation("README.md", "src/lib.rs"),
+            ScopeRelation::Disjoint
+        );
+        assert_eq!(
+            scope_pattern_relation(
+                "**",
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json"
+            ),
+            ScopeRelation::Overlap
+        );
+        assert_eq!(
+            scope_pattern_matches_path(
+                "crates/cockpit-repository/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path(
+                "docs/work-items/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            Some(false)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("README.md", "README.md"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("README.md", "docs/reference.md"),
+            Some(false)
+        );
     }
 }

@@ -32,6 +32,10 @@ fn runtime() -> RuntimeContext {
 }
 
 fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
+    fixture_with_scope(expires_at, owner_review, &["README.md"])
+}
+
+fn fixture_with_scope(expires_at: &str, owner_review: bool, scope: &[&str]) -> tempfile::TempDir {
     let directory = tempfile::tempdir().unwrap();
     let root = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -41,16 +45,22 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
         &["config", "user.email", "task-authorization@example.invalid"],
     );
     git(root, &["config", "core.autocrlf", "false"]);
+    git(root, &["config", "maintenance.autoDetach", "false"]);
+    git(root, &["config", "gc.autoDetach", "false"]);
     fs::write(root.join("README.md"), "task authorization baseline\n").unwrap();
     git(root, &["add", "README.md"]);
     git(root, &["commit", "-qm", "baseline"]);
     attach(root).unwrap();
+    let scope = scope
+        .iter()
+        .map(|path| (*path).to_owned())
+        .collect::<Vec<_>>();
     start_work_item_with_options(
         root,
         WI,
         "continue bounded work",
         "deliver the same task",
-        &["README.md".into()],
+        &scope,
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["bounded continuation preserves real review".into()],
@@ -1196,6 +1206,73 @@ fn an_authorization_question_cannot_expand_files_or_public_destination() {
             .unwrap()
             .authorized
     );
+}
+
+#[test]
+fn reviewed_single_component_scope_pattern_authorizes_its_own_digest_receipts_only() {
+    let scope = format!(".ai/decisions/{WI}.preflight-review.*.json");
+    let directory = fixture_with_scope("2099-01-01T00:00:00Z", true, &[&scope]);
+    let root = directory.path();
+    let receipt_a = format!(
+        ".ai/decisions/{WI}.preflight-review.{}.json",
+        "a".repeat(64)
+    );
+    let receipt_b = format!(
+        ".ai/decisions/{WI}.preflight-review.{}.json",
+        "b".repeat(64)
+    );
+
+    for receipt in [&receipt_a, &receipt_b] {
+        let request = cockpit_protocol::TaskAuthorizationRequest {
+            schema_version: 1,
+            caller: caller(),
+            action: "run_verification".into(),
+            paths: vec![receipt.clone()],
+            public_target: None,
+        };
+        let assessment =
+            cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+        assert!(assessment.authorized, "receipt path rejected: {receipt}");
+    }
+
+    for path in [
+        format!(
+            ".ai/decisions/WI-OTHER.preflight-review.{}.json",
+            "c".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/{WI}.xpreflight-review.{}.json",
+            "d".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/{WI}.preflight-review.{}.toml",
+            "e".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/nested/{WI}.preflight-review.{}.json",
+            "f".repeat(64)
+        ),
+        format!(
+            "../.ai/decisions/{WI}.preflight-review.{}.json",
+            "g".repeat(64)
+        ),
+        format!(
+            "/.ai/decisions/{WI}.preflight-review.{}.json",
+            "h".repeat(64)
+        ),
+    ] {
+        let request = cockpit_protocol::TaskAuthorizationRequest {
+            schema_version: 1,
+            caller: caller(),
+            action: "run_verification".into(),
+            paths: vec![path.clone()],
+            public_target: None,
+        };
+        let assessment =
+            cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+        assert!(!assessment.authorized, "out-of-scope path accepted: {path}");
+        assert_eq!(assessment.next_action, "stop", "{path}");
+    }
 }
 
 #[test]

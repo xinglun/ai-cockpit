@@ -1979,12 +1979,7 @@ pub(crate) fn check_request_intent(
                 .split('/')
                 .any(|part| part.is_empty() || part == "." || part == "..")
             || super::scope_pattern_has_glob(path)
-            || !contract.scope.iter().any(|scope| {
-                super::scope_pattern_relation(scope, path) == super::ScopeRelation::Overlap
-            })
-            || contract.out_of_scope.iter().any(|scope| {
-                super::scope_pattern_relation(scope, path) != super::ScopeRelation::Disjoint
-            })
+            || !super::declared_scope_allows_path(&contract.scope, &contract.out_of_scope, path)
         {
             return Err(error(
                 &root,

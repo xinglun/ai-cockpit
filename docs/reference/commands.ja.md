@@ -591,6 +591,8 @@ WI 間の期限／取消と外部 B は対象外。隔離テストでの確認�
 
 セッション再開では単一 WI の CLI `work-item status --json --authorization-request <request.json>` または MCP `work_item_status.authorizationRequest` を利用します。要求は `schemaVersion:1`、`caller`、`action`、正確な相対 `paths`、任意の `publicTarget` を含み、全 WI 問合せとは併用できません。応答は認可・証拠の新鮮度・現在の操作准入・`nextAction`（継続、再検証、現在の gate 解決、個別操作の入力・段階確認（`check_operation_boundary`）、host 境界確認、停止）を分離します。問合せ結果は再利用可能な許可証ではありません。範囲内の通常 commit は認可を維持しますが、証拠は再検証が必要になり得ます。範囲・権限・目標・受入基準やコマンド変更は既存の所有者／限定的な機械レビュー規則に従います。
 
+Contract の `scope` には正確なパス、`src/**` のような対応済みディレクトリ接頭辞、または固定ディレクトリ下のファイル名コンポーネント内の `*` を指定できます。`*` は `/` をまたぎません。authorization request の `paths` は引き続き正確な相対パスです。Runtime は具体的なパスの membership と pattern 同士の overlap を分けて判定します。危険な形式や未対応形式は unknown のままで認可しません。`outOfScope` に一致する場合、または非該当を確認できない場合も拒否します。同じ WI の digest receipt は限定された filename pattern で扱えるため、digest ごとに scope を追加する必要はありません。
+
 認可は交付完了・撤回・期限の最初の事象で終了します。controls の `taskAuthorizationTermination` に `schemaVersion:1`、現在の `grantId`、`decision:"withdrawn"` または `"completed"`、明示 caller、reason を記録します。不変の記録は冪等で、権限を狭めるだけであり、認可復活や業務成功を作りません。各境界で期限を確認し、残り時間が不変の宣言済み予算より短い場合は子プロセスを開始しません。実行中の操作は安全な境界で観測し、盲目的にロールバックしません。
 
 ### 追記専用の一括認可ライフサイクル

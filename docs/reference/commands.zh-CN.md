@@ -544,6 +544,8 @@ Runtime 在原生命周期锁内，将独立 `delegatedReview` 绑定到原生 p
 
 恢复会话时使用单 WI 的 CLI `work-item status --json --authorization-request <request.json>` 或 MCP `work_item_status.authorizationRequest`。严格请求含 `schemaVersion:1`、`caller`、`action`、精确相对 `paths` 和可选 `publicTarget`，不能与查询全部 WI 混用。响应分别说明授权、证据新鲜度、当前操作准入及 `nextAction`：继续、重验、解决当前门禁、由专用入口核验输入与阶段（`check_operation_boundary`）、检查宿主边界或停止。查询不是可缓存的许可证。范围内普通提交保留授权，但可能使测试证据过期；扩范围、权限、目标或验收／命令变化仍走原有本人或受限机械审阅规则。
 
+Contract `scope` 可使用精确路径、`目录/**` 前缀，或在固定目录下的文件名组件中使用 `*`。`*` 不跨越 `/`；授权请求中的 `paths` 仍须是精确相对路径。Runtime 将具体路径成员判断与 pattern 重叠判断分开处理。危险或不支持的成员关系保持 unknown，不能授予授权；任何 `outOfScope` 匹配或无法排除的规则都会拒绝该路径。这样，同一 WI 的不同 digest 收据可由受限文件名模式覆盖，无须逐个把精确路径加入 scope。
+
 交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
 
 ### 追加式批量授权生命周期
