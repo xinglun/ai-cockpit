@@ -334,7 +334,7 @@ jobs:
           {
             "schemaVersion": 1,
             "actor": "agent:codex",
-            "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain).",
+            "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved).",
             "assurance": "self_declared"
           }
           TASK_CALLER_JSON
