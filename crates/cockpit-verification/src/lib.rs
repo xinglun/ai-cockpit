@@ -3048,7 +3048,7 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     drop(watcher);
 
     let mut announce_started = |process_id| write_supervisor_start_message(Some(process_id), None);
-    let mut outcome = execute_captured_inner(
+    let outcome = execute_captured_inner(
         &command,
         None,
         None,
@@ -3057,10 +3057,14 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     );
 
     #[cfg(target_os = "linux")]
-    if let Err(uncertainty) = reap_verification_supervisor_children() {
-        outcome.exit_code = None;
-        apply_cleanup_uncertainty(&mut outcome, uncertainty);
-    }
+    let outcome = {
+        let mut outcome = outcome;
+        if let Err(uncertainty) = reap_verification_supervisor_children() {
+            outcome.exit_code = None;
+            apply_cleanup_uncertainty(&mut outcome, uncertainty);
+        }
+        outcome
+    };
 
     let response = serde_json::to_vec(&VerificationSupervisorMessage::Outcome {
         outcome: outcome.into(),
@@ -5340,9 +5344,8 @@ mod tests {
             .parse::<libc::pid_t>()
             .expect("read detached child PID");
         eprintln!("supervisor_detached_descendant_pid={child_pid}");
-        assert_eq!(
-            std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
-            false,
+        assert!(
+            !std::path::PathBuf::from(format!("/proc/{child_pid}/stat")).exists(),
             "verification must reap a descendant that detached into another process group"
         );
     }

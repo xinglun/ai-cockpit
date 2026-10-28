@@ -7,6 +7,8 @@ use cockpit_repository::{
     plan_repository_verification_action, run_repository_verification,
 };
 use cockpit_verification::ProtectedGateClass;
+#[cfg(unix)]
+use std::sync::Mutex;
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -14,8 +16,6 @@ use std::{
     sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
-#[cfg(unix)]
-use std::sync::Mutex;
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
 #[cfg(unix)]
@@ -231,9 +231,7 @@ fn request(
 }
 
 #[cfg(unix)]
-fn verification_receipt_diagnostics(
-    receipt: &cockpit_verification::VerificationReceipt,
-) -> String {
+fn verification_receipt_diagnostics(receipt: &cockpit_verification::VerificationReceipt) -> String {
     use std::fmt::Write as _;
 
     let mut output = format!(
