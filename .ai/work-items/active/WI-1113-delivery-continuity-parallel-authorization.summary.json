@@ -530,10 +530,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:8d225501e50cb15e39b0bdfe5db8f3a040d3d5c74065190fb3bb6fdb4c336894",
-    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/17749d71424cacb94b193f77f6480375573024f9a1788129b50c6a0431762749.json",
-    "receiptDigest": "sha256:085a94a5631c4c9df9cf329ca6aa4598b45768fb056233bf1d800724a790e516",
-    "requestDigest": "sha256:17749d71424cacb94b193f77f6480375573024f9a1788129b50c6a0431762749"
+    "digest": "sha256:7d667d59e22dbb7c2311008f1516ff23cd57e456252d49fb98d7ba02ed03f7a8",
+    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/34767ace2a9eb249ea3bc0d822466cb695e0295ad01edd5bf70249de00617890.json",
+    "receiptDigest": "sha256:00e75a43ed49a5af46e5247839425e590dfacb6b94938f95ed8b5ea779635e29",
+    "requestDigest": "sha256:34767ace2a9eb249ea3bc0d822466cb695e0295ad01edd5bf70249de00617890"
   },
   "materialReviewReceiptHistory": [
     {
@@ -553,6 +553,12 @@
       "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181.json",
       "receiptDigest": "sha256:2832bc2985feccb7d15d6c772898de2c35ecbbcbb7a902178f2d049fe4fb7d9f",
       "requestDigest": "sha256:98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181"
+    },
+    {
+      "digest": "sha256:8d225501e50cb15e39b0bdfe5db8f3a040d3d5c74065190fb3bb6fdb4c336894",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/17749d71424cacb94b193f77f6480375573024f9a1788129b50c6a0431762749.json",
+      "receiptDigest": "sha256:085a94a5631c4c9df9cf329ca6aa4598b45768fb056233bf1d800724a790e516",
+      "requestDigest": "sha256:17749d71424cacb94b193f77f6480375573024f9a1788129b50c6a0431762749"
     }
   ],
   "mode": "implementation",
