@@ -563,10 +563,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:40888ac80839dcd4e307e695a8c0adc55f844642333149e32936626b41cfb906",
-    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605.json",
-    "receiptDigest": "sha256:f1783e69a0a3170c09c1d722f6baedf625b378086655b0b9902df4e8c68f5355",
-    "requestDigest": "sha256:d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605"
+    "digest": "sha256:665beda3178be9ca2a1b3f1a71000110c47a9e8a88300b7dd932041dc3496b4b",
+    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9.json",
+    "receiptDigest": "sha256:aac3ac2887dcd9e98fa221df6fded300f610a3d9f4233bb8007efc4d8e81f9c2",
+    "requestDigest": "sha256:f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9"
   },
   "materialReviewReceiptHistory": [
     {
@@ -604,15 +604,21 @@
       "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/4558b2a150a2fa1feb22830ac5bae4cf45229ae291e0416f1088722b7e56f762.json",
       "receiptDigest": "sha256:6b520292dce0af50888579bac36e3660888e4f61e57a456cbf3496cbd11a9eef",
       "requestDigest": "sha256:4558b2a150a2fa1feb22830ac5bae4cf45229ae291e0416f1088722b7e56f762"
+    },
+    {
+      "digest": "sha256:40888ac80839dcd4e307e695a8c0adc55f844642333149e32936626b41cfb906",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605.json",
+      "receiptDigest": "sha256:f1783e69a0a3170c09c1d722f6baedf625b378086655b0b9902df4e8c68f5355",
+      "requestDigest": "sha256:d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605"
     }
   ],
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-28T14:49:48Z",
+  "preflightAt": "2026-10-28T16:39:52Z",
   "preflightContractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
-  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
-  "preflightRepositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
+  "preflightDecisionDigest": "sha256:0bfbf0b05d11a8420150ba3d88c7619d073724996bb61a20b2823fccc77215db",
+  "preflightRepositorySnapshotDigest": "sha256:909582b54f9bbe1ea9cf64cad0f6179c1383cdcd98b5a41a27df2bdf606543eb",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
