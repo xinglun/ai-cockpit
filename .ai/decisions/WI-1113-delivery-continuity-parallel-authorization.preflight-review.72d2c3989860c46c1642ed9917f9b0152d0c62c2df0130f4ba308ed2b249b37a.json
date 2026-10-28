@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b9119e147f4444e08383269de4e5e273ed33b0f93f4ad06f382e52aa113f125b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d32d22e7578ad95b11890a5bf258d1580b383c05d521cc3b17db2f055b8a7178",
+  "reason": "Recorded the owner’s explicit confirmation in conversation Sentinel_08b7f9580b5c8191b1484b4a8347d418 at 2026-10-28 00:26 UTC. This decision confirms only WI-1113 sequence 12 scope addition of crates/cockpit-repository/tests/verification_service.rs and the previously authorized single targeted verification attempt. It preserves the linked-worktree manifest-directory assertion and the test intent to clear inherited CARGO_TARGET_DIR. It does not assert that the cause is proven, the test passed, the Work Item is complete, or that any broader verification succeeded.",
+  "recordedAt": "2026-10-28T00:26:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:819a97333faf792288b3ef346268a5c0a56245021fd361b168e6aef1a229bc43",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

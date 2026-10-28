@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:412e39340d41b3c5a26aca8e92bdbd6665e9dac7bb2e59fcc07cea9a51dcfecf",
+  "materialManifestDigest": "sha256:668f114e3e47bcb8a79e86d00d990025b50fb0530dc3618b772ca67c94398d2f",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181",
+  "reviewedSourceHead": "89569a913aef1fdbf690749caec558011fdc89cc",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:b960ce194af9817d9d9e583b0f8669cc2486a45760e03ce2f7830abba1a7dd4e",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:e7318492a89d5f8a4b84b89d74e1eb1f9e9788c35ee0779ec2952530066fcbea"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:5726e2db39cb65c7705ca94ee8987e5b6b39e6bcf64332cee5749fd47a20d0d8"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    }
+  ],
+  "rationale": "Reviewed the six exact current Rust hunks in this canonical material-review request. The scanner reports zero findings and only the Contract-permitted readable_committed_rust_syntax_unknown cause; this review accepts only the associated repository_material_inspection_unavailable unknown for this bound request. It does not establish semantic safety or mark any entry clean.",
+  "residualRisk": "These six Rust entries remain Unknown because the scanner could not classify their syntax. This self-declared review does not prove hosted CI, test success, final acceptance, merge, or user-visible benefit. Any changed hunk/blob, new finding, additional unknown cause, policy/profile, or request identity requires a new review.",
+  "recordedAt": "2026-10-27T15:51:03Z",
+  "receiptDigest": "sha256:2832bc2985feccb7d15d6c772898de2c35ecbbcbb7a902178f2d049fe4fb7d9f"
+}

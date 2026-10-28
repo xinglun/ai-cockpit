@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:620147a9220280edb06233f8a1fad5af2e846ec07e815a462c17b3d298ff6301",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d8371e466fa4149e660d68977f30da6074aeb53f007e881a98d6f7c4218ece7d",
+  "reason": "Recorded the owner’s explicit sequence 8 confirmation in conversation Sentinel_ae1afeb5426c819193aff9cdc644a4ad at 2026-10-27 06:15 UTC. This confirms only the approved usage.rs scope addition and the exact Contract/preflight/snapshot binding; it does not assert implementation acceptance, material review, scenario verification, test success, or merge.",
+  "recordedAt": "2026-10-27T06:16:48Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:079a34f23a730565aa394b8b46a00e8c86b49abaf7b5fc83f0c9f5034227ef3c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

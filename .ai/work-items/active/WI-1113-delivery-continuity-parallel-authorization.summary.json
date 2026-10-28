@@ -4,12 +4,36 @@
     "journalRelevant": true
   },
   "changedPaths": [
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.bb11c30aa553a0215900e862c1e257b8f1c8f83addef33234a52739c0b9e131e.json",
-    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.f8cb6745570b1fc1758d27ba1a2d52cefd5b2c1fb5bb997287f19494e2c472ed.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.preflight-review.680c4378fed1c06fb53458ad0f9c4d618cebf29836fde6741c131f3d4f0a897e.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.preflight-review.72d2c3989860c46c1642ed9917f9b0152d0c62c2df0130f4ba308ed2b249b37a.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.preflight-review.a1d89e832e2ec5ae9a2d4ed3e8c506dfb35ab69ebc4ead374b5445cc2ff16040.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.preflight-review.c7d0915a21c9549f1ccebf576e1c3a64aeb6d8e5efe64e7ddf3060a1134823f1.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.preflight-review.d925de69a84411e2f371785a427c389e086e96bec54c24125e9cc597a3ed32e1.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000008.committed.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000008.prepared.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000009.committed.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000009.prepared.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000010.committed.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000010.prepared.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000011.committed.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000011.prepared.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000012.committed.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.contract-amendments/00000012.prepared.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.17693099e48adec2a80130c4b00b39dcc5c27e42b09f1b893b69b73b86540567.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.28f10cdee1eeee9924c407e3d9d09ebff99dc7fc04ff7d4c9d41ae61f541ab30.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.3b4739f95c9a707aceed8595dc68cb889f71598fa631e621416d3bce00bcbb97.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.5f105a2f45f4b09d5b91d5ba3d118034f7fc947d9c354a50c03897ca11bf91e8.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.68d40e74265b8f74565eb8f56b68e3b5702d81ba56aadfc51cd3f68e87b96559.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.b40b593995f4fccbb8e14efe0694d7713ae9134d11b4aa08836d5266fc01546b.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json",
+    ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.fd1a057f058287bcc4875caf29280a6e72aa7a619a68932eebafa5f9c59087f6.json",
+    ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/6023f2b4b9174d5dc0cd687c61338f1de8fefc34a9be8eea8904d996987c022a.json",
+    ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.contract.json",
     ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.summary.json"
   ],
   "checkpointAt": "2026-10-26T21:26:39Z",
-  "checkpointContractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+  "checkpointContractDigest": "sha256:b9119e147f4444e08383269de4e5e273ed33b0f93f4ad06f382e52aa113f125b",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -144,20 +168,218 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:620147a9220280edb06233f8a1fad5af2e846ec07e815a462c17b3d298ff6301",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+      "reason": "Add only the user-approved MCP usage regression path; its exact tools count assertion must track the already-present 37th manifest-plan tool while preserving all other assertions.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T06:07:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:079a34f23a730565aa394b8b46a00e8c86b49abaf7b5fc83f0c9f5034227ef3c",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:a58166a1119f831b602629320d3bb44156a895bb80ff54c443c15bc2cd8f9884",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:620147a9220280edb06233f8a1fad5af2e846ec07e815a462c17b3d298ff6301",
+      "reason": "Add only the user-approved verification executor path for bounded child-process supervision/reaping; preserve existing per-check timeout, test failure semantics, and system security settings.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T08:25:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8173343ce52ebde309f10e50f6053e2dfcb9562ca2a312a9b5342b16968141c0",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:412e39340d41b3c5a26aca8e92bdbd6665e9dac7bb2e59fcc07cea9a51dcfecf",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:a58166a1119f831b602629320d3bb44156a895bb80ff54c443c15bc2cd8f9884",
+      "reason": "Replace only the single cockpit-cli --all-targets declaration with one unfiltered command for each of the same 41 Cargo test targets (the ai-cockpit unit target and all 40 integration harnesses). Preserve all test cases, assertions, default features, test profile, lockfile use, serial test threads, all other 18 verification declarations, source scope, permissions, timeouts, retry policy, and hosted CI budget.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T14:40:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4468174d19a0ff3c50a1a13807a2c1dc783553ff53269e179186c0e84c05763c",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:4f0f71e3e2ff9f8b4d3d66e8203f4b2633898c8b03078a16ca76411fdd9af579",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:412e39340d41b3c5a26aca8e92bdbd6665e9dac7bb2e59fcc07cea9a51dcfecf",
+      "reason": "Replace only the single cockpit-repository --all-targets declaration with the library target and each of the 54 complete integration harnesses. Preserve all test cases, assertions, default features, test profile, lockfile use, serial test threads, and the other 58 verification declarations unchanged. This changes the verification plan only; it does not alter product scope, authority, permissions, retry policy, CI budget, or acceptance. Source checkpoint: 03ae484dd6f251e312fc8b394c6ed614083455e9. The proposed two-hour external runner stop budget is separate and still awaits user approval.",
+      "recorded": true,
+      "recordedAt": "2026-10-27T21:14:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:819a97333faf792288b3ef346268a5c0a56245021fd361b168e6aef1a229bc43",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:b9119e147f4444e08383269de4e5e273ed33b0f93f4ad06f382e52aa113f125b",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:4f0f71e3e2ff9f8b4d3d66e8203f4b2633898c8b03078a16ca76411fdd9af579",
+      "reason": "Add only crates/cockpit-repository/tests/verification_service.rs to the authorized Work Item scope. The targeted test must continue clearing inherited CARGO_TARGET_DIR and retain its linked-worktree manifest-directory binding assertion. Add a writable isolated test cache/home with environment locking and restoration, and preserve inner receipt failure details in diagnostics; do not assume the prior unwritable-HOME hypothesis is proven. Run only the explicitly authorized verification_service integration target once, serially, with the 900-second limit. No product, permission, Runtime, or verification-plan changes.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T00:21:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:819a97333faf792288b3ef346268a5c0a56245021fd361b168e6aef1a229bc43",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:b9119e147f4444e08383269de4e5e273ed33b0f93f4ad06f382e52aa113f125b",
+      "reason": "Add only the 29 already-generated WI-1113 native evidence files, this scope amendment’s exact prepared/committed journal files, and the narrowly WI-specific digest-named preflight-review receipt path needed for this amendment’s owner review. Preserve every existing attempt and record byte-for-byte. This is not a general .ai scope, does not cover another Work Item, and changes no product code, permissions, verification plan, or result status.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T01:22:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3dfe53d632a4051568b60417e11c3288b6513aec1aeecc280dc4db9de47e169",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:33b0a5890d0a76bbf59fd64cae001a22afdc0447cdd87fe3243519631dcad72b",
+  "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+    "contractDigest": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e98f18f21ff5793f370bc54799812378373651d14cc793297c79e2500663c6d1",
-    "reason": "Recorded the owner's explicit sequence 7 confirmation in conversation Sentinel_dc2b6fdf3f248191a9d5304b9fd95299 at 2026-10-27 03:27 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the approved addition of only crates/cockpit-git/src/lib.rs for bounded read-only Git path-introduction history; it does not assert implementation acceptance, material review, scenario verification, test success, or merge.",
-    "recordedAt": "2026-10-27T03:28:52Z",
+    "preflightDecisionDigest": "sha256:ea196bfad441774d41c41fb7e2a89ddd9b013c1f2d2f659a412b3bf956ff3641",
+    "reason": "Recorded the owner’s explicit confirmation of WI-1113 sequence 13 native evidence persistence scope, bound to the exact Contract, preflight and repository snapshot, in conversation Sentinel_2fa068eb9a34819194ae8da55776cd23 at 2026-10-28 01:31 UTC. This confirms only the WI-1113 native evidence paths and amendment/review records in sequence 13; it does not claim verification success, completion, or authorize another Work Item.",
+    "recordedAt": "2026-10-28T01:32:33Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:240ea07fe075c0b897d535a9c7ab8e3b8453cb2bf852d0c0182083c1a7446fa4",
+    "repositorySnapshotDigest": "sha256:e3dfe53d632a4051568b60417e11c3288b6513aec1aeecc280dc4db9de47e169",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -176,18 +398,32 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:479409406df943839f45f3b676f66fa62affc8822de0db4375d9e3c8586623ef",
-    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/817559d5bfe1e10620ad2db92f59b94e8d4e6dd0d1130b38ef43cc0bd4f47540.json",
-    "receiptDigest": "sha256:2c28d42584ab8adbbf954feb68ffb076d5d22ab335b4f8427c25cc944618ff9b",
-    "requestDigest": "sha256:817559d5bfe1e10620ad2db92f59b94e8d4e6dd0d1130b38ef43cc0bd4f47540"
+    "digest": "sha256:ebaded67f0c72c5f5e68bcd68660ae1eca2c312ef2aeff7febc529df62593d70",
+    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181.json",
+    "receiptDigest": "sha256:2832bc2985feccb7d15d6c772898de2c35ecbbcbb7a902178f2d049fe4fb7d9f",
+    "requestDigest": "sha256:98c4aa4fe553789510b0f15c0c03beb6e7e2e4ebb4d4d748d81356911cc49181"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:479409406df943839f45f3b676f66fa62affc8822de0db4375d9e3c8586623ef",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/817559d5bfe1e10620ad2db92f59b94e8d4e6dd0d1130b38ef43cc0bd4f47540.json",
+      "receiptDigest": "sha256:2c28d42584ab8adbbf954feb68ffb076d5d22ab335b4f8427c25cc944618ff9b",
+      "requestDigest": "sha256:817559d5bfe1e10620ad2db92f59b94e8d4e6dd0d1130b38ef43cc0bd4f47540"
+    },
+    {
+      "digest": "sha256:fb7df9af086798197515e8f7c85b07a3145207460f283d186d150a722ab26523",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/6023f2b4b9174d5dc0cd687c61338f1de8fefc34a9be8eea8904d996987c022a.json",
+      "receiptDigest": "sha256:240e31fbc62bc49db36e6b4f5935e7d2d4fa869f71ce7eade7fa7c8865f8a639",
+      "requestDigest": "sha256:6023f2b4b9174d5dc0cd687c61338f1de8fefc34a9be8eea8904d996987c022a"
+    }
+  ],
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-27T03:51:31Z",
-  "preflightContractDigest": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
-  "preflightDecisionDigest": "sha256:f10601477fef626818723dadc169a3100217b529644615337c5771b3a026aa63",
-  "preflightRepositorySnapshotDigest": "sha256:419ca434661f104d2b6ec3e4d6eeb370df97f4d7b8acfa69031ebdc156f51cc8",
+  "preflightAt": "2026-10-28T02:30:29Z",
+  "preflightContractDigest": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+  "preflightDecisionDigest": "sha256:6a87210dd84722bbd3739cc5f7a3a7e96408f74f14018150cddaa418945eae13",
+  "preflightRepositorySnapshotDigest": "sha256:4b3c8477a1cc95fef267b614e90aa48cd6de2e8e5ea6619136d733aab5d016bf",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -203,27 +439,36 @@
       "verificationPlan": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+      ],
       "expected": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
       "expectedOutcome": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf.",
       "required": true,
       "scenario": "windows_ai_artifact_exact_bytes",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert core.autocrlf=true checkout bytes equal the committed .ai Git blob bytes."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+      ],
       "expected": "An older immutable fixture revision lacks the new attributes rule.",
       "expectedOutcome": "An older immutable fixture revision lacks the new attributes rule.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf.",
       "required": true,
       "scenario": "historical_ai_artifact_exact_bytes",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert the old revision fixture preserves blob bytes using only its local fixture attribute rule."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+      ],
       "expected": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
       "expectedOutcome": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes.",
       "required": true,
       "scenario": "windows_single_byte_tamper_rejected",
       "status": "unverified",
@@ -257,126 +502,169 @@
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+      ],
       "expected": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
       "expectedOutcome": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority, real_wi1111_to_wi1112_current_reference_is_not_review_authority.",
       "required": true,
       "scenario": "material_reference_only",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_current_reference_is_not_review_authority -- --exact --test-threads=1; assert same material references are read-only and never authorize a new review."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+      ],
       "expected": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
       "expectedOutcome": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_transition_does_not_cover_a_different_material_path, profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause. This is partial support; the planned per-field delta matrix remains incomplete.",
       "required": true,
       "scenario": "material_delta_invalidates_context",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+      ],
       "expected": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
       "expectedOutcome": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: valid_profile_amendment_preserves_exact_prior_receipt_as_history, profile_transition_preserves_prior_receipt_after_ai_only_commit.",
       "required": true,
       "scenario": "material_profile_transition_append_only",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review valid_profile_amendment_preserves_exact_prior_receipt_as_history -- --exact --test-threads=1; verify the old receipt against its historical Contract/profile/request/manifest and legal same-WI amendment chain, preserve it, and require a new request."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+      ],
       "expected": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
       "expectedOutcome": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid, profile_transition_captured_fields_cannot_be_rebound_by_rehashing_local_digest, profile_transition_requires_both_prepared_and_committed_journal_records.",
       "required": true,
       "scenario": "material_transition_negative_cases",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid -- --exact --test-threads=1 plus the material_review suite; reject forged, foreign, malformed, or unbound transition evidence."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+      ],
       "expected": "A transition sees a new Unknown cause, path, hunk, or Finding.",
       "expectedOutcome": "A transition sees a new Unknown cause, path, hunk, or Finding.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_transition_never_discharges_a_new_canonical_finding.",
       "required": true,
       "scenario": "material_transition_new_risk_stays_blocked",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+      ],
       "expected": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
       "expectedOutcome": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale.",
       "required": true,
       "scenario": "pre_amendment_profile_lint",
       "status": "unverified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale -- --exact --test-threads=1; compare Contract and amendment-journal bytes before and after rejection."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
       "expectedOutcome": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: authorization_manifest_binds_explicit_members_and_is_order_independent, authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants, authorization_manifest_rejects_foreign_members_actions_checks_and_expiry.",
       "required": true,
       "scenario": "batch_manifest_exact_members",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
       "expectedOutcome": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: parallel_batch_members_keep_independent_grants_and_partial_ledgers, authorization_manifest_rejects_foreign_members_actions_checks_and_expiry.",
       "required": true,
       "scenario": "per_work_item_grants_independent",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-75"
+      ],
       "expected": "Two processes try to reserve the one allowed start for the same member concurrently.",
       "expectedOutcome": "Two processes try to reserve the one allowed start for the same member concurrently.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-75); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: concurrent_member_start_reserves_one_quota_atomically.",
       "required": true,
       "scenario": "atomic_one_start_same_work_item",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency concurrent_member_start_reserves_one_quota_atomically -- --exact --test-threads=1; race separate processes and assert exactly one durable reservation."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
       "expectedOutcome": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: parallel_batch_members_keep_independent_grants_and_partial_ledgers. This test covers independent grants/partial ledgers, not two concurrent verification workers.",
       "required": true,
       "scenario": "parallel_distinct_work_items_partial_results",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "A named unchanged check fails and has retry budget remaining.",
       "expectedOutcome": "A named unchanged check fails and has retry budget remaining.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: retry_is_limited_to_named_unchanged_check_and_preserves_first_failure.",
       "required": true,
       "scenario": "bounded_retry_preserves_first_failure",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "Process or write result is uncertain after interruption.",
       "expectedOutcome": "Process or write result is uncertain after interruption.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: uncertain_operation_outcome_blocks_resend_until_inspected.",
       "required": true,
       "scenario": "unknown_outcome_no_resend",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+      ],
       "expected": "A grant expires or receives a valid append-only withdrawn/completed termination.",
       "expectedOutcome": "A grant expires or receives a valid append-only withdrawn/completed termination.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: an_expired_reviewed_grant_cannot_authorize_future_work, termination_cannot_smuggle_an_unrelated_governance_write, withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion.",
       "required": true,
       "scenario": "expiry_and_termination",
       "status": "unverified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-6"
+      ],
       "expected": "CLI and MCP request the same batch, member, action, and manifest.",
       "expectedOutcome": "CLI and MCP request the same batch, member, action, and manifest.",
+      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-6); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: explicit_batch_authorization_manifest_has_cli_mcp_parity.",
       "required": true,
       "scenario": "cli_mcp_parity",
       "status": "unverified",
@@ -393,21 +681,21 @@
     },
     {
       "evidence": [],
-      "expected": "TaskAuthorization publicTarget.baseBranch and actual PR/resourceContext base branch identify codex/wi-1111-token-outcome-ci; PR head identifies WI-1113. The active Contract.baseRevision is whatever the fixed Runtime records on normal staged activation and remains distinct from predecessor recovery HEAD 5a942, provider comparison base, tested PR merge revision, and post-merge commit.",
-      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and actual PR/resourceContext base branch identify codex/wi-1111-token-outcome-ci; PR head identifies WI-1113. The active Contract.baseRevision is whatever the fixed Runtime records on normal staged activation and remains distinct from predecessor recovery HEAD 5a942, provider comparison base, tested PR merge revision, and post-merge commit.",
+      "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
       "required": true,
       "scenario": "pr_policy_and_provider_target_alignment",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; then read the actual provider PR and native resource receipt to compare repository, head, base, and recorded Contract baseline separately."
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
     },
     {
       "evidence": [],
-      "expected": "While #1075 remains open and WI-1113 starts at its head, the WI-1113-to-WI-1111 comparison exposes the full inherited WI-1112 plus WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, and review full-diff provenance; do not require #1075 to merge first or call the comparison a pure WI-1113 delta.",
-      "expectedOutcome": "While #1075 remains open and WI-1113 starts at its head, the WI-1113-to-WI-1111 comparison exposes the full inherited WI-1112 plus WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, and review full-diff provenance; do not require #1075 to merge first or call the comparison a pure WI-1113 delta.",
+      "expected": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+      "expectedOutcome": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
       "required": true,
       "scenario": "stacked_pr_overlap_is_visible",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision stacked_pr_comparison_preserves_full_inherited_and_new_provenance -- --exact --test-threads=1; also inspect provider compare and trace cumulative hunks to WI-1112 or WI-1113 without requiring #1075 to merge."
+      "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
     },
     {
       "evidence": [],
@@ -420,7 +708,20 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-27T03:29:01.001939740+00:00",
+  "taskOutcomeProjectionPolicy": {
+    "contractDigest": "sha256:b9119e147f4444e08383269de4e5e273ed33b0f93f4ad06f382e52aa113f125b",
+    "jsonFormat": "ai-cockpit.task-outcome",
+    "jsonSchemaVersion": 1,
+    "markdownRenderer": "ai-cockpit.task-outcome-markdown",
+    "markdownRendererVersion": 2,
+    "producerRuntimeDigest": "sha256:b960ce194af9817d9d9e583b0f8669cc2486a45760e03ce2f7830abba1a7dd4e",
+    "producerRuntimeVersion": "1.0.1",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "schemaVersion": 1,
+    "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+  },
+  "updatedAt": "2026-10-28T01:33:02.419418044+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -428,7 +729,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+    "contractHash": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -443,8 +744,8 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-27T03:23:38Z"
+    "recordedAt": "2026-10-28T01:22:19Z"
   },
-  "verificationRecoveryReconciled": "sha256:4fb10f7d3f64dc4deda8cf2cdc13d4a1a3eb5347c2523b0b8c59ad9903b7986c",
+  "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
 }

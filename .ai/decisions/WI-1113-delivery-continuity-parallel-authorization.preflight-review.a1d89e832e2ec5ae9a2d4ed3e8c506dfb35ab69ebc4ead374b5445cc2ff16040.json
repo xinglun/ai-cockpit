@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a58166a1119f831b602629320d3bb44156a895bb80ff54c443c15bc2cd8f9884",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "reason": "Recorded the owner’s explicit sequence 9 confirmation in conversation Sentinel_2fe40d0b12d881919f27f50f68e85666 at 2026-10-27 08:37 UTC. This confirms only the approved addition of crates/cockpit-verification/src/lib.rs for verification subprocess supervision, bound to this exact Contract, preflight, and snapshot; it does not assert implementation acceptance, material review, scenario verification, test success, or merge.",
+  "recordedAt": "2026-10-27T08:37:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:48e3360ee6a65ffc187039a3cd37a5f64d9ab2c9571a4a3f8d337243005423a0",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}
