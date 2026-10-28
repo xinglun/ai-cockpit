@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:04713925cdce0475444d1ecdba6d05ac5a8b59fa999655ec7427e27eae6e7853",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:61a7110feac02d8a5e474a8dee3c5fb737cd95793db86a1db4c3112b676ab97a",
+  "reason": "Recorded the owner's explicit WI-1113 sequence 14 confirmation in conversation Sentinel_8c1d5d5c92c48191b5cd9e440dac6323 at 2026-10-28 04:42 UTC. This confirms only the approved task/pr/merge verification stage binding and synchronization of the previously approved total ten-run hosted CI cap, preserving the 900-second timeout, checks, and approvals; it does not assert verification success, material review, scenario completion, or merge.",
+  "recordedAt": "2026-10-28T04:42:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

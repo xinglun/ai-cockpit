@@ -366,20 +366,86 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:04713925cdce0475444d1ecdba6d05ac5a8b59fa999655ec7427e27eae6e7853",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+      "reason": "Align WI-1113 verification policy references with the existing task, PR, and main-push merge stages, and record the user-approved total hosted CI cap of ten without resetting prior attempts. Preserve the 900-second ceiling, all tests, assurance, approval mode, gates, and other requirements.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T04:33:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:04713925cdce0475444d1ecdba6d05ac5a8b59fa999655ec7427e27eae6e7853",
+      "reason": "Keep the WI-1113 append-only Contract amendment prepared/committed journal in the already approved WI-specific evidence persistence boundary. The exact literal WI directory prefix lets future sequence records be reviewed and persisted without per-sequence scope changes; it does not include another Work Item or general .ai paths, and it preserves all existing records byte-for-byte.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T04:52:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+    "contractDigest": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:ea196bfad441774d41c41fb7e2a89ddd9b013c1f2d2f659a412b3bf956ff3641",
-    "reason": "Recorded the owner’s explicit confirmation of WI-1113 sequence 13 native evidence persistence scope, bound to the exact Contract, preflight and repository snapshot, in conversation Sentinel_2fa068eb9a34819194ae8da55776cd23 at 2026-10-28 01:31 UTC. This confirms only the WI-1113 native evidence paths and amendment/review records in sequence 13; it does not claim verification success, completion, or authorize another Work Item.",
-    "recordedAt": "2026-10-28T01:32:33Z",
+    "preflightDecisionDigest": "sha256:61a7110feac02d8a5e474a8dee3c5fb737cd95793db86a1db4c3112b676ab97a",
+    "reason": "Recorded the owner's explicit WI-1113 sequence 15 confirmation in conversation Sentinel_3726a2c8d93481919ce0d9c1cf3e2631 at 2026-10-28 05:01 UTC. This confirms only the exact WI-1113 contract-amendment journal directory scope pattern; other Work Items, historical bytes, verification criteria, permissions, and delivery target remain unchanged.",
+    "recordedAt": "2026-10-28T05:01:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e3dfe53d632a4051568b60417e11c3288b6513aec1aeecc280dc4db9de47e169",
+    "repositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -420,10 +486,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-28T02:30:29Z",
-  "preflightContractDigest": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
-  "preflightDecisionDigest": "sha256:6a87210dd84722bbd3739cc5f7a3a7e96408f74f14018150cddaa418945eae13",
-  "preflightRepositorySnapshotDigest": "sha256:4b3c8477a1cc95fef267b614e90aa48cd6de2e8e5ea6619136d733aab5d016bf",
+  "preflightAt": "2026-10-28T04:55:52Z",
+  "preflightContractDigest": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
+  "preflightDecisionDigest": "sha256:61a7110feac02d8a5e474a8dee3c5fb737cd95793db86a1db4c3112b676ab97a",
+  "preflightRepositorySnapshotDigest": "sha256:4e8d3b7008ec9480755f868ef2d4e784d9e7bce336609ca89818844aa06853b9",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -721,7 +787,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-28T01:33:02.419418044+00:00",
+  "updatedAt": "2026-10-28T05:02:12.703948404+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -729,7 +795,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+    "contractHash": "sha256:213818863896eec1fe54d103ad09f651503c03b3e24b081da4bef25ea9b1f4da",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -744,7 +810,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-28T01:22:19Z"
+    "recordedAt": "2026-10-28T04:52:12Z"
   },
   "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
