@@ -11,14 +11,14 @@ use std::{
     fs,
     path::{Path, PathBuf},
     process::Command,
-    sync::{
-        Mutex,
-        atomic::{AtomicU64, Ordering},
-    },
+    sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
 };
+#[cfg(unix)]
+use std::sync::Mutex;
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
+#[cfg(unix)]
 static CARGO_TARGET_ENV_LOCK: Mutex<()> = Mutex::new(());
 
 #[test]
@@ -230,6 +230,7 @@ fn request(
     }
 }
 
+#[cfg(unix)]
 fn verification_receipt_diagnostics(
     receipt: &cockpit_verification::VerificationReceipt,
 ) -> String {
