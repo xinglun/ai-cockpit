@@ -1798,6 +1798,157 @@ fn archive_outcome_render_input(
     }
 }
 
+/// A native replacement retirement preserves unfinished records. It is not a
+/// successful finish/archive and must never enter that verifier's compatibility
+/// route. The caller has already validated the successor recovery lineage;
+/// join its exact predecessor identity to the separate native retirement format.
+fn replaced_predecessor_manifest_digest(
+    root: &Path,
+    predecessor: &str,
+    successor: &str,
+    predecessor_contract_digest: &Digest,
+    manifest: &Value,
+) -> Option<Digest> {
+    let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority()).ok()?;
+    let ai_path = root.join(".ai");
+    let ai = super::open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path).ok()?;
+    let work_items_path = ai_path.join("work-items");
+    let work_items =
+        super::open_cap_directory_nofollow_strict(&ai, "work-items", &work_items_path).ok()?;
+    let archive_path = work_items_path.join("archive");
+    let archive =
+        super::open_cap_directory_nofollow_strict(&work_items, "archive", &archive_path).ok()?;
+    let decisions_path = ai_path.join("decisions");
+    let decisions =
+        super::open_cap_directory_nofollow_strict(&ai, "decisions", &decisions_path).ok()?;
+    let manifest_name = format!("{predecessor}.archive.json");
+    let manifest_bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+        &archive,
+        &manifest_name,
+        &archive_path.join(&manifest_name),
+        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )
+    .ok()?;
+    super::reject_duplicate_json_keys(&manifest_bytes).ok()?;
+    let captured_manifest: Value = serde_json::from_slice(&manifest_bytes).ok()?;
+    let receipt_name = format!("{predecessor}.retirement.json");
+    let receipt_bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+        &decisions,
+        &receipt_name,
+        &decisions_path.join(&receipt_name),
+        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )
+    .ok()?;
+    super::reject_duplicate_json_keys(&receipt_bytes).ok()?;
+    let receipt: cockpit_protocol::ActiveWorkItemRetirementReceipt =
+        serde_json::from_slice(&receipt_bytes).ok()?;
+    if &captured_manifest != manifest
+        || manifest["protocolVersion"] != 1
+        || manifest["workItemId"] != predecessor
+        || manifest["state"] != "replaced"
+        || manifest["historicalEvidence"] != true
+        || manifest["closeRequired"] != false
+        || manifest["retirementDisposition"] != "replaced"
+        || manifest["successorWorkItemId"] != successor
+        || manifest["retirementReceiptPath"] != format!(".ai/decisions/{receipt_name}")
+        || receipt.schema_version != 1
+        || receipt.decision_id != "work-item-retirement"
+        || receipt.disposition != "replaced"
+        || receipt.work_item_id != predecessor
+        || receipt.repository_id != repository_id(root).to_string()
+        || receipt.successor_work_item_id.as_deref() != Some(successor)
+        || &receipt.contract_digest != predecessor_contract_digest
+        || receipt.verification_claim != "not_verified"
+        || !receipt.original_bytes_preserved
+        || receipt.archive_manifest_digest != cockpit_protocol::digest_json(manifest).ok()?
+        || receipt.runtime_version.trim().is_empty()
+        || receipt.actor.trim().is_empty()
+        || receipt.authority_source.trim().is_empty()
+        || receipt.reason.trim().is_empty()
+        || receipt.runtime_digest.as_str().parse::<Digest>().is_err()
+        || receipt
+            .repository_snapshot_digest
+            .as_str()
+            .parse::<Digest>()
+            .is_err()
+        || chrono::DateTime::parse_from_rfc3339(&receipt.recorded_at).is_err()
+    {
+        return None;
+    }
+    let files = manifest["files"].as_object()?;
+    if receipt.artifacts.len() > 256
+        || files.len() != receipt.artifacts.len().checked_mul(2)?
+        || ["contract", "summary", "outcome"]
+            .iter()
+            .any(|key| !receipt.artifacts.contains_key(*key))
+    {
+        return None;
+    }
+    let mut core = std::collections::BTreeMap::new();
+    let mut paths = BTreeSet::new();
+    let mut total = 0usize;
+    for (key, artifact) in &receipt.artifacts {
+        let suffix = match key.as_str() {
+            "contract" => "contract.json",
+            "summary" => "summary.json",
+            "outcome" => "outcome.json",
+            "events" => "events.jsonl",
+            "approach" => "approach.json",
+            "intelligence" => "intelligence.json",
+            "taskReport" => "task-report.json",
+            "taskReportMarkdown" => "task-report.md",
+            _ if key
+                .strip_prefix("historicalArtifact")
+                .is_some_and(|n| !n.is_empty() && n.bytes().all(|b| b.is_ascii_digit())) =>
+            {
+                let name = artifact.path.strip_prefix(".ai/work-items/archive/")?;
+                if name.contains('/')
+                    || name.contains('\\')
+                    || super::active_artifact_variant_name(name)?.0 != predecessor
+                {
+                    return None;
+                }
+                name.strip_prefix(&format!("{predecessor}."))?
+            }
+            _ => return None,
+        };
+        let name = format!("{predecessor}.{suffix}");
+        if !paths.insert(&artifact.path)
+            || artifact.path != format!(".ai/work-items/archive/{name}")
+            || files.get(&format!("{key}Path"))?.as_str()? != artifact.path
+            || files.get(&format!("{key}Digest"))?.as_str()? != artifact.digest.as_str()
+        {
+            return None;
+        }
+        let bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+            &archive,
+            &name,
+            &archive_path.join(&name),
+            16 * 1024 * 1024,
+        )
+        .ok()?;
+        total = total.checked_add(bytes.len())?;
+        if total > 32 * 1024 * 1024 || Digest::sha256_bytes(&bytes) != artifact.digest {
+            return None;
+        }
+        if matches!(key.as_str(), "contract" | "summary" | "outcome") {
+            super::reject_duplicate_json_keys(&bytes).ok()?;
+            let value: Value = serde_json::from_slice(&bytes).ok()?;
+            if value["repositoryId"] != receipt.repository_id || value["workItemId"] != predecessor
+            {
+                return None;
+            }
+            core.insert(key.as_str(), value);
+        }
+    }
+    if cockpit_protocol::digest_json(core.get("contract")?).ok()? != receipt.contract_digest
+        || cockpit_protocol::digest_json(core.get("summary")?).ok()? != receipt.summary_digest
+    {
+        return None;
+    }
+    Some(Digest::sha256_bytes(&manifest_bytes))
+}
+
 fn delivery_continuity_projection(
     root: &Path,
     outcome: &OutcomeV2,
@@ -1858,13 +2009,25 @@ fn delivery_continuity_projection(
         Ok(manifest) => manifest,
         Err(_) => return Some(unknown("predecessor_archive_invalid")),
     };
-    if manifest["workItemId"] != predecessor_id
-        || manifest["state"] != "archived"
-        || super::verify_archive_manifest(root, &predecessor_id, &manifest).is_err()
-    {
-        return Some(unknown("predecessor_archive_unverified"));
-    }
-    let archive_manifest_digest = Digest::sha256_bytes(&manifest_bytes);
+    let (predecessor_archive_state, archive_manifest_digest) = match manifest["state"].as_str() {
+        Some("archived")
+            if manifest["workItemId"] == predecessor_id
+                && super::verify_archive_manifest(root, &predecessor_id, &manifest).is_ok() =>
+        {
+            ("verified_archived", Digest::sha256_bytes(&manifest_bytes))
+        }
+        Some("replaced") => match replaced_predecessor_manifest_digest(
+            root,
+            &predecessor_id,
+            &contract.work_item_id,
+            &predecessor_contract_document.digest,
+            &manifest,
+        ) {
+            Some(digest) => ("replaced_not_verified", digest),
+            None => return Some(unknown("predecessor_retirement_unverified")),
+        },
+        _ => return Some(unknown("predecessor_archive_unverified")),
+    };
     let current_contract_digest = match super::read_contract_document(&contract_path) {
         Ok(document) => document.digest,
         Err(_) => return Some(unknown("successor_contract_binding_unavailable")),
@@ -1889,7 +2052,7 @@ fn delivery_continuity_projection(
             schema_version: 1,
             state: "unknown".into(),
             predecessor_work_item_id: Some(predecessor_id),
-            predecessor_archive_state: "verified_archived".into(),
+            predecessor_archive_state: predecessor_archive_state.into(),
             predecessor_archive_manifest_digest: Some(archive_manifest_digest),
             external_validation_state: "pending".into(),
             external_binding_state: binding_state.into(),
@@ -1915,7 +2078,7 @@ fn delivery_continuity_projection(
         schema_version: 1,
         state: "in_progress".into(),
         predecessor_work_item_id: Some(predecessor_id),
-        predecessor_archive_state: "verified_archived".into(),
+        predecessor_archive_state: predecessor_archive_state.into(),
         predecessor_archive_manifest_digest: Some(archive_manifest_digest),
         external_validation_state: "pending".into(),
         external_binding_state: binding_state.into(),
@@ -2276,17 +2439,40 @@ fn append_delivery_continuity(
             .runtime_admitted_next_action
             .as_deref()
             .unwrap_or("unknown");
+        let predecessor_fact = if projection.predecessor_archive_state == "replaced_not_verified" {
+            match language {
+                "zh" => format!(
+                    "- 已替代前任：{predecessor}；not_verified。原始记录已保留，替代不表示验证通过。"
+                ),
+                "ja" => format!(
+                    "- replaced の predecessor：{predecessor}；not_verified。元の記録を保持し、検証済みとはみなしません。"
+                ),
+                _ => format!(
+                    "- Replaced predecessor: {predecessor}; not_verified. Original records are preserved; replacement does not assert verification."
+                ),
+            }
+        } else {
+            match language {
+                "zh" => format!("- 前任本地归档：{predecessor} 已验证并保留。"),
+                "ja" => format!(
+                    "- predecessor のローカル archive：{predecessor} は検証済みで保持されています。"
+                ),
+                _ => {
+                    format!("- Predecessor local archive: {predecessor} is verified and preserved.")
+                }
+            }
+        };
         match language {
             "zh" => format!(
-                "交付连续性 v{}\n- 前任本地归档：{predecessor} 已验证并保留。\n- 外部验证：待完成（尚无已验证的 provider/CI 结果）。\n- 当前修复状态：{}。\n- Runtime 允许的下一步：{next}。\n- 整体交付状态：进行中。",
+                "交付连续性 v{}\n{predecessor_fact}\n- 外部验证：待完成（尚无已验证的 provider/CI 结果）。\n- 当前修复状态：{}。\n- Runtime 允许的下一步：{next}。\n- 整体交付状态：进行中。",
                 projection.schema_version, projection.successor_lifecycle_state
             ),
             "ja" => format!(
-                "引き継ぎ継続性 v{}\n- predecessor のローカル archive：{predecessor} は検証済みで保持されています。\n- 外部検証：保留中（検証済み provider/CI 結果はありません）。\n- 現在の修復状態：{}。\n- Runtime が許可する次の操作：{next}。\n- 全体の納品状態：進行中。",
+                "引き継ぎ継続性 v{}\n{predecessor_fact}\n- 外部検証：保留中（検証済み provider/CI 結果はありません）。\n- 現在の修復状態：{}。\n- Runtime が許可する次の操作：{next}。\n- 全体の納品状態：進行中。",
                 projection.schema_version, projection.successor_lifecycle_state
             ),
             _ => format!(
-                "Delivery continuity v{}\n- Predecessor local archive: {predecessor} is verified and preserved.\n- External validation: pending (no verified provider/CI result is bound).\n- Active repair: {}.\n- Runtime-admitted next action: {next}.\n- Overall delivery: in progress.",
+                "Delivery continuity v{}\n{predecessor_fact}\n- External validation: pending (no verified provider/CI result is bound).\n- Active repair: {}.\n- Runtime-admitted next action: {next}.\n- Overall delivery: in progress.",
                 projection.schema_version, projection.successor_lifecycle_state
             ),
         }

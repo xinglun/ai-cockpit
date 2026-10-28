@@ -74,7 +74,7 @@ printf '%s\n' \
   '[[ "$target_seen" == true ]] || { printf "workspace test did not select the runner target\\n" >&2; exit 4; }' \
   >"$fake_cargo"
 chmod +x "$fake_rustc" "$fake_cargo"
-printf '%s\n' '{"packages":[{"name":"fixture-package","source":null}]}' >"$tmp/workspace-metadata.json"
+printf '%s\n' '{"packages":[{"name":"fixture-package","source":null,"targets":[{"name":"fixture_package","kind":["lib"],"test":true}]}]}' >"$tmp/workspace-metadata.json"
 # The one-package fixture must work even when its parent repository gate has
 # a hosted receipt for the real workspace. These foreign values must not be
 # consumed by the fixture's package-runner subprocesses.

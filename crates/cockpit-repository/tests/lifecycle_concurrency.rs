@@ -20,7 +20,14 @@ use std::time::{Duration, Instant};
 use std::{env, fs, path::Path, process::Command, thread};
 
 fn repository() -> tempfile::TempDir {
-    let directory = tempfile::tempdir().expect("tempdir");
+    repository_with_prefix(".tmp")
+}
+
+fn repository_with_prefix(prefix: &str) -> tempfile::TempDir {
+    let directory = tempfile::Builder::new()
+        .prefix(prefix)
+        .tempdir()
+        .expect("tempdir");
     assert!(
         Command::new("git")
             .args(["init", "-q"])
@@ -67,11 +74,24 @@ fn prepare_batch_start_member(
     root: &Path,
     work_item_id: &str,
 ) -> cockpit_protocol::TaskAuthorizationBatchReceipt {
+    prepare_batch_start_member_for_command(root, work_item_id, "git diff --check", false)
+}
+
+fn prepare_batch_start_member_for_command(
+    root: &Path,
+    work_item_id: &str,
+    command: &str,
+    checkpoint: bool,
+) -> cockpit_protocol::TaskAuthorizationBatchReceipt {
     let policy = TaskAuthorizationPolicy {
         schema_version: 1,
         agent_actor: "agent:cross-process-batch-worker".into(),
         authority_source: "conversation:cross-process-batch-fixture-owner".into(),
-        allowed_actions: vec!["run_verification".into()],
+        allowed_actions: if checkpoint {
+            vec!["checkpoint".into(), "run_verification".into()]
+        } else {
+            vec!["run_verification".into()]
+        },
         closeout_actions: Vec::new(),
         expires_at: Some("2099-01-01T00:00:00Z".into()),
         public_target: None,
@@ -86,7 +106,7 @@ fn prepare_batch_start_member(
             task_authorization: Some(policy),
             authority: "authorized".into(),
             acceptance_criteria: vec!["one durable start reservation wins".into()],
-            verification_commands: vec!["git diff --check".into()],
+            verification_commands: vec![command.into()],
             ..WorkItemStartOptions::default()
         },
     )
@@ -122,6 +142,21 @@ fn prepare_batch_start_member(
     )
     .expect("record exact member owner review");
 
+    if checkpoint {
+        cockpit_repository::checkpoint_work_item_with_caller(
+            root,
+            work_item_id,
+            &batch_runtime(),
+            Some(&TaskAuthorizationCaller {
+                schema_version: 1,
+                actor: "agent:cross-process-batch-worker".into(),
+                authority_source: "conversation:cross-process-batch-fixture-owner".into(),
+                assurance: AssuranceLevel::SelfDeclared,
+            }),
+        )
+        .expect("checkpoint the actually executed member");
+    }
+
     let request = cockpit_protocol::TaskAuthorizationBatchRequest {
         schema_version: 1,
         repository_id: repository_id(root).to_string(),
@@ -131,10 +166,7 @@ fn prepare_batch_start_member(
             expires_at: "2098-01-01T00:00:00Z".into(),
             budget: cockpit_protocol::TaskAuthorizationBatchBudget {
                 start_quota: 1,
-                retry_budget_by_check: std::collections::BTreeMap::from([(
-                    "git diff --check".into(),
-                    2,
-                )]),
+                retry_budget_by_check: std::collections::BTreeMap::from([(command.into(), 2)]),
             },
         }],
     };
@@ -524,6 +556,411 @@ fn concurrent_member_start_child() {
         serde_json::to_vec(&value).expect("encode contender result"),
     )
     .expect("write contender result");
+}
+
+struct OwnedExecutionWorkers {
+    children: Vec<std::process::Child>,
+    gate: std::path::PathBuf,
+}
+
+impl Drop for OwnedExecutionWorkers {
+    fn drop(&mut self) {
+        // Every assertion/panic releases the bounded leaf barrier before
+        // waiting. Workers own and wait their native executor children.
+        let _ = fs::write(&self.gate, b"release");
+        let deadline = Instant::now() + Duration::from_secs(30);
+        for child in &mut self.children {
+            while matches!(child.try_wait(), Ok(None)) && Instant::now() < deadline {
+                thread::sleep(Duration::from_millis(10));
+            }
+            if !matches!(child.try_wait(), Ok(Some(_))) {
+                let _ = child.kill();
+            }
+            let _ = child.wait();
+        }
+    }
+}
+
+#[test]
+fn distinct_members_run_concurrently_and_keep_partial_results() {
+    let directory = repository_with_prefix("distinct native execution ");
+    let root = directory
+        .path()
+        .canonicalize()
+        .expect("canonical execution fixture");
+    let executable = env::current_exe().expect("real test executable");
+    let tools = root.join(".ai/test-tools");
+    fs::create_dir_all(&tools).unwrap();
+    let staged_executable = tools.join(format!("distinct-leaf{}", env::consts::EXE_SUFFIX));
+    fs::copy(&executable, &staged_executable)
+        .expect("stage the real test executable in a spaced directory");
+    assert!(staged_executable.to_string_lossy().contains(' '));
+    // The finite native declaration grammar intentionally has no quoting.
+    // A relative argv resolves under this spaced cwd without splitting its path.
+    let program = format!("./.ai/test-tools/distinct-leaf{}", env::consts::EXE_SUFFIX);
+    let declaration = format!("{program} --exact distinct_member_execution_leaf --nocapture");
+    let (parsed_program, parsed_args) = cockpit_protocol::parse_verification_argv(&declaration)
+        .expect("fixture path must fit the existing finite native argv declaration");
+    assert_eq!(parsed_program, program);
+    assert_eq!(
+        parsed_args,
+        ["--exact", "distinct_member_execution_leaf", "--nocapture"]
+    );
+    let ids = ["WI-DISTINCT-EXECUTION-A", "WI-DISTINCT-EXECUTION-B"];
+    for id in ids {
+        prepare_batch_start_member_for_command(&root, id, &declaration, true);
+    }
+    let request = cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        members: ids
+            .map(|id| cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+                work_item_id: id.into(),
+                actions: vec!["run_verification".into()],
+                expires_at: "2098-01-01T00:00:00Z".into(),
+                budget: cockpit_protocol::TaskAuthorizationBatchBudget {
+                    start_quota: 1,
+                    retry_budget_by_check: std::collections::BTreeMap::from([(
+                        declaration.clone(),
+                        0,
+                    )]),
+                },
+            })
+            .to_vec(),
+    };
+    let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
+        &root,
+        &request,
+        &batch_runtime(),
+    )
+    .unwrap();
+    let receipt = cockpit_repository::record_task_authorization_batch_review(&root, &manifest,
+        &cockpit_protocol::TaskAuthorizationBatchReview {
+            schema_version: 1, repository_id: manifest.repository_id.clone(),
+            manifest_digest: manifest.manifest_digest.clone(),
+            decision: cockpit_protocol::TaskAuthorizationBatchDecision::ConfirmReview,
+            reviewer_actor: "human:synthetic-fixture-owner".into(),
+            authority_source: "isolated-two-member-execution-fixture".into(),
+            recorded_at: chrono::Utc::now().to_rfc3339(),
+            reason: "review precisely these two actual-execution members and their separate one-start quotas".into(),
+        }, &batch_runtime()).unwrap();
+    let gate = root.join(".ai/distinct-execution-release");
+    assert_ne!(
+        receipt.manifest.members[0].parent_grant_id,
+        receipt.manifest.members[1].parent_grant_id
+    );
+    let mut owned = OwnedExecutionWorkers {
+        children: Vec::new(),
+        gate: gate.clone(),
+    };
+    for (index, id) in ids.iter().enumerate() {
+        owned.children.push(
+            Command::new(&executable)
+                .current_dir(&root)
+                .args(["--exact", "distinct_member_execution_worker", "--nocapture"])
+                .env("COCKPIT_DISTINCT_EXEC_ROOT", &root)
+                .env("COCKPIT_DISTINCT_EXEC_WI", id)
+                .env("COCKPIT_DISTINCT_EXEC_INDEX", index.to_string())
+                .env(
+                    "COCKPIT_DISTINCT_EXEC_MANIFEST",
+                    receipt.manifest.manifest_digest.to_string(),
+                )
+                .env("COCKPIT_DISTINCT_EXEC_PROGRAM", &program)
+                .env("COCKPIT_DISTINCT_EXEC_CHECK", &declaration)
+                .stdout(std::process::Stdio::null())
+                .spawn()
+                .expect("spawn owned native-execution worker"),
+        );
+    }
+    let markers = [
+        root.join(".ai/distinct-execution-started-0.json"),
+        root.join(".ai/distinct-execution-started-1.json"),
+    ];
+    let deadline = Instant::now() + Duration::from_secs(30);
+    let started = loop {
+        let observed = markers
+            .iter()
+            .map(|path| read_distinct_started_marker(path))
+            .collect::<Result<Vec<_>, _>>()
+            .expect("a published marker must be complete valid JSON");
+        if observed.iter().all(Option::is_some) {
+            break observed.into_iter().map(Option::unwrap).collect::<Vec<_>>();
+        }
+        assert!(
+            Instant::now() < deadline,
+            "both real declared leaf commands must reach the barrier"
+        );
+        assert!(
+            !owned
+                .children
+                .iter_mut()
+                .any(|child| child.try_wait().unwrap().is_some()),
+            "an executor worker exited before both real leaf markers were published"
+        );
+        thread::sleep(Duration::from_millis(10));
+    };
+    for (marker, id) in started.iter().zip(ids) {
+        assert_eq!(marker["workItemId"], id);
+        assert!(marker["pid"].as_u64().is_some_and(|pid| pid > 0));
+    }
+    assert_ne!(
+        started[0]["pid"], started[1]["pid"],
+        "distinct real OS leaf processes"
+    );
+    eprintln!("overlapping native leaf processes before release: {started:?}");
+    assert!(
+        owned
+            .children
+            .iter_mut()
+            .all(|child| child.try_wait().unwrap().is_none()),
+        "both executor workers remain live before release"
+    );
+    assert!(!root.join(".ai/distinct-execution-finished-0").exists());
+    assert!(!root.join(".ai/distinct-execution-finished-1").exists());
+    fs::write(&gate, b"release").unwrap();
+    let deadline = Instant::now() + Duration::from_secs(60);
+    for child in &mut owned.children {
+        loop {
+            if let Some(status) = child.try_wait().unwrap() {
+                assert!(status.success(), "worker failed: {status}");
+                break;
+            }
+            assert!(
+                Instant::now() < deadline,
+                "native executor worker exceeded bounded completion"
+            );
+            thread::sleep(Duration::from_millis(10));
+        }
+    }
+    for (index, id) in ids.iter().enumerate() {
+        let result_path = root.join(format!(".ai/distinct-execution-result-{index}.json"));
+        let bytes = fs::read(&result_path).expect("real native execution receipt");
+        let result: Value = serde_json::from_slice(&bytes).unwrap();
+        let expected = if index == 0 { 17 } else { 0 };
+        assert_eq!(
+            result["nativeReceipt"]["executionRecords"][0]["exitCode"],
+            expected
+        );
+        assert_eq!(result["nativeReceipt"]["passed"], index == 1);
+        assert_eq!(result["nativeReceipt"]["nodesExecuted"], 1);
+        let ledger = cockpit_repository::inspect_task_authorization_batch_member(
+            &root,
+            &manifest.manifest_digest,
+            id,
+            &batch_runtime(),
+        )
+        .unwrap();
+        assert_eq!(ledger.starts_used, 1);
+        assert_eq!(ledger.start_quota, 1);
+        assert_eq!(ledger.authorization_state, "active");
+        assert_eq!(
+            ledger.events.len(),
+            3,
+            "one start, one check and one actual outcome per member"
+        );
+        let outcome = ledger.events.last().unwrap();
+        assert_eq!(
+            outcome.kind,
+            cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+        );
+        assert_eq!(
+            outcome.outcome,
+            Some(if index == 0 {
+                cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed
+            } else {
+                cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Passed
+            })
+        );
+        assert_eq!(outcome.evidence_digest, Some(Digest::sha256_bytes(&bytes)));
+        assert_eq!(outcome.attempt, Some(1));
+        assert_eq!(outcome.work_item_id, *id);
+        eprintln!(
+            "native member result: member={id}, workerPid={}, exitCode={expected}, startsUsed={}, events={}, evidenceDigest={}",
+            result["workerPid"],
+            ledger.starts_used,
+            ledger.events.len(),
+            outcome.evidence_digest.as_ref().unwrap()
+        );
+    }
+}
+
+#[test]
+fn distinct_member_execution_worker() {
+    let Some(root) = env::var_os("COCKPIT_DISTINCT_EXEC_ROOT") else {
+        return;
+    };
+    let root = Path::new(&root);
+    assert_eq!(
+        env::current_dir().unwrap().canonicalize().unwrap(),
+        root.canonicalize().unwrap(),
+        "the native leaf's relative program must resolve from the fixture worker cwd"
+    );
+    let id = env::var("COCKPIT_DISTINCT_EXEC_WI").unwrap();
+    let index = env::var("COCKPIT_DISTINCT_EXEC_INDEX").unwrap();
+    let digest: Digest = env::var("COCKPIT_DISTINCT_EXEC_MANIFEST")
+        .unwrap()
+        .parse()
+        .unwrap();
+    let command = env::var("COCKPIT_DISTINCT_EXEC_CHECK").unwrap();
+    let caller = TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: "agent:cross-process-batch-worker".into(),
+        authority_source: "conversation:cross-process-batch-fixture-owner".into(),
+        assurance: AssuranceLevel::SelfDeclared,
+    };
+    let operation = format!("actual-execution-{index}");
+    cockpit_repository::reserve_task_authorization_batch_start(
+        root,
+        &cockpit_protocol::TaskAuthorizationBatchStartRequest {
+            schema_version: 1,
+            manifest_digest: digest.clone(),
+            work_item_id: id.clone(),
+            operation_id: operation.clone(),
+            action: "run_verification".into(),
+            caller: caller.clone(),
+        },
+        &batch_runtime(),
+    )
+    .unwrap();
+    let attempt = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        root,
+        &cockpit_protocol::TaskAuthorizationBatchCheckRequest {
+            schema_version: 1,
+            manifest_digest: digest.clone(),
+            work_item_id: id.clone(),
+            operation_id: operation.clone(),
+            check_id: command.clone(),
+            caller: caller.clone(),
+        },
+        &batch_runtime(),
+    )
+    .unwrap();
+    let run = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &cockpit_repository::RepositoryVerificationRequest {
+            node_id: "project-command-0".into(),
+            program: env::var("COCKPIT_DISTINCT_EXEC_PROGRAM").unwrap(),
+            args: vec![
+                "--exact".into(),
+                "distinct_member_execution_leaf".into(),
+                "--nocapture".into(),
+            ],
+            scope: vec!["README.md".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: batch_runtime().runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some(id.clone()),
+            timeout_seconds: None,
+            policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+        },
+        &batch_runtime(),
+        Some(&caller),
+        |_node, _pid, _started| Ok(()),
+    )
+    .expect("actual admitted native command execution");
+    let passed = run.receipt.passed;
+    let bytes = serde_json::to_vec_pretty(
+        &serde_json::json!({"workerPid":std::process::id(),"nativeReceipt":run.receipt}),
+    )
+    .unwrap();
+    let result = root.join(format!(".ai/distinct-execution-result-{index}.json"));
+    fs::write(&result, &bytes).unwrap();
+    cockpit_repository::record_task_authorization_batch_check_outcome(
+        root,
+        &cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+            schema_version: 1,
+            manifest_digest: digest,
+            work_item_id: id,
+            operation_id: operation,
+            check_id: command,
+            attempt: attempt.attempt.expect("reserved actual attempt"),
+            outcome: if passed {
+                cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Passed
+            } else {
+                cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed
+            },
+            evidence_ref: format!("local:{}", result.display()),
+            evidence_digest: Digest::sha256_bytes(&bytes),
+            reason: "Exact returned native executor receipt, not a caller-invented process result"
+                .into(),
+            caller,
+        },
+        &batch_runtime(),
+    )
+    .unwrap();
+}
+
+fn publish_distinct_started_marker(path: &Path, value: &Value) {
+    use std::io::Write;
+    let mut pending = tempfile::NamedTempFile::new_in(path.parent().unwrap()).unwrap();
+    pending
+        .write_all(&serde_json::to_vec(value).unwrap())
+        .unwrap();
+    pending.flush().unwrap();
+    pending
+        .persist(path)
+        .expect("publish the complete marker atomically");
+}
+
+fn read_distinct_started_marker(path: &Path) -> Result<Option<Value>, String> {
+    let bytes = match fs::read(path) {
+        Ok(bytes) => bytes,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error.to_string()),
+    };
+    serde_json::from_slice(&bytes)
+        .map(Some)
+        .map_err(|error| error.to_string())
+}
+
+#[test]
+fn incomplete_distinct_execution_marker_never_releases_the_barrier() {
+    use std::io::Write;
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("started.json");
+    let mut pending = tempfile::NamedTempFile::new_in(directory.path()).unwrap();
+    pending.write_all(b"{").unwrap();
+    pending.flush().unwrap();
+    assert!(
+        read_distinct_started_marker(&path).unwrap().is_none(),
+        "an incomplete private staging file cannot release the barrier"
+    );
+    fs::write(&path, b"{").unwrap();
+    assert!(
+        read_distinct_started_marker(&path).is_err(),
+        "a corrupt published marker must fail, not be swallowed as not-ready"
+    );
+    fs::remove_file(&path).unwrap();
+    let expected = serde_json::json!({"pid":123,"workItemId":"WI-MARKER-FIXTURE"});
+    publish_distinct_started_marker(&path, &expected);
+    assert_eq!(read_distinct_started_marker(&path).unwrap(), Some(expected));
+}
+
+#[test]
+fn distinct_member_execution_leaf() {
+    let Some(root) = env::var_os("COCKPIT_DISTINCT_EXEC_ROOT") else {
+        return;
+    };
+    let root = Path::new(&root);
+    let index = env::var("COCKPIT_DISTINCT_EXEC_INDEX").unwrap();
+    publish_distinct_started_marker(
+        &root.join(format!(".ai/distinct-execution-started-{index}.json")),
+        &serde_json::json!({"pid":std::process::id(),"workItemId":env::var("COCKPIT_DISTINCT_EXEC_WI").unwrap()}),
+    );
+    let gate = root.join(".ai/distinct-execution-release");
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while !gate.is_file() {
+        assert!(Instant::now() < deadline, "real leaf barrier expired");
+        thread::sleep(Duration::from_millis(10));
+    }
+    fs::write(
+        root.join(format!(".ai/distinct-execution-finished-{index}")),
+        b"finished",
+    )
+    .unwrap();
+    std::process::exit(if index == "0" { 17 } else { 0 });
 }
 
 #[test]

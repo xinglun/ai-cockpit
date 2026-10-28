@@ -14626,6 +14626,87 @@ fn first_json_difference(
 }
 
 #[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn local_shared_clone_from_spaced_source_preserves_isolation() {
+        let directory = tempfile::tempdir().expect("temporary spaced source fixture");
+        let root = directory
+            .path()
+            .canonicalize()
+            .expect("canonical fixture root");
+        let source = root.join("local source with spaces");
+        fs::create_dir(&source).expect("create spaced source path");
+        let git = |root: &Path, args: &[&str]| {
+            let output = Command::new("git")
+                .args([
+                    "-c",
+                    "maintenance.autoDetach=false",
+                    "-c",
+                    "gc.autoDetach=false",
+                ])
+                .args(args)
+                .current_dir(root)
+                .output()
+                .expect("fixture Git command");
+            assert!(
+                output.status.success(),
+                "{args:?}: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            output.stdout
+        };
+        git(&source, &["init", "-q"]);
+        git(&source, &["config", "--local", "core.autocrlf", "false"]);
+        fs::write(source.join("tracked.txt"), b"retained object bytes\n")
+            .expect("tracked source bytes");
+        git(&source, &["add", "tracked.txt"]);
+        git(
+            &source,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "spaced source baseline",
+            ],
+        );
+        let destination = root.join("isolated clone");
+        super::task_outcome_projection_diagnostic_tests::clone_shared_no_checkout(
+            &source,
+            &destination,
+        );
+        assert!(
+            !destination.join("tracked.txt").exists(),
+            "--no-checkout must leave tracked files absent"
+        );
+        let alternates = fs::read_to_string(destination.join(".git/objects/info/alternates"))
+            .expect("--shared clone must record the source object directory");
+        assert_eq!(
+            Path::new(alternates.trim())
+                .canonicalize()
+                .expect("canonical shared object path"),
+            source.join(".git/objects").canonicalize().unwrap()
+        );
+        assert_eq!(
+            git(&destination, &["show", "HEAD:tracked.txt"]),
+            b"retained object bytes\n"
+        );
+        assert_eq!(
+            git(&destination, &["rev-parse", "HEAD"]),
+            git(&source, &["rev-parse", "HEAD"])
+        );
+        assert!(
+            !destination.join("tracked.txt").exists(),
+            "object inspection must not populate the working tree"
+        );
+    }
+}
+
+#[cfg(test)]
 mod task_outcome_projection_diagnostic_tests {
     use super::*;
 
@@ -14645,7 +14726,7 @@ mod task_outcome_projection_diagnostic_tests {
         );
     }
 
-    fn clone_shared_no_checkout(source: &Path, destination: &Path) {
+    pub(super) fn clone_shared_no_checkout(source: &Path, destination: &Path) {
         let output = Command::new("git")
             .args(["clone", "--quiet", "--shared", "--no-checkout", "--", "."])
             .arg(destination)

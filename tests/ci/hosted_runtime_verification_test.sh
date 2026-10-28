@@ -4,6 +4,10 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/hosted-runtime-verification.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
+host_target=$("${RUSTC:-rustc}" -vV | sed -n 's/^host: //p')
+test -n "$host_target"
+runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
+runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
 
 make_runtime() {
   local mode=$1
@@ -45,6 +49,11 @@ PY
   printf '{"summary":"must remain byte-for-byte unchanged"}\n' \
     >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json"
   mkdir -p "$directory/repository/tests/docs" "$directory/repository/tests/ci" "$directory/repository/tests/release"
+  mkdir -p "$directory/cargo-home"
+  # Producer and downstream consumer belong to this same synthetic checkout.
+  # Copy their actual code rather than borrowing the outer checkout's runner.
+  cp "$root/tests/ci/run_workspace_package_tests.sh" "$root/tests/ci/run_process_observer_test_runner.sh" \
+    "$root/tests/ci/run_no_warnings.py" "$directory/repository/tests/ci/"
   printf 'import os\nraise SystemExit(23 if os.environ.get("FAKE_MODE")=="failed-prechecks" else 0)\n' \
     >"$directory/repository/tests/docs/governance_cost_baseline_test.py"
   printf '#!/usr/bin/env bash\nexit 0\n' >"$directory/repository/tests/ci/workflow_convergence_test.sh"
@@ -177,7 +186,13 @@ path.write_text(
     "        evidence['runtimeDigest'] = 'sha256:' + '4' * 64\n"
     "        evidence['receipt']['runtimeDigest'] = 'sha256:' + '4' * 64\n"
     "    if mode != 'missing-formal-receipt': evidence_path.write_text(json.dumps(evidence), encoding='utf-8')\n"
-    "    print(json.dumps({'kind': 'verification', 'passed': True}))\n"
+    "    output = {key: value for key, value in receipt.items() if key != 'workItemId'}\n"
+    "    output['plannedNodes'] = [{'nodeId': node_id, 'program': 'cargo', 'args': ['test', '--locked', '--package', 'fixture'], 'identityBinding': {'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'runtimeDigest': runtime_digest, 'commandDigest': command_digest}}]\n"
+    "    if mode == 'bad-output-projection': output['nodesExecuted'] = 0\n"
+    "    if mode == 'bad-output-type': output['nodesReused'] = False\n"
+    "    if mode == 'bad-output-json': print('{invalid')\n"
+    "    elif mode == 'duplicate-output-json': print(json.dumps(output)[:-1] + ',\\\"passed\\\":true}')\n"
+    "    else: print(json.dumps(output))\n"
     "else:\n"
     "    raise SystemExit('unexpected fake Runtime command: ' + repr(args))\n",
     encoding="utf-8",
@@ -390,10 +405,15 @@ PY
       caller_arguments=(--task-caller "$directory/task-caller.json")
     fi
   fi
+  local fixture_head
+  fixture_head=$(git -C "$directory/repository" rev-parse HEAD)
   if [[ "$defer_worktree" == true ]]; then
     RUNNER_TEMP="$directory/runner-temp" AI_COCKPIT_DEFER_WORKTREE_CLEANUP=true \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
       FAKE_WORKSPACE="$directory/repository" \
+      GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+      GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$fixture_head" RUNNER_OS=Linux \
+      env "CARGO_HOME=$directory/cargo-home" "$runner_variable=$directory/repository/tests/ci/run_process_observer_test_runner.sh" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
@@ -402,6 +422,9 @@ PY
     AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
       FAKE_WORKSPACE="$directory/repository" \
+      GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+      GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$fixture_head" RUNNER_OS=Linux \
+      env "CARGO_HOME=$directory/cargo-home" "$runner_variable=$directory/repository/tests/ci/run_process_observer_test_runner.sh" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
@@ -436,6 +459,22 @@ PY
 }
 
 run_helper caller-valid true
+python3 - "$tmp/caller-valid/artifacts" <<'PY_REUSE_RED'
+import hashlib
+import json
+import sys
+from pathlib import Path
+artifacts = Path(sys.argv[1])
+orchestration = json.loads((artifacts / "hosted-runtime-orchestration.json").read_bytes())
+seal = orchestration.get("executionOutput")
+assert isinstance(seal, dict), "actual Runtime stdout must be sealed before targeted coverage reuse"
+assert seal["file"] == "hosted-runtime-execution.json"
+assert seal["source"] == "runtime_stdout" and seal["schemaVersion"] == 1
+assert seal["providerContext"]["runId"] == "123456"
+assert seal["providerContext"]["runAttempt"] == "1"
+assert seal["providerContext"]["job"] == "fixture_quality"
+assert seal["sha256"] == "sha256:" + hashlib.sha256((artifacts / seal["file"]).read_bytes()).hexdigest()
+PY_REUSE_RED
 python3 - "$tmp/caller-valid/commands.jsonl" "$tmp/caller-valid/task-caller.json" <<'PY'
 import json
 import sys
@@ -536,7 +575,7 @@ test "$(git -C "$tmp/stale/repository" status --porcelain)" = \
 worktree_count=$(git -C "$tmp/stale/repository" worktree list --porcelain | awk '/^worktree / { count += 1 } END { print count + 0 }')
 test "$worktree_count" = 1
 jq -e '.kind == "preflight" and .state == "passed"' "$tmp/stale/artifacts/hosted-runtime-preflight.json" >/dev/null
-jq -e '.kind == "verification" and .passed == true' "$tmp/stale/artifacts/hosted-runtime-execution.json" >/dev/null
+jq -e '.passed == true and .nodesExecuted == 1 and (.plannedNodes | length == 1)' "$tmp/stale/artifacts/hosted-runtime-execution.json" >/dev/null
 jq -e '.workItemId == "WI-HOSTED-TEST" and .passed == true and .receipt.workItemId == .workItemId and .receipt.passed == true' \
   "$tmp/stale/artifacts/hosted-runtime-verification.json" >/dev/null
 jq -e '.state == "removed" and .cleanupExitCode == 0 and .isolatedRepository != null' \
@@ -631,11 +670,15 @@ AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/stale-deferred/artifacts/hosted-runt
 AI_COCKPIT_RUNTIME_BIN="$tmp/stale-deferred/runtime" \
 AI_COCKPIT_VERIFICATION_REPOSITORY="$deferred_repository" \
 RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env "CARGO_HOME=$tmp/stale-deferred/cargo-home" "$runner_variable=$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  "$tmp/stale-deferred/repository/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/stale-deferred/metadata.json" \
     --cargo "$tmp/stale-deferred/fake-cargo" \
     --report "$tmp/stale-deferred/coverage.json"
 test ! -e "$tmp/stale-deferred/packages.log"
+jq -e --arg host "$host_target" --arg runner "$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  '.executionOutput.cargoContext.hostTarget == $host and .executionOutput.cargoContext.configuration == "absent" and .executionOutput.cargoContext.runnerPath == $runner and (.executionOutput.cargoContext.runnerDigest | test("^sha256:[0-9a-f]{64}$"))' \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json" >/dev/null
 jq -e '.state == "passed" and .verificationReceiptState == "passed" and .executedByHostedRuntime == ["fixture"] and .executedByCoverageRunner == []' \
   "$tmp/stale-deferred/coverage.json" >/dev/null
 
@@ -691,7 +734,8 @@ PY
   AI_COCKPIT_VERIFICATION_ORCHESTRATION="$case_dir/orchestration.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/stale-deferred/runtime" \
   AI_COCKPIT_VERIFICATION_REPOSITORY="$deferred_repository" \
-    "$root/tests/ci/run_workspace_package_tests.sh" \
+    env "CARGO_HOME=$tmp/stale-deferred/cargo-home" "$runner_variable=$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  "$tmp/stale-deferred/repository/tests/ci/run_workspace_package_tests.sh" \
       --metadata "$tmp/stale-deferred/metadata.json" \
       --cargo "$tmp/stale-deferred/fake-cargo" \
       --report "$case_dir/coverage.json" >"$case_dir/coverage.log" 2>&1 || result=$?
@@ -881,4 +925,65 @@ grep -F '"verify"' "$tmp/planned-scenario-verify-fails/commands.jsonl" >/dev/nul
 test ! -s "$tmp/planned-scenario-verify-fails/artifacts/hosted-runtime-verification.json"
 
 printf 'timeout regression passed: bounded=1, default=1, unrelated=1, invalid=5, Runtime-refusal=1\n'
+for output_case in bad-output-json duplicate-output-json bad-output-projection bad-output-type; do
+  run_helper "$output_case" false
+  jq -e '.verificationState == "invalidated" and .failureReason == "execution_output_binding_invalid" and .executionOutput == null' \
+    "$tmp/$output_case/artifacts/hosted-runtime-orchestration.json" >/dev/null
+done
+jq -e '.executionOutput == null' \
+  "$tmp/existing-fresh-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
+# Compare both production definitions and exercise the deliberately narrow
+# absence-of-Cargo-config proof with real isolated filesystem roots.
+python3 - "$root/tests/ci/run_hosted_runtime_verification.sh" "$root/tests/ci/run_workspace_package_tests.sh" "$tmp" <<'PY_CARGO_CONTEXT_TEST'
+import ast
+import hashlib
+import json
+import os
+import pathlib
+import re
+import stat
+import subprocess
+import sys
+
+producer, consumer, temporary = map(pathlib.Path, sys.argv[1:])
+def context_function(path):
+    text = path.read_text().split("def cargo_reuse_context(", 1)[1]
+    text = "def cargo_reuse_context(" + text.split("\ndef ", 1)[0].split("\nprint(json.dumps(cargo_reuse_context", 1)[0]
+    return ast.parse(text).body[0]
+left, right = context_function(producer), context_function(consumer)
+assert ast.dump(left) == ast.dump(right), "producer/consumer Cargo proof definitions drifted"
+namespace = dict(Path=pathlib.Path, hashlib=hashlib, json=json, os=os, re=re, stat=stat, subprocess=subprocess)
+exec(compile(ast.Module(body=[left], type_ignores=[]), "actual-production-cargo-context", "exec"), namespace)
+context = namespace["cargo_reuse_context"]
+host = next(line[6:] for line in subprocess.check_output([os.environ.get("RUSTC", "rustc"), "-vV"], text=True).splitlines() if line.startswith("host: "))
+base = temporary / "cargo-context-proof"; execution = base / "formal/source"; coverage = base / "coverage/source"
+execution.mkdir(parents=True); coverage.mkdir(parents=True)
+runner = base / "observer-runner"; runner.write_text("#!/bin/sh\nexec \"$@\"\n"); runner.chmod(0o755)
+home = base / "cargo-home"; home.mkdir(); os.environ["CARGO_HOME"] = str(home)
+key = "CARGO_TARGET_" + host.upper().replace("-", "_") + "_RUNNER"; os.environ[key] = str(runner)
+os.environ.pop("CARGO_BUILD_TARGET", None)
+expected = context(execution, runner, host); assert expected is not None and expected == context(coverage, runner, host)
+os.environ["CARGO_BUILD_TARGET"] = host; assert context(execution, runner, host) == expected
+os.environ["CARGO_BUILD_TARGET"] = "nonhost-unknown-target"; assert context(execution, runner, host) is None
+os.environ.pop("CARGO_BUILD_TARGET")
+config = execution / ".cargo/config.toml"; config.parent.mkdir()
+for target in (host, "nonhost-unknown-target"):
+    config.write_text('[build]\ntarget = "' + target + '"\n'); assert context(execution, runner, host) is None
+config.unlink()
+parent = execution.parent / ".cargo/config.toml"; parent.parent.mkdir(); parent.write_text("[build]\n")
+assert context(execution, runner, host) is None and context(coverage, runner, host) == expected
+parent.unlink()
+config = home / "config"; config.write_text("[build]\n"); assert context(execution, runner, host) is None; config.unlink()
+os.environ["CARGO_HOME"] = "relative-home"; config = execution / "relative-home/config.toml"; config.parent.mkdir(); config.write_text("[build]\n")
+assert context(execution, runner, host) is None and context(coverage, runner, host) == expected
+os.environ["CARGO_HOME"] = str(home)
+os.environ[key] = "foreign-runner"; assert context(execution, runner, host) is None
+os.environ[key] = str(runner); before = context(execution, runner, host); runner.write_text("#!/bin/sh\nexit 1\n")
+assert context(execution, runner, host) != before
+runner.write_text("#!/bin/sh\nexec \"$@\"\n")
+before = context(execution, runner, host); config = execution / ".cargo/config.toml"; config.write_text("[build]\n")
+assert before is not None and context(execution, runner, host) is None
+config.unlink(); config.symlink_to("missing.toml"); assert context(execution, runner, host) is None
+print("producer/consumer Cargo context proof passed: 12 cases")
+PY_CARGO_CONTEXT_TEST
 printf 'hosted Runtime verification orchestration regression passed\n'

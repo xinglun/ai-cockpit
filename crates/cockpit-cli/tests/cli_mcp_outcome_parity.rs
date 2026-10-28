@@ -1201,6 +1201,620 @@ fn successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewritin
     }
 }
 
+fn replaced_continuity_fixture() -> (tempfile::TempDir, cockpit_protocol::RuntimeContext) {
+    let repo = repository();
+    let root = repo
+        .path()
+        .canonicalize()
+        .expect("canonical continuity fixture");
+    let runtime = current_runtime_context(env!("CARGO_BIN_EXE_ai-cockpit"));
+    let predecessor = "WI-CONTINUITY-REPLACED";
+    let successor = "WI-CONTINUITY-ACTIVE";
+    cockpit_repository::attach(&root).expect("attach continuity fixture");
+    let options = cockpit_repository::WorkItemStartOptions {
+        authority: "authorized".into(),
+        acceptance_criteria: vec!["retirement is not verification or provider delivery".into()],
+        ..Default::default()
+    };
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        &root,
+        predecessor,
+        "replace an unverified predecessor",
+        "preserve original lineage facts",
+        &["README.md".into()],
+        &options,
+        &runtime,
+    )
+    .expect("start genuine predecessor");
+    // Seed only a historical copy of an actual, unverified Runtime Outcome.
+    // Retirement must preserve it through its native artifact manifest too.
+    let unverified =
+        cockpit_repository::outcome_v2_with_runtime(&root, predecessor, &runtime).unwrap();
+    assert_ne!(unverified.state, cockpit_protocol::OutcomeState::Verified);
+    fs::write(
+        root.join(format!(
+            ".ai/work-items/active/{predecessor}.outcome.snapshot.json"
+        )),
+        serde_json::to_vec_pretty(&unverified).unwrap(),
+    )
+    .unwrap();
+    let read = |suffix: &str| -> serde_json::Value {
+        serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{predecessor}.{suffix}.json")))
+                .unwrap(),
+        )
+        .unwrap()
+    };
+    let recovery = serde_json::json!({
+        "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "successor",
+        "workItemId": predecessor, "repositoryId": cockpit_repository::repository_id(&root),
+        "predecessorWorkItemId": predecessor,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&read("contract")).unwrap(),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&read("summary")).unwrap(),
+        "successorWorkItemId": successor,
+        "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:synthetic-fixture-owner", "authoritySource": "isolated-native-test-fixture",
+        "reason": "replace without claiming a verified predecessor",
+        "evidenceRefs": [], "policyRefs": [], "decidedAt": "2026-10-26T00:00:00Z",
+        "resumeCondition": "activate the exact native successor"
+    });
+    cockpit_repository::record_recovery_decision(&root, predecessor, &recovery, &runtime)
+        .expect("record genuine successor recovery");
+    let retirement = cockpit_repository::retire_active_work_item_with_runtime(
+        &root,
+        predecessor,
+        &cockpit_protocol::ActiveWorkItemRetirementRequest {
+            schema_version: 1,
+            decision_id: "work-item-retirement".into(),
+            disposition: "replaced".into(),
+            successor_work_item_id: Some(successor.into()),
+            actor: "human:synthetic-fixture-owner".into(),
+            authority_source: "isolated-native-test-fixture".into(),
+            reason: "retain unverified original records".into(),
+            repository_id: None,
+            contract_digest: None,
+            summary_digest: None,
+            repository_snapshot_digest: None,
+        },
+        &runtime,
+    )
+    .expect("native replaced retirement");
+    assert_eq!(retirement["disposition"], "replaced");
+    assert_eq!(retirement["verificationClaim"], "not_verified");
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        &root,
+        successor,
+        "continue the actual successor",
+        "show replaced and active facts without completion",
+        &["README.md".into()],
+        &options,
+        &runtime,
+    )
+    .expect("activate exact native successor after retirement");
+    (repo, runtime)
+}
+
+#[test]
+fn continuity_projection_marks_replaced_predecessor_and_active_successor() {
+    let (repo, runtime) = replaced_continuity_fixture();
+    let root = repo.path().canonicalize().unwrap();
+    let predecessor = "WI-CONTINUITY-REPLACED";
+    let successor = "WI-CONTINUITY-ACTIVE";
+    let retirement_path = root.join(format!(".ai/decisions/{predecessor}.retirement.json"));
+    let retirement_bytes = fs::read(&retirement_path).expect("native retirement receipt");
+    let predecessor_outcome =
+        cockpit_repository::outcome_v2_with_runtime(&root, predecessor, &runtime)
+            .expect("native predecessor outcome");
+    assert_eq!(
+        predecessor_outcome.historical_status.as_deref(),
+        Some("replaced")
+    );
+    let input = cockpit_repository::outcome_render_input_with_runtime(&root, successor, &runtime)
+        .expect("actual successor continuity reader");
+    let continuity = input
+        .delivery_continuity
+        .as_ref()
+        .expect("successor continuity projection");
+    assert_ne!(
+        continuity.state, "unknown",
+        "validated native replaced/not_verified lineage must remain distinguishable: {continuity:?}"
+    );
+    assert_eq!(
+        continuity.predecessor_work_item_id.as_deref(),
+        Some(predecessor)
+    );
+    assert_eq!(continuity.external_validation_state, "pending");
+    assert_eq!(
+        continuity.predecessor_archive_state,
+        "replaced_not_verified"
+    );
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(&root, successor, &runtime)
+            .unwrap();
+    let next = continuity
+        .runtime_admitted_next_action
+        .as_ref()
+        .expect("current Runtime next action");
+    assert!(status.safe_actions.contains(next));
+    let human = human_cli_output(env!("CARGO_BIN_EXE_ai-cockpit"), &root, successor, "en");
+    assert!(human.contains(predecessor));
+    assert!(human.contains("External validation: pending"));
+    assert!(human.contains("not_verified"));
+    assert!(!human.contains("is verified and preserved"));
+    for (language, heading) in [
+        ("en", "Delivery continuity v1"),
+        ("zh", "交付连续性 v1"),
+        ("ja", "引き継ぎ継続性 v1"),
+    ] {
+        let cli = human_cli_output(env!("CARGO_BIN_EXE_ai-cockpit"), &root, successor, language);
+        let mcp = cockpit_mcp::handle_request_for_repo(
+            &serde_json::json!({
+                "jsonrpc":"2.0","id":51,"method":"tools/call",
+                "params":{"name":"work_item_outcome","arguments":{"workItemId":successor,"language":language}}
+            }),
+            &root,
+            &runtime,
+        );
+        assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+        let mcp_human = mcp["result"]["structuredContent"]["humanHandoff"]
+            .as_str()
+            .unwrap();
+        assert_eq!(
+            continuity_section(&cli, heading),
+            continuity_section(mcp_human, heading),
+            "{language}"
+        );
+        assert!(continuity_section(&cli, heading).contains("not_verified"));
+    }
+    assert_eq!(fs::read(retirement_path).unwrap(), retirement_bytes);
+}
+
+type ContinuityFixtureRecord = (std::path::PathBuf, Vec<u8>, fs::Permissions);
+
+fn continuity_fixture_records(root: &Path) -> Vec<ContinuityFixtureRecord> {
+    let mut records = Vec::new();
+    for directory in [
+        ".ai/work-items/active",
+        ".ai/work-items/archive",
+        ".ai/decisions",
+    ] {
+        for entry in fs::read_dir(root.join(directory)).unwrap() {
+            let path = entry.unwrap().path();
+            if path
+                .file_name()
+                .unwrap()
+                .to_string_lossy()
+                .starts_with("WI-CONTINUITY-")
+            {
+                records.push((
+                    path.clone(),
+                    fs::read(&path).unwrap(),
+                    fs::metadata(path).unwrap().permissions(),
+                ));
+            }
+        }
+    }
+    records.sort_by(|a, b| a.0.cmp(&b.0));
+    records
+}
+
+fn restore_continuity_fixture(records: &[ContinuityFixtureRecord]) {
+    for (path, bytes, permissions) in records {
+        fs::write(path, bytes).unwrap();
+        fs::set_permissions(path, permissions.clone()).unwrap();
+        assert_eq!(fs::read(path).unwrap(), *bytes);
+        assert_eq!(
+            fs::metadata(path).unwrap().permissions().readonly(),
+            permissions.readonly()
+        );
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            assert_eq!(
+                fs::metadata(path).unwrap().permissions().mode(),
+                permissions.mode()
+            );
+        }
+    }
+}
+
+fn assert_replaced_continuity(root: &Path, runtime: &cockpit_protocol::RuntimeContext) {
+    let input = cockpit_repository::outcome_render_input_with_runtime(
+        root,
+        "WI-CONTINUITY-ACTIVE",
+        runtime,
+    )
+    .unwrap();
+    let continuity = input.delivery_continuity.unwrap();
+    assert_eq!(continuity.state, "in_progress");
+    assert_eq!(
+        continuity.predecessor_archive_state,
+        "replaced_not_verified"
+    );
+    assert_eq!(continuity.external_validation_state, "pending");
+}
+
+fn assert_untrusted_continuity(
+    root: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+    case: &str,
+    own_retirement_check: bool,
+) {
+    match cockpit_repository::outcome_render_input_with_runtime(
+        root,
+        "WI-CONTINUITY-ACTIVE",
+        runtime,
+    ) {
+        Ok(input) => {
+            let continuity = input
+                .delivery_continuity
+                .expect("invalid lineage remains explicitly untrusted");
+            assert_eq!(continuity.state, "unknown", "{case}: {continuity:?}");
+            assert!(
+                continuity.runtime_admitted_next_action.is_none(),
+                "{case}: no action from invalid continuity"
+            );
+            if own_retirement_check {
+                assert_eq!(
+                    continuity.reason.as_deref(),
+                    Some("predecessor_retirement_unverified"),
+                    "{case}"
+                );
+            }
+            eprintln!(
+                "continuity negative rejected: {case}: {:?}",
+                continuity.reason
+            );
+        }
+        Err(error) => {
+            assert!(
+                !own_retirement_check,
+                "{case}: must exercise the retirement checker: {error}"
+            );
+            let text = error.to_string().to_ascii_lowercase();
+            assert!(
+                [
+                    "contract",
+                    "recovery",
+                    "lineage",
+                    "archive",
+                    "repository",
+                    "outcome",
+                    "summary",
+                    "receipt",
+                    "retirement"
+                ]
+                .iter()
+                .any(|part| text.contains(part)),
+                "{case}: unrelated failure: {error}"
+            );
+            eprintln!("continuity native refusal: {case}: {error}");
+        }
+    }
+}
+
+#[test]
+fn continuity_projection_rejects_missing_foreign_or_inconsistent_lineage() {
+    let (repo, runtime) = replaced_continuity_fixture();
+    let root = repo.path().canonicalize().unwrap();
+    let baseline = continuity_fixture_records(&root);
+    assert_replaced_continuity(&root, &runtime);
+    let files = [
+        (
+            "successor",
+            ".ai/work-items/active/WI-CONTINUITY-ACTIVE.contract.json",
+            "repositoryId",
+        ),
+        (
+            "predecessor",
+            ".ai/work-items/archive/WI-CONTINUITY-REPLACED.contract.json",
+            "repositoryId",
+        ),
+        (
+            "summary",
+            ".ai/work-items/archive/WI-CONTINUITY-REPLACED.summary.json",
+            "repositoryId",
+        ),
+        (
+            "outcome",
+            ".ai/work-items/archive/WI-CONTINUITY-REPLACED.outcome.json",
+            "repositoryId",
+        ),
+        (
+            "historical-outcome",
+            ".ai/work-items/archive/WI-CONTINUITY-REPLACED.outcome.snapshot.json",
+            "repositoryId",
+        ),
+        (
+            "recovery",
+            ".ai/decisions/WI-CONTINUITY-REPLACED.recovery.json",
+            "repositoryId",
+        ),
+        (
+            "manifest",
+            ".ai/work-items/archive/WI-CONTINUITY-REPLACED.archive.json",
+            "workItemId",
+        ),
+        (
+            "retirement",
+            ".ai/decisions/WI-CONTINUITY-REPLACED.retirement.json",
+            "repositoryId",
+        ),
+    ];
+    for (label, relative, field) in files {
+        for variant in ["missing", "malformed", "foreign"] {
+            let path = root.join(relative);
+            match variant {
+                "missing" => fs::remove_file(&path).unwrap(),
+                "malformed" => fs::write(&path, b"{invalid-json").unwrap(),
+                "foreign" => {
+                    let mut value: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                    value[field] = serde_json::json!(if field == "workItemId" {
+                        "WI-FOREIGN"
+                    } else {
+                        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+                    });
+                    fs::write(&path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            assert_untrusted_continuity(&root, &runtime, &format!("{label}-{variant}"), false);
+            restore_continuity_fixture(&baseline);
+            assert_replaced_continuity(&root, &runtime);
+        }
+    }
+    let receipt_path = root.join(".ai/decisions/WI-CONTINUITY-REPLACED.retirement.json");
+    let manifest_path = root.join(".ai/work-items/archive/WI-CONTINUITY-REPLACED.archive.json");
+    for (field, value, own_check) in [
+        (
+            "archiveManifestDigest",
+            serde_json::json!(format!("sha256:{}", "2".repeat(64))),
+            true,
+        ),
+        ("verificationClaim", serde_json::json!("verified"), false),
+        ("originalBytesPreserved", serde_json::json!(false), true),
+        (
+            "successorWorkItemId",
+            serde_json::json!("WI-FOREIGN-SUCCESSOR"),
+            false,
+        ),
+        ("schemaVersion", serde_json::json!(2), true),
+        ("runtimeDigest", serde_json::json!("malformed"), true),
+        (
+            "repositorySnapshotDigest",
+            serde_json::json!("malformed"),
+            true,
+        ),
+        ("recordedAt", serde_json::json!("not-a-time"), true),
+    ] {
+        let mut receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+        receipt[field] = value;
+        fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
+        assert_untrusted_continuity(&root, &runtime, field, own_check);
+        restore_continuity_fixture(&baseline);
+        assert_replaced_continuity(&root, &runtime);
+    }
+    // Matching bytes and locally rehashed records cannot make a foreign path native.
+    let foreign_relative = ".ai/evidence/external/foreign-contract.json";
+    let foreign_path = root.join(foreign_relative);
+    fs::create_dir_all(foreign_path.parent().unwrap()).unwrap();
+    let contract_bytes =
+        fs::read(root.join(".ai/work-items/archive/WI-CONTINUITY-REPLACED.contract.json")).unwrap();
+    fs::write(&foreign_path, &contract_bytes).unwrap();
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+    receipt["artifacts"]["contract"]["path"] = serde_json::json!(foreign_relative);
+    manifest["files"]["contractPath"] = receipt["artifacts"]["contract"]["path"].clone();
+    receipt["archiveManifestDigest"] =
+        serde_json::json!(cockpit_protocol::digest_json(&manifest).unwrap());
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).unwrap(),
+    )
+    .unwrap();
+    assert_untrusted_continuity(&root, &runtime, "locally-resealed-foreign-path", true);
+    assert_eq!(fs::read(&foreign_path).unwrap(), contract_bytes);
+    restore_continuity_fixture(&baseline);
+    assert_replaced_continuity(&root, &runtime);
+    let receipt_bytes = fs::read(&receipt_path).unwrap();
+    let mut duplicate = receipt_bytes.clone();
+    let closing = duplicate.iter().rposition(|b| *b == b'}').unwrap();
+    duplicate.splice(closing..closing, b",\"schemaVersion\":1".iter().copied());
+    fs::write(&receipt_path, duplicate).unwrap();
+    assert_untrusted_continuity(&root, &runtime, "duplicate-retirement-field", false);
+    restore_continuity_fixture(&baseline);
+    assert_replaced_continuity(&root, &runtime);
+    let mut oversized = receipt_bytes;
+    oversized.resize(cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES + 1, b' ');
+    fs::write(&receipt_path, oversized).unwrap();
+    assert_untrusted_continuity(&root, &runtime, "over-budget-retirement-record", false);
+    restore_continuity_fixture(&baseline);
+    assert_replaced_continuity(&root, &runtime);
+}
+
+#[cfg(unix)]
+#[test]
+fn continuity_projection_rejects_fifo_retirement_artifact_without_waiting_for_peer() {
+    use std::io::Read;
+    use std::process::Stdio;
+    use std::time::{Duration, Instant};
+
+    const CHILD_ROOT: &str = "WI1113_CONTINUITY_FIFO_CHILD_ROOT";
+    const CHILD_RUNTIME: &str = "WI1113_CONTINUITY_FIFO_CHILD_RUNTIME";
+    if let Some(root) = std::env::var_os(CHILD_ROOT) {
+        let runtime = serde_json::from_str(&std::env::var(CHILD_RUNTIME).unwrap()).unwrap();
+        assert_untrusted_continuity(Path::new(&root), &runtime, "historical-artifact-fifo", true);
+        return;
+    }
+
+    let (repo, runtime) = replaced_continuity_fixture();
+    let root = repo.path().canonicalize().unwrap();
+    let baseline = continuity_fixture_records(&root);
+    assert_replaced_continuity(&root, &runtime);
+    let artifact = root.join(".ai/work-items/archive/WI-CONTINUITY-REPLACED.outcome.snapshot.json");
+    fs::remove_file(&artifact).unwrap();
+    assert!(
+        Command::new("mkfifo")
+            .arg(&artifact)
+            .status()
+            .unwrap()
+            .success()
+    );
+
+    struct OwnedProbe(std::process::Child);
+    impl Drop for OwnedProbe {
+        fn drop(&mut self) {
+            let _ = self.0.kill();
+            let _ = self.0.wait();
+        }
+    }
+    let mut log = tempfile::tempfile().unwrap();
+    let mut child = OwnedProbe(
+        Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "continuity_projection_rejects_fifo_retirement_artifact_without_waiting_for_peer",
+                "--test-threads=1",
+                "--nocapture",
+            ])
+            .env(CHILD_ROOT, &root)
+            .env(CHILD_RUNTIME, serde_json::to_string(&runtime).unwrap())
+            .stdout(Stdio::from(log.try_clone().unwrap()))
+            .stderr(Stdio::from(log.try_clone().unwrap()))
+            .spawn()
+            .unwrap(),
+    );
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let status = loop {
+        if let Some(status) = child.0.try_wait().unwrap() {
+            break Some(status);
+        }
+        if Instant::now() >= deadline {
+            child.0.kill().unwrap();
+            child.0.wait().unwrap();
+            break None;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    use std::io::Seek;
+    log.rewind().unwrap();
+    let mut output = String::new();
+    log.take(65536).read_to_string(&mut output).unwrap();
+    // Remove the FIFO before restoring bytes: writing through it would itself wait.
+    fs::remove_file(&artifact).unwrap();
+    restore_continuity_fixture(&baseline);
+    assert_replaced_continuity(&root, &runtime);
+    assert!(
+        status.is_some(),
+        "retirement reader waited for a FIFO peer; owned probe killed and reaped: {output}"
+    );
+    assert!(
+        status.unwrap().success(),
+        "FIFO must remain untrusted: {output}"
+    );
+}
+
+#[test]
+fn continuity_projection_keeps_archive_and_provider_delivery_state_separate() {
+    for (case, validity) in [
+        ("missing", None),
+        ("stale", Some(cockpit_protocol::EvidenceValidity::Expired)),
+        ("failed", Some(cockpit_protocol::EvidenceValidity::Valid)),
+        ("pending", Some(cockpit_protocol::EvidenceValidity::Unknown)),
+    ] {
+        let (repo, runtime) = replaced_continuity_fixture();
+        let root = repo.path().canonicalize().unwrap();
+        let baseline = continuity_fixture_records(&root);
+        if let Some(validity) = validity {
+            // These are explicitly self-declared negative provider fixtures,
+            // never authenticated GitHub results or a fabricated success.
+            let raw = serde_json::to_vec(&serde_json::json!({"status":case,"conclusion":if case == "failed" { Some("failure") } else { None::<&str> }})).unwrap();
+            let evidence = cockpit_protocol::DelegatedEvidence {
+                provider: "github".into(),
+                subject: format!("https://github.com/example/fixture/actions/runs/{case}"),
+                origin: "isolated-negative-provider-fixture".into(),
+                assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+                collected_at: "2026-10-28T00:00:00Z".into(),
+                digest: cockpit_core::Digest::sha256_bytes(&raw),
+                validity: validity.clone(),
+                raw_evidence_ref: format!(".ai/evidence/external/continuity-{case}.json"),
+            };
+            let observation = cockpit_repository::import_delegated_evidence_observation(
+                &root,
+                "WI-CONTINUITY-ACTIVE",
+                &evidence,
+                &raw,
+                &runtime,
+            )
+            .expect("native binding of negative provider fixture bytes");
+            assert_eq!(observation.receipt.evidence.validity, validity);
+            let observations = cockpit_repository::list_delegated_evidence_observations(
+                &root,
+                "WI-CONTINUITY-ACTIVE",
+            )
+            .unwrap();
+            assert_eq!(observations.len(), 1);
+            assert_eq!(observations[0].selector, observation.selector);
+        } else {
+            assert!(
+                cockpit_repository::list_delegated_evidence_observations(
+                    &root,
+                    "WI-CONTINUITY-ACTIVE"
+                )
+                .unwrap()
+                .is_empty()
+            );
+        }
+        let input = cockpit_repository::outcome_render_input_with_runtime(
+            &root,
+            "WI-CONTINUITY-ACTIVE",
+            &runtime,
+        )
+        .unwrap();
+        let continuity = input.delivery_continuity.as_ref().unwrap();
+        assert_eq!(continuity.state, "in_progress", "{case}");
+        assert_eq!(
+            continuity.predecessor_archive_state, "replaced_not_verified",
+            "{case}"
+        );
+        assert!(
+            matches!(
+                continuity.external_validation_state.as_str(),
+                "pending" | "unknown"
+            ),
+            "{case}: no negative provider claim can prove delivery"
+        );
+        assert_eq!(continuity.external_binding_state, "not_bound");
+        assert_ne!(
+            input.outcome.state,
+            cockpit_protocol::OutcomeState::Verified
+        );
+        let human = human_cli_output(
+            env!("CARGO_BIN_EXE_ai-cockpit"),
+            &root,
+            "WI-CONTINUITY-ACTIVE",
+            "en",
+        );
+        assert!(
+            human.contains("Overall delivery: in progress"),
+            "{case}: {human}"
+        );
+        for (path, bytes, _) in &baseline {
+            assert_eq!(
+                fs::read(path).unwrap(),
+                *bytes,
+                "{case}: native predecessor/successor records are read-only"
+            );
+        }
+        eprintln!("negative provider observation remains pending: {case}");
+    }
+}
+
 #[test]
 fn cli_and_mcp_interface_descriptions_share_the_protocol_facts() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");

@@ -203,9 +203,14 @@ PY
 refresh_hosted_orchestration() {
   local verification_state=${1:-passed}
   python3 - "$tmp/runtime-bin" "$tmp/hosted-verification.json" "$tmp/hosted-repository" \
-    "$tmp/hosted-orchestration.json" "$verification_state" <<'PY'
+    "$tmp/hosted-orchestration.json" "$verification_state" "$root/tests/ci/run_workspace_package_tests.sh" <<'PY'
+import ast
 import hashlib
 import json
+import os
+import re
+import stat
+import subprocess
 import sys
 from pathlib import Path
 
@@ -214,8 +219,14 @@ receipt = Path(sys.argv[2])
 repository = Path(sys.argv[3])
 orchestration = Path(sys.argv[4])
 state = sys.argv[5]
+source = Path(sys.argv[6]).read_text().split("def cargo_reuse_context(", 1)[1].split("\ndef captured_target_coverage(", 1)[0]
+function = ast.parse("def cargo_reuse_context(" + source).body[0]
+namespace = dict(hashlib=hashlib, os=os, re=re, stat=stat, subprocess=subprocess, Path=Path)
+exec(compile(ast.Module(body=[function], type_ignores=[]), "actual-canonical-cargo-context", "exec"), namespace)
+context = namespace["cargo_reuse_context"](repository, Path(sys.argv[6]).parent / "run_process_observer_test_runner.sh")
 formal_bytes = receipt.read_bytes()
 formal = json.loads(formal_bytes)
+plan = formal["receipt"].get("planReceipt") if isinstance(formal.get("receipt"), dict) else None
 orchestration.write_text(
     json.dumps({
         "schemaVersion": 1,
@@ -224,6 +235,7 @@ orchestration.write_text(
         "formalReceiptDigest": "sha256:" + hashlib.sha256(formal_bytes).hexdigest(),
         "executionRepository": str(repository.resolve()),
         "verificationState": state,
+        "executionOutput": {"cargoContext": context} if isinstance(plan, dict) and plan.get("coverageManifest") is not None else None,
     }),
     encoding="utf-8",
 )
@@ -252,6 +264,42 @@ test ! -s "$tmp/hosted-packages.log" || {
   printf 'coverage re-ran package checks already present in the matching formal receipt\n' >&2
   exit 1
 }
+
+# Canonical manifests cannot bypass host-target or runner checks either.
+canonical_context_cases=0
+for canonical_context in nonhost missing_context foreign_runner; do
+  refresh_hosted_orchestration passed
+  if [[ "$canonical_context" == missing_context ]]; then
+    jq 'del(.executionOutput)' "$tmp/hosted-orchestration.json" >"$tmp/no-context.json"
+    mv "$tmp/no-context.json" "$tmp/hosted-orchestration.json"
+  fi
+  result=0
+  selected_target=$host_target
+  selected_runner=$root/tests/ci/run_process_observer_test_runner.sh
+  if [[ "$canonical_context" == nonhost ]]; then selected_target=aarch64-unknown-linux-gnu; fi
+  if [[ "$canonical_context" == foreign_runner ]]; then selected_runner=foreign-runner; fi
+  env "CARGO_BUILD_TARGET=$selected_target" "$runner_variable=$selected_runner" \
+  PACKAGE_LOG="$tmp/canonical-$canonical_context-packages.log" \
+  FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+      --cargo "$tmp/fake-cargo" --report "$tmp/canonical-$canonical_context-report.json" >"$tmp/canonical-$canonical_context.log" 2>&1 || result=$?
+  if [[ "$canonical_context" == foreign_runner ]]; then
+    test "$result" != 0
+    jq -e '.state == "failed" and .failurePhase == "runner_setup" and .executed == []' "$tmp/canonical-$canonical_context-report.json" >/dev/null
+  else
+    test "$result" = 0
+    diff -u <(printf '%s\n' package-a package-b) "$tmp/canonical-$canonical_context-packages.log"
+    jq -e '.state == "passed" and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned' "$tmp/canonical-$canonical_context-report.json" >/dev/null
+  fi
+  canonical_context_cases=$((canonical_context_cases + 1))
+done
+printf 'canonical manifest Cargo context regressions passed: %s\n' "$canonical_context_cases"
+refresh_hosted_orchestration passed
 
 # When Runtime reused only one package node, the coverage consumer runs just
 # that node and retains the current hosted execution for the other package.
@@ -886,6 +934,310 @@ AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
 diff -u <(printf '%s\n' package-a package-b) "$tmp/targeted-fallback-packages.log"
 jq -e '.state == "passed" and .executed == .planned and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned and .groupTimeoutSeconds == 900 and .groupCleanupGraceSeconds == 30 and .workers == 1 and .testThreads == 1' \
   "$tmp/targeted-fallback-report.json" >/dev/null
+
+# Same-job producer fixtures: these model captured Runtime output, not new
+# native signatures. A coordinated rewrite of every hosted input is outside
+# this existing trusted-producer boundary.
+make_targeted_native_fixture() {
+  local case_dir=$1
+  mkdir -p "$case_dir/repository/.ai/work-items/active" "$case_dir/repository/.ai/evidence"
+  cp "$tmp/metadata.json" "$case_dir/metadata.json"
+  python3 - "$case_dir" <<'PY_NATIVE_FIXTURE'
+import hashlib
+import json
+import sys
+from pathlib import Path
+case = Path(sys.argv[1])
+repository = case / "repository"
+wi = "WI-HOSTED-RECEIPT"
+digest = lambda raw: "sha256:" + hashlib.sha256(raw).hexdigest()
+repository_id = "sha256:" + "1" * 64
+snapshot = "sha256:" + "2" * 64
+runtime = digest(Path(case.parent / "runtime-bin").read_bytes())
+commands = [["cargo", "test", "--locked", "-p", package, "--lib", "--", "--test-threads=1"]
+            for package in ("package-a", "package-b")]
+contract = {"workItemId": wi, "verification": [" ".join(words) for words in commands]}
+raw_contract = json.dumps(contract).encode()
+(repository / f".ai/work-items/active/{wi}.contract.json").write_bytes(raw_contract)
+contract_digest = digest(json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode())
+(case / "contract-digest").write_text(contract_digest)
+ids = ["project-command-0", "project-command-1"]
+records = [{"nodeId": node, "commandDigest": digest(json.dumps(words).encode()),
+            "spawned": True, "passed": True, "exitCode": 0, "timedOut": False, "timeoutSeconds": 900,
+            "stdout": "", "stderr": "", "stdoutTruncated": False, "stderrTruncated": False}
+           for node, words in zip(ids, commands)]
+results = [{"nodeId": node, "passed": True, "timedOut": False, "reused": False,
+            "action": "execute", "satisfiedBy": "execution"} for node in ids]
+plan = {"workItemId": wi, "repositoryId": repository_id, "repositorySnapshotDigest": snapshot,
+        "baseRevision": "a" * 40, "stage": "task", "executedNodes": ids, "reusedNodes": []}
+receipt = {"workItemId": wi, "passed": True, "repositoryId": repository_id,
+           "runtimeVersion": "0.2.113", "runtimeDigest": runtime,
+           "nodesPlanned": 2, "nodesExecuted": 2, "nodesReused": 0,
+           "results": results, "executionRecords": records, "planReceipt": plan}
+formal = {"workItemId": wi, "passed": True, "runtimeDigest": runtime, "runtimeVersion": "0.2.113",
+          "repositoryId": repository_id, "repositorySnapshotDigest": snapshot,
+          "contractDigest": contract_digest, "receipt": receipt}
+raw = json.dumps(formal).encode()
+(case / "hosted-runtime-verification.json").write_bytes(raw)
+(repository / f".ai/evidence/{wi}.verification.json").write_bytes(raw)
+output = {key: value for key, value in receipt.items() if key != "workItemId"}
+output["plannedNodes"] = [{"nodeId": node, "program": words[0], "args": words[1:],
+    "timeoutSeconds": 900, "identityBinding": {"repositoryId": repository_id,
+    "repositorySnapshotDigest": snapshot, "runtimeDigest": runtime,
+    "commandDigest": record["commandDigest"]}}
+    for node, words, record in zip(ids, commands, records)]
+output_raw = json.dumps(output).encode()
+(case / "hosted-runtime-execution.json").write_bytes(output_raw)
+context = {"repository": "example/fixture", "runId": "123456", "runAttempt": "1",
+           "job": "fixture_quality", "headSha": "b" * 40, "runnerOs": "Linux"}
+orchestration = {"schemaVersion": 1, "workItemId": wi, "runtimeDigest": runtime,
+    "executionRepository": str(repository.resolve()), "formalReceiptDigest": digest(raw),
+    "verificationState": "passed", "executionOutput": {"schemaVersion": 1,
+    "source": "runtime_stdout", "file": "hosted-runtime-execution.json",
+    "sha256": digest(output_raw), "providerContext": context}}
+(case / "hosted-runtime-orchestration.json").write_text(json.dumps(orchestration))
+PY_NATIVE_FIXTURE
+}
+run_targeted_native_fixture() {
+  local case_dir=$1
+  PACKAGE_LOG="$case_dir/packages.log" WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 \
+  FAKE_RUNTIME_LOG="$case_dir/status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$case_dir/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+  GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$(printf 'b%.0s' {1..40})" RUNNER_OS=Linux \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$case_dir/hosted-runtime-verification.json" \
+  AI_COCKPIT_VERIFICATION_ORCHESTRATION="$case_dir/hosted-runtime-orchestration.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$case_dir/repository" \
+    python3 - "$case_dir" "$root/tests/ci/run_workspace_package_tests.sh" <<'PY_NATIVE_ENV'
+import ast
+import hashlib
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+from pathlib import Path
+source = Path(sys.argv[2]).read_text()
+block = source.split("def coverage_environment_digest():", 1)[1].split("def captured_target_coverage(", 1)[0]
+functions = [node for node in ast.parse("def coverage_environment_digest():" + block).body if isinstance(node, ast.FunctionDef)]
+namespace = dict(hashlib=hashlib, json=json, os=os, re=re, stat=stat, subprocess=subprocess, Path=Path)
+exec(compile(ast.Module(body=functions, type_ignores=[]), "actual-consumer-environment", "exec"), namespace)
+p = Path(sys.argv[1]) / "hosted-runtime-orchestration.json"
+data = json.loads(p.read_bytes())
+if data.get("executionOutput") is not None and "environmentDigest" not in data["executionOutput"]:
+    data["executionOutput"]["environmentDigest"] = namespace["coverage_environment_digest"]()
+    data["executionOutput"]["cargoContext"] = namespace["cargo_reuse_context"](
+        Path(sys.argv[1]) / "repository", str(Path(sys.argv[2]).parent / "run_process_observer_test_runner.sh"))
+    p.write_text(json.dumps(data))
+PY_NATIVE_ENV
+  PACKAGE_LOG="$case_dir/packages.log" WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 \
+  FAKE_RUNTIME_LOG="$case_dir/status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$case_dir/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+  GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$(printf 'b%.0s' {1..40})" RUNNER_OS=Linux \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$case_dir/hosted-runtime-verification.json" \
+  AI_COCKPIT_VERIFICATION_ORCHESTRATION="$case_dir/hosted-runtime-orchestration.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$case_dir/repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$case_dir/metadata.json" \
+      --cargo "$tmp/fake-cargo" --report "$case_dir/report.json"
+}
+make_targeted_native_fixture "$tmp/targeted-native"
+run_targeted_native_fixture "$tmp/targeted-native"
+jq -e '.state == "passed" and .executedByHostedRuntime == .planned and .executedByCoverageRunner == []' \
+  "$tmp/targeted-native/report.json" >/dev/null
+test ! -e "$tmp/targeted-native/packages.log"
+native_case_count=0
+for native_case in all_targets raw_tamper projection_type schema_bool projection_tamper missing_node duplicate_node missing_record duplicate_record \
+  command_tamper digest_tamper foreign_wi foreign_runtime foreign_snapshot foreign_run foreign_head \
+  filtered unknown_target all_features reused truncated missing_capture warning warning_truncated invalid_hex \
+  timeout failure signal cleanup_failure duplicate_target missing_target unsupported_kind symlink wrong_file \
+  no_seal local_context environment_changed; do
+  case_dir="$tmp/native-$native_case"
+  make_targeted_native_fixture "$case_dir"
+  python3 - "$case_dir" "$native_case" <<'PY_NATIVE_MUTATE'
+import hashlib
+import json
+import sys
+from pathlib import Path
+case = Path(sys.argv[1]); mode = sys.argv[2]
+formal_path = case / "hosted-runtime-verification.json"
+output_path = case / "hosted-runtime-execution.json"
+report_path = case / "hosted-runtime-orchestration.json"
+contract_path = case / "repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+formal = json.loads(formal_path.read_bytes()); output = json.loads(output_path.read_bytes())
+report = json.loads(report_path.read_bytes()); contract = json.loads(contract_path.read_bytes())
+receipt = formal["receipt"]; record = receipt["executionRecords"][0]
+node = output["plannedNodes"][0]
+if mode == "all_targets":
+    words = contract["verification"][0].split(); words[words.index("--lib")] = "--all-targets"
+    contract["verification"][0] = " ".join(words); node["args"] = words[1:]
+    p = case / "metadata.json"; metadata = json.loads(p.read_bytes())
+    package = next(item for item in metadata["packages"] if item["name"] == "package-a")
+    package["targets"].extend([{"name":"extra","kind":["test"],"test":True},
+                               {"name":"tool","kind":["bin"],"test":True}])
+    p.write_text(json.dumps(metadata))
+elif mode == "schema_bool": report["executionOutput"]["schemaVersion"] = True
+elif mode == "missing_node": output["plannedNodes"].pop(0)
+elif mode == "duplicate_node": output["plannedNodes"].append(node)
+elif mode == "missing_record": receipt["executionRecords"].pop(0)
+elif mode == "duplicate_record": receipt["executionRecords"].append(record)
+elif mode == "command_tamper": node["args"][0] = "clippy"
+elif mode == "digest_tamper": node["identityBinding"]["commandDigest"] = "sha256:" + "9" * 64
+elif mode.startswith("foreign_"):
+    if mode in ("foreign_run", "foreign_head"):
+        report["executionOutput"]["providerContext"]["runId" if mode == "foreign_run" else "headSha"] = "9" * (6 if mode == "foreign_run" else 40)
+    else:
+        key = {"foreign_wi": "workItemId", "foreign_runtime": "runtimeDigest", "foreign_snapshot": "repositorySnapshotDigest"}[mode]
+        if key == "workItemId": output["planReceipt"] = dict(output["planReceipt"], workItemId="WI-FOREIGN")
+        else: node["identityBinding"][key] = "sha256:" + "9" * 64
+elif mode in ("filtered", "unknown_target", "all_features"):
+    words = contract["verification"][0].split()
+    if mode == "filtered": words.append("only_one_test")
+    else:
+        i = words.index("--")
+        words[i:i] = ["--target", "foreign-unknown-target"] if mode == "unknown_target" else ["--all-features"]
+    contract["verification"][0] = " ".join(words)
+    node["args"] = words[1:]
+elif mode == "reused":
+    receipt["results"][0].update(reused=True, action="reuse", satisfiedBy="reused_receipt")
+    receipt["executionRecords"].pop(0)
+    receipt["planReceipt"].update(executedNodes=["project-command-1"], reusedNodes=["project-command-0"])
+    receipt.update(nodesExecuted=1, nodesReused=1)
+elif mode == "truncated": record["stdoutTruncated"] = True
+elif mode == "missing_capture": del record["stdout"]
+elif mode == "warning": record["stderr"] = b"warning: native capture warning\n".hex()
+elif mode == "warning_truncated":
+    record["stderr"] = b"warning: captured prefix warning\n".hex()
+    record["stderrTruncated"] = True
+elif mode == "invalid_hex": record["stdout"] = "zz"
+elif mode == "timeout": record["timedOut"] = True
+elif mode == "failure": record["exitCode"] = 17
+elif mode == "signal": record["terminationSignal"] = 9
+elif mode == "cleanup_failure": report["failureReason"] = "fixture_cleanup_failed"
+elif mode in ("duplicate_target", "missing_target", "unsupported_kind"):
+    p = case / "metadata.json"; metadata = json.loads(p.read_bytes())
+    package = next(item for item in metadata["packages"] if item["name"] == "package-a")
+    if mode == "duplicate_target": package["targets"].append(package["targets"][0])
+    elif mode == "missing_target": package["targets"].append({"name":"extra","kind":["test"],"test":True})
+    else: package["targets"][0]["kind"] = ["future-unknown-kind"]
+    p.write_text(json.dumps(metadata))
+elif mode == "wrong_file": report["executionOutput"]["file"] = "../hosted-runtime-execution.json"
+elif mode == "local_context": report["executionOutput"]["providerContext"] = None
+elif mode == "no_seal": report.pop("executionOutput")
+elif mode == "environment_changed": report["executionOutput"]["environmentDigest"] = "sha256:" + "9" * 64
+# Reconcile mock native stdout with changed formal records, preserving the
+# intended planned-node/projection errors. These are negative test fixtures.
+if mode not in ("foreign_wi",):
+    for key, value in receipt.items():
+        if key != "workItemId": output[key] = value
+if mode == "projection_tamper": output["nodesExecuted"] = 0
+if mode == "projection_type": output["nodesReused"] = False
+contract_path.write_text(json.dumps(contract))
+formal["contractDigest"] = "sha256:" + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+(case / "contract-digest").write_text(formal["contractDigest"])
+formal_raw = json.dumps(formal).encode(); formal_path.write_bytes(formal_raw)
+(case / "repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json").write_bytes(formal_raw)
+output_raw = json.dumps(output).encode(); output_path.write_bytes(output_raw)
+report["formalReceiptDigest"] = "sha256:" + hashlib.sha256(formal_raw).hexdigest()
+if "executionOutput" in report: report["executionOutput"]["sha256"] = "sha256:" + hashlib.sha256(output_raw).hexdigest()
+report_path.write_text(json.dumps(report))
+if mode == "raw_tamper": output_path.write_bytes(output_raw + b" ")
+if mode == "symlink":
+    target = case / "moved-output.json"; output_path.rename(target); output_path.symlink_to(target.name)
+PY_NATIVE_MUTATE
+  native_result=0
+  run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || native_result=$?
+  case "$native_case" in
+    all_targets)
+      test "$native_result" = 0
+      test ! -e "$case_dir/packages.log"
+      jq -e '.state == "passed" and .executedByHostedRuntime == .planned and (.hostedTargetGroups | length == 4)' "$case_dir/report.json" >/dev/null
+      ;;
+    all_features|reused|truncated|missing_capture)
+      test "$native_result" = 0
+      diff -u <(printf '%s\n' package-a) "$case_dir/packages.log"
+      jq -e '.state == "passed" and .executedByHostedRuntime == ["package-b"] and .executedByCoverageRunner == ["package-a"]' "$case_dir/report.json" >/dev/null
+      ;;
+    missing_target)
+      test "$native_result" = 0
+      diff -u <(printf '%s\n' package-a package-a) "$case_dir/packages.log"
+      jq -e '.state == "passed" and .executedByHostedRuntime == ["package-b"] and (.groups | length == 2)' "$case_dir/report.json" >/dev/null
+      ;;
+    no_seal|local_context|environment_changed)
+      test "$native_result" = 0
+      diff -u <(printf '%s\n' package-a package-b) "$case_dir/packages.log"
+      jq -e '.state == "passed" and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned' "$case_dir/report.json" >/dev/null
+      ;;
+    *)
+      if [[ "$native_result" == 0 ]]; then
+        printf 'targeted native reuse accepted invalid case: %s\n' "$native_case" >&2
+        exit 1
+      fi
+      test ! -e "$case_dir/packages.log"
+      jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt"' "$case_dir/report.json" >/dev/null
+      ;;
+  esac
+  native_case_count=$((native_case_count + 1))
+done
+printf 'same-job native target reuse cases passed: %s\n' "$native_case_count"
+
+context_case_count=0
+for context_case in default_host explicit_host nonhost_env build_target host_build_target parent_config cargo_home relative_cargo_home foreign_runner_config foreign_runner_env; do
+  case_dir="$tmp/native-context-$context_case"
+  make_targeted_native_fixture "$case_dir"
+  mkdir -p "$case_dir/cargo-home"
+  context_result=0
+  case "$context_case" in
+    build_target|host_build_target|foreign_runner_config)
+      mkdir -p "$case_dir/repository/.cargo"
+      if [[ "$context_case" == foreign_runner_config ]]; then
+        printf '[target.%s]\nrunner = "foreign-runner"\n' "$host_target" >"$case_dir/repository/.cargo/config.toml"
+      else
+        selected_target=aarch64-unknown-linux-gnu
+        if [[ "$context_case" == host_build_target ]]; then selected_target=$host_target; fi
+        printf '[build]\ntarget = "%s"\n' "$selected_target" >"$case_dir/repository/.cargo/config.toml"
+      fi ;;
+    parent_config)
+      mkdir -p "$case_dir/.cargo"
+      printf '[build]\ntarget = "aarch64-unknown-linux-gnu"\n' >"$case_dir/.cargo/config.toml" ;;
+    cargo_home)
+      printf '[build]\ntarget = "aarch64-unknown-linux-gnu"\n' >"$case_dir/cargo-home/config.toml" ;;
+    relative_cargo_home)
+      mkdir -p "$case_dir/repository/context-home"
+      printf '[build]\ntarget = "aarch64-unknown-linux-gnu"\n' >"$case_dir/repository/context-home/config.toml" ;;
+  esac
+  case "$context_case" in
+    explicit_host) CARGO_BUILD_TARGET="$host_target" run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$? ;;
+    nonhost_env) CARGO_BUILD_TARGET=aarch64-unknown-linux-gnu run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$? ;;
+    cargo_home) CARGO_HOME="$case_dir/cargo-home" run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$? ;;
+    relative_cargo_home) CARGO_HOME=context-home run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$? ;;
+    foreign_runner_env) saved_runner=${!runner_variable}; export "$runner_variable=foreign-runner"
+      run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$?
+      export "$runner_variable=$saved_runner" ;;
+    *) run_targeted_native_fixture "$case_dir" >"$case_dir/check.log" 2>&1 || context_result=$? ;;
+  esac
+  if [[ "$context_case" == foreign_runner_env ]]; then
+    test "$context_result" != 0
+    jq -e '.state == "failed" and .failurePhase == "runner_setup" and .executed == []' "$case_dir/report.json" >/dev/null
+    test ! -e "$case_dir/packages.log"
+  elif [[ "$context_case" == default_host || "$context_case" == explicit_host ]]; then
+    test "$context_result" = 0
+    jq -e '.state == "passed" and .executedByHostedRuntime == .planned and .executedByCoverageRunner == []' "$case_dir/report.json" >/dev/null
+    test ! -e "$case_dir/packages.log"
+  else
+    test "$context_result" = 0
+    jq -e '.state == "passed" and .executedByHostedRuntime == [] and .executedByCoverageRunner == .planned' "$case_dir/report.json" >/dev/null
+    diff -u <(printf '%s\n' package-a package-b) "$case_dir/packages.log"
+  fi
+  context_case_count=$((context_case_count + 1))
+done
+printf 'Cargo target/config/runner context cases passed: %s\n' "$context_case_count"
+
 
 cp "$tmp/hosted-verification.json" "$tmp/valid-targeted-verification.json"
 cp "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" "$tmp/valid-targeted-contract.json"

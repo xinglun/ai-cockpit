@@ -607,6 +607,238 @@ fn old_material_decision_is_stale_after_analysis_or_policy_identity_changes() {
 }
 
 #[test]
+fn material_reference_identity_delta_matrix_never_carries_review_authority() {
+    for field in [
+        "path", "blob", "hunk", "cause", "scope", "Contract", "profile", "policy", "scanner",
+        "Finding",
+    ] {
+        if field == "scanner" {
+            // This is an explicitly hypothetical typed-validator identity;
+            // it is not evidence that the compiled canonical scanner changed.
+            let (_directory, contract, request, input) = material_review_decision_fixture();
+            validate_material_review_decision(
+                &contract,
+                &request,
+                &input,
+                "agent:identity-matrix-executor",
+                "2026-10-28T00:00:00Z",
+            )
+            .expect("valid typed scanner baseline");
+            let mut changed = request.clone();
+            changed.scanner_semantic_version.push_str("-different");
+            let mut value = serde_json::to_value(&changed).unwrap();
+            changed.request_digest = rebind_material_request_digest(&mut value);
+            assert_ne!(changed.request_digest, request.request_digest);
+            assert_eq!(
+                validate_material_review_decision(
+                    &contract,
+                    &changed,
+                    &input,
+                    "agent:identity-matrix-executor",
+                    "2026-10-28T00:00:00Z"
+                )
+                .unwrap_err(),
+                MaterialReviewDecisionValidationError::RequestDigestMismatch
+            );
+            eprintln!("identity delta rejected: scanner (typed-validator hypothetical)");
+            continue;
+        }
+        let (directory, runtime, contract_path, _summary_path, sidecar_path, input) =
+            active_recorded_material_review_fixture();
+        let root = directory
+            .path()
+            .canonicalize()
+            .expect("canonical matrix fixture");
+        // The older reusable fixture predates Summary repository identity.
+        // Complete this isolated fixture before testing current native amendments.
+        let summary_path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+        let mut complete_summary: Value =
+            serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+        complete_summary["repositoryId"] = json!(cockpit_repository::repository_id(&root));
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&complete_summary).unwrap(),
+        )
+        .unwrap();
+        let old_bytes = fs::read(&sidecar_path).expect("original immutable receipt");
+        let old_receipt: MaterialInspectionReviewDecisionReceipt =
+            serde_json::from_slice(&old_bytes).unwrap();
+        let old_request = plan_work_item_material_review(&root, "WI-MATERIAL").unwrap();
+        let baseline = cockpit_repository::work_item_status_snapshot_with_runtime(
+            &root,
+            "WI-MATERIAL",
+            &runtime,
+        )
+        .unwrap();
+        assert_eq!(
+            baseline.review_receipt_digest.as_ref(),
+            Some(&old_receipt.receipt_digest),
+            "{field}: real Current baseline"
+        );
+
+        match field {
+            "path" => {
+                git(&root, &["mv", "src/material.rs", "src/renamed.rs"]);
+                commit(&root);
+            }
+            "blob" => {
+                fs::write(
+                    root.join("src/material.rs"),
+                    format!(
+                        "{}\n// distinct committed bytes\n",
+                        benign_syntax_unknown_source()
+                    ),
+                )
+                .unwrap();
+                commit(&root);
+            }
+            "hunk" => {
+                fs::write(
+                    root.join("src/material.rs"),
+                    format!("\n\n{}", benign_syntax_unknown_source()),
+                )
+                .unwrap();
+                commit(&root);
+            }
+            "cause" => {
+                fs::write(root.join("src/material.rs"), "fn material(\n").unwrap();
+                commit(&root);
+            }
+            "scope" | "Contract" | "profile" => {
+                let document: Value =
+                    serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+                let change = match field {
+                    "scope" => json!({"path":"/scope","operation":"add","value":"src/extra.rs"}),
+                    "Contract" => {
+                        json!({"path":"/goal","operation":"replace","value":"a separately reviewed current goal"})
+                    }
+                    "profile" => {
+                        json!({"path":"/governanceProfile/materialInspectionReview/reviewerActor","operation":"replace","value":"agent:separately-reviewed"})
+                    }
+                    _ => unreachable!(),
+                };
+                let reason =
+                    format!("isolated {field} identity delta; no review authority migration");
+                amend_work_item_contract_with_runtime(
+                    &root,
+                    "WI-MATERIAL",
+                    &json!({
+                        "schemaVersion":1,"changeId":format!("identity-matrix-{field}"),
+                        "expectedContractDigest":cockpit_protocol::digest_json(&document).unwrap(),
+                        "reason":reason,"changes":[change]
+                    }),
+                    &reason,
+                    &runtime,
+                )
+                .expect("real typed native identity amendment");
+            }
+            "policy" => {
+                fs::write(root.join(".ai/policy.json"), serde_json::to_vec_pretty(&json!({
+                    "schemaVersion":1,"project":{"policyId":"identity-matrix-project","layer":"project","rules":[]}
+                })).unwrap()).unwrap();
+            }
+            "Finding" => {
+                // Reuse the existing transparent conformance corpus; never execute it.
+                let corpus = include_str!(
+                    "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+                );
+                fs::write(root.join("README.md"), corpus).unwrap();
+                commit(&root);
+            }
+            _ => unreachable!(),
+        }
+        // Refresh binding observations so denial cannot be explained merely by stale preflight.
+        let refresh =
+            cockpit_repository::preflight_work_item_with_runtime(&root, &contract_path, &runtime);
+        if field == "Finding" {
+            let refusal = refresh.expect_err("a real Finding must block even preflight refresh");
+            assert!(refusal.to_string().contains("repository_prompt_injection"));
+        } else {
+            refresh.expect("observe the amended fixture Contract");
+            let summary: Value = serde_json::from_slice(
+                &fs::read(root.join(".ai/work-items/active/WI-MATERIAL.summary.json")).unwrap(),
+            )
+            .unwrap();
+            let current: Value =
+                serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+            record_work_item_governance_controls_with_runtime(&root, "WI-MATERIAL", &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":"WI-MATERIAL","repositoryId":cockpit_repository::repository_id(&root),
+            "contractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":"2026-10-28T00:00:00Z","recordedBy":"agent:synthetic-matrix-owner-recorder",
+            "reason":"Synthetic isolated owner review of this identity delta; no material decision inherited."
+        }}), &runtime).expect("review only the amended fixture binding");
+        }
+        let current_request = plan_work_item_material_review(&root, "WI-MATERIAL")
+            .expect("canonical producer after real fixture mutation");
+        assert_ne!(
+            current_request.request_digest, old_request.request_digest,
+            "{field}: current identity must differ"
+        );
+        match field {
+            "path" => assert!(
+                current_request
+                    .entries
+                    .iter()
+                    .any(|entry| entry.path == "src/renamed.rs")
+            ),
+            "blob" => assert_ne!(
+                current_request.entries[0].after_blob_digest,
+                old_request.entries[0].after_blob_digest
+            ),
+            "hunk" => assert_ne!(
+                current_request.entries[0].changed_hunk_digest,
+                old_request.entries[0].changed_hunk_digest
+            ),
+            "cause" => assert_ne!(
+                current_request.entries[0].unknown_cause,
+                old_request.entries[0].unknown_cause
+            ),
+            "scope" | "Contract" => {
+                assert_ne!(current_request.contract_digest, old_request.contract_digest)
+            }
+            "profile" => assert_ne!(
+                current_request.material_inspection_review_profile_digest,
+                old_request.material_inspection_review_profile_digest
+            ),
+            "policy" => assert_ne!(
+                current_request.effective_policy_digest,
+                old_request.effective_policy_digest
+            ),
+            "Finding" => assert!(current_request.blocked_by_finding),
+            _ => unreachable!(),
+        }
+        let error = cockpit_repository::record_work_item_material_review(
+            &root,
+            "WI-MATERIAL",
+            &input,
+            &runtime,
+        )
+        .expect_err(
+            "the actual native record API must reject the old decision for the changed request",
+        );
+        let observed = cockpit_repository::work_item_status_snapshot_with_runtime(
+            &root,
+            "WI-MATERIAL",
+            &runtime,
+        )
+        .expect("real native readback after identity change");
+        assert!(
+            observed.review_receipt_digest.is_none(),
+            "{field}: old receipt must not remain Current: {observed:#?}"
+        );
+        assert_eq!(
+            fs::read(sidecar_path).unwrap(),
+            old_bytes,
+            "{field}: original receipt remains immutable"
+        );
+        eprintln!("identity delta rejected: {field} ({error:?})");
+    }
+}
+
+#[test]
 fn material_review_decision_validator_rejects_findings_and_extra_unknowns() {
     let (_directory, contract, request, input) = material_review_decision_fixture();
 

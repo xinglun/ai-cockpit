@@ -2898,6 +2898,89 @@ fn snapshot_digest_is_stable_when_the_same_source_change_is_committed() {
 }
 
 #[test]
+fn successor_does_not_transfer_predecessor_pr_or_branch_resource() {
+    let directory = ready_archived_repository();
+    let root = directory
+        .path()
+        .canonicalize()
+        .expect("canonical resource fixture");
+    let predecessor = "WI-ARCHIVED-RECOVERY";
+    let successor = "WI-RESOURCE-INDEPENDENT-SUCCESSOR";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let archive = root.join(".ai/work-items/archive");
+    let original = [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "events.jsonl",
+        "archive.json",
+    ]
+    .map(|suffix| {
+        let path = archive.join(format!("{predecessor}.{suffix}"));
+        let bytes = fs::read(&path).expect("original predecessor artifact");
+        (path, bytes)
+    });
+    let contract: Value = serde_json::from_slice(&original[0].1).unwrap();
+    assert_eq!(
+        contract["resourceContext"]["branch"],
+        "feature/archived-recovery"
+    );
+    assert_eq!(
+        contract["resourceContext"]["pullRequest"],
+        "https://github.com/example/ai-cockpit/pull/340"
+    );
+    let decision = archived_recovery_receipt(&directory, "successor", Some(successor), &runtime);
+    record_recovery_decision(&root, predecessor, &decision, &runtime)
+        .expect("native successor decision");
+    let recovery_path = root.join(format!(".ai/decisions/{predecessor}.recovery.json"));
+    let recovery_bytes = fs::read(&recovery_path).expect("native recovery receipt");
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        &root,
+        successor,
+        "continue without resource inheritance",
+        "keep predecessor resources bound to the predecessor",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["no implicit predecessor PR or branch binding".into()],
+            ..WorkItemStartOptions::default()
+        },
+        &runtime,
+    )
+    .expect("normal native successor activation without a resource override");
+    let current: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/active/{successor}.contract.json"))).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(current["predecessorWorkItemId"], predecessor);
+    assert!(
+        current.get("resourceContext").is_none_or(Value::is_null),
+        "successor must not inherit the predecessor context: {current}"
+    );
+    assert!(
+        !root
+            .join(format!(".ai/decisions/{successor}.resource-context.json"))
+            .exists()
+    );
+    assert_eq!(
+        fs::read(recovery_path).unwrap(),
+        recovery_bytes,
+        "activation preserves the original native recovery receipt"
+    );
+    for (path, bytes) in original {
+        assert_eq!(
+            fs::read(&path).unwrap(),
+            bytes,
+            "predecessor artifact changed: {path:?}"
+        );
+    }
+}
+
+#[test]
 fn archived_pending_finalization_requires_explicit_supersede_recovery_before_close() {
     let directory = ready_archived_repository();
     let id = "WI-ARCHIVED-RECOVERY";
