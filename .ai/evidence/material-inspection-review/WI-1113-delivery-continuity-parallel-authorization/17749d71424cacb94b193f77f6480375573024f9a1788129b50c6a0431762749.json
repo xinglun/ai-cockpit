@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "materialManifestDigest": "sha256:3aef1d911a199817580fd286615cc231389bd1765701b97681771b7896778ba9",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:17749d71424cacb94b193f77f6480375573024f9a1788129b50c6a0431762749",
+  "reviewedSourceHead": "8b342b12ee292602fcdcb175dd79f38f871dd0f3",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:1b6863bd0a91873f32caf03a1165c27ec9ac3572250d296666a1253a90d32820",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot completed the current request-specific ordinary technical review in parent task 01a17276-1bd2-718d-a851-3987cf167005, following independent source reviews of these exact seven paths, hunks and blobs. Four previously reviewed identical blobs were reviewed again for caller_claim, null missing counters, failure-without-receipt, predecessor integrity, referenceOnly=true/satisfiesCurrentReview=false, safeActions, frozen/tampered/resealed/cross-identity negatives. The three other changes were checked in full: Git adds only optional fixed-stage diagnostics without argv/path/env or public error/shared execution-budget changes; contract_amendment adds only two synthetic-fixture local autocrlf settings; verification_service scopes HOME/USERPROFILE to its child while preserving real Cargo/manifest-directory checks and failure assertions. This decision accepts only the seven profile-permitted syntax Unknowns in this exact request; absence of Findings is not its rationale, and no old receipt approval is inherited. This is agent:codex self-declared technical review, not a human, provider, release or production approval.",
+  "residualRisk": "All seven entries remain machine Unknown, not Clean. With the optional Git diagnostics explicitly enabled, stderr write_all can block; the review does not promise a ten-second return for the entire API or assert descendant reaping. Direct execution of test binaries without the Rustup/Cargo environment can fail toolchain location but must not falsely pass. Historical CI7 tests support the reviewed source blobs and do not verify Contract c106, final acceptance, finish, merge, main delivery, or user-visible benefit. Any changed request/path/hunk/blob/cause, new Finding, policy/profile or scanner identity requires a new review.",
+  "recordedAt": "2026-10-28T08:26:00Z",
+  "receiptDigest": "sha256:085a94a5631c4c9df9cf329ca6aa4598b45768fb056233bf1d800724a790e516"
+}
