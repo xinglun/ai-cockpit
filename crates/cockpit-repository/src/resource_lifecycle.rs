@@ -5549,10 +5549,23 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     // attribute; composite and additional attributes remain significant. The
     // source pair below was computed from the exact historical Git blob and
     // current source projection; it does not replace or broaden version 1.
-    const SUPPORTED_V2_TRANSITIONS: &[(&str, &str)] = &[(
-        "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
-        "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
-    )];
+    const SUPPORTED_V2_TRANSITIONS: &[(&str, &str)] = &[
+        (
+            "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+        ),
+        // Exact comparison-only evolution: one canonical request supplies the
+        // reviewed-syntax and complete-Clean proofs. The raw digest recipe,
+        // receipt validation and historical blob reconstruction are unchanged.
+        (
+            "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+        ),
+        (
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+        ),
+    ];
     SUPPORTED_V2_TRANSITIONS.iter().any(|(previous, current)| {
         *previous == historical_v2_digest && *current == compiled_v2_digest
     })
@@ -9806,20 +9819,50 @@ mod post_merge_sync_tests {
 
         let historical_v2 = super::production_analysis_recipe_projection_v2(&historical).unwrap();
         let current_v2 = super::production_analysis_recipe_projection_v2(current).unwrap();
+        let comparison_v2 =
+            super::production_analysis_recipe_projection_v2(&version_1_current).unwrap();
         assert_eq!(
-            super::production_analysis_recipe_projection_v2(&version_1_current).unwrap(),
-            current_v2,
-            "adding the Windows fixture configuration must not change the version 2 production projection"
+            Digest::sha256_bytes(comparison_v2.as_bytes()).to_string(),
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+            "the pre-union production projection stays a frozen historical anchor"
         );
         eprintln!(
-            "version 2 production recipe fingerprints: historical={} current={}",
+            "version 2 comparison proof fingerprints: historical={} previous={} current={}",
             Digest::sha256_bytes(historical_v2.as_bytes()),
+            Digest::sha256_bytes(comparison_v2.as_bytes()),
             Digest::sha256_bytes(current_v2.as_bytes())
         );
+        assert_eq!(
+            Digest::sha256_bytes(current_v2.as_bytes()).to_string(),
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+            "only the audited comparison proof evolution is accepted"
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &version_1_current,
+            current
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            current,
+            &version_1_current
+        ));
         assert!(super::analysis_recipe_source_matches(&historical, current));
         assert!(!super::analysis_recipe_source_matches(current, &historical));
 
         let current_text = String::from_utf8(current.to_vec()).unwrap();
+        let changed_proof = current_text.replacen(
+            "comparison_snapshot.head.as_deref() != Some(proof.source_head.as_str())",
+            "comparison_snapshot.head.as_deref() == Some(proof.source_head.as_str())",
+            1,
+        );
+        assert_ne!(changed_proof, current_text);
+        assert!(!super::analysis_recipe_source_matches(
+            &historical,
+            changed_proof.as_bytes()
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            &version_1_current,
+            changed_proof.as_bytes()
+        ));
         let fixture_only_change = current_text.replace(
             "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"false\"]);",
             "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"true\"]);",

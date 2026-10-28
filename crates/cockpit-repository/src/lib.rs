@@ -5135,8 +5135,7 @@ pub fn evaluate_contract_quality_gate(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
-            reviewed_source_head: None,
-            reviewed_unknown_members: Vec::new(),
+            comparison_material: None,
             finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,
@@ -5146,14 +5145,6 @@ pub fn evaluate_contract_quality_gate(
     material_review::preserve_unreviewed_comparison_material_unknowns(&snapshot, &mut projection);
     let projection =
         material_review::apply_material_review_projection_to_decision(projection, &mut decision);
-    reconcile_clean_comparison_material(
-        &root,
-        &contract,
-        &current_contract_digest,
-        &snapshot,
-        &projection,
-        &mut decision,
-    );
     decision.recompute_state_from_effective_facts();
     let raw_scanner_unknowns = projection.raw_scanner_unknowns;
     let material_manifest_digest = projection.material_manifest_digest;
@@ -5224,108 +5215,12 @@ pub fn evaluate_contract_quality_gate(
     Ok(report)
 }
 
-/// The small comparison snapshot may omit a complete Rust blob that the
-/// canonical committed-source inspector already read and classified. This
-/// fills only that exact missing-text observation; it is neither a review
-/// receipt nor acceptance of an unresolved syntax or material Finding.
-fn reconcile_clean_comparison_material(
-    root: &Path,
-    contract: &Contract,
-    contract_digest: &Digest,
-    comparison: &RepositorySnapshot,
-    projection: &material_review::MaterialReviewGateProjection,
-    decision: &mut GovernanceDecision,
-) {
-    const UNKNOWN: &str = "repository_material_inspection_unavailable";
-    if !decision.unknowns.iter().any(|unknown| unknown == UNKNOWN)
-        || !decision.blockers.is_empty()
-        || projection.projection_unavailable
-        || projection.blocked_by_finding
-        || !projection.effective_unknowns.is_empty()
-    {
-        return;
-    }
-    // Read the actual native document digest, including legacy/defaulted
-    // fields, rather than equating typed reserialization with that document.
-    // If this active-source request is unavailable, retain the Unknown.
-    let Ok(request) = material_review::plan_work_item_material_review(root, &contract.work_item_id)
-    else {
-        return;
-    };
-    if request.repository_id != repository_id(root).to_string()
-        || request.work_item_id != contract.work_item_id
-        || request.contract_digest != *contract_digest
-        || request.immutable_contract_base_revision != contract.base_revision
-        || projection.material_manifest_digest.as_ref() != Some(&request.material_manifest_digest)
-    {
-        return;
-    }
-    if comparison_material_is_completely_inspected(comparison, &request) {
-        decision.unknowns.retain(|unknown| unknown != UNKNOWN);
-    }
-}
-
+#[cfg(test)]
 fn comparison_material_is_completely_inspected(
     comparison: &RepositorySnapshot,
     request: &material_review::MaterialReviewRequest,
 ) -> bool {
-    if comparison.head.as_deref() != Some(request.reviewed_source_head.as_str())
-        || request.blocked_by_finding
-        || !request.finding_codes.is_empty()
-        || !request.raw_unknown_codes.is_empty()
-    {
-        return false;
-    }
-    let mut matched = false;
-    let mut residual = comparison.clone();
-    residual.change_evidence.retain(|change| {
-        let clean = change.content_state == cockpit_git::ChangeContentState::Text
-            && matches!(
-                change.kind,
-                cockpit_git::ChangeKind::Added
-                    | cockpit_git::ChangeKind::Modified
-                    | cockpit_git::ChangeKind::Renamed
-                    | cockpit_git::ChangeKind::Copied
-            )
-            && rust_material::diagnose_rust_material(change).unknown_cause
-                == Some(rust_material::MaterialUnknownCause::MissingCompleteSource)
-            && request.entries.iter().any(|entry| {
-                if change.path != entry.path
-                    || format!("{:?}", change.kind).to_ascii_lowercase() != entry.kind
-                    || !entry.path.to_ascii_lowercase().ends_with(".rs")
-                    || entry.content_state != "text"
-                    || entry.scanner_assessment != material_review::MaterialScannerAssessment::Clean
-                    || entry.unknown_cause.is_some()
-                    || entry
-                        .after_blob_digest
-                        .as_ref()
-                        .is_none_or(|digest| !valid_sha256_digest(digest.as_str()))
-                {
-                    return false;
-                }
-                let origins = change
-                    .added_line_origins
-                    .iter()
-                    .map(|origin| (origin.after_line, origin.hunk_index))
-                    .collect::<Vec<_>>();
-                // Same current HEAD binds the canonical committed after-blob
-                // to this path; checkout text cannot manufacture that proof.
-                cockpit_protocol::digest_json(&(
-                    &change.added_lines,
-                    origins,
-                    &change.removed_lines,
-                ))
-                .is_ok_and(|digest| digest == entry.changed_hunk_digest)
-            });
-        matched |= clean;
-        !clean
-    });
-    matched
-        && !derive_governance_signals_with_diagnostics(&residual)
-            .0
-            .unknowns
-            .iter()
-            .any(|unknown| unknown == "repository_material_inspection_unavailable")
+    material_review::clean_comparison_is_covered_for_test(comparison, request)
 }
 
 /// Validate a previously emitted Contract quality-gate report against the
