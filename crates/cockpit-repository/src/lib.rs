@@ -1636,12 +1636,22 @@ where
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
+    let execution_checkpoint = match (request.work_item_id.as_ref(), task_context) {
+        (Some(_), Some((runtime, _))) => Some(lifecycle::VerificationExecutionCheckpoint::prepare(
+            &root,
+            request,
+            &snapshot,
+            runtime,
+            command.command_digest(),
+        )?),
+        _ => None,
+    };
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
     let observer_callback =
         move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
-    let mut receipt = match process_supervisor.clone() {
+    let execution_result = match process_supervisor.clone() {
         Some(supervisor) => {
             cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
                 vec![command],
@@ -1657,8 +1667,11 @@ where
             observer_callback,
             Arc::clone(&start_gate),
         ),
+    };
+    if let Some(checkpoint) = &execution_checkpoint {
+        checkpoint.observe(&execution_result)?;
     }
-    .map_err(|error| ObserverError::State {
+    let mut receipt = execution_result.map_err(|error| ObserverError::State {
         path: root.clone(),
         message: error.to_string(),
     })?;
@@ -1745,7 +1758,19 @@ where
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
             observer(node_id, process_id, started)
         };
-        receipt = match process_supervisor {
+        let retry_checkpoint = match (request.work_item_id.as_ref(), task_context) {
+            (Some(_), Some((runtime, _))) => {
+                Some(lifecycle::VerificationExecutionCheckpoint::prepare(
+                    &root,
+                    request,
+                    &final_snapshot,
+                    runtime,
+                    command.command_digest(),
+                )?)
+            }
+            _ => None,
+        };
+        let execution_result = match process_supervisor {
             Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
                 vec![command],
                 request.workers,
@@ -1759,8 +1784,11 @@ where
                 observer_callback,
                 Arc::clone(&start_gate),
             ),
+        };
+        if let Some(checkpoint) = &retry_checkpoint {
+            checkpoint.observe(&execution_result)?;
         }
-        .map_err(|error| ObserverError::State {
+        receipt = execution_result.map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;

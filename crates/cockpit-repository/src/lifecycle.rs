@@ -9214,6 +9214,497 @@ fn work_item_artifact_path_optional(
 
 const VERIFICATION_ATTEMPT_SCHEMA_VERSION: u32 = 1;
 
+#[cfg(test)]
+type CheckpointPublicationHook = Box<dyn FnOnce(&str)>;
+#[cfg(test)]
+thread_local! {
+    static BEFORE_EXECUTION_CHECKPOINT_PUBLISH: std::cell::RefCell<Option<CheckpointPublicationHook>> =
+        const { std::cell::RefCell::new(None) };
+}
+
+/// Execution facts captured before any post-command Git/history observation.
+/// This is deliberately a different kind from a reusable verification attempt:
+/// an exit status alone has not passed post-execution identity validation.
+pub(crate) struct VerificationExecutionCheckpoint {
+    root: PathBuf,
+    pinned_root: super::legacy_closeout_source::PinnedRoot,
+    evidence: cap_std::fs::Dir,
+    binding: serde_json::Value,
+}
+
+impl VerificationExecutionCheckpoint {
+    pub(crate) fn prepare(
+        root: &Path,
+        request: &RepositoryVerificationRequest,
+        snapshot: &RepositorySnapshot,
+        runtime: &RuntimeContext,
+        command_digest: String,
+    ) -> Result<Self, ObserverError> {
+        let wi = request
+            .work_item_id
+            .as_deref()
+            .ok_or_else(|| ObserverError::State {
+                path: root.into(),
+                message: "execution checkpoint requires a Work Item".into(),
+            })?;
+        validate_work_item_id(wi)?;
+        if !valid_sha256_digest(&command_digest)
+            || request.runtime_digest != runtime.runtime_digest.to_string()
+            || fs::canonicalize(&snapshot.root).ok().as_deref() != Some(root)
+        {
+            return Err(ObserverError::State {
+                path: root.into(),
+                message: "execution checkpoint identity mismatch".into(),
+            });
+        }
+        let pinned_root = super::legacy_closeout_source::PinnedRoot::open(root)?;
+        let root_dir = pinned_root.directory()?;
+        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+            &root_dir,
+            ".ai",
+            &root.join(".ai"),
+        )?;
+        let evidence = super::evidence_store::create_and_open_cap_directory(
+            &ai,
+            "evidence",
+            &root.join(".ai/evidence"),
+        )?;
+        let contract_path = work_item_artifact_path(root, wi, "contract.json")?;
+        let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+        let execution_id = cockpit_protocol::digest_json(&serde_json::json!({
+            "repositoryId": repository_id(root),
+            "workItemId": wi,
+            "nodeId": request.node_id,
+            "runtimeDigest": runtime.runtime_digest,
+            "processId": std::process::id(),
+            "sequence": sequence,
+            "startedAt": chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos, true),
+        }))
+        .map_err(|error| ObserverError::State {
+            path: root.into(),
+            message: error.to_string(),
+        })?;
+        let binding = serde_json::json!({
+            "protocolVersion": 1,
+            "schemaVersion": 1,
+            "kind": "verification_execution_checkpoint",
+            "executionId": execution_id,
+            "workItemId": wi,
+            "repositoryId": repository_id(root),
+            "runtimeVersion": runtime.runtime_version,
+            "runtimeDigest": runtime.runtime_digest,
+            "contractDigest": contract_digest(&contract_path)?,
+            "contractExecutionScopeDigest": contract_execution_scope_digest(&contract_path)?,
+            "repositorySnapshotDigest": snapshot_digest(snapshot)?,
+            "postExecutionIdentityValidated": false,
+            "commands": [{
+                "nodeId": request.node_id, "program": request.program, "args": request.args,
+                "scope": request.scope, "stage": request.stage, "runner": request.runner,
+                "runtimeDigest": request.runtime_digest, "baseCommit": request.base_commit,
+                "timeoutSeconds": effective_verification_timeout_seconds(request),
+                "commandDigest": command_digest,
+            }],
+        });
+        let checkpoint = Self {
+            root: root.into(),
+            pinned_root,
+            evidence,
+            binding,
+        };
+        checkpoint.persist("execution_prepared", None, None)?;
+        Ok(checkpoint)
+    }
+
+    pub(crate) fn observe(
+        &self,
+        result: &Result<
+            cockpit_verification::VerificationReceipt,
+            cockpit_verification::ExecutionError,
+        >,
+    ) -> Result<(), ObserverError> {
+        match result {
+            Ok(receipt) => {
+                let receipt =
+                    serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+                        path: self.root.clone(),
+                        message: error.to_string(),
+                    })?;
+                self.persist("node_execution_completed", Some(receipt), None)
+            }
+            Err(error) => self.persist(
+                "execution_outcome_unavailable",
+                None,
+                Some(error.to_string()),
+            ),
+        }
+    }
+
+    fn require_current_destination(&self) -> Result<(), ObserverError> {
+        self.pinned_root.require_current()?;
+        let root_dir = self.pinned_root.directory()?;
+        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+            &root_dir,
+            ".ai",
+            &self.root.join(".ai"),
+        )?;
+        let current = super::evidence_store::open_cap_directory_nofollow_strict(
+            &ai,
+            "evidence",
+            &self.root.join(".ai/evidence"),
+        )?;
+        if super::legacy_closeout_source::directory_identity(&self.root, &current)?
+            != super::legacy_closeout_source::directory_identity(&self.root, &self.evidence)?
+        {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai/evidence"),
+                message: "execution checkpoint evidence directory changed".into(),
+            });
+        }
+        Ok(())
+    }
+
+    fn persist(
+        &self,
+        state: &str,
+        receipt: Option<serde_json::Value>,
+        diagnostic: Option<String>,
+    ) -> Result<(), ObserverError> {
+        // No Git discovery, snapshot refresh, command re-planning or history
+        // read is allowed here: those are precisely the operations that can
+        // fail after the executor has already returned actual child output.
+        self.require_current_destination()?;
+        let mut value = self.binding.clone();
+        value["state"] = serde_json::json!(state);
+        value["createdAt"] = serde_json::json!(
+            chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos, true)
+        );
+        value["passed"] = serde_json::json!(false);
+        value["executionRecords"] = receipt
+            .as_ref()
+            .map(|receipt| receipt["executionRecords"].clone())
+            .unwrap_or_else(|| serde_json::json!([]));
+        value["processesSpawned"] = receipt
+            .as_ref()
+            .map(|receipt| receipt["processesSpawned"].clone())
+            .unwrap_or_else(|| {
+                if state == "execution_prepared" {
+                    serde_json::json!(0)
+                } else {
+                    serde_json::Value::Null
+                }
+            });
+        value["receipt"] = serde_json::json!(receipt);
+        if let Some(diagnostic) = diagnostic {
+            value["diagnostic"] = serde_json::json!({
+                "code": "executor_outcome_unavailable",
+                "message": truncate_diagnostic_text(diagnostic, MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES),
+            });
+        }
+        let digest =
+            cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                path: self.root.clone(),
+                message: error.to_string(),
+            })?;
+        value["checkpointId"] = serde_json::json!(digest);
+        let bytes = serde_json::to_vec_pretty(&value).map_err(|error| ObserverError::State {
+            path: self.root.clone(),
+            message: error.to_string(),
+        })?;
+        if bytes.len() as u64 > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai/evidence"),
+                message: "execution checkpoint exceeds its byte limit".into(),
+            });
+        }
+        let name = format!(
+            "{}.verification-attempt.{}.json",
+            self.binding["workItemId"]
+                .as_str()
+                .expect("typed Work Item"),
+            digest
+                .to_string()
+                .strip_prefix("sha256:")
+                .expect("SHA-256 digest")
+        );
+        #[cfg(test)]
+        BEFORE_EXECUTION_CHECKPOINT_PUBLISH.with_borrow_mut(|pending| {
+            if let Some(hook) = pending.take() {
+                hook(&name);
+            }
+        });
+        super::evidence_store::write_cap_immutable(
+            &self.evidence,
+            &name,
+            &self.root.join(".ai/evidence").join(&name),
+            &bytes,
+        )?;
+        // The pinned capability may still be writable after an ambient
+        // rename. Report success only if the published, synced fact remains
+        // reachable through the original root and evidence-directory identity.
+        self.require_current_destination()?;
+        Ok(())
+    }
+}
+
+#[cfg(all(test, unix))]
+mod execution_checkpoint_publication_tests {
+    use super::*;
+    use std::os::unix::{ffi::OsStrExt, fs::PermissionsExt};
+
+    fn checkpoint_fixture() -> (tempfile::TempDir, VerificationExecutionCheckpoint) {
+        let directory = tempfile::Builder::new()
+            .prefix("checkpoint publication with spaces ")
+            .tempdir()
+            .expect("fixture");
+        let root = fs::canonicalize(directory.path()).expect("canonical fixture root");
+        fs::create_dir_all(root.join(".ai/evidence")).expect("evidence directory");
+        let pinned_root =
+            super::super::legacy_closeout_source::PinnedRoot::open(&root).expect("pin root");
+        let evidence = pinned_root
+            .directory()
+            .expect("root capability")
+            .open_dir(".ai/evidence")
+            .expect("evidence capability");
+        let checkpoint = VerificationExecutionCheckpoint {
+            root,
+            pinned_root,
+            evidence,
+            binding: serde_json::json!({"workItemId": "WI-CHECKPOINT-IO-FIXTURE"}),
+        };
+        (directory, checkpoint)
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn replaced_evidence_during_publish_is_not_a_success() {
+        let (_directory, checkpoint) = checkpoint_fixture();
+        let evidence = checkpoint.root.join(".ai/evidence");
+        let retained = checkpoint.root.join(".ai/evidence-retained");
+        let replace = evidence.clone();
+        let destination = retained.clone();
+        BEFORE_EXECUTION_CHECKPOINT_PUBLISH.with_borrow_mut(|pending| {
+            *pending = Some(Box::new(move |_| {
+                fs::rename(&replace, &destination).expect("replace after the precheck");
+                fs::create_dir(&replace).expect("new evidence directory");
+            }));
+        });
+        let result = checkpoint.persist("execution_prepared", None, None);
+        assert!(
+            result.is_err(),
+            "publication into a detached directory cannot report success"
+        );
+        assert!(
+            result
+                .expect_err("must fail")
+                .to_string()
+                .contains("execution checkpoint evidence directory changed")
+        );
+        assert_eq!(fs::read_dir(evidence).expect("current evidence").count(), 0);
+        assert_eq!(
+            fs::read_dir(retained)
+                .expect("retained actual facts")
+                .count(),
+            1
+        );
+    }
+    #[test]
+    fn publication_conflict_keeps_existing_bytes_and_fails() {
+        let (_directory, checkpoint) = checkpoint_fixture();
+        let evidence = checkpoint.root.join(".ai/evidence");
+        let target = evidence.clone();
+        BEFORE_EXECUTION_CHECKPOINT_PUBLISH.with_borrow_mut(|pending| {
+            *pending = Some(Box::new(move |name| {
+                fs::write(target.join(name), b"retained conflicting bytes").expect("conflict");
+            }));
+        });
+        let result = checkpoint.persist("execution_prepared", None, None);
+        assert!(
+            result
+                .expect_err("must not overwrite")
+                .to_string()
+                .contains("immutable receipt already exists")
+        );
+        let entries = fs::read_dir(evidence)
+            .expect("retained evidence")
+            .collect::<Result<Vec<_>, _>>()
+            .expect("entries");
+        assert_eq!(
+            entries.len(),
+            1,
+            "temporary publication data must be removed"
+        );
+        assert_eq!(
+            fs::read(entries[0].path()).expect("conflict bytes"),
+            b"retained conflicting bytes"
+        );
+    }
+
+    fn run_fault_child(mode: &str) {
+        let executable = std::env::current_exe().expect("test executable");
+        let command = cockpit_verification::VerificationCommand::new(
+            "owned-checkpoint-io-fault",
+            executable.to_str().expect("UTF-8 fixture executable"),
+            vec!["--exact".into(),
+                "lifecycle::execution_checkpoint_publication_tests::execution_checkpoint_fault_child".into(),
+                "--nocapture".into(), "--test-threads=1".into()],
+            cockpit_verification::VerificationReusePolicy::NeverReuse,
+        )
+        .with_environment(vec![("AI_COCKPIT_WI1114_IO_FAULT_CHILD".into(), mode.into())])
+        .with_timeout_seconds(5);
+        // Reuse the actual bounded executor, including its pipe limits and
+        // owned-child cleanup. The fixture only performs local filesystem IO.
+        let receipt = cockpit_verification::execute_bounded(vec![command], 1)
+            .expect("bounded owned fixture execution");
+        assert_eq!(receipt.processes_spawned, 1);
+        assert_eq!(receipt.nodes_executed, 1);
+        assert_eq!(receipt.execution_records.len(), 1);
+        let record = &receipt.execution_records[0];
+        let stdout = hex::decode(&record.stdout_hex).expect("stdout");
+        let stderr = hex::decode(&record.stderr_hex).expect("stderr");
+        assert!(
+            receipt.passed,
+            "{mode} fixture failed: {}\n{}",
+            String::from_utf8_lossy(&stdout),
+            String::from_utf8_lossy(&stderr)
+        );
+        assert!(!record.timed_out && !record.stdout_truncated && !record.stderr_truncated);
+        assert!(
+            String::from_utf8_lossy(&stdout)
+                .contains(&format!("checkpoint fault observed: {mode}")),
+            "a real child case must have executed"
+        );
+    }
+
+    #[test]
+    fn actual_write_failure_cleans_temporary_data_and_fails() {
+        run_fault_child("write");
+    }
+
+    #[test]
+    fn fifo_publication_conflict_is_bounded_and_cleans_temporary_data() {
+        run_fault_child("fifo");
+    }
+
+    #[test]
+    fn actual_sync_setup_failure_is_not_reported_as_success() {
+        run_fault_child("sync");
+    }
+
+    // Only this private test binary has this hook; production has no fault
+    // environment switch. Parent cases require the exact marker and exit 0.
+    #[test]
+    fn execution_checkpoint_fault_child() {
+        let Ok(mode) = std::env::var("AI_COCKPIT_WI1114_IO_FAULT_CHILD") else {
+            return;
+        };
+        assert!(
+            std::env::args().any(|argument| argument == "--exact"),
+            "fault injection requires the isolated exact child case"
+        );
+        let (_directory, checkpoint) = checkpoint_fixture();
+        let evidence = checkpoint.root.join(".ai/evidence");
+        match mode.as_str() {
+            "write" => {
+                let mut limit = libc::rlimit {
+                    rlim_cur: 0,
+                    rlim_max: 0,
+                };
+                // SAFETY: This is the owned, isolated child test process. The
+                // prior soft limit and signal disposition are restored before
+                // assertions; neither the test runner nor production changes.
+                let (signal, result) = unsafe {
+                    assert_eq!(libc::getrlimit(libc::RLIMIT_FSIZE, &mut limit), 0);
+                    let signal = libc::signal(libc::SIGXFSZ, libc::SIG_IGN);
+                    assert_ne!(signal, libc::SIG_ERR);
+                    let reduced = libc::rlimit {
+                        rlim_cur: 0,
+                        rlim_max: limit.rlim_max,
+                    };
+                    assert_eq!(libc::setrlimit(libc::RLIMIT_FSIZE, &reduced), 0);
+                    let result = checkpoint.persist("execution_prepared", None, None);
+                    assert_eq!(libc::setrlimit(libc::RLIMIT_FSIZE, &limit), 0);
+                    (signal, result)
+                };
+                // SAFETY: Restore this isolated child's original disposition.
+                unsafe {
+                    libc::signal(libc::SIGXFSZ, signal);
+                }
+                match result.expect_err("the real file write must fail") {
+                    ObserverError::Read { source, .. } => {
+                        assert_eq!(source.raw_os_error(), Some(libc::EFBIG))
+                    }
+                    error => panic!("expected real EFBIG, got {error}"),
+                }
+                assert_eq!(fs::read_dir(&evidence).expect("evidence").count(), 0);
+            }
+            "fifo" => {
+                let target = evidence.clone();
+                BEFORE_EXECUTION_CHECKPOINT_PUBLISH.with_borrow_mut(|pending| {
+                    *pending = Some(Box::new(move |name| {
+                        let path = std::ffi::CString::new(target.join(name).as_os_str().as_bytes())
+                            .expect("path");
+                        // SAFETY: Create one FIFO only in this private fixture.
+                        assert_eq!(unsafe { libc::mkfifo(path.as_ptr(), 0o600) }, 0);
+                    }));
+                });
+                assert!(
+                    checkpoint
+                        .persist("execution_prepared", None, None)
+                        .is_err()
+                );
+                let entries = fs::read_dir(&evidence)
+                    .expect("evidence")
+                    .collect::<Result<Vec<_>, _>>()
+                    .expect("entries");
+                assert_eq!(
+                    entries.len(),
+                    1,
+                    "failed FIFO comparison must clean its temporary file"
+                );
+                assert!(!entries[0].file_type().expect("FIFO type").is_file());
+            }
+            "sync" => {
+                // The real directory-sync setup reopens `.` through the
+                // pinned capability. Denying access after publication must
+                // propagate its failure, even though the file is present.
+                // SAFETY: geteuid has no arguments or memory side effects.
+                assert_ne!(
+                    unsafe { libc::geteuid() },
+                    0,
+                    "permission fault needs an unprivileged fixture"
+                );
+                let original = fs::metadata(&evidence).expect("permissions").permissions();
+                let target = evidence.clone();
+                super::super::evidence_store::BEFORE_IMMUTABLE_DIRECTORY_SYNC.with_borrow_mut(
+                    |pending| {
+                        *pending = Some(Box::new(move || {
+                            fs::set_permissions(target, fs::Permissions::from_mode(0))
+                                .expect("deny sync setup")
+                        }));
+                    },
+                );
+                let result = checkpoint.persist("execution_prepared", None, None);
+                fs::set_permissions(&evidence, original)
+                    .expect("restore owned fixture permissions");
+                match result.expect_err("real sync setup must fail") {
+                    ObserverError::Read { source, .. } => {
+                        assert_eq!(source.raw_os_error(), Some(libc::EACCES))
+                    }
+                    error => panic!("expected real sync-setup EACCES, got {error}"),
+                }
+                assert_eq!(
+                    fs::read_dir(&evidence)
+                        .expect("published fact retained")
+                        .count(),
+                    1
+                );
+            }
+            _ => panic!("unsupported private fault mode"),
+        }
+        println!("checkpoint fault observed: {mode}");
+    }
+}
+
 /// Persist the result of a verification attempt independently of completion
 /// evidence. This is an append-only, identity-bound record: a failed
 /// precondition or a later receipt-writing error must not erase the exit

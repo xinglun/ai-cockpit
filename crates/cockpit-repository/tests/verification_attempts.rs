@@ -80,6 +80,275 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+#[cfg(unix)]
+#[test]
+fn completed_node_survives_post_execution_repository_failure() {
+    let directory = repository();
+    let root = directory.path();
+    let mut command = request(root);
+    command.node_id = "durable-before-post-snapshot".into();
+    command.program = "sh".into();
+    command.args = vec![
+        "-c".into(),
+        "mv .git .git-after-execution && printf retained-node-output".into(),
+    ];
+    command.work_item_id = Some("WI-ATTEMPT".into());
+
+    let result = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    );
+    assert!(
+        result.is_err(),
+        "the missing Git repository must still fail"
+    );
+    assert!(
+        root.join(".git-after-execution").is_dir(),
+        "the real child must have run: {result:?}"
+    );
+    let attempts = fs::read_dir(root.join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-ATTEMPT.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("attempt bytes"),
+            )
+            .expect("attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        attempts
+            .iter()
+            .any(|attempt| attempt["state"] == "execution_prepared"),
+        "a durable declaration must precede the child"
+    );
+    let completed = attempts
+        .iter()
+        .find(|attempt| attempt["state"] == "node_execution_completed")
+        .expect("actual child output must survive post-execution Git failure");
+    let records = completed["executionRecords"].as_array().expect("records");
+    assert_eq!(records.len(), 1);
+    assert_eq!(records[0]["nodeId"], command.node_id);
+    assert_eq!(records[0]["spawned"], true);
+    assert_eq!(records[0]["exitCode"], 0);
+    assert_eq!(records[0]["timedOut"], false);
+    assert_eq!(
+        records[0]["stdout"],
+        "72657461696e65642d6e6f64652d6f7574707574"
+    );
+    assert_eq!(
+        completed["commands"][0]["commandDigest"],
+        records[0]["commandDigest"]
+    );
+    assert_ne!(completed["state"], "execution_completed");
+    assert!(
+        !root
+            .join(".ai/evidence/WI-ATTEMPT.verification.json")
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+fn checkpoint_command(root: &Path, script: &str) -> RepositoryVerificationRequest {
+    let mut command = request(root);
+    command.program = "sh".into();
+    command.args = vec!["-c".into(), script.into()];
+    command.work_item_id = Some("WI-ATTEMPT".into());
+    command
+}
+
+#[cfg(unix)]
+fn checkpoint_values(root: &Path) -> Vec<serde_json::Value> {
+    fs::read_dir(root.join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-ATTEMPT.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice(&fs::read(entry.path()).expect("checkpoint bytes"))
+                .expect("checkpoint JSON")
+        })
+        .collect()
+}
+
+#[cfg(unix)]
+#[test]
+fn successful_node_checkpoint_is_not_completion_or_reuse_evidence() {
+    let directory = repository();
+    let root = directory.path();
+    let command = checkpoint_command(root, "printf checkpoint-success");
+    let result = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    )
+    .expect("execute actual child");
+    assert!(result.receipt.passed);
+    let values = checkpoint_values(root);
+    assert_eq!(values.len(), 2);
+    for value in &values {
+        assert_eq!(value["kind"], "verification_execution_checkpoint");
+        assert_eq!(value["passed"], false);
+        assert_eq!(value["postExecutionIdentityValidated"], false);
+        let mut unsigned = value.clone();
+        unsigned
+            .as_object_mut()
+            .expect("object")
+            .remove("checkpointId");
+        assert_eq!(
+            value["checkpointId"],
+            json!(digest_json(&unsigned).expect("digest"))
+        );
+        assert!(value.get("attemptId").is_none());
+    }
+    assert_eq!(values[0]["executionId"], values[1]["executionId"]);
+    assert!(
+        load_reusable_verification_attempt(
+            root,
+            "WI-ATTEMPT",
+            &[command],
+            &result.final_snapshot,
+            &runtime(),
+        )
+        .expect("load attempts")
+        .is_none()
+    );
+    assert!(
+        !root
+            .join(".ai/evidence/WI-ATTEMPT.verification.json")
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn nonzero_child_checkpoint_preserves_actual_exit_and_stays_failed() {
+    let directory = repository();
+    let root = directory.path();
+    let command = checkpoint_command(root, "printf checkpoint-failure; exit 7");
+    let result = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    )
+    .expect("executor returns the failed child result");
+    assert!(!result.receipt.passed);
+    let values = checkpoint_values(root);
+    let captured = values
+        .iter()
+        .find(|value| value["state"] == "node_execution_completed")
+        .expect("actual result");
+    assert_eq!(captured["executionRecords"][0]["spawned"], true);
+    assert_eq!(captured["executionRecords"][0]["exitCode"], 7);
+    assert_eq!(captured["receipt"]["passed"], false);
+    assert_eq!(captured["passed"], false);
+    assert!(
+        load_reusable_verification_attempt(
+            root,
+            "WI-ATTEMPT",
+            &[command],
+            &result.final_snapshot,
+            &runtime(),
+        )
+        .expect("load attempts")
+        .is_none()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn checkpoint_preparation_failure_prevents_child_execution() {
+    let directory = repository();
+    let root = directory.path();
+    fs::rename(
+        root.join(".ai/evidence"),
+        root.join(".ai/evidence-retained"),
+    )
+    .expect("retain evidence");
+    fs::write(root.join(".ai/evidence"), b"not a directory").expect("invalid destination");
+    let command = checkpoint_command(root, "printf must-not-run > .ai/child-witness");
+    let result = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    );
+    assert!(result.is_err());
+    assert!(
+        !root.join(".ai/child-witness").exists(),
+        "a checkpoint is required before spawn"
+    );
+    assert!(
+        !root
+            .join(".ai/evidence-retained/WI-ATTEMPT.verification.json")
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn checkpoint_directory_replacement_after_child_never_reports_success() {
+    let directory = repository();
+    let root = directory.path();
+    let command = checkpoint_command(
+        root,
+        "mv .ai/evidence .ai/evidence-retained && mkdir .ai/evidence && printf child-finished > .ai/child-witness",
+    );
+    let result = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    );
+    let error = result.expect_err("changed evidence destination must reject");
+    assert!(
+        error
+            .to_string()
+            .contains("execution checkpoint evidence directory changed"),
+        "{error}"
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/child-witness")).expect("child ran"),
+        b"child-finished"
+    );
+    assert!(checkpoint_values(root).is_empty());
+    assert!(
+        !root
+            .join(".ai/evidence/WI-ATTEMPT.verification.json")
+            .exists()
+    );
+    assert_eq!(
+        fs::read_dir(root.join(".ai/evidence-retained"))
+            .expect("original evidence retained")
+            .filter_map(Result::ok)
+            .filter(|entry| entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-ATTEMPT.verification-attempt."))
+            .count(),
+        1
+    );
+}
+
 fn request(_root: &Path) -> RepositoryVerificationRequest {
     RepositoryVerificationRequest {
         node_id: "project-command-0".into(),

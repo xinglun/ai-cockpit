@@ -1,0 +1,107 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:1df9a8eac74a65521e53768b102040366eb9df3875b70566371524951c4ad97c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1114-release-runtime-convergence",
+    "sequence": 1,
+    "changeId": "legacy-24267d4f597f55f12642aad5bbbee3dd7a9ef21aebbf4a50581dca6da49d94a1",
+    "requestDigest": "sha256:f2885535ec35a1f36215228d49877463c65d0eee721a25bfbad5ddc7cd585fcc",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:24267d4f597f55f12642aad5bbbee3dd7a9ef21aebbf4a50581dca6da49d94a1",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792"
+        ],
+        "newValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004"
+        ],
+        "newValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004",
+          "issue:1041"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004",
+          "issue:1041"
+        ],
+        "newValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004",
+          "issue:1041",
+          "conversation:Sentinel_e2072c975fc481919489fd4b5552a07f"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004",
+          "issue:1041",
+          "conversation:Sentinel_e2072c975fc481919489fd4b5552a07f"
+        ],
+        "newValue": [
+          "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",
+          "issue:1004",
+          "issue:1041",
+          "conversation:Sentinel_e2072c975fc481919489fd4b5552a07f",
+          "conversation:Sentinel_d84fa2b0b0a08191b534e4de3d0f39df"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8dcc97d792fbcd2209c5f2595b0d0bf9d4c72bfeee58f657ac63690afd823d14",
+    "newContractDigest": "sha256:4215d3f766ae9a7f679abbad23655ad6a50a2b6e9bb8bd28b711f816a718a878",
+    "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+    "environmentObservationDigest": "sha256:5dd0c364b52b8dff9262eb3957620266f10094403af8e8128e3b13f8f0c48124",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:2b0b24c102997e1282de66dfda89d55d210cfabf0ea59b0f04916da3e0fdbce8",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:b14b7c749c8d6dbb2721993b6eec8c579d9b418a55ed6e0fd70e2440f580a898",
+    "recordedAt": "2026-10-29T07:22:35Z"
+  }
+}

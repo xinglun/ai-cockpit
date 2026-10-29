@@ -1,0 +1,151 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1111-token-outcome-ci.close.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.cross-checkout-closeout-origin.json",
+    ".ai/decisions/WI-1111-token-outcome-ci.cross-checkout-closeout-recovery.json",
+    ".ai/work-items/active/WI-1114-release-runtime-convergence.contract.json",
+    ".ai/work-items/active/WI-1114-release-runtime-convergence.summary.json"
+  ],
+  "checkpointAt": "2026-10-29T07:41:03Z",
+  "checkpointContractDigest": "sha256:09fd99bd8ea34e96c0a26b5f3627ae603dc6ca6dc4e78fb28ec4f6ece73c6220",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:09fd99bd8ea34e96c0a26b5f3627ae603dc6ca6dc4e78fb28ec4f6ece73c6220",
+      "recorded": true,
+      "recordedAt": "2026-10-29T07:41:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1114-release-runtime-convergence"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:68f812726d66ce15ecded2a4b91ca2d0d37942f8075888a941ef30a3e593b1bf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09fd99bd8ea34e96c0a26b5f3627ae603dc6ca6dc4e78fb28ec4f6ece73c6220",
+      "previousContractHash": "sha256:09fd99bd8ea34e96c0a26b5f3627ae603dc6ca6dc4e78fb28ec4f6ece73c6220",
+      "reason": "Raydot ordinary technical review approved these five exact missing paths as necessary to the already-authorized WI-1114 five-subtask plan. Preserve the original canonical owner preflight receipt and all history; add only this WI prearchive rows to the three parity ledgers; correct audit-query MCP description default50 to match actual tools/list, without changing CLI parsing or permissions. Scope99 becomes104. Keep task caller verbatim, every policy/review requirement, quality CI total8 including main (used0), release workflows total2 (used0), timeout900/singleworker/1GiB floor and separate exact publication/Runtime approvals. This prepares native review only, not a human confirm_review, grant import, Mac admission, source commit or publication.",
+      "recorded": true,
+      "recordedAt": "2026-10-29T10:31:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94904d41ac5f1f4af17abfab59a153efe32dba2807418db2e6e263a185ba42ca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1114-release-runtime-convergence"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+  "createdAt": "2026-10-29T06:43:37Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:68f812726d66ce15ecded2a4b91ca2d0d37942f8075888a941ef30a3e593b1bf",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:ebdb6b7872119ba4291330af7fc5c3d941ba961a7f9077fbdd15f593dcc3bed5",
+    "reason": "Record the actual owner sequence3 confirm_review from trusted user message Sentinel_1f77265c77248191b6dfd8701337f57e at 2026-10-29 10:54 UTC accepting proposal Sentinel_289efbc5336c8191bfd416b2e5761434. Exact five added paths only: canonical WI1114 preflight-review.json, three reference-parity ledgers, and cockpit-interface interface_description.rs; scope99 to104. The four exact bindings were rechecked before recording. recordedAt is record time, not a claimed exact message timestamp. Preserve actual preflight red, pending source/material projection and audit-query default metadata RED; this scope confirmation is not acceptance of failing verification, a Runtime switch, Mac admission, publication, or permission expansion. Quality CI total8 including main, release total2 and all governance/caller/budgets remain unchanged. This records the received human decision, not an agent-created approval.",
+    "recordedAt": "2026-10-29T10:55:43.238052+00:00",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:94904d41ac5f1f4af17abfab59a153efe32dba2807418db2e6e263a185ba42ca",
+    "schemaVersion": 1,
+    "workItemId": "WI-1114-release-runtime-convergence"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-29T07:22:35.499014942Z",
+      "recordedAt": "2026-10-29T07:22:35.499014942Z",
+      "runtimeDigest": "sha256:2b0b24c102997e1282de66dfda89d55d210cfabf0ea59b0f04916da3e0fdbce8",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-29T10:32:46Z",
+  "preflightContractDigest": "sha256:68f812726d66ce15ecded2a4b91ca2d0d37942f8075888a941ef30a3e593b1bf",
+  "preflightDecisionDigest": "sha256:ebdb6b7872119ba4291330af7fc5c3d941ba961a7f9077fbdd15f593dcc3bed5",
+  "preflightRepositorySnapshotDigest": "sha256:94904d41ac5f1f4af17abfab59a153efe32dba2807418db2e6e263a185ba42ca",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "description": null,
+      "evidence": [],
+      "expected": "Actual macOS arm64 strict-warnings and fresh governed lifecycle with successful and adversarial finite-cleanup results.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": null,
+      "required": true,
+      "scenario": "mac_real_supervised_lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Actual Mac strictClippy and isolated lifecycle for nonzero/timeout/parent/protocol/detached pipe cases. Linux is not Mac evidence."
+    },
+    {
+      "description": null,
+      "evidence": [],
+      "expected": "Complete metadata target coverage with only proved reuse and actual remaining executions; measured active-PR target<=55min.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": null,
+      "required": true,
+      "scenario": "measured_complete_ci_coverage",
+      "status": "unverified",
+      "verificationPlan": "Whole producer/consumer and every direct/indirect caller regression, Windows suites and wall-clock stage/resource report."
+    },
+    {
+      "description": null,
+      "evidence": [],
+      "expected": "100percent final public command inventory coverage and no exposed internal supervisor.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": null,
+      "required": true,
+      "scenario": "complete_public_help",
+      "status": "unverified",
+      "verificationPlan": "Recursive actual Clap inventory, root/nested help, three-language parity and actual final platform outputs including new commands."
+    },
+    {
+      "description": null,
+      "evidence": [],
+      "expected": "After immutable formal publication, independent Sentinel1004/1041 and amendment_provenance outcomes preserve old evidence.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": null,
+      "required": true,
+      "scenario": "sentinel_formal_release_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Pin formal archive/binary/inspect; actual review/freshverify/preflight/finish/archive plus registration/tamper/Retained-Deleted. Preserve original Cargo.lock."
+    },
+    {
+      "description": null,
+      "evidence": [],
+      "expected": "Only equivalent complete evidence admitted; completed results survive metadata failure; unsupported nodes remain real gaps.",
+      "expectedOutcome": null,
+      "expectedResult": null,
+      "reason": null,
+      "required": true,
+      "scenario": "trusted_ci_closeout_and_partial_durability",
+      "status": "unverified",
+      "verificationPlan": "Provider/source/runtime/node negative matrix, real small interruption fixture, idempotent accept and canonical lifecycle; progress is never evidence."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-29T10:55:49.634879266+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:68f812726d66ce15ecded2a4b91ca2d0d37942f8075888a941ef30a3e593b1bf",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-29T10:31:14Z"
+  },
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

@@ -648,6 +648,14 @@ fn read_optional_cap_file_nofollow_bounded(
     }
 }
 
+#[cfg(test)]
+type ImmutableSyncTestHook = Box<dyn FnOnce()>;
+#[cfg(test)]
+thread_local! {
+    pub(super) static BEFORE_IMMUTABLE_DIRECTORY_SYNC: std::cell::RefCell<Option<ImmutableSyncTestHook>> =
+        const { std::cell::RefCell::new(None) };
+}
+
 pub(super) fn write_cap_immutable(
     parent: &Dir,
     name: &str,
@@ -676,11 +684,17 @@ pub(super) fn write_cap_immutable(
         });
     }
     drop(file);
-    let installed = match parent.hard_link(&temporary, parent, name) {
+    // Keep comparison failures in this result so the owned temporary file is
+    // removed even when the existing destination is unreadable or non-regular.
+    let installed = (|| match parent.hard_link(&temporary, parent, name) {
         Ok(()) => Ok(0),
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
-            if read_cap_file_nofollow_bounded(parent, name, display_path, bytes.len() as u64)?
-                == bytes
+            if super::legacy_closeout_source::read_regular_cap_bounded(
+                parent,
+                name,
+                display_path,
+                bytes.len() as u64,
+            )? == bytes
             {
                 Ok(1)
             } else {
@@ -694,9 +708,15 @@ pub(super) fn write_cap_immutable(
             path: display_path.to_path_buf(),
             source,
         }),
-    };
+    })();
     let _ = parent.remove_file(&temporary);
     let files_read = installed?;
+    #[cfg(test)]
+    BEFORE_IMMUTABLE_DIRECTORY_SYNC.with_borrow_mut(|pending| {
+        if let Some(hook) = pending.take() {
+            hook();
+        }
+    });
     sync_cap_directory(parent, display_path)?;
     Ok(files_read)
 }
