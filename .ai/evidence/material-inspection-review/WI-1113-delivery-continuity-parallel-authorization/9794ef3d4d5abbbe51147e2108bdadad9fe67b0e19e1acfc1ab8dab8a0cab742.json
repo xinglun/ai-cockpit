@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+  "materialManifestDigest": "sha256:c5bbf76c5a4fa0250ba8e29e5cf7c319d9a6158de502e527b5a28a5d906c48e2",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742",
+  "reviewedSourceHead": "329e41e0123caba5ad0f5a200f894fa2b2028ef7",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:e68708522119da93359f869860445d8694919b303885b6e64a5959885b61ba59",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:95a96655334a58e2b8ce443d87c1f0804c665d26e0d16b44679c4fbf77c0de68"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:1c68a3e7fd8ca6478593765dd1faa33b0b7d73f10570ed7a0df6db5c545c6bfc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "digest": "sha256:173e8ca0d726722c0d290becfce9df42dcdb082fac3649808475919d1a9e84cf"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot completed and supplied a current ordinary technical accept_permitted_unknowns decision in parent thread 01a17276-1bd2-718d-a851-3987cf167005 for this exact canonical request 9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742 and source 329e41e0123caba5ad0f5a200f894fa2b2028ef7 under approved same-source Runtime e68708522119da93359f869860445d8694919b303885b6e64a5959885b61ba59. The complete 37021-byte request (raw SHA256 2f419ed456a45c04c680a0add1cca41f2d64f129cda16b3f7ccbfb94aeb9c057), normalized request digest, 84 unique entries (75 Clean, nine permitted syntax Unknowns, zero Findings), and all eleven committed afterBlobDigest bindings were independently checked. Seven unchanged Unknown members received a current source-byte review rather than inherited approval. The outcome_render retirement branch preserves replaced/not_verified and validates lineage, paths, digests, bounds and FIFO-safe reads; the lifecycle fixture retains distinct processes, quotas, real native results, atomic marker publication, spaced paths and worker cwd binding. Both changes and final exact source bytes received independent review and the documented real Linux positive/negative regressions. This records a new agent/self_declared technical decision, not human/provider confirmation or current full-CI success.",
+  "residualRisk": "The bounded parser syntax Unknowns remain machine Unknown, never Clean. Optional Git timeout diagnostics can block on a non-consuming stderr sink; no whole-API ten-second return or broader descendant-reaping guarantee is asserted. Direct Rust test binaries without the required Cargo/Rustup environment can fail toolchain discovery rather than falsely pass. The new Windows source has not yet run in hosted CI. Hosted coverage reuse retains the existing same-job trusted-producer boundary, not authentication against coordinated rewriting of stdout/formal/orchestration; uncertain Cargo target/config/runner equivalence falls back to real execution. Future runtime benefit is conditional and unproven until the new CI. No old CI11 receipt is rebound to this Contract/source.",
+  "recordedAt": "2026-10-29T00:08:42Z",
+  "receiptDigest": "sha256:ead87be89ff9052fe4a2c486db4d856bb250c1ce9cc13e4f94fce579675ed818"
+}

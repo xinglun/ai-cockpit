@@ -531,20 +531,53 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+      "reason": "Apply the genuine owner approvals at 2026-10-28 18:20 UTC Sentinel_02da803127148191a45b65260ee84db5 and 18:25 UTC Sentinel_1bb483c627d48191afd80c170752e482. Consolidate the five-field phase clarification: actual pre-merge provider/task-policy review, followed by mandatory supported post-archive native resourceContext/finalize/finalize-verify and separate real close decision. Correct erroneous test references and explicitly plan the previously approved real verification supplements in the five existing scoped files; planned tests are not claimed implemented or passed. Add exactly nineteen full-WI-ID native output persistence paths/patterns and the observer regression source file. The observer fixture may gain only a legal metadata lib target while preserving all assertions. The nineteen native paths authorize genuine Runtime-generated creation/append/archive migration and Git persistence only, never hand editing history, new lifecycle/provider/deletion rights or premature close. Keep protected resourceContext untouched, all scenario required/status/evidence fields, all checks/assertions, whole caller/authoritySource, task actions/target/expiry, 900-second local-item cap, existing protected execution/resource limits and total fifteen hosted CI cap (eleven used, not reset). Preserve every prior failed/stale/unsupported attempt and all twenty-eight frozen inherited blobs/modes. No workflow command addition, release/production operation, Runtime switch, cache deletion, test execution, Git commit/push or human confirm_review is performed or implied by this prepare step. Adding later cfg(test) source to repository/src/lib.rs changes raw analysis identity and needs one later same-source isolated candidate and a separate exact Runtime approval; do not edit digest algorithms or borrow old receipts.",
+      "recorded": true,
+      "recordedAt": "2026-10-28T18:54:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:909582b54f9bbe1ea9cf64cad0f6179c1383cdcd98b5a41a27df2bdf606543eb",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+    "contractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
-    "reason": "Record the real owner sequence 18 exact confirm_review in conversation Sentinel_70a29707d3008191b8f3486a97fdee5d at 2026-10-28 14:55 UTC, received with the parent transcript. This confirms only the two named coverage script paths and their exact Contract/preflight/snapshot/approved 87d3 isolated Runtime binding. Complete-package coverage, warning capture, receipt identity and provenance, the total hosted CI cap of fifteen with ten already-used attempts, and all existing restrictions remain. It does not turn stale material or verification into passing evidence and does not authorize a new Runtime, cache deletion, release or production action.",
-    "recordedAt": "2026-10-28T14:55:00Z",
+    "preflightDecisionDigest": "sha256:0bfbf0b05d11a8420150ba3d88c7619d073724996bb61a20b2823fccc77215db",
+    "reason": "Record the real owner sequence19 exact confirm_review in conversation Sentinel_daf59ae3aa0c81918ccdf9223278a0d2 at 2026-10-28 19:50 UTC, received in the trusted parent transcript. Bind only Contract946a70de, current preflight0bfbf0b0, snapshot909582b5 and approved isolated Runtime87d3. Scope covers the five-field phase clarification, honest verification-plan corrections and five existing-file real verification supplements, nineteen WI-only native-output Git persistence paths and exact observer-fixture source path. Preserve required scenarios, assertions, protected resourceContext, whole caller, all history, frozen28 and fifteen total hosted runs with eleven used. This decision is not a claim of verified scenarios or fresh material/full-suite results and does not authorize a Runtime switch, cache deletion, release or premature close.",
+    "recordedAt": "2026-10-28T19:50:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
+    "repositorySnapshotDigest": "sha256:909582b54f9bbe1ea9cf64cad0f6179c1383cdcd98b5a41a27df2bdf606543eb",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -563,10 +596,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:665beda3178be9ca2a1b3f1a71000110c47a9e8a88300b7dd932041dc3496b4b",
-    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9.json",
-    "receiptDigest": "sha256:aac3ac2887dcd9e98fa221df6fded300f610a3d9f4233bb8007efc4d8e81f9c2",
-    "requestDigest": "sha256:f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9"
+    "digest": "sha256:4655eb63ae87774c2eecc7b4c2d39c12672b660aa3c4b2b0c31c929b1903dca9",
+    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742.json",
+    "receiptDigest": "sha256:ead87be89ff9052fe4a2c486db4d856bb250c1ce9cc13e4f94fce579675ed818",
+    "requestDigest": "sha256:9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742"
   },
   "materialReviewReceiptHistory": [
     {
@@ -610,15 +643,21 @@
       "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605.json",
       "receiptDigest": "sha256:f1783e69a0a3170c09c1d722f6baedf625b378086655b0b9902df4e8c68f5355",
       "requestDigest": "sha256:d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605"
+    },
+    {
+      "digest": "sha256:665beda3178be9ca2a1b3f1a71000110c47a9e8a88300b7dd932041dc3496b4b",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9.json",
+      "receiptDigest": "sha256:aac3ac2887dcd9e98fa221df6fded300f610a3d9f4233bb8007efc4d8e81f9c2",
+      "requestDigest": "sha256:f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9"
     }
   ],
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-28T16:39:52Z",
-  "preflightContractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
-  "preflightDecisionDigest": "sha256:0bfbf0b05d11a8420150ba3d88c7619d073724996bb61a20b2823fccc77215db",
-  "preflightRepositorySnapshotDigest": "sha256:909582b54f9bbe1ea9cf64cad0f6179c1383cdcd98b5a41a27df2bdf606543eb",
+  "preflightAt": "2026-10-29T00:05:16Z",
+  "preflightContractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+  "preflightDecisionDigest": "sha256:d19ef3dcfdc4736760cd2f24f03dcf78bcbc873be87ff5c19203b384e6f00cce",
+  "preflightRepositorySnapshotDigest": "sha256:0d6c9bc15562848cfd107ca45771eeeff040b1ad4ef71af46d95fc07b0151435",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -916,7 +955,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-28T14:56:28.747547914+00:00",
+  "updatedAt": "2026-10-28T19:51:39.992849551+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -924,7 +963,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+    "contractHash": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -939,7 +978,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-28T14:48:30Z"
+    "recordedAt": "2026-10-28T18:54:27Z"
   },
   "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"

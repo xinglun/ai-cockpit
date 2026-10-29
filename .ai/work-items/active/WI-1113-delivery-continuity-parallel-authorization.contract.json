@@ -16,11 +16,11 @@
     "Provide equivalent CLI and MCP payload validation and explanations, plus English, Japanese, and Simplified Chinese documentation.",
     "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at fifteen total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved.",
     "Do not edit workflow definitions except add the explicit caller-file argument to the existing hosted Work Item verification invocation in .github/workflows/ci.yml. The caller input must contain exactly schemaVersion=1, actor=agent:codex, the Contract-bound authoritySource, and assurance=self_declared; pass it only to preflight and verify. Missing or mismatched caller data fails closed. Do not change workflow permissions (retain contents: read), triggers, jobs, or other workflow steps; do not weaken tests, normalize protected evidence, publish secrets or unrelated personal data, release, enable production, replace the fixed Runtime, or record native close without its own exact confirmation.",
-    "Bind taskAuthorization.publicTarget and the eventual GitHub PR base to main in xinglun/ai-cockpit. After the actual PR exists, bind its exact URL, head branch codex/wi-1113-delivery-continuity-parallel-authorization, head revision, base main/revision, and native resourceContext. Keep the active Contract.baseRevision, current provider main comparison base, PR-tested merge revision, and final merge commit as distinct identities; the TaskAuthorizationPolicy does not bind the head branch.",
+    "Before merge, bind taskAuthorization.publicTarget to xinglun/ai-cockpit/main and record a real provider observation of the exact WI-1113 PR number and URL, head branch codex/wi-1113-delivery-continuity-parallel-authorization and head revision, and base main/revision. Compare the actual provider identity with the current native task policy. Keep Contract.baseRevision, provider comparison base, PR-tested merge revision, and final merge commit distinct; TaskAuthorizationPolicy does not bind the head branch. This pre-merge review does not claim a native resourceContext binding. Preserve the mandatory post-archive binding and finalization obligations in AC20; no predecessor resource or authority is transferred.",
     "Keep predecessor recovery identity and the active Contract baseline as distinct facts. The fixed Runtime's normal staged activation may set Contract.baseRevision from the discovered repository default; read back that native value and preserve predecessor HEAD 5a942f93acaf0a514a291e39674465feddfa69e7, Contract.baseRevision, provider comparison base, PR-tested merge revision, and final merge commit as separate identities. Do not force them equal or change the remote default.",
     "Preserve PR #1074 (WI-1111 to main) and PR #1075 (WI-1112 to WI-1111) without retargeting or closing them. A WI-1113 PR directly to main contains the full inherited WI-1111, WI-1112, and WI-1113 cumulative diff; review its complete contents and provenance and do not describe it as WI-1113-only. Keep the new PR draft while required checks and review are pending. Do not require #1075 to merge first. Any merge remains subject to current checks, review, and native/provider admission.",
     "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the fifteen-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision.",
-    "For pre-merge evidence, bind the actual provider PR number, URL, head branch/revision, base branch/revision and native resourceContext to the WI-1113 Work Item. Treat the Contract baseline, provider comparison base, PR-tested merge revision and final merge commit as separate identities and preserve each exact value.",
+    "Pre-merge evidence must establish the actual provider PR number, URL, exact head branch/revision and base branch/revision against the current WI-1113 task policy. After finish and archive, use the supported archived finalize-plan operation to append the native resourceContext for the same reviewed PR, branch, worktree, base and provider, bound to the exact archived Contract and archive manifest. Before finalize-verify and close, require this real native binding, the exact merge and main-push observations, and a valid finalization receipt satisfying existing cleanup postconditions. Missing, stale, foreign or conflicting evidence leaves delivery pending. Neither CI success nor archive satisfies these post-archive obligations, and no new provider, deletion, release or production permission is granted.",
     "The 28 inherited source paths added by amendment wi1113-frozen-inherited-delivery-and-material-receipts-20261028 are frozen cumulative-delivery material from commit 5a942f93acaf0a514a291e39674465feddfa69e7. Deliver each exact Git blob and file mode from that commit; before each final candidate publication compare every named path and stop on any content or mode deviation. This inclusion grants no new edits to those paths. Inherited .github/workflows/release.yml grants no release, manual workflow dispatch, production enablement, or permission changes. The WI-specific material-review directory permits only genuine immutable receipts for WI-1113, preserving every prior receipt."
   ],
   "adoptionBootstrapPaths": [],
@@ -229,7 +229,7 @@
       "required": true,
       "scenario": "windows_local_clone_spaces",
       "status": "unverified",
-      "verificationPlan": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
+      "verificationPlan": "Implement the planned new private regression tests::local_shared_clone_from_spaced_source_preserves_isolation in crates/cockpit-repository/src/lib.rs, then run cargo test --locked -p cockpit-repository --lib tests::local_shared_clone_from_spaced_source_preserves_isolation -- --exact --test-threads=1. Initialize a real source Git repository in a path containing spaces; use the existing local clone helper and prove --shared object alternates plus --no-checkout tracked-file absence and readable HEAD blobs. The existing Windows repository-library target must execute it; Linux evidence alone is not Windows observation."
     },
     {
       "evidence": [],
@@ -265,7 +265,7 @@
       "required": true,
       "scenario": "continuity_projection_valid_successor",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_marks_replaced_predecessor_and_active_successor -- --exact --test-threads=1; assert validated WI-1112 replaced/not_verified lineage is shown separately from active WI-1113 and no delivery completion is inferred."
+      "verificationPlan": "Implement the planned regression continuity_projection_marks_replaced_predecessor_and_active_successor in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. Use real native recovery/retirement/activation artifacts to prove replaced/not_verified predecessor facts, active successor identity, current Runtime nextAction membership in safeActions, byte-preserved retirement evidence and no inferred delivery completion. This name is planned, not an existing passed test."
     },
     {
       "evidence": [],
@@ -274,7 +274,7 @@
       "required": true,
       "scenario": "continuity_projection_invalid_lineage",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_rejects_missing_foreign_or_inconsistent_lineage -- --exact --test-threads=1; cover absent, malformed, foreign, and mismatched repository/predecessor/receipt/archive/successor bindings."
+      "verificationPlan": "Implement the planned regression continuity_projection_rejects_missing_foreign_or_inconsistent_lineage in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. On a canonical private native successor fixture independently cover absent, malformed, foreign and mismatched repository/predecessor/receipt/archive/successor bindings; assert real reader refusal or Unknown and no trusted continuity/action. Restore and verify exact baseline bytes and a positive control per case; never manufacture accepted provider evidence."
     },
     {
       "evidence": [],
@@ -283,7 +283,7 @@
       "required": true,
       "scenario": "archive_not_delivery_completion",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
+      "verificationPlan": "Implement the planned regression continuity_projection_keeps_archive_and_provider_delivery_state_separate in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. Use real archived native artifacts and actual reader inputs for missing, stale, failed and pending provider facts; prove local archive does not imply delivered/closed and preserve original archive bytes. This is a planned supplement, not an assertion that all variants have passed."
     },
     {
       "evidence": [],
@@ -301,7 +301,7 @@
       "required": true,
       "scenario": "material_delta_invalidates_context",
       "status": "unverified",
-      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
+      "verificationPlan": "Retain outcome_report::real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority and implement material_reference_identity_delta_matrix_never_carries_review_authority in crates/cockpit-repository/tests/material_review.rs. From a real Current baseline account separately for path, blob, hunk, cause, scope, Contract, profile, policy, scanner and Finding changes. Use real native producer mutations where available and identify any strict typed synthetic-request negatives honestly; assert old receipt/request authority never carries over and Finding remains unreviewable. Run the complete affected targets; do not relabel synthetic scanner identities as canonical producer evidence."
     },
     {
       "evidence": [],
@@ -328,7 +328,7 @@
       "required": true,
       "scenario": "material_transition_new_risk_stays_blocked",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
+      "verificationPlan": "Run the complete cockpit-repository material_review target including the existing profile_transition_never_discharges_a_new_canonical_finding, profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause and profile_transition_does_not_cover_a_different_material_path tests. Preserve each actual cause/path/hunk/Finding rejection and immutable prior evidence; no nonexistent umbrella test is evidence."
     },
     {
       "evidence": [],
@@ -346,7 +346,7 @@
       "required": true,
       "scenario": "batch_manifest_exact_members",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target including authorization_manifest_binds_explicit_members_and_is_order_independent, authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants and authorization_manifest_rejects_foreign_members_actions_checks_and_expiry. Review the exact members and repository/WI/Contract/snapshot/scope/action/target/budget/actor/expiry bindings; deterministic equality never adds a member or permission."
     },
     {
       "evidence": [],
@@ -355,7 +355,7 @@
       "required": true,
       "scenario": "per_work_item_grants_independent",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target, including parallel_batch_members_keep_independent_grants_and_partial_ledgers, an_expired_reviewed_grant_cannot_authorize_future_work and the manifest foreign/action/check/expiry rejection matrix. Verify each explicitly declared member retains its own grant and durable quota/result ledger when another member is denied, expired or revoked. These reservation tests alone do not prove overlapping command execution; that is scenario17."
     },
     {
       "evidence": [],
@@ -373,7 +373,7 @@
       "required": true,
       "scenario": "parallel_distinct_work_items_partial_results",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
+      "verificationPlan": "Implement the planned regression distinct_members_run_concurrently_and_keep_partial_results in crates/cockpit-repository/tests/lifecycle_concurrency.rs. Use two owned OS worker processes, distinct real native member grants and existing run_repository_verification_with_task_authorization plus the supported reservation/outcome APIs. Real declared leaf commands write started markers before a release barrier; prove overlapping execution with distinct PIDs, one actual nonzero and one zero returned exit record, independent results and quota accounting. Wait every owned process with bounded panic/timeout cleanup. If current entrypoints cannot safely bind this evidence, retain the actual refusal and report the gap; do not invent an executor or substitute caller-claimed outcomes. Run the complete affected target within existing resource limits."
     },
     {
       "evidence": [],
@@ -382,7 +382,7 @@
       "required": true,
       "scenario": "bounded_retry_preserves_first_failure",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1 and the complete task_authorization target. This test exists in task_authorization, not recovery_decision; preserve bounded unchanged-check identity, all original failures and append-only attempts."
     },
     {
       "evidence": [],
@@ -391,7 +391,7 @@
       "required": true,
       "scenario": "unknown_outcome_no_resend",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1 and the complete task_authorization target. This test exists in task_authorization, not recovery_decision; unknown process/write outcomes must be inspected and may not authorize duplicate side effects."
     },
     {
       "evidence": [],
@@ -400,7 +400,7 @@
       "required": true,
       "scenario": "expiry_and_termination",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target, including an_expired_reviewed_grant_cannot_authorize_future_work, withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion, termination_cannot_smuggle_an_unrelated_governance_write and parallel_batch_members_keep_independent_grants_and_partial_ledgers. Inspect actual append-only termination/expiry and exact-member identity; a conflicting completed request must remain rejected. Record real completed-grant evidence only at its supported delivery boundary, not as a substitute for business completion or another member termination."
     },
     {
       "evidence": [],
@@ -418,16 +418,16 @@
       "required": true,
       "scenario": "pr_resource_not_transferred",
       "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision successor_does_not_transfer_predecessor_pr_or_branch_resource -- --exact --test-threads=1; assert predecessor PR/branch remain bound to their original Work Item."
+      "verificationPlan": "Implement the planned regression successor_does_not_transfer_predecessor_pr_or_branch_resource in crates/cockpit-repository/tests/recovery_decision.rs. Use supported native predecessor context setup before verification and normal recovery/start with no explicit successor resource override; prove original predecessor context/receipt byte identity and no implicit successor PR/branch/resource/authority inheritance. Pair with genuine read-only provider observations of #1074, #1075 and the current PR; do not mutate provider resources or claim a nonexistent existing test."
     },
     {
       "evidence": [],
-      "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
-      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+      "expected": "Pre-merge, taskAuthorization.publicTarget and the actual provider PR identify xinglun/ai-cockpit and base main; the exact head branch/revision identifies WI-1113. Contract.baseRevision, provider comparison base, tested PR merge revision and final merge commit remain distinct facts. Verify this policy/provider review using real observations; do not claim that an archived native resourceContext receipt already exists. The native binding and finalization remain mandatory at their supported post-archive phase under AC20.",
+      "expectedOutcome": "Pre-merge, taskAuthorization.publicTarget and the actual provider PR identify xinglun/ai-cockpit and base main; the exact head branch/revision identifies WI-1113. Contract.baseRevision, provider comparison base, tested PR merge revision and final merge commit remain distinct facts. Verify this policy/provider review using real observations; do not claim that an archived native resourceContext receipt already exists. The native binding and finalization remain mandatory at their supported post-archive phase under AC20.",
       "required": true,
       "scenario": "pr_policy_and_provider_target_alignment",
       "status": "unverified",
-      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
+      "verificationPlan": "Use the existing complete task_authorization CI target, current read-only native task-authorization assessment, and actual provider PR observations to compare repository, PR number/URL, exact head branch/SHA, base main/SHA, and Contract baseline separately. Mark this pre-merge scenario verified only after those observations are genuinely reviewed. Do not require or fabricate a pre-archive native resourceContext receipt. After archive, fulfill AC20 with the supported native finalize-plan binding and actual finalize/finalize-verify evidence before close."
     },
     {
       "evidence": [],
@@ -436,7 +436,7 @@
       "required": true,
       "scenario": "stacked_pr_overlap_is_visible",
       "status": "unverified",
-      "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
+      "verificationPlan": "Review the actual cumulative Git/provider comparison against main, tracing inherited WI-1111/WI-1112 and WI-1113 paths and exact commit/blob provenance while preserving #1074 and #1075 unchanged. Use the real recovery/resource-isolation fixture in scenario22 for any private stacked-branch provenance assertion, not an unnamed purported existing regression. Keep predecessor HEAD, Contract baseline, provider comparison base, tested PR merge revision and final merge commit distinct. Validate the 28 frozen inherited path blobs and modes against 5a942f93acaf0a514a291e39674465feddfa69e7 before final publication; current required status remains unverified until evidence is actually reviewed."
     },
     {
       "evidence": [],
@@ -578,7 +578,27 @@
     "tests/ci/run_work_item_verification.sh",
     ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/**",
     "tests/ci/run_workspace_package_tests.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    "tests/ci/workspace_package_coverage_test.sh",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.task-report.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.task-report.md",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.outcome.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.events.jsonl",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.contract.json",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.summary.json",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.task-report.json",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.task-report.md",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.outcome.json",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.events.jsonl",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.archive.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.resource-context.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.finalize.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.close.json",
+    ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.finalize.*.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.outcome.*.json",
+    ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.events.*.jsonl",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.outcome.*.json",
+    ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.events.*.jsonl",
+    "tests/ci/process_observer_test_runner_test.sh"
   ],
   "sources": [
     {
