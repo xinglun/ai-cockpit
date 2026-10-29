@@ -26,7 +26,7 @@ lastVerifiedBy: WI-1113-delivery-continuity-parallel-authorization
 
 ## 验证计划
 
-Contract 声明 25 个必需场景和 19 条验证命令：14 个 workspace 包各自串行运行 all-targets 测试，并分别执行严格 Clippy、route/resolver、format 和 diff 检查。覆盖 Windows 路径和字节完整性、有效/无效 successor lineage、归档与交付状态区分、精确材料引用及差异、append-only 迁移负例、修约前 lint、明确 batch 成员及独立授权、原子额度、有界重试与执行结果不确定、中间结果、CLI/MCP parity，以及 scope/target/expiry。Runtime 记录真实证据前，所有场景均为 `unverified`。hosted CI run 总计最多 15 次，保留已使用的 7 次，自动触发、入口失败、rerun 和合入后的 main push run 都计入；每个本地检查最多 900 秒、单 worker，同一未变化检查最多追加尝试 2 次。
+Contract 声明 25 个必需场景和 19 条验证命令：14 个 workspace 包各自串行运行 all-targets 测试，并分别执行严格 Clippy、route/resolver、format 和 diff 检查。覆盖 Windows 路径和字节完整性、有效/无效 successor lineage、归档与交付状态区分、精确材料引用及差异、append-only 迁移负例、修约前 lint、明确 batch 成员及独立授权、原子额度、有界重试与执行结果不确定、中间结果、CLI/MCP parity，以及 scope/target/expiry。Runtime 记录真实证据前，所有场景均为 `unverified`。hosted CI run 总计最多 20 次，保留已使用的 12 次，自动触发、入口失败、rerun 和合入后的 main push run 都计入；每个本地检查最多 900 秒、单 worker，同一未变化检查最多追加尝试 2 次。
 
 
 ## PR 比较与基线

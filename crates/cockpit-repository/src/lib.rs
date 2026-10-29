@@ -14632,10 +14632,9 @@ mod tests {
     #[test]
     fn local_shared_clone_from_spaced_source_preserves_isolation() {
         let directory = tempfile::tempdir().expect("temporary spaced source fixture");
-        let root = directory
-            .path()
-            .canonicalize()
-            .expect("canonical fixture root");
+        // Git receives the original temporary path: canonicalize() would turn
+        // the Windows clone destination into an unsupported verbatim path.
+        let root = directory.path();
         let source = root.join("local source with spaces");
         fs::create_dir(&source).expect("create spaced source path");
         let git = |root: &Path, args: &[&str]| {
