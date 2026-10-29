@@ -9222,6 +9222,174 @@ thread_local! {
         const { std::cell::RefCell::new(None) };
 }
 
+/// A diagnostic boundary prepared from the current plan before dispatch.
+/// An interrupted run is never a complete attempt, a formal receipt or reuse
+/// authority. Its completed receipts are actual observations; failed workers
+/// remain execution-unknown because an error can precede or follow spawning.
+pub struct VerificationRunCheckpoint {
+    checkpoint: VerificationExecutionCheckpoint,
+    node_ids: BTreeSet<String>,
+}
+
+impl VerificationRunCheckpoint {
+    pub fn prepare(
+        root: &Path,
+        requests: &[RepositoryVerificationRequest],
+        planned_nodes: &[serde_json::Value],
+        snapshot: &RepositorySnapshot,
+        runtime: &RuntimeContext,
+    ) -> Result<Self, ObserverError> {
+        let invalid = || ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "verification run checkpoint plan identity mismatch".into(),
+        };
+        let wi = requests
+            .first()
+            .and_then(|request| request.work_item_id.as_deref())
+            .ok_or_else(invalid)?;
+        validate_work_item_id(wi)?;
+        let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root)
+            || requests.len() != planned_nodes.len()
+        {
+            return Err(invalid());
+        }
+        let source_digest = snapshot_digest(snapshot)?.to_string();
+        let repository = repository_id(&root).to_string();
+        let runtime_digest = runtime.runtime_digest.to_string();
+        let mut node_ids = BTreeSet::new();
+        let mut commands = Vec::with_capacity(requests.len());
+        for (request, node) in requests.iter().zip(planned_nodes) {
+            let binding = &node["identityBinding"];
+            let command_digest = binding["commandDigest"]
+                .as_str()
+                .filter(|value| valid_sha256_digest(value));
+            if request.work_item_id.as_deref() != Some(wi)
+                || request.runtime_digest != runtime_digest
+                || request.node_id.is_empty()
+                || !node_ids.insert(request.node_id.clone())
+                || node["nodeId"] != request.node_id
+                || node["program"] != request.program
+                || node["args"] != serde_json::json!(request.args)
+                || node["timeoutSeconds"] != effective_verification_timeout_seconds(request)
+                || binding["repositoryId"] != repository
+                || binding["repositorySnapshotDigest"] != source_digest
+                || binding["runtimeDigest"] != runtime_digest
+                || command_digest.is_none()
+            {
+                return Err(invalid());
+            }
+            // Retain the already-produced native plan, avoiding a second Git
+            // observation or re-planning pass over a large execution inventory.
+            commands.push(serde_json::json!({
+                "nodeId": request.node_id, "program": request.program, "args": request.args,
+                "scope": request.scope, "stage": request.stage, "runner": request.runner,
+                "runtimeDigest": request.runtime_digest, "baseCommit": request.base_commit,
+                "timeoutSeconds": effective_verification_timeout_seconds(request),
+                "commandDigest": command_digest, "plannedNode": node,
+            }));
+        }
+        let contract_path = work_item_artifact_path(&root, wi, "contract.json")?;
+        let binding = serde_json::json!({
+            "protocolVersion": 1, "schemaVersion": 1, "kind": "verification_run_checkpoint",
+            "workItemId": wi, "repositoryId": repository,
+            "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime_digest,
+            "contractDigest": contract_digest(&contract_path)?,
+            "contractExecutionScopeDigest": contract_execution_scope_digest(&contract_path)?,
+            "repositorySnapshotDigest": source_digest,
+            "postExecutionIdentityValidated": false, "commands": commands,
+        });
+        let checkpoint = VerificationExecutionCheckpoint::open(&root, binding)?;
+        let mut prepared = checkpoint.binding.clone();
+        prepared["state"] = serde_json::json!("run_prepared");
+        checkpoint.publish(prepared)?;
+        Ok(Self {
+            checkpoint,
+            node_ids,
+        })
+    }
+
+    /// Append a failure fact through the pinned destination without consulting
+    /// Git/history again. Partition every planned node exactly once; uncertainty
+    /// is not inferred to mean an unstarted or successful process.
+    pub fn record_interrupted(
+        &self,
+        completed: &[&cockpit_verification::VerificationReceipt],
+        unavailable: &[(String, String)],
+        unstarted: &[String],
+        phase: &str,
+        diagnostic: &str,
+    ) -> Result<serde_json::Value, ObserverError> {
+        let value =
+            self.interruption_facts(completed, unavailable, unstarted, phase, diagnostic)?;
+        self.checkpoint.publish(value)
+    }
+
+    /// Assemble the captured plan and exact node partition without filesystem
+    /// access. Returning facts does not claim they were published or validated.
+    pub fn interruption_facts(
+        &self,
+        completed: &[&cockpit_verification::VerificationReceipt],
+        unavailable: &[(String, String)],
+        unstarted: &[String],
+        phase: &str,
+        diagnostic: &str,
+    ) -> Result<serde_json::Value, ObserverError> {
+        let invalid = || ObserverError::State {
+            path: self.checkpoint.root.join(".ai/evidence"),
+            message: "interrupted verification node inventory is incomplete or contradictory"
+                .into(),
+        };
+        let mut observed = BTreeSet::new();
+        let mut completed_nodes = Vec::new();
+        for receipt in completed {
+            if receipt.results.is_empty() {
+                return Err(invalid());
+            }
+            for result in &receipt.results {
+                if !observed.insert(result.node_id.clone()) {
+                    return Err(invalid());
+                }
+                completed_nodes.push(result.node_id.clone());
+            }
+            if receipt.execution_records.iter().any(|record| {
+                !receipt
+                    .results
+                    .iter()
+                    .any(|result| result.node_id == record.node_id)
+            }) {
+                return Err(invalid());
+            }
+        }
+        for node in unavailable.iter().map(|(node, _)| node).chain(unstarted) {
+            if !observed.insert(node.clone()) {
+                return Err(invalid());
+            }
+        }
+        if observed != self.node_ids || phase.trim().is_empty() || diagnostic.trim().is_empty() {
+            return Err(invalid());
+        }
+        let mut value = self.checkpoint.binding.clone();
+        value["state"] = serde_json::json!("interrupted");
+        value["completedNodes"] = serde_json::json!(completed_nodes);
+        value["completedReceipts"] = serde_json::json!(completed);
+        value["unavailableNodes"] = serde_json::json!(unavailable.iter().map(|(node, message)| serde_json::json!({
+            "nodeId": node, "executionState": "unknown",
+            "diagnostic": truncate_diagnostic_text(message.clone(), MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES),
+        })).collect::<Vec<_>>());
+        value["unstartedNodes"] = serde_json::json!(unstarted);
+        value["diagnostic"] = serde_json::json!({
+            "phase": phase,
+            "message": truncate_diagnostic_text(diagnostic.into(), MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES),
+        });
+        value["passed"] = serde_json::json!(false);
+        Ok(value)
+    }
+}
+
 /// Execution facts captured before any post-command Git/history observation.
 /// This is deliberately a different kind from a reusable verification attempt:
 /// an exit status alone has not passed post-execution identity validation.
@@ -9257,18 +9425,6 @@ impl VerificationExecutionCheckpoint {
                 message: "execution checkpoint identity mismatch".into(),
             });
         }
-        let pinned_root = super::legacy_closeout_source::PinnedRoot::open(root)?;
-        let root_dir = pinned_root.directory()?;
-        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
-            &root_dir,
-            ".ai",
-            &root.join(".ai"),
-        )?;
-        let evidence = super::evidence_store::create_and_open_cap_directory(
-            &ai,
-            "evidence",
-            &root.join(".ai/evidence"),
-        )?;
         let contract_path = work_item_artifact_path(root, wi, "contract.json")?;
         let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
         let execution_id = cockpit_protocol::digest_json(&serde_json::json!({
@@ -9305,14 +9461,30 @@ impl VerificationExecutionCheckpoint {
                 "commandDigest": command_digest,
             }],
         });
-        let checkpoint = Self {
+        let checkpoint = Self::open(root, binding)?;
+        checkpoint.persist("execution_prepared", None, None)?;
+        Ok(checkpoint)
+    }
+
+    fn open(root: &Path, binding: serde_json::Value) -> Result<Self, ObserverError> {
+        let pinned_root = super::legacy_closeout_source::PinnedRoot::open(root)?;
+        let root_dir = pinned_root.directory()?;
+        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+            &root_dir,
+            ".ai",
+            &root.join(".ai"),
+        )?;
+        let evidence = super::evidence_store::create_and_open_cap_directory(
+            &ai,
+            "evidence",
+            &root.join(".ai/evidence"),
+        )?;
+        Ok(Self {
             root: root.into(),
             pinned_root,
             evidence,
             binding,
-        };
-        checkpoint.persist("execution_prepared", None, None)?;
-        Ok(checkpoint)
+        })
     }
 
     pub(crate) fn observe(
@@ -9322,21 +9494,30 @@ impl VerificationExecutionCheckpoint {
             cockpit_verification::ExecutionError,
         >,
     ) -> Result<(), ObserverError> {
-        match result {
+        let value = match result {
             Ok(receipt) => {
                 let receipt =
                     serde_json::to_value(receipt).map_err(|error| ObserverError::State {
                         path: self.root.clone(),
                         message: error.to_string(),
                     })?;
-                self.persist("node_execution_completed", Some(receipt), None)
+                self.observation("node_execution_completed", Some(receipt), None)
             }
-            Err(error) => self.persist(
+            Err(error) => self.observation(
                 "execution_outcome_unavailable",
                 None,
                 Some(error.to_string()),
             ),
-        }
+        };
+        // Preserve the already bounded executor result across a write failure.
+        // Display only the error; callers must explicitly expose these facts as
+        // unvalidated observations, never as a successful repository run.
+        self.publish(value.clone()).map(|_| ()).map_err(|source| {
+            ObserverError::VerificationCheckpointPublication {
+                source: Box::new(source),
+                observation: Box::new(value),
+            }
+        })
     }
 
     fn require_current_destination(&self) -> Result<(), ObserverError> {
@@ -9369,10 +9550,19 @@ impl VerificationExecutionCheckpoint {
         receipt: Option<serde_json::Value>,
         diagnostic: Option<String>,
     ) -> Result<(), ObserverError> {
+        self.publish(self.observation(state, receipt, diagnostic))
+            .map(|_| ())
+    }
+
+    fn observation(
+        &self,
+        state: &str,
+        receipt: Option<serde_json::Value>,
+        diagnostic: Option<String>,
+    ) -> serde_json::Value {
         // No Git discovery, snapshot refresh, command re-planning or history
         // read is allowed here: those are precisely the operations that can
         // fail after the executor has already returned actual child output.
-        self.require_current_destination()?;
         let mut value = self.binding.clone();
         value["state"] = serde_json::json!(state);
         value["createdAt"] = serde_json::json!(
@@ -9400,6 +9590,15 @@ impl VerificationExecutionCheckpoint {
                 "message": truncate_diagnostic_text(diagnostic, MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES),
             });
         }
+        value
+    }
+
+    fn publish(&self, mut value: serde_json::Value) -> Result<serde_json::Value, ObserverError> {
+        self.require_current_destination()?;
+        value["createdAt"] = serde_json::json!(
+            chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos, true)
+        );
+        value["passed"] = serde_json::json!(false);
         let digest =
             cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
                 path: self.root.clone(),
@@ -9442,7 +9641,7 @@ impl VerificationExecutionCheckpoint {
         // rename. Report success only if the published, synced fact remains
         // reachable through the original root and evidence-directory identity.
         self.require_current_destination()?;
-        Ok(())
+        Ok(value)
     }
 }
 
@@ -9678,7 +9877,7 @@ mod execution_checkpoint_publication_tests {
                 super::super::evidence_store::BEFORE_IMMUTABLE_DIRECTORY_SYNC.with_borrow_mut(
                     |pending| {
                         *pending = Some(Box::new(move || {
-                            fs::set_permissions(target, fs::Permissions::from_mode(0))
+                            fs::set_permissions(target, fs::Permissions::from_mode(0o0))
                                 .expect("deny sync setup")
                         }));
                     },
@@ -10699,6 +10898,20 @@ fn record_verification_internal(
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
     let prior_evidence_present = fs::symlink_metadata(&evidence_path).is_ok();
+    // Opt-in execution prerequisites are rechecked at publication, even if
+    // their files changed after spawning. Final acceptance remains pending;
+    // recording a source receipt does not satisfy a finish-only class.
+    let contract = read_contract(&active_contract)?;
+    if contract
+        .evidence_class_stages()
+        .map_err(|message| ObserverError::State {
+            path: active_contract.clone(),
+            message,
+        })?
+        .is_some()
+    {
+        super::require_verification_custom_evidence(&root, &contract, &summary)?;
+    }
     if !matches!(
         summary["state"].as_str(),
         Some("checkpointed" | "finish_ready")

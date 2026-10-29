@@ -388,6 +388,90 @@ jobs:
             --target-dir "$GITHUB_WORKSPACE/target/legacy-runtime" \
             -p cockpit-cli --bin ai-cockpit
           test -x "$GITHUB_WORKSPACE/target/legacy-runtime/release/ai-cockpit"
+      - name: Build pinned predecessor Runtime for evidence-stage compatibility
+        if: steps.quality_route.outputs.profile != 'light'
+        shell: bash
+        env:
+          STAGE_PREDECESSOR_COMMIT: dd2339bee3dc63e5ce7547d2aa950e315088b1fe
+          STAGE_PREDECESSOR_TREE: 4c59ecb41933be132cb2c887082d86eb17355169
+          STAGE_PREDECESSOR_LOCK: 76b02d3cf1e9d5944c8f62b142b0082f40f7493ce92d527bcee5de7ff66310d7
+        run: |
+          set -euo pipefail
+          stage_parent="$(mktemp -d "$RUNNER_TEMP/evidence-stage-predecessor.XXXXXX")"
+          stage_source="$stage_parent/source"
+          stage_root="$GITHUB_WORKSPACE/target/evidence-stage-predecessor"
+          cleanup_stage_source() {
+            status=$?
+            trap - EXIT
+            if [[ -d "$stage_source" ]]; then
+              git -c maintenance.autoDetach=false -c gc.autoDetach=false worktree remove --force "$stage_source" || status=1
+            fi
+            rmdir "$stage_parent" || status=1
+            exit "$status"
+          }
+          trap cleanup_stage_source EXIT
+          test ! -L "$stage_root"
+          mkdir -p "$stage_root"
+          test ! -e "$stage_root/ai-cockpit"
+          test ! -e "$stage_root/provenance.json"
+          git -c maintenance.autoDetach=false -c gc.autoDetach=false worktree add --detach "$stage_source" "$STAGE_PREDECESSOR_COMMIT"
+          test "$(git -C "$stage_source" rev-parse HEAD)" = "$STAGE_PREDECESSOR_COMMIT"
+          test "$(git -C "$stage_source" rev-parse 'HEAD^{tree}')" = "$STAGE_PREDECESSOR_TREE"
+          python3 - "$stage_source/Cargo.lock" "$STAGE_PREDECESSOR_LOCK" <<'PYLOCK'
+          import hashlib, sys
+          from pathlib import Path
+          if hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest() != sys.argv[2]:
+              raise SystemExit("predecessor lock identity mismatch")
+          PYLOCK
+          # Exactly one build. Consumer/self-tests never run Cargo or fetch assets.
+          # Reserve five seconds for GNU timeout's group kill within the 900s cap.
+          CARGO_BUILD_JOBS=1 CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_DEV_INCREMENTAL=false \
+            timeout --kill-after=5s 895s python3 tests/ci/run_no_warnings.py -- \
+            env -u CARGO_ENCODED_RUSTFLAGS cargo +1.98.1 build --locked --profile dev --target x86_64-unknown-linux-gnu \
+            --manifest-path "$stage_source/Cargo.toml" --target-dir "$stage_root/build" \
+            -p cockpit-cli --bin ai-cockpit -j1
+          python3 - "$stage_source" "$stage_root" <<'PYPROVENANCE'
+          import hashlib, json, os, subprocess, sys
+          from pathlib import Path
+          source, output = map(Path, sys.argv[1:])
+          def observed(*args):
+              return subprocess.check_output(args, text=True, timeout=20).strip()
+          commit = observed("git", "-C", str(source), "rev-parse", "HEAD")
+          tree = observed("git", "-C", str(source), "rev-parse", "HEAD^{tree}")
+          lock = hashlib.sha256((source / "Cargo.lock").read_bytes()).hexdigest()
+          if (commit, tree, lock) != tuple(os.environ[key] for key in (
+                  "STAGE_PREDECESSOR_COMMIT", "STAGE_PREDECESSOR_TREE", "STAGE_PREDECESSOR_LOCK")):
+              raise SystemExit("predecessor source changed during build")
+          if observed("git", "-C", str(source), "status", "--porcelain", "--untracked-files=all"):
+              raise SystemExit("predecessor source is dirty after build")
+          built = output / "build/x86_64-unknown-linux-gnu/debug/ai-cockpit"
+          if built.is_symlink() or not built.is_file():
+              raise SystemExit("regular predecessor build artifact required")
+          raw = built.read_bytes()
+          if not 0 < len(raw) <= 256 * 1024 * 1024:
+              raise SystemExit("bounded predecessor build artifact required")
+          artifact = output / "ai-cockpit"
+          with artifact.open("xb") as stream:
+              stream.write(raw)
+              stream.flush()
+              os.fsync(stream.fileno())
+          artifact.chmod(0o700)
+          version = observed(str(artifact), "--version")
+          if version != "ai-cockpit 1.0.1":
+              raise SystemExit("unexpected predecessor version")
+          value = {"schemaVersion": 1, "kind": "evidence_stage_predecessor",
+              "sourceCommit": commit, "sourceTree": tree, "cargoLockSha256": lock,
+              "toolchain": observed("rustc", "+1.98.1", "-vV"),
+              "build": {"profile": "dev", "debug": 0, "incremental": False, "jobs": 1,
+                  "target": "x86_64-unknown-linux-gnu", "rustflags": os.environ["RUSTFLAGS"],
+                  "rustdocflags": os.environ["RUSTDOCFLAGS"]},
+              "binary": {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "version": version}}
+          with (output / "provenance.json").open("x", encoding="utf-8") as stream:
+              json.dump(value, stream, indent=2, sort_keys=True)
+              stream.write("\n")
+              stream.flush()
+              os.fsync(stream.fileno())
+          PYPROVENANCE
       - name: run repository gates exactly once
         shell: bash
         env:

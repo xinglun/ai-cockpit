@@ -1344,6 +1344,14 @@ enum ActivationPathHistoryAnchor {
     NotIntroduced,
 }
 
+#[cfg(test)]
+thread_local! {
+    // One typed failure at the actual bounded-history result boundary. This
+    // cannot be selected by a production environment variable or caller.
+    static ACTIVATION_HISTORY_FAILURE: std::cell::RefCell<Option<cockpit_git::GitError>> =
+        const { std::cell::RefCell::new(None) };
+}
+
 fn activation_path_history_anchor(
     git: &cockpit_git::GitRepository,
     head: &str,
@@ -1351,7 +1359,14 @@ fn activation_path_history_anchor(
     literal_repo_path: &str,
     current_bytes: &[u8],
 ) -> Result<ActivationPathHistoryAnchor, ObserverError> {
-    match git.first_path_introduction_bounded(head, literal_repo_path) {
+    #[cfg(test)]
+    let introduction = match ACTIVATION_HISTORY_FAILURE.with_borrow_mut(Option::take) {
+        Some(error) => Err(error),
+        None => git.first_path_introduction_bounded(head, literal_repo_path),
+    };
+    #[cfg(not(test))]
+    let introduction = git.first_path_introduction_bounded(head, literal_repo_path);
+    match introduction {
         Ok(introduction) if introduction.bytes == current_bytes => {
             Ok(ActivationPathHistoryAnchor::Committed)
         }
@@ -3680,6 +3695,183 @@ mod tests {
             .expect("read the committed amendment history");
         super::validate_transition_chain(root, &id, &history, None)
             .expect("the recorded local owner can read its pending native start transaction");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn activation_history_timeout_before_spawn_retains_prior_execution_facts() {
+        use std::sync::{
+            Arc,
+            atomic::{AtomicUsize, Ordering},
+        };
+        let (directory, id) = portable_activation_transition_fixture();
+        let root = directory.path();
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"portable activation fixture"),
+        };
+        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+        let current = read_json(&contract_path);
+        crate::amend_work_item_contract_with_runtime(
+            root,
+            &id,
+            &json!({
+                "schemaVersion":1, "changeId":"history-timeout-task-policy",
+                "expectedContractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+                "reason":"isolated native authorization history failure regression",
+                "changes":[{"path":"/governanceProfile","operation":"set","value":{
+                    "taskAuthorization":{
+                        "schemaVersion":1,"agentActor":"agent:history-test",
+                        "authoritySource":"synthetic:history-timeout-test",
+                        "allowedActions":["checkpoint","run_preflight","run_verification"],
+                        "closeoutActions":[],"expiresAt":"2099-01-01T00:00:00Z","publicTarget":null
+                    }
+                }}]
+            }),
+            "",
+            &runtime,
+        )
+        .unwrap();
+        crate::preflight_work_item_with_runtime(root, &contract_path, &runtime).unwrap();
+        let current = read_json(&contract_path);
+        let summary = read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
+        crate::record_work_item_governance_controls_with_runtime(root, &id, &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":id,"repositoryId":crate::repository_id(root),
+            "contractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
+            "reason":"Synthetic isolated owner confirmation; no external human identity claim."
+        }}), &runtime).unwrap();
+        let caller = cockpit_protocol::TaskAuthorizationCaller {
+            schema_version: 1,
+            actor: "agent:history-test".into(),
+            authority_source: "synthetic:history-timeout-test".into(),
+            assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+        };
+        let command = crate::RepositoryVerificationRequest {
+            node_id: "first".into(),
+            program: "git".into(),
+            args: vec!["diff".into(), "--check".into()],
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some(id.clone()),
+            timeout_seconds: None,
+            policy: crate::RepositoryVerificationPolicy::NeverReuse,
+        };
+        let mut second = command.clone();
+        second.node_id = "second".into();
+        let snapshot = cockpit_git::GitRepository::discover(root)
+            .unwrap()
+            .snapshot()
+            .unwrap();
+        let requests = [command.clone(), second.clone()];
+        let plans = requests
+            .iter()
+            .map(|request| {
+                crate::plan_repository_verification_action(root, request, &snapshot, 1).unwrap()
+            })
+            .collect::<Vec<_>>();
+        let run_checkpoint =
+            crate::VerificationRunCheckpoint::prepare(root, &requests, &plans, &snapshot, &runtime)
+                .unwrap();
+        let first = crate::run_repository_verification_with_task_authorization(
+            root,
+            &command,
+            &runtime,
+            Some(&caller),
+            |_, _, _| Ok(()),
+        )
+        .expect("real authorized first child");
+        assert!(first.receipt.passed);
+        assert_eq!(first.receipt.nodes_executed, 1);
+        assert!(first.receipt.execution_records[0].spawned);
+        assert_eq!(first.receipt.execution_records[0].exit_code, Some(0));
+        let starts = Arc::new(AtomicUsize::new(0));
+        let observed = Arc::clone(&starts);
+        super::ACTIVATION_HISTORY_FAILURE.with_borrow_mut(|slot| {
+            *slot = Some(cockpit_git::GitError::CommandTimeout { timeout_ms: 9981 })
+        });
+        let error = crate::run_repository_verification_with_task_authorization(
+            root,
+            &second,
+            &runtime,
+            Some(&caller),
+            move |_, _, started| {
+                if started {
+                    observed.fetch_add(1, Ordering::SeqCst);
+                }
+                Ok(())
+            },
+        )
+        .expect_err("the real activation authorization path must reject a bounded-history timeout");
+        assert!(
+            super::ACTIVATION_HISTORY_FAILURE.with_borrow(|slot| slot.is_none()),
+            "fault must be consumed at the intended history boundary"
+        );
+        let diagnostic = error.to_string();
+        assert!(
+            diagnostic.contains("activation-transition/prepared.json"),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("cannot prove committed activation history"),
+            "{diagnostic}"
+        );
+        assert!(diagnostic.contains("9981ms"), "{diagnostic}");
+        assert_eq!(
+            starts.load(Ordering::SeqCst),
+            0,
+            "authorization failure must not start the second child"
+        );
+        let partial = run_checkpoint
+            .record_interrupted(
+                &[&first.receipt],
+                &[(second.node_id, diagnostic)],
+                &[],
+                "worker",
+                "bounded activation history lookup failed",
+            )
+            .unwrap();
+        assert_eq!(partial["passed"], false);
+        assert_eq!(partial["completedNodes"], json!(["first"]));
+        assert_eq!(partial["unavailableNodes"][0]["executionState"], "unknown");
+        let facts = fs::read_dir(root.join(".ai/evidence"))
+            .unwrap()
+            .filter_map(Result::ok)
+            .filter(|entry| {
+                entry
+                    .file_name()
+                    .to_string_lossy()
+                    .starts_with(&format!("{id}.verification-attempt."))
+            })
+            .map(|entry| read_json(entry.path()))
+            .collect::<Vec<_>>();
+        assert!(facts.iter().any(|fact| fact == &partial));
+        assert!(
+            facts
+                .iter()
+                .any(|fact| fact["state"] == "node_execution_completed"
+                    && fact["executionRecords"][0]["nodeId"] == "first")
+        );
+        assert!(
+            !facts
+                .iter()
+                .any(|fact| fact["commands"][0]["nodeId"] == "second"
+                    && fact["kind"] == "verification_execution_checkpoint"),
+            "second node never reached executor preparation"
+        );
+        assert!(
+            !root
+                .join(format!(".ai/evidence/{id}.verification.json"))
+                .exists()
+        );
     }
 
     #[test]

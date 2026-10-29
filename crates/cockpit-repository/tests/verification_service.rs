@@ -1124,3 +1124,690 @@ fn fresh_plan_with_persistent_executable_drift_executes_and_receipts_new_bytes()
     }
     fs::remove_dir_all(root).expect("cleanup repository");
 }
+
+mod evidence_stage_admission_tests {
+    use super::*;
+    use cockpit_core::Digest;
+    use cockpit_git::GitRepository;
+    use cockpit_protocol::{RuntimeContext, VerificationStage};
+    use cockpit_repository::{
+        WorkItemStartOptions, amend_work_item_contract_with_runtime,
+        archive_work_item_with_runtime, attach, checkpoint_work_item,
+        close_work_item_with_decision_and_runtime, finish_work_item_with_runtime,
+        preflight_work_item_with_runtime, record_verification_with_runtime,
+        record_work_item_governance_controls, repository_id, require_verification_preconditions,
+        start_work_item_with_options, validate_work_item_governance_controls_with_runtime,
+        work_item_status_snapshot_with_runtime,
+    };
+    use serde_json::{Value, json};
+
+    const ID: &str = "WI-EVIDENCE-STAGES";
+
+    struct Fixture {
+        root: PathBuf,
+        runtime: RuntimeContext,
+        contract: PathBuf,
+        summary: PathBuf,
+    }
+
+    impl Drop for Fixture {
+        fn drop(&mut self) {
+            fs::remove_dir_all(&self.root).expect("remove isolated stage fixture");
+        }
+    }
+
+    fn read(path: &Path) -> Value {
+        serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
+    }
+
+    fn fixture(prerequisite: bool, opt_in: bool) -> Fixture {
+        fixture_with_command(prerequisite, opt_in, "git diff --check")
+    }
+
+    fn fixture_with_command(prerequisite: bool, opt_in: bool, command: &str) -> Fixture {
+        let root = fs::canonicalize(repository("evidence-stages")).unwrap();
+        // This fixture deliberately scopes "**", including documentation. Supply
+        // the real prearchive projection instead of bypassing that independent
+        // gate. These are planned paths, not completed lifecycle evidence.
+        fs::create_dir_all(root.join("docs/work-items")).unwrap();
+        fs::create_dir_all(root.join("docs/reference")).unwrap();
+        for suffix in ["", ".zh-CN", ".ja"] {
+            fs::write(
+                root.join(format!("docs/work-items/{ID}{suffix}.md")),
+                format!(
+                    "---\nstatus: in_progress\nworkItemId: {ID}\nlastVerifiedBy: {ID}\n---\n\n# Isolated stage fixture\n"
+                ),
+            )
+            .unwrap();
+            fs::write(
+                root.join(format!("docs/reference/reference-parity{suffix}.md")),
+                format!(
+                    "# Reference parity\n\n| {ID} | In progress | [Work Item](../work-items/{ID}{suffix}.md) | planned terminal lifecycle: archive `.ai/work-items/archive/{ID}.contract.json`; verification `.ai/evidence/{ID}.verification.json`; close `.ai/decisions/{ID}.close.json` |\n"
+                ),
+            )
+            .unwrap();
+        }
+        run_git(&root, &["add", "docs"]);
+        run_git(
+            &root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "stage fixture documentation baseline",
+            ],
+        );
+        attach(&root).unwrap();
+        // The service rejects even a lower explicit timeout without a finite
+        // policy ceiling. Authorize this small fixture's ten-second command.
+        authorize_timeout(&root, 10);
+        let runtime = RuntimeContext {
+            runtime_version: "stage-fixture".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"evidence-stage-fixture"),
+        };
+        let mut classes = vec!["verification".into(), "adopter".into()];
+        if prerequisite {
+            classes.push("inputs".into());
+        }
+        start_work_item_with_options(
+            &root,
+            ID,
+            "allow source validation before final adoption",
+            "preserve final evidence gates",
+            &["**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                risk: "low".into(),
+                acceptance_criteria: vec!["final adoption remains required".into()],
+                required_evidence_classes: classes,
+                verification_commands: vec![command.into()],
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let contract = root.join(format!(".ai/work-items/active/{ID}.contract.json"));
+        let summary = root.join(format!(".ai/work-items/active/{ID}.summary.json"));
+        if opt_in {
+            let before = read(&contract);
+            amend_work_item_contract_with_runtime(
+                &root,
+                ID,
+                &json!({
+                    "schemaVersion":1,"changeId":"staged-evidence-fixture",
+                    "expectedContractDigest":cockpit_protocol::digest_json(&before).unwrap(),
+                    "reason":"explicit final evidence boundary in isolated test fixture",
+                    "changes":[{"path":"/governanceProfile","operation":"set","value":{
+                        "evidenceClassStages":{"schemaVersion":1,"classes":[
+                            {"class":"adopter","requiredFrom":"finish"}
+                        ]}
+                    }}]
+                }),
+                "",
+                &runtime,
+            )
+            .unwrap();
+        }
+        record_work_item_governance_controls(
+            &root,
+            ID,
+            &json!({
+                "intentAlignment":{"state":"resolved","evidence":["tracked.txt"]}
+            }),
+        )
+        .unwrap();
+        Fixture {
+            root,
+            runtime,
+            contract,
+            summary,
+        }
+    }
+
+    fn enter(fixture: &Fixture) {
+        let decision =
+            preflight_work_item_with_runtime(&fixture.root, &fixture.contract, &fixture.runtime)
+                .unwrap();
+        assert_ne!(
+            decision.state,
+            cockpit_core::DecisionState::Red,
+            "{decision:?}"
+        );
+        let contract = read(&fixture.contract);
+        let summary = read(&fixture.summary);
+        record_work_item_governance_controls(&fixture.root, ID, &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":ID,"repositoryId":repository_id(&fixture.root).to_string(),
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":"2026-10-29T00:00:00Z","recordedBy":"human:test-fixture",
+            "reason":"isolated test owner explicitly accepts this exact stage policy"
+        }})).unwrap();
+        checkpoint_work_item(&fixture.root, ID).unwrap();
+    }
+
+    fn execute(fixture: &Fixture) -> cockpit_repository::RepositoryVerificationRun {
+        execute_args(fixture, &["diff", "--check"])
+    }
+
+    fn execute_args(
+        fixture: &Fixture,
+        args: &[&str],
+    ) -> cockpit_repository::RepositoryVerificationRun {
+        let snapshot = GitRepository::discover(&fixture.root)
+            .unwrap()
+            .snapshot()
+            .unwrap();
+        require_verification_preconditions(&fixture.root, ID, &fixture.runtime, &snapshot).unwrap();
+        let route = cockpit_repository::resolve_verification_route(
+            &fixture.root,
+            ID,
+            VerificationStage::Task,
+            "local",
+            &snapshot,
+        )
+        .unwrap();
+        let mut command = request(
+            "git",
+            args.iter().map(|arg| (*arg).into()).collect(),
+            RepositoryVerificationPolicy::NeverReuse,
+        );
+        command.work_item_id = Some(ID.into());
+        command.runtime_digest = fixture.runtime.runtime_digest.to_string();
+        command.timeout_seconds = Some(10);
+        command.base_commit = route.base_revision.clone();
+        let mut run = run_repository_verification(&fixture.root, &command).unwrap();
+        // Like the CLI, bind the actual service execution to the native policy
+        // route. The service-only receipt does not claim these WI bindings.
+        // Preserve its results, exit status, execution records, and counters.
+        let plan = run.receipt.plan_receipt.as_mut().unwrap();
+        assert_eq!(plan.initial_tier, route.actual_tier);
+        assert_eq!(plan.final_tier, route.actual_tier);
+        assert_eq!(plan.assurance, EvidenceAssurance::SelfDeclared);
+        plan.assurance = route.actual_assurance;
+        plan.work_item_id = Some(route.work_item_id);
+        plan.repository_id = Some(repository_id(&fixture.root).to_string());
+        plan.repository_snapshot_digest = Some(
+            cockpit_repository::snapshot_digest(&run.final_snapshot)
+                .unwrap()
+                .to_string(),
+        );
+        plan.base_revision = route.base_revision;
+        plan.affected_paths = route.affected_paths;
+        plan.dependency_confidence = Some(route.dependency_confidence);
+        let policy = route
+            .policy_plan
+            .expect("fixture declares a timeout policy");
+        plan.required_tier = Some(policy.requirement.required_tier);
+        plan.required_assurance = Some(policy.requirement.required_assurance);
+        plan.policy_refs = policy.requirement.policy_refs;
+        run
+    }
+
+    fn input_projection(fixture: &Fixture) -> Value {
+        let bytes = b"checked build inputs\n";
+        fs::write(fixture.root.join(".ai/evidence/stage-input.txt"), bytes).unwrap();
+        json!({"evidenceClasses":{
+            "schemaVersion":1,
+            "contractDigest":cockpit_protocol::digest_json(&read(&fixture.contract)).unwrap(),
+            "items":[{"class":"inputs","evidence":[{
+                "type":"fixture","path":".ai/evidence/stage-input.txt","locator":"all",
+                "verification":"passed","digest":Digest::sha256_bytes(bytes)
+            }]}]
+        }})
+    }
+
+    fn record_inputs(fixture: &Fixture) {
+        record_work_item_governance_controls(&fixture.root, ID, &input_projection(fixture))
+            .expect("an explicit stage policy must permit complete prerequisites without inventing final evidence");
+    }
+
+    #[test]
+    fn evidence_stages_native_execution_and_recording_do_not_complete_final_acceptance() {
+        let fixture = fixture(false, true);
+        // The real WI uses this representation: pending scenarios are
+        // unverified; no evidenceClasses member is invented for them.
+        assert!(read(&fixture.summary).get("evidenceClasses").is_none());
+        enter(&fixture);
+        let status =
+            work_item_status_snapshot_with_runtime(&fixture.root, ID, &fixture.runtime).unwrap();
+        assert!(
+            status
+                .safe_actions
+                .iter()
+                .any(|action| action == "run_verification"),
+            "{status:?}"
+        );
+        let result = execute(&fixture);
+        assert!(result.receipt.passed, "{:?}", result.receipt);
+        assert_eq!(result.receipt.nodes_executed, 1);
+        record_verification_with_runtime(
+            &fixture.root,
+            ID,
+            &serde_json::to_value(&result.receipt).unwrap(),
+            &fixture.runtime,
+            &result.final_snapshot,
+        )
+        .unwrap();
+        let controls = validate_work_item_governance_controls_with_runtime(
+            &fixture.root,
+            ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        assert_eq!(controls.evidence_classes, "unknown");
+        assert!(
+            controls
+                .unknowns
+                .iter()
+                .any(|code| code == "evidence_classes_missing")
+        );
+        let error = finish_work_item_with_runtime(&fixture.root, ID, &fixture.runtime)
+            .expect_err("source receipt cannot satisfy adopter evidence");
+        assert!(error.to_string().contains("evidence_classes"), "{error}");
+        assert_ne!(read(&fixture.summary)["state"], json!("finish_ready"));
+        let summary_before = fs::read(&fixture.summary).unwrap();
+        let archive_error = archive_work_item_with_runtime(&fixture.root, ID, &fixture.runtime)
+            .expect_err("an unfinished Work Item cannot be archived");
+        assert!(
+            archive_error.to_string().contains("finish_ready"),
+            "{archive_error}"
+        );
+        let close_error = close_work_item_with_decision_and_runtime(
+            &fixture.root,
+            ID,
+            "approved",
+            &fixture.runtime,
+        )
+        .expect_err("a synthetic fixture decision cannot close an unarchived Work Item");
+        assert!(
+            close_error.to_string().contains(".archive.json"),
+            "{close_error}"
+        );
+        assert_eq!(fs::read(&fixture.summary).unwrap(), summary_before);
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/decisions/{ID}.close.json"))
+                .exists()
+        );
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/work-items/archive/{ID}.archive.json"))
+                .exists()
+        );
+    }
+
+    #[test]
+    fn evidence_stages_unlisted_custom_requirement_still_blocks_before_spawn() {
+        let fixture = fixture(false, false);
+        enter(&fixture);
+        let snapshot = GitRepository::discover(&fixture.root)
+            .unwrap()
+            .snapshot()
+            .unwrap();
+        let error =
+            require_verification_preconditions(&fixture.root, ID, &fixture.runtime, &snapshot)
+                .unwrap_err();
+        assert!(
+            error.to_string().contains("evidence_classes_missing"),
+            "{error}"
+        );
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/evidence/{ID}.verification.json"))
+                .exists()
+        );
+    }
+
+    #[test]
+    fn evidence_stages_archive_and_close_recheck_final_evidence() {
+        let fixture = fixture(false, true);
+        let bytes = b"isolated fixture final acceptance\n";
+        let final_path = fixture.root.join(".ai/evidence/stage-adopter.txt");
+        fs::write(&final_path, bytes).unwrap();
+        record_work_item_governance_controls(
+            &fixture.root,
+            ID,
+            &json!({"evidenceClasses":{
+                "schemaVersion":1,
+                "contractDigest":cockpit_protocol::digest_json(&read(&fixture.contract)).unwrap(),
+                "items":[{"class":"adopter","evidence":[{
+                    "type":"fixture","path":".ai/evidence/stage-adopter.txt","locator":"all",
+                    "verification":"passed","digest":Digest::sha256_bytes(bytes)
+                }]}]
+            }}),
+        )
+        .unwrap();
+        enter(&fixture);
+        let result = execute(&fixture);
+        assert!(result.receipt.passed);
+        record_verification_with_runtime(
+            &fixture.root,
+            ID,
+            &serde_json::to_value(&result.receipt).unwrap(),
+            &fixture.runtime,
+            &result.final_snapshot,
+        )
+        .unwrap();
+        finish_work_item_with_runtime(&fixture.root, ID, &fixture.runtime).unwrap();
+        assert_eq!(read(&fixture.summary)["state"], "finish_ready");
+
+        fs::remove_file(&final_path).unwrap();
+        let error = archive_work_item_with_runtime(&fixture.root, ID, &fixture.runtime)
+            .expect_err("finish-only evidence must still exist at the real archive boundary");
+        assert!(error.to_string().contains("governance"), "{error}");
+        let controls = validate_work_item_governance_controls_with_runtime(
+            &fixture.root,
+            ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        assert!(
+            controls
+                .unknowns
+                .iter()
+                .any(|code| code == "evidence_classes_missing")
+        );
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/work-items/archive/{ID}.archive.json"))
+                .exists()
+        );
+
+        fs::write(&final_path, bytes).unwrap();
+        archive_work_item_with_runtime(&fixture.root, ID, &fixture.runtime).unwrap();
+        let archive_path = fixture
+            .root
+            .join(format!(".ai/work-items/archive/{ID}.archive.json"));
+        let archived = fs::read(&archive_path).unwrap();
+        // Ordinary close binds cleanup to the exact native archive at HEAD.
+        // Commit the generated artifacts without changing their bytes.
+        run_git(
+            &fixture.root,
+            &[
+                "add",
+                "--",
+                &format!(".ai/work-items/archive/{ID}.contract.json"),
+                &format!(".ai/work-items/archive/{ID}.archive.json"),
+            ],
+        );
+        run_git(
+            &fixture.root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "checkpoint native stage fixture archive",
+            ],
+        );
+        assert_eq!(fs::read(&archive_path).unwrap(), archived);
+        fs::remove_file(&final_path).unwrap();
+        let error = close_work_item_with_decision_and_runtime(
+            &fixture.root,
+            ID,
+            "approved",
+            &fixture.runtime,
+        )
+        .expect_err("a fixture close decision cannot waive missing final evidence");
+        assert!(error.to_string().contains("governance"), "{error}");
+        let controls = validate_work_item_governance_controls_with_runtime(
+            &fixture.root,
+            ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        assert!(
+            controls
+                .unknowns
+                .iter()
+                .any(|code| code == "evidence_classes_missing")
+        );
+        assert_eq!(fs::read(&archive_path).unwrap(), archived);
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/decisions/{ID}.close.json"))
+                .exists()
+        );
+        fs::write(&final_path, bytes).unwrap();
+        close_work_item_with_decision_and_runtime(&fixture.root, ID, "approved", &fixture.runtime)
+            .unwrap();
+        assert!(
+            fixture
+                .root
+                .join(format!(".ai/decisions/{ID}.close.json"))
+                .is_file()
+        );
+    }
+
+    #[test]
+    fn evidence_stages_native_prerequisite_recording_and_late_tamper_remain_bound() {
+        let fixture = fixture(true, true);
+        record_inputs(&fixture);
+        enter(&fixture);
+        let result = execute(&fixture);
+        assert!(result.receipt.passed, "{:?}", result.receipt);
+        assert_eq!(result.receipt.nodes_executed, 1);
+        fs::write(
+            fixture.root.join(".ai/evidence/stage-input.txt"),
+            b"changed after execution\n",
+        )
+        .unwrap();
+        let summary_before = fs::read(&fixture.summary).unwrap();
+        let error = record_verification_with_runtime(
+            &fixture.root,
+            ID,
+            &serde_json::to_value(&result.receipt).unwrap(),
+            &fixture.runtime,
+            &result.final_snapshot,
+        )
+        .expect_err("changed prerequisite must prevent publication");
+        assert!(
+            error.to_string().contains("evidence_classes_stale"),
+            "{error}"
+        );
+        assert_eq!(fs::read(&fixture.summary).unwrap(), summary_before);
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/evidence/{ID}.verification.json"))
+                .exists()
+        );
+    }
+
+    #[test]
+    fn evidence_stages_recording_waiver_requires_known_pre_finish_state() {
+        for state in [
+            json!("implementation_active"),
+            json!("checkpointed"),
+            json!("finish_ready"),
+            json!("finished"),
+            json!("archived"),
+            json!("closed"),
+            json!("recovered"),
+            json!("unknown"),
+            Value::Null,
+        ] {
+            let fixture = fixture(true, true);
+            let mut summary = read(&fixture.summary);
+            summary["state"] = state.clone();
+            // Isolated malformed-state fixture, never a real lifecycle receipt.
+            fs::write(&fixture.summary, serde_json::to_vec(&summary).unwrap()).unwrap();
+            let before = fs::read(&fixture.summary).unwrap();
+            let result = record_work_item_governance_controls(
+                &fixture.root,
+                ID,
+                &input_projection(&fixture),
+            );
+            if matches!(
+                state.as_str(),
+                Some("implementation_active" | "checkpointed")
+            ) {
+                result.unwrap();
+                assert_eq!(read(&fixture.summary)["state"], state);
+                assert_eq!(
+                    read(&fixture.summary)["evidenceClasses"]["items"]
+                        .as_array()
+                        .unwrap()
+                        .len(),
+                    1
+                );
+            } else {
+                let error =
+                    result.expect_err("unknown or completed state must require all classes");
+                assert!(
+                    error
+                        .to_string()
+                        .contains("evidence class projection is not complete"),
+                    "{state}: {error}"
+                );
+                assert_eq!(fs::read(&fixture.summary).unwrap(), before);
+            }
+        }
+    }
+
+    #[test]
+    fn evidence_stages_terminal_marker_prevents_prerequisite_only_recording() {
+        for relative in [
+            format!(".ai/work-items/archive/{ID}.archive.json"),
+            format!(".ai/decisions/{ID}.close.json"),
+        ] {
+            let fixture = fixture(true, true);
+            let marker = fixture.root.join(relative);
+            fs::create_dir_all(marker.parent().unwrap()).unwrap();
+            fs::write(&marker, b"{}\n").unwrap();
+            let before = fs::read(&fixture.summary).unwrap();
+            let error = record_work_item_governance_controls(
+                &fixture.root,
+                ID,
+                &input_projection(&fixture),
+            )
+            .expect_err(
+                "even an invalid terminal marker cannot authorize early evidence recording",
+            );
+            assert!(
+                error
+                    .to_string()
+                    .contains("evidence class projection is not complete"),
+                "{error}"
+            );
+            assert_eq!(fs::read(&fixture.summary).unwrap(), before);
+            assert_eq!(fs::read(marker).unwrap(), b"{}\n");
+        }
+    }
+
+    #[test]
+    fn evidence_stages_provided_pending_final_member_is_not_accepted() {
+        for pending in [
+            json!({"class":"adopter","evidence":[]}),
+            json!({"class":"adopter","evidence":[{
+                "type":"fixture","path":".ai/evidence/stage-input.txt","locator":"all",
+                "verification":"unverified","digest":Digest::sha256_bytes(b"checked build inputs\n")
+            }]}),
+        ] {
+            let fixture = fixture(true, true);
+            let mut input = input_projection(&fixture);
+            input["evidenceClasses"]["items"]
+                .as_array_mut()
+                .unwrap()
+                .push(pending);
+            let before = fs::read(&fixture.summary).unwrap();
+            let error = record_work_item_governance_controls(&fixture.root, ID, &input)
+                .expect_err("deferred members must be omitted until evidence is available");
+            assert!(
+                error
+                    .to_string()
+                    .contains("evidence class projection is not complete: Missing"),
+                "{error}"
+            );
+            assert_eq!(fs::read(&fixture.summary).unwrap(), before);
+            record_inputs(&fixture);
+            enter(&fixture);
+            let snapshot = GitRepository::discover(&fixture.root)
+                .unwrap()
+                .snapshot()
+                .unwrap();
+            require_verification_preconditions(&fixture.root, ID, &fixture.runtime, &snapshot)
+                .unwrap();
+            let controls = validate_work_item_governance_controls_with_runtime(
+                &fixture.root,
+                ID,
+                &fixture.runtime,
+            )
+            .unwrap();
+            assert!(
+                controls
+                    .unknowns
+                    .iter()
+                    .any(|code| code == "evidence_classes_missing")
+            );
+        }
+    }
+
+    #[test]
+    fn evidence_stages_failed_source_execution_cannot_publish_or_finish() {
+        let fixture = fixture_with_command(
+            false,
+            true,
+            "git rev-parse --verify refs/heads/wi-stage-missing-reference",
+        );
+        enter(&fixture);
+        let result = execute_args(
+            &fixture,
+            &[
+                "rev-parse",
+                "--verify",
+                "refs/heads/wi-stage-missing-reference",
+            ],
+        );
+        assert!(!result.receipt.passed, "{:?}", result.receipt);
+        assert_eq!(result.receipt.nodes_executed, 1);
+        assert_eq!(result.receipt.processes_spawned, 1);
+        assert_eq!(result.receipt.execution_records.len(), 1);
+        let executed = &result.receipt.execution_records[0];
+        assert!(executed.spawned && !executed.passed && !executed.timed_out);
+        assert!(executed.exit_code.is_some_and(|code| code != 0));
+        let before = fs::read(&fixture.summary).unwrap();
+        let error = record_verification_with_runtime(
+            &fixture.root,
+            ID,
+            &serde_json::to_value(&result.receipt).unwrap(),
+            &fixture.runtime,
+            &result.final_snapshot,
+        )
+        .expect_err("a failed real source command cannot be completion evidence");
+        assert!(
+            error
+                .to_string()
+                .contains("failed verification cannot be recorded"),
+            "{error}"
+        );
+        assert_eq!(fs::read(&fixture.summary).unwrap(), before);
+        assert!(
+            !fixture
+                .root
+                .join(format!(".ai/evidence/{ID}.verification.json"))
+                .exists()
+        );
+        finish_work_item_with_runtime(&fixture.root, ID, &fixture.runtime)
+            .expect_err("failed source execution cannot finish");
+        let status =
+            work_item_status_snapshot_with_runtime(&fixture.root, ID, &fixture.runtime).unwrap();
+        assert!(!status.safe_actions.iter().any(|action| action == "finish"));
+        assert_ne!(read(&fixture.summary)["state"], json!("finish_ready"));
+    }
+
+    // The actual predecessor rejection and zero-write assertions are mandatory in
+    // conformance_evidence_stage_runtime_compatibility (the repository gate manifest).
+}

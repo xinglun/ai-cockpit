@@ -1037,7 +1037,13 @@ fn audit_interface_description(surface: &str, export: bool) -> InterfaceDescript
             transport: "json-rpc".into(),
             parameters: fields
                 .iter()
-                .map(|(mcp_name, _, kind, description)| make(mcp_name, kind, false, description))
+                .map(|(mcp_name, _, kind, description)| {
+                    let mut parameter = make(mcp_name, kind, false, description);
+                    if *mcp_name == "limit" {
+                        parameter.default = Some("50".into());
+                    }
+                    parameter
+                })
                 .collect(),
         });
     }

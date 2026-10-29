@@ -1819,36 +1819,202 @@ fn continuity_projection_keeps_archive_and_provider_delivery_state_separate() {
 fn cli_and_mcp_interface_descriptions_share_the_protocol_facts() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repo = repository();
-    let cli_output = Command::new(binary)
-        .args(["capability", "show", "--repo"])
-        .arg(repo.path())
-        .args(["--surface", "work-item-outcome", "--format", "json"])
-        .output()
-        .expect("cli interface description");
-    assert!(
-        cli_output.status.success(),
-        "stderr={}",
-        String::from_utf8_lossy(&cli_output.stderr)
-    );
-    let cli_description: serde_json::Value =
-        serde_json::from_slice(&cli_output.stdout).expect("CLI description JSON");
+    for (index, surface) in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES
+        .iter()
+        .enumerate()
+    {
+        let cli_output = Command::new(binary)
+            .args(["capability", "show", "--repo"])
+            .arg(repo.path())
+            .args(["--surface", surface, "--format", "json"])
+            .output()
+            .expect("cli interface description");
+        assert!(
+            cli_output.status.success(),
+            "stderr={}",
+            String::from_utf8_lossy(&cli_output.stderr)
+        );
+        let cli_description: serde_json::Value =
+            serde_json::from_slice(&cli_output.stdout).expect("CLI description JSON");
 
-    let response = cockpit_mcp::handle_request_for_repo(
-        &serde_json::json!({
-            "jsonrpc": "2.0",
-            "id": 18,
-            "method": "tools/call",
-            "params": {
-                "name": "capability_show",
-                "arguments": {"surface": "work-item-outcome", "format": "json"}
+        let response = cockpit_mcp::handle_request_for_repo(
+            &serde_json::json!({
+                "jsonrpc": "2.0",
+                "id": 18 + index,
+                "method": "tools/call",
+                "params": {
+                    "name": "capability_show",
+                    "arguments": {"surface": surface, "format": "json"}
+                }
+            }),
+            repo.path(),
+            &current_runtime_context(binary),
+        );
+        assert_eq!(response["result"]["isError"], false);
+        assert_eq!(
+            cli_description, response["result"]["structuredContent"],
+            "{surface}: CLI and MCP must project the same protocol-owned interface facts"
+        );
+    }
+}
+
+fn mcp_description_schema_issues(
+    description: &cockpit_protocol::InterfaceDescription,
+    schema: &serde_json::Value,
+) -> Vec<String> {
+    use std::collections::BTreeSet;
+    let surface = description
+        .surfaces
+        .iter()
+        .find(|surface| surface.name == "mcp")
+        .expect("MCP surface");
+    let properties = schema["properties"]
+        .as_object()
+        .expect("tool object properties");
+    let mut expected = surface
+        .parameters
+        .iter()
+        .flat_map(|parameter| {
+            std::iter::once(parameter.name.clone()).chain(parameter.aliases.iter().cloned())
+        })
+        .collect::<BTreeSet<_>>();
+    if description.name == cockpit_protocol::WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE {
+        // Request-scoped execution authority is separate from material data.
+        expected.insert("taskCaller".into());
+        assert_eq!(properties["taskCaller"]["type"], "object");
+    }
+    let mut issues = Vec::new();
+    if properties.keys().cloned().collect::<BTreeSet<_>>() != expected {
+        issues.push("MCP property inventory differs".into());
+    }
+    let required = schema["required"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for parameter in &surface.parameters {
+        let names = std::iter::once(parameter.name.as_str())
+            .chain(parameter.aliases.iter().map(String::as_str))
+            .collect::<BTreeSet<_>>();
+        let alias_requirement = schema["oneOf"].as_array().is_some_and(|branches| {
+            branches.len() == names.len()
+                && branches.iter().all(|branch| {
+                    branch["required"].as_array().is_some_and(|fields| {
+                        fields.len() == 1
+                            && fields[0].as_str().is_some_and(|name| names.contains(name))
+                    })
+                })
+                && branches
+                    .iter()
+                    .filter_map(|branch| branch["required"][0].as_str())
+                    .collect::<BTreeSet<_>>()
+                    == names
+        });
+        if parameter.required
+            != (names.iter().any(|name| required.contains(name)) || alias_requirement)
+        {
+            issues.push(format!("{}: required differs", parameter.name));
+        }
+        for name in names {
+            let Some(field) = properties.get(name) else {
+                continue;
+            };
+            let wire_type = if parameter.wire_type == "enum" {
+                "string"
+            } else {
+                &parameter.wire_type
+            };
+            if field["type"].as_str() != Some(wire_type) {
+                issues.push(format!("{name}: type differs"));
             }
-        }),
+            let expected_default =
+                parameter
+                    .default
+                    .as_ref()
+                    .map(|value| match parameter.wire_type.as_str() {
+                        "boolean" | "integer" => {
+                            serde_json::from_str::<serde_json::Value>(value).expect("typed default")
+                        }
+                        _ => serde_json::Value::String(value.clone()),
+                    });
+            if field.get("default") != expected_default.as_ref() {
+                issues.push(format!("{name}: default differs"));
+            }
+            let values = field["enum"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(serde_json::Value::as_str)
+                .collect::<Vec<_>>();
+            if values
+                != parameter
+                    .enum_values
+                    .iter()
+                    .map(String::as_str)
+                    .collect::<Vec<_>>()
+            {
+                issues.push(format!("{name}: enum differs"));
+            }
+        }
+    }
+    issues
+}
+
+#[test]
+fn discoverable_mcp_descriptions_match_actual_tool_schemas() {
+    let repo = repository();
+    let runtime = current_runtime_context(env!("CARGO_BIN_EXE_ai-cockpit"));
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":400,"method":"tools/list"}),
         repo.path(),
-        &current_runtime_context(binary),
+        &runtime,
     );
-    assert_eq!(response["result"]["isError"], false);
-    assert_eq!(
-        cli_description, response["result"]["structuredContent"],
-        "CLI and MCP must project the same protocol-owned interface facts"
-    );
+    let tools = response["result"]["tools"]
+        .as_array()
+        .expect("actual tools/list");
+    for surface in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES {
+        let description =
+            cockpit_protocol::interface_description_for_surface(surface).expect("description");
+        if !description
+            .surfaces
+            .iter()
+            .any(|surface| surface.name == "mcp")
+        {
+            continue;
+        }
+        let tool_name = surface.replace('-', "_");
+        let matching = tools
+            .iter()
+            .filter(|tool| tool["name"] == tool_name)
+            .collect::<Vec<_>>();
+        assert_eq!(matching.len(), 1, "one actual tool for {surface}");
+        let issues = mcp_description_schema_issues(&description, &matching[0]["inputSchema"]);
+        assert!(issues.is_empty(), "{surface}: {issues:?}");
+        for field in ["default", "type", "name", "enum"] {
+            let mut changed = matching[0]["inputSchema"].clone();
+            let parameter = &description
+                .surfaces
+                .iter()
+                .find(|surface| surface.name == "mcp")
+                .expect("MCP")
+                .parameters[0];
+            if field == "name" {
+                changed["properties"]
+                    .as_object_mut()
+                    .expect("properties")
+                    .remove(&parameter.name);
+            } else {
+                changed["properties"][&parameter.name][field] = if field == "enum" {
+                    serde_json::json!(["wrong-enum"])
+                } else {
+                    serde_json::json!("wrong-value")
+                };
+            }
+            assert!(
+                !mcp_description_schema_issues(&description, &changed).is_empty(),
+                "{surface}: {field} mutation escaped"
+            );
+        }
+    }
 }

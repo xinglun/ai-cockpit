@@ -39,6 +39,7 @@ use std::{
 mod cognitive_benefit;
 mod runtime_identity;
 
+/// Inspect, verify and govern repository work with explicit authority and evidence.
 #[derive(Debug, Parser)]
 #[command(name = "ai-cockpit", version)]
 struct Cli {
@@ -75,7 +76,9 @@ impl std::error::Error for GatePlanCliFailure {}
 
 #[derive(Debug, Subcommand)]
 enum CommandKind {
+    /// Inspect repository identity, integration and Runtime capabilities without modifying them.
     Inspect {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         /// Emit the stable machine-readable JSON projection. This is also
@@ -83,13 +86,18 @@ enum CommandKind {
         #[arg(long)]
         json: bool,
     },
+    /// Evaluate a Contract against current repository facts and record its preflight decision.
     Preflight {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the Contract JSON file for this operation.
         #[arg(long)]
         contract: PathBuf,
     },
+    /// Observe current repository facts and governance without running project checks.
     Observe {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
@@ -97,10 +105,13 @@ enum CommandKind {
     /// process. `--paths-file` accepts a NUL-delimited source path list when
     /// Git, rather than a whole-tree walk, defines the source boundary.
     IsolationManifest {
+        /// Root directory whose filesystem entries are inspected.
         #[arg(long)]
         root: PathBuf,
+        /// Destination output file; stdout is used when this option is omitted.
         #[arg(long)]
         output: Option<PathBuf>,
+        /// NUL-delimited relative source path list supplied by Git.
         #[arg(long)]
         paths_file: Option<PathBuf>,
         /// Relative output directory whose ancestor metadata is masked in a
@@ -108,11 +119,15 @@ enum CommandKind {
         #[arg(long)]
         mask_ancestors_of: Option<PathBuf>,
     },
+    /// Attach this repository and write its local AI Cockpit integration records.
     Attach {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Show current repository governance, evidence and recommended next actions.
     Status {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         /// Emit the stable machine-readable JSON projection. This is also
@@ -120,29 +135,41 @@ enum CommandKind {
         #[arg(long)]
         json: bool,
     },
+    /// Check compatibility between this Runtime and the attached repository protocol.
     Compatibility {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Plan or explicitly apply an attached repository protocol migration.
     Migrate {
         #[command(subcommand)]
         command: MigrateCommand,
     },
+    /// Declare and start an implementation Work Item through native admission.
     Start {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Human-owned intent for the Work Item.
         #[arg(long)]
         intent: String,
+        /// Concrete goal the Work Item must achieve.
         #[arg(long)]
         goal: String,
+        /// Comma-separated repository-relative paths or supported scope patterns.
         #[arg(long, value_delimiter = ',')]
         scope: Vec<String>,
+        /// Comma-separated paths or patterns that remain explicitly excluded.
         #[arg(long, value_delimiter = ',')]
         out_of_scope: Vec<String>,
+        /// Declared risk classification; it does not grant authority.
         #[arg(long, default_value = "normal")]
         risk: String,
+        /// Declared authority state; native evidence must still justify it.
         #[arg(long, default_value = "missing")]
         authority: String,
         /// Repeat this option for multiple criteria.  Acceptance text is
@@ -178,15 +205,21 @@ enum CommandKind {
         #[arg(long, action = ArgAction::Append)]
         source: Vec<String>,
     },
+    /// Record the native before-edit checkpoint for a Work Item.
     Checkpoint {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
+    /// Evaluate current evidence and governance before marking a Work Item finish-ready.
     Finish {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Emit machine-only output without the human Outcome handoff on stderr.
@@ -202,9 +235,12 @@ enum CommandKind {
         )]
         language: Option<String>,
     },
+    /// Archive a finish-ready Work Item with its retained evidence.
     Archive {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Emit valid JSON; the full Outcome remains in outcomeDelivery while
@@ -224,8 +260,10 @@ enum CommandKind {
     /// This explicit compatibility route does not rerun source verification;
     /// finalization and close remain required after archive.
     ArchiveHistorical {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Emit valid JSON; the full Outcome remains in outcomeDelivery while
@@ -241,25 +279,36 @@ enum CommandKind {
         )]
         language: Option<String>,
     },
+    /// Record an explicit human close decision after required lifecycle checks.
     Close {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Actual human decision to record; this option cannot create approval.
         #[arg(long)]
         human_decision: String,
+        /// Actor identity explicitly supplied for the decision or observation.
         #[arg(long)]
         actor: Option<String>,
+        /// Concrete source of the actual decision authority.
         #[arg(long)]
         authority_source: Option<String>,
+        /// Reason supporting the explicit decision or recovery.
         #[arg(long)]
         reason: Option<String>,
+        /// Comma-separated references to the evidence supporting this decision.
         #[arg(long, value_delimiter = ',')]
         evidence_ref: Vec<String>,
+        /// Comma-separated exact policy identifiers binding this decision.
         #[arg(long, value_delimiter = ',')]
         policy_ref: Vec<String>,
+        /// RFC 3339 timestamp at which the actual decision was made.
         #[arg(long)]
         decided_at: Option<String>,
+        /// Explicit condition required before paused work may resume.
         #[arg(long)]
         resume_condition: Option<String>,
         /// Emit machine-only output without the human Outcome handoff on stderr.
@@ -274,13 +323,18 @@ enum CommandKind {
         )]
         language: Option<String>,
     },
+    /// Plan or execute bounded verification with exact command and evidence identities.
     Verify {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: Option<String>,
+        /// Explicit verification program; repeat for multiple commands.
         #[arg(long, action = ArgAction::Append)]
         command: Vec<String>,
+        /// Comma-separated program arguments, preserving their declared order.
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
         /// Maximum worker count. Work Item verification defaults to serial and
@@ -288,6 +342,7 @@ enum CommandKind {
         /// can be verified by the Runtime.
         #[arg(long, default_value_t = 1)]
         workers: usize,
+        /// Governance stage: task, pre_ci, pr, merge or release.
         #[arg(long, default_value = "task")]
         stage: String,
         /// Finite command timeout in seconds. Explicit values require a
@@ -311,26 +366,36 @@ enum CommandKind {
     /// Evaluate the Contract/policy route without writing repository
     /// governance evidence.  CI uses this before executing its command gate.
     Gate {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the Contract JSON file for this operation.
         #[arg(long)]
         contract: PathBuf,
+        /// Governance stage: task, pre_ci, pr, merge or release.
         #[arg(long, default_value = "pr")]
         stage: String,
+        /// Runner identity to record with this verification or gate.
         #[arg(long, default_value = "hosted")]
         runner: String,
+        /// Immutable base revision used for the source comparison.
         #[arg(long)]
         base_revision: Option<String>,
+        /// JSON report output path, relative to --repo unless absolute.
+        /// Overwrites an existing file; paths inside .ai are rejected.
         #[arg(long)]
         report: Option<PathBuf>,
     },
     /// Validate an existing Contract quality-gate report against its
     /// repository-bound route receipt without executing any gates.
     GateReport {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the existing JSON report used by this operation.
         #[arg(long)]
         report: PathBuf,
+        /// Path to the repository-bound route receipt JSON.
         #[arg(long)]
         route_receipt: PathBuf,
     },
@@ -338,22 +403,31 @@ enum CommandKind {
     /// Python route may delegate here so production and regression paths use
     /// one manifest/rule implementation.
     GatePlan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the gate manifest JSON.
         #[arg(long)]
         manifest: PathBuf,
+        /// Base revision for the gate route comparison.
         #[arg(long)]
         base: Option<String>,
+        /// Head revision for the gate route comparison.
         #[arg(long)]
         head: Option<String>,
+        /// Gate-manifest stage: task, pre_ci, pull_request, merge or release.
         #[arg(long)]
         stage: Option<String>,
+        /// Declared risk classification; it does not grant authority.
         #[arg(long)]
         risk: Option<String>,
+        /// Path to the Contract JSON file for this operation.
         #[arg(long)]
         contract: Option<PathBuf>,
+        /// Requested gate profile: light, standard or strict.
         #[arg(long)]
         profile: Option<String>,
+        /// Receipt JSON output path; read it instead when --validate-receipt is set.
         #[arg(long)]
         receipt: PathBuf,
         /// Validate an existing receipt against the same current facts.
@@ -364,46 +438,61 @@ enum CommandKind {
     /// ReleasePlan envelope. This command performs no build, verification, or
     /// publication work.
     ReleasePlan {
+        /// Path to the typed JSON input required by this operation.
         #[arg(long)]
         input: PathBuf,
+        /// Destination output file; stdout is used when this option is omitted.
         #[arg(long)]
         output: Option<PathBuf>,
     },
+    /// Inspect and manage policy-bound delegated evidence.
     Evidence {
         #[command(subcommand)]
         command: EvidenceCommand,
     },
+    /// Query, export or evaluate repository audit observations.
     Audit {
         #[command(subcommand)]
         command: AuditCommand,
     },
+    /// Declare, inspect and advance Work Items through native lifecycle boundaries.
     WorkItem {
         #[command(subcommand)]
         command: WorkItemCommand,
     },
+    /// Inspect Runtime capabilities and supported interface descriptions.
     Capability {
         #[command(subcommand)]
         command: CapabilityCommand,
     },
+    /// Diagnose observed repository or Work Item governance cost and performance.
     Diagnose {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: Option<String>,
     },
+    /// Query repository knowledge with explicit source and state filters.
     Knowledge {
         #[command(subcommand)]
         command: KnowledgeCommand,
     },
+    /// Review and confirm explicit repository quality-command profiles.
     Profile {
         #[command(subcommand)]
         command: ProfileCommand,
     },
+    /// Serve the repository-bound Model Context Protocol interface over stdio.
     Mcp {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Diagnose repository integration and environment compatibility.
     Doctor {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         /// Emit the stable machine-readable JSON projection. This is also
@@ -411,6 +500,7 @@ enum CommandKind {
         #[arg(long)]
         json: bool,
     },
+    /// Inspect, install, repair or detach repository agent adapters.
     Agent {
         #[command(subcommand)]
         command: AgentCommand,
@@ -419,57 +509,84 @@ enum CommandKind {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Import delegated evidence metadata and raw bytes under repository policy.
     Import {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: String,
+        /// Path to the delegated-evidence metadata JSON.
         #[arg(long)]
         metadata: PathBuf,
+        /// Path to the raw delegated-evidence payload file.
         #[arg(long)]
         raw: PathBuf,
     },
+    /// Record a bounded observation of delegated evidence without promoting its authority.
     Observe {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: String,
+        /// Path to the delegated-evidence metadata JSON.
         #[arg(long)]
         metadata: PathBuf,
+        /// Path to the raw delegated-evidence payload file.
         #[arg(long)]
         raw: PathBuf,
     },
+    /// List retained delegated evidence for a Work Item.
     List {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: String,
     },
+    /// List recorded delegated-evidence observations for a Work Item.
     ListObservations {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: String,
     },
+    /// Record classification, storage and retention policy for a Work Item evidence source.
     Policy {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item to bind to this operation.
         #[arg(long)]
         work_item: String,
+        /// Data classification to bind to the evidence retention policy.
         #[arg(long)]
         classification: String,
+        /// Evidence storage policy for retained metadata and raw bytes.
         #[arg(long)]
         persistence: String,
+        /// Maximum evidence retention duration in days.
         #[arg(long)]
         retention_days: Option<u64>,
+        /// Explicit evidence expiry timestamp in RFC 3339 format.
         #[arg(long)]
         expires_at: Option<String>,
+        /// Disposal action declared by the evidence retention policy.
         #[arg(long)]
         disposal_action: String,
     },
+    /// Show evidence expiry and disposal actions without deleting evidence.
     PurgePlan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Explicit Unix timestamp for a deterministic purge plan.
         #[arg(long)]
         now_epoch_seconds: Option<u64>,
     },
@@ -477,23 +594,32 @@ enum EvidenceCommand {
 
 #[derive(Debug, Subcommand)]
 enum AuditCommand {
+    /// Measure and optionally enforce the cognitive-benefit acceptance check.
     CognitiveBenefit {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// AI Cockpit executable used by the cognitive-benefit probe.
         #[arg(long)]
         binary: Option<PathBuf>,
+        /// Fail when the cognitive-benefit acceptance check is not satisfied.
         #[arg(long)]
         check: bool,
     },
+    /// Export audit events using explicit filters and pagination.
     Export {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Destination output file; stdout is used when this option is omitted.
         #[arg(long)]
         output: Option<PathBuf>,
         #[command(flatten)]
         filters: AuditQueryArgs,
     },
+    /// Query repository audit events without modifying their records.
     Query {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[command(flatten)]
@@ -503,22 +629,31 @@ enum AuditCommand {
 
 #[derive(Debug, Default, Args)]
 struct AuditQueryArgs {
+    /// Filter by Work Item identifier.
     #[arg(long)]
     work_item_id: Option<String>,
+    /// Inclusive lower timestamp bound for the audit query.
     #[arg(long)]
     from: Option<String>,
+    /// Inclusive upper timestamp bound for the audit query.
     #[arg(long)]
     to: Option<String>,
+    /// Filter by reported model label; the label remains a caller claim.
     #[arg(long)]
     reported_model: Option<String>,
+    /// Filter audit observations by their recorded actor.
     #[arg(long)]
     actor: Option<String>,
+    /// Filter by audit event type.
     #[arg(long)]
     event_type: Option<String>,
+    /// Maximum number of events to return in this page.
     #[arg(long)]
     limit: Option<u16>,
+    /// Pagination cursor returned by the previous query.
     #[arg(long)]
     cursor: Option<String>,
+    /// IANA time zone for human-readable timestamps.
     #[arg(long)]
     display_timezone: Option<String>,
 }
@@ -546,34 +681,49 @@ impl From<AuditQueryArgs> for cockpit_protocol::AuditQueryFilters {
 enum AgentCommand {
     /// Print the mandatory first-start procedure before any repository operation.
     FirstStart {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// List repository agent adapters and their recorded state.
     List {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Install the selected agent adapter in this repository.
     Install {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Agent adapter provider to install, inspect or remove.
         #[arg(long, default_value = "auto")]
         provider: AgentProviderArg,
     },
+    /// Diagnose the repository agent adapter integration.
     Doctor {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Emit machine-readable JSON.
         #[arg(long)]
         json: bool,
     },
+    /// Repair the selected repository agent adapter integration.
     Repair {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Agent adapter provider to install, inspect or remove.
         #[arg(long)]
         provider: Option<AgentProviderArg>,
     },
+    /// Remove the selected repository agent adapter integration.
     Detach {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Agent adapter provider to install, inspect or remove.
         #[arg(long)]
         provider: AgentProviderArg,
     },
@@ -604,17 +754,24 @@ impl AgentProviderArg {
 
 #[derive(Debug, Subcommand)]
 enum KnowledgeCommand {
+    /// Query knowledge by topic, component, state or Work Item.
     Query {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Knowledge topic to query.
         #[arg(long)]
         topic: Option<String>,
+        /// Repository component to include in the knowledge query.
         #[arg(long)]
         component: Option<String>,
+        /// Knowledge evidence state to include in the query.
         #[arg(long)]
         state: Option<String>,
+        /// Filter by Work Item identifier.
         #[arg(long)]
         work_item_id: Option<String>,
+        /// Return the version 2 knowledge projection.
         #[arg(long)]
         v2: bool,
     },
@@ -628,27 +785,36 @@ enum WorkItemCommand {
         #[command(subcommand)]
         command: WorkItemActivationRecoveryCommand,
     },
+    /// Create a not-ready Work Item scaffold without claiming authorization or completion.
     New {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Work Item mode to scaffold; this does not authorize execution.
         #[arg(long)]
         mode: String,
     },
     /// Append a revalidation after a direct Contract change; it is not needed after a successful amend.
     RevalidateAmendment {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Reason supporting the explicit decision or recovery.
         #[arg(long)]
         reason: String,
     },
     /// Amend human-owned Contract fields and automatically record amendment revalidation; query status for the next admitted action.
     Amend {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Legacy JSON object with additive scopeAppend, outOfScopeAppend,
@@ -665,8 +831,10 @@ enum WorkItemCommand {
     },
     /// Read the append-only history of accepted Contract amendments.
     Amendments {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
@@ -674,33 +842,45 @@ enum WorkItemCommand {
     /// legitimately amended after its historical verification.  The
     /// predecessor archive/evidence bytes remain immutable.
     RevalidateArchived {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Successor Work Item id that will verify the current Contract.
         #[arg(long)]
         successor: String,
+        /// Reason supporting the explicit decision or recovery.
         #[arg(long)]
         reason: String,
+        /// Actor identity explicitly supplied for the decision or observation.
         #[arg(long)]
         actor: String,
+        /// Concrete source of the actual decision authority.
         #[arg(long)]
         authority_source: String,
+        /// Explicit condition required before paused work may resume.
         #[arg(long)]
         resume_condition: String,
+        /// Evidence reference; repeat --evidence-ref for multiple references.
         #[arg(long, action = ArgAction::Append)]
         evidence_ref: Vec<String>,
+        /// Exact policy identifier; repeat --policy-ref for multiple identifiers.
         #[arg(long, action = ArgAction::Append)]
         policy_ref: Vec<String>,
     },
+    /// Derive the implementation approach from current Work Item declarations.
     Approach {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
     Outcome {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[command(flatten)]
@@ -724,25 +904,32 @@ enum WorkItemCommand {
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
     ReconcileArtifacts {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
     /// Retire an active Work Item as already integrated or explicitly replaced.
     /// The input is a strict ActiveWorkItemRetirementRequest JSON document.
     Retire {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Path to the typed JSON input required by this operation.
         #[arg(long)]
         input: PathBuf,
     },
     /// Bind branch/worktree/provider/PR context before archive.
     FinalizePlan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON ResourceFinalizationContext file.
@@ -751,8 +938,10 @@ enum WorkItemCommand {
     },
     /// Record a strict provider-side finalization receipt after archive.
     Finalize {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON ResourceFinalizationReceipt file.
@@ -761,24 +950,30 @@ enum WorkItemCommand {
     },
     /// Revalidate the stored finalization receipt and local cleanup state.
     FinalizeVerify {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
     /// Append an exact local branch/worktree cleanup observation for a closed
     /// ordinary Work Item. Provider-bound Work Items keep using finalize.
     OrdinaryCleanup {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
     /// Classify an immutable legacy receipt, or record a first direct-merge
     /// finalization when no predecessor exists, without rewriting history.
     FinalizeRecovery {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON historical recovery receipt or complete direct-merge receipt.
@@ -788,8 +983,10 @@ enum WorkItemCommand {
     /// Inspect immutable legacy finalization facts and print a recovery
     /// skeleton without writing repository state.
     FinalizeRecoveryPlan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Optional real merge commit for a historical direct merge without a PR.
@@ -798,21 +995,28 @@ enum WorkItemCommand {
     },
     /// Prepare an explicit present-day legacy source registration without writes.
     LegacyCloseoutSourcePlan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Source checkout containing the exact retained closeout evidence.
         #[arg(long)]
         source_repo: Option<PathBuf>,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Path to the typed JSON input required by this operation.
         #[arg(long)]
         input: PathBuf,
     },
     /// Publish only the exact independently retained legacy source plan.
     LegacyCloseoutSourceRecord {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Path to the typed JSON input required by this operation.
         #[arg(long)]
         input: PathBuf,
     },
@@ -824,6 +1028,7 @@ enum WorkItemCommand {
         /// Independent source checkout containing the verified closed Work Item.
         #[arg(long)]
         source_repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
@@ -835,12 +1040,16 @@ enum WorkItemCommand {
         /// Independent source checkout containing the verified closed Work Item.
         #[arg(long)]
         source_repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
+    /// Read Work Item lifecycle, authority, evidence and action admission.
     Status {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long, required_unless_present = "all", conflicts_with = "all")]
         id: Option<String>,
         /// Aggregate every active and archived Work Item in stable ID order.
@@ -853,48 +1062,68 @@ enum WorkItemCommand {
         #[arg(long, conflicts_with = "all")]
         authorization_request: Option<PathBuf>,
     },
+    /// Inspect a Work Item and its declared governance context.
     Inspect {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
+    /// Declare dependencies, conflicts and parallel-work intent for a Work Item.
     Declare {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Comma-separated Work Item dependencies.
         #[arg(long, value_delimiter = ',')]
         depends_on: Vec<String>,
+        /// Comma-separated Work Items that conflict with this work.
         #[arg(long, value_delimiter = ',')]
         conflicts_with: Vec<String>,
+        /// Declare parallel-work intent; native admission and a slot lease are still required.
         #[arg(long, default_value_t = false)]
         parallelizable: bool,
     },
+    /// Validate the Work Item declaration and current governance prerequisites.
     Validate {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// Emit the stable machine-readable validation report.
         #[arg(long)]
         json: bool,
     },
+    /// Record typed controls or an actual identity-bound decision through native checks.
     Controls {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON object containing scenarioCoverage, acceptanceEvidence,
         /// evidenceClasses, intentAlignment, finalDimensions, or identity-bound
-        /// decisionEvidence. evidenceClasses must bind every custom Contract
-        /// evidence class to regular repository files and their current digests.
+        /// decisionEvidence. evidenceClasses binds supplied custom classes to
+        /// regular repository files, passed results and current digests. An
+        /// explicit evidenceClassStages policy allows unavailable finish-only
+        /// members to be omitted before finish; pending placeholders still fail.
         #[arg(long)]
         input: PathBuf,
     },
+    /// Apply an explicit recovery decision while retaining prior evidence.
     Recover {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON RecoveryDecisionReceipt with retry/successor predecessor bindings.
@@ -904,23 +1133,29 @@ enum WorkItemCommand {
     /// Record an append-only recovery for an already selected multi-hop
     /// successor lineage without creating another successor Work Item.
     RecoverSelectedSuccessorLineage {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON SelectedSuccessorLineageRecoveryReceipt.
         #[arg(long)]
         input: PathBuf,
     },
+    /// Record the declared concurrency boundary for a Work Item.
     Boundary {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         /// JSON file containing a Contract concurrencyBoundary object.
         #[arg(long)]
         file: PathBuf,
     },
+    /// Acquire, release or inspect bounded parallel-work slot leases.
     Slot {
         #[command(subcommand)]
         command: WorkItemSlotCommand,
@@ -933,10 +1168,13 @@ enum WorkItemCommand {
     /// Execute an exact composition in an isolated temporary worktree after
     /// refreshing cross-Work-Item admission.
     Composition {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Exact Work Item coordination generation.
         #[arg(long)]
         generation: u64,
         /// JSON CompositionInput. Repository and state paths are resolved by
@@ -950,6 +1188,7 @@ enum WorkItemCommand {
 enum WorkItemUsageCommand {
     /// Import exact counters from one explicitly supplied completed response.
     Import {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION)]
@@ -957,6 +1196,7 @@ enum WorkItemUsageCommand {
     },
     /// Append one strict UsageRecordRequest JSON claim.
     Record {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION)]
@@ -995,6 +1235,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Persist one exact owner decision and its independently bound child grants.
     Review {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = "Strict TaskAuthorizationBatchManifest JSON file.")]
@@ -1004,6 +1245,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Reserve one start against the selected member's finite quota.
     Start {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = "Strict TaskAuthorizationBatchStartRequest JSON file.")]
@@ -1011,6 +1253,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Reserve the initial attempt or a bounded retry of one exact declared check.
     Check {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = "Strict TaskAuthorizationBatchCheckRequest JSON file.")]
@@ -1018,6 +1261,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Append the result for one previously reserved check attempt.
     Outcome {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = "Strict TaskAuthorizationBatchOutcomeRequest JSON file.")]
@@ -1025,6 +1269,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Resolve one uncertain result after attaching inspection evidence.
     Inspect {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(
@@ -1035,6 +1280,7 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Terminate only the selected member's child grant.
     Terminate {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         #[arg(
@@ -1045,10 +1291,13 @@ enum WorkItemAuthorizationManifestCommand {
     },
     /// Read one member's current append-only execution ledger.
     Ledger {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Exact digest of the reviewed authorization batch manifest.
         #[arg(long)]
         manifest_digest: String,
+        /// Work Item member whose append-only authorization ledger is read.
         #[arg(long)]
         work_item_id: String,
     },
@@ -1058,15 +1307,19 @@ enum WorkItemAuthorizationManifestCommand {
 enum WorkItemActivationRecoveryCommand {
     /// Read-only exact request, including finite differences and retained unknowns.
     Plan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
     /// Record an actual newly supplied response for this exact request only.
     Record {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
         #[arg(
@@ -1079,21 +1332,30 @@ enum WorkItemActivationRecoveryCommand {
 
 #[derive(Debug, Subcommand)]
 enum WorkItemSlotCommand {
+    /// Acquire an admitted slot lease for this Work Item.
     Acquire {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },
+    /// Release the exact slot lease using its recorded identity.
     Release {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Exact identity of the slot lease to release.
         #[arg(long)]
         lease_id: String,
     },
+    /// List current parallel-work slot leases.
     List {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
@@ -1101,75 +1363,108 @@ enum WorkItemSlotCommand {
 
 #[derive(Debug, Subcommand)]
 enum WorkItemCoordinationCommand {
+    /// Inspect current coordination registrations, requests and events.
     Inspect {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Register a Work Item and generation for coordinated work.
     Register {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the WorktreeRegistration JSON input.
         #[arg(long)]
         input: PathBuf,
     },
+    /// Record an impact report for dependency and conflict checks.
     ReportImpact {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the CoordinationEvent JSON impact report.
         #[arg(long)]
         input: PathBuf,
     },
+    /// Record a local coordination outcome reference for the specified generation.
     PublishOutcome {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Exact Work Item coordination generation.
         #[arg(long)]
         generation: u64,
+        /// Identity of the local coordination outcome to publish.
         #[arg(long)]
         outcome_id: String,
     },
+    /// Record a bounded coordination pause request.
     RequestPause {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the CoordinationRequest JSON input.
         #[arg(long)]
         input: PathBuf,
     },
+    /// Record the explicit acknowledgement state of a coordination request.
     Acknowledge {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Identity of the coordination request to acknowledge.
         #[arg(long)]
         request_id: String,
+        /// Acknowledgement state to record for this coordination request.
         #[arg(long)]
         state: String,
     },
+    /// Resume coordination for the specified Work Item generation.
     Resume {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
+        /// Exact Work Item coordination generation.
         #[arg(long)]
         generation: u64,
     },
+    /// Recover coordination using an exact event and consumer generation.
     Recover {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Exact coordination event identity to recover from.
         #[arg(long)]
         event_id: String,
+        /// Work Item that consumes the recovered coordination event.
         #[arg(long)]
         consumer_work_item_id: String,
+        /// Exact generation of the consuming Work Item.
         #[arg(long)]
         consumer_generation: u64,
     },
     /// Check for unrecorded Runtime-observed environment drift without writing.
     CheckEnvironmentDrift {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the EnvironmentDriftRequest JSON to inspect without writing.
         #[arg(long)]
         input: PathBuf,
     },
     /// Persist Runtime-observed environment drift before a dependent action.
     RecordEnvironmentDrift {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Path to the EnvironmentDriftRequest JSON to record.
         #[arg(long)]
         input: PathBuf,
     },
@@ -1177,7 +1472,9 @@ enum WorkItemCoordinationCommand {
 
 #[derive(Debug, Subcommand)]
 enum CapabilityCommand {
+    /// Show supported Runtime capabilities or one interface description.
     Show {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
         /// Optionally return a deterministic description for one discoverable
@@ -1207,15 +1504,21 @@ enum CapabilityCommand {
 
 #[derive(Debug, Subcommand)]
 enum ProfileCommand {
+    /// Confirm an explicit program and arguments for the repository quality profile.
     Confirm {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Executable to record in the explicit repository quality profile.
         #[arg(long)]
         program: String,
+        /// Comma-separated program arguments, preserving their declared order.
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
     },
+    /// Generate a repository quality-profile proposal without confirming it.
     Propose {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
@@ -1223,13 +1526,18 @@ enum ProfileCommand {
 
 #[derive(Debug, Subcommand)]
 enum MigrateCommand {
+    /// Show the repository protocol migration plan without applying it.
     Plan {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
     },
+    /// Apply the reviewed repository migration only with explicit approval.
     Apply {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Apply only after the repository migration plan has been explicitly approved.
         #[arg(long)]
         approved: bool,
     },
@@ -2603,6 +2911,20 @@ fn run() -> Result<()> {
                 println!("{}", serde_json::to_string_pretty(&plan)?);
                 return Ok(());
             }
+            let interruption_checkpoint = if work_item.is_some() && reusable_attempt.is_none() {
+                Some(
+                    cockpit_repository::VerificationRunCheckpoint::prepare(
+                        &root,
+                        &requests,
+                        &planned_nodes,
+                        &initial_snapshot,
+                        &runtime_context,
+                    )
+                    .context("prepare verification interruption checkpoint")?,
+                )
+            } else {
+                None
+            };
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
             let supervisor_executable =
@@ -2642,7 +2964,7 @@ fn run() -> Result<()> {
             } else {
                 let total_requests = requests.len();
                 let mut completed_requests = 0_usize;
-                for batch in requests.chunks(workers.max(1)) {
+                for (batch_index, batch) in requests.chunks(workers.max(1)).enumerate() {
                     let batch_runs = std::thread::scope(|scope| {
                         let (progress_sender, progress_receiver) =
                             std::sync::mpsc::channel::<(String, Option<bool>)>();
@@ -2701,13 +3023,24 @@ fn run() -> Result<()> {
                             .collect::<Vec<_>>()
                     });
                     let mut completed_batch = Vec::with_capacity(batch_runs.len());
-                    for run in batch_runs {
-                        let run = run
-                            .map_err(|_| {
-                                anyhow::anyhow!("repository verification worker panicked")
-                            })?
-                            .context("execute repository verification")?;
-                        completed_batch.push(run);
+                    let mut unavailable = Vec::new();
+                    let mut unvalidated_observations = Vec::new();
+                    for (request, run) in batch.iter().zip(batch_runs) {
+                        match run {
+                            Ok(Ok(run)) => completed_batch.push(run),
+                            Ok(Err(error)) => {
+                                unavailable.push((request.node_id.clone(), error.to_string()));
+                                if let cockpit_repository::ObserverError::VerificationCheckpointPublication {
+                                    observation, ..
+                                } = error {
+                                    unvalidated_observations.push(*observation);
+                                }
+                            }
+                            Err(_) => unavailable.push((
+                                request.node_id.clone(),
+                                "repository verification worker panicked".into(),
+                            )),
+                        }
                     }
                     planning_elapsed_ms =
                         planning_elapsed_ms.saturating_add(concurrent_phase_elapsed(
@@ -2722,17 +3055,70 @@ fn run() -> Result<()> {
                                 .map(|run| run.receipt.execution_elapsed_ms),
                         ));
                     runs.extend(completed_batch);
+                    if !unavailable.is_empty() {
+                        let next = batch_index * workers.max(1) + batch.len();
+                        let unstarted = requests[next..]
+                            .iter()
+                            .map(|request| request.node_id.clone())
+                            .collect::<Vec<_>>();
+                        let message = unavailable
+                            .iter()
+                            .map(|(node, error)| format!("{node}: {error}"))
+                            .collect::<Vec<_>>()
+                            .join("; ");
+                        return Err(interrupted_verification_error(
+                            interruption_checkpoint.as_ref(),
+                            &runs,
+                            &unavailable,
+                            &unstarted,
+                            &unvalidated_observations,
+                            "worker",
+                            &message,
+                        )
+                        .context("execute repository verification"));
+                    }
                 }
             }
-            let mut run = merge_verification_runs(runs).context("merge verification runs")?;
+            // Keep completed receipts available while aggregate observation can
+            // still fail; no successful node output is consumed by an early ?.
+            let aggregate_snapshot = if requires_aggregate_snapshot {
+                match cockpit_git::GitRepository::discover(&root).and_then(|git| git.snapshot()) {
+                    Ok(snapshot) => Some(snapshot),
+                    Err(error) => {
+                        return Err(interrupted_verification_error(
+                            interruption_checkpoint.as_ref(),
+                            &runs,
+                            &[],
+                            &[],
+                            &[],
+                            "aggregate_snapshot",
+                            &error.to_string(),
+                        )
+                        .context("capture aggregate verification snapshot"));
+                    }
+                }
+            } else {
+                None
+            };
+            let mut run = match merge_verification_runs(runs) {
+                Some(run) => run,
+                None => {
+                    return Err(interrupted_verification_error(
+                        interruption_checkpoint.as_ref(),
+                        &[],
+                        &[],
+                        &[],
+                        &[],
+                        "aggregate_merge",
+                        "no verification runs available to merge",
+                    )
+                    .context("merge verification runs"));
+                }
+            };
             run.receipt.max_concurrent_processes = process_concurrency.peak();
             run.receipt.planning_elapsed_ms = planning_elapsed_ms;
             run.receipt.execution_elapsed_ms = execution_elapsed_ms;
-            if requires_aggregate_snapshot {
-                let final_snapshot = cockpit_git::GitRepository::discover(&root)
-                    .context("discover repository for aggregate snapshot")?
-                    .snapshot()
-                    .context("capture aggregate verification snapshot")?;
+            if let Some(final_snapshot) = aggregate_snapshot {
                 run.receipt.git_calls = run
                     .receipt
                     .git_calls
@@ -4449,6 +4835,61 @@ impl ProcessConcurrencyObservation {
     }
 }
 
+fn interrupted_verification_error(
+    checkpoint: Option<&cockpit_repository::VerificationRunCheckpoint>,
+    runs: &[cockpit_repository::RepositoryVerificationRun],
+    unavailable: &[(String, String)],
+    unstarted: &[String],
+    unvalidated_observations: &[serde_json::Value],
+    phase: &str,
+    message: &str,
+) -> anyhow::Error {
+    let receipts = runs.iter().map(|run| &run.receipt).collect::<Vec<_>>();
+    let interruption = checkpoint
+        .map(|checkpoint| {
+            checkpoint.interruption_facts(&receipts, unavailable, unstarted, phase, message)
+        })
+        .transpose();
+    let (interruption, facts_error) = match interruption {
+        Ok(value) => (serde_json::json!(value), None),
+        Err(error) => (serde_json::Value::Null, Some(error.to_string())),
+    };
+    let persisted = checkpoint
+        .map(|checkpoint| {
+            checkpoint.record_interrupted(&receipts, unavailable, unstarted, phase, message)
+        })
+        .transpose();
+    let (checkpoint_value, persistence_error) = match persisted {
+        Ok(value) => (serde_json::json!(value), None),
+        Err(error) => (serde_json::Value::Null, Some(error.to_string())),
+    };
+    // This is an interruption report, never the strict complete receipt schema.
+    // Even a checkpoint publication failure keeps actual outputs visible while
+    // preserving both failures and a nonzero exit status.
+    let output = serde_json::json!({
+        "state": "partial", "passed": false, "phase": phase,
+        "diagnostic": message, "completedReceipts": receipts,
+        "postExecutionIdentityValidated": false,
+        "unavailableNodes": unavailable.iter().map(|(node, error)| serde_json::json!({
+            "nodeId": node, "executionState": "unknown", "diagnostic": error,
+        })).collect::<Vec<_>>(),
+        "unstartedNodes": unstarted,
+        "interruption": interruption, "interruptionFactsError": facts_error,
+        "unvalidatedExecutionObservations": unvalidated_observations,
+        "checkpoint": checkpoint_value, "checkpointPersistenceError": persistence_error,
+    });
+    match serde_json::to_string_pretty(&output) {
+        Ok(text) => println!("{text}"),
+        Err(error) => eprintln!("could not serialize partial verification output: {error}"),
+    }
+    match persistence_error {
+        Some(error) => {
+            anyhow::anyhow!("{message}; interruption checkpoint publication failed: {error}")
+        }
+        None => anyhow::anyhow!("{message}"),
+    }
+}
+
 fn merge_verification_runs(
     mut runs: Vec<cockpit_repository::RepositoryVerificationRun>,
 ) -> Option<cockpit_repository::RepositoryVerificationRun> {
@@ -4884,6 +5325,655 @@ mod tests {
     };
     use std::{path::Path, process::Command};
 
+    fn audit_public_help(root: clap::Command) -> (usize, Vec<String>) {
+        fn declared_nodes(
+            node: &clap::Command,
+            path: Vec<String>,
+            nodes: &mut Vec<Vec<String>>,
+            issues: &mut Vec<String>,
+        ) {
+            if node.is_hide_set() {
+                return;
+            }
+            let label = path.join(" ");
+            nodes.push(path.clone());
+            let about = node.get_long_about().or_else(|| node.get_about());
+            if about.is_none_or(|about| about.to_string().trim().is_empty()) {
+                issues.push(format!("{label}: missing command description"));
+            }
+            // Collect author-declared arguments before build adds automatic
+            // help/version flags or propagates global arguments to children.
+            for argument in node.get_arguments().filter(|arg| !arg.is_hide_set()) {
+                let help = argument.get_long_help().or_else(|| argument.get_help());
+                if help.is_none_or(|help| help.to_string().trim().is_empty()) {
+                    issues.push(format!("{label}: missing help for {}", argument.get_id()));
+                }
+            }
+            for child in node.get_subcommands() {
+                let mut child_path = path.clone();
+                child_path.push(child.get_name().into());
+                declared_nodes(child, child_path, nodes, issues);
+            }
+        }
+        let mut nodes = Vec::new();
+        let mut issues = Vec::new();
+        declared_nodes(&root, vec![root.get_name().into()], &mut nodes, &mut issues);
+        // Build a separate tree so inherited globals and automatic help/version
+        // flags are checked against actual rendered help, not just declarations.
+        let mut built = root.clone();
+        built.build();
+        fn listing<'a>(text: &'a str, spelling: &str) -> Option<&'a str> {
+            text.lines().find(|line| {
+                if !line.starts_with("  ") {
+                    return false;
+                }
+                // Only the left-hand listing column counts. A spelling in
+                // Usage or prose cannot hide a missing options/commands row.
+                line.trim_start()
+                    .split("  ")
+                    .next()
+                    .unwrap_or_default()
+                    .split(|character: char| {
+                        character.is_whitespace() || ",<>[]".contains(character)
+                    })
+                    .any(|token| token.eq_ignore_ascii_case(spelling))
+            })
+        }
+        fn listing_block(text: &str, spelling: &str) -> Option<String> {
+            let row = listing(text, spelling)?;
+            let indent = row.len() - row.trim_start().len();
+            let mut lines = text.lines().skip_while(|line| *line != row);
+            let mut block = lines.next()?.to_owned();
+            for line in lines {
+                if !line.trim().is_empty() && line.len() - line.trim_start().len() <= indent {
+                    break;
+                }
+                block.push('\n');
+                block.push_str(line);
+            }
+            Some(block)
+        }
+        fn normalized(text: &str) -> String {
+            text.split_whitespace().collect::<Vec<_>>().join(" ")
+        }
+        fn has_description(text: &str, expected: Option<&clap::builder::StyledStr>) -> bool {
+            expected.is_some_and(|expected| {
+                let expected = normalized(&expected.to_string());
+                !expected.is_empty() && normalized(text).contains(&expected)
+            })
+        }
+        fn rendered_aliases(text: &str) -> Vec<String> {
+            let text = normalized(text);
+            text.split_once("[aliases: ")
+                .or_else(|| text.split_once("[alias: "))
+                .map(|(_, values)| {
+                    values
+                        .split(']')
+                        .next()
+                        .unwrap_or_default()
+                        .split(',')
+                        .map(|value| value.trim().to_owned())
+                        .collect()
+                })
+                .unwrap_or_default()
+        }
+        fn node_at<'a>(root: &'a clap::Command, path: &[String]) -> &'a clap::Command {
+            path.iter().skip(1).fold(root, |node, part| {
+                node.find_subcommand(part).expect("declared canonical node")
+            })
+        }
+        for path in &nodes {
+            let effective = node_at(&built, path);
+            // Clap parsing only: do not call main, dispatch commands, or run
+            // either private stdio supervisor with a --help argument.
+            for flag in ["-h", "--help"] {
+                let mut argv = path.clone();
+                argv.push(flag.into());
+                match root.clone().try_get_matches_from(argv) {
+                    Err(error) if error.kind() == clap::error::ErrorKind::DisplayHelp => {
+                        let text = error.to_string();
+                        let about = if flag == "-h" {
+                            effective.get_about().or_else(|| effective.get_long_about())
+                        } else {
+                            effective.get_long_about().or_else(|| effective.get_about())
+                        };
+                        if !has_description(&text, about) {
+                            issues.push(format!(
+                                "{} {flag}: missing rendered command description",
+                                path.join(" ")
+                            ));
+                        }
+                        for argument in effective.get_arguments() {
+                            let spelling = argument
+                                .get_long()
+                                .map(|value| format!("--{value}"))
+                                .or_else(|| argument.get_short().map(|value| format!("-{value}")))
+                                .unwrap_or_else(|| argument.get_id().to_string());
+                            let hidden = argument.is_hide_set()
+                                || (flag == "-h" && argument.is_hide_short_help_set())
+                                || (flag == "--help" && argument.is_hide_long_help_set());
+                            let shown = listing(&text, &spelling).is_some();
+                            if shown == hidden {
+                                issues.push(format!(
+                                    "{} {flag}: {} argument {spelling}",
+                                    path.join(" "),
+                                    if hidden {
+                                        "leaked hidden"
+                                    } else {
+                                        "missing rendered"
+                                    }
+                                ));
+                            }
+                            if !hidden {
+                                let block = listing_block(&text, &spelling).unwrap_or_default();
+                                let help = if flag == "-h" {
+                                    argument.get_help().or_else(|| argument.get_long_help())
+                                } else {
+                                    argument.get_long_help().or_else(|| argument.get_help())
+                                };
+                                if !has_description(&block, help) {
+                                    issues.push(format!(
+                                        "{} {flag}: missing rendered help for {spelling}",
+                                        path.join(" ")
+                                    ));
+                                }
+                                let aliases = rendered_aliases(&block);
+                                let visible_long =
+                                    argument.get_visible_aliases().unwrap_or_default();
+                                let visible_short =
+                                    argument.get_visible_short_aliases().unwrap_or_default();
+                                let declared = argument
+                                    .get_all_aliases()
+                                    .unwrap_or_default()
+                                    .into_iter()
+                                    .map(|alias| {
+                                        (format!("--{alias}"), visible_long.contains(&alias))
+                                    })
+                                    .chain(
+                                        argument
+                                            .get_all_short_aliases()
+                                            .unwrap_or_default()
+                                            .into_iter()
+                                            .map(|alias| {
+                                                (
+                                                    format!("-{alias}"),
+                                                    visible_short.contains(&alias),
+                                                )
+                                            }),
+                                    );
+                                for (alias, visible) in declared {
+                                    if aliases.contains(&alias) != visible {
+                                        issues.push(format!(
+                                            "{} {flag}: {} argument alias {alias}",
+                                            path.join(" "),
+                                            if visible {
+                                                "missing visible"
+                                            } else {
+                                                "leaked hidden"
+                                            }
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                        for child in effective.get_subcommands() {
+                            let row = listing(&text, child.get_name());
+                            if row.is_some() == child.is_hide_set() {
+                                issues.push(format!(
+                                    "{} {flag}: {} subcommand {}",
+                                    path.join(" "),
+                                    if child.is_hide_set() {
+                                        "leaked hidden"
+                                    } else {
+                                        "missing rendered"
+                                    },
+                                    child.get_name()
+                                ));
+                            }
+                            if !child.is_hide_set() {
+                                let block =
+                                    listing_block(&text, child.get_name()).unwrap_or_default();
+                                // Clap renders a child's short about in both
+                                // parent views, while its own --help uses long_about.
+                                if !has_description(
+                                    &block,
+                                    child.get_about().or_else(|| child.get_long_about()),
+                                ) {
+                                    issues.push(format!(
+                                        "{} {flag}: missing rendered subcommand description {}",
+                                        path.join(" "),
+                                        child.get_name()
+                                    ));
+                                }
+                                let aliases = rendered_aliases(&block);
+                                for alias in child.get_visible_aliases() {
+                                    if !aliases.iter().any(|value| value == alias) {
+                                        issues.push(format!(
+                                            "{} {flag}: missing visible alias {alias}",
+                                            path.join(" ")
+                                        ));
+                                    }
+                                }
+                                for alias in child.get_aliases() {
+                                    if aliases.iter().any(|value| value == alias) {
+                                        issues.push(format!(
+                                            "{} {flag}: leaked hidden alias {alias}",
+                                            path.join(" ")
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                        for private in ["__verification-supervisor", "__composition-supervisor"] {
+                            if text.contains(private) {
+                                issues.push(format!(
+                                    "{}: leaked private helper {private}",
+                                    path.join(" ")
+                                ));
+                            }
+                        }
+                    }
+                    other => issues.push(format!(
+                        "{} {flag}: expected DisplayHelp, got {other:?}",
+                        path.join(" ")
+                    )),
+                }
+            }
+            // Replace one path component at a time: no Cartesian alias
+            // explosion, and no handler or private supervisor invocation.
+            for depth in 1..path.len() {
+                let command = node_at(&built, &path[..=depth]);
+                for alias in command.get_all_aliases() {
+                    let mut argv = path.clone();
+                    argv[depth] = alias.into();
+                    argv.push("--help".into());
+                    match root.clone().try_get_matches_from(argv) {
+                        Err(error) if error.kind() == clap::error::ErrorKind::DisplayHelp => {
+                            let mut canonical = path.clone();
+                            canonical.push("--help".into());
+                            let expected = root
+                                .clone()
+                                .try_get_matches_from(canonical)
+                                .expect_err("help");
+                            if error.to_string() != expected.to_string() {
+                                issues.push(format!(
+                                    "{}: alias {alias} renders a different command",
+                                    path.join(" ")
+                                ));
+                            }
+                        }
+                        other => issues.push(format!(
+                            "{}: alias {alias} failed: {other:?}",
+                            path.join(" ")
+                        )),
+                    }
+                }
+            }
+        }
+        (nodes.len(), issues)
+    }
+
+    #[test]
+    fn every_public_command_and_authored_argument_has_help() {
+        let (count, issues) = audit_public_help(Cli::command());
+        assert!(count > 0, "the dynamic inventory must not be empty");
+        assert!(
+            issues.is_empty(),
+            "{} public nodes; help defects:\n{}",
+            count,
+            issues.join("\n")
+        );
+    }
+
+    #[test]
+    fn help_audit_detects_new_undocumented_members_without_fixed_counts() {
+        let documented = clap::Command::new("fixture")
+            .about("Documented public root")
+            .arg(
+                clap::Arg::new("global")
+                    .long("global")
+                    .global(true)
+                    .help("Documented global option"),
+            )
+            .subcommand(clap::Command::new("child").about("Documented child"))
+            .subcommand(
+                clap::Command::new("hidden")
+                    .hide(true)
+                    .subcommand(clap::Command::new("not-public")),
+            );
+        let (count, issues) = audit_public_help(documented.clone());
+        assert_eq!(count, 2);
+        assert!(issues.is_empty(), "{issues:?}");
+        let (_, issues) = audit_public_help(
+            documented
+                .clone()
+                .subcommand(clap::Command::new("new-command")),
+        );
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue == "fixture new-command: missing command description")
+        );
+        let (_, issues) =
+            audit_public_help(documented.arg(clap::Arg::new("new-option").long("new-option")));
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue == "fixture: missing help for new-option")
+        );
+    }
+
+    #[test]
+    fn help_audit_detects_rendering_omissions() {
+        let documented = clap::Command::new("fixture")
+            .about("Documented root")
+            .arg(
+                clap::Arg::new("visible")
+                    .long("visible")
+                    .help("Visible option"),
+            )
+            .subcommand(clap::Command::new("child").about("Visible child"));
+        for (template, member) in [
+            ("{name}\n{usage}\n{about}\n{subcommands}", "--visible"),
+            ("{name}\n{usage}\n{about}\n{options}", "child"),
+        ] {
+            let (_, issues) = audit_public_help(documented.clone().help_template(template));
+            assert!(
+                issues.iter().any(|issue| issue.contains(member)),
+                "missing rendered member {member} was not detected: {issues:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn help_audit_detects_missing_rendered_descriptions_with_names_preserved() {
+        let fixture = clap::Command::new("fixture")
+            .about("Distinct short root description")
+            .long_about("Distinct long root description")
+            .arg(clap::Arg::new("public").long("public")
+                .help("Distinct short option description")
+                .long_help("Distinct long option description"))
+            .subcommand(clap::Command::new("child")
+                .about("Distinct short child description")
+                .long_about("Distinct long child description"))
+            .help_template("{name}\nUsage: {usage}\nOptions:\n  --public\n  -h, --help\nCommands:\n  child\n  help\n");
+        let (_, issues) = audit_public_help(fixture);
+        for view in ["-h", "--help"] {
+            for missing in [
+                "command description",
+                "help for --public",
+                "subcommand description child",
+            ] {
+                assert!(
+                    issues.iter().any(
+                        |issue| issue == &format!("fixture {view}: missing rendered {missing}")
+                    ),
+                    "rendered description omission escaped: {view} / {missing}: {issues:?}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn help_audit_checks_view_specific_text_and_each_argument_alias() {
+        let fixture = clap::Command::new("fixture")
+            .about("Distinct short root text")
+            .long_about("Distinct long root text")
+            .arg(
+                clap::Arg::new("alpha")
+                    .long("alpha")
+                    .short('a')
+                    .visible_short_alias('b')
+                    .short_alias('c')
+                    .visible_alias("alpha-alt")
+                    .alias("alpha-private")
+                    .help("Distinct short alpha text")
+                    .long_help("Distinct long alpha text"),
+            )
+            .arg(
+                clap::Arg::new("beta")
+                    .long("beta")
+                    .visible_aliases(["beta-one", "beta-two"])
+                    .help("Distinct beta text"),
+            );
+        let (_, issues) = audit_public_help(fixture.clone());
+        assert!(issues.is_empty(), "{issues:?}");
+        for (alpha, beta) in [
+            ("-b", "--beta-one"),
+            ("--alpha-alt", "--beta-two"),
+            ("--alpha-private", "--beta"),
+        ] {
+            let parsed = fixture
+                .clone()
+                .try_get_matches_from(["fixture", alpha, "A", beta, "B"])
+                .expect("declared aliases preserve the canonical argument identity");
+            assert_eq!(
+                parsed.get_one::<String>("alpha").map(String::as_str),
+                Some("A")
+            );
+            assert_eq!(
+                parsed.get_one::<String>("beta").map(String::as_str),
+                Some("B")
+            );
+        }
+        let (_, issues) = audit_public_help(
+            fixture
+                .clone()
+                .help_template("{name}\nDistinct long root text\n{usage}\n{options}\n"),
+        );
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue == "fixture -h: missing rendered command description"),
+            "{issues:?}"
+        );
+        assert!(
+            !issues
+                .iter()
+                .any(|issue| issue == "fixture --help: missing rendered command description"),
+            "{issues:?}"
+        );
+        let (_, issues) = audit_public_help(
+            fixture
+                .clone()
+                .mut_arg("alpha", |argument| argument.help("")),
+        );
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue == "fixture -h: missing rendered help for --alpha"),
+            "{issues:?}"
+        );
+        assert!(
+            !issues
+                .iter()
+                .any(|issue| issue == "fixture --help: missing rendered help for --alpha"),
+            "{issues:?}"
+        );
+        for annotation in ["", "[aliases: -b, --alpha-alt, -c, --alpha-private]"] {
+            let (_, issues) = audit_public_help(fixture.clone().help_template(format!(
+                "{{name}}\n{{about}}\nOptions:\n  -a, --alpha <ALPHA>  Distinct short alpha text {annotation}\n  --beta <BETA>  Distinct beta text [aliases: --beta-one, --beta-two]\n  -h, --help  Print help\n"
+            )));
+            for alias in if annotation.is_empty() {
+                [
+                    "missing visible argument alias -b",
+                    "missing visible argument alias --alpha-alt",
+                ]
+            } else {
+                [
+                    "leaked hidden argument alias -c",
+                    "leaked hidden argument alias --alpha-private",
+                ]
+            } {
+                assert!(
+                    issues.iter().any(|issue| issue.ends_with(alias)),
+                    "{alias}: {issues:?}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn help_audit_covers_effective_globals_aliases_and_hidden_members() {
+        let documented = clap::Command::new("fixture")
+            .version("1.2.3")
+            .about("Documented root")
+            .arg(
+                clap::Arg::new("global")
+                    .long("global")
+                    .global(true)
+                    .visible_alias("global-alt")
+                    .alias("global-private")
+                    .help("Documented global option"),
+            )
+            .arg(
+                clap::Arg::new("hidden-option")
+                    .long("hidden-option")
+                    .hide(true),
+            )
+            .subcommand(
+                clap::Command::new("child")
+                    .about("Documented child")
+                    .visible_alias("c")
+                    .alias("private-child-alias"),
+            )
+            .subcommand(clap::Command::new("hidden-child").hide(true));
+        let (_, issues) = audit_public_help(documented.clone());
+        assert!(issues.is_empty(), "{issues:?}");
+        for alias in ["c", "private-child-alias"] {
+            let matches = documented
+                .clone()
+                .try_get_matches_from(["fixture", "--global-alt", "value", alias])
+                .expect("aliases select the canonical command without dispatch");
+            assert_eq!(matches.subcommand_name(), Some("child"));
+            assert_eq!(
+                matches.get_one::<String>("global").map(String::as_str),
+                Some("value")
+            );
+        }
+        let help = |path: &[&str]| {
+            documented
+                .clone()
+                .try_get_matches_from(path.iter().copied().chain(["--help"]))
+                .expect_err("help")
+                .to_string()
+        };
+        let root = help(&["fixture"]);
+        let child = help(&["fixture", "child"]);
+        for text in [&root, &child] {
+            assert!(text.contains("--global"));
+            assert!(text.contains("global-alt"));
+            assert!(!text.contains("global-private"));
+            assert!(!text.contains("hidden-option"));
+        }
+        assert!(root.contains("[alias: c]"));
+        assert!(!root.contains("private-child-alias"));
+        assert!(!root.contains("hidden-child"));
+        assert!(root.contains("--help") && root.contains("--version"));
+        let version = documented
+            .clone()
+            .try_get_matches_from(["fixture", "--version"])
+            .expect_err("version does not dispatch");
+        assert_eq!(version.kind(), clap::error::ErrorKind::DisplayVersion);
+        let mut missing_global = documented.clone();
+        *missing_global.find_subcommand_mut("child").expect("child") = clap::Command::new("child")
+            .about("Documented child")
+            .help_template("{name}\n{usage}\n{about}");
+        let (_, issues) = audit_public_help(missing_global);
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue.contains("fixture child") && issue.contains("--global")),
+            "{issues:?}"
+        );
+        let (_, issues) = audit_public_help(documented.clone().after_help(
+            "  --hidden-option  leaked private option\n  hidden-child  leaked private command",
+        ));
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue.contains("leaked hidden argument --hidden-option")),
+            "{issues:?}"
+        );
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue.contains("leaked hidden subcommand hidden-child")),
+            "{issues:?}"
+        );
+        let (_, issues) = audit_public_help(documented.help_template(
+            "{name}\n{usage}\n{options}\nCommands:\n  child  Alias metadata omitted",
+        ));
+        assert!(
+            issues
+                .iter()
+                .any(|issue| issue.contains("missing visible alias c")),
+            "{issues:?}"
+        );
+    }
+
+    #[test]
+    fn help_describes_report_output_and_repeated_revalidation_references() {
+        let help = |path: &[&str]| {
+            let error = Cli::command()
+                .try_get_matches_from(path.iter().copied().chain(["--help"]))
+                .expect_err("help does not dispatch a command");
+            assert_eq!(error.kind(), clap::error::ErrorKind::DisplayHelp);
+            error
+                .to_string()
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" ")
+        };
+        let gate = help(&["ai-cockpit", "gate"]);
+        assert!(gate.contains("output path, relative to --repo"));
+        assert!(gate.contains("Overwrites an existing file; paths inside .ai are rejected"));
+        let revalidate = help(&["ai-cockpit", "work-item", "revalidate-archived"]);
+        assert!(revalidate.contains("Evidence reference; repeat --evidence-ref"));
+        assert!(revalidate.contains("Exact policy identifier; repeat --policy-ref"));
+        let parsed = Cli::try_parse_from([
+            "ai-cockpit",
+            "work-item",
+            "revalidate-archived",
+            "--repo",
+            ".",
+            "--id",
+            "WI-PREVIOUS",
+            "--successor",
+            "WI-CURRENT",
+            "--reason",
+            "fixture",
+            "--actor",
+            "agent:fixture",
+            "--authority-source",
+            "fixture-only",
+            "--resume-condition",
+            "explicit fixture",
+            "--evidence-ref",
+            "one,two",
+            "--evidence-ref",
+            "three",
+            "--policy-ref",
+            "alpha,beta",
+            "--policy-ref",
+            "gamma",
+        ])
+        .expect("existing repeated-argument semantics");
+        let CommandKind::WorkItem {
+            command:
+                WorkItemCommand::RevalidateArchived {
+                    evidence_ref,
+                    policy_ref,
+                    ..
+                },
+        } = parsed.command
+        else {
+            panic!("exact command")
+        };
+        assert_eq!(evidence_ref, ["one,two", "three"]);
+        assert_eq!(policy_ref, ["alpha,beta", "gamma"]);
+    }
+
     #[test]
     fn aggregate_receipt_reports_the_longest_node_deadline() {
         let directory = tempfile::tempdir().expect("fixture root");
@@ -5160,6 +6250,445 @@ mod tests {
                 .collect::<Vec<_>>(),
             cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES
         );
+    }
+
+    fn render_public_cli_inventory(mut root: clap::Command, language: &str) -> String {
+        fn paths(node: &clap::Command, path: Vec<String>, output: &mut Vec<Vec<String>>) {
+            if node.is_hide_set() {
+                return;
+            }
+            output.push(path.clone());
+            for child in node.get_subcommands() {
+                let mut next = path.clone();
+                next.push(child.get_name().into());
+                paths(child, next, output);
+            }
+        }
+        fn rows(node: &clap::Command, path: &str, output: &mut String) {
+            if node.is_hide_set() {
+                return;
+            }
+            let mut arguments = node
+                .get_arguments()
+                .filter(|argument| !argument.is_hide_set())
+                .map(|argument| {
+                    let mut names = Vec::new();
+                    if let Some(short) = argument.get_short() {
+                        names.push(format!("-{short}"));
+                    }
+                    if let Some(long) = argument.get_long() {
+                        names.push(format!("--{long}"));
+                    }
+                    if names.is_empty() {
+                        names.extend(
+                            argument
+                                .get_value_names()
+                                .into_iter()
+                                .flatten()
+                                .map(ToString::to_string),
+                        );
+                        if names.is_empty() {
+                            names.push(argument.get_id().to_string());
+                        }
+                    }
+                    names.extend(
+                        argument
+                            .get_visible_short_aliases()
+                            .unwrap_or_default()
+                            .iter()
+                            .map(|alias| format!("-{alias}")),
+                    );
+                    names.extend(
+                        argument
+                            .get_visible_aliases()
+                            .unwrap_or_default()
+                            .iter()
+                            .map(|alias| format!("--{alias}")),
+                    );
+                    format!("`{}`", names.join(" / "))
+                })
+                .collect::<Vec<_>>();
+            arguments.sort();
+            let aliases = node
+                .get_visible_aliases()
+                .map(|alias| format!("`{alias}`"))
+                .collect::<Vec<_>>();
+            output.push_str(&format!(
+                "| `{path}` | {} | {} |\n",
+                arguments.join(", "),
+                aliases.join(", ")
+            ));
+        }
+        // Capture authored public paths before Clap builds its virtual
+        // `help <command>...` tree. Those nodes describe help routing, not a
+        // second set of executable commands with the target's argv.
+        let mut canonical_paths = Vec::new();
+        paths(&root, vec![root.get_name().into()], &mut canonical_paths);
+        root.build();
+        let (title, note, command, arguments, aliases) =
+            match cockpit_protocol::normalize_work_item_outcome_language(language) {
+                "zh" => (
+                    "完整 CLI 目录",
+                    "从当前 Clap 命令树生成；包括继承的全局参数与内建 help/version 参数。这里只列名称，具体语义请查询对应命令的 --help；help [COMMAND]... 使用相同的公开命令路径。",
+                    "命令",
+                    "参数名称",
+                    "可见命令别名",
+                ),
+                "ja" => (
+                    "完全な CLI 一覧",
+                    "現在の Clap command tree から生成。継承した global parameter と組み込み help/version 引数を含みます。意味は各 command の --help を確認してください。help [COMMAND]... は同じ公開 command path を使います。",
+                    "コマンド",
+                    "引数名",
+                    "公開コマンド別名",
+                ),
+                _ => (
+                    "Complete CLI inventory",
+                    "Generated from the current Clap command tree, including inherited global arguments and built-in help/version arguments. Names only; use each command's --help for semantics. The built-in help [COMMAND]... uses these same public command paths.",
+                    "Command",
+                    "Argument names",
+                    "Visible command aliases",
+                ),
+            };
+        let mut output = format!(
+            "<!-- AI_COCKPIT_PUBLIC_CLI:BEGIN -->\n## {title}\n\n{note}\n\n<details>\n<summary>{title}</summary>\n\n| {command} | {arguments} | {aliases} |\n| --- | --- | --- |\n"
+        );
+        for path in canonical_paths {
+            let node = path.iter().skip(1).fold(&root, |node, part| {
+                node.find_subcommand(part).expect("declared node")
+            });
+            rows(node, &path.join(" "), &mut output);
+        }
+        output.push_str("\n</details>\n<!-- AI_COCKPIT_PUBLIC_CLI:END -->\n");
+        output
+    }
+
+    fn unique_document_region<'a>(document: &'a str, begin: &str, end: &str) -> Option<&'a str> {
+        if document.matches(begin).count() != 1 || document.matches(end).count() != 1 {
+            return None;
+        }
+        let start = document.find(begin)?;
+        let finish = document.find(end)?;
+        (finish >= start).then(|| &document[start..finish + end.len()])
+    }
+
+    #[test]
+    fn all_discoverable_interface_facts_have_current_three_language_regions() {
+        let docs = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../docs/reference");
+        let mut missing = Vec::new();
+        for (file, language) in [
+            ("commands.md", "en"),
+            ("commands.zh-CN.md", "zh-CN"),
+            ("commands.ja.md", "ja"),
+        ] {
+            let document = std::fs::read_to_string(docs.join(file))
+                .expect("complete source checkout")
+                .replace("\r\n", "\n");
+            let mut generated = Vec::new();
+            generated.push(render_public_cli_inventory(Cli::command(), language));
+            for surface in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES {
+                let description = cockpit_protocol::interface_description_for_surface(surface)
+                    .expect("registered description");
+                let region =
+                    cockpit_protocol::render_interface_description_markdown(&description, language);
+                generated.push(region);
+            }
+            for region in &generated {
+                let begin = region.lines().next().expect("begin marker");
+                let end = region.lines().last().expect("end marker");
+                if unique_document_region(&document, begin, end) != Some(region.trim_end()) {
+                    missing.push(format!("{file}: missing, stale or ambiguous {begin}"));
+                }
+                for private in ["__verification-supervisor", "__composition-supervisor"] {
+                    assert!(!region.contains(private));
+                }
+            }
+            if !missing.is_empty() {
+                // Diagnostic source facts only; the test never edits reference
+                // files, runs a handler or exposes a production dump command.
+                eprintln!(
+                    "REFERENCE_REGIONS_JSON {}",
+                    serde_json::json!({"file":file,"regions":generated})
+                );
+            }
+        }
+        assert!(
+            missing.is_empty(),
+            "reference drift:\n{}",
+            missing.join("\n")
+        );
+    }
+
+    #[test]
+    fn reference_inventory_tracks_new_members_and_rejects_ambiguous_regions() {
+        let fixture = clap::Command::new("fixture")
+            .arg(clap::Arg::new("global").long("global").global(true))
+            .subcommand(clap::Command::new("visible").visible_alias("v"))
+            .subcommand(
+                clap::Command::new("hidden")
+                    .hide(true)
+                    .subcommand(clap::Command::new("secret")),
+            );
+        let rendered = render_public_cli_inventory(fixture.clone(), "en");
+        assert!(rendered.contains("| `fixture visible` | `--global`, `-h / --help` | `v` |"));
+        assert!(!rendered.contains("hidden") && !rendered.contains("secret"));
+        assert!(
+            !rendered.contains("| `fixture help visible`"),
+            "virtual help paths are not a second command argv"
+        );
+        let changed = render_public_cli_inventory(
+            fixture.subcommand(
+                clap::Command::new("new-member")
+                    .arg(clap::Arg::new("new-argument").long("new-argument")),
+            ),
+            "en",
+        );
+        assert_ne!(rendered, changed);
+        assert!(changed.contains("fixture new-member") && changed.contains("--new-argument"));
+        let begin = "<!-- begin -->";
+        let end = "<!-- end -->";
+        let valid = format!("{begin}\nkept\n{end}");
+        assert_eq!(
+            unique_document_region(&valid, begin, end),
+            Some(valid.as_str())
+        );
+        for invalid in [
+            format!("{valid}\n{valid}"),
+            format!("{end}\n{begin}"),
+            begin.to_owned(),
+            end.to_owned(),
+        ] {
+            assert!(unique_document_region(&invalid, begin, end).is_none());
+        }
+    }
+
+    fn description_cli_issues(
+        mut root: clap::Command,
+        description: &cockpit_protocol::InterfaceDescription,
+    ) -> Vec<String> {
+        use std::{any::TypeId, collections::BTreeSet};
+        fn paths(node: &clap::Command, path: Vec<String>, result: &mut Vec<Vec<String>>) {
+            if node.is_hide_set() {
+                return;
+            }
+            if !path.is_empty() {
+                result.push(path.clone());
+            }
+            for child in node.get_subcommands() {
+                let mut next = path.clone();
+                next.push(child.get_name().into());
+                paths(child, next, result);
+            }
+        }
+        let mut inventory = Vec::new();
+        paths(&root, Vec::new(), &mut inventory);
+        let matches = inventory
+            .iter()
+            .filter(|path| path.join("-") == description.name)
+            .collect::<Vec<_>>();
+        if matches.len() != 1 {
+            return vec![format!(
+                "{}: ambiguous or missing CLI command",
+                description.name
+            )];
+        }
+        root.build();
+        let command = matches[0].iter().fold(&root, |node, name| {
+            node.find_subcommand(name).expect("canonical node")
+        });
+        let surfaces = description
+            .surfaces
+            .iter()
+            .filter(|surface| surface.name == "cli")
+            .collect::<Vec<_>>();
+        if surfaces.len() != 1 {
+            return vec![format!(
+                "{}: ambiguous or missing CLI description",
+                description.name
+            )];
+        }
+        let described = &surfaces[0].parameters;
+        let mut issues = Vec::new();
+        let expected = described
+            .iter()
+            .map(|parameter| parameter.name.as_str())
+            .collect::<BTreeSet<_>>();
+        if expected.len() != described.len() {
+            issues.push("duplicate described parameter".into());
+        }
+        let mut actual = command
+            .get_arguments()
+            .filter(|argument| !argument.is_hide_set())
+            .filter(|argument| {
+                !matches!(
+                    argument.get_action(),
+                    clap::ArgAction::Help
+                        | clap::ArgAction::HelpShort
+                        | clap::ArgAction::HelpLong
+                        | clap::ArgAction::Version
+                )
+            })
+            .map(|argument| {
+                (
+                    argument.get_long().unwrap_or(argument.get_id().as_str()),
+                    argument,
+                )
+            })
+            .collect::<std::collections::BTreeMap<_, _>>();
+        // Descriptions model request parameters, with CLI context kept explicit:
+        // the global task caller is not a request field; Outcome also receives
+        // its repository from the surrounding CLI/MCP repository binding.
+        match actual.remove("task-caller") {
+            Some(argument)
+                if argument.is_global_set()
+                    && !argument.is_required_set()
+                    && argument.get_default_values().is_empty()
+                    && argument.get_value_parser().type_id()
+                        == TypeId::of::<std::path::PathBuf>() => {}
+            _ => issues.push("invalid or missing CLI task-caller context".into()),
+        }
+        if description.name == cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
+            match actual.remove("repo") {
+                Some(argument)
+                    if argument.is_required_set()
+                        && argument.get_value_parser().type_id()
+                            == TypeId::of::<std::path::PathBuf>() => {}
+                _ => issues.push("invalid or missing Outcome repository context".into()),
+            }
+        }
+        if actual.keys().copied().collect::<BTreeSet<_>>() != expected {
+            issues.push("CLI parameter inventory differs in either direction".into());
+        }
+        for parameter in described {
+            let Some(argument) = actual.get(parameter.name.as_str()) else {
+                continue;
+            };
+            let defaults = argument
+                .get_default_values()
+                .iter()
+                .map(|value| value.to_string_lossy().into_owned())
+                .collect::<Vec<_>>();
+            let values = argument
+                .get_possible_values()
+                .iter()
+                .map(|value| value.get_name().to_owned())
+                .collect::<Vec<_>>();
+            let aliases = argument
+                .get_all_aliases()
+                .unwrap_or_default()
+                .iter()
+                .map(|value| value.to_string())
+                .chain(
+                    argument
+                        .get_all_short_aliases()
+                        .unwrap_or_default()
+                        .iter()
+                        .map(char::to_string),
+                )
+                .collect::<BTreeSet<_>>();
+            let parser_type = argument.get_value_parser().type_id();
+            let wire_type = if matches!(
+                argument.get_action(),
+                clap::ArgAction::SetTrue | clap::ArgAction::SetFalse
+            ) {
+                "boolean"
+            } else if !values.is_empty() {
+                "enum"
+            } else if [
+                TypeId::of::<u16>(),
+                TypeId::of::<u32>(),
+                TypeId::of::<u64>(),
+                TypeId::of::<usize>(),
+                TypeId::of::<i32>(),
+                TypeId::of::<i64>(),
+            ]
+            .iter()
+            .any(|expected| parser_type == *expected)
+            {
+                "integer"
+            } else if parser_type == TypeId::of::<String>()
+                || parser_type == TypeId::of::<std::path::PathBuf>()
+            {
+                "string"
+            } else {
+                "unsupported"
+            };
+            if argument.is_required_set() != parameter.required {
+                issues.push(format!("{}: required differs", parameter.name));
+            }
+            if defaults != parameter.default.iter().cloned().collect::<Vec<_>>() {
+                issues.push(format!("{}: default differs", parameter.name));
+            }
+            if values != parameter.enum_values {
+                issues.push(format!("{}: enum differs", parameter.name));
+            }
+            if aliases != parameter.aliases.iter().cloned().collect() {
+                issues.push(format!("{}: aliases differ", parameter.name));
+            }
+            if wire_type != parameter.wire_type {
+                issues.push(format!("{}: type differs", parameter.name));
+            }
+            if parameter.description.trim().is_empty() {
+                issues.push(format!("{}: empty description", parameter.name));
+            }
+        }
+        issues
+    }
+
+    #[test]
+    fn all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
+        for surface in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES {
+            let description =
+                cockpit_protocol::interface_description_for_surface(surface).expect("description");
+            let issues = description_cli_issues(Cli::command(), &description);
+            assert!(issues.is_empty(), "{surface}: {issues:?}");
+            for field in ["name", "required", "default", "enum", "alias", "type"] {
+                let mut changed = description.clone();
+                let parameter = &mut changed
+                    .surfaces
+                    .iter_mut()
+                    .find(|surface| surface.name == "cli")
+                    .expect("CLI")
+                    .parameters[0];
+                match field {
+                    "name" => parameter.name.push_str("-wrong"),
+                    "required" => parameter.required = !parameter.required,
+                    "default" => parameter.default = Some("wrong-default".into()),
+                    "enum" => parameter.enum_values.push("wrong-enum".into()),
+                    "alias" => parameter.aliases.push("wrong-alias".into()),
+                    "type" => parameter.wire_type = "wrong-type".into(),
+                    _ => unreachable!(),
+                }
+                assert!(
+                    !description_cli_issues(Cli::command(), &changed).is_empty(),
+                    "{surface}: {field} drift escaped"
+                );
+            }
+            let mut extra = description.clone();
+            let cli = extra
+                .surfaces
+                .iter_mut()
+                .find(|surface| surface.name == "cli")
+                .expect("CLI");
+            let mut parameter = cli.parameters[0].clone();
+            parameter.name = "undisclosed-new-field".into();
+            cli.parameters.push(parameter);
+            assert!(
+                !description_cli_issues(Cli::command(), &extra).is_empty(),
+                "extra described field escaped"
+            );
+            let mut missing = description.clone();
+            missing
+                .surfaces
+                .iter_mut()
+                .find(|surface| surface.name == "cli")
+                .expect("CLI")
+                .parameters
+                .pop();
+            assert!(
+                !description_cli_issues(Cli::command(), &missing).is_empty(),
+                "extra actual field escaped"
+            );
+        }
     }
 
     #[test]

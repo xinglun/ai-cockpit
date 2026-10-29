@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:75468c0778807ab65fc3819e53b80a881d33fc790c5005ad0601cb3a1bbfd9db",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:2016cbb23cffa621051c60b0c6730c90a13a580205cbe38216647747528e9a9e",
+  "reason": "Record the actual received user decision Sentinel_3032bb9e61dc819181e8c823b44d4dee at 2026-10-29 21:20 UTC, confirming WI-1114 sequence7 two exact paths, scope106 to108, current explicit evidence stages, fixed dev predecessor mandatory compatibility gate repair and all four exact bindings. Native recorded Contract/preflight/snapshot identities and the actual approved 6f7897 Runtime were rechecked; fresh source inspect tree/diff/HEAD match the prior observation. This bounded plan confirmation does not waive current red test_weakening or material_review_projection_unavailable, does not accept a Finding as Unknown, and does not claim WI or material acceptance. Preserve final five evidence requirements and all finish/archive/close gates. Prior12 maintenance results remain preserved; separately approved new8commands/45minutes diagnostics have not started and may run only after the frozen five-file patch is independently reviewed, singleworker, each command at most900seconds and disk at least1GiB. No push, CI, release, Runtime switch or additional cleanup is performed by this confirmation.",
+  "recordedAt": "2026-10-29T21:22:33.517947+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f66ca8ee12c72187340996bf2b90b191a0633c32cf1bdbe49e368831fd45e88",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

@@ -89,6 +89,255 @@ fn run_output(binary: &str, args: &[&str], repo: &std::path::Path) -> std::proce
         .expect("run command")
 }
 
+#[cfg(target_os = "linux")]
+fn run_interrupted_verification(
+    replace_evidence: bool,
+) -> (tempfile::TempDir, std::path::PathBuf, std::process::Output) {
+    use std::os::unix::fs::PermissionsExt;
+
+    let fixture = tempfile::tempdir().expect("fixture");
+    let repo = fixture.path().join("repository with spaces");
+    fs::create_dir(&repo).expect("repository");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .arg(&repo)
+            .status()
+            .unwrap()
+            .success()
+    );
+    fs::write(repo.join("README.md"), "baseline\n").unwrap();
+    commit_baseline(&repo);
+    let mut scripts = Vec::new();
+    for (name, body) in [
+        ("first", "printf first-node-output"),
+        (
+            "second",
+            if replace_evidence {
+                "mv .ai/evidence .ai/evidence-retained && mkdir .ai/evidence && printf second-node-output && printf second-node-error >&2 && exit 7"
+            } else {
+                "mv .git .git-after-execution && printf second-node-output"
+            },
+        ),
+        ("third", "touch third-node-started"),
+    ] {
+        let path = fixture.path().join(name);
+        fs::write(&path, format!("#!/bin/sh\nset -eu\n{body}\n")).unwrap();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
+        scripts.push(path);
+    }
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    run(binary, &["attach"], &repo);
+    run(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-PARTIAL",
+            "--intent",
+            "retain actual node facts",
+            "--goal",
+            "failure must not discard completed execution",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--prepare",
+        ],
+        &repo,
+    );
+    let output = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&repo)
+        .args(["--work-item", "WI-PARTIAL", "--workers", "1"])
+        .args(["--command"])
+        .arg(&scripts[0])
+        .args(["--command"])
+        .arg(&scripts[1])
+        .args(["--command"])
+        .arg(&scripts[2])
+        .output()
+        .expect("verification");
+    assert!(
+        !output.status.success(),
+        "metadata failure must remain a failure"
+    );
+    assert!(
+        !repo.join("third-node-started").exists(),
+        "stop scheduling after the worker error"
+    );
+    (fixture, repo, output)
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn verification_worker_error_preserves_completed_nodes_and_stops_scheduling() {
+    let (_fixture, repo, output) = run_interrupted_verification(false);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("execute repository verification"),
+        "{stderr}"
+    );
+    let output: serde_json::Value = serde_json::from_slice(&output.stdout)
+        .expect("worker failure must emit a structured partial execution record");
+    assert_eq!(output["state"], "partial");
+    assert_eq!(output["passed"], false);
+    let checkpoint = &output["checkpoint"];
+    assert_eq!(checkpoint["kind"], "verification_run_checkpoint");
+    assert_eq!(checkpoint["state"], "interrupted");
+    assert_eq!(checkpoint["postExecutionIdentityValidated"], false);
+    assert!(checkpoint.get("attemptId").is_none());
+    assert_eq!(
+        checkpoint["completedNodes"],
+        serde_json::json!(["project-command-0"])
+    );
+    assert_eq!(
+        checkpoint["unstartedNodes"],
+        serde_json::json!(["project-command-2"])
+    );
+    assert_eq!(
+        checkpoint["unavailableNodes"][0]["nodeId"],
+        "project-command-1"
+    );
+    assert_eq!(
+        checkpoint["unavailableNodes"][0]["executionState"],
+        "unknown"
+    );
+    assert_eq!(
+        checkpoint["completedReceipts"][0]["executionRecords"][0]["stdout"],
+        "66697273742d6e6f64652d6f7574707574"
+    );
+    let facts = fs::read_dir(repo.join(".ai/evidence"))
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-PARTIAL.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(&fs::read(entry.path()).unwrap()).unwrap()
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        facts.iter().any(|fact| fact == checkpoint),
+        "terminal must actually be persisted"
+    );
+    assert!(
+        facts
+            .iter()
+            .any(|fact| fact["state"] == "node_execution_completed"
+                && fact["executionRecords"][0]["stdout"] == "7365636f6e642d6e6f64652d6f7574707574"),
+        "even the failed worker's raw child output must survive"
+    );
+    assert!(facts.iter().all(|fact| fact["passed"] == false));
+    assert!(
+        !repo
+            .join(".ai/evidence/WI-PARTIAL.verification.json")
+            .exists()
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn verification_checkpoint_publication_failure_keeps_output_and_both_errors() {
+    let (_fixture, repo, output) = run_interrupted_verification(true);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("execute repository verification"),
+        "{stderr}"
+    );
+    let output: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("structured partial output");
+    assert_eq!(output["state"], "partial");
+    assert_eq!(output["passed"], false);
+    assert!(output["checkpoint"].is_null());
+    assert!(
+        output["checkpointPersistenceError"]
+            .as_str()
+            .unwrap()
+            .contains("evidence directory changed")
+    );
+    assert_eq!(
+        output["completedReceipts"][0]["executionRecords"][0]["stdout"],
+        "66697273742d6e6f64652d6f7574707574"
+    );
+    let interruption = &output["interruption"];
+    assert_eq!(
+        interruption["passed"], false,
+        "failure output must retain identity and node partition even when publication fails"
+    );
+    assert_eq!(interruption["postExecutionIdentityValidated"], false);
+    assert_eq!(interruption["workItemId"], "WI-PARTIAL");
+    assert_eq!(
+        interruption["completedNodes"],
+        serde_json::json!(["project-command-0"])
+    );
+    assert_eq!(
+        interruption["unavailableNodes"][0]["nodeId"],
+        "project-command-1"
+    );
+    assert_eq!(
+        interruption["unavailableNodes"][0]["executionState"],
+        "unknown"
+    );
+    assert_eq!(
+        interruption["unstartedNodes"],
+        serde_json::json!(["project-command-2"])
+    );
+    assert_eq!(interruption["commands"].as_array().unwrap().len(), 3);
+    for key in [
+        "repositoryId",
+        "runtimeDigest",
+        "contractDigest",
+        "contractExecutionScopeDigest",
+        "repositorySnapshotDigest",
+    ] {
+        assert!(
+            interruption[key]
+                .as_str()
+                .is_some_and(|value| value.starts_with("sha256:")),
+            "missing captured {key}"
+        );
+    }
+    let observations = output["unvalidatedExecutionObservations"]
+        .as_array()
+        .expect("separate raw observations");
+    assert_eq!(observations.len(), 1);
+    let observation = &observations[0];
+    assert_eq!(observation["passed"], false);
+    assert_eq!(observation["postExecutionIdentityValidated"], false);
+    assert_eq!(observation["commands"][0]["nodeId"], "project-command-1");
+    assert_eq!(
+        observation["executionRecords"][0]["stdout"],
+        "7365636f6e642d6e6f64652d6f7574707574"
+    );
+    assert_eq!(
+        observation["executionRecords"][0]["stderr"],
+        "7365636f6e642d6e6f64652d6572726f72"
+    );
+    assert_eq!(observation["executionRecords"][0]["exitCode"], 7);
+    assert_eq!(observation["executionRecords"][0]["spawned"], true);
+    assert!(observation.get("attemptId").is_none());
+    assert!(
+        interruption.get("checkpointId").is_none(),
+        "stdout facts must not claim publication"
+    );
+    assert!(
+        stderr.contains("interruption checkpoint publication failed"),
+        "{stderr}"
+    );
+    assert_eq!(fs::read_dir(repo.join(".ai/evidence")).unwrap().count(), 0);
+    assert!(
+        fs::read_dir(repo.join(".ai/evidence-retained"))
+            .unwrap()
+            .count()
+            >= 3,
+        "old facts must remain intact"
+    );
+}
+
 #[test]
 fn prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command() {
     let repo = repository();

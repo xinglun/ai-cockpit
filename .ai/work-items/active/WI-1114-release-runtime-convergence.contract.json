@@ -59,6 +59,31 @@
     ]
   },
   "governanceProfile": {
+    "evidenceClassStages": {
+      "classes": [
+        {
+          "class": "mac_supervisor_acceptance",
+          "requiredFrom": "finish"
+        },
+        {
+          "class": "measured_ci_coverage",
+          "requiredFrom": "finish"
+        },
+        {
+          "class": "help_inventory",
+          "requiredFrom": "finish"
+        },
+        {
+          "class": "sentinel_formal_package_acceptance",
+          "requiredFrom": "finish"
+        },
+        {
+          "class": "trusted_ci_closeout_admission",
+          "requiredFrom": "finish"
+        }
+      ],
+      "schemaVersion": 1
+    },
     "materialInspectionReview": {
       "acceptResidualRisk": true,
       "assurance": "self_declared",
@@ -141,6 +166,7 @@
   ],
   "requiredRuntimeCapabilities": [
     "bounded-task-authorization",
+    "evidence-class-stages",
     "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
@@ -318,7 +344,11 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
-    "crates/cockpit-interface/src/interface_description.rs"
+    "crates/cockpit-interface/src/interface_description.rs",
+    "crates/cockpit-protocol/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "tests/acceptance/evidence_stage_runtime_compatibility.py",
+    "tests/ci/repository_gate_manifest_test.py"
   ],
   "sources": [
     "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792",

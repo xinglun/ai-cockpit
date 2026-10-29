@@ -82,6 +82,208 @@ fn runtime() -> RuntimeContext {
 
 #[cfg(unix)]
 #[test]
+fn interrupted_run_checkpoint_requires_exact_plan_and_node_partition() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root).unwrap().snapshot().unwrap();
+    let command = checkpoint_command(root, "printf actual-output");
+    let plan = plan_repository_verification_action(root, &command, &snapshot, 1).unwrap();
+    for (pointer, mutation) in [
+        ("/nodeId", json!("foreign")),
+        ("/program", json!("foreign")),
+        ("/args", json!(["changed"])),
+        ("/timeoutSeconds", json!(1)),
+        ("/identityBinding/repositoryId", json!("foreign")),
+        (
+            "/identityBinding/repositorySnapshotDigest",
+            json!(Digest::sha256_bytes(b"other-source")),
+        ),
+        (
+            "/identityBinding/runtimeDigest",
+            json!(Digest::sha256_bytes(b"other-runtime")),
+        ),
+        ("/identityBinding/commandDigest", json!("invalid")),
+    ] {
+        let mut changed = plan.clone();
+        *changed.pointer_mut(pointer).unwrap() = mutation;
+        assert!(
+            cockpit_repository::VerificationRunCheckpoint::prepare(
+                root,
+                std::slice::from_ref(&command),
+                &[changed],
+                &snapshot,
+                &runtime()
+            )
+            .is_err(),
+            "{pointer}"
+        );
+    }
+    assert!(
+        cockpit_repository::VerificationRunCheckpoint::prepare(
+            root,
+            &[command.clone(), command.clone()],
+            &[plan.clone(), plan.clone()],
+            &snapshot,
+            &runtime()
+        )
+        .is_err()
+    );
+    assert!(
+        cockpit_repository::VerificationRunCheckpoint::prepare(
+            root,
+            std::slice::from_ref(&command),
+            &[],
+            &snapshot,
+            &runtime()
+        )
+        .is_err()
+    );
+    let checkpoint = cockpit_repository::VerificationRunCheckpoint::prepare(
+        root,
+        std::slice::from_ref(&command),
+        &[plan],
+        &snapshot,
+        &runtime(),
+    )
+    .unwrap();
+    for (unavailable, unstarted) in [
+        (vec![], vec![]),
+        (vec![], vec!["foreign".into()]),
+        (
+            vec![(command.node_id.clone(), "error".into())],
+            vec![command.node_id.clone()],
+        ),
+    ] {
+        assert!(
+            checkpoint
+                .record_interrupted(&[], &unavailable, &unstarted, "worker", "failed")
+                .is_err()
+        );
+    }
+    assert_eq!(
+        checkpoint_values(root).len(),
+        1,
+        "rejected identities must not publish a terminal"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn interrupted_run_checkpoint_survives_git_loss_without_becoming_reusable() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root).unwrap().snapshot().unwrap();
+    let command = checkpoint_command(root, "printf actual-output");
+    let plan = plan_repository_verification_action(root, &command, &snapshot, 1).unwrap();
+    let checkpoint = cockpit_repository::VerificationRunCheckpoint::prepare(
+        root,
+        std::slice::from_ref(&command),
+        &[plan],
+        &snapshot,
+        &runtime(),
+    )
+    .unwrap();
+    let run = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command,
+        &runtime(),
+        None,
+        |_, _, _| Ok(()),
+    )
+    .unwrap();
+    assert!(run.receipt.passed);
+    fs::rename(root.join(".git"), root.join(".git-retained")).unwrap();
+    let value = checkpoint
+        .record_interrupted(
+            &[&run.receipt],
+            &[],
+            &[],
+            "aggregate_snapshot",
+            "Git metadata unavailable after execution",
+        )
+        .expect("failure persistence must not consult Git again");
+    assert_eq!(value["passed"], false);
+    assert_eq!(value["postExecutionIdentityValidated"], false);
+    assert_eq!(
+        value["completedReceipts"][0]["executionRecords"][0]["stdout"],
+        "61637475616c2d6f7574707574"
+    );
+    assert_eq!(
+        value["completedReceipts"][0]["executionRecords"][0]["exitCode"],
+        0
+    );
+    assert!(value.get("attemptId").is_none());
+    drop(checkpoint);
+    let stored = checkpoint_values(root)
+        .into_iter()
+        .find(|fact| fact["state"] == "interrupted")
+        .unwrap();
+    assert_eq!(
+        stored, value,
+        "a new read must recover the exact immutable fact"
+    );
+    let mut unsigned = stored.clone();
+    unsigned.as_object_mut().unwrap().remove("checkpointId");
+    assert_eq!(
+        stored["checkpointId"],
+        json!(digest_json(&unsigned).unwrap())
+    );
+    fs::rename(root.join(".git-retained"), root.join(".git")).unwrap();
+    assert!(
+        load_reusable_verification_attempt(root, "WI-ATTEMPT", &[command], &snapshot, &runtime())
+            .unwrap()
+            .is_none(),
+        "an interruption is not a complete reusable attempt"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn interrupted_run_checkpoint_rejects_replaced_destination() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root).unwrap().snapshot().unwrap();
+    let command = checkpoint_command(root, "printf not-started");
+    let plan = plan_repository_verification_action(root, &command, &snapshot, 1).unwrap();
+    let checkpoint = cockpit_repository::VerificationRunCheckpoint::prepare(
+        root,
+        std::slice::from_ref(&command),
+        &[plan],
+        &snapshot,
+        &runtime(),
+    )
+    .unwrap();
+    fs::rename(
+        root.join(".ai/evidence"),
+        root.join(".ai/evidence-retained"),
+    )
+    .unwrap();
+    fs::create_dir(root.join(".ai/evidence")).unwrap();
+    let error = checkpoint
+        .record_interrupted(
+            &[],
+            &[],
+            &[command.node_id],
+            "dispatch",
+            "stopped before dispatch",
+        )
+        .unwrap_err();
+    assert!(
+        error.to_string().contains("evidence directory changed"),
+        "{error}"
+    );
+    assert_eq!(fs::read_dir(root.join(".ai/evidence")).unwrap().count(), 0);
+    assert_eq!(
+        fs::read_dir(root.join(".ai/evidence-retained"))
+            .unwrap()
+            .count(),
+        1,
+        "retain the prepared original fact"
+    );
+}
+
+#[cfg(unix)]
+#[test]
 fn completed_node_survives_post_execution_repository_failure() {
     let directory = repository();
     let root = directory.path();
