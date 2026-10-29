@@ -3379,12 +3379,20 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         .arg(&worktree)
         .output()
         .map_err(|error| format!("cannot inspect open worktree files: {error}"))?;
+    inspect_lsof_worktree_output(&worktree, &output)
+}
+
+#[cfg(any(target_os = "macos", all(test, unix)))]
+fn inspect_lsof_worktree_output(
+    worktree: &Path,
+    output: &std::process::Output,
+) -> Result<Option<u32>, String> {
     let mut process_id = None;
     for line in String::from_utf8_lossy(&output.stdout).lines() {
         if let Some(value) = line.strip_prefix('p') {
             process_id = value.parse::<u32>().ok();
         } else if let Some(value) = line.strip_prefix('n')
-            && path_is_within(&worktree, Path::new(value))
+            && path_is_within(worktree, Path::new(value))
         {
             return Ok(process_id);
         }
@@ -3398,6 +3406,100 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         ));
     }
     Ok(None)
+}
+
+#[cfg(all(test, unix))]
+mod macos_lsof_output_tests {
+    use super::inspect_lsof_worktree_output;
+    use std::os::unix::process::ExitStatusExt;
+    use std::path::Path;
+    use std::process::{ExitStatus, Output};
+
+    fn output(code: i32, stdout: &[u8], stderr: &[u8]) -> Output {
+        Output {
+            status: ExitStatus::from_raw(code << 8),
+            stdout: stdout.to_vec(),
+            stderr: stderr.to_vec(),
+        }
+    }
+
+    #[test]
+    fn empty_no_match_with_permission_diagnostic_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(1, b"", b"lsof: cannot inspect directory: Permission denied\n"),
+        );
+        assert!(result.is_err(), "a diagnostic is not a complete negative observation");
+    }
+
+    #[test]
+    fn successful_output_with_warning_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"p42\nn/tmp/worktree with spaces/file\n", b"lsof: observation incomplete\n"),
+        );
+        assert!(result.is_err(), "partial observation must retain the worktree");
+    }
+
+    #[test]
+    fn invalid_utf8_observation_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"p42\nn/tmp/\xff\n", b""),
+        );
+        assert!(result.is_err(), "lossy decoding cannot prove an empty reference set");
+    }
+
+    #[test]
+    fn matching_path_without_process_identity_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"n/tmp/worktree with spaces/file\n", b""),
+        );
+        assert!(result.is_err(), "a matching file without a PID cannot be clear");
+    }
+
+    #[test]
+    fn matching_path_with_invalid_process_identity_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"pnot-a-pid\nn/tmp/worktree with spaces/file\n", b""),
+        );
+        assert!(result.is_err(), "malformed process identity must fail closed");
+    }
+
+    #[test]
+    fn complete_empty_no_match_is_clear() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(1, b"", b""),
+            ),
+            Ok(None),
+        );
+    }
+
+    #[test]
+    fn valid_process_in_spaced_worktree_is_retained() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces/file\n", b""),
+            ),
+            Ok(Some(42)),
+        );
+    }
+
+    #[test]
+    fn component_prefix_is_not_a_worktree_reference() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces-other/file\n", b""),
+            ),
+            Ok(None),
+        );
+    }
 }
 
 #[cfg(all(unix, not(any(target_os = "linux", target_os = "macos"))))]
