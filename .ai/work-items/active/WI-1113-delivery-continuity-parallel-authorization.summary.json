@@ -564,20 +564,53 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "full-workspace-tests",
+        "independent-review",
+        "material-transition-regressions",
+        "parallel-authorization-regressions",
+        "windows-hosted-ci",
+        "zero-warning-clippy"
+      ],
+      "originalBeforeEditContractHash": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+      "previousContractHash": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+      "reason": "Apply the genuine conditional total-cap increase from Sentinel_ada28e5329d48191ae30cb4f79073a4c at 2026-10-29 00:36 UTC, reinforced by Sentinel_2a6ab6cb93908191bb1325608daa4061 at 01:19 UTC requiring synchronization of the actual CI script. CI12 Windows repository-library job 123186971554 has failed (198 passed, one failed), so CI12 cannot be fully green; Linux terminal repository-gate results remain pending and no next CI will start before those results are reviewed. Raise only the total hosted CI cap from fifteen to twenty, preserving all twelve used runs and every previous failure and approval. Synchronize both active acceptance text references, scenario25 plan and append the real source to the current exact task authoritySource; the actual CI workflow caller will be copied from this resulting Contract object. No changes to actions, scope, public target, actor, assurance, expiry, checks/assertions, 900-second per-local-item limit, retries, resource controls, workflow triggers/jobs/permissions or Runtime identity. Preserve all historical records. This typed amendment prepares a new exact human confirmation if native policy requires it; it does not perform or imply confirm_review, any commit, build, push or CI trigger.",
+      "recorded": true,
+      "recordedAt": "2026-10-29T01:20:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a90115f04f2ac5902687873bdc0192307c2e69bf27a3e0236544bee3887ceee9",
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
   "createdAt": "2026-10-26T19:50:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+    "contractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:0bfbf0b05d11a8420150ba3d88c7619d073724996bb61a20b2823fccc77215db",
-    "reason": "Record the real owner sequence19 exact confirm_review in conversation Sentinel_daf59ae3aa0c81918ccdf9223278a0d2 at 2026-10-28 19:50 UTC, received in the trusted parent transcript. Bind only Contract946a70de, current preflight0bfbf0b0, snapshot909582b5 and approved isolated Runtime87d3. Scope covers the five-field phase clarification, honest verification-plan corrections and five existing-file real verification supplements, nineteen WI-only native-output Git persistence paths and exact observer-fixture source path. Preserve required scenarios, assertions, protected resourceContext, whole caller, all history, frozen28 and fifteen total hosted runs with eleven used. This decision is not a claim of verified scenarios or fresh material/full-suite results and does not authorize a Runtime switch, cache deletion, release or premature close.",
-    "recordedAt": "2026-10-28T19:50:00Z",
+    "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+    "reason": "Record only the genuine owner sequence20 exact confirm_review from trusted parent transcript, user message Sentinel_d013f8cdc1b881918b701d1debb6036c at 2026-10-29 01:27 UTC accepting the proposal Sentinel_b1b6070a1ccc8191990864b1f6378f04 at 01:26 UTC. The owner confirmed total CI budget20, retaining all twelve used runs and the exact Contract19fc8d9a/preflight1674138f/snapshot08e22f63/approved governing Runtimee6870852 bindings. This is an actual human decision recorded from the provided message, not an agent-created owner approval. Preserve all previous budget approvals, failures, receipts, task actions/target/expiry, 900-second local checks, retries, assertions and resources. This decision does not verify scenarios, renew material review, claim Windows fix success, authorize a new Runtime switch or start any build, commit, push, CI or release.",
+    "recordedAt": "2026-10-29T01:27:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:909582b54f9bbe1ea9cf64cad0f6179c1383cdcd98b5a41a27df2bdf606543eb",
+    "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
     "schemaVersion": 1,
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
@@ -596,10 +629,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:4655eb63ae87774c2eecc7b4c2d39c12672b660aa3c4b2b0c31c929b1903dca9",
-    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742.json",
-    "receiptDigest": "sha256:ead87be89ff9052fe4a2c486db4d856bb250c1ce9cc13e4f94fce579675ed818",
-    "requestDigest": "sha256:9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742"
+    "digest": "sha256:c2b80e3d264426e48e6a6eb545ab00ead85f157abc5804d1737e7818e7ee5bca",
+    "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/a30f4fea68fe0d160815480fae9c6d425a6082e2a90806db29d3e06190558528.json",
+    "receiptDigest": "sha256:310dc9a47fd16fe48e9b773e817e7021ce12aa8b9c9354ce58d7998bb730b5a9",
+    "requestDigest": "sha256:a30f4fea68fe0d160815480fae9c6d425a6082e2a90806db29d3e06190558528"
   },
   "materialReviewReceiptHistory": [
     {
@@ -649,15 +682,21 @@
       "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9.json",
       "receiptDigest": "sha256:aac3ac2887dcd9e98fa221df6fded300f610a3d9f4233bb8007efc4d8e81f9c2",
       "requestDigest": "sha256:f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9"
+    },
+    {
+      "digest": "sha256:4655eb63ae87774c2eecc7b4c2d39c12672b660aa3c4b2b0c31c929b1903dca9",
+      "path": ".ai/evidence/material-inspection-review/WI-1113-delivery-continuity-parallel-authorization/9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742.json",
+      "receiptDigest": "sha256:ead87be89ff9052fe4a2c486db4d856bb250c1ce9cc13e4f94fce579675ed818",
+      "requestDigest": "sha256:9794ef3d4d5abbbe51147e2108bdadad9fe67b0e19e1acfc1ab8dab8a0cab742"
     }
   ],
   "mode": "implementation",
   "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
   "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
-  "preflightAt": "2026-10-29T00:05:16Z",
-  "preflightContractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
-  "preflightDecisionDigest": "sha256:d19ef3dcfdc4736760cd2f24f03dcf78bcbc873be87ff5c19203b384e6f00cce",
-  "preflightRepositorySnapshotDigest": "sha256:0d6c9bc15562848cfd107ca45771eeeff040b1ad4ef71af46d95fc07b0151435",
+  "preflightAt": "2026-10-29T01:23:19Z",
+  "preflightContractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
@@ -938,7 +977,7 @@
       "required": true,
       "scenario": "main_merge_post_merge_push_ci_readback",
       "status": "unverified",
-      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the fifteen-run budget."
+      "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the twenty-run budget."
     }
   ],
   "state": "checkpointed",
@@ -955,7 +994,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-28T19:51:39.992849551+00:00",
+  "updatedAt": "2026-10-29T01:31:00.000589773+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -963,7 +1002,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+    "contractHash": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
     "invalidatedRequiredChecks": [
       "aiAgentRisk",
       "aiScope",
@@ -978,7 +1017,7 @@
       "windows-hosted-ci",
       "zero-warning-clippy"
     ],
-    "recordedAt": "2026-10-28T18:54:27Z"
+    "recordedAt": "2026-10-29T01:20:45Z"
   },
   "verificationRecoveryReconciled": "sha256:6423b0bea2a12ab77be5c24c704a3ee939181d0a7078fe8a1a0a20e8f1cf94cc",
   "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
