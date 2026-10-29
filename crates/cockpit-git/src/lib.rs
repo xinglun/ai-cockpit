@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
-use std::io::Read;
+use std::ffi::OsString;
+use std::io::{Read, Write};
 #[cfg(unix)]
 use std::os::fd::AsRawFd;
 use std::path::PathBuf;
@@ -67,6 +68,10 @@ unsafe extern "C" {
 
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
 pub const MAX_BOUNDED_GIT_OUTPUT_BYTES: usize = 64 * 1024 * 1024;
+const PATH_INTRODUCTION_TIMEOUT: Duration = Duration::from_secs(10);
+const PATH_INTRODUCTION_OUTPUT_LIMIT: usize = 1024 * 1024;
+const PATH_INTRODUCTION_HISTORY_LIMIT: usize = 4096;
+const PATH_INTRODUCTION_BLOB_LIMIT: usize = 1024 * 1024;
 const GIT_OUTPUT_CHUNK_BYTES: usize = 8 * 1024;
 const BOUNDED_PIPE_CLOSE_TIMEOUT: Duration = Duration::from_secs(1);
 
@@ -1210,6 +1215,8 @@ fn append_cleanup_error(error: String, cleanup: Result<(), String>) -> String {
 
 struct BoundedProcess {
     child: Child,
+    reaped: bool,
+    termination_requested: bool,
     #[cfg(windows)]
     job: Option<windows_job::Job>,
 }
@@ -1229,6 +1236,8 @@ impl BoundedProcess {
                 .map_err(|error| GitError::Command(error.to_string()))?;
             let process = Self {
                 child,
+                reaped: false,
+                termination_requested: false,
                 job: Some(job),
             };
             assign_job_before_resume(
@@ -1245,11 +1254,30 @@ impl BoundedProcess {
             let child = command
                 .spawn()
                 .map_err(|error| GitError::Command(error.to_string()))?;
-            Ok(Self { child })
+            Ok(Self {
+                child,
+                reaped: false,
+                termination_requested: false,
+            })
         }
     }
 
+    fn try_wait(&mut self) -> std::io::Result<Option<std::process::ExitStatus>> {
+        let status = self.child.try_wait()?;
+        if status.is_some() {
+            self.reaped = true;
+        }
+        Ok(status)
+    }
+
+    fn wait(&mut self) -> std::io::Result<std::process::ExitStatus> {
+        let status = self.child.wait()?;
+        self.reaped = true;
+        Ok(status)
+    }
+
     fn terminate(&mut self) {
+        self.termination_requested = true;
         #[cfg(unix)]
         {
             // Every bounded Git child owns a fresh process group. Killing the
@@ -1291,14 +1319,15 @@ impl BoundedProcess {
         // is still suspended outside the job and must be killed directly.
         self.job.take();
         let _ = self.child.kill();
-        self.child
-            .wait()
+        self.termination_requested = true;
+        self.wait()
             .map(|_| ())
             .map_err(|error| format!("could not wait for failed suspended Git process: {error}"))
     }
 
     #[cfg(windows)]
     fn terminate_job(&mut self) {
+        self.termination_requested = true;
         if let Some(job) = self.job.take() {
             let _ = job.terminate();
             drop(job);
@@ -1308,6 +1337,17 @@ impl BoundedProcess {
     #[cfg(windows)]
     fn terminate_descendants_after_parent_exit(&mut self) {
         self.terminate_job();
+    }
+}
+
+impl Drop for BoundedProcess {
+    fn drop(&mut self) {
+        if !self.reaped && !self.termination_requested {
+            self.terminate();
+        }
+        if !self.reaped {
+            let _ = self.wait();
+        }
     }
 }
 
@@ -1585,6 +1625,15 @@ pub struct BoundedGitOutput {
     exit_code: Option<i32>,
 }
 
+/// The unique first committed introduction of one literal repository path.
+/// `bytes` are read from the anchored blob object, not from the working tree.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PathIntroduction {
+    pub revision: String,
+    pub blob_oid: String,
+    pub bytes: Vec<u8>,
+}
+
 pub struct GitRepository {
     root: PathBuf,
 }
@@ -1636,8 +1685,26 @@ pub enum GitError {
         "git output pipes did not close within {timeout_ms}ms after termination; descendant cleanup could not be confirmed"
     )]
     OutputPipeCloseTimeout { timeout_ms: u64 },
+    #[error("git command exceeded its bounded deadline of {timeout_ms}ms")]
+    CommandTimeout { timeout_ms: u64 },
     #[error("Git revision must be a full 40- or 64-digit object ID: {0}")]
     InvalidRevision(String),
+    #[error("Git path must be one literal repository-relative path: {0}")]
+    InvalidLiteralPath(String),
+    #[error("requested Git HEAD {requested} does not match current HEAD {current}")]
+    HeadChanged { requested: String, current: String },
+    #[error("cannot prove a first path introduction from shallow Git history")]
+    ShallowHistory,
+    #[error("path has no committed introduction in the requested history: {0}")]
+    PathNotIntroduced(String),
+    #[error("path introduction history has {count} entries; the bounded limit is {limit}")]
+    HistoryEntryLimitExceeded { count: usize, limit: usize },
+    #[error("path has {count} add commits and no unique immutable first introduction")]
+    AmbiguousPathIntroduction { count: usize },
+    #[error("Git path introduction tree entry is missing or malformed: {0}")]
+    InvalidPathIntroductionTree(String),
+    #[error("Git path introduction revision is not an ancestor of the requested HEAD")]
+    IntroductionNotAncestor,
     #[error("git topology path could not be resolved: {0}")]
     InvalidTopology(PathBuf),
 }
@@ -1684,6 +1751,382 @@ impl GitRepository {
             command.process_group(0);
         }
         bounded_process_output(command, max_output_bytes)
+    }
+
+    fn output_bounded_args_until(
+        &self,
+        stage: &'static str,
+        args: &[OsString],
+        max_output_bytes: usize,
+        deadline: Instant,
+        total_timeout: Duration,
+    ) -> Result<BoundedGitOutput, GitError> {
+        let started = Instant::now();
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            Self::emit_path_introduction_timeout_diagnostic(
+                stage,
+                total_timeout,
+                remaining,
+                started.elapsed(),
+                false,
+                false,
+            );
+            return Err(GitError::CommandTimeout {
+                timeout_ms: total_timeout.as_millis().min(u64::MAX as u128) as u64,
+            });
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(args)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        let result = bounded_process_output_with_timeout(command, max_output_bytes, remaining);
+        match &result {
+            Err(GitError::CommandTimeout { .. }) => {
+                Self::emit_path_introduction_timeout_diagnostic(
+                    stage,
+                    total_timeout,
+                    remaining,
+                    started.elapsed(),
+                    true,
+                    true,
+                );
+            }
+            Err(GitError::OutputPipeCloseTimeout { .. }) => {
+                Self::emit_path_introduction_timeout_diagnostic(
+                    stage,
+                    total_timeout,
+                    remaining,
+                    started.elapsed(),
+                    true,
+                    false,
+                );
+            }
+            _ => {}
+        }
+        result
+    }
+
+    fn emit_path_introduction_timeout_diagnostic(
+        stage: &'static str,
+        total_timeout: Duration,
+        remaining_before: Duration,
+        stage_elapsed: Duration,
+        command_spawned: bool,
+        direct_child_reaped: bool,
+    ) {
+        if !matches!(
+            std::env::var("AI_COCKPIT_GIT_PATH_INTRODUCTION_DIAGNOSTICS").as_deref(),
+            Ok("1")
+        ) {
+            return;
+        }
+        let line = format!(
+            "ai-cockpit git-path-introduction timeout stage={stage} total_budget_ms={} remaining_before_ms={} stage_elapsed_ms={} command_spawned={command_spawned} direct_child_reaped={direct_child_reaped} descendants_reaped=not_asserted\n",
+            total_timeout.as_millis(),
+            remaining_before.as_millis(),
+            stage_elapsed.as_millis(),
+        );
+        // Diagnostic output is best-effort: a write error never replaces the
+        // original bounded Git error. stderr may still block if its reader
+        // stops consuming a full pipe, so callers should direct it to a file.
+        let _ = std::io::stderr().lock().write_all(line.as_bytes());
+    }
+
+    /// Find the unique committed introduction of one literal repository path.
+    /// A commit introduces the path only when it is added relative to every
+    /// parent tree. The requested full object ID must still be the repository's
+    /// current HEAD. The entire lookup shares one deadline and rejects shallow,
+    /// ambiguous, malformed, over-limit, or non-ancestor history.
+    pub fn first_path_introduction_bounded(
+        &self,
+        head_oid: &str,
+        literal_repo_path: &str,
+    ) -> Result<PathIntroduction, GitError> {
+        self.first_path_introduction_with_limits(
+            head_oid,
+            literal_repo_path,
+            PATH_INTRODUCTION_OUTPUT_LIMIT,
+            PATH_INTRODUCTION_HISTORY_LIMIT,
+            PATH_INTRODUCTION_TIMEOUT,
+        )
+    }
+
+    fn first_path_introduction_with_limits(
+        &self,
+        head_oid: &str,
+        literal_repo_path: &str,
+        output_limit: usize,
+        history_limit: usize,
+        timeout: Duration,
+    ) -> Result<PathIntroduction, GitError> {
+        if !valid_commit_oid(head_oid) {
+            return Err(GitError::InvalidRevision(head_oid.to_owned()));
+        }
+        validate_literal_repo_path(literal_repo_path)?;
+        let deadline = Instant::now() + timeout;
+
+        let shallow = self.output_bounded_args_until(
+            "shallow_status",
+            &[
+                "--no-replace-objects".into(),
+                "rev-parse".into(),
+                "--is-shallow-repository".into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !shallow.success {
+            return Err(command_error(&shallow.stderr));
+        }
+        match std::str::from_utf8(&shallow.stdout)
+            .map_err(|_| GitError::InvalidUtf8)?
+            .trim()
+        {
+            "false" => {}
+            "true" => return Err(GitError::ShallowHistory),
+            _ => {
+                return Err(GitError::Command(
+                    "git did not return a valid shallow-repository status".into(),
+                ));
+            }
+        }
+
+        let current_head = self.output_bounded_args_until(
+            "head_verification",
+            &[
+                "--no-replace-objects".into(),
+                "rev-parse".into(),
+                "--verify".into(),
+                "HEAD^{commit}".into(),
+            ],
+            256,
+            deadline,
+            timeout,
+        )?;
+        if !current_head.success {
+            return Err(command_error(&current_head.stderr));
+        }
+        let current_head = std::str::from_utf8(&current_head.stdout)
+            .map_err(|_| GitError::InvalidUtf8)?
+            .trim()
+            .to_owned();
+        if !valid_commit_oid(&current_head) {
+            return Err(GitError::InvalidRevision(current_head));
+        }
+        if !head_oid.eq_ignore_ascii_case(&current_head) {
+            return Err(GitError::HeadChanged {
+                requested: head_oid.to_owned(),
+                current: current_head,
+            });
+        }
+
+        let pathspec = format!(":(literal){literal_repo_path}");
+        let history = self.output_bounded_args_until(
+            "path_history",
+            &[
+                "--no-replace-objects".into(),
+                "log".into(),
+                "--full-history".into(),
+                "--topo-order".into(),
+                "--reverse".into(),
+                "--no-renames".into(),
+                "--root".into(),
+                "-m".into(),
+                "--raw".into(),
+                "--no-abbrev".into(),
+                "--format=%H %P".into(),
+                "--diff-filter=A".into(),
+                current_head.clone().into(),
+                "--".into(),
+                pathspec.into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !history.success {
+            return Err(command_error(&history.stderr));
+        }
+        let history_text =
+            std::str::from_utf8(&history.stdout).map_err(|_| GitError::InvalidUtf8)?;
+        let mut candidate_additions = BTreeMap::<String, (usize, usize)>::new();
+        let mut current_commit: Option<(String, usize)> = None;
+        let mut addition_entries = 0usize;
+        for revision in history_text.lines() {
+            if revision.is_empty() {
+                continue;
+            }
+            if revision.starts_with(':') {
+                let (metadata, _path) = revision.split_once('\t').ok_or_else(|| {
+                    GitError::Command("git returned a malformed raw path addition".into())
+                })?;
+                let fields = metadata.split_ascii_whitespace().collect::<Vec<_>>();
+                if fields.len() != 5 || fields[4] != "A" {
+                    return Err(GitError::Command(
+                        "git returned a malformed raw path addition".into(),
+                    ));
+                }
+                let (commit, _) = current_commit.as_ref().ok_or_else(|| {
+                    GitError::Command("git returned a path addition without a commit".into())
+                })?;
+                let entry = candidate_additions.get_mut(commit).ok_or_else(|| {
+                    GitError::Command("git returned a path addition without a commit".into())
+                })?;
+                entry.1 += 1;
+                addition_entries += 1;
+                if addition_entries > history_limit {
+                    return Err(GitError::HistoryEntryLimitExceeded {
+                        count: addition_entries,
+                        limit: history_limit,
+                    });
+                }
+                continue;
+            }
+
+            let mut fields = revision.split_ascii_whitespace();
+            let commit = fields.next().unwrap_or_default();
+            if !valid_commit_oid(commit) {
+                return Err(GitError::Command(
+                    "git returned malformed path introduction history".into(),
+                ));
+            }
+            let parents = fields.collect::<Vec<_>>();
+            if parents.iter().any(|parent| !valid_commit_oid(parent)) {
+                return Err(GitError::Command(
+                    "git returned malformed path introduction parents".into(),
+                ));
+            }
+            let parent_count = parents.len();
+            let entry = candidate_additions
+                .entry(commit.to_owned())
+                .or_insert((parent_count, 0));
+            if entry.0 != parent_count {
+                return Err(GitError::Command(
+                    "git returned inconsistent path introduction parents".into(),
+                ));
+            }
+            current_commit = Some((commit.to_owned(), parent_count));
+        }
+        if candidate_additions.is_empty() {
+            return Err(GitError::PathNotIntroduced(literal_repo_path.to_owned()));
+        }
+        let mut introductions = candidate_additions
+            .into_iter()
+            .filter_map(|(revision, (parent_count, additions))| {
+                (additions == parent_count.max(1)).then_some(revision)
+            })
+            .collect::<Vec<_>>();
+        if introductions.is_empty() {
+            return Err(GitError::PathNotIntroduced(literal_repo_path.to_owned()));
+        }
+        if introductions.len() != 1 {
+            return Err(GitError::AmbiguousPathIntroduction {
+                count: introductions.len(),
+            });
+        }
+        let revision = introductions.pop().expect("one path introduction");
+
+        let ancestry = self.output_bounded_args_until(
+            "introduction_ancestry",
+            &[
+                "--no-replace-objects".into(),
+                "merge-base".into(),
+                "--is-ancestor".into(),
+                revision.clone().into(),
+                current_head.into(),
+            ],
+            256,
+            deadline,
+            timeout,
+        )?;
+        match ancestry.exit_code {
+            Some(0) => {}
+            Some(1) => return Err(GitError::IntroductionNotAncestor),
+            _ => return Err(command_error(&ancestry.stderr)),
+        }
+
+        let tree = self.output_bounded_args_until(
+            "introduction_tree",
+            &[
+                "--no-replace-objects".into(),
+                "ls-tree".into(),
+                "-z".into(),
+                "--full-tree".into(),
+                revision.clone().into(),
+                "--".into(),
+                format!(":(literal){literal_repo_path}").into(),
+            ],
+            output_limit,
+            deadline,
+            timeout,
+        )?;
+        if !tree.success {
+            return Err(command_error(&tree.stderr));
+        }
+        let entries = tree
+            .stdout
+            .split(|byte| *byte == 0)
+            .filter(|entry| !entry.is_empty())
+            .collect::<Vec<_>>();
+        if entries.len() != 1 {
+            return Err(GitError::InvalidPathIntroductionTree(
+                literal_repo_path.to_owned(),
+            ));
+        }
+        let tab = entries[0]
+            .iter()
+            .position(|byte| *byte == b'\t')
+            .ok_or_else(|| GitError::InvalidPathIntroductionTree(literal_repo_path.to_owned()))?;
+        let header = std::str::from_utf8(&entries[0][..tab]).map_err(|_| GitError::InvalidUtf8)?;
+        let path = &entries[0][tab + 1..];
+        let mut fields = header.split_ascii_whitespace();
+        let mode = fields.next();
+        let kind = fields.next();
+        let blob_oid = fields.next();
+        if fields.next().is_some()
+            || !matches!(mode, Some("100644" | "100755"))
+            || kind != Some("blob")
+            || path != literal_repo_path.as_bytes()
+        {
+            return Err(GitError::InvalidPathIntroductionTree(
+                literal_repo_path.to_owned(),
+            ));
+        }
+        let blob_oid = blob_oid.expect("tree entry has a blob object ID");
+        if !valid_commit_oid(blob_oid) {
+            return Err(GitError::InvalidRevision(blob_oid.to_owned()));
+        }
+
+        let blob = self.output_bounded_args_until(
+            "introduction_blob",
+            &[
+                "--no-replace-objects".into(),
+                "cat-file".into(),
+                "blob".into(),
+                blob_oid.into(),
+            ],
+            PATH_INTRODUCTION_BLOB_LIMIT,
+            deadline,
+            timeout,
+        )?;
+        if !blob.success {
+            return Err(command_error(&blob.stderr));
+        }
+        Ok(PathIntroduction {
+            revision,
+            blob_oid: blob_oid.to_owned(),
+            bytes: blob.stdout,
+        })
     }
 
     /// Read the tracked index flags through a fixed, read-only Git command.
@@ -2303,11 +2746,13 @@ impl GitRepository {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum BoundedStream {
     Stdout,
     Stderr,
 }
+
+type BoundedReaderTask = Box<dyn FnOnce() + Send + 'static>;
 
 enum BoundedReadMessage {
     Chunk(BoundedStream, Vec<u8>),
@@ -2386,10 +2831,60 @@ fn forward_pipe<R: BoundedPipeReader>(
 }
 
 fn bounded_process_output(
-    mut command: Command,
+    command: Command,
     max_output_bytes: usize,
 ) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner(command, max_output_bytes, None)
+}
+
+fn bounded_process_output_with_timeout(
+    command: Command,
+    max_output_bytes: usize,
+    timeout: Duration,
+) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner(command, max_output_bytes, Some(timeout))
+}
+
+fn bounded_process_output_inner(
+    command: Command,
+    max_output_bytes: usize,
+    timeout: Option<Duration>,
+) -> Result<BoundedGitOutput, GitError> {
+    bounded_process_output_inner_with_reader_spawner(
+        command,
+        max_output_bytes,
+        timeout,
+        spawn_bounded_reader,
+    )
+}
+
+fn spawn_bounded_reader(
+    stream: BoundedStream,
+    task: BoundedReaderTask,
+) -> std::io::Result<thread::JoinHandle<()>> {
+    let name = bounded_stream_name(stream);
+    thread::Builder::new().name(name.to_owned()).spawn(task)
+}
+
+fn bounded_stream_name(stream: BoundedStream) -> &'static str {
+    match stream {
+        BoundedStream::Stdout => "stdout",
+        BoundedStream::Stderr => "stderr",
+    }
+}
+
+fn bounded_process_output_inner_with_reader_spawner<F>(
+    mut command: Command,
+    max_output_bytes: usize,
+    timeout: Option<Duration>,
+    mut spawn_reader: F,
+) -> Result<BoundedGitOutput, GitError>
+where
+    F: FnMut(BoundedStream, BoundedReaderTask) -> std::io::Result<thread::JoinHandle<()>>,
+{
+    let started = Instant::now();
     command.env("GIT_NO_LAZY_FETCH", "1");
+    command.stdin(Stdio::null());
     command.stdout(Stdio::piped()).stderr(Stdio::piped());
     let mut child = BoundedProcess::spawn(command)?;
     let stdout = child
@@ -2407,23 +2902,53 @@ fn bounded_process_output(
     let stdout_sender = sender.clone();
     let stdout_cancelled = Arc::clone(&reader_cancelled);
     let stderr_cancelled = Arc::clone(&reader_cancelled);
-    let stdout_reader = thread::spawn(move || {
-        forward_pipe(
-            stdout,
-            BoundedStream::Stdout,
-            stdout_sender,
-            stdout_cancelled,
-        )
-    });
-    let stderr_reader = thread::spawn(move || {
-        forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)
-    });
+    let stdout_reader = match spawn_reader(
+        BoundedStream::Stdout,
+        Box::new(move || {
+            forward_pipe(
+                stdout,
+                BoundedStream::Stdout,
+                stdout_sender,
+                stdout_cancelled,
+            )
+        }),
+    ) {
+        Ok(reader) => reader,
+        Err(error) => {
+            return Err(fail_bounded_reader_start(
+                &mut child,
+                BoundedStream::Stdout,
+                error,
+                &reader_cancelled,
+                receiver,
+                Vec::new(),
+            ));
+        }
+    };
+    let stderr_reader = match spawn_reader(
+        BoundedStream::Stderr,
+        Box::new(move || forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)),
+    ) {
+        Ok(reader) => reader,
+        Err(error) => {
+            return Err(fail_bounded_reader_start(
+                &mut child,
+                BoundedStream::Stderr,
+                error,
+                &reader_cancelled,
+                receiver,
+                vec![stdout_reader],
+            ));
+        }
+    };
 
     let mut stdout_bytes = Vec::new();
     let mut stderr_bytes = Vec::new();
     let mut overflow = false;
+    let mut timed_out = false;
     let mut read_error = None;
     let mut process_exit_observed = false;
+    let mut pipes_disconnected = false;
     let mut termination_requested_at = None;
     loop {
         if termination_requested_at.is_some_and(|requested_at: Instant| {
@@ -2449,7 +2974,15 @@ fn bounded_process_output(
             });
         }
 
-        match receiver.recv_timeout(Duration::from_millis(50)) {
+        let poll_interval = if timeout.is_some() {
+            Duration::from_millis(10)
+        } else {
+            Duration::from_millis(50)
+        };
+        let poll_timeout = timeout.map_or(poll_interval, |limit| {
+            limit.saturating_sub(started.elapsed()).min(poll_interval)
+        });
+        match receiver.recv_timeout(poll_timeout) {
             Ok(BoundedReadMessage::Chunk(stream, bytes)) => {
                 let target = match stream {
                     BoundedStream::Stdout => &mut stdout_bytes,
@@ -2471,11 +3004,24 @@ fn bounded_process_output(
                 }
             }
             Err(mpsc::RecvTimeoutError::Timeout) => {}
-            Err(mpsc::RecvTimeoutError::Disconnected) => break,
+            Err(mpsc::RecvTimeoutError::Disconnected) => {
+                if timeout.is_some() {
+                    pipes_disconnected = true;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if timeout.is_some_and(|limit| started.elapsed() >= limit)
+            && termination_requested_at.is_none()
+        {
+            timed_out = true;
+            request_bounded_termination(&mut child, &mut termination_requested_at);
         }
 
         if !process_exit_observed {
-            match child.child.try_wait() {
+            match child.try_wait() {
                 Ok(Some(_)) => {
                     process_exit_observed = true;
                     #[cfg(windows)]
@@ -2496,9 +3042,14 @@ fn bounded_process_output(
                 }
             }
         }
+        if pipes_disconnected && process_exit_observed {
+            break;
+        }
+        if pipes_disconnected {
+            thread::sleep(Duration::from_millis(10));
+        }
     }
     let status = child
-        .child
         .wait()
         .map_err(|error| GitError::Command(error.to_string()))?;
     let stdout_panicked = stdout_reader.join().is_err();
@@ -2506,6 +3057,14 @@ fn bounded_process_output(
     if overflow {
         return Err(GitError::OutputLimitExceeded {
             limit: max_output_bytes,
+        });
+    }
+    if timed_out {
+        return Err(GitError::CommandTimeout {
+            timeout_ms: timeout
+                .unwrap_or_default()
+                .as_millis()
+                .min(u64::MAX as u128) as u64,
         });
     }
     if let Some(error) = read_error {
@@ -2533,6 +3092,36 @@ fn request_bounded_termination(child: &mut BoundedProcess, requested_at: &mut Op
         terminate_bounded_process_group(child);
         *requested_at = Some(Instant::now());
     }
+}
+
+fn fail_bounded_reader_start(
+    child: &mut BoundedProcess,
+    stream: BoundedStream,
+    error: std::io::Error,
+    reader_cancelled: &AtomicBool,
+    receiver: mpsc::Receiver<BoundedReadMessage>,
+    readers: Vec<thread::JoinHandle<()>>,
+) -> GitError {
+    reader_cancelled.store(true, Ordering::Release);
+    drop(receiver);
+    child.terminate();
+
+    let wait_error = child.wait().err();
+    let mut reader_panicked = false;
+    for reader in readers {
+        reader_panicked |= reader.join().is_err();
+    }
+    let mut message = format!(
+        "failed to spawn Git {} output reader thread: {error}",
+        bounded_stream_name(stream)
+    );
+    if let Some(wait_error) = wait_error {
+        message.push_str(&format!("; failed to reap Git child: {wait_error}"));
+    }
+    if reader_panicked {
+        message.push_str("; an output reader panicked during cleanup");
+    }
+    GitError::Command(message)
 }
 
 fn command_error(stderr: &[u8]) -> GitError {
@@ -2773,6 +3362,23 @@ fn valid_commit_oid(head: &str) -> bool {
     matches!(head.len(), 40 | 64) && head.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
+fn validate_literal_repo_path(path: &str) -> Result<(), GitError> {
+    let drive_prefixed = path.as_bytes().get(1) == Some(&b':')
+        && path.as_bytes().first().is_some_and(u8::is_ascii_alphabetic);
+    if path.is_empty()
+        || path.as_bytes().contains(&0)
+        || path.starts_with('/')
+        || path.contains('\\')
+        || drive_prefixed
+        || path
+            .split('/')
+            .any(|part| part.is_empty() || part == "." || part == "..")
+    {
+        return Err(GitError::InvalidLiteralPath(path.to_owned()));
+    }
+    Ok(())
+}
+
 fn status_v2_has_changes(status: &str) -> bool {
     status
         .lines()
@@ -2984,4 +3590,464 @@ where
     normalized.sort();
     normalized.dedup();
     normalized
+}
+
+#[cfg(test)]
+mod path_introduction_tests {
+    use super::{GitError, GitRepository, PATH_INTRODUCTION_OUTPUT_LIMIT};
+    use std::{fs, path::Path, process::Command, time::Duration};
+
+    fn git(root: &Path, args: &[&str]) -> Vec<u8> {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("git command");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output.stdout
+    }
+
+    fn commit(root: &Path, message: &str) -> String {
+        git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                message,
+            ],
+        );
+        String::from_utf8(git(root, &["rev-parse", "HEAD"]))
+            .expect("commit OID")
+            .trim()
+            .to_owned()
+    }
+
+    fn repository_with_introduced_file() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+        fs::create_dir_all(root.join("records")).expect("records directory");
+        fs::write(root.join("records/safe.json"), b"first bytes\n").expect("record file");
+        git(root, &["add", "--", "records/safe.json"]);
+        commit(root, "introduce record");
+        fs::write(root.join("README.md"), "later head\n").expect("later README");
+        git(root, &["add", "--", "README.md"]);
+        let head = commit(root, "advance head");
+        (directory, base, head)
+    }
+
+    fn repository_with_merge_introduced_file() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+
+        git(root, &["checkout", "-qb", "left"]);
+        fs::write(root.join("left.txt"), "left\n").expect("left file");
+        git(root, &["add", "--", "left.txt"]);
+        commit(root, "left change");
+
+        git(root, &["checkout", "-qb", "right", &base]);
+        fs::write(root.join("right.txt"), "right\n").expect("right file");
+        git(root, &["add", "--", "right.txt"]);
+        commit(root, "right change");
+
+        git(root, &["checkout", "--quiet", "left"]);
+        git(root, &["merge", "--no-commit", "--no-ff", "right"]);
+        let path = "records/activation.json";
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join(path), b"merge-introduced activation\n").expect("record file");
+        git(root, &["add", "--", path]);
+        let merge = commit(root, "merge introduces activation record");
+        (directory, base, merge)
+    }
+
+    fn repository_with_file_from_one_merge_parent() -> (tempfile::TempDir, String, String) {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join("README.md"), "base\n").expect("base file");
+        git(root, &["add", "--", "README.md"]);
+        let base = commit(root, "base");
+
+        git(root, &["checkout", "-qb", "left"]);
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join("records/activation.json"), b"side-introduced\n").expect("record file");
+        git(root, &["add", "--", "records/activation.json"]);
+        let introduction = commit(root, "left introduces activation record");
+
+        git(root, &["checkout", "-qb", "right", &base]);
+        fs::write(root.join("right.txt"), "right\n").expect("right file");
+        git(root, &["add", "--", "right.txt"]);
+        commit(root, "right change");
+
+        git(root, &["checkout", "--quiet", "left"]);
+        git(root, &["merge", "--no-commit", "--no-ff", "right"]);
+        let merge = commit(root, "merge file from left parent");
+        (directory, introduction, merge)
+    }
+
+    #[test]
+    fn first_path_introduction_reads_the_literal_path_from_its_first_commit() {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        let relative = "records/[activation]*.json";
+        let path = root.join(relative);
+        fs::create_dir_all(path.parent().expect("record parent")).expect("record directory");
+        fs::write(&path, b"historical activation record\n").expect("first bytes");
+        git(root, &["add", "--", ":(literal)records/[activation]*.json"]);
+        let first_revision = commit(root, "add activation record");
+
+        fs::write(&path, b"later working-tree version\n").expect("modify record");
+        git(root, &["add", "--", ":(literal)records/[activation]*.json"]);
+        let head = commit(root, "modify record later");
+        git(root, &["checkout", "--detach", "--quiet", &head]);
+
+        let expected_blob = String::from_utf8(git(
+            root,
+            &["rev-parse", &format!("{first_revision}:{relative}")],
+        ))
+        .expect("blob OID");
+        let repository = GitRepository::discover(root).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&head, relative)
+            .expect("find first literal-path introduction");
+
+        assert_eq!(introduction.revision, first_revision);
+        assert_eq!(introduction.blob_oid, expected_blob.trim());
+        assert_eq!(introduction.bytes, b"historical activation record\n");
+    }
+
+    #[test]
+    fn first_path_introduction_can_be_a_root_commit() {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        let root = directory.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::create_dir_all(root.join("records")).expect("record directory");
+        fs::write(root.join("records/activation.json"), b"root activation\n").expect("record file");
+        git(root, &["add", "--", "records/activation.json"]);
+        let head = commit(root, "root adds activation record");
+
+        let repository = GitRepository::discover(root).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&head, "records/activation.json")
+            .expect("find root-commit introduction");
+
+        assert_eq!(introduction.revision, head);
+        assert_eq!(introduction.bytes, b"root activation\n");
+    }
+
+    #[test]
+    fn first_path_introduction_in_a_merge_is_found_when_absent_from_every_parent() {
+        let (directory, _base, merge) = repository_with_merge_introduced_file();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        let introduction = repository
+            .first_path_introduction_bounded(&merge, "records/activation.json")
+            .expect("find file introduced by the merge commit");
+
+        assert_eq!(introduction.revision, merge);
+        assert_eq!(introduction.bytes, b"merge-introduced activation\n");
+    }
+
+    #[test]
+    fn merge_introduction_followed_by_delete_and_readd_is_ambiguous() {
+        let (directory, _base, _merge) = repository_with_merge_introduced_file();
+        let root = directory.path();
+        git(root, &["rm", "--", "records/activation.json"]);
+        commit(root, "delete merge-introduced activation");
+        fs::create_dir_all(root.join("records")).expect("recreate record directory");
+        fs::write(
+            root.join("records/activation.json"),
+            b"replacement activation\n",
+        )
+        .expect("reintroduced record");
+        git(root, &["add", "--", "records/activation.json"]);
+        let head = commit(root, "re-add activation record");
+
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/activation.json"),
+            Err(GitError::AmbiguousPathIntroduction { count: 2 })
+        ));
+    }
+
+    #[test]
+    fn merge_does_not_reintroduce_a_file_already_present_in_one_parent() {
+        let (directory, introduction, merge) = repository_with_file_from_one_merge_parent();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        let result = repository
+            .first_path_introduction_bounded(&merge, "records/activation.json")
+            .expect("find the side-branch introduction without counting the merge");
+
+        assert_eq!(result.revision, introduction);
+        assert_eq!(result.bytes, b"side-introduced\n");
+    }
+
+    #[test]
+    fn path_introduction_rejects_invalid_paths_stale_head_and_missing_path() {
+        let (directory, base, head) = repository_with_introduced_file();
+        let repository = GitRepository::discover(directory.path()).expect("discover repository");
+        for invalid in [
+            "../outside.json",
+            "/absolute.json",
+            "records//empty.json",
+            "records/./dot.json",
+            "records/..\\outside.json",
+            "C:\\outside.json",
+        ] {
+            assert!(
+                matches!(
+                    repository.first_path_introduction_bounded(&head, invalid),
+                    Err(GitError::InvalidLiteralPath(_))
+                ),
+                "invalid path was accepted: {invalid}"
+            );
+        }
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&base, "records/safe.json"),
+            Err(GitError::HeadChanged { .. })
+        ));
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/absent.json"),
+            Err(GitError::PathNotIntroduced(_))
+        ));
+    }
+
+    #[test]
+    fn path_introduction_rejects_shallow_history_and_both_resource_limits() {
+        let (directory, _, head) = repository_with_introduced_file();
+        let root = directory.path();
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_with_limits(
+                &head,
+                "records/safe.json",
+                1,
+                10,
+                Duration::from_secs(1),
+            ),
+            Err(GitError::OutputLimitExceeded { limit: 1 })
+        ));
+        assert!(matches!(
+            repository.first_path_introduction_with_limits(
+                &head,
+                "records/safe.json",
+                PATH_INTRODUCTION_OUTPUT_LIMIT,
+                0,
+                Duration::from_secs(1),
+            ),
+            Err(GitError::HistoryEntryLimitExceeded { count: 1, limit: 0 })
+        ));
+        fs::write(root.join(".git/shallow"), format!("{head}\n"))
+            .expect("mark isolated fixture history shallow");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/safe.json"),
+            Err(GitError::ShallowHistory)
+        ));
+    }
+
+    #[test]
+    fn path_introduction_rejects_delete_and_readd_as_ambiguous() {
+        let (directory, _, head_before_readd) = repository_with_introduced_file();
+        let root = directory.path();
+        git(root, &["rm", "--", "records/safe.json"]);
+        commit(root, "delete record");
+        fs::create_dir_all(root.join("records")).expect("recreate records directory");
+        fs::write(root.join("records/safe.json"), b"re-added bytes\n").expect("re-add file");
+        git(root, &["add", "--", "records/safe.json"]);
+        let head = commit(root, "re-add record");
+        let repository = GitRepository::discover(root).expect("discover repository");
+        assert!(matches!(
+            repository.first_path_introduction_bounded(&head, "records/safe.json"),
+            Err(GitError::AmbiguousPathIntroduction { count: 2 })
+        ));
+        assert_ne!(head_before_readd, head);
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod bounded_reader_spawn_failure_tests {
+    use super::{
+        BoundedProcess, BoundedReaderTask, BoundedStream, GitError,
+        bounded_process_output_inner_with_reader_spawner, kill, spawn_bounded_reader,
+    };
+    use std::{
+        fs, io,
+        os::unix::process::CommandExt,
+        path::Path,
+        process::{Command, Stdio},
+        thread,
+        time::{Duration, Instant, SystemTime, UNIX_EPOCH},
+    };
+
+    const WNOHANG: i32 = 1;
+    const ECHILD: i32 = 10;
+
+    unsafe extern "C" {
+        fn waitpid(pid: i32, status: *mut i32, options: i32) -> i32;
+    }
+
+    fn child_command(pid_path: &Path) -> Command {
+        let mut command = Command::new("sh");
+        command
+            .args([
+                "-c",
+                "printf '%s' \"$$\" > \"$COCKPIT_GIT_TEST_PID_FILE\"; exec sleep 30",
+            ])
+            .env("COCKPIT_GIT_TEST_PID_FILE", pid_path)
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .process_group(0);
+        command
+    }
+
+    fn test_directory() -> std::path::PathBuf {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock after Unix epoch")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!(
+            "cockpit-git-reader-spawn-{}-{nonce}",
+            std::process::id()
+        ));
+        fs::create_dir(&path).expect("create isolated test directory");
+        path
+    }
+
+    fn wait_for_pid(path: &Path, timeout: Duration) -> Option<i32> {
+        let deadline = Instant::now() + timeout;
+        loop {
+            if let Ok(value) = fs::read_to_string(path)
+                && let Ok(pid) = value.parse::<i32>()
+            {
+                return Some(pid);
+            }
+            if Instant::now() >= deadline {
+                return None;
+            }
+            thread::sleep(Duration::from_millis(10));
+        }
+    }
+
+    fn assert_child_was_reaped(pid: i32) {
+        let mut status = 0;
+        let result = unsafe { waitpid(pid, &mut status, WNOHANG) };
+        if result == pid || result == 0 {
+            // Keep the regression itself from leaving a zombie if it catches
+            // a future cleanup regression.
+            let _ = unsafe { kill(-pid, 9) };
+            let _ = unsafe { waitpid(pid, &mut status, 0) };
+            panic!("bounded Git child {pid} was not reaped by its owner");
+        }
+        assert_eq!(result, -1, "waitpid should report ECHILD for child {pid}");
+        assert_eq!(
+            io::Error::last_os_error().raw_os_error(),
+            Some(ECHILD),
+            "bounded Git child {pid} must not remain waitable"
+        );
+    }
+
+    fn assert_reader_spawn_failure_reaps_child(failing_stream: BoundedStream) {
+        let directory = test_directory();
+        let pid_path = directory.join("child.pid");
+        let mut child_started = false;
+        let result = bounded_process_output_inner_with_reader_spawner(
+            child_command(&pid_path),
+            1024,
+            Some(Duration::from_secs(5)),
+            |stream, task: BoundedReaderTask| {
+                if stream == failing_stream {
+                    child_started = wait_for_pid(&pid_path, Duration::from_secs(5)).is_some();
+                    Err(io::Error::new(
+                        io::ErrorKind::WouldBlock,
+                        "injected reader thread creation failure",
+                    ))
+                } else {
+                    spawn_bounded_reader(stream, task)
+                }
+            },
+        );
+
+        assert!(child_started, "test child must be alive before injection");
+        assert!(matches!(
+            result,
+            Err(GitError::Command(message))
+                if message.contains("reader thread")
+                    && message.contains("injected reader thread creation failure")
+        ));
+        let pid = fs::read_to_string(&pid_path)
+            .expect("test child wrote its pid")
+            .parse::<i32>()
+            .expect("test child pid is numeric");
+        assert_child_was_reaped(pid);
+        fs::remove_dir_all(directory).expect("remove isolated test directory");
+    }
+
+    #[test]
+    fn stdout_reader_creation_failure_terminates_and_reaps_git_child() {
+        assert_reader_spawn_failure_reaps_child(BoundedStream::Stdout);
+    }
+
+    #[test]
+    fn stderr_reader_creation_failure_joins_stdout_and_reaps_git_child() {
+        assert_reader_spawn_failure_reaps_child(BoundedStream::Stderr);
+    }
+
+    #[test]
+    fn dropping_bounded_process_terminates_and_reaps_child() {
+        let directory = test_directory();
+        let pid_path = directory.join("child.pid");
+        let child = BoundedProcess::spawn(child_command(&pid_path)).expect("spawn bounded child");
+        let pid = wait_for_pid(&pid_path, Duration::from_secs(5)).expect("test child started");
+        drop(child);
+        assert_child_was_reaped(pid);
+        fs::remove_dir_all(directory).expect("remove isolated test directory");
+    }
+}
+
+#[cfg(all(test, unix))]
+mod bounded_deadline_tests {
+    use super::{GitError, bounded_process_output_with_timeout};
+    use std::{
+        os::unix::process::CommandExt,
+        process::Command,
+        time::{Duration, Instant},
+    };
+
+    #[test]
+    fn command_deadline_kills_and_reaps_its_process_group() {
+        let mut command = Command::new("sh");
+        command.args(["-c", "exec sleep 5"]).process_group(0);
+        let started = Instant::now();
+        let error = bounded_process_output_with_timeout(command, 1024, Duration::from_millis(50))
+            .expect_err("sleep must exceed the small deadline");
+        assert!(matches!(error, GitError::CommandTimeout { timeout_ms: 50 }));
+        assert!(started.elapsed() < Duration::from_secs(2));
+    }
 }

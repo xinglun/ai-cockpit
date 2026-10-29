@@ -404,7 +404,16 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "preflight",
             "work_item_controls",
             "work_item_usage_record",
+            "work_item_usage_import",
             "work_item_material_review_plan",
+            "work_item_authorization_manifest_plan",
+            "work_item_authorization_manifest_review",
+            "work_item_authorization_batch_start",
+            "work_item_authorization_batch_check",
+            "work_item_authorization_batch_outcome",
+            "work_item_authorization_batch_inspect",
+            "work_item_authorization_batch_terminate",
+            "work_item_authorization_batch_ledger",
             "work_item_material_review_record",
             "audit_query",
             "work_item_activation_recovery_plan",
@@ -434,7 +443,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 35);
+    assert_eq!(listed.len(), 44);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -509,6 +518,25 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
     assert_eq!(
         verify["inputSchema"]["properties"]["timeoutSeconds"]["type"],
         "integer"
+    );
+    let batch_start = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_authorization_batch_start")
+        .expect("batch start tool");
+    assert_eq!(
+        batch_start["inputSchema"]["properties"]["request"]["additionalProperties"],
+        false
+    );
+    assert_eq!(
+        batch_start["inputSchema"]["properties"]["request"]["required"],
+        serde_json::json!([
+            "schemaVersion",
+            "manifestDigest",
+            "workItemId",
+            "operationId",
+            "action",
+            "caller"
+        ])
     );
     assert_eq!(
         verify["inputSchema"]["properties"]["timeoutSeconds"]["minimum"],
@@ -1198,6 +1226,41 @@ fn mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch() {
         &test_runtime_context(),
     );
     assert_eq!(missing["result"]["isError"], true);
+
+    let malformed_batch = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":5,"method":"tools/call",
+            "params":{"name":"work_item_authorization_batch_start","arguments":{
+                "request":{
+                    "schemaVersion":1,
+                    "manifestDigest":"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+                    "workItemId":"WI-EXPLICIT",
+                    "operationId":"verify-one",
+                    "action":"run_verification",
+                    "caller":{
+                        "schemaVersion":1,
+                        "actor":"agent:batch-worker",
+                        "authoritySource":"conversation:explicit-test",
+                        "assurance":"self_declared"
+                    },
+                    "unexpected":true
+                }
+            }}
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(malformed_batch["result"]["isError"], true);
+    assert!(
+        malformed_batch["result"]["content"][0]["text"]
+            .as_str()
+            .is_some_and(|message| message.contains("unknown field `unexpected`")),
+        "nested batch DTOs must reject fields absent from the strict protocol shape"
+    );
+    assert!(
+        fs::read_dir(root.join(".ai/evidence/task-authorization-batches")).is_err(),
+        "a malformed nested batch request must not create a receipt directory"
+    );
 
     let malformed = handle_request_for_repo(
         &serde_json::json!({
@@ -2258,7 +2321,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         &directory,
         &runtime,
     );
-    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(response["result"]["isError"], false, "{response}");
     let verification = &response["result"]["structuredContent"];
     assert_eq!(verification["rerunStale"], 0);
     assert_eq!(verification["rerunUnknown"], 0);

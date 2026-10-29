@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4f0f71e3e2ff9f8b4d3d66e8203f4b2633898c8b03078a16ca76411fdd9af579",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d32d22e7578ad95b11890a5bf258d1580b383c05d521cc3b17db2f055b8a7178",
+  "reason": "The owner explicitly confirmed WI-1113 sequence 11 exact binding and approved one 113-entry verification round with one worker, CARGO_BUILD_JOBS=1, per-entry 900-second limit, a two-hour external stop budget, no automatic retries, and one cleanup of the current target/debug/incremental cache in conversation Sentinel_98f7c8c4b67c8191ba9abc2b4c98ac15 at 2026-10-27 21:28 UTC. This decision confirms the amended verification plan only; it does not assert that any verification entry passed or that the Work Item is complete.",
+  "recordedAt": "2026-10-27T21:28:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:819a97333faf792288b3ef346268a5c0a56245021fd361b168e6aef1a229bc43",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

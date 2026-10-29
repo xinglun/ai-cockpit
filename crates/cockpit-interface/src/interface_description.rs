@@ -10,6 +10,9 @@ use serde::{Deserialize, Serialize};
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
 pub const WORK_ITEM_USAGE_RECORD_SURFACE: &str = "work-item-usage-record";
+pub const WORK_ITEM_USAGE_IMPORT_SURFACE: &str = "work-item-usage-import";
+pub const WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION: &str = "Strict UsageImportRequest JSON file; parses explicitly supplied response counters, not authenticated metering.";
+pub const WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION: &str = "Strict UsageImportRequest object; supplied response bytes remain caller claims, missing counts remain unknown.";
 pub const WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE: &str = "work-item-material-review-plan";
 pub const WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE: &str = "work-item-material-review-record";
 pub const AUDIT_QUERY_SURFACE: &str = "audit-query";
@@ -163,6 +166,7 @@ pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
 pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] = &[
     WORK_ITEM_OUTCOME_SURFACE,
     WORK_ITEM_USAGE_RECORD_SURFACE,
+    WORK_ITEM_USAGE_IMPORT_SURFACE,
     WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE,
     WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE,
     AUDIT_QUERY_SURFACE,
@@ -801,8 +805,23 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
     }
 }
 
-/// Shared public facts for the explicit usage-record write. Both transports
-/// pass the same typed request to the repository service.
+/// Shared public facts for explicit source import; this description grants no write.
+pub fn work_item_usage_import_interface_description() -> InterfaceDescription {
+    let mut description = work_item_usage_record_interface_description();
+    description.name = WORK_ITEM_USAGE_IMPORT_SURFACE.into();
+    for surface in &mut description.surfaces {
+        for parameter in &mut surface.parameters {
+            parameter.description = match parameter.name.as_str() {
+                "input" => WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION.into(),
+                "request" => WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION.into(),
+                _ => parameter.description.clone(),
+            };
+        }
+    }
+    description
+}
+
+/// Shared public facts for the explicit caller-claim record.
 pub fn work_item_usage_record_interface_description() -> InterfaceDescription {
     InterfaceDescription {
         schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
@@ -1034,6 +1053,7 @@ pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescr
     match surface {
         WORK_ITEM_OUTCOME_SURFACE => Some(work_item_outcome_interface_description()),
         WORK_ITEM_USAGE_RECORD_SURFACE => Some(work_item_usage_record_interface_description()),
+        WORK_ITEM_USAGE_IMPORT_SURFACE => Some(work_item_usage_import_interface_description()),
         WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE => {
             Some(work_item_material_review_plan_interface_description())
         }

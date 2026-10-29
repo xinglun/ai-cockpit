@@ -1,0 +1,74 @@
+{
+  "sequence": 20,
+  "preparedDigest": "sha256:9e62d96ccda667d2b459c66829deb7852c610c0742604ee9a667f1eda2c189d1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+    "sequence": 20,
+    "changeId": "wi1113-ci12-failure-conditional-total-ci-budget20-20261029",
+    "requestDigest": "sha256:977ae7ff618d43d42769a953001647e9c9abf1a7a892dfcdb0f1ec7a348ce0ec",
+    "reason": "Apply the genuine conditional total-cap increase from Sentinel_ada28e5329d48191ae30cb4f79073a4c at 2026-10-29 00:36 UTC, reinforced by Sentinel_2a6ab6cb93908191bb1325608daa4061 at 01:19 UTC requiring synchronization of the actual CI script. CI12 Windows repository-library job 123186971554 has failed (198 passed, one failed), so CI12 cannot be fully green; Linux terminal repository-gate results remain pending and no next CI will start before those results are reviewed. Raise only the total hosted CI cap from fifteen to twenty, preserving all twelve used runs and every previous failure and approval. Synchronize both active acceptance text references, scenario25 plan and append the real source to the current exact task authoritySource; the actual CI workflow caller will be copied from this resulting Contract object. No changes to actions, scope, public target, actor, assurance, expiry, checks/assertions, 900-second per-local-item limit, retries, resource controls, workflow triggers/jobs/permissions or Runtime identity. Preserve all historical records. This typed amendment prepares a new exact human confirmation if native policy requires it; it does not perform or imply confirm_review, any commit, build, push or CI trigger.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/13",
+        "operation": "replace",
+        "oldValue": "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at fifteen total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved.",
+        "newValue": "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at twenty total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved."
+      },
+      {
+        "path": "/acceptanceCriteria/18",
+        "operation": "replace",
+        "oldValue": "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the fifteen-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision.",
+        "newValue": "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the twenty-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision."
+      },
+      {
+        "path": "/scenarioCoverage/24/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the fifteen-run budget.",
+        "newValue": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the twenty-run budget."
+      },
+      {
+        "path": "/governanceProfile/taskAuthorization/authoritySource",
+        "operation": "replace",
+        "oldValue": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved). conversation:Sentinel_a075cc7351108191bde4ab8f7111ced0 (user approval at 2026-10-28 07:24 UTC to raise the total WI-1113 hosted CI cap to fifteen runs, retaining all seven already-used runs and prior attempts, and synchronize the CI caller input; fifteen is the total cap, not additional runs).",
+        "newValue": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved). conversation:Sentinel_a075cc7351108191bde4ab8f7111ced0 (user approval at 2026-10-28 07:24 UTC to raise the total WI-1113 hosted CI cap to fifteen runs, retaining all seven already-used runs and prior attempts, and synchronize the CI caller input; fifteen is the total cap, not additional runs). conversation:Sentinel_ada28e5329d48191ae30cb4f79073a4c (user approval at 2026-10-29 00:36 UTC to raise the total WI-1113 hosted CI cap from fifteen to twenty only if CI12 does not pass; retain all twelve already-used runs and prior attempts without resetting counts; synchronize the current Contract and CI caller, without weakening checks, assertions, authority or retry limits). conversation:Sentinel_2a6ab6cb93908191bb1325608daa4061 (user reminder at 2026-10-29 01:19 UTC that the raised CI budget must also be synchronized into the actual CI scripts)."
+      }
+    ],
+    "previousContractDigest": "sha256:946a70de749e81fcb24ac27df23ff1ddfe9ea1f3540c5239c569e47d44e7ee22",
+    "newContractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+    "repositorySnapshotDigest": "sha256:a90115f04f2ac5902687873bdc0192307c2e69bf27a3e0236544bee3887ceee9",
+    "environmentObservationDigest": "sha256:7874e0e9c4155cfe0c8fc3feea494b5f6e4b9609cc53d13879ca43af4ccc1602",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e68708522119da93359f869860445d8694919b303885b6e64a5959885b61ba59",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [
+      "aiAgentRisk",
+      "aiScope",
+      "aiStatus",
+      "aiStatusCheck",
+      "aiSummary",
+      "aiWorkItem",
+      "full-workspace-tests",
+      "independent-review",
+      "material-transition-regressions",
+      "parallel-authorization-regressions",
+      "windows-hosted-ci",
+      "zero-warning-clippy"
+    ],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/13",
+      "/acceptanceCriteria/18",
+      "/governanceProfile/taskAuthorization/authoritySource",
+      "/scenarioCoverage/24/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:d25258e5c9573bb8b859349421327f0a7943445a0cba1a243c195a98d54237c6",
+    "journalDigest": "sha256:ad6e5a2947bab250d4ac0529881e0c1ca7e150ceddace7a8e6b2bb814ceee086",
+    "recordedAt": "2026-10-29T01:20:45Z"
+  }
+}

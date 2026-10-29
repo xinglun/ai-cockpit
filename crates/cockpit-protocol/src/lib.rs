@@ -9,7 +9,20 @@ pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
 pub mod review_authority;
+pub mod task_authorization;
 pub mod usage;
+
+pub use task_authorization::{
+    TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION, TaskAuthorizationBatchAttemptOutcome,
+    TaskAuthorizationBatchBudget, TaskAuthorizationBatchCheckRequest,
+    TaskAuthorizationBatchDecision, TaskAuthorizationBatchEvent, TaskAuthorizationBatchEventKind,
+    TaskAuthorizationBatchInspectionRequest, TaskAuthorizationBatchManifest,
+    TaskAuthorizationBatchMember, TaskAuthorizationBatchMemberLedger,
+    TaskAuthorizationBatchMemberRequest, TaskAuthorizationBatchOutcomeRequest,
+    TaskAuthorizationBatchReceipt, TaskAuthorizationBatchRequest, TaskAuthorizationBatchReview,
+    TaskAuthorizationBatchStartRequest, TaskAuthorizationBatchTerminationRequest,
+    TaskAuthorizationChildGrant,
+};
 
 pub use audit_query::{
     AUDIT_QUERY_SCHEMA_VERSION, AuditEvidenceRef, AuditQueryCoverage, AuditQueryFilters,
@@ -215,8 +228,10 @@ pub use interface_description::{
 
 pub use interface_description::interface_description::{
     AUDIT_EXPORT_SURFACE, AUDIT_QUERY_SURFACE, CAPABILITY_SHOW_SURFACE_VALUES,
-    WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION, WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
-    WORK_ITEM_USAGE_RECORD_SURFACE, interface_description_for_surface,
+    WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION, WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION,
+    WORK_ITEM_USAGE_IMPORT_SURFACE, WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION,
+    WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION, WORK_ITEM_USAGE_RECORD_SURFACE,
+    interface_description_for_surface, work_item_usage_import_interface_description,
     work_item_usage_record_interface_description,
 };
 
@@ -226,8 +241,9 @@ pub use release_plan::{
     ReleaseStageTransition,
 };
 pub use usage::{
-    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageReceipt, UsageReceiptRef,
-    UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts, UsageUnit,
+    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageImportRequest, UsageReceipt,
+    UsageReceiptRef, UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary,
+    UsageTokenCounts, UsageUnit,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;
@@ -5408,6 +5424,56 @@ pub struct OutcomeReleaseProjection {
     pub evidence_refs: Vec<String>,
 }
 
+pub const TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION: u32 = 1;
+pub const TASK_OUTCOME_JSON_FORMAT: &str = "ai-cockpit.task-outcome";
+pub const TASK_OUTCOME_JSON_SCHEMA_VERSION: u32 = 1;
+pub const TASK_OUTCOME_MARKDOWN_RENDERER: &str = "ai-cockpit.task-outcome-markdown";
+pub const TASK_OUTCOME_MARKDOWN_RENDERER_VERSION: u32 = 2;
+pub const TASK_OUTCOME_LEGACY_MARKDOWN_RENDERER_VERSION: u32 = 1;
+
+/// Runtime-generated policy selected before Task Outcome report artifacts are
+/// created. The report remains a human-readable projection; this identity-bound
+/// record determines the one JSON/schema and Markdown renderer that may replay.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskOutcomeProjectionPolicy {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub source_snapshot_digest: Digest,
+    pub producer_runtime_version: String,
+    pub producer_runtime_digest: Digest,
+    pub json_format: String,
+    pub json_schema_version: u32,
+    pub markdown_renderer: String,
+    pub markdown_renderer_version: u32,
+}
+
+/// Finish-time binding stored outside the report so the report cannot bind its
+/// own digest. A lifecycle event repeats this exact value as append-only evidence.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskOutcomeProjectionFinishBinding {
+    pub schema_version: u32,
+    pub projection_policy_digest: Digest,
+    pub task_report_json_digest: Digest,
+    pub task_report_markdown_digest: Digest,
+}
+
+/// Exact previous finish artifacts retained inside the Summary before a
+/// native source-changing retry replaces the active projection.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskOutcomeProjectionPredecessor {
+    pub schema_version: u32,
+    pub policy: Option<TaskOutcomeProjectionPolicy>,
+    pub finish_binding: Option<TaskOutcomeProjectionFinishBinding>,
+    pub task_report_json_utf8: String,
+    pub task_report_markdown_utf8: String,
+    pub outcome_json_utf8: String,
+}
+
 /// The machine-readable report source for the human handoff.  It is additive
 /// on OutcomeV2 so archived pre-report records remain readable, while every
 /// newly generated OutcomeV2 contains this projection.
@@ -5503,6 +5569,10 @@ pub struct TaskOutcomeEvent {
     /// not require this additive field; new finding and risk events do.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub finding_fingerprint: Option<String>,
+    /// Current-format completion event binding. Historical events omit it and
+    /// remain byte-identical; a current producer must carry the exact finish binding.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub projection_binding: Option<TaskOutcomeProjectionFinishBinding>,
 }
 
 /// Repository-bound human decision that authorizes a retry or creates an

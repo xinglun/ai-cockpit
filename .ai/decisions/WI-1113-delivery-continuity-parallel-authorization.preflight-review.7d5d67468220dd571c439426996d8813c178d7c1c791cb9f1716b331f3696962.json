@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "reason": "Record the real owner sequence 18 exact confirm_review in conversation Sentinel_70a29707d3008191b8f3486a97fdee5d at 2026-10-28 14:55 UTC, received with the parent transcript. This confirms only the two named coverage script paths and their exact Contract/preflight/snapshot/approved 87d3 isolated Runtime binding. Complete-package coverage, warning capture, receipt identity and provenance, the total hosted CI cap of fifteen with ten already-used attempts, and all existing restrictions remain. It does not turn stale material or verification into passing evidence and does not authorize a new Runtime, cache deletion, release or production action.",
+  "recordedAt": "2026-10-28T14:55:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:56668a3b3484bf3b63036b4225197515afbc6e82117dfa4aa4eb164e0f45c5cd",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

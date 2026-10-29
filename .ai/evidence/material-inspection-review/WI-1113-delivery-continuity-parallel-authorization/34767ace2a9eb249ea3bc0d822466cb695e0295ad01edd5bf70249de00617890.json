@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "materialManifestDigest": "sha256:3aef1d911a199817580fd286615cc231389bd1765701b97681771b7896778ba9",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:34767ace2a9eb249ea3bc0d822466cb695e0295ad01edd5bf70249de00617890",
+  "reviewedSourceHead": "0e1d02c72f1938bd8c5e2f846a16558fe7b55f17",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:49f6bf9a63ecf526efca271d0e3911ac760fd9a74e9f026cf5ba882c1f144007",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot completed a new ordinary technical acceptance for request 34767ace2a9eb249ea3bc0d822466cb695e0295ad01edd5bf70249de00617890 after renewed source review of all seven exact path/hunk/blob/cause entries and independent reconstruction of all eleven analyzer source inputs. The approved CI8-source Runtime confirmed the complete canonical request: only analysisImplementationDigest and consequently requestDigest differ from the prior review; two synthetic-fixture autocrlf source-byte changes account for the implementation fingerprint, with no production analysis semantic change. Four identical prior blobs were reviewed again, and the optional fixed-stage Git diagnostics, two contract-amendment fixture configurations, and child-scoped verification-service environment changes were inspected in full. Caller claims, missing counters, failure-without-receipt behavior, predecessor integrity, referenceOnly=true/satisfiesCurrentReview=false, safeActions and tamper/reseal/cross-identity negatives remain intact. This decision accepts only the exact seven profile-permitted syntax Unknowns in the new bound request. It does not transplant an earlier receipt or use absence of Findings as approval. The reviewer is agent:codex with self_declared assurance; this is not human, provider, release or production approval.",
+  "residualRisk": "The seven raw scanner entries remain machine Unknown, not Clean. Explicit optional Git diagnostic stderr write_all may block; this review promises neither a ten-second return for the entire API nor descendant cleanup (not_asserted). Direct test-binary execution without required Rustup/Cargo environment can genuinely fail toolchain discovery and must not falsely pass. CI8 formal 113/113 evidence remains bound to its exact source/Contract/runtime and does not establish finish, merge, main delivery or user-visible benefit. A changed request, entry/path/hunk/blob/cause, Finding, policy/profile or analyzer identity requires a new review.",
+  "recordedAt": "2026-10-28T09:38:41Z",
+  "receiptDigest": "sha256:00e75a43ed49a5af46e5247839425e590dfacb6b94938f95ed8b5ea779635e29"
+}

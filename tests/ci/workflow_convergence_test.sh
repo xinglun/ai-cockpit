@@ -9,6 +9,7 @@ resolver="$root/tests/ci/resolve_work_item.sh"
 
 python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
+import hashlib
 import importlib.util
 import json
 import re
@@ -21,6 +22,88 @@ route = Path(sys.argv[2]).read_text(encoding="utf-8")
 runner = Path(sys.argv[3]).read_text(encoding="utf-8")
 resolver = Path(sys.argv[4]).read_text(encoding="utf-8") if Path(sys.argv[4]).exists() else ""
 
+# The fixed public corpus is raw test data, including its final LF. Check its
+# checkout contract before compilation, without changing the payload or scanner.
+corpus_root = Path(sys.argv[1]).resolve().parents[2]
+corpus_path = "tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+corpus_rule = f"/{corpus_path} -text"
+corpus_digest = "a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814"
+
+def require_corpus_bytes(raw):
+    assert len(raw) == 43, "fixed corpus must retain its original 43 bytes"
+    assert hashlib.sha256(raw).hexdigest() == corpus_digest, "fixed corpus SHA256 mismatch"
+
+def corpus_git(repository, *args):
+    return subprocess.run(
+        ["git", "-C", str(repository), "-c", "maintenance.autoDetach=false",
+         "-c", "gc.autoDetach=false", *args],
+        check=True, stdout=subprocess.PIPE,
+    ).stdout
+
+def corpus_attributes(repository, paths):
+    fields = corpus_git(repository, "check-attr", "-z", "text", "diff", "--", *paths).split(b"\0")[:-1]
+    assert len(fields) == len(paths) * 6
+    return {(fields[i].decode(), fields[i + 1].decode()): fields[i + 2].decode()
+            for i in range(0, len(fields), 3)}
+
+corpus_raw = corpus_git(corpus_root, "show", f"HEAD:{corpus_path}")
+require_corpus_bytes(corpus_raw)
+corpus_rules = (corpus_root / ".gitattributes").read_text(encoding="utf-8").splitlines()
+corpus_old_rules = [line for line in corpus_rules if line.strip() != corpus_rule]
+with tempfile.TemporaryDirectory(prefix="fixed-corpus-checkout-") as temporary:
+    checkout = Path(temporary)
+    corpus_git(checkout, "init", "-q")
+    corpus_git(checkout, "config", "--local", "core.autocrlf", "false")
+    target = checkout / corpus_path
+    target.parent.mkdir(parents=True)
+    target.write_bytes(corpus_raw)
+    attributes = checkout / ".gitattributes"
+    attributes.write_text("\n".join(corpus_old_rules) + "\n", encoding="utf-8")
+    corpus_git(checkout, "add", ".")
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "original corpus byte contract")
+    corpus_parent = corpus_path.rsplit("/", 1)[0]
+    probes = [corpus_path, corpus_path + ".other", f"{corpus_parent}/other.txt",
+              f"{corpus_parent}/nested/material.txt",
+              ".ai/evidence/fixture.json", "src/other.rs"]
+    before_attributes = corpus_attributes(checkout, probes)
+    target.unlink()  # Materialize a fresh checkout instead of reusing index stat data.
+    corpus_git(checkout, "-c", "core.autocrlf=true", "checkout-index", "--force", "--", corpus_path)
+    old_checkout = target.read_bytes()
+    assert len(old_checkout) == 44
+    assert hashlib.sha256(old_checkout).hexdigest() == "378a97fa8af550855178dc5e8733f0dd5fb2b88b3270cef6c1d885959cd12fe1"
+    assert old_checkout != corpus_raw, "old rules must reproduce the CRLF transport defect"
+    attributes.write_text("\n".join([*corpus_old_rules, corpus_rule]) + "\n", encoding="utf-8")
+    corpus_git(checkout, "add", ".gitattributes")
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "preserve only the fixed corpus bytes")
+    after_attributes = corpus_attributes(checkout, probes)
+    assert {key for key in before_attributes if before_attributes[key] != after_attributes[key]} == {(corpus_path, "text")}
+    assert after_attributes[(corpus_path, "text")] == "unset"
+    assert after_attributes[(corpus_path, "diff")] != "unset", "the corpus must retain visible text diffs"
+    for mode in ("false", "true", "input"):
+        target.unlink()
+        corpus_git(checkout, "-c", f"core.autocrlf={mode}", "checkout-index", "--force", "--", corpus_path)
+        assert target.read_bytes() == corpus_raw, mode
+        require_corpus_bytes(target.read_bytes())
+    # Corrupt only an isolated fixture blob; the real public corpus is unchanged.
+    target.write_bytes(b"X" + corpus_raw[1:])
+    corpus_git(checkout, "add", "--", corpus_path)
+    corpus_git(checkout, "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+               "commit", "-qm", "negative corpus identity fixture")
+    try:
+        require_corpus_bytes(corpus_git(checkout, "show", f"HEAD:{corpus_path}"))
+    except AssertionError as error:
+        assert str(error) == "fixed corpus SHA256 mismatch"
+    else:
+        raise AssertionError("a changed corpus blob must be rejected")
+assert corpus_rules.count(corpus_rule) == 1, "the fixed corpus requires one exact -text rule"
+source_attributes = corpus_attributes(corpus_root, [corpus_path])
+assert source_attributes[(corpus_path, "text")] == "unset"
+assert source_attributes[(corpus_path, "diff")] != "unset"
+require_corpus_bytes((corpus_root / corpus_path).read_bytes())
+print("fixed corpus byte contract: old CRLF defect, false/true/input, exact scope and tamper rejection passed")
+
 def job_block(name):
     marker = f"  {name}:\n"
     start = workflow.index(marker, workflow.index("jobs:\n"))
@@ -28,13 +111,28 @@ def job_block(name):
     next_job = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
     return workflow[start:] if next_job is None else workflow[start:start + len(marker) + next_job.start()]
 
+# The managed cheap barrier must precede the first Rust build in every
+# source context, including release-input planning before a tag source exists.
+precheck = "bash tests/ci/run_repository_prechecks.sh --repo"
+route_job = job_block("route")
+assert precheck in route_job, "CI must run cheap prechecks before the shared Rust build"
+assert route_job.index(precheck) < route_job.index("cargo build")
+release_workflow = Path(sys.argv[1]).with_name("release.yml").read_text(encoding="utf-8")
+for name in ("release_input_preflight", "release_preflight"):
+    remaining = release_workflow.split(f"  {name}:\n", 1)[1]
+    match = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
+    block = remaining if match is None else remaining[:match.start()]
+    assert precheck in block, f"{name} omits canonical cheap prechecks"
+    assert block.index(precheck) < block.index("cargo build"), name
+assert 'run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE/release-source"' in release_workflow
+
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
 # this policy.
 assert "RUSTFLAGS: -D warnings" in workflow
 assert "RUSTDOCFLAGS: -D warnings" in workflow
 assert "name: verify Windows zero-warning workspace Clippy" in workflow
-assert "components: clippy" in job_block("windows-runtime")
+assert "components: clippy" in job_block("windows-runtime-suites")
 assert "run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings" in workflow
 assert "skip-decompress: true" in workflow
 assert "digest-mismatch: error" in workflow
@@ -61,9 +159,101 @@ assert 'head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"' in workflow
 assert workflow.count("name: Bind source and tested revisions") == 2
 assert 'target/ci-revision-binding.json' in workflow
 
+# Splitting Windows work must preserve every original Rust command exactly
+# once, keep bounded sibling execution, and retain the stable fail-closed job.
+windows_suites = job_block("windows-runtime-suites")
+assert "suite: [boundaries, repository-library]" in windows_suites
+assert "fail-fast: false" in windows_suites and "max-parallel: 2" in windows_suites
+windows_original_commands = ['python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact']
+windows_steps = re.split(r"(?m)^      - ", windows_suites)
+windows_actual_commands = []
+for step in windows_steps:
+    matches = re.findall(r"(?m)^        run: (python tests/ci/run_no_warnings.py -- cargo .+)$", step)
+    windows_actual_commands.extend(matches)
+    if matches:
+        expected_suite = "repository-library" if matches[0].endswith("cockpit-repository --lib") else "boundaries"
+        assert f"if: matrix.suite == '{expected_suite}'" in step, matches[0]
+assert sorted(windows_actual_commands) == sorted(windows_original_commands), "Windows command coverage changed"
+assert "name: ci-revision-binding-windows-${{ matrix.suite }}" in windows_suites
+assert "name: Record successful Windows suite" in windows_suites
+assert "target/windows-suite-result.json" in windows_suites
+windows_aggregate = job_block("windows-runtime")
+assert "needs: [route, windows-runtime-suites]" in windows_aggregate
+assert "if: always() && (needs.route.result != 'success' || needs.route.outputs.profile != 'light')" in windows_aggregate
+assert "SUITES_RESULT: ${{ needs.windows-runtime-suites.result }}" in windows_aggregate
+assert "run: test \"$SUITES_RESULT\" = success" in windows_aggregate
+for suite in ("boundaries", "repository-library"):
+    assert f"name: ci-revision-binding-windows-{suite}" in windows_aggregate
+assert windows_aggregate.count("skip-decompress: true") == 2
+assert windows_aggregate.count("digest-mismatch: error") == 2
+
+# Execute the exact aggregation program with bounded same-run ZIP fixtures;
+# metadata existence alone must not hide a failed, cancelled or missing suite.
+import copy
+import os
+import stat
+import zipfile
+aggregate_step = windows_aggregate.split("      - name: Verify complete same-run Windows suite receipts\n", 1)[1]
+aggregate_lines = aggregate_step.split("        run: |\n", 1)[1].splitlines()
+assert all(not line or line.startswith("          ") for line in aggregate_lines)
+aggregate_shell = "\n".join(line[10:] if line else "" for line in aggregate_lines) + "\n"
+with tempfile.TemporaryDirectory(prefix="windows-suite-aggregation-") as temporary:
+    fixture_root = Path(temporary)
+    tested, source, base = "a"*40, "b"*40, "c"*40
+    binding = {"schemaVersion":1,"kind":"ci_revision_binding","eventName":"pull_request",
+        "sourceHeadRevision":source,"routeHeadRevision":source,"testedRevision":tested,
+        "eventBaseRevision":base,"testedBaseRevision":base,"testedParents":[base,source]}
+    suites = ("boundaries", "repository-library")
+    def exercise(case, mutate=None, result_state="success", skip=None, broken_zip=None, push=False):
+        directory = fixture_root / case
+        directory.mkdir()
+        for suite in suites:
+            if skip == suite:
+                continue
+            output = directory / "target/windows-results" / suite
+            output.mkdir(parents=True)
+            actual_binding = copy.deepcopy(binding)
+            if push:
+                actual_binding.update(eventName="push",sourceHeadRevision=tested,
+                    routeHeadRevision=tested,eventBaseRevision="",testedParents=[base])
+            result = {"schemaVersion":1,"state":"passed","suite":suite,"binding":actual_binding,
+                "repository":"fixture/repo","runId":"1234","runAttempt":"1"}
+            if mutate and suite == "boundaries":
+                mutate(actual_binding, result)
+            with zipfile.ZipFile(output/"artifact.zip", "w") as archive:
+                archive.writestr("ci-revision-binding.json",json.dumps(actual_binding))
+                if broken_zip != "missing-result" or suite != "boundaries":
+                    info = zipfile.ZipInfo("windows-suite-result.json")
+                    if broken_zip == "symlink" and suite == "boundaries":
+                        info.external_attr = (stat.S_IFLNK | 0o777) << 16
+                    archive.writestr(info,json.dumps(result))
+                if broken_zip == "extra" and suite == "boundaries":
+                    archive.writestr("unrelated.json", "{}")
+        environment = dict(os.environ,SUITES_RESULT=result_state,EVENT_NAME="push" if push else "pull_request",
+            GITHUB_SHA=tested,PR_HEAD_SHA=source,PR_BASE_SHA=base,GITHUB_REPOSITORY="fixture/repo",
+            GITHUB_RUN_ID="1234",GITHUB_RUN_ATTEMPT="1")
+        return subprocess.run(["bash","-c",aggregate_shell],cwd=directory,env=environment,
+            capture_output=True,text=True)
+    for case, push in (("complete-pr",False),("complete-push",True)):
+        valid = exercise(case,push=push)
+        assert valid.returncode == 0, valid.stderr
+    for state in ("failure","cancelled","skipped",""):
+        assert exercise("matrix-"+(state or "missing"),result_state=state).returncode != 0
+    for suite in suites:
+        assert exercise("missing-"+suite,skip=suite).returncode != 0
+    for broken in ("missing-result","symlink","extra"):
+        assert exercise("archive-"+broken,broken_zip=broken).returncode != 0
+    for field,value in (("state","failed"),("repository","foreign/repo"),("runId","old"),
+                        ("runAttempt","2"),("suite","foreign")):
+        assert exercise("result-"+field,lambda b,r,f=field,v=value:r.update({f:v})).returncode != 0
+    for field,value in (("sourceHeadRevision","d"*40),("testedRevision","d"*40),
+                        ("eventBaseRevision","d"*40),("testedParents",[base]),
+                        ("testedBaseRevision","d"*40)):
+        assert exercise("binding-"+field,lambda b,r,f=field,v=value:b.update({f:v})).returncode != 0
+
 # Independent hosted validations fan out from the immutable route artifact;
 # no validation job waits for another validation job.
-validation_jobs = ("quality", "windows-runtime", "v1-behavioral-oracle")
+validation_jobs = ("quality", "windows-runtime-suites", "v1-behavioral-oracle")
 for name in validation_jobs:
     block = job_block(name)
     assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
@@ -128,7 +318,7 @@ assert "eventBaseRevision" in workflow and "testedBaseRevision" in workflow
 assert "git merge-base --is-ancestor" in workflow
 assert "exactly two parents" in workflow
 assert "checked-out commit does not match GITHUB_SHA" in workflow
-windows_job = workflow[workflow.index("  windows-runtime:"):]
+windows_job = job_block("windows-runtime-suites")
 windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
 assert "fetch-depth: 0" in windows_checkout
 assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
@@ -342,6 +532,25 @@ assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
 assert "target/release/ai-cockpit" in hosted_verification
 assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in hosted_verification
+assert 'caller_file="$RUNNER_TEMP/wi1113-task-caller.json"' in hosted_verification
+assert '"schemaVersion": 1' in hosted_verification and '"actor": "agent:codex"' in hosted_verification
+assert '"assurance": "self_declared"' in hosted_verification
+assert 'caller_args=(--task-caller "$caller_file")' in hosted_verification
+assert '"${caller_args[@]}"' in hosted_verification
+caller_match = re.search(r"<<'TASK_CALLER_JSON'\n(.*?)\n\s*TASK_CALLER_JSON", hosted_verification, re.S)
+assert caller_match, "WI-1113 caller must be an explicit temporary JSON input"
+caller = json.loads(caller_match.group(1))
+contract_path = Path(sys.argv[1]).parents[2] / ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.contract.json"
+task_authorization = json.loads(contract_path.read_text(encoding="utf-8"))["governanceProfile"]["taskAuthorization"]
+assert caller == {
+    "schemaVersion": 1,
+    "actor": task_authorization["agentActor"],
+    "authoritySource": task_authorization["authoritySource"],
+    "assurance": "self_declared",
+}
+quality_permissions = workflow.split("  quality:", 1)[1].split("  windows-runtime-suites:", 1)[0]
+assert re.search(r"permissions:\s+contents:\s+read", quality_permissions)
+assert "id-token:" not in workflow
 assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")

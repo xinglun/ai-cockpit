@@ -1,0 +1,322 @@
+{
+  "acceptanceResults": [
+    "Preserve every WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, and recovery receipt byte unchanged.",
+    "Keep the fixed-history clone helper on the local Git filesystem path, preserving --shared --no-checkout isolation, and make the regression tests pass with paths containing spaces on supported platforms.",
+    "With core.autocrlf=true, preserve exact .ai artifact bytes for current and historical fixture checkouts; keep strict digest and byte-equality assertions, and prove a one-byte tamper is still rejected.",
+    "Do not change CI workflows or global Git configuration, and do not weaken, skip, or normalize the existing byte-integrity assertions.",
+    "Run the full declared local workspace verification and zero-warning Clippy; do not claim Windows-hosted CI success until a later authorized hosted run passes.",
+    "The active WI-1112 human handoff exposes a separately versioned, read-only delivery-continuity projection derived from a valid predecessor/successor lineage. It distinguishes the frozen local archive, outstanding external validation, active repair, and the Runtime-admitted next action. Missing, stale, contradictory, or invalid evidence never appears delivered or complete. The predecessor archive Contract, Summary, Outcome, Events, reports, and manifest remain byte-identical. OutcomeDelivery.deliveryState remains a handoff transport state.",
+    "The read-only material plan may show predecessor-review context only after validating the repository-bound recovery lineage and exact material identities. It highlights unchanged predecessor-reviewed Unknowns without discharging them or satisfying the current WI request. A fresh receipt remains bound to WI-1112 and its current request. Any changed or new path, blob, hunk, cause, Contract, scope, scanner, policy, or profile invalidates the comparison; new Findings or Unknowns remain unresolved."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.4ad655555dbd696a03cf5633f4c98ab77791808dca546fc2fe74ab6265e1d14c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.ca911df5528a9daa91a8e8df1ee50f6df91cc5a84234aa5bae5b4ba7462d2ef2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.d7f1e59723c9ff7c2be972efc62b1cacd045358f89a71997e4ac032f404b5e94.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000004.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000004.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000005.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000005.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.2090af9ee9296d5a5786c873087517881db40fc53a25b9731ed3171579bb95be.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.2d918636e7b20be087d07da97dd5123d5bdd5fde5e2b3068d6d3949df58cb676.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.3b62517a613ed01a0109ba98c94175c1708ddc59ff422b6687e720c5e42145bf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.3c375ebb481706b8cc9ff440d4e62600b85e229a563ad3233d504653b23d528c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.52af52198fa459030a4a7ae134d5f98a1cbff2a3e3a89fba5b9b0fb3ee33787f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.591f7ec4080e59efbbfad1f37c88300451f6f85aad8c95e0aa22ed21e0696103.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.618d64907582dde70184c969cebb413f6212a1e117cf2143599f50af36b5019f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.913a7bffb8d2fc79dcbb8a75750c6aca6439e7236514362efeeadb348d695b06.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.991e452a2e16629519e246e6af8bf88cb608651174e9fb53c1378bf30cccc5f9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.b5f61f7e237962234712f5a2fbaa4fce6cb5db100652203463515db24f0b601f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.ce9d16fd0803bd0ac1a2f122f1a3a2994da7dbd382839e16714593b303032b59.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.fc24b0d6984c8229fcb4ee99874be08b03828e12b4ab9840601f1f7a649a1346.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-1112-windows-archive-byte-preservation/add96e6a8640ad4e2c81e38ee0e5ed39c6f85fc325bfccb992447998a7b286c9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json"
+          ],
+          "inference": false,
+          "text": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-26T12:23:17.813075001Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "workItemId": "WI-1112-windows-archive-byte-preservation"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

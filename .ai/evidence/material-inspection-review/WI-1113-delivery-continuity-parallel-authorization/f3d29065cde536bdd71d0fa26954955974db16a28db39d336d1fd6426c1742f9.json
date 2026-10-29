@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:7f2711ee7007782ad0931e86edbd23c5b2e8b073367ff2406f2c7a3ad725799e",
+  "materialManifestDigest": "sha256:60d2f45c1bcc211eea348922a1e7c3f25df51450ecbf8978aaa61c1a42fcda61",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:f3d29065cde536bdd71d0fa26954955974db16a28db39d336d1fd6426c1742f9",
+  "reviewedSourceHead": "899ee8d4fc19803df8bf714b735688a7cc006f92",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:87d3b04b1b08919d859cc935ecd952a9859534651856de2baf0a3147c0691db0",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:95a96655334a58e2b8ce443d87c1f0804c665d26e0d16b44679c4fbf77c0de68"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot completed the current ordinary technical review in parent thread 01a17276-1bd2-718d-a851-3987cf167005 and accepted the eight permitted syntax Unknowns for this exact request/source/Contract/snapshot/manifest/analyzer/profile/policy binding. Two independent complete reviews and real positive/negative regressions support the four changed Clean entries. All eight Unknown entries and the remaining 79 entries were compared field by field; the eleven raw analyzer inputs are unchanged. This records a new current agent/self_declared technical decision, not an inherited receipt, human confirmation, provider assurance, or a claim that current full CI passed. The independently reviewed Windows exact-corpus byte contract and Linux complete target grouping/owned watchdog patch preserve findings, bounds, historical evidence, frozen inherited contents, and scope.",
+  "residualRisk": "Machine syntax Unknown remains Unknown, never Clean. Optional Git diagnostic stderr writes can block; no whole-API ten-second return or arbitrary descendant-reap guarantee is claimed. Direct tests without required Cargo/Rustup environment may genuinely fail. New grouped fallback is verified with mocks and an actual dependency-free Cargo fixture; the real fourteen-package CI execution and Windows execution remain pending. Group owner cleanup is bounded, watchdog failure stays failed after reaping, and killing the whole executor/owner cannot guarantee a final cleanup record. New request/member/cause, Finding, analyzer/profile/policy changes require current review; CI10 formal 113/113 remains historical and is not re-bound to sequence18.",
+  "recordedAt": "2026-10-28T16:46:56Z",
+  "receiptDigest": "sha256:aac3ac2887dcd9e98fa221df6fded300f610a3d9f4233bb8007efc4d8e81f9c2"
+}

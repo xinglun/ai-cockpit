@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:688a8f46e17d34a1f878ec38f76c152aea30822b9ccb4f257750540f0029b40a",
+  "reason": "Ray's actual response Sentinel_e621aeb945448191aeeb85ac0077b312 confirms the exact WI-1112 sequence 5 Contract, preflight, and snapshot. The human decision actor is Ray; the native record is submitted by agent:Codex. This decision confirms the bounded taskAuthorization recorded in sequence 5; it does not assert that verification, CI, resource finalization, or delivery has passed.",
+  "recordedAt": "2026-10-26T12:02:36Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

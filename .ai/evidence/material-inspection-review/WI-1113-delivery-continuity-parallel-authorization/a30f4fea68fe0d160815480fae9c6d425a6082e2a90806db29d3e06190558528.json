@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+  "materialManifestDigest": "sha256:6504b0056aedead9de1f4095ef2ed9d3f01219407a8cf12a1b6dc44c99523a28",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:a30f4fea68fe0d160815480fae9c6d425a6082e2a90806db29d3e06190558528",
+  "reviewedSourceHead": "dd2339bee3dc63e5ce7547d2aa950e315088b1fe",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2b0b24c102997e1282de66dfda89d55d210cfabf0ea59b0f04916da3e0fdbce8",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:95a96655334a58e2b8ce443d87c1f0804c665d26e0d16b44679c4fbf77c0de68"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:1c68a3e7fd8ca6478593765dd1faa33b0b7d73f10570ed7a0df6db5c545c6bfc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "digest": "sha256:173e8ca0d726722c0d290becfce9df42dcdb082fac3649808475919d1a9e84cf"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot supplied a new current accept_permitted_unknowns technical decision in the trusted parent thread 01a17276-1bd2-718d-a851-3987cf167005 for exact request a30f4fea68fe0d160815480fae9c6d425a6082e2a90806db29d3e06190558528, source dd2339bee3dc63e5ce7547d2aa950e315088b1fe and approved governing Runtime 2b0b24c102997e1282de66dfda89d55d210cfabf0ea59b0f04916da3e0fdbce8. The independent review reconstructed all37021 raw bytes (SHA2562afe57b811c806db8038930ef926fc7a64c9c178d69053333ac4de2ed60f65a8) and recomputed the normalized request digest. All84 unique entries were compared: only five Clean entries changed, the nine syntax Unknown path/kind/content/cause/hunk/blob/reviewable bindings equal the previously substantively reviewed source bytes, and no Finding exists. This is a new request-specific agent/self_declared decision, not an inherited receipt. The five committed raw blob SHAs match the canonical entries and the independently reviewed11083-byte patch SHA b1b22cc4c529d096358ba20dc7a401e7b6a38778aec77498568ef98b0c12bc5d: remove only the premature Windows fixture canonicalize while preserving spaced local source/shared objects/no-checkout/HEAD assertions; synchronize total CI20 and current workflow caller/docs without resetting12 used runs or rewriting old approvals. Linux exact clone regression1/1, fmt and strict repository Clippy are real supporting checks; Windows repair remains awaiting actualCI13. Bind current seq20 Contract19fc8d9a/snapshot5f612541/manifest6504b005/analysisc656bc4c with unchanged profile/policy/scanner. This does not rebind CI12 formal evidence to seq20, establish Mac support, change permission/scope or claim current full-CI acceptance.",
+  "residualRisk": "The bounded parser syntax Unknowns remain machine Unknown, never Clean. Optional Git timeout diagnostics can block on a non-consuming stderr sink; no whole-API ten-second return or broader descendant-reaping guarantee is asserted. Direct Rust test binaries without the required Cargo/Rustup environment can fail toolchain discovery rather than falsely pass. The new Windows source has not yet run in hosted CI. Hosted coverage reuse retains the existing same-job trusted-producer boundary, not authentication against coordinated rewriting of stdout/formal/orchestration; uncertain Cargo target/config/runner equivalence falls back to real execution. Future runtime benefit is conditional and unproven until the new CI. No old CI11 receipt is rebound to this Contract/source.",
+  "recordedAt": "2026-10-29T02:07:55Z",
+  "receiptDigest": "sha256:310dc9a47fd16fe48e9b773e817e7021ce12aa8b9c9354ce58d7998bb730b5a9"
+}

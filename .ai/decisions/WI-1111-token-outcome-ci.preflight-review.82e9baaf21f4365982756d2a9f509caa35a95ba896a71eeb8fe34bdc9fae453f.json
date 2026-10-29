@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5bdc0a496080c4710cb14fb94d5f9d9f3e0f021415cd996d2cb26b4a630ff163",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:892b1b847f6684734a7821a9aa113f61840b09785577806ea9b5713bc77d2c2d",
+  "reason": "Actual user message conversation:Sentinel_3120fbc5c5108191bae1eee4b92d1423 at2026-10-25T08:45UTC: 确认 WI-1111 上述验收编号更正、两份 MCP 消费者测试补齐、46 路径范围及 sequence 4 精确绑定，confirm_review。本次仍不包含公开推送、合并、版本发布、生产启用或共享 Runtime 替换。 Agent records supplied actual owner decision,not coordinator judgment or independent human authentication. All12 scenarios remain unverified;initial acceptance mappings are plans only and intent remains unknown. Existing checkpoint1 is retained,not repeated.",
+  "recordedAt": "2026-10-25T08:45:53.444664+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a382eb147b73eabcce12dee1c12f53225a16e417fb74f0e0afb73d4b7e05ce9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

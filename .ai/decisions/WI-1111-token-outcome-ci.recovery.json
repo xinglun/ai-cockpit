@@ -1,0 +1,29 @@
+{
+  "actor": "human:Sentinel_3214ff6804fc819182cfc74681228a77",
+  "authoritySource": "Explicit user authorization in this delegated instruction to run a fresh 54-node verification if required, after normal Runtime planning and admission.",
+  "decidedAt": "2026-10-26T03:19:45Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1111-token-outcome-ci.preflight-review.10bf39a6102e2d6d510d809810b3bcf4391501f848237ff76382a958bb5a120e.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification.json",
+    ".ai/evidence/WI-1111-token-outcome-ci.verification-attempt.8c1471fc795eaebae9df42aacafc18fa72079df4bfc2da9a4c7035f307411fa2.json",
+    ".ai/work-items/active/WI-1111-token-outcome-ci.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "predecessorEventsDigest": "sha256:edc8073574de56fff3a48ca1a52da2ded34e89a7ba8c37d6c0321cfceba9b9fd",
+  "predecessorOutcomeDigest": "sha256:955e11488c47fe14c9760341a593a0069948cfa1f97687cdb6fd9992dd5672cd",
+  "predecessorSummaryDigest": "sha256:b5a6ae5ef8eafe6c22e59e8d0edee9dee729abd3b1a95a0f953f8367cf02c934",
+  "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+  "reason": "The sequence 9 Contract amendment invalidated the prior formal verification binding. The previous 54-node attempt is preserved but cannot authorize the amended Contract. The user authorized a fresh formal verification when required by the Runtime; this retry requests the normal recovery path and does not claim success or bypass material-review, preflight, checkpoint, verification, finish, or archive gates.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Follow current fixed-Runtime safeActions: record the already-authorized material review only when admitted, then run fresh preflight/checkpoint/verification under current bindings. Preserve all previous attempts. Continue only while native admission permits; this retry alone does not assert a pass or authorize finish, archive, close, or public operations.",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

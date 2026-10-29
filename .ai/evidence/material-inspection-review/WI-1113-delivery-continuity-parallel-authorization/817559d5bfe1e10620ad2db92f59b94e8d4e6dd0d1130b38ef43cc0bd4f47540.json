@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+  "materialManifestDigest": "sha256:d34e083bbcf4617e5f1b91613ad8cc79246e58f1920395ad2910d87ccc2913eb",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:817559d5bfe1e10620ad2db92f59b94e8d4e6dd0d1130b38ef43cc0bd4f47540",
+  "reviewedSourceHead": "72cd0f06970cf02b6646a27d6fec7cb7bfd6f622",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:3f19a024873d8248b318c6f7eb5da6a2e47178b834df8ae83516db70476b6a11"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    }
+  ],
+  "rationale": "Reviewed the four current committed Rust hunks and their surrounding implementation and tests. The changes add response-usage import validation and parity, archive report/reference integrity checks, historical byte-preservation coverage, and a read-only predecessor material reference that explicitly cannot authorize or satisfy current review. The fixed Runtime's material scanner returned only readable_committed_rust_syntax_unknown for these four entries, with zero Findings. This is an agent self-declared review of the exact request only.",
+  "residualRisk": "The four Rust entries remain Unknown because the scanner could not classify their syntax; this decision does not convert them to Clean. It does not prove hosted Windows CI, external provider checks, token metering accuracy, user-visible benefit, or performance. Any changed hunk/blob, scanner or policy context, additional Unknown cause, Finding, or request/manifest identity requires a fresh review decision.",
+  "recordedAt": "2026-10-26T21:35:39Z",
+  "receiptDigest": "sha256:2c28d42584ab8adbbf954feb68ffb076d5d22ab335b4f8427c25cc944618ff9b"
+}

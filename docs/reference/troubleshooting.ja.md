@@ -21,13 +21,14 @@ capabilityClaims:
 | Preflight `yellow` | evidence 不足または confirmation が必要。 | blockers/safe actions を読み Contract を修正するか decision を得る。 |
 | Preflight `red` | scope、authority、protocol、repository state が invalid。 | 停止し、指定された fact/authority を修復する。 |
 | `finish` が receipt missing/stale | current snapshot の passed Work Item verification がない。 | 最終 edit 後に `verify --work-item <id>`。bypass しない。 |
-| `finish_ready` の Work Item が archive 前に stale になった | verification が bind した snapshot の後で repository が変わった。 | summary/receipt を編集しない。historical bytes を残し、現在の snapshot から新しい認可済み Work Item を作る。 |
+| `finish_ready` の Work Item が archive 前に stale になった | verification が bind した snapshot の後で repository が変わった。 | summary/receipt を編集しない。この Work Item が引き続き作業を所有する場合は、identity-bound な native retry を使い、fresh preflight、verification、明示的な finish を行う。Runtime が retry を拒否するか、認可済み successor がすでに作業を引き継いでいる場合は、古い receipt を保持して bind 済み successor path を使う。 |
 | stale predecessor を再試行すべきでない | evidence が履歴であり、bind 済み successor が作業を引き継いでいる。 | identity-bound な `supersede` recovery decision を記録し、predecessor を履歴項目として archive/close する。古い evidence を書き換えたり再検証したりしない。 |
 | `archive`/`close` が失敗 | governance が green でない、または archive identity が invalid。 | active record を残し evidence を修復して失敗した step を再実行する。 |
 | `close` が retained resources require cleanup を表示 | legacy の shared-primary record、または通常の retained linked resource の可能性がある。 | `provider=local` と primary checkout の fact を確認する。導出できない場合は `work-item finalize-recovery-plan` を実行して明示的な historical recovery receipt を記録する。`retained` を手で `deleted` に変更しない。 |
 | historical direct-merge が Contract と base の不一致を示す | bundled merge の実際の第一 parent が Work Item の凍結時 Contract base と異なる場合があります。 | `work-item finalize-recovery-plan --merge-commit <sha>` を再実行し、`pullRequest.baseRevision` は実際の第一 parent、`historical.contractBaseRevision` は archived Contract base として保持し、正確な `resourceContext`/branch/worktree identity を使います。どちらの事実も変更せず、PR を捏造しません。 |
 | historical direct-merge が `resourceContext.<field>` の不一致を示す | receipt identity のフィールドが Contract または plan 出力と異なります。 | `finalize-recovery-plan` が出力した完全な `suggestedReceipt` を起点にし、protocol field を再構成しません。human field だけを入力し、context/branch/worktree をそのまま保持して再試行します。拒否時に Runtime は不完全な record を書きません。 |
 | `finalize` または `finalize-recovery` が Runtime 自身の direct-merge plan を拒否する | plan 生成と apply validator の契約がずれている。 | plan と失敗入力を `.ai/` の外に保持し、生成 record の編集や PR の捏造をせず、Runtime version/digest と完全なエラーを報告する。完全な plan receipt は両方の apply 入口で round-trip できなければならない。 |
+| successor の material plan に predecessor が review 済みの Unknown が表示される | その context は正確な過去一致だけを示します。decision を継承せず、successor request も満たしません。 | 現在の request を通常どおり review します。変更・追加された path、blob、hunk、cause、Contract scope、scanner、policy、profile は未解決のままです。 |
 | Verification が reuse でなく rerun | identity binding が変化、または reuse が未承認。 | rerun を安全な動作として扱い receipt reason を確認する。 |
 | MCP が repository binding を要求 | repository-bound adapter なしで server を起動した。 | `mcp --repo <path>` を設定し path を明示する。 |
 | Release asset/tag がない | public distribution evidence が未準備。 | install を停止し、immutable Release と matching asset を待つ。 |
@@ -41,6 +42,8 @@ evidence は意図的に fail closed になります。
 
 repository に active Work Item がある場合は、upgrade や新しい Work Item の前に finish/archive します。linked worktree、remote の既定 branch、finalization receipt がない場合は停止して record を保全します。Recovery は identity-bound な successor/retry path を使います。reference source の Make/Python wizard command は Rust Runtime command ではありません。installed CLI と repository が宣言した verification command を使ってください。
 
-すでに `finish_ready` の Work Item に暗黙の rewind 操作はない。rewind は
-state history を曖昧にするためである。変更後の snapshot 用に successor Work
-Item を作り、古い receipt を historical evidence として参照する。
+すでに `finish_ready` の Work Item は verification の記録だけでは新しい finish に
+更新できない。変更が元の Work Item の所有範囲内なら、許可された identity-bound
+retry を使い、fresh preflight と verification の後に明示的に再度 finish する。retry が
+拒否された場合、または bind 済み successor が作業を引き継いだ場合は、predecessor
+evidence を保持して既存の successor path を続ける。

@@ -7,6 +7,8 @@ use cockpit_repository::{
     plan_repository_verification_action, run_repository_verification,
 };
 use cockpit_verification::ProtectedGateClass;
+#[cfg(unix)]
+use std::sync::Mutex;
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -16,6 +18,8 @@ use std::{
 };
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
+#[cfg(unix)]
+static CARGO_TARGET_ENV_LOCK: Mutex<()> = Mutex::new(());
 
 #[test]
 fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
@@ -178,9 +182,21 @@ fn run_without_inherited_cargo_target(test_name: &str) -> bool {
     {
         return false;
     }
+    let _environment_guard = CARGO_TARGET_ENV_LOCK
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner);
+    let isolated_home = tempfile::tempdir().expect("isolated Cargo home");
+    fs::create_dir_all(isolated_home.path().join(".cache")).expect("isolated Cargo cache");
     let output = Command::new(std::env::current_exe().expect("test binary"))
         .args(["--exact", test_name, "--nocapture"])
         .env_remove("CARGO_TARGET_DIR")
+        // Keep the test's purpose: exercise Runtime's no-inherited-target
+        // fallback. The fallback uses HOME/USERPROFILE, so give the child a
+        // writable, disposable home instead of relying on the host account.
+        // Command-scoped overrides leave the parent test process environment
+        // unchanged and the mutex serializes the isolation harnesses.
+        .env("HOME", isolated_home.path())
+        .env("USERPROFILE", isolated_home.path())
         .env("AI_COCKPIT_TEST_TARGET_ISOLATION_CHILD", test_name)
         .output()
         .expect("isolated test subprocess");
@@ -212,6 +228,44 @@ fn request(
         timeout_seconds: None,
         policy,
     }
+}
+
+#[cfg(unix)]
+fn verification_receipt_diagnostics(receipt: &cockpit_verification::VerificationReceipt) -> String {
+    use std::fmt::Write as _;
+
+    let mut output = format!(
+        "passed={}, nodesPlanned={}, nodesExecuted={}, processesSpawned={}, elapsedMs={}",
+        receipt.passed,
+        receipt.nodes_planned,
+        receipt.nodes_executed,
+        receipt.processes_spawned,
+        receipt.elapsed_ms
+    );
+    for record in &receipt.execution_records {
+        let stdout = hex::decode(&record.stdout_hex)
+            .map(|bytes| String::from_utf8_lossy(&bytes).into_owned())
+            .unwrap_or_else(|error| format!("<invalid stdout hex: {error}>"));
+        let stderr = hex::decode(&record.stderr_hex)
+            .map(|bytes| String::from_utf8_lossy(&bytes).into_owned())
+            .unwrap_or_else(|error| format!("<invalid stderr hex: {error}>"));
+        let _ = writeln!(
+            output,
+            "\nnodeId={}, spawned={}, passed={}, exitCode={:?}, terminationSignal={:?}, timedOut={}, elapsedMs={}, stdoutTruncated={}, stderrTruncated={}\nstdout:\n{}\nstderr:\n{}",
+            record.node_id,
+            record.spawned,
+            record.passed,
+            record.exit_code,
+            record.termination_signal,
+            record.timed_out,
+            record.elapsed_ms,
+            record.stdout_truncated,
+            record.stderr_truncated,
+            stdout,
+            stderr
+        );
+    }
+    output
 }
 
 fn authorize_timeout(root: &Path, max_timeout_seconds: u64) {
@@ -522,7 +576,12 @@ fn linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory() {
             ),
         )
         .expect("real Cargo test");
-        assert!(run.receipt.passed);
+        assert!(
+            run.receipt.passed,
+            "Cargo verification failed for checkout {}:\n{}",
+            checkout.display(),
+            verification_receipt_diagnostics(&run.receipt)
+        );
         let stdout = String::from_utf8(
             hex::decode(&run.receipt.execution_records[0].stdout_hex).expect("stdout hex"),
         )

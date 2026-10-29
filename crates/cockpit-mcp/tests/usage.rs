@@ -22,7 +22,7 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 35);
+    assert_eq!(tools.len(), 44);
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (
@@ -109,6 +109,36 @@ fn usage_record_requires_explicit_repository_binding() {
         &runtime(),
     );
     assert_eq!(response["error"]["code"], -32001);
+}
+
+#[test]
+fn usage_import_schema_advertises_source_bytes_without_counter_overrides() {
+    let listed = cockpit_mcp::handle_request(
+        &json!({"jsonrpc":"2.0","id":77,"method":"tools/list","params":{}}),
+        &runtime(),
+    );
+    let matches: Vec<_> = listed["result"]["tools"]
+        .as_array()
+        .expect("tools")
+        .iter()
+        .filter(|tool| tool["name"] == "work_item_usage_import")
+        .collect();
+    assert_eq!(matches.len(), 1);
+    let request = &matches[0]["inputSchema"]["properties"]["request"];
+    assert_eq!(request["additionalProperties"], false);
+    assert_eq!(
+        request["properties"]["sourceFormat"]["enum"],
+        json!(["openai-response-json-v1"])
+    );
+    for field in [
+        "inputTokens",
+        "outputTokens",
+        "reportedModel",
+        "sourceObservedAt",
+        "tokenAssurance",
+    ] {
+        assert!(request["properties"].get(field).is_none(), "{field}");
+    }
 }
 
 #[test]

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d49944e5a96e76f9d20824fa7b8b327bd9f9ac51acdee5cef3bbdc0ebea5e505",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e98f18f21ff5793f370bc54799812378373651d14cc793297c79e2500663c6d1",
+  "reason": "Recorded the owner's explicit sequence 7 confirmation in conversation Sentinel_dc2b6fdf3f248191a9d5304b9fd95299 at 2026-10-27 03:27 UTC, bound exactly to this repository, Work Item, Contract, preflight decision and repository snapshot. This confirms the approved addition of only crates/cockpit-git/src/lib.rs for bounded read-only Git path-introduction history; it does not assert implementation acceptance, material review, scenario verification, test success, or merge.",
+  "recordedAt": "2026-10-27T03:28:52Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:240ea07fe075c0b897d535a9c7ab8e3b8453cb2bf852d0c0182083c1a7446fa4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

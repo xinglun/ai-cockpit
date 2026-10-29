@@ -6,7 +6,7 @@ use cockpit_repository::{
     repository_id, start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
-use std::{fs, path::Path, process::Command};
+use std::{fs, path::Path, process::Command, thread};
 
 const WI: &str = "WI-TASK-AUTHORIZATION";
 
@@ -32,6 +32,10 @@ fn runtime() -> RuntimeContext {
 }
 
 fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
+    fixture_with_scope(expires_at, owner_review, &["README.md"])
+}
+
+fn fixture_with_scope(expires_at: &str, owner_review: bool, scope: &[&str]) -> tempfile::TempDir {
     let directory = tempfile::tempdir().unwrap();
     let root = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -41,16 +45,22 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
         &["config", "user.email", "task-authorization@example.invalid"],
     );
     git(root, &["config", "core.autocrlf", "false"]);
+    git(root, &["config", "maintenance.autoDetach", "false"]);
+    git(root, &["config", "gc.autoDetach", "false"]);
     fs::write(root.join("README.md"), "task authorization baseline\n").unwrap();
     git(root, &["add", "README.md"]);
     git(root, &["commit", "-qm", "baseline"]);
     attach(root).unwrap();
+    let scope = scope
+        .iter()
+        .map(|path| (*path).to_owned())
+        .collect::<Vec<_>>();
     start_work_item_with_options(
         root,
         WI,
         "continue bounded work",
         "deliver the same task",
-        &["README.md".into()],
+        &scope,
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["bounded continuation preserves real review".into()],
@@ -89,21 +99,60 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
 }
 
 fn record_owner(root: &Path) {
-    let contract_path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    record_owner_for(root, WI);
+}
+
+fn record_owner_for(root: &Path, work_item_id: &str) {
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
     let summary: Value = serde_json::from_slice(
-        &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
+        &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"))).unwrap(),
     )
     .unwrap();
-    record_work_item_governance_controls_with_runtime(root, WI, &::serde_json::json!({"decisionEvidence":{
+    record_work_item_governance_controls_with_runtime(root, work_item_id, &::serde_json::json!({"decisionEvidence":{
         "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
-        "workItemId":WI, "repositoryId":repository_id(root),
+        "workItemId":work_item_id, "repositoryId":repository_id(root),
         "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "preflightDecisionDigest":summary["preflightDecisionDigest"],
         "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
         "recordedAt":chrono::Utc::now().to_rfc3339(), "recordedBy":"agent:test-recorder",
         "reason":"Synthetic isolated owner confirmation; not external identity authentication."
     }}), &runtime()).unwrap();
+}
+
+fn add_batch_member(root: &Path, work_item_id: &str, actor: &str) {
+    let policy = cockpit_protocol::TaskAuthorizationPolicy {
+        schema_version: 1,
+        agent_actor: actor.into(),
+        authority_source: format!("conversation:owner-{work_item_id}"),
+        allowed_actions: vec!["modify_source".into(), "run_verification".into()],
+        closeout_actions: Vec::new(),
+        expires_at: Some("2099-01-01T00:00:00Z".into()),
+        public_target: None,
+    };
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        "prepare explicitly selected batch member",
+        "exercise independent authorization membership",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            task_authorization: Some(policy),
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["batch member stays independently bound".into()],
+            verification_commands: vec!["git diff --check".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start explicit batch member");
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item_with_runtime_report(root, &contract_path, &runtime())
+        .expect("preflight batch member");
+    record_owner_for(root, work_item_id);
 }
 
 fn status(root: &Path) -> Value {
@@ -318,6 +367,247 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
     assert!(!after["humanDecisionRequired"].as_bool().unwrap());
 }
 
+fn batch_member_request(
+    work_item_id: &str,
+) -> cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+    cockpit_protocol::TaskAuthorizationBatchMemberRequest {
+        work_item_id: work_item_id.into(),
+        actions: vec!["run_verification".into()],
+        expires_at: "2098-01-01T00:00:00Z".into(),
+        budget: cockpit_protocol::TaskAuthorizationBatchBudget {
+            start_quota: 1,
+            retry_budget_by_check: std::collections::BTreeMap::from([(
+                "git diff --check".into(),
+                2,
+            )]),
+        },
+    }
+}
+
+fn reviewed_batch(
+    root: &Path,
+    members: Vec<cockpit_protocol::TaskAuthorizationBatchMemberRequest>,
+) -> cockpit_protocol::TaskAuthorizationBatchReceipt {
+    let request = cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository_id(root).to_string(),
+        members,
+    };
+    let manifest =
+        cockpit_repository::prepare_task_authorization_batch_manifest(root, &request, &runtime())
+            .expect("prepare exact member manifest");
+    let review = cockpit_protocol::TaskAuthorizationBatchReview {
+        schema_version: 1,
+        repository_id: manifest.repository_id.clone(),
+        manifest_digest: manifest.manifest_digest.clone(),
+        decision: cockpit_protocol::TaskAuthorizationBatchDecision::ConfirmReview,
+        reviewer_actor: "human:owner".into(),
+        authority_source: "conversation:owner-confirmed-exact-manifest".into(),
+        recorded_at: "2026-10-27T00:00:00Z".into(),
+        reason: "confirm only these exact batch members and budgets".into(),
+    };
+    cockpit_repository::record_task_authorization_batch_review(root, &manifest, &review, &runtime())
+        .expect("persist exact reviewed batch")
+}
+
+fn batch_caller(
+    member: &cockpit_protocol::TaskAuthorizationBatchMember,
+) -> cockpit_protocol::TaskAuthorizationCaller {
+    cockpit_protocol::TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: member.actor.clone(),
+        authority_source: member.authority_source.clone(),
+        assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+    }
+}
+
+#[test]
+fn authorization_manifest_binds_explicit_members_and_is_order_independent() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let second_id = "WI-TASK-AUTHORIZATION-B";
+    add_batch_member(root, second_id, "agent:task-worker-b");
+    let repository = repository_id(root).to_string();
+    let request = |members| cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository.clone(),
+        members,
+    };
+    let first = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![
+            batch_member_request(second_id),
+            batch_member_request(WI),
+        ]),
+        &runtime(),
+    )
+    .expect("current independently reviewed members");
+    let reordered = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![
+            batch_member_request(WI),
+            batch_member_request(second_id),
+        ]),
+        &runtime(),
+    )
+    .expect("same canonical explicit set");
+    assert_eq!(first, reordered);
+    assert_eq!(first.members.len(), 2);
+    assert_eq!(first.members[0].work_item_id, WI);
+    assert_eq!(first.members[1].work_item_id, second_id);
+    assert_ne!(
+        first.members[0].parent_grant_id,
+        first.members[1].parent_grant_id
+    );
+    assert_ne!(first.members[0].scope_digest, first.members[1].scope_digest);
+    assert!(
+        first
+            .members
+            .iter()
+            .all(|member| member.budget.start_quota == 1)
+    );
+    assert!(first.validate().is_ok());
+
+    let one = cockpit_repository::prepare_task_authorization_batch_manifest(
+        root,
+        &request(vec![batch_member_request(WI)]),
+        &runtime(),
+    )
+    .expect("an omitted member is not implicitly added");
+    assert_eq!(one.members.len(), 1);
+    assert_eq!(one.members[0].work_item_id, WI);
+}
+
+#[test]
+fn authorization_manifest_rejects_foreign_members_actions_checks_and_expiry() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let base = batch_member_request(WI);
+    let make_request =
+        |repository_id: String,
+         members: Vec<cockpit_protocol::TaskAuthorizationBatchMemberRequest>| {
+            cockpit_protocol::TaskAuthorizationBatchRequest {
+                schema_version: 1,
+                repository_id,
+                members,
+            }
+        };
+    let valid_repo = repository_id(root).to_string();
+
+    assert!(
+        cockpit_repository::prepare_task_authorization_batch_manifest(
+            root,
+            &make_request("sha256:foreign-repository".into(), vec![base.clone()]),
+            &runtime(),
+        )
+        .is_err()
+    );
+
+    let mut outside_action = base.clone();
+    outside_action.actions.push("create_pull_request".into());
+    assert!(
+        cockpit_repository::prepare_task_authorization_batch_manifest(
+            root,
+            &make_request(valid_repo.clone(), vec![outside_action]),
+            &runtime(),
+        )
+        .is_err()
+    );
+
+    let mut unknown_check = base.clone();
+    unknown_check
+        .budget
+        .retry_budget_by_check
+        .insert("arbitrary command".into(), 1);
+    assert!(
+        cockpit_repository::prepare_task_authorization_batch_manifest(
+            root,
+            &make_request(valid_repo.clone(), vec![unknown_check]),
+            &runtime(),
+        )
+        .is_err()
+    );
+
+    let mut late_expiry = base.clone();
+    late_expiry.expires_at = "2100-01-01T00:00:00Z".into();
+    assert!(
+        cockpit_repository::prepare_task_authorization_batch_manifest(
+            root,
+            &make_request(valid_repo.clone(), vec![late_expiry]),
+            &runtime(),
+        )
+        .is_err()
+    );
+
+    assert!(
+        cockpit_repository::prepare_task_authorization_batch_manifest(
+            root,
+            &make_request(valid_repo, vec![base.clone(), base]),
+            &runtime(),
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let request = cockpit_protocol::TaskAuthorizationBatchRequest {
+        schema_version: 1,
+        repository_id: repository_id(root).to_string(),
+        members: vec![batch_member_request(WI)],
+    };
+    let manifest =
+        cockpit_repository::prepare_task_authorization_batch_manifest(root, &request, &runtime())
+            .expect("exact current manifest");
+    let review = cockpit_protocol::TaskAuthorizationBatchReview {
+        schema_version: 1,
+        repository_id: manifest.repository_id.clone(),
+        manifest_digest: manifest.manifest_digest.clone(),
+        decision: cockpit_protocol::TaskAuthorizationBatchDecision::ConfirmReview,
+        reviewer_actor: "human:owner".into(),
+        authority_source: "conversation:owner-confirmed-manifest".into(),
+        recorded_at: "2026-10-27T00:00:00Z".into(),
+        reason: "confirm this exact member, scope, actions, target and budget".into(),
+    };
+
+    let receipt = cockpit_repository::record_task_authorization_batch_review(
+        root,
+        &manifest,
+        &review,
+        &runtime(),
+    )
+    .expect("persist exact owner decision and child grant");
+    receipt.validate_integrity().expect("valid native receipt");
+    assert_eq!(receipt.child_grants.len(), 1);
+    assert_eq!(receipt.child_grants[0].work_item_id, WI);
+    assert_eq!(receipt.child_grants[0].member, manifest.members[0]);
+
+    let replay = cockpit_repository::record_task_authorization_batch_review(
+        root,
+        &manifest,
+        &review,
+        &runtime(),
+    )
+    .expect("identical owner-decision replay is idempotent");
+    assert_eq!(replay, receipt);
+    let path = root
+        .join(".ai/evidence/task-authorization-batches")
+        .join(format!(
+            "{}.json",
+            manifest
+                .manifest_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .expect("digest prefix")
+        ));
+    let persisted: cockpit_protocol::TaskAuthorizationBatchReceipt =
+        serde_json::from_slice(&fs::read(path).expect("immutable native record"))
+            .expect("receipt JSON");
+    assert_eq!(persisted, receipt);
+}
+
 #[test]
 fn public_actions_require_an_explicit_owner_bound_destination() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
@@ -338,6 +628,372 @@ fn public_actions_require_an_explicit_owner_bound_destination() {
     );
     assert!(result.is_err());
     assert_eq!(fs::read(path).unwrap(), before);
+}
+
+#[test]
+fn concurrent_member_start_reserves_one_quota_atomically() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path().to_path_buf();
+    let receipt = reviewed_batch(&root, vec![batch_member_request(WI)]);
+    let member = receipt.manifest.members[0].clone();
+    let requests = ["run-a", "run-b"].map(|operation_id| {
+        cockpit_protocol::TaskAuthorizationBatchStartRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: WI.into(),
+            operation_id: operation_id.into(),
+            action: "run_verification".into(),
+            caller: batch_caller(&member),
+        }
+    });
+    let workers = requests.map(|request| {
+        let root = root.clone();
+        thread::spawn(move || {
+            cockpit_repository::reserve_task_authorization_batch_start(&root, &request, &runtime())
+                .map_err(|error| error.to_string())
+        })
+    });
+    let results = workers
+        .into_iter()
+        .map(|worker| worker.join().expect("start reservation thread"))
+        .collect::<Vec<_>>();
+    assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 1);
+    assert_eq!(results.iter().filter(|result| result.is_err()).count(), 1);
+    assert!(
+        results
+            .iter()
+            .filter_map(|result| result.as_ref().err())
+            .any(|error| error.contains("start_quota_exhausted"))
+    );
+    let ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("read member ledger");
+    assert_eq!(ledger.starts_used, 1);
+    assert_eq!(ledger.start_quota, 1);
+}
+
+#[test]
+fn parallel_batch_members_keep_independent_grants_and_partial_ledgers() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path().to_path_buf();
+    let second_id = "WI-TASK-AUTHORIZATION-B";
+    add_batch_member(&root, second_id, "agent:task-worker-b");
+    let receipt = reviewed_batch(
+        &root,
+        vec![batch_member_request(WI), batch_member_request(second_id)],
+    );
+    let first_member = receipt
+        .manifest
+        .members
+        .iter()
+        .find(|member| member.work_item_id == WI)
+        .expect("first explicit member");
+    let second_member = receipt
+        .manifest
+        .members
+        .iter()
+        .find(|member| member.work_item_id == second_id)
+        .expect("second explicit member");
+    assert_ne!(first_member.parent_grant_id, second_member.parent_grant_id);
+
+    let starts = [first_member, second_member].map(|member| {
+        cockpit_protocol::TaskAuthorizationBatchStartRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: member.work_item_id.clone(),
+            operation_id: format!("verify-{}", member.work_item_id),
+            action: "run_verification".into(),
+            caller: batch_caller(member),
+        }
+    });
+    let workers = starts.map(|request| {
+        let root = root.clone();
+        thread::spawn(move || {
+            cockpit_repository::reserve_task_authorization_batch_start(&root, &request, &runtime())
+        })
+    });
+    for worker in workers {
+        worker
+            .join()
+            .expect("independent member start worker")
+            .expect("each exact member has its own start quota");
+    }
+
+    let failed_check = cockpit_protocol::TaskAuthorizationBatchCheckRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: format!("verify-{WI}"),
+        check_id: "git diff --check".into(),
+        caller: batch_caller(first_member),
+    };
+    let attempt = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        &root,
+        &failed_check,
+        &runtime(),
+    )
+    .expect("reserve first member check");
+    cockpit_repository::record_task_authorization_batch_check_outcome(
+        &root,
+        &cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: WI.into(),
+            operation_id: failed_check.operation_id.clone(),
+            check_id: failed_check.check_id,
+            attempt: attempt.attempt.expect("attempt number"),
+            outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed,
+            evidence_ref: "local:first-member-failure".into(),
+            evidence_digest: Digest::sha256_bytes(b"first member failed"),
+            reason: "only the first member check failed".into(),
+            caller: batch_caller(first_member),
+        },
+        &runtime(),
+    )
+    .expect("append first member failure");
+
+    let first_ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("first member ledger");
+    let second_ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        second_id,
+        &runtime(),
+    )
+    .expect("second member ledger");
+    assert!(first_ledger.events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+            && event.outcome == Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed)
+    }));
+    assert!(second_ledger.events.iter().all(|event| {
+        event.kind != cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+    }));
+    assert_eq!(first_ledger.starts_used, 1);
+    assert_eq!(second_ledger.starts_used, 1);
+
+    cockpit_repository::terminate_task_authorization_batch_member(
+        &root,
+        &cockpit_protocol::TaskAuthorizationBatchTerminationRequest {
+            schema_version: 1,
+            manifest_digest: receipt.manifest.manifest_digest.clone(),
+            work_item_id: WI.into(),
+            decision: cockpit_protocol::TaskAuthorizationTerminationDecision::Withdrawn,
+            caller: batch_caller(first_member),
+            reason: "withdraw only the failed member".into(),
+        },
+        &runtime(),
+    )
+    .expect("withdraw first member only");
+    let first_after = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("first member after termination");
+    let second_after = cockpit_repository::inspect_task_authorization_batch_member(
+        &root,
+        &receipt.manifest.manifest_digest,
+        second_id,
+        &runtime(),
+    )
+    .expect("second member remains independent");
+    assert_eq!(first_after.authorization_state, "withdrawn");
+    assert_eq!(second_after.authorization_state, "active");
+    assert_eq!(second_after.starts_used, 1);
+}
+
+#[test]
+fn retry_is_limited_to_named_unchanged_check_and_preserves_first_failure() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let receipt = reviewed_batch(root, vec![batch_member_request(WI)]);
+    let member = &receipt.manifest.members[0];
+    let caller = batch_caller(member);
+    let start = cockpit_protocol::TaskAuthorizationBatchStartRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: "verify-retry".into(),
+        action: "run_verification".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::reserve_task_authorization_batch_start(root, &start, &runtime())
+        .expect("reserve member start");
+    let check = cockpit_protocol::TaskAuthorizationBatchCheckRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: start.operation_id.clone(),
+        check_id: "git diff --check".into(),
+        caller: caller.clone(),
+    };
+    let attempt_one = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        root,
+        &check,
+        &runtime(),
+    )
+    .expect("reserve exact first attempt");
+    let result_one = cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: start.operation_id.clone(),
+        check_id: check.check_id.clone(),
+        attempt: 1,
+        outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed,
+        evidence_ref: "local:first-failure".into(),
+        evidence_digest: Digest::sha256_bytes(b"first failure"),
+        reason: "preserve the initial failure".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::record_task_authorization_batch_check_outcome(
+        root,
+        &result_one,
+        &runtime(),
+    )
+    .expect("append first failure");
+    let attempt_two = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        root,
+        &check,
+        &runtime(),
+    )
+    .expect("retry exact unchanged check");
+    assert_eq!(attempt_one.attempt, Some(1));
+    assert_eq!(attempt_two.attempt, Some(2));
+    let result_two = cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+        attempt: 2,
+        outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Passed,
+        evidence_ref: "local:retry-result".into(),
+        evidence_digest: Digest::sha256_bytes(b"retry passed"),
+        reason: "retry passed".into(),
+        ..result_one.clone()
+    };
+    cockpit_repository::record_task_authorization_batch_check_outcome(
+        root,
+        &result_two,
+        &runtime(),
+    )
+    .expect("append retry result");
+    let ledger = cockpit_repository::inspect_task_authorization_batch_member(
+        root,
+        &receipt.manifest.manifest_digest,
+        WI,
+        &runtime(),
+    )
+    .expect("read append-only retry history");
+    assert!(ledger.events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+            && event.attempt == Some(1)
+            && event.outcome == Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Failed)
+    }));
+    assert!(ledger.events.iter().any(|event| {
+        event.kind == cockpit_protocol::TaskAuthorizationBatchEventKind::CheckOutcomeRecorded
+            && event.attempt == Some(2)
+            && event.outcome == Some(cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Passed)
+    }));
+    assert!(
+        cockpit_repository::reserve_task_authorization_batch_check_attempt(
+            root,
+            &check,
+            &runtime(),
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn uncertain_operation_outcome_blocks_resend_until_inspected() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let receipt = reviewed_batch(root, vec![batch_member_request(WI)]);
+    let member = &receipt.manifest.members[0];
+    let caller = batch_caller(member);
+    let start = cockpit_protocol::TaskAuthorizationBatchStartRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: "verify-uncertain".into(),
+        action: "run_verification".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::reserve_task_authorization_batch_start(root, &start, &runtime())
+        .expect("reserve exact start");
+    let check = cockpit_protocol::TaskAuthorizationBatchCheckRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: start.operation_id.clone(),
+        check_id: "git diff --check".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::reserve_task_authorization_batch_check_attempt(root, &check, &runtime())
+        .expect("reserve first check attempt");
+    let unknown = cockpit_protocol::TaskAuthorizationBatchOutcomeRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: start.operation_id.clone(),
+        check_id: check.check_id.clone(),
+        attempt: 1,
+        outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::Unknown,
+        evidence_ref: "local:interrupted-operation".into(),
+        evidence_digest: Digest::sha256_bytes(b"uncertain"),
+        reason: "process exited before result was observed".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::record_task_authorization_batch_check_outcome(root, &unknown, &runtime())
+        .expect("append uncertain outcome");
+    let retry = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+        root,
+        &check,
+        &runtime(),
+    )
+    .expect_err("uncertain effect must block a resend");
+    assert!(
+        retry
+            .to_string()
+            .contains("uncertain_outcome_requires_inspection")
+    );
+
+    let inspection = cockpit_protocol::TaskAuthorizationBatchInspectionRequest {
+        schema_version: 1,
+        manifest_digest: receipt.manifest.manifest_digest.clone(),
+        work_item_id: WI.into(),
+        operation_id: start.operation_id.clone(),
+        check_id: check.check_id.clone(),
+        attempt: 1,
+        inspected_outcome: cockpit_protocol::TaskAuthorizationBatchAttemptOutcome::NotStarted,
+        evidence_ref: "local:process-inspection".into(),
+        evidence_digest: Digest::sha256_bytes(b"confirmed no process effect"),
+        reason: "inspected process and output; no check was executed".into(),
+        caller: caller.clone(),
+    };
+    cockpit_repository::inspect_task_authorization_batch_check_outcome(
+        root,
+        &inspection,
+        &runtime(),
+    )
+    .expect("append inspection result");
+    assert_eq!(
+        cockpit_repository::reserve_task_authorization_batch_check_attempt(
+            root,
+            &check,
+            &runtime(),
+        )
+        .expect("only inspected no-effect permits the next bounded attempt")
+        .attempt,
+        Some(2)
+    );
 }
 
 #[test]
@@ -550,6 +1206,73 @@ fn an_authorization_question_cannot_expand_files_or_public_destination() {
             .unwrap()
             .authorized
     );
+}
+
+#[test]
+fn reviewed_single_component_scope_pattern_authorizes_its_own_digest_receipts_only() {
+    let scope = format!(".ai/decisions/{WI}.preflight-review.*.json");
+    let directory = fixture_with_scope("2099-01-01T00:00:00Z", true, &[&scope]);
+    let root = directory.path();
+    let receipt_a = format!(
+        ".ai/decisions/{WI}.preflight-review.{}.json",
+        "a".repeat(64)
+    );
+    let receipt_b = format!(
+        ".ai/decisions/{WI}.preflight-review.{}.json",
+        "b".repeat(64)
+    );
+
+    for receipt in [&receipt_a, &receipt_b] {
+        let request = cockpit_protocol::TaskAuthorizationRequest {
+            schema_version: 1,
+            caller: caller(),
+            action: "run_verification".into(),
+            paths: vec![receipt.clone()],
+            public_target: None,
+        };
+        let assessment =
+            cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+        assert!(assessment.authorized, "receipt path rejected: {receipt}");
+    }
+
+    for path in [
+        format!(
+            ".ai/decisions/WI-OTHER.preflight-review.{}.json",
+            "c".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/{WI}.xpreflight-review.{}.json",
+            "d".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/{WI}.preflight-review.{}.toml",
+            "e".repeat(64)
+        ),
+        format!(
+            ".ai/decisions/nested/{WI}.preflight-review.{}.json",
+            "f".repeat(64)
+        ),
+        format!(
+            "../.ai/decisions/{WI}.preflight-review.{}.json",
+            "g".repeat(64)
+        ),
+        format!(
+            "/.ai/decisions/{WI}.preflight-review.{}.json",
+            "h".repeat(64)
+        ),
+    ] {
+        let request = cockpit_protocol::TaskAuthorizationRequest {
+            schema_version: 1,
+            caller: caller(),
+            action: "run_verification".into(),
+            paths: vec![path.clone()],
+            public_target: None,
+        };
+        let assessment =
+            cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+        assert!(!assessment.authorized, "out-of-scope path accepted: {path}");
+        assert_eq!(assessment.next_action, "stop", "{path}");
+    }
 }
 
 #[test]

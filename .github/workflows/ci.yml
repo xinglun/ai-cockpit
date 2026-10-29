@@ -30,6 +30,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Run canonical cheap prechecks before shared compilation
+        shell: bash
+        run: bash tests/ci/run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE"
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1
@@ -322,11 +325,28 @@ jobs:
           CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: ${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh
         run: |
           set -euo pipefail
+          caller_args=()
+          if [[ "$(jq -er '.workItemId' "$ROUTE_CONTRACT_PATH")" == WI-1113-delivery-continuity-parallel-authorization ]]; then
+            caller_file="$RUNNER_TEMP/wi1113-task-caller.json"
+            (
+              umask 077
+              cat >"$caller_file" <<'TASK_CALLER_JSON'
+          {
+            "schemaVersion": 1,
+            "actor": "agent:codex",
+            "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved). conversation:Sentinel_a075cc7351108191bde4ab8f7111ced0 (user approval at 2026-10-28 07:24 UTC to raise the total WI-1113 hosted CI cap to fifteen runs, retaining all seven already-used runs and prior attempts, and synchronize the CI caller input; fifteen is the total cap, not additional runs). conversation:Sentinel_ada28e5329d48191ae30cb4f79073a4c (user approval at 2026-10-29 00:36 UTC to raise the total WI-1113 hosted CI cap from fifteen to twenty only if CI12 does not pass; retain all twelve already-used runs and prior attempts without resetting counts; synchronize the current Contract and CI caller, without weakening checks, assertions, authority or retry limits). conversation:Sentinel_2a6ab6cb93908191bb1325608daa4061 (user reminder at 2026-10-29 01:19 UTC that the raised CI budget must also be synchronized into the actual CI scripts).",
+            "assurance": "self_declared"
+          }
+          TASK_CALLER_JSON
+            )
+            caller_args=(--task-caller "$caller_file")
+          fi
           tests/ci/run_hosted_runtime_verification.sh \
             target/release/ai-cockpit \
             "$GITHUB_WORKSPACE" \
             "$ROUTE_CONTRACT_PATH" \
-            target
+            target \
+            "${caller_args[@]}"
       - name: Evaluate Rust Contract-aware quality gate
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash
@@ -469,9 +489,14 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  windows-runtime:
+  windows-runtime-suites:
     needs: route
     if: needs.route.result == 'success' && needs.route.outputs.profile != 'light'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        suite: [boundaries, repository-library]
     runs-on: windows-2025
     permissions:
       contents: read
@@ -664,39 +689,175 @@ jobs:
           toolchain: 1.98.1
           components: clippy
       - name: verify Windows zero-warning workspace Clippy
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
       - name: verify Windows agent adapter boundaries
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets
       - name: verify Windows process and composition lifecycle boundaries
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
       - name: verify Windows repository boundaries
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
       - name: verify Windows bounded task authorization
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1
       - name: verify Windows task caller CLI and MCP parity
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1
       - name: verify Windows complete staged MCP start
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1
       - name: verify Windows directory-handle containment regressions
+        if: matrix.suite == 'repository-library'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib
       - name: verify Windows preflight lifecycle-lock admission
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact
       - name: verify Windows governance-controls lifecycle-lock admission
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact
       - name: verify Windows explicit cognitive evaluator binary failure modes
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact
       - name: verify Windows cognitive evaluator native path parity
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact
       - name: verify Windows cognitive evaluator read-only parity
+        if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact
+      - name: Record successful Windows suite
+        shell: pwsh
+        env:
+          SUITE: ${{ matrix.suite }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $binding = Get-Content -LiteralPath 'target/ci-revision-binding.json' -Raw | ConvertFrom-Json
+          $result = [ordered]@{
+            schemaVersion = 1
+            state = 'passed'
+            suite = $env:SUITE
+            repository = $env:GITHUB_REPOSITORY
+            runId = $env:GITHUB_RUN_ID
+            runAttempt = $env:GITHUB_RUN_ATTEMPT
+            binding = $binding
+          }
+          $result | ConvertTo-Json -Depth 8 | Set-Content -Encoding utf8 -LiteralPath 'target/windows-suite-result.json'
       - name: upload Windows revision binding
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: ci-revision-binding-windows
-          path: target/ci-revision-binding.json
+          name: ci-revision-binding-windows-${{ matrix.suite }}
+          path: |
+            target/ci-revision-binding.json
+            target/windows-suite-result.json
           if-no-files-found: warn
           retention-days: 7
+
+  # Keep the existing required check name; a missing or failed suite cannot
+  # be reported as success merely because one revision artifact was uploaded.
+  windows-runtime:
+    needs: [route, windows-runtime-suites]
+    if: always() && (needs.route.result != 'success' || needs.route.outputs.profile != 'light')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Require all Windows suite jobs to succeed
+        env:
+          SUITES_RESULT: ${{ needs.windows-runtime-suites.result }}
+        run: test "$SUITES_RESULT" = success
+      - name: Download exact Windows boundaries receipts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ci-revision-binding-windows-boundaries
+          path: target/windows-results/boundaries
+          skip-decompress: true
+          digest-mismatch: error
+      - name: Download exact Windows repository-library receipts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ci-revision-binding-windows-repository-library
+          path: target/windows-results/repository-library
+          skip-decompress: true
+          digest-mismatch: error
+      - name: Verify complete same-run Windows suite receipts
+        shell: bash
+        env:
+          SUITES_RESULT: ${{ needs.windows-runtime-suites.result }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import stat
+          import zipfile
+
+
+          def require(condition, message):
+              if not condition:
+                  raise SystemExit(message)
+
+
+          def full_revision(value):
+              return isinstance(value, str) and re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value)
+
+
+          require(os.environ["SUITES_RESULT"] == "success", "Windows matrix did not complete successfully")
+          suites = ("boundaries", "repository-library")
+          tested = os.environ["GITHUB_SHA"]
+          event = os.environ["EVENT_NAME"]
+          require(event in ("push", "pull_request"), "unsupported Windows event")
+          source = os.environ["PR_HEAD_SHA"] if event == "pull_request" else tested
+          event_base = os.environ["PR_BASE_SHA"] if event == "pull_request" else ""
+          require(full_revision(tested) and full_revision(source), "invalid trusted Windows revision context")
+          if event == "pull_request":
+              require(full_revision(event_base), "invalid trusted PR base")
+          previous_binding = None
+          for suite in suites:
+              directory = Path("target/windows-results") / suite
+              require(directory.is_dir() and not directory.is_symlink(), "missing Windows suite artifacts")
+              downloads = list(directory.iterdir())
+              require(len(downloads) == 1 and downloads[0].is_file() and not downloads[0].is_symlink(),
+                      "one regular Windows suite archive is required")
+              with zipfile.ZipFile(downloads[0]) as archive:
+                  entries = archive.infolist()
+                  names = {entry.filename for entry in entries}
+                  require(len(entries) == 2 and names == {"ci-revision-binding.json", "windows-suite-result.json"},
+                          "Windows suite archive identities differ")
+                  require(all(not entry.is_dir() and not stat.S_ISLNK(entry.external_attr >> 16)
+                              and entry.file_size <= 16384 for entry in entries), "unsafe Windows suite archive")
+                  require(archive.testzip() is None, "Windows suite archive checksum failed")
+                  binding = json.loads(archive.read("ci-revision-binding.json").decode("utf-8-sig"))
+                  result = json.loads(archive.read("windows-suite-result.json").decode("utf-8-sig"))
+              require(isinstance(result, dict) and isinstance(binding, dict), "invalid Windows suite records")
+              require(result.get("schemaVersion") == 1 and result.get("state") == "passed"
+                      and result.get("suite") == suite and result.get("binding") == binding,
+                      "Windows suite completion or binding differs")
+              require(result.get("repository") == os.environ["GITHUB_REPOSITORY"]
+                      and result.get("runId") == os.environ["GITHUB_RUN_ID"]
+                      and result.get("runAttempt") == os.environ["GITHUB_RUN_ATTEMPT"],
+                      "Windows suite is from another repository, run or attempt")
+              require(binding.get("schemaVersion") == 1 and binding.get("kind") == "ci_revision_binding"
+                      and binding.get("eventName") == event and binding.get("testedRevision") == tested
+                      and binding.get("sourceHeadRevision") == source and binding.get("routeHeadRevision") == source
+                      and binding.get("eventBaseRevision") == event_base, "Windows source/tested/event binding differs")
+              parents = binding.get("testedParents")
+              require(isinstance(parents, list) and all(full_revision(parent) for parent in parents),
+                      "invalid Windows parent lineage")
+              require(binding.get("testedBaseRevision") == (parents[0] if parents else ""),
+                      "Windows tested base does not match its parent")
+              if event == "pull_request":
+                  require(len(parents) == 2 and parents[1] == source, "Windows PR merge lineage differs")
+              require(previous_binding is None or binding == previous_binding, "Windows suites tested different revisions")
+              previous_binding = binding
+          print("both Windows suites passed for this exact run, source and tested revision")
+          PY
 
   v1-behavioral-oracle:
     needs: route

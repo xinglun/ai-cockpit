@@ -4,6 +4,10 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/hosted-runtime-verification.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
+host_target=$("${RUSTC:-rustc}" -vV | sed -n 's/^host: //p')
+test -n "$host_target"
+runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
+runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
 
 make_runtime() {
   local mode=$1
@@ -11,7 +15,32 @@ make_runtime() {
   mkdir -p "$directory/repository/.ai/evidence"
   mkdir -p "$directory/repository/.ai/work-items/active"
   printf 'fixture source\n' >"$directory/repository/README.md"
-  printf '{"workItemId":"WI-HOSTED-TEST","verification":["cargo test --locked --workspace"]}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  FAKE_MODE="$mode" FAKE_CONTRACT="$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" python3 - <<'PY'
+import json
+import os
+from pathlib import Path
+
+mode = os.environ["FAKE_MODE"]
+contract = {
+    "workItemId": "WI-HOSTED-TEST",
+    "verification": ["cargo test --locked --workspace"],
+}
+if mode.startswith("planned-scenario-"):
+    contract["scenarioCoverage"] = [
+        {
+            "scenario": name,
+            "required": True,
+            "status": "unverified",
+            "evidence": [],
+            "expected": f"{name} behaves as declared",
+            "verificationPlan": f"Run the focused {name} regression",
+        }
+        for name in ("scenario-alpha", "scenario-beta")
+    ]
+    if mode == "planned-scenario-empty-plan":
+        del contract["scenarioCoverage"][0]["verificationPlan"]
+Path(os.environ["FAKE_CONTRACT"]).write_text(json.dumps(contract) + "\n")
+PY
   : >"$directory/repository/.ai/evidence/.keep"
   printf '{"workItemId":"WI-HOSTED-TEST","passed":true,"contractDigest":"sha256:%064d","repositorySnapshotDigest":"sha256:%064d"}\n' 1 1 \
     >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification.json"
@@ -19,10 +48,20 @@ make_runtime() {
     >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json"
   printf '{"summary":"must remain byte-for-byte unchanged"}\n' \
     >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json"
+  mkdir -p "$directory/repository/tests/docs" "$directory/repository/tests/ci" "$directory/repository/tests/release"
+  mkdir -p "$directory/cargo-home"
+  # Producer and downstream consumer belong to this same synthetic checkout.
+  # Copy their actual code rather than borrowing the outer checkout's runner.
+  cp "$root/tests/ci/run_workspace_package_tests.sh" "$root/tests/ci/run_process_observer_test_runner.sh" \
+    "$root/tests/ci/run_no_warnings.py" "$directory/repository/tests/ci/"
+  printf 'import os\nraise SystemExit(23 if os.environ.get("FAKE_MODE")=="failed-prechecks" else 0)\n' \
+    >"$directory/repository/tests/docs/governance_cost_baseline_test.py"
+  printf '#!/usr/bin/env bash\nexit 0\n' >"$directory/repository/tests/ci/workflow_convergence_test.sh"
+  printf '#!/usr/bin/env bash\nexit 0\n' >"$directory/repository/tests/release/action_runtime_policy_test.sh"
   git -C "$directory/repository" init -q
   git -C "$directory/repository" config user.name 'Hosted Runtime Test'
   git -C "$directory/repository" config user.email hosted-runtime@example.invalid
-  git -C "$directory/repository" add README.md
+  git -C "$directory/repository" add README.md tests
   git -C "$directory/repository" commit -qm 'hosted Runtime fixture baseline'
   git -C "$directory/repository" add .ai
   git -C "$directory/repository" commit -qm 'commit the Work Item receipt path before hosted verification'
@@ -43,6 +82,20 @@ path.write_text(
     "if args[:2] == ['work-item', 'validate']:\n"
     "    mode = os.environ['FAKE_MODE']\n"
     "    if mode == 'invalid-validation': print(json.dumps({'state': 'blocked'}))\n"
+    "    elif mode.startswith('planned-scenario-'):\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "        scenarios = contract.get('scenarioCoverage', [])\n"
+    "        pending_names = [item['scenario'] for item in scenarios if item.get('required') is True and item.get('status') == 'unverified']\n"
+    "        if mode == 'planned-scenario-mismatch': pending_names = ['scenario-not-in-contract']\n"
+    "        findings = [{'code': 'required_scenario_unverified', 'message': 'required scenario ' + name + ' is unverified', 'severity': 'error'} for name in pending_names]\n"
+    "        if mode == 'planned-scenario-message-mismatch':\n"
+    "            findings = [{'code': 'required_scenario_unverified', 'message': 'required scenario foreign-scenario is unverified', 'severity': 'error'} for _ in pending_names]\n"
+    "        unknowns = ['required_scenario_unverified:' + name for name in pending_names]\n"
+    "        if mode == 'planned-scenario-mixed-error':\n"
+    "            findings.append({'code': 'material_review_receipt_invalid', 'message': 'material review is invalid', 'severity': 'error'})\n"
+    "            unknowns.append('material_review_receipt_invalid')\n"
+    "        print(json.dumps({'state': 'blocked', 'scenarioCoverage': 'blocked', 'unknowns': unknowns, 'findings': findings}))\n"
     "    else: print(json.dumps({'state': 'blocked', 'unknowns': [], 'findings': []}))\n"
     "elif args[:2] == ['work-item', 'status']:\n"
     "    state = Path(os.environ['FAKE_STATE'])\n"
@@ -55,8 +108,8 @@ path.write_text(
     "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "        if mode == 'existing-fresh-mismatched-receipt': contract_digest = 'sha256:' + '4' * 64\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': ['run_verification']}))\n"
-    "    elif mode in ('stale', 'stale-deferred') and count <= 2: actions = ['run_preflight']\n"
-    "    elif mode == 'blocked': actions = []\n"
+    "    elif mode in ('stale', 'stale-deferred', 'caller-valid', 'caller-mismatch') and count <= 2: actions = ['run_preflight']\n"
+    "    elif mode in ('blocked', 'planned-scenario-unadmitted'): actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count >= 3: actions = []\n"
     "    elif mode == 'blocked-after-preflight' and count <= 2: actions = ['run_preflight']\n"
     "    else: actions = ['run_verification']\n"
@@ -79,6 +132,17 @@ path.write_text(
     "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'not_verified', 'evidenceFreshness': {'state': 'stale_or_invalid'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': actions}))\n"
     "elif args and args[0] == 'preflight':\n"
+    "    mode = os.environ['FAKE_MODE']\n"
+    "    if mode.startswith('caller-'):\n"
+    "        if '--task-caller' not in args:\n"
+    "            print('task_authorization_caller_required', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        caller = json.loads(Path(args[args.index('--task-caller') + 1]).read_text())\n"
+    "        policy = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())['governanceProfile']['taskAuthorization']\n"
+    "        if caller.get('schemaVersion') != 1 or caller.get('actor') != policy['agentActor'] or caller.get('authoritySource') != policy['authoritySource'] or caller.get('assurance') != 'self_declared':\n"
+    "            print('task_authorization_caller_mismatch', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
     "    print(json.dumps({'kind': 'preflight', 'state': 'passed'}))\n"
     "elif args and args[0] == 'verify':\n"
     "    assert args[args.index('--workers') + 1] == '1'\n"
@@ -86,6 +150,17 @@ path.write_text(
     "    if mode == 'timeout-runtime-rejected':\n"
     "        print('fixture Runtime rejects timeout above its effective policy ceiling', file=sys.stderr)\n"
     "        raise SystemExit(1)\n"
+    "    if mode == 'planned-scenario-verify-fails':\n"
+    "        print('fixture project verification failed', file=sys.stderr)\n"
+    "        raise SystemExit(23)\n"
+    "    if mode.startswith('caller-'):\n"
+    "        if '--task-caller' not in args:\n"
+    "            print('task_authorization_caller_required', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
+    "        caller = json.loads(Path(args[args.index('--task-caller') + 1]).read_text())\n"
+    "        if caller.get('schemaVersion') != 1 or caller.get('actor') != 'agent:fixture' or caller.get('authoritySource') != 'fixture:explicit-owner' or caller.get('assurance') != 'self_declared':\n"
+    "            print('task_authorization_caller_mismatch', file=sys.stderr)\n"
+    "            raise SystemExit(1)\n"
     "    repository = Path(args[args.index('--repo') + 1])\n"
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
@@ -97,7 +172,7 @@ path.write_text(
     "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0, 'stdout': '', 'stderr': '', 'stdoutTruncated': False, 'stderrTruncated': False}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
     "    evidence = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'contractDigest': contract_digest, 'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'receipt': receipt}\n"
     "    evidence_path = repository / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
-    "    if mode == 'wrong-work-item-id':\n"
+    "    if mode in ('wrong-work-item-id', 'planned-scenario-bad-receipt'):\n"
     "        evidence['workItemId'] = 'WI-OTHER'\n"
     "        evidence['receipt']['workItemId'] = 'WI-OTHER'\n"
     "        evidence['receipt']['planReceipt']['workItemId'] = 'WI-OTHER'\n"
@@ -111,7 +186,13 @@ path.write_text(
     "        evidence['runtimeDigest'] = 'sha256:' + '4' * 64\n"
     "        evidence['receipt']['runtimeDigest'] = 'sha256:' + '4' * 64\n"
     "    if mode != 'missing-formal-receipt': evidence_path.write_text(json.dumps(evidence), encoding='utf-8')\n"
-    "    print(json.dumps({'kind': 'verification', 'passed': True}))\n"
+    "    output = {key: value for key, value in receipt.items() if key != 'workItemId'}\n"
+    "    output['plannedNodes'] = [{'nodeId': node_id, 'program': 'cargo', 'args': ['test', '--locked', '--package', 'fixture'], 'identityBinding': {'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'runtimeDigest': runtime_digest, 'commandDigest': command_digest}}]\n"
+    "    if mode == 'bad-output-projection': output['nodesExecuted'] = 0\n"
+    "    if mode == 'bad-output-type': output['nodesReused'] = False\n"
+    "    if mode == 'bad-output-json': print('{invalid')\n"
+    "    elif mode == 'duplicate-output-json': print(json.dumps(output)[:-1] + ',\\\"passed\\\":true}')\n"
+    "    else: print(json.dumps(output))\n"
     "else:\n"
     "    raise SystemExit('unexpected fake Runtime command: ' + repr(args))\n",
     encoding="utf-8",
@@ -287,22 +368,67 @@ PY
     "$directory/initial-summary.json"
   mkdir -p "$directory/runner-temp"
   local result=0
+  local caller_arguments=()
+  if [[ "$mode" == caller-valid || "$mode" == caller-missing || "$mode" == caller-mismatch ]]; then
+    python3 - "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["governanceProfile"] = {
+    "taskAuthorization": {
+        "agentActor": "agent:fixture",
+        "authoritySource": "fixture:explicit-owner",
+    }
+}
+path.write_text(json.dumps(contract), encoding="utf-8")
+PY
+    git -C "$directory/repository" add .ai/work-items/active/WI-HOSTED-TEST.contract.json
+    git -C "$directory/repository" commit -qm 'declare explicit caller fixture policy'
+    if [[ "$mode" != caller-missing ]]; then
+      python3 - "$directory/task-caller.json" "$mode" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+mode = sys.argv[2]
+caller = {
+    "schemaVersion": 1,
+    "actor": "agent:fixture" if mode != "caller-mismatch" else "agent:wrong",
+    "authoritySource": "fixture:explicit-owner",
+    "assurance": "self_declared",
+}
+Path(sys.argv[1]).write_text(json.dumps(caller), encoding="utf-8")
+PY
+      caller_arguments=(--task-caller "$directory/task-caller.json")
+    fi
+  fi
+  local fixture_head
+  fixture_head=$(git -C "$directory/repository" rev-parse HEAD)
   if [[ "$defer_worktree" == true ]]; then
     RUNNER_TEMP="$directory/runner-temp" AI_COCKPIT_DEFER_WORKTREE_CLEANUP=true \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
       FAKE_WORKSPACE="$directory/repository" \
+      GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+      GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$fixture_head" RUNNER_OS=Linux \
+      env "CARGO_HOME=$directory/cargo-home" "$runner_variable=$directory/repository/tests/ci/run_process_observer_test_runner.sh" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
-        "$directory/artifacts" || result=$?
+        "$directory/artifacts" "${caller_arguments[@]}" || result=$?
   else
     AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
       FAKE_WORKSPACE="$directory/repository" \
+      GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality \
+      GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$fixture_head" RUNNER_OS=Linux \
+      env "CARGO_HOME=$directory/cargo-home" "$runner_variable=$directory/repository/tests/ci/run_process_observer_test_runner.sh" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
-        "$directory/artifacts" || result=$?
+        "$directory/artifacts" "${caller_arguments[@]}" || result=$?
   fi
   if [[ "$expect_success" == true && "$result" != 0 ]]; then
     printf 'hosted Runtime helper failed unexpectedly for mode %s (exit %s)\n' "$mode" "$result" >&2
@@ -331,6 +457,58 @@ for command in sys.argv[2:]:
     assert not any(args and args[0] == command for args in commands), (command, commands)
 PY
 }
+
+run_helper caller-valid true
+python3 - "$tmp/caller-valid/artifacts" <<'PY_REUSE_RED'
+import hashlib
+import json
+import sys
+from pathlib import Path
+artifacts = Path(sys.argv[1])
+orchestration = json.loads((artifacts / "hosted-runtime-orchestration.json").read_bytes())
+seal = orchestration.get("executionOutput")
+assert isinstance(seal, dict), "actual Runtime stdout must be sealed before targeted coverage reuse"
+assert seal["file"] == "hosted-runtime-execution.json"
+assert seal["source"] == "runtime_stdout" and seal["schemaVersion"] == 1
+assert seal["providerContext"]["runId"] == "123456"
+assert seal["providerContext"]["runAttempt"] == "1"
+assert seal["providerContext"]["job"] == "fixture_quality"
+assert seal["sha256"] == "sha256:" + hashlib.sha256((artifacts / seal["file"]).read_bytes()).hexdigest()
+PY_REUSE_RED
+python3 - "$tmp/caller-valid/commands.jsonl" "$tmp/caller-valid/task-caller.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+caller = sys.argv[2]
+preflight, = [args for args in commands if args[0] == "preflight"]
+verify, = [args for args in commands if args[0] == "verify"]
+for args in (preflight, verify):
+    assert args[args.index("--task-caller") + 1] == caller
+for args in commands:
+    if args[0] not in ("preflight", "verify"):
+        assert "--task-caller" not in args, args
+PY
+
+run_helper caller-missing false
+assert_no_commands "$tmp/caller-missing/commands.jsonl" preflight verify
+jq -e '.verificationState == "invalidated" and .failureReason == "task_caller_required"' \
+  "$tmp/caller-missing/artifacts/hosted-runtime-orchestration.json" >/dev/null
+
+run_helper caller-mismatch false
+grep -F -q 'task_authorization_caller_mismatch' \
+  "$tmp/caller-mismatch/artifacts/hosted-runtime-preflight.stderr"
+python3 - "$tmp/caller-mismatch/commands.jsonl" "$tmp/caller-mismatch/task-caller.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+preflight, = [args for args in commands if args[0] == "preflight"]
+assert preflight[preflight.index("--task-caller") + 1] == sys.argv[2]
+assert not any(args[0] == "verify" for args in commands)
+PY
 
 # Missing timeout forwarding must fail this consumer-boundary assertion; the
 # fake Runtime only avoids running the full project suite inside this test.
@@ -397,7 +575,7 @@ test "$(git -C "$tmp/stale/repository" status --porcelain)" = \
 worktree_count=$(git -C "$tmp/stale/repository" worktree list --porcelain | awk '/^worktree / { count += 1 } END { print count + 0 }')
 test "$worktree_count" = 1
 jq -e '.kind == "preflight" and .state == "passed"' "$tmp/stale/artifacts/hosted-runtime-preflight.json" >/dev/null
-jq -e '.kind == "verification" and .passed == true' "$tmp/stale/artifacts/hosted-runtime-execution.json" >/dev/null
+jq -e '.passed == true and .nodesExecuted == 1 and (.plannedNodes | length == 1)' "$tmp/stale/artifacts/hosted-runtime-execution.json" >/dev/null
 jq -e '.workItemId == "WI-HOSTED-TEST" and .passed == true and .receipt.workItemId == .workItemId and .receipt.passed == true' \
   "$tmp/stale/artifacts/hosted-runtime-verification.json" >/dev/null
 jq -e '.state == "removed" and .cleanupExitCode == 0 and .isolatedRepository != null' \
@@ -492,11 +670,15 @@ AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/stale-deferred/artifacts/hosted-runt
 AI_COCKPIT_RUNTIME_BIN="$tmp/stale-deferred/runtime" \
 AI_COCKPIT_VERIFICATION_REPOSITORY="$deferred_repository" \
 RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env "CARGO_HOME=$tmp/stale-deferred/cargo-home" "$runner_variable=$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  "$tmp/stale-deferred/repository/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/stale-deferred/metadata.json" \
     --cargo "$tmp/stale-deferred/fake-cargo" \
     --report "$tmp/stale-deferred/coverage.json"
 test ! -e "$tmp/stale-deferred/packages.log"
+jq -e --arg host "$host_target" --arg runner "$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  '.executionOutput.cargoContext.hostTarget == $host and .executionOutput.cargoContext.configuration == "absent" and .executionOutput.cargoContext.runnerPath == $runner and (.executionOutput.cargoContext.runnerDigest | test("^sha256:[0-9a-f]{64}$"))' \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json" >/dev/null
 jq -e '.state == "passed" and .verificationReceiptState == "passed" and .executedByHostedRuntime == ["fixture"] and .executedByCoverageRunner == []' \
   "$tmp/stale-deferred/coverage.json" >/dev/null
 
@@ -552,7 +734,8 @@ PY
   AI_COCKPIT_VERIFICATION_ORCHESTRATION="$case_dir/orchestration.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/stale-deferred/runtime" \
   AI_COCKPIT_VERIFICATION_REPOSITORY="$deferred_repository" \
-    "$root/tests/ci/run_workspace_package_tests.sh" \
+    env "CARGO_HOME=$tmp/stale-deferred/cargo-home" "$runner_variable=$tmp/stale-deferred/repository/tests/ci/run_process_observer_test_runner.sh" \
+  "$tmp/stale-deferred/repository/tests/ci/run_workspace_package_tests.sh" \
       --metadata "$tmp/stale-deferred/metadata.json" \
       --cargo "$tmp/stale-deferred/fake-cargo" \
       --report "$case_dir/coverage.json" >"$case_dir/coverage.log" 2>&1 || result=$?
@@ -682,10 +865,125 @@ assert_no_commands "$tmp/blocked/commands.jsonl" preflight verify
 run_helper blocked-after-preflight false
 assert_no_commands "$tmp/blocked-after-preflight/commands.jsonl" verify
 
+run_helper failed-prechecks false
+jq -e '.verificationState == "invalidated" and .failureReason == "repository_prechecks_failed"' \
+  "$tmp/failed-prechecks/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/failed-prechecks/commands.jsonl" verify
+
 run_helper invalid-validation false
 jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
   "$tmp/invalid-validation/artifacts/hosted-runtime-orchestration.json" >/dev/null
 assert_no_commands "$tmp/invalid-validation/commands.jsonl" verify
 
+run_helper planned-scenario-valid true
+jq -e '.state == "blocked" and .scenarioCoverage == "blocked" and (.findings | length == 2) and all(.findings[]; .code == "required_scenario_unverified")' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-validation-before.json" >/dev/null
+jq -e '.state == "blocked" and .scenarioCoverage == "blocked" and all(.findings[]; .code == "required_scenario_unverified")' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-validation-after.json" >/dev/null
+jq -e 'all(.scenarioCoverage[]; .required == true and .status == "unverified" and (.evidence | length == 0))' \
+  "$tmp/planned-scenario-valid/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" >/dev/null
+jq -e '.verificationState == "passed" and .failureReason == null' \
+  "$tmp/planned-scenario-valid/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-valid/commands.jsonl" >/dev/null
+assert_no_commands "$tmp/planned-scenario-valid/commands.jsonl" finish archive close
+
+run_helper planned-scenario-mixed-error false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-mixed-error/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-mixed-error/commands.jsonl" preflight verify
+
+run_helper planned-scenario-empty-plan false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-empty-plan/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-empty-plan/commands.jsonl" preflight verify
+
+run_helper planned-scenario-mismatch false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-mismatch/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-mismatch/commands.jsonl" preflight verify
+
+run_helper planned-scenario-message-mismatch false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/planned-scenario-message-mismatch/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-message-mismatch/commands.jsonl" preflight verify
+
+run_helper planned-scenario-unadmitted false
+jq -e '.verificationState == "not_started" and .failureReason == "no_admitted_preflight_or_verification_action"' \
+  "$tmp/planned-scenario-unadmitted/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/planned-scenario-unadmitted/commands.jsonl" preflight verify
+
+run_helper planned-scenario-bad-receipt false
+jq -e '.verificationState == "invalidated" and .failureReason == "formal_verification_evidence_identity_mismatch"' \
+  "$tmp/planned-scenario-bad-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-bad-receipt/commands.jsonl" >/dev/null
+test ! -s "$tmp/planned-scenario-bad-receipt/artifacts/hosted-runtime-verification.json"
+
+run_helper planned-scenario-verify-fails false
+jq -e '.verificationState == "failed" and .failureReason == "verification_failed"' \
+  "$tmp/planned-scenario-verify-fails/artifacts/hosted-runtime-orchestration.json" >/dev/null
+grep -F '"verify"' "$tmp/planned-scenario-verify-fails/commands.jsonl" >/dev/null
+test ! -s "$tmp/planned-scenario-verify-fails/artifacts/hosted-runtime-verification.json"
+
 printf 'timeout regression passed: bounded=1, default=1, unrelated=1, invalid=5, Runtime-refusal=1\n'
+for output_case in bad-output-json duplicate-output-json bad-output-projection bad-output-type; do
+  run_helper "$output_case" false
+  jq -e '.verificationState == "invalidated" and .failureReason == "execution_output_binding_invalid" and .executionOutput == null' \
+    "$tmp/$output_case/artifacts/hosted-runtime-orchestration.json" >/dev/null
+done
+jq -e '.executionOutput == null' \
+  "$tmp/existing-fresh-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
+# Compare both production definitions and exercise the deliberately narrow
+# absence-of-Cargo-config proof with real isolated filesystem roots.
+python3 - "$root/tests/ci/run_hosted_runtime_verification.sh" "$root/tests/ci/run_workspace_package_tests.sh" "$tmp" <<'PY_CARGO_CONTEXT_TEST'
+import ast
+import hashlib
+import json
+import os
+import pathlib
+import re
+import stat
+import subprocess
+import sys
+
+producer, consumer, temporary = map(pathlib.Path, sys.argv[1:])
+def context_function(path):
+    text = path.read_text().split("def cargo_reuse_context(", 1)[1]
+    text = "def cargo_reuse_context(" + text.split("\ndef ", 1)[0].split("\nprint(json.dumps(cargo_reuse_context", 1)[0]
+    return ast.parse(text).body[0]
+left, right = context_function(producer), context_function(consumer)
+assert ast.dump(left) == ast.dump(right), "producer/consumer Cargo proof definitions drifted"
+namespace = dict(Path=pathlib.Path, hashlib=hashlib, json=json, os=os, re=re, stat=stat, subprocess=subprocess)
+exec(compile(ast.Module(body=[left], type_ignores=[]), "actual-production-cargo-context", "exec"), namespace)
+context = namespace["cargo_reuse_context"]
+host = next(line[6:] for line in subprocess.check_output([os.environ.get("RUSTC", "rustc"), "-vV"], text=True).splitlines() if line.startswith("host: "))
+base = temporary / "cargo-context-proof"; execution = base / "formal/source"; coverage = base / "coverage/source"
+execution.mkdir(parents=True); coverage.mkdir(parents=True)
+runner = base / "observer-runner"; runner.write_text("#!/bin/sh\nexec \"$@\"\n"); runner.chmod(0o755)
+home = base / "cargo-home"; home.mkdir(); os.environ["CARGO_HOME"] = str(home)
+key = "CARGO_TARGET_" + host.upper().replace("-", "_") + "_RUNNER"; os.environ[key] = str(runner)
+os.environ.pop("CARGO_BUILD_TARGET", None)
+expected = context(execution, runner, host); assert expected is not None and expected == context(coverage, runner, host)
+os.environ["CARGO_BUILD_TARGET"] = host; assert context(execution, runner, host) == expected
+os.environ["CARGO_BUILD_TARGET"] = "nonhost-unknown-target"; assert context(execution, runner, host) is None
+os.environ.pop("CARGO_BUILD_TARGET")
+config = execution / ".cargo/config.toml"; config.parent.mkdir()
+for target in (host, "nonhost-unknown-target"):
+    config.write_text('[build]\ntarget = "' + target + '"\n'); assert context(execution, runner, host) is None
+config.unlink()
+parent = execution.parent / ".cargo/config.toml"; parent.parent.mkdir(); parent.write_text("[build]\n")
+assert context(execution, runner, host) is None and context(coverage, runner, host) == expected
+parent.unlink()
+config = home / "config"; config.write_text("[build]\n"); assert context(execution, runner, host) is None; config.unlink()
+os.environ["CARGO_HOME"] = "relative-home"; config = execution / "relative-home/config.toml"; config.parent.mkdir(); config.write_text("[build]\n")
+assert context(execution, runner, host) is None and context(coverage, runner, host) == expected
+os.environ["CARGO_HOME"] = str(home)
+os.environ[key] = "foreign-runner"; assert context(execution, runner, host) is None
+os.environ[key] = str(runner); before = context(execution, runner, host); runner.write_text("#!/bin/sh\nexit 1\n")
+assert context(execution, runner, host) != before
+runner.write_text("#!/bin/sh\nexec \"$@\"\n")
+before = context(execution, runner, host); config = execution / ".cargo/config.toml"; config.write_text("[build]\n")
+assert before is not None and context(execution, runner, host) is None
+config.unlink(); config.symlink_to("missing.toml"); assert context(execution, runner, host) is None
+print("producer/consumer Cargo context proof passed: 12 cases")
+PY_CARGO_CONTEXT_TEST
 printf 'hosted Runtime verification orchestration regression passed\n'

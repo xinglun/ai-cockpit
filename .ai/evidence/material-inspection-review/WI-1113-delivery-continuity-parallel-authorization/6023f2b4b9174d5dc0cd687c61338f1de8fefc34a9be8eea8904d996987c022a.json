@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:a58166a1119f831b602629320d3bb44156a895bb80ff54c443c15bc2cd8f9884",
+  "materialManifestDigest": "sha256:2ece6b374d1e1ae83fe6ee7a08c4e3f7fa1ccaa727498fc7b2e794040a9ff36a",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:6023f2b4b9174d5dc0cd687c61338f1de8fefc34a9be8eea8904d996987c022a",
+  "reviewedSourceHead": "04b32c7579c76a04eea1755a7ee2500d445f01c0",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:b960ce194af9817d9d9e583b0f8669cc2486a45760e03ce2f7830abba1a7dd4e",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "/workspace/wi1113-recovery-20261027/candidate-dev-badcba6b-build.log",
+      "digest": "sha256:43b1646de709daa9161df846addec3c0f8451c35f12b2a1085ac6f29e01f96f6"
+    },
+    {
+      "path": "/workspace/wi1113-recovery-20261027/candidate-dev-material-plan-04b32c7.log",
+      "digest": "sha256:abb051cfeb6366c5807554bdc379e3a8b7ffb6666d8304afdff5bea421236cd7"
+    },
+    {
+      "path": "/workspace/wi1113-recovery-20261027/scenario16-cross-process-quota-badcba6b.log",
+      "digest": "sha256:ba74c145bf038d8b1fae016ed2b1e7f1d74455f764f5aa14f85dbfdc68cd4a38"
+    }
+  ],
+  "rationale": "Accept only the Contract-permitted repository_material_inspection_unavailable caused by readable_committed_rust_syntax_unknown. The current canonical plan reports no findings, is not blocked by a finding, and has exactly this one raw unknown. This is a self-declared material inspection decision, not authenticated human review or verification.",
+  "residualRisk": "The material scanner still does not establish semantic safety for readable Rust changes. No new cause, path, hunk, or finding is accepted; no unknown is classified as clean, and all required tests and final verification remain pending.",
+  "recordedAt": "2026-10-27T13:44:29Z",
+  "receiptDigest": "sha256:240e31fbc62bc49db36e6b4f5935e7d2d4fa869f71ce7eade7fa7c8865f8a639"
+}

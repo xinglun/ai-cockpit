@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "materialManifestDigest": "sha256:a52b3a99a5a172c0553c616d2d60c60021863e4fb6fe2d0fbd3d472d8e45cac5",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:4558b2a150a2fa1feb22830ac5bae4cf45229ae291e0416f1088722b7e56f762",
+  "reviewedSourceHead": "63321fce948f92fe9fb166dd8dd86d47ab224ffe",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:77e2e06700d11b3f914b985dc31cf5bdab96f1f7a49d728d65db74282cbfbef0",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:ea17d4be2bf730053758306787d2e4caf1204c3c3a5de75f1a2d49cc17ad9eee"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot made a current ordinary technical acceptance for this exact 4558b2a150a2fa1feb22830ac5bae4cf45229ae291e0416f1088722b7e56f762 request, source 63321fce948f92fe9fb166dd8dd86d47ab224ffe, with same-source Runtime 77e2e06700d11b3f914b985dc31cf5bdab96f1f7a49d728d65db74282cbfbef0. The seven prior complete path/kind/content/assessment/cause/hunk/blob entries were compared field by field and their renewed source-review judgments remain applicable; this is a new current-request decision, not receipt reuse. The eighth material_review.rs entry, hunk c828df0119b374c128f1f8e26b22b7bfa21bbcdd0fd5af7fc9f59c0c6db78374 and blob ea17d4be2bf730053758306787d2e4caf1204c3c3a5de75f1a2d49cc17ad9eee, received independent review of the complete production proof patch and the narrow fixture patch. R and C derive from one canonical request and require same HEAD/path/kind/hunk with origins and committed blob identity; C only supplements MissingCompleteSource. Uncovered Unknowns, every Finding and evidence_stale remain fail-closed. The public conformance fixture is unchanged at 43 bytes with pinned SHA256 a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814; user Sentinel_d62b633d1c348191b25490984700a936 explicitly approved its transparent test-only reuse. Real Finding detection and no-discharge assertions executed successfully. The scanner, profile, raw eleven-blob algorithm and permissions were not relaxed. Acceptance covers only the exact eight profile-permitted syntax Unknowns with agent:codex/self_declared assurance, not human/provider, complete verification, merge, release or production approval.",
+  "residualRisk": "All eight raw scanner members remain machine Unknown, not Clean. Bounded syntax analysis remains incomplete. Optional Git diagnostic stderr writes may block; no whole-API ten-second return guarantee or diagnostic descendant reaping is asserted. Direct test execution without required Cargo/Rustup environment can genuinely fail and cannot falsely pass. Existing CI8 evidence stays source-bound and is not transplanted or refreshed here; local evidence_stale, final hosted/Windows verification, merge and finish conditions remain separate. Any changed request, member/cause, Finding, profile/policy or analyzer identity requires current review.",
+  "recordedAt": "2026-10-28T11:23:03Z",
+  "receiptDigest": "sha256:6b520292dce0af50888579bac36e3660888e4f61e57a456cbf3496cbd11a9eef"
+}

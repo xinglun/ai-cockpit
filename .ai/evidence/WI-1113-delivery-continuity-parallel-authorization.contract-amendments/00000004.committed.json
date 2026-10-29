@@ -1,0 +1,356 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:ea98111dcaacd868ef15636e3eb496ab5c9cc9e430c72601c7c899ce4b39bd5f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+    "sequence": 4,
+    "changeId": "wi1113-runtime-compatible-scenario-expectations-and-verification-plans-20261026",
+    "requestDigest": "sha256:e87e6bb29fd7cb531c33c7d4dc5fc8757de7f26113a20b56ee1f21555b129d6c",
+    "reason": "Preserve every existing expectedOutcome verbatim while also populating the fixed Runtime recognized expected field, and replace generic scenario verification plans with concrete test-file/filter and assertion plans. All 25 scenarios remain required, unverified, and with empty evidence; no product scope, risk profile, acceptance, commands, or status is changed.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/0/expected",
+        "operation": "set",
+        "newValue": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation."
+      },
+      {
+        "path": "/scenarioCoverage/0/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
+      },
+      {
+        "path": "/scenarioCoverage/1/expected",
+        "operation": "set",
+        "newValue": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF."
+      },
+      {
+        "path": "/scenarioCoverage/1/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test outcome_report current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert core.autocrlf=true checkout bytes equal the committed .ai Git blob bytes."
+      },
+      {
+        "path": "/scenarioCoverage/2/expected",
+        "operation": "set",
+        "newValue": "An older immutable fixture revision lacks the new attributes rule."
+      },
+      {
+        "path": "/scenarioCoverage/2/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test outcome_report historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert the old revision fixture preserves blob bytes using only its local fixture attribute rule."
+      },
+      {
+        "path": "/scenarioCoverage/3/expected",
+        "operation": "set",
+        "newValue": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged."
+      },
+      {
+        "path": "/scenarioCoverage/3/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test outcome_report archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes -- --exact --test-threads=1; mutate exactly one byte, retain the original digest, assert rejection and unchanged tampered bytes."
+      },
+      {
+        "path": "/scenarioCoverage/4/expected",
+        "operation": "set",
+        "newValue": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt."
+      },
+      {
+        "path": "/scenarioCoverage/4/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_marks_replaced_predecessor_and_active_successor -- --exact --test-threads=1; assert validated WI-1112 replaced/not_verified lineage is shown separately from active WI-1113 and no delivery completion is inferred."
+      },
+      {
+        "path": "/scenarioCoverage/5/expected",
+        "operation": "set",
+        "newValue": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent."
+      },
+      {
+        "path": "/scenarioCoverage/5/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_rejects_missing_foreign_or_inconsistent_lineage -- --exact --test-threads=1; cover absent, malformed, foreign, and mismatched repository/predecessor/receipt/archive/successor bindings."
+      },
+      {
+        "path": "/scenarioCoverage/6/expected",
+        "operation": "set",
+        "newValue": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending."
+      },
+      {
+        "path": "/scenarioCoverage/6/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
+      },
+      {
+        "path": "/scenarioCoverage/7/expected",
+        "operation": "set",
+        "newValue": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities."
+      },
+      {
+        "path": "/scenarioCoverage/7/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_current_reference_is_not_review_authority -- --exact --test-threads=1; assert same material references are read-only and never authorize a new review."
+      },
+      {
+        "path": "/scenarioCoverage/8/expected",
+        "operation": "set",
+        "newValue": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs."
+      },
+      {
+        "path": "/scenarioCoverage/8/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
+      },
+      {
+        "path": "/scenarioCoverage/9/expected",
+        "operation": "set",
+        "newValue": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain."
+      },
+      {
+        "path": "/scenarioCoverage/9/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test material_review valid_profile_amendment_preserves_exact_prior_receipt_as_history -- --exact --test-threads=1; verify the old receipt against its historical Contract/profile/request/manifest and legal same-WI amendment chain, preserve it, and require a new request."
+      },
+      {
+        "path": "/scenarioCoverage/10/expected",
+        "operation": "set",
+        "newValue": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists."
+      },
+      {
+        "path": "/scenarioCoverage/10/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test material_review stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid -- --exact --test-threads=1 plus the material_review suite; reject forged, foreign, malformed, or unbound transition evidence."
+      },
+      {
+        "path": "/scenarioCoverage/11/expected",
+        "operation": "set",
+        "newValue": "A transition sees a new Unknown cause, path, hunk, or Finding."
+      },
+      {
+        "path": "/scenarioCoverage/11/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
+      },
+      {
+        "path": "/scenarioCoverage/12/expected",
+        "operation": "set",
+        "newValue": "A proposed profile change cannot be supported by a validated append-only receipt transition."
+      },
+      {
+        "path": "/scenarioCoverage/12/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Run cargo test --locked -p cockpit-repository --test material_review profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale -- --exact --test-threads=1; compare Contract and amendment-journal bytes before and after rejection."
+      },
+      {
+        "path": "/scenarioCoverage/13/expected",
+        "operation": "set",
+        "newValue": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry."
+      },
+      {
+        "path": "/scenarioCoverage/13/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
+      },
+      {
+        "path": "/scenarioCoverage/14/expected",
+        "operation": "set",
+        "newValue": "One listed Work Item is stale, expired, denied, or revoked while another is valid."
+      },
+      {
+        "path": "/scenarioCoverage/14/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
+      },
+      {
+        "path": "/scenarioCoverage/15/expected",
+        "operation": "set",
+        "newValue": "Two processes try to reserve the one allowed start for the same member concurrently."
+      },
+      {
+        "path": "/scenarioCoverage/15/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency concurrent_member_start_reserves_one_quota_atomically -- --exact --test-threads=1; race separate processes and assert exactly one durable reservation."
+      },
+      {
+        "path": "/scenarioCoverage/16/expected",
+        "operation": "set",
+        "newValue": "Two explicitly selected disjoint Work Items run concurrently and one fails."
+      },
+      {
+        "path": "/scenarioCoverage/16/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
+      },
+      {
+        "path": "/scenarioCoverage/17/expected",
+        "operation": "set",
+        "newValue": "A named unchanged check fails and has retry budget remaining."
+      },
+      {
+        "path": "/scenarioCoverage/17/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
+      },
+      {
+        "path": "/scenarioCoverage/18/expected",
+        "operation": "set",
+        "newValue": "Process or write result is uncertain after interruption."
+      },
+      {
+        "path": "/scenarioCoverage/18/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
+      },
+      {
+        "path": "/scenarioCoverage/19/expected",
+        "operation": "set",
+        "newValue": "A grant expires or receives a valid append-only withdrawn/completed termination."
+      },
+      {
+        "path": "/scenarioCoverage/19/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
+      },
+      {
+        "path": "/scenarioCoverage/20/expected",
+        "operation": "set",
+        "newValue": "CLI and MCP request the same batch, member, action, and manifest."
+      },
+      {
+        "path": "/scenarioCoverage/20/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity explicit_batch_authorization_manifest_has_cli_mcp_parity -- --exact --test-threads=1; compare canonical request, member, action, manifest and errors."
+      },
+      {
+        "path": "/scenarioCoverage/21/expected",
+        "operation": "set",
+        "newValue": "Successor recovery occurs while predecessor PR/branch remain open."
+      },
+      {
+        "path": "/scenarioCoverage/21/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use the exact scenario fixture and associated targeted test in the implementation plan.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision successor_does_not_transfer_predecessor_pr_or_branch_resource -- --exact --test-threads=1; assert predecessor PR/branch remain bound to their original Work Item."
+      },
+      {
+        "path": "/scenarioCoverage/22/expected",
+        "operation": "set",
+        "newValue": "TaskAuthorization publicTarget.baseBranch and actual PR/resourceContext base branch identify codex/wi-1111-token-outcome-ci; PR head identifies WI-1113. The active Contract.baseRevision is whatever the fixed Runtime records on normal staged activation and remains distinct from predecessor recovery HEAD 5a942, provider comparison base, tested PR merge revision, and post-merge commit."
+      },
+      {
+        "path": "/scenarioCoverage/22/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use focused TaskAuthorization/route tests plus exact provider and native resource readback; assert all baseline, predecessor, comparison, tested-merge, and final-merge identities are represented separately.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; then read the actual provider PR and native resource receipt to compare repository, head, base, and recorded Contract baseline separately."
+      },
+      {
+        "path": "/scenarioCoverage/23/expected",
+        "operation": "set",
+        "newValue": "While #1075 remains open and WI-1113 starts at its head, the WI-1113-to-WI-1111 comparison exposes the full inherited WI-1112 plus WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, and review full-diff provenance; do not require #1075 to merge first or call the comparison a pure WI-1113 delta."
+      },
+      {
+        "path": "/scenarioCoverage/23/verificationPlan",
+        "operation": "set",
+        "oldValue": "Use a local Git compare fixture with the recorded branch graph, verify the actual provider compare before merge, and trace each cumulative hunk to WI-1112 inheritance or WI-1113 changes. Preserve #1074/#1075 and their base/head.",
+        "newValue": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision stacked_pr_comparison_preserves_full_inherited_and_new_provenance -- --exact --test-threads=1; also inspect provider compare and trace cumulative hunks to WI-1112 or WI-1113 without requiring #1075 to merge."
+      },
+      {
+        "path": "/scenarioCoverage/24/expected",
+        "operation": "set",
+        "newValue": "Existing pull_request CI covers the selected PR base; existing push CI only covers main. After a merge to the WI-1111 branch, report exact Git/native readback and do not claim a hosted push run for that non-main branch unless one actually exists."
+      },
+      {
+        "path": "/scenarioCoverage/24/verificationPlan",
+        "operation": "set",
+        "oldValue": "Read and test existing route behavior, then read actual workflow/event metadata after merge; do not change .github/workflows or create a synthetic run.",
+        "newValue": "Run python3 -m unittest tests.ci.quality_route_test; after any authorized merge, read actual provider workflow/event records for the exact merge commit and assert no non-main push CI is claimed without a real run."
+      }
+    ],
+    "previousContractDigest": "sha256:98fa4e72be9f32e399e1b7e5c05df89e8092e4461b3a5df0d96b8e36b5e9736d",
+    "newContractDigest": "sha256:b2b2d59a0099efee905dc5fe0912ff43879ec9208db25a6e58da867eed247705",
+    "repositorySnapshotDigest": "sha256:516ce9a1511fb5c2f3de7fdd96a4c5136661bdc42ae5d8f5a5c4cc9d75efe4c9",
+    "environmentObservationDigest": "sha256:5d3c6e37e2ce56476ba0a7bbb5903fcb03aaa77b9bee0310644b2c8f785ce61f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scenarioCoverage/1/expected",
+      "/scenarioCoverage/1/verificationPlan",
+      "/scenarioCoverage/10/expected",
+      "/scenarioCoverage/10/verificationPlan",
+      "/scenarioCoverage/11/expected",
+      "/scenarioCoverage/11/verificationPlan",
+      "/scenarioCoverage/12/expected",
+      "/scenarioCoverage/12/verificationPlan",
+      "/scenarioCoverage/13/expected",
+      "/scenarioCoverage/13/verificationPlan",
+      "/scenarioCoverage/14/expected",
+      "/scenarioCoverage/14/verificationPlan",
+      "/scenarioCoverage/15/expected",
+      "/scenarioCoverage/15/verificationPlan",
+      "/scenarioCoverage/16/expected",
+      "/scenarioCoverage/16/verificationPlan",
+      "/scenarioCoverage/17/expected",
+      "/scenarioCoverage/17/verificationPlan",
+      "/scenarioCoverage/18/expected",
+      "/scenarioCoverage/18/verificationPlan",
+      "/scenarioCoverage/19/expected",
+      "/scenarioCoverage/19/verificationPlan",
+      "/scenarioCoverage/2/expected",
+      "/scenarioCoverage/2/verificationPlan",
+      "/scenarioCoverage/20/expected",
+      "/scenarioCoverage/20/verificationPlan",
+      "/scenarioCoverage/21/expected",
+      "/scenarioCoverage/21/verificationPlan",
+      "/scenarioCoverage/22/expected",
+      "/scenarioCoverage/22/verificationPlan",
+      "/scenarioCoverage/23/expected",
+      "/scenarioCoverage/23/verificationPlan",
+      "/scenarioCoverage/24/expected",
+      "/scenarioCoverage/24/verificationPlan",
+      "/scenarioCoverage/3/expected",
+      "/scenarioCoverage/3/verificationPlan",
+      "/scenarioCoverage/4/expected",
+      "/scenarioCoverage/4/verificationPlan",
+      "/scenarioCoverage/5/expected",
+      "/scenarioCoverage/5/verificationPlan",
+      "/scenarioCoverage/6/expected",
+      "/scenarioCoverage/6/verificationPlan",
+      "/scenarioCoverage/7/expected",
+      "/scenarioCoverage/7/verificationPlan",
+      "/scenarioCoverage/8/expected",
+      "/scenarioCoverage/8/verificationPlan",
+      "/scenarioCoverage/9/expected",
+      "/scenarioCoverage/9/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:85ef33d0f135b4320bbce70714bd67f5d125977095916586f1bd62bce1c7f810",
+    "journalDigest": "sha256:5b5c06feee73a5d4a21d909343e0fb9a42314ef362863b9586eceeb01158b902",
+    "recordedAt": "2026-10-26T22:06:09Z"
+  }
+}

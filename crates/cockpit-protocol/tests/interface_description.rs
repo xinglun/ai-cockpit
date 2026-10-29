@@ -125,6 +125,19 @@ fn surface<'a>(
         .unwrap_or_else(|| panic!("missing {name} interface surface"))
 }
 
+#[test]
+fn usage_import_has_discoverable_explicit_transport_inputs() {
+    let description = cockpit_protocol::work_item_usage_import_interface_description();
+    assert_eq!(description.name, "work-item-usage-import");
+    assert!(cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.contains(&description.name.as_str()));
+    assert!(parameter(surface(&description, "cli"), "repo").required);
+    assert!(parameter(surface(&description, "cli"), "input").required);
+    assert!(parameter(surface(&description, "mcp"), "request").required);
+    assert!(
+        cockpit_protocol::interface_description_for_surface("work-item-usage-import").is_some()
+    );
+}
+
 fn parameter<'a>(
     surface: &'a cockpit_protocol::InterfaceSurface,
     name: &str,

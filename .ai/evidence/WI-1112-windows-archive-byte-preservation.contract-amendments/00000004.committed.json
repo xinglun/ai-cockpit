@@ -1,0 +1,38 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:0f86b255b5bdbb19fef93bfc230365330019b93b10f4047c03d25756e1e884e9",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1112-windows-archive-byte-preservation",
+    "sequence": 4,
+    "changeId": "wi1112-separate-profile-authority-from-request-approval-20261026",
+    "requestDigest": "sha256:749f179213a18913c363778bdce685e7cbd10c298651f320fa898d32fd846c2b",
+    "reason": "Separate the historical source that enabled the bounded material-review profile from each request-specific risk approval. Preserve the declared cause and state that the current post-clippy material request remains pending.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile/materialInspectionReview/authoritySource",
+        "operation": "replace",
+        "oldValue": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; limited to WI-1112 material request sha256:d73ebcf8cc409fa693c2f17ee337cb8f35a2d0d48bc3f4daca2b2ae9d3286358 and manifest sha256:c945d25dbdc9413cf7de35b9f37d167ffb3cbe5c789c16476a98eee2dc786986; four current readable_committed_rust_syntax_unknown materials only; no future material changes)",
+        "newValue": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending."
+      }
+    ],
+    "previousContractDigest": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+    "newContractDigest": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+    "repositorySnapshotDigest": "sha256:b62a90023bcdbc016e4d5fe41047bef1fe5455534f61f0199490c0a5a0f8a599",
+    "environmentObservationDigest": "sha256:3fa7424b94464ce656fd0a1c9d42f323d3c647b8e4f7d8d938b5c04f57be7d07",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile/materialInspectionReview/authoritySource"
+    ],
+    "previousJournalDigest": "sha256:cce64bb925627cdab76cad6ee29b6be783fb5ace87baab9ee9598e9f091a94dd",
+    "journalDigest": "sha256:102b54a7440aa6f8fcce2e69cfa9b14ecff9a0c0302b296c037357170d88bc9b",
+    "recordedAt": "2026-10-26T10:16:07Z"
+  }
+}

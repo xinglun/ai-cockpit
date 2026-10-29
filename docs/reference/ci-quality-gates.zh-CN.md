@@ -113,3 +113,12 @@ decision；这些可变记录仍只由 lifecycle 命令产生。
 
 对象工程也遵循同一边界：共享 Runtime 在工程外部，每次请求显式携带 `--repo`，
 仓库 Evidence 保持隔离。
+
+
+## 廉价前置门与有界 Windows 分组
+
+CI `route` 在共享 Rust 编译前执行 `run_repository_prechecks.sh`。release 输入计划先检查工作流源码，release preflight 在构建路由工具前检查精确不可变的 release-source；复用来源本身的现有检查，旧源码不要求包含新包装脚本。hosted 声明命令前使用同一前置门。规范 manifest 保留全部既有门禁并增加廉价前置门及其回归；每个所选门禁传递依赖此前置门。失败会阻止依赖命令，不能算覆盖通过；源码、manifest、route 和命令绑定不变，旧或外来的成功报表不是隐式复用授权。
+
+`windows-runtime-suites` 将全部十三条原 Rust 命令分到隔离的 `boundaries` 与 `repository-library` 两组，`max-parallel: 2`、`fail-fast: false`，每条恰好执行一次，包括完整 repository lib 和严格 workspace Clippy，不用子集代替完整覆盖。仅成功后写入的标记绑定分组、仓库、本次 run／attempt 及原 source／tested receipt；失败时仍上传诊断 revision。稳定的 `windows-runtime` 检查必须确认整个矩阵成功且两个同轮原生材料／成功标记一致。缺失、失败、取消或外来材料均拒绝报绿；light 路由跳过 Windows。不增加测试结果缓存、action 或凭据。
+
+只用等价真实 CI 比较收益：相同路由、全部命令、runner／toolchain 和源码／原生材料通道，记录 route、quality、两分组和汇总耗时，以及端到端与 runner 累计时间。隔离分组可能重复编译。结构并行已实现，实际提速与成本在可比、已授权 hosted 证据出现前仍未测量；不能拿实现任务与纯文档收尾互相充当基线。

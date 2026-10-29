@@ -183,6 +183,9 @@ jobs:
             work_item_selector_args+=(--github-repository "$GITHUB_REPOSITORY")
           fi
           tests/ci/resolve_work_item.sh "${work_item_selector_args[@]}"
+      - name: Run canonical cheap workflow prechecks before shared compilation
+        shell: bash
+        run: bash tests/ci/run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE"
       - name: Build the shared Rust ReleasePlan resolver
         run: CARGO_INCREMENTAL=0 cargo build --locked --release --package cockpit-cli
       - name: Resolve release identity with the typed ReleasePlan
@@ -590,6 +593,9 @@ jobs:
           path: release-source
           fetch-depth: 0
           persist-credentials: false
+      - name: Run canonical cheap immutable-source prechecks before shared compilation
+        shell: bash
+        run: bash tests/ci/run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE/release-source"
       # The canonical repository gates run exactly once in source_quality from
       # the typed route and manifest. This job only prepares that route before
       # any platform helper or source build can start.

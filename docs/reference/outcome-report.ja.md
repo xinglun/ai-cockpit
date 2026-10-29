@@ -68,6 +68,15 @@ accepted receipt が必要です。unknown の receipt はこの境界を進め�
 各 segment を独立した assistant message として出力できます。この event は準備済み handoff payload のみを示し、
 `full_handoff_only` や `unknown` を host display confirmation に昇格させるものではありません。
 
+## Successor delivery continuity
+
+Runtime が predecessor/successor recovery chain と predecessor archive を検証した場合、active
+successor handoff に独立 versioned read-only continuity projection を追加できます。保持された local
+archive、external validation の pending 状態、active successor の lifecycle、Runtime が現在 admit する
+場合のみ次の action を示します。lineage が欠落または無効なら unknown とし、delivery 済みまたは完了と
+推定しません。この projection は predecessor の Contract、Summary、Outcome、Events、report、archive
+manifest を書き換えません。`OutcomeDelivery.deliveryState` は handoff transport state のままです。
+
 既定の summary は四つのセクションです。
 
 1. 結果：現在の検証、ライフサイクル、人間の判断、ガバナンスシグナル
@@ -217,3 +226,36 @@ archive の作成時には、manifest を束縛する前に、生成された re
 archive bytes を対象にします。`close` は投影済み stream を検証し、close receipt へ
 `finalReport` と `finalReportDigest` を記録します。既存の historical archive bytes は
 書き換えず backfill もしません。この active から archive への投影は新規 archive のみで行います。
+
+### Projection version と frozen history
+
+Task Outcome は Contract、finish Summary、verification receipt、凍結された usage snapshot
+から再構成します。v1 JSON report は canonical bytes として厳密に比較し、Markdown は人が読むための
+projection として扱います。Markdown は別の事実ソースではありません。Runtime は report を書く前に、
+repository、Work Item、Contract、source snapshot、producer Runtime identity、JSON format/schema、
+Markdown renderer/version を束縛した型付き projection policy を Summary に記録します。finish は report の外側に
+policy と JSON/Markdown の正確な digest を束縛し、completion event も同じ binding を記録します。
+report 自身にその binding は含めません。
+
+新しい report は現在サポートされる renderer を自動的に使います。呼び出し側が renderer を選んだり digest を
+入力したりする必要はありません。replay は検証済みの predecessor policy から renderer を一つだけ選択します。
+現在の policy の欠落、変更、downgrade、未知 version は拒否され、対象 material/version、expected/actual SHA-256、
+安全に示せる JSON pointer または Markdown 行を報告します。次の手順は元の bytes を保持し、明示的な互換 adapter
+を持つ Runtime を使うことです。
+
+projection policy のない report は限定された history route でのみ読み取れます。元の Git revision または既存の
+明示的な historical-evidence receipt が raw report bytes を束縛する必要があります。Runtime はその bytes を保存し、
+再描画も policy の後付けも行いません。この互換性は既存の Git/receipt trust root に依存します。履歴全体が書き換えられた
+後の作者認証や、旧 Runtime binary の認証までは主張しません。
+
+互換性の方向は明確です。新しい Runtime は明示的にサポートする旧形式だけを読み取ります。旧 Runtime は
+`projectionBinding` などの未知フィールドがある新しい event stream や archive を拒否する場合があります。
+新しい証拠を互換に見せるためにフィールドを削除したり、version marker を下げたりしてはいけません。これは移行ではなく
+証拠の変更です。元の bytes を保持し、unsupported となった形式と理由を示して、その形式に対応した Runtime を使ってください。
+共有 Runtime の置き換えには別途許可が必要です。
+
+source が同じ verification refresh は finish report bytes を変えません。source が変わる retry は native
+retry/re-finish lifecycle を使い、predecessor evidence を保持します。archive は凍結された JSON と Markdown を保持し、
+close は別の cutoff と digest を持つ `finalReport` を記録して finish artifact を置き換えません。token usage を確認
+できない場合は unknown のまま示します。通常の version evolution は自動で扱い、互換性が本当に unsupported な場合に
+のみ明確な次の手順を示します。

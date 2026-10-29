@@ -2,6 +2,75 @@ use cockpit_core::Digest;
 use serde::{Deserialize, Serialize};
 
 pub const USAGE_SCHEMA_VERSION: u32 = 1;
+pub const USAGE_IMPORT_SOURCE_FORMAT: &str = "openai-response-json-v1";
+
+/// Explicit bytes supplied by the caller, never authenticated provider telemetry.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct UsageImportRequest {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub source_format: String,
+    pub source_ref: String,
+    pub source_digest: Digest,
+    pub actor: Option<String>,
+    pub configured_model: Option<String>,
+    pub role: String,
+    pub phase: String,
+}
+
+impl UsageImportRequest {
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if self.schema_version != USAGE_SCHEMA_VERSION {
+            return Err("unsupported usage schema version");
+        }
+        if self.source_format != USAGE_IMPORT_SOURCE_FORMAT {
+            return Err("unsupported usage import source format");
+        }
+        if !valid_sha256(&self.repository_id) || !valid_sha256(&self.source_digest.to_string()) {
+            return Err("usage digest or repository identity is invalid");
+        }
+        if !valid_identifier(&self.work_item_id)
+            || !valid_identifier(&self.role)
+            || !valid_identifier(&self.phase)
+        {
+            return Err("usage identity, role, or phase is invalid");
+        }
+        if self
+            .actor
+            .as_deref()
+            .is_some_and(|value| !valid_text(value))
+            || self
+                .configured_model
+                .as_deref()
+                .is_some_and(|value| !valid_text(value))
+        {
+            return Err("usage actor or model is invalid");
+        }
+        if !safe_reference(&self.source_ref) {
+            return Err("usage evidence reference must be a safe relative path");
+        }
+        Ok(())
+    }
+}
+
+pub fn usage_import_request_schema() -> serde_json::Value {
+    serde_json::json!({
+        "type":"object", "additionalProperties":false,
+        "required":["schemaVersion","repositoryId","workItemId","sourceFormat",
+            "sourceRef","sourceDigest","role","phase"],
+        "properties":{
+            "schemaVersion":{"type":"integer","const":USAGE_SCHEMA_VERSION},
+            "repositoryId":{"type":"string"}, "workItemId":{"type":"string"},
+            "sourceFormat":{"type":"string","enum":[USAGE_IMPORT_SOURCE_FORMAT]},
+            "sourceRef":{"type":"string"}, "sourceDigest":{"type":"string"},
+            "actor":{"type":["string","null"]},
+            "configuredModel":{"type":["string","null"]},
+            "role":{"type":"string"}, "phase":{"type":"string"}
+        }
+    })
+}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -102,17 +171,19 @@ impl UsageRecordRequest {
         {
             return Err("usage subset exceeds or lacks its parent total");
         }
-        if self.evidence_ref.is_empty()
-            || self.evidence_ref.contains('\\')
-            || self
-                .evidence_ref
-                .split('/')
-                .any(|part| part.is_empty() || part == "." || part == "..")
-        {
+        if !safe_reference(&self.evidence_ref) {
             return Err("usage evidence reference must be a safe relative path");
         }
         Ok(())
     }
+}
+
+fn safe_reference(value: &str) -> bool {
+    !value.is_empty()
+        && !value.contains('\\')
+        && !value
+            .split('/')
+            .any(|part| part.is_empty() || part == "." || part == "..")
 }
 
 fn valid_sha256(value: &str) -> bool {

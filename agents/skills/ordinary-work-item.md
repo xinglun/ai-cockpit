@@ -10,7 +10,7 @@ Read Contract; query `inspect`, `status`, `doctor`, `agent doctor --json` with `
 
 ## Before verification
 
-Before launching a declared check, inspect `work-item status` and `work-item validate`, inventory its formal receipt, and reuse only fresh, complete evidence. Otherwise follow Runtime's admitted next action. See [reuse](../../docs/reference/agent-workflow.md#verification-evidence-reuse).
+Before launching a declared check, inspect `work-item status` and `work-item validate`, inventory its formal receipt, and reuse only fresh, complete evidence. Follow Runtime's admitted next action via the managed entry. See [reuse](../../docs/reference/agent-workflow.md#verification-evidence-reuse).
 
 ## Operations
 

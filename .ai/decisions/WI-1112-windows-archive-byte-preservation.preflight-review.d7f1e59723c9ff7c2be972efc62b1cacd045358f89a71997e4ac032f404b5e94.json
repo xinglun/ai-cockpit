@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3aa55b7fe0ceaacbd0ed4673bdad719875db263722cab48b8e2dd48b67c5cf29",
+  "reason": "Ray's actual response Sentinel_87633bc8977c8191bad14b867f1d4e4f confirms this exact WI-1112 sequence 4 Contract, preflight, and snapshot, and approves agent self_declared review of the four material identities in the exact current request and manifest. This record does not authenticate the agent's technical review.",
+  "recordedAt": "2026-10-26T10:20:52Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b62a90023bcdbc016e4d5fe41047bef1fe5455534f61f0199490c0a5a0f8a599",
+  "schemaVersion": 1,
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

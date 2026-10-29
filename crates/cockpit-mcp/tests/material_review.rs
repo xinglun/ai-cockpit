@@ -85,7 +85,7 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 35);
+    assert_eq!(tools.len(), 44);
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (
@@ -111,6 +111,19 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         .expect("material review plan tool");
     assert_eq!(plan_tool["inputSchema"]["required"], json!(["workItemId"]));
 
+    let authorization_tool = tools
+        .iter()
+        .find(|tool| tool["name"] == "work_item_authorization_manifest_plan")
+        .expect("authorization manifest plan tool");
+    assert_eq!(
+        authorization_tool["inputSchema"]["required"],
+        json!(["request"])
+    );
+    assert_eq!(
+        authorization_tool["inputSchema"]["properties"]["request"]["additionalProperties"],
+        false
+    );
+
     let response = cockpit_mcp::handle_request_for_repo(
         &json!({"jsonrpc":"2.0","id":2,"method":"tools/call","params":{
             "name":"work_item_material_review_plan",
@@ -124,6 +137,32 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
     assert_eq!(request["workItemId"], "WI-MATERIAL-MCP");
     assert_eq!(request["reviewEnabled"], false);
     assert_eq!(request["reviewDiagnostic"], "material_review_not_enabled");
+    assert_eq!(git(directory.path(), &["status", "--porcelain"]), "?? .ai/");
+}
+
+#[test]
+fn authorization_manifest_plan_rejects_non_explicit_or_unbounded_requests() {
+    let directory = plan_fixture();
+    let response = cockpit_mcp::handle_request_for_repo(
+        &json!({"jsonrpc":"2.0","id":9,"method":"tools/call","params":{
+            "name":"work_item_authorization_manifest_plan",
+            "arguments":{"request":{
+                "schemaVersion":1,
+                "repositoryId":"sha256:fixture",
+                "members":[{
+                    "workItemId":"WI-*",
+                    "actions":["modify_source"],
+                    "expiresAt":"2099-01-01T00:00:00Z",
+                    "budget":{"startQuota":1,"retryBudgetByCheck":{"cargo test":3}}
+                }]
+            }}
+        }}),
+        directory.path(),
+        &runtime(),
+    );
+    assert_eq!(response["result"]["isError"], true, "{response}");
+    let serialized = serde_json::to_string(&response).unwrap();
+    assert!(serialized.contains("explicit and unique"), "{response}");
     assert_eq!(git(directory.path(), &["status", "--porcelain"]), "?? .ai/");
 }
 

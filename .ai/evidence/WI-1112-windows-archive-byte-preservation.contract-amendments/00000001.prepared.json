@@ -1,0 +1,182 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1112-windows-archive-byte-preservation",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-6e4b5478530657680b9573f2abba3cda253b1a8437322a4a3331a66283a1589e",
+      "expectedContractDigest": "sha256:c65e58b47b9aff5e3c780f7ab9feb92110bb9d42ca196413d591fa418d2aa115",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/pull/1074"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/actions/runs/40271040290/job/121404907259"
+        }
+      ]
+    },
+    "requestDigest": "sha256:b3530422139bc625169355807f294d213768d7b3c898acaaabe69f9041d6510b",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Preserve every WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, and recovery receipt byte unchanged.",
+        "Keep the fixed-history clone helper on the local Git filesystem path, preserving --shared --no-checkout isolation, and make the regression tests pass with paths containing spaces on supported platforms.",
+        "With core.autocrlf=true, preserve exact .ai artifact bytes for current and historical fixture checkouts; keep strict digest and byte-equality assertions, and prove a one-byte tamper is still rejected.",
+        "Do not change CI workflows or global Git configuration, and do not weaken, skip, or normalize the existing byte-integrity assertions.",
+        "Run the full declared local workspace verification and zero-warning Clippy; do not claim Windows-hosted CI success until a later authorized hosted run passes."
+      ],
+      "authority": "authorized",
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "createdAt": "2026-10-26T05:57:59Z",
+      "goal": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity.",
+      "intent": "Repair Windows portability and archive-byte preservation regressions from WI-1111's failed hosted Windows repository-library run.",
+      "mode": "implementation",
+      "outOfScope": [
+        ".github/workflows/**",
+        ".ai/work-items/archive/WI-1111-token-outcome-ci.*",
+        ".ai/decisions/WI-1111-token-outcome-ci.*",
+        ".ai/evidence/WI-1111-token-outcome-ci.*"
+      ],
+      "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+      "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c3d0602505edfe6e7e03e232a4f296a50e7857a425a5491314e039d6872749f",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "previousContractDigest": "sha256:c65e58b47b9aff5e3c780f7ab9feb92110bb9d42ca196413d591fa418d2aa115",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve every WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, and recovery receipt byte unchanged.",
+        "Keep the fixed-history clone helper on the local Git filesystem path, preserving --shared --no-checkout isolation, and make the regression tests pass with paths containing spaces on supported platforms.",
+        "With core.autocrlf=true, preserve exact .ai artifact bytes for current and historical fixture checkouts; keep strict digest and byte-equality assertions, and prove a one-byte tamper is still rejected.",
+        "Do not change CI workflows or global Git configuration, and do not weaken, skip, or normalize the existing byte-integrity assertions.",
+        "Run the full declared local workspace verification and zero-warning Clippy; do not claim Windows-hosted CI success until a later authorized hosted run passes."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-26T05:57:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair Windows portability and archive-byte preservation regressions from WI-1111's failed hosted Windows repository-library run.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        ".github/workflows/**",
+        ".ai/work-items/archive/WI-1111-token-outcome-ci.*",
+        ".ai/decisions/WI-1111-token-outcome-ci.*",
+        ".ai/evidence/WI-1111-token-outcome-ci.*"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+      "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c3d0602505edfe6e7e03e232a4f296a50e7857a425a5491314e039d6872749f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40271040290/job/121404907259"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "newContractDigest": "sha256:bb86a2c919aaccdc02371583e7f1a9e91d259e170bba53e7ad0b802883f5a817",
+    "previousSummaryDigest": "sha256:045fa28bc38cc8dbcbeeaf3320fed1ae71559149827d4c7053f163997b894caa",
+    "repositorySnapshotDigest": "sha256:8c3d0602505edfe6e7e03e232a4f296a50e7857a425a5491314e039d6872749f",
+    "environmentObservationDigest": "sha256:4bbec1a9c71813b336f8c9dbf508ad49eb57b083a1360980636d91e41f86b80f",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:6e4b5478530657680b9573f2abba3cda253b1a8437322a4a3331a66283a1589e",
+    "preparedAt": "2026-10-26T06:00:23Z"
+  },
+  "preparedDigest": "sha256:13a5ffe2d5be73f371210768800b6a58af13551fc31c1b638c587180465bc52f"
+}

@@ -1,0 +1,115 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:8a888a49729e2afff72465ad6ea23c22276dd5e73d0e6429c200c64202d2d622",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1111-token-outcome-ci",
+    "sequence": 3,
+    "changeId": "wi1111-mechanical-acceptance-id-format-correction",
+    "requestDigest": "sha256:4320c21b1b08946ed6f97cdda72cbd227a04ba33dbec7b39e528454f13916b22",
+    "reason": "Correct only the12 acceptance ID prefixes from scenario long names to supported S01..S12 syntax. Keep every acceptance body byte-identical,12 scenario identities/expected/verification plans unchanged,44 product paths/15 commands/finite900sec/workers1 and all later D01 obligations unchanged. Earlier strict controls rejection is retained. This correction is not evidence of passed criteria,permission expansion or a human decision.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/0",
+        "operation": "replace",
+        "oldValue": "S01-source-to-receipt: One supported explicitly supplied completed Responses object yields exact available nullable counters in one admitted native receipt through CLI/MCP. No new inference/API call,candidate self-approval,or claim that fixture counters are this task's actual usage.",
+        "newValue": "S01: One supported explicitly supplied completed Responses object yields exact available nullable counters in one admitted native receipt through CLI/MCP. No new inference/API call,candidate self-approval,or claim that fixture counters are this task's actual usage."
+      },
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "replace",
+        "oldValue": "S02-source-boundary: Absent current-host export and unsupported/cumulative source formats stay unknown. Reject malformed/duplicate-key/nonterminal/invalid-ID/negative/fraction/overflow/subset-invalid objects. Nullable usage/details stay null;no guessed deltas or source-assurance promotion.",
+        "newValue": "S02: Absent current-host export and unsupported/cumulative source formats stay unknown. Reject malformed/duplicate-key/nonterminal/invalid-ID/negative/fraction/overflow/subset-invalid objects. Nullable usage/details stay null;no guessed deltas or source-assurance promotion."
+      },
+      {
+        "path": "/acceptanceCriteria/2",
+        "operation": "replace",
+        "oldValue": "S03-identity-and-replay: Same original source replay is idempotent;stable provider-prefixed response.id cannot change with filename/hash/role/WI. Changed event content,foreign request/native repo/WI binding,mixed unit and duplicate conflicts reject without new totals. This is native/request attribution,not proof of provider-authenticated WI ownership.",
+        "newValue": "S03: Same original source replay is idempotent;stable provider-prefixed response.id cannot change with filename/hash/role/WI. Changed event content,foreign request/native repo/WI binding,mixed unit and duplicate conflicts reject without new totals. This is native/request attribution,not proof of provider-authenticated WI ownership."
+      },
+      {
+        "path": "/acceptanceCriteria/3",
+        "operation": "replace",
+        "oldValue": "S04-access-and-admission: No outside/symlink/reparse/changed-parent evidence,oversized source or closed-WI append. Read source once and recheck current native admission at publication; record/query separation retained.",
+        "newValue": "S04: No outside/symlink/reparse/changed-parent evidence,oversized source or closed-WI append. Read source once and recheck current native admission at publication; record/query separation retained."
+      },
+      {
+        "path": "/acceptanceCriteria/4",
+        "operation": "replace",
+        "oldValue": "S05-output-parity: Known/partial/no-receipt states display identical four counters,coverage/reason/cutoff/safe refs/model-role-phase provenance in JSON,Markdown,CLI/MCP summary/full,EN/ZH/JA. No omission or null-to-zero.",
+        "newValue": "S05: Known/partial/no-receipt states display identical four counters,coverage/reason/cutoff/safe refs/model-role-phase provenance in JSON,Markdown,CLI/MCP summary/full,EN/ZH/JA. No omission or null-to-zero."
+      },
+      {
+        "path": "/acceptanceCriteria/5",
+        "operation": "replace",
+        "oldValue": "S06-frozen-history: Historical usage-absent reports remain readable/byte-identical; unknown presentation doesn't rewrite them. Finish cutoff frozen/archive unchanged; admitted postarchive/preclose usage appears only in distinct close final report; late/foreign/tampered receipts rejected as before.",
+        "newValue": "S06: Historical usage-absent reports remain readable/byte-identical; unknown presentation doesn't rewrite them. Finish cutoff frozen/archive unchanged; admitted postarchive/preclose usage appears only in distinct close final report; late/foreign/tampered receipts rejected as before."
+      },
+      {
+        "path": "/acceptanceCriteria/6",
+        "operation": "replace",
+        "oldValue": "S07-cheap-first: Every individual selected cheap failure blocks actual expensive marker on local managed entry,CI build,hosted verify;success proceeds once;plan-only starts no checks.",
+        "newValue": "S07: Every individual selected cheap failure blocks actual expensive marker on local managed entry,CI build,hosted verify;success proceeds once;plan-only starts no checks."
+      },
+      {
+        "path": "/acceptanceCriteria/7",
+        "operation": "replace",
+        "oldValue": "S08-dag-and-consumers: Budget13248,mandatory rules,all pinned workflow actions/policy/test consumers remain canonical;required gate set retained and expensive dependency closure contains barrier. Missing/stale/foreign/mutated identities reject.",
+        "newValue": "S08: Budget13248,mandatory rules,all pinned workflow actions/policy/test consumers remain canonical;required gate set retained and expensive dependency closure contains barrier. Missing/stale/foreign/mutated identities reject."
+      },
+      {
+        "path": "/acceptanceCriteria/8",
+        "operation": "replace",
+        "oldValue": "S09-platform-partition: Original Windows command multiset exactly once across suites;both lineage-bound/non-light/bounded/isolated/distinct artifacts. Existing stable aggregation context rejects missing/failed/cancelled/partial/unexpected skipped suites;light-route intentional skip preserved. Missing/filtered/duplicated commands,removed wrappers/flags and continue-on-error reject.",
+        "newValue": "S09: Original Windows command multiset exactly once across suites;both lineage-bound/non-light/bounded/isolated/distinct artifacts. Existing stable aggregation context rejects missing/failed/cancelled/partial/unexpected skipped suites;light-route intentional skip preserved. Missing/filtered/duplicated commands,removed wrappers/flags and continue-on-error reject."
+      },
+      {
+        "path": "/acceptanceCriteria/9",
+        "operation": "replace",
+        "oldValue": "S10-zero-warnings-and-completeness: Source-stage checks preserve zero-warning wrappers,all14 necessary packages and unfiltered workspace coverage/current binding checks. Actual final-HEAD Linux/Windows CI remains the separately authorized post-finish delivery obligation; no platform success is inferred from fixtures.",
+        "newValue": "S10: Source-stage checks preserve zero-warning wrappers,all14 necessary packages and unfiltered workspace coverage/current binding checks. Actual final-HEAD Linux/Windows CI remains the separately authorized post-finish delivery obligation; no platform success is inferred from fixtures."
+      },
+      {
+        "path": "/acceptanceCriteria/10",
+        "operation": "replace",
+        "oldValue": "S11-measurement: The finite timing comparison protocol distinguishes matched routes and runner cost from inferences; structural partition/order regressions preserve complete work. Actual CI timings and claimed benefit are evaluated in the separate post-finish delivery obligation; unavailable benefit stays unmeasured.",
+        "newValue": "S11: The finite timing comparison protocol distinguishes matched routes and runner cost from inferences; structural partition/order regressions preserve complete work. Actual CI timings and claimed benefit are evaluated in the separate post-finish delivery obligation; unavailable benefit stays unmeasured."
+      },
+      {
+        "path": "/acceptanceCriteria/11",
+        "operation": "replace",
+        "oldValue": "S12-quality-and-preservation: Focused real RED/GREEN for demonstrated bugs,all declared fresh checks,independent review;old failures and WI1110 archive retained. Newly added coverage is not falsely called RED.",
+        "newValue": "S12: Focused real RED/GREEN for demonstrated bugs,all declared fresh checks,independent review;old failures and WI1110 archive retained. Newly added coverage is not falsely called RED."
+      }
+    ],
+    "previousContractDigest": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+    "newContractDigest": "sha256:3d871a0f04da41fa9533a75416cba8a7ac7cd753ef51952c97426db8aa514e7c",
+    "repositorySnapshotDigest": "sha256:5a382eb147b73eabcce12dee1c12f53225a16e417fb74f0e0afb73d4b7e05ce9",
+    "environmentObservationDigest": "sha256:28cc3a43170f80e56aaacc649ebfc65fb15c26e251ef82ac87f19354df4203d3",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/0",
+      "/acceptanceCriteria/1",
+      "/acceptanceCriteria/10",
+      "/acceptanceCriteria/11",
+      "/acceptanceCriteria/2",
+      "/acceptanceCriteria/3",
+      "/acceptanceCriteria/4",
+      "/acceptanceCriteria/5",
+      "/acceptanceCriteria/6",
+      "/acceptanceCriteria/7",
+      "/acceptanceCriteria/8",
+      "/acceptanceCriteria/9"
+    ],
+    "previousJournalDigest": "sha256:9b2a73f7a25625e450a72cd31abfdeab12b40d811b7941c4b00b2850b3618500",
+    "journalDigest": "sha256:6c851a8426a051783ad1b006ba655584c5f421008a3b4262c79c93dd965da6ed",
+    "recordedAt": "2026-10-25T08:23:08Z"
+  }
+}

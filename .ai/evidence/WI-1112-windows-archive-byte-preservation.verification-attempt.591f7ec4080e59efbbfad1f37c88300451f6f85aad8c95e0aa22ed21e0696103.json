@@ -1,0 +1,71 @@
+{
+  "attemptId": "sha256:591f7ec4080e59efbbfad1f37c88300451f6f85aad8c95e0aa22ed21e0696103",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "commandDigest": "sha256:bbc62407b2e4f0daecaea5b86da2af3cc403009deb2377df02af5ae0944d502b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "-p",
+        "cockpit-mcp",
+        "-p",
+        "cockpit-repository",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "commandDigest": "sha256:77e2db7e1088644e2110cf333c9157f521e42312929ba2d7715e2f9a155048e0",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:452192b7cbeef1059127b6f14cc2694002391e2af0db2e0b1f08707faa181335",
+  "contractExecutionScopeDigest": "sha256:d56ab57bcf876ef98693eaa5f0315a6b83f788b6de3f5e0c82aec87194793bf3",
+  "createdAt": "2026-10-26T08:54:05Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1112-windows-archive-byte-preservation/.ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json: repository protocol state error at /workspace/ai-cockpit-wi1112-windows-archive-byte-preservation/.ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"record_material_review_decision\", \"record_usage\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:76008d9a28950a2b956c42d792b9f0c78df32b29664cf987027f103c147e9408, issues=[\"governance_controls_unknown\", \"repository_material_inspection_unavailable\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /workspace/ai-cockpit-wi1112-windows-archive-byte-…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6d68423578faec6edce5ffcf642894e285601e31aea97b191676e0b10d6ce2f9",
+  "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

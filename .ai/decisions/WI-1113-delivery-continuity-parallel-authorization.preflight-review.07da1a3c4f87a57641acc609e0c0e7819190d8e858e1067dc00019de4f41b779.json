@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "reason": "Record only the genuine owner sequence20 exact confirm_review from trusted parent transcript, user message Sentinel_d013f8cdc1b881918b701d1debb6036c at 2026-10-29 01:27 UTC accepting the proposal Sentinel_b1b6070a1ccc8191990864b1f6378f04 at 01:26 UTC. The owner confirmed total CI budget20, retaining all twelve used runs and the exact Contract19fc8d9a/preflight1674138f/snapshot08e22f63/approved governing Runtimee6870852 bindings. This is an actual human decision recorded from the provided message, not an agent-created owner approval. Preserve all previous budget approvals, failures, receipts, task actions/target/expiry, 900-second local checks, retries, assertions and resources. This decision does not verify scenarios, renew material review, claim Windows fix success, authorize a new Runtime switch or start any build, commit, push, CI or release.",
+  "recordedAt": "2026-10-29T01:27:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

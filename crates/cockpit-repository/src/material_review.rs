@@ -24,7 +24,7 @@ use cockpit_protocol::{
     MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
     MaterialInspectionReviewDecisionReceipt, RuntimeContext, digest_json,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sha2::{Digest as _, Sha256};
 #[cfg(not(any(unix, windows)))]
 use std::fs::OpenOptions;
@@ -46,7 +46,7 @@ const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 const MAX_ACTIVE_CONTRACT_BYTES: u64 = MAX_BOUNDED_GIT_OUTPUT_BYTES as u64;
 const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum MaterialScannerAssessment {
     Clean,
@@ -54,8 +54,8 @@ pub enum MaterialScannerAssessment {
     Unknown,
 }
 
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MaterialReviewEntry {
     pub path: String,
     pub kind: String,
@@ -67,8 +67,8 @@ pub struct MaterialReviewEntry {
     pub after_blob_digest: Option<Digest>,
 }
 
-#[derive(Clone, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MaterialReviewRequest {
     pub schema_version: u32,
     pub repository_id: String,
@@ -94,6 +94,49 @@ pub struct MaterialReviewRequest {
     pub reviewed_source_head: String,
 }
 
+impl<'de> Deserialize<'de> for MaterialUnknownCause {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        match value.as_str() {
+            "missing_complete_source" => Ok(Self::MissingCompleteSource),
+            "non_text_material" => Ok(Self::NonTextMaterial),
+            "source_over_budget" => Ok(Self::SourceOverBudget),
+            "invalid_provenance" => Ok(Self::InvalidProvenance),
+            "parse_unavailable" => Ok(Self::ParseUnavailable),
+            "analysis_incomplete" => Ok(Self::AnalysisIncomplete),
+            "readable_committed_rust_syntax_unknown" => {
+                Ok(Self::ReadableCommittedRustSyntaxUnknown)
+            }
+            _ => Err(serde::de::Error::custom("unknown material-review cause")),
+        }
+    }
+}
+
+/// A profile transition is provenance only: it preserves the exact prior
+/// decision and its request so a later reader can classify that decision as
+/// stale history. It never approves the new profile or discharges its Unknowns.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct MaterialReviewProfileTransition {
+    schema_version: u32,
+    repository_id: String,
+    work_item_id: String,
+    previous_contract: serde_json::Value,
+    previous_contract_digest: Digest,
+    next_contract: serde_json::Value,
+    next_contract_digest: Digest,
+    previous_profile_digest: Digest,
+    next_profile_digest: Digest,
+    previous_request: MaterialReviewRequest,
+    next_request: MaterialReviewRequest,
+    previous_pointer: serde_json::Value,
+    previous_receipt: MaterialInspectionReviewDecisionReceipt,
+    transition_digest: Digest,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub(crate) struct MaterialReviewGateProjection {
     pub raw_scanner_unknowns: Vec<String>,
@@ -102,8 +145,7 @@ pub(crate) struct MaterialReviewGateProjection {
     pub review_assurance: Option<MaterialInspectionReviewAssurance>,
     pub effective_unknowns: Vec<String>,
     pub discharged_unknowns: Vec<String>,
-    pub reviewed_source_head: Option<String>,
-    pub reviewed_unknown_members: Vec<ReviewedMaterialMemberIdentity>,
+    pub comparison_material: Option<CanonicalComparisonMaterialProof>,
     pub finding_codes: Vec<String>,
     pub blocked_by_finding: bool,
     pub projection_unavailable: bool,
@@ -111,11 +153,67 @@ pub(crate) struct MaterialReviewGateProjection {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct ReviewedMaterialMemberIdentity {
+struct ReviewedMaterialMemberIdentity {
     path: String,
     kind: String,
     changed_hunk_digest: Digest,
     after_blob_digest: Digest,
+}
+
+/// Private evidence from one stable, clean committed-source request. The
+/// request builder reads HEAD:path blobs with bounded Git operations before
+/// constructing these identities; comparison checkout text supplies no proof.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct CanonicalComparisonMaterialProof {
+    source_head: String,
+    reviewed: Vec<ReviewedMaterialMemberIdentity>,
+    clean: Vec<ReviewedMaterialMemberIdentity>,
+}
+
+impl CanonicalComparisonMaterialProof {
+    fn from_request(request: &MaterialReviewRequest, reviewed: bool) -> Option<Self> {
+        if request.blocked_by_finding
+            || !request.finding_codes.is_empty()
+            || (!request.raw_unknown_codes.is_empty() && !reviewed)
+        {
+            return None;
+        }
+        let member = |entry: &MaterialReviewEntry| {
+            let blob = entry.after_blob_digest.as_ref()?;
+            valid_digest(blob).then(|| ReviewedMaterialMemberIdentity {
+                path: entry.path.clone(),
+                kind: entry.kind.clone(),
+                changed_hunk_digest: entry.changed_hunk_digest.clone(),
+                after_blob_digest: blob.clone(),
+            })
+        };
+        Some(Self {
+            source_head: request.reviewed_source_head.clone(),
+            reviewed: request
+                .entries
+                .iter()
+                .filter(|entry| {
+                    reviewed
+                        && entry.reviewable
+                        && entry.scanner_assessment == MaterialScannerAssessment::Unknown
+                        && entry.unknown_cause
+                            == Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+                })
+                .filter_map(member)
+                .collect(),
+            clean: request
+                .entries
+                .iter()
+                .filter(|entry| {
+                    entry.scanner_assessment == MaterialScannerAssessment::Clean
+                        && entry.unknown_cause.is_none()
+                        && entry.content_state == "text"
+                        && entry.path.to_ascii_lowercase().ends_with(".rs")
+                })
+                .filter_map(member)
+                .collect(),
+        })
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -1298,8 +1396,7 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
                     review_assurance: None,
                     effective_unknowns,
                     discharged_unknowns: Vec::new(),
-                    reviewed_source_head: None,
-                    reviewed_unknown_members: Vec::new(),
+                    comparison_material: None,
                     finding_codes: request.finding_codes,
                     blocked_by_finding,
                     projection_unavailable: false,
@@ -1352,6 +1449,10 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
     }
     effective_unknowns.sort();
     effective_unknowns.dedup();
+    // Capture both proof classes from this exact request, after its receipt
+    // validation. No second request or manifest-only identity join is used.
+    let comparison_material =
+        CanonicalComparisonMaterialProof::from_request(&request, may_discharge);
     Ok(MaterialReviewGateProjection {
         raw_scanner_unknowns: request.raw_unknown_codes,
         material_manifest_digest: Some(request.material_manifest_digest),
@@ -1365,12 +1466,7 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
         } else {
             Vec::new()
         },
-        reviewed_source_head: may_discharge.then(|| request.reviewed_source_head.clone()),
-        reviewed_unknown_members: if may_discharge {
-            reviewed_unknown_members
-        } else {
-            Vec::new()
-        },
+        comparison_material,
         finding_codes: request.finding_codes,
         blocked_by_finding,
         projection_unavailable: false,
@@ -1378,82 +1474,123 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
     })
 }
 
-/// Restrict a canonical material-review discharge to exact members also
-/// present in the CI comparison snapshot. The review request builder checks
-/// that its committed source is clean and that its own HEAD/source identity is
-/// stable before and after bounded blob reads. CI and canonical request
-/// snapshots use different tree-digest algorithms, so this comparison binds
-/// the canonical committed-blob proof only when both snapshots name the same
-/// HEAD.
+/// Jointly cover exact reviewed syntax members and complete canonical Clean
+/// blobs, then inspect every residual comparison member. Unknowns are never
+/// accepted merely because another member has a valid review receipt.
 pub(crate) fn preserve_unreviewed_comparison_material_unknowns(
     comparison_snapshot: &RepositorySnapshot,
     projection: &mut MaterialReviewGateProjection,
 ) {
     const MATERIAL_UNKNOWN: &str = "repository_material_inspection_unavailable";
-
-    if !projection
-        .discharged_unknowns
-        .iter()
-        .any(|unknown| unknown == MATERIAL_UNKNOWN)
-    {
+    let Some(proof) = projection.comparison_material.as_ref() else {
         return;
-    }
-
-    let same_reviewed_head = projection
-        .reviewed_source_head
-        .as_deref()
-        .is_some_and(|reviewed_head| comparison_snapshot.head.as_deref() == Some(reviewed_head));
-    if !same_reviewed_head {
+    };
+    if comparison_snapshot.head.as_deref() != Some(proof.source_head.as_str()) {
         preserve_material_unknown(
             &mut projection.discharged_unknowns,
             &mut projection.effective_unknowns,
         );
         return;
     }
-
-    let mut unreviewed_snapshot = comparison_snapshot.clone();
-    unreviewed_snapshot.change_evidence.retain(|change| {
-        !projection
-            .reviewed_unknown_members
+    let (signals, _) = derive_governance_signals_with_diagnostics(comparison_snapshot);
+    if !signals.findings.is_empty() {
+        preserve_material_unknown(
+            &mut projection.discharged_unknowns,
+            &mut projection.effective_unknowns,
+        );
+        return;
+    }
+    let mut residual = comparison_snapshot.clone();
+    residual.change_evidence.retain(|change| {
+        if change.content_state != ChangeContentState::Text {
+            return true;
+        }
+        let diagnosis = crate::rust_material::diagnose_rust_material(change);
+        let reviewed = matches!(
+            diagnosis.unknown_cause,
+            Some(
+                MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown
+                    | MaterialUnknownCause::MissingCompleteSource
+            )
+        ) && proof
+            .reviewed
             .iter()
-            .any(|member| comparison_change_matches_reviewed_member(change, member))
+            .any(|member| comparison_change_matches_member(change, member));
+        let clean = matches!(
+            change.kind,
+            ChangeKind::Added | ChangeKind::Modified | ChangeKind::Renamed | ChangeKind::Copied
+        ) && diagnosis.unknown_cause
+            == Some(MaterialUnknownCause::MissingCompleteSource)
+            && proof
+                .clean
+                .iter()
+                .any(|member| comparison_change_matches_member(change, member));
+        !(reviewed || clean)
     });
-    let (signals, _) = derive_governance_signals_with_diagnostics(&unreviewed_snapshot);
-    if signals
+    let (remaining, _) = derive_governance_signals_with_diagnostics(&residual);
+    if remaining
         .unknowns
         .iter()
         .any(|unknown| unknown == MATERIAL_UNKNOWN)
+        || !remaining.findings.is_empty()
     {
         preserve_material_unknown(
             &mut projection.discharged_unknowns,
             &mut projection.effective_unknowns,
         );
+    } else if !projection
+        .effective_unknowns
+        .iter()
+        .any(|unknown| unknown == MATERIAL_UNKNOWN)
+    {
+        projection.discharged_unknowns.push(MATERIAL_UNKNOWN.into());
+        projection.discharged_unknowns.sort();
+        projection.discharged_unknowns.dedup();
     }
 }
 
-fn comparison_change_matches_reviewed_member(
+fn comparison_change_matches_member(
     change: &ChangeEvidence,
     member: &ReviewedMaterialMemberIdentity,
 ) -> bool {
-    let kind = format!("{:?}", change.kind).to_ascii_lowercase();
-    if change.path != member.path || kind != member.kind {
+    // With the same HEAD, this exact path identifies the blob read by the
+    // canonical builder. Validate its digest without manufacturing a second
+    // comparison digest from checkout text or a copy of the expected value.
+    valid_digest(&member.after_blob_digest)
+        && change.path == member.path
+        && format!("{:?}", change.kind).to_ascii_lowercase() == member.kind
+        && changed_hunk_digest(change).is_ok_and(|digest| digest == member.changed_hunk_digest)
+}
+
+#[cfg(test)]
+pub(crate) fn clean_comparison_is_covered_for_test(
+    comparison: &RepositorySnapshot,
+    request: &MaterialReviewRequest,
+) -> bool {
+    let Some(proof) = CanonicalComparisonMaterialProof::from_request(request, false) else {
+        return false;
+    };
+    if comparison.head.as_deref() != Some(proof.source_head.as_str()) {
         return false;
     }
-    let Ok(changed_hunk_digest) = changed_hunk_digest(change) else {
-        return false;
+    let mut projection = MaterialReviewGateProjection {
+        raw_scanner_unknowns: Vec::new(),
+        material_manifest_digest: Some(request.material_manifest_digest.clone()),
+        review_receipt_digest: None,
+        review_assurance: None,
+        effective_unknowns: Vec::new(),
+        discharged_unknowns: Vec::new(),
+        comparison_material: Some(proof),
+        finding_codes: Vec::new(),
+        blocked_by_finding: false,
+        projection_unavailable: false,
+        review_decision_available: false,
     };
-
-    // ChangeEvidence intentionally does not carry committed blob digests.
-    // With an exact request HEAD match, the canonical request's bounded,
-    // committed afterBlobDigest is the source identity for this path; never
-    // derive it from checkout after_text, which can be filtered or truncated.
-    let comparison_member = ReviewedMaterialMemberIdentity {
-        path: change.path.clone(),
-        kind,
-        changed_hunk_digest,
-        after_blob_digest: member.after_blob_digest.clone(),
-    };
-    &comparison_member == member
+    preserve_unreviewed_comparison_material_unknowns(comparison, &mut projection);
+    projection
+        .discharged_unknowns
+        .iter()
+        .any(|u| u == "repository_material_inspection_unavailable")
 }
 
 fn preserve_material_unknown(
@@ -1482,8 +1619,7 @@ pub(crate) fn apply_material_review_gate_to_decision(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
-            reviewed_source_head: None,
-            reviewed_unknown_members: Vec::new(),
+            comparison_material: None,
             finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,
@@ -1563,6 +1699,355 @@ pub(crate) fn require_material_review_gate(
         });
     }
     Ok(projection)
+}
+
+pub(super) fn prepare_profile_transition(
+    root: &Path,
+    work_item_id: &str,
+    previous_contract_value: &serde_json::Value,
+    previous_contract_digest: &Digest,
+    next_contract_value: &serde_json::Value,
+    next_contract_digest: &Digest,
+    previous_summary: &serde_json::Value,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let previous_contract: Contract = serde_json::from_value(previous_contract_value.clone())
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("previous amendment Contract is invalid: {error}"),
+        })?;
+    let next_contract: Contract =
+        serde_json::from_value(next_contract_value.clone()).map_err(|error| {
+            ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: format!("next amendment Contract is invalid: {error}"),
+            }
+        })?;
+    if previous_contract.repository_id != repository_id(root).to_string()
+        || next_contract.repository_id != previous_contract.repository_id
+        || previous_contract.work_item_id != work_item_id
+        || next_contract.work_item_id != work_item_id
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "material-review profile transition changed Work Item identity".into(),
+        });
+    }
+    let previous_profile = previous_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("previous material-review profile is invalid: {message}"),
+        })?;
+    let next_profile = next_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!("next material-review profile is invalid: {message}"),
+        })?;
+    let previous_profile_digest = previous_profile
+        .as_ref()
+        .map(json_digest)
+        .transpose()
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: error.to_string(),
+        })?;
+    let next_profile_digest =
+        next_profile
+            .as_ref()
+            .map(json_digest)
+            .transpose()
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: error.to_string(),
+            })?;
+    if previous_profile_digest == next_profile_digest {
+        return Ok(None);
+    }
+
+    let Some(previous_pointer) = previous_summary
+        .get("materialReviewReceipt")
+        .filter(|pointer| !pointer.is_null())
+        .cloned()
+    else {
+        return Ok(None);
+    };
+    if previous_profile.is_none() || next_profile.is_none() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "cannot transition a material-review profile while a receipt exists unless both profiles are enabled".into(),
+        });
+    }
+
+    let mut previous_request = material_review_request_with_contract_digest(
+        root,
+        &previous_contract,
+        previous_contract_digest,
+    )
+    .map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: format!("cannot validate the prior material-review request: {error}"),
+    })?;
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let previous_receipt = match read_material_review_receipt(
+        root,
+        &previous_contract,
+        previous_contract_digest,
+        &previous_request,
+        &summary_path,
+    )? {
+        MaterialReviewReceiptState::Current(receipt) => *receipt,
+        MaterialReviewReceiptState::Stale => {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "cannot change a material-review profile while its receipt is stale; record a current decision first".into(),
+            });
+        }
+        MaterialReviewReceiptState::Missing => {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "material-review Summary pointer disappeared while preparing a profile transition".into(),
+            });
+        }
+    };
+    let reviewed_source_head = previous_receipt
+        .reviewed_source_head
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "prior material-review receipt lacks reviewed source-head provenance".into(),
+        })?;
+    // The request digest deliberately excludes reviewedSourceHead. Preserve
+    // the receipt's exact historic head in the transition while retaining the
+    // current request's unchanged manifest and digest. read_material_review_receipt
+    // above has already checked that this historic head is an ancestor of the
+    // current checkout and that the receipt matches every digest-bound field.
+    previous_request.reviewed_source_head = reviewed_source_head.to_owned();
+    let previous_request_digest =
+        material_review_request_digest(&previous_request).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!("cannot validate the captured prior request: {error}"),
+            }
+        })?;
+    if previous_request_digest != previous_request.request_digest {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message:
+                "prior material-review request changed while capturing its historic source head"
+                    .into(),
+        });
+    }
+    let next_request =
+        material_review_request_with_contract_digest(root, &next_contract, next_contract_digest)
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: format!("cannot bind the next material-review request: {error}"),
+            })?;
+    let mut transition = MaterialReviewProfileTransition {
+        schema_version: 1,
+        repository_id: previous_contract.repository_id.clone(),
+        work_item_id: work_item_id.to_owned(),
+        previous_contract: previous_contract_value.clone(),
+        previous_contract_digest: previous_contract_digest.clone(),
+        next_contract: next_contract_value.clone(),
+        next_contract_digest: next_contract_digest.clone(),
+        previous_profile_digest: previous_profile_digest.expect("profile is present"),
+        next_profile_digest: next_profile_digest.expect("profile is present"),
+        previous_request,
+        next_request,
+        previous_pointer,
+        previous_receipt,
+        transition_digest: Digest::sha256_bytes(b"uncommitted-material-review-profile-transition"),
+    };
+    let mut value = serde_json::to_value(&transition).map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: format!("cannot encode material-review profile transition: {error}"),
+    })?;
+    transition.transition_digest = material_review_profile_transition_digest(&value)?;
+    value["transitionDigest"] = serde_json::json!(transition.transition_digest);
+    Ok(Some(value))
+}
+
+fn material_review_profile_transition_digest(
+    transition: &serde_json::Value,
+) -> Result<Digest, ObserverError> {
+    let mut core = transition.clone();
+    core.as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "profile transition must be a JSON object".into(),
+        })?
+        .remove("transitionDigest");
+    digest_json(&("ai-cockpit:material-review-profile-transition:v1", core)).map_err(|error| {
+        ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        }
+    })
+}
+
+fn validate_material_review_profile_transition(
+    transition_value: &serde_json::Value,
+    amendment: &super::ContractAmendmentReceipt,
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    pointer: &serde_json::Value,
+    current_contract: &Contract,
+    current_profile_digest: &Digest,
+) -> Result<bool, ObserverError> {
+    let transition: MaterialReviewProfileTransition =
+        serde_json::from_value(transition_value.clone()).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid profile transition record: {error}"),
+        })?;
+    let actual_digest = material_review_profile_transition_digest(transition_value)?;
+    if transition.schema_version != 1
+        || transition.transition_digest != actual_digest
+        || transition.repository_id != current_contract.repository_id
+        || transition.work_item_id != current_contract.work_item_id
+        || transition.repository_id != amendment.repository_id
+        || transition.work_item_id != amendment.work_item_id
+        || transition.previous_contract_digest != amendment.previous_contract_digest
+        || transition.next_contract_digest != amendment.new_contract_digest
+        || transition.previous_contract_digest != receipt.contract_digest
+        || transition.previous_receipt != *receipt
+        || transition.previous_pointer != *pointer
+        || transition.previous_profile_digest != receipt.profile_digest
+        || transition.next_profile_digest != *current_profile_digest
+    {
+        return Ok(false);
+    }
+
+    let previous_contract: Contract = serde_json::from_value(transition.previous_contract.clone())
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid previous Contract in profile transition: {error}"),
+        })?;
+    let next_contract: Contract = serde_json::from_value(transition.next_contract.clone())
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid next Contract in profile transition: {error}"),
+        })?;
+    if json_digest(&transition.previous_contract).map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: error.to_string(),
+    })? != transition.previous_contract_digest
+        || json_digest(&transition.next_contract).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })? != transition.next_contract_digest
+    {
+        return Ok(false);
+    }
+    let previous_profile = previous_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid previous profile in transition: {message}"),
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "previous profile is missing from transition".into(),
+        })?;
+    let next_profile = next_contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: format!("invalid next profile in transition: {message}"),
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: "next profile is missing from transition".into(),
+        })?;
+    if json_digest(&previous_profile).map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: error.to_string(),
+    })? != transition.previous_profile_digest
+        || json_digest(&next_profile).map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })? != transition.next_profile_digest
+        || previous_contract.repository_id != transition.repository_id
+        || next_contract.repository_id != transition.repository_id
+        || previous_contract.work_item_id != transition.work_item_id
+        || next_contract.work_item_id != transition.work_item_id
+        || current_contract.repository_id != transition.repository_id
+        || current_contract.work_item_id != transition.work_item_id
+    {
+        return Ok(false);
+    }
+    let previous_request_digest = material_review_request_digest(&transition.previous_request)
+        .map_err(|error| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message: error.to_string(),
+        })?;
+    let next_request_digest =
+        material_review_request_digest(&transition.next_request).map_err(|error| {
+            ObserverError::State {
+                path: "material-review-profile-transition".into(),
+                message: error.to_string(),
+            }
+        })?;
+    if previous_request_digest != transition.previous_request.request_digest
+        || next_request_digest != transition.next_request.request_digest
+        || transition.previous_request.contract_digest != transition.previous_contract_digest
+        || transition.next_request.contract_digest != transition.next_contract_digest
+        || transition
+            .previous_request
+            .material_inspection_review_profile_digest
+            .as_ref()
+            != Some(&transition.previous_profile_digest)
+        || transition
+            .next_request
+            .material_inspection_review_profile_digest
+            .as_ref()
+            != Some(&transition.next_profile_digest)
+        || transition.previous_request.repository_id != transition.repository_id
+        || transition.next_request.repository_id != transition.repository_id
+        || transition.previous_request.work_item_id != transition.work_item_id
+        || transition.next_request.work_item_id != transition.work_item_id
+        || receipt.request_digest != transition.previous_request.request_digest
+        || receipt.profile_digest != transition.previous_profile_digest
+    {
+        return Ok(false);
+    }
+    receipt
+        .validate_integrity()
+        .map_err(|message| ObserverError::State {
+            path: "material-review-profile-transition".into(),
+            message,
+        })?;
+    let input = MaterialInspectionReviewDecisionInput {
+        schema_version: receipt.schema_version,
+        decision: receipt.decision,
+        request_digest: receipt.request_digest.clone(),
+        reviewer_actor: receipt.reviewer_actor.clone(),
+        authority_source: receipt.authority_source.clone(),
+        assurance: receipt.assurance,
+        evidence_refs: receipt.evidence_refs.clone(),
+        rationale: receipt.rationale.clone(),
+        residual_risk: receipt.residual_risk.clone(),
+    };
+    let expected = validate_material_review_decision_with_contract_digest(
+        &previous_contract,
+        &transition.previous_contract_digest,
+        &transition.previous_request,
+        &input,
+        &receipt.recorded_by,
+        &receipt.recorded_at,
+    )
+    .map_err(|error| ObserverError::State {
+        path: "material-review-profile-transition".into(),
+        message: format!(
+            "prior review does not validate against its captured Contract and request: {error}"
+        ),
+    })?;
+    if expected != *receipt || transition.next_profile_digest != *current_profile_digest {
+        return Ok(false);
+    }
+    Ok(true)
 }
 
 fn read_material_review_receipt(
@@ -1744,13 +2229,6 @@ fn read_material_review_receipt(
             path: summary_path.to_path_buf(),
             message: error.to_string(),
         })?;
-    if receipt.profile_digest != current_profile_digest {
-        return Err(ObserverError::State {
-            path: sidecar_path,
-            message: "material-review receipt is bound to a different current review profile"
-                .into(),
-        });
-    }
     let contract_was_amended = receipt.contract_digest != *contract_digest;
     if contract_was_amended
         && (!stale_request
@@ -1764,6 +2242,24 @@ fn read_material_review_receipt(
         return Err(ObserverError::State {
             path: sidecar_path,
             message: "material-review receipt is bound to a different current Contract without a validated amendment chain".into(),
+        });
+    }
+    if receipt.profile_digest != current_profile_digest
+        && (!stale_request
+            || !contract_was_amended
+            || !material_review_profile_transition_reaches(
+                &root,
+                &contract.work_item_id,
+                &summary["materialReviewReceipt"],
+                &receipt,
+                contract,
+                contract_digest,
+                &current_profile_digest,
+            )?)
+    {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review receipt is bound to a different current review profile without a validated append-only profile transition".into(),
         });
     }
     let reviewed_source_head =
@@ -1837,19 +2333,55 @@ fn material_review_contract_amendment_chain_reaches(
     previous_contract_digest: &Digest,
     current_contract_digest: &Digest,
 ) -> Result<bool, ObserverError> {
-    let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
-    Ok(material_review_contract_amendment_digests_form_chain(
-        amendments.into_iter().map(|amendment| {
-            (
-                amendment.previous_contract_digest,
-                amendment.new_contract_digest,
-            )
-        }),
+    super::contract_amendment::validated_contract_transition_chain_reaches(
+        root,
+        work_item_id,
         previous_contract_digest,
         current_contract_digest,
-    ))
+    )
 }
 
+fn material_review_profile_transition_reaches(
+    root: &Path,
+    work_item_id: &str,
+    pointer: &serde_json::Value,
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    current_contract: &Contract,
+    current_contract_digest: &Digest,
+    current_profile_digest: &Digest,
+) -> Result<bool, ObserverError> {
+    let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
+    let mut valid_transitions = 0;
+    for amendment in &amendments {
+        let Some(transition) = amendment.material_review_profile_transition.as_ref() else {
+            continue;
+        };
+        if amendment.previous_contract_digest != receipt.contract_digest
+            || (amendment.new_contract_digest != *current_contract_digest
+                && !super::contract_amendment::validated_contract_transition_chain_reaches(
+                    root,
+                    work_item_id,
+                    &amendment.new_contract_digest,
+                    current_contract_digest,
+                )?)
+        {
+            continue;
+        }
+        if validate_material_review_profile_transition(
+            transition,
+            amendment,
+            receipt,
+            pointer,
+            current_contract,
+            current_profile_digest,
+        )? {
+            valid_transitions += 1;
+        }
+    }
+    Ok(valid_transitions == 1)
+}
+
+#[cfg(test)]
 fn material_review_contract_amendment_digests_form_chain(
     amendments: impl IntoIterator<Item = (Digest, Digest)>,
     previous_contract_digest: &Digest,
@@ -2152,6 +2684,263 @@ pub fn record_work_item_material_review_with_caller(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{
+        WorkItemStartOptions, amend_work_item_contract_with_runtime, attach, scaffold_work_item,
+        start_work_item_with_options_and_runtime,
+    };
+    use cockpit_protocol::{RuntimeContext, digest_json};
+    use serde_json::json;
+    use std::{path::PathBuf, process::Command};
+
+    fn run_git(root: &Path, args: &[&str]) {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run git");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn git_text(root: &Path, args: &[&str]) -> String {
+        let output = Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run git");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout)
+            .expect("git output is UTF-8")
+            .trim()
+            .to_owned()
+    }
+
+    fn activation_bridge_fixture(
+        work_item_id: &str,
+    ) -> (tempfile::TempDir, Digest, Digest, PathBuf) {
+        let directory = tempfile::tempdir().expect("repository");
+        let root = directory.path();
+        run_git(root, &["init", "-q"]);
+        run_git(root, &["config", "--local", "core.autocrlf", "false"]);
+        run_git(
+            root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "--quiet",
+                "-m",
+                "fixture baseline",
+            ],
+        );
+        attach(root).expect("attach");
+        std::fs::write(root.join(".gitattributes"), b"/.ai/** -text\n")
+            .expect("preserve native evidence bytes in cloned fixture repositories");
+        std::fs::write(root.join("README.md"), "activation bridge fixture\n").expect("README");
+        run_git(root, &["add", "README.md", ".gitattributes", ".ai"]);
+        run_git(
+            root,
+            &[
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--quiet",
+                "-m",
+                "fixture repository baseline",
+            ],
+        );
+        let base = git_text(root, &["rev-parse", "HEAD"]);
+        run_git(root, &["branch", "-M", "main"]);
+        run_git(
+            root,
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://example.invalid/activation-bridge.git",
+            ],
+        );
+        run_git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+        run_git(
+            root,
+            &[
+                "symbolic-ref",
+                "refs/remotes/origin/HEAD",
+                "refs/remotes/origin/main",
+            ],
+        );
+        run_git(root, &["checkout", "-qb", "activation-bridge-fixture"]);
+
+        scaffold_work_item(root, work_item_id, "implementation").expect("scaffold");
+        let contract_path = root.join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        let scaffolded: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("scaffold Contract"))
+                .expect("valid scaffold Contract");
+        let before_start = json!({
+            "schemaVersion":1,
+            "changeId":"declare-activation-fixture",
+            "expectedContractDigest":digest_json(&scaffolded).expect("scaffold digest"),
+            "reason":"isolated native activation continuity fixture",
+            "changes":[
+                {"path":"/intent","operation":"set","value":"Exercise material review continuity"},
+                {"path":"/goal","operation":"set","value":"Retain exact receipt provenance across activation"},
+                {"path":"/scope","operation":"replace","value":["README.md"]},
+                {"path":"/risk","operation":"set","value":"normal"},
+                {"path":"/authority","operation":"set","value":"authorized"},
+                {"path":"/acceptanceCriteria","operation":"replace","value":["only validated continuity is accepted"]},
+                {"path":"/verification","operation":"replace","value":["git diff --check"]}
+            ]
+        });
+        let runtime = RuntimeContext {
+            runtime_version: env!("CARGO_PKG_VERSION").into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: Digest::sha256_bytes(b"isolated activation bridge test Runtime"),
+        };
+        amend_work_item_contract_with_runtime(root, work_item_id, &before_start, "", &runtime)
+            .expect("declare fixture before activation");
+        start_work_item_with_options_and_runtime(
+            root,
+            work_item_id,
+            "Exercise material review continuity",
+            "Retain exact receipt provenance across activation",
+            &["README.md".into()],
+            &WorkItemStartOptions {
+                risk: "normal".into(),
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["only validated continuity is accepted".into()],
+                verification_commands: vec!["git diff --check".into()],
+                ..WorkItemStartOptions::default()
+            },
+            &runtime,
+        )
+        .expect("record native activation transition");
+
+        let receipt_contract: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("activated Contract"))
+                .expect("valid activated Contract");
+        let receipt_digest = digest_json(&receipt_contract).expect("receipt Contract digest");
+        let after_activation = json!({
+            "schemaVersion":1,
+            "changeId":"append-after-activation",
+            "expectedContractDigest":receipt_digest,
+            "reason":"advance the exact Contract after the activation boundary",
+            "changes":[
+                {"path":"/acceptanceCriteria","operation":"replace","value":["validated activation is a required chain edge"]}
+            ]
+        });
+        amend_work_item_contract_with_runtime(root, work_item_id, &after_activation, "", &runtime)
+            .expect("amend after activation");
+        let current_contract: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&contract_path).expect("current Contract"))
+                .expect("valid current Contract");
+        let current_digest = digest_json(&current_contract).expect("current Contract digest");
+        let transition_directory =
+            root.join(format!(".ai/evidence/{work_item_id}.activation-transition"));
+        (
+            directory,
+            receipt_digest,
+            current_digest,
+            transition_directory,
+        )
+    }
+
+    fn rebind_activation_record(
+        transition_directory: &Path,
+        mutate: impl FnOnce(&mut serde_json::Value),
+    ) {
+        let prepared_path = transition_directory.join("prepared.json");
+        let committed_path = transition_directory.join("committed.json");
+        let mut prepared: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(&prepared_path).expect("prepared activation record"),
+        )
+        .expect("valid prepared activation record");
+        mutate(&mut prepared["record"]);
+        let record_digest = digest_json(&prepared["record"]).expect("updated record digest");
+        prepared["recordDigest"] = json!(record_digest);
+        std::fs::write(
+            &prepared_path,
+            serde_json::to_vec_pretty(&prepared).expect("encode prepared record"),
+        )
+        .expect("write prepared test fixture");
+        let mut committed: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(&committed_path).expect("committed activation record"),
+        )
+        .expect("valid committed activation record");
+        committed["preparedDigest"] = json!(record_digest);
+        std::fs::write(
+            committed_path,
+            serde_json::to_vec_pretty(&committed).expect("encode committed record"),
+        )
+        .expect("write committed test fixture");
+    }
+
+    #[test]
+    fn material_review_receipt_chain_accepts_validated_activation_bridge() {
+        let work_item_id = "WI-MATERIAL-ACTIVATION-BRIDGE";
+        let (directory, receipt, current, _) = activation_bridge_fixture(work_item_id);
+        assert!(
+            material_review_contract_amendment_chain_reaches(
+                directory.path(),
+                work_item_id,
+                &receipt,
+                &current,
+            )
+            .expect("validate native activation bridge")
+        );
+    }
+
+    #[test]
+    fn material_review_receipt_chain_rejects_tampered_activation_bindings() {
+        let work_item_id = "WI-MATERIAL-ACTIVATION-BRIDGE";
+        for (field, value) in [
+            ("journalSequence", json!(999)),
+            (
+                "journalDigest",
+                json!(Digest::sha256_bytes(b"foreign journal")),
+            ),
+            (
+                "previousContractDigest",
+                json!(Digest::sha256_bytes(b"foreign previous Contract")),
+            ),
+            (
+                "newContractDigest",
+                json!(Digest::sha256_bytes(b"foreign new Contract")),
+            ),
+            ("workItemId", json!("WI-FOREIGN")),
+        ] {
+            let (directory, receipt, current, transition_directory) =
+                activation_bridge_fixture(work_item_id);
+            rebind_activation_record(&transition_directory, |record| {
+                record[field] = value;
+            });
+            let result = material_review_contract_amendment_chain_reaches(
+                directory.path(),
+                work_item_id,
+                &receipt,
+                &current,
+            );
+            assert!(
+                !matches!(result, Ok(true)),
+                "tampered {field} must not validate an activation bridge"
+            );
+        }
+    }
 
     #[test]
     fn material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract() {
@@ -2315,6 +3104,345 @@ mod tests {
         request.blocked_by_finding = true;
         let boolean_only = material_review_request_digest(&request).expect("request digest");
         assert_ne!(without_findings, boolean_only);
+    }
+
+    #[test]
+    fn comparison_combines_current_review_and_complete_clean_blob() {
+        let directory = tempfile::tempdir().expect("isolated repository");
+        // Exercise normalization on every platform, including Windows' verbatim
+        // canonical prefix. Internal receipt readers require canonical paths.
+        let fixture_root = directory.path().join("..").join(
+            directory
+                .path()
+                .file_name()
+                .expect("fixture directory name"),
+        );
+        let canonical_root = fs::canonicalize(&fixture_root).expect("canonical fixture root");
+        let root = canonical_root.as_path();
+        run_git(root, &["init", "-q"]);
+        run_git(root, &["config", "core.autocrlf", "false"]);
+        fs::create_dir(root.join("src")).unwrap();
+        let padding = "// bounded comparison padding\n".repeat(12_000);
+        let before = format!("{padding}fn material() {{ let count = 1; }}\n");
+        fs::write(root.join("src/clean.rs"), &before).unwrap();
+        run_git(root, &["add", "."]);
+        let commit = |message: &str| {
+            run_git(
+                root,
+                &[
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.invalid",
+                    "commit",
+                    "-qm",
+                    message,
+                ],
+            )
+        };
+        commit("base");
+        let base = git_text(root, &["rev-parse", "HEAD"]);
+        attach(root).unwrap();
+        let project: serde_json::Value =
+            serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
+        fs::write(
+            root.join("src/clean.rs"),
+            format!("{padding}fn material() {{ let token_count = 2; }}\n"),
+        )
+        .unwrap();
+        fs::write(root.join("src/reviewed.rs"),
+            "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+        run_git(root, &["add", "src"]);
+        commit("candidate");
+        let contract: Contract = serde_json::from_value(json!({
+            "protocolVersion": 1,
+            "repositoryId": repository_id(root).to_string(),
+            "workItemId": "WI-COMPARISON-UNION",
+            "intent": "review exact committed syntax", "goal": "combine exact material proofs",
+            "scope": ["src/**"], "outOfScope": [], "risk": "high", "authority": "authorized",
+            "acceptanceCriteria": ["preserve all uncovered material"], "requiredEvidenceClasses": [],
+            "baseRevision": base, "projectProfileDigest": project["profileDigest"],
+            "repositorySnapshotDigest": Digest::sha256_bytes(b"fixture snapshot"),
+            "requiredRuntimeCapabilities": [MATERIAL_INSPECTION_REVIEW_CAPABILITY],
+            "governanceProfile": {"materialInspectionReview": {
+                "schemaVersion": 1, "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown", "assurance": "self_declared",
+                "reviewerActor": "agent:fixture", "authoritySource": "isolated-test-review",
+                "acceptResidualRisk": true
+            }}
+        })).unwrap();
+        let active = root.join(".ai/work-items/active");
+        fs::create_dir_all(&active).unwrap();
+        let contract_path = active.join("WI-COMPARISON-UNION.contract.json");
+        let summary_path = active.join("WI-COMPARISON-UNION.summary.json");
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&json!({
+                "workItemId": contract.work_item_id, "state": "implementation_active",
+                "checkpointCount": 0, "createdAt": "2026-10-07T00:00:00Z"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let runtime = RuntimeContext {
+            runtime_version: "isolated-comparison-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"isolated comparison test Runtime"),
+        };
+        let request = plan_work_item_material_review(root, &contract.work_item_id).unwrap();
+        let clean = request
+            .entries
+            .iter()
+            .find(|e| e.path == "src/clean.rs")
+            .unwrap();
+        assert_eq!(clean.scanner_assessment, MaterialScannerAssessment::Clean);
+        assert!(clean.after_blob_digest.is_some());
+        assert_eq!(request.entries.iter().filter(|e| e.reviewable).count(), 1);
+        super::super::preflight_work_item_with_runtime(root, &contract_path, &runtime).unwrap();
+        let input = serde_json::from_value(json!({
+            "schemaVersion": 1, "decision": "accept_permitted_unknowns",
+            "requestDigest": request.request_digest, "reviewerActor": "agent:fixture",
+            "authoritySource": "isolated-test-review", "assurance": "self_declared",
+            "evidenceRefs": [{"path": "src/reviewed.rs", "digest": request.entries.iter()
+                .find(|e| e.path == "src/reviewed.rs").unwrap().after_blob_digest}],
+            "rationale": "Review the exact syntax in this isolated test.",
+            "residualRisk": "The machine syntax inspection remains incomplete."
+        }))
+        .unwrap();
+        record_work_item_material_review(root, &contract.work_item_id, &input, &runtime).unwrap();
+        // A relative Summary must still fail the canonical-root boundary,
+        // regardless of platform-specific PathBuf parent normalization.
+        let alias_summary = Path::new(".ai/work-items/active/WI-COMPARISON-UNION.summary.json");
+        let alias_readback = read_material_review_receipt(
+            root,
+            &contract,
+            &request.contract_digest,
+            &request,
+            alias_summary,
+        );
+        assert!(
+            alias_readback.is_err(),
+            "a relative Summary must not bypass the reader boundary: {alias_readback:?}"
+        );
+        let mut projection =
+            material_review_gate_projection(root, &contract, &summary_path).unwrap();
+        assert!(
+            projection.review_receipt_digest.is_some(),
+            "a real current receipt is required; projection={projection:?}; readback={:?}",
+            read_material_review_receipt(
+                root,
+                &contract,
+                &request.contract_digest,
+                &request,
+                &summary_path,
+            )
+        );
+        assert!(projection.effective_unknowns.is_empty());
+        let comparison = GitRepository::discover(root)
+            .unwrap()
+            .snapshot_against(&base)
+            .unwrap();
+        let truncated = comparison
+            .change_evidence
+            .iter()
+            .find(|c| c.path == "src/clean.rs")
+            .unwrap();
+        assert!(truncated.after_text.is_none());
+        assert_eq!(
+            crate::rust_material::diagnose_rust_material(truncated).unknown_cause,
+            Some(MaterialUnknownCause::MissingCompleteSource)
+        );
+        let canonical_projection = projection.clone();
+        preserve_unreviewed_comparison_material_unknowns(&comparison, &mut projection);
+        assert!(
+            !projection
+                .effective_unknowns
+                .iter()
+                .any(|u| u == "repository_material_inspection_unavailable"),
+            "the current reviewed member and complete canonical Clean blob must jointly cover comparison material"
+        );
+        let mut reviewed_only = comparison.clone();
+        reviewed_only
+            .change_evidence
+            .retain(|c| c.path == "src/reviewed.rs");
+        let mut checked = canonical_projection.clone();
+        preserve_unreviewed_comparison_material_unknowns(&reviewed_only, &mut checked);
+        assert!(
+            checked.effective_unknowns.is_empty(),
+            "review-only coverage remains valid"
+        );
+        for field in [
+            "head",
+            "clean_path",
+            "reviewed_path",
+            "kind",
+            "hunk",
+            "origin",
+            "removed",
+            "binary",
+            "too_large",
+            "unavailable",
+            "other_cause",
+        ] {
+            let mut invalid = comparison.clone();
+            let clean_index = invalid
+                .change_evidence
+                .iter()
+                .position(|c| c.path == "src/clean.rs")
+                .unwrap();
+            let reviewed_index = invalid
+                .change_evidence
+                .iter()
+                .position(|c| c.path == "src/reviewed.rs")
+                .unwrap();
+            let change = &mut invalid.change_evidence[clean_index];
+            match field {
+                "head" => invalid.head = Some("b".repeat(40)),
+                "clean_path" => change.path = "src/uninspected.rs".into(),
+                "reviewed_path" => {
+                    invalid.change_evidence[reviewed_index].path = "src/foreign.rs".into()
+                }
+                "kind" => change.kind = ChangeKind::Added,
+                "hunk" => change.added_lines.push("let extra_token = 3;".into()),
+                "origin" => change.added_line_origins[0].after_line += 1,
+                "removed" => change.removed_lines.push("let old_token = 1;".into()),
+                "binary" => change.content_state = ChangeContentState::Binary,
+                "too_large" => change.content_state = ChangeContentState::TooLarge,
+                "unavailable" => change.content_state = ChangeContentState::Unavailable,
+                "other_cause" => {
+                    let reviewed = &mut invalid.change_evidence[reviewed_index];
+                    reviewed.after_text = Some("fn".into());
+                    assert_ne!(
+                        crate::rust_material::diagnose_rust_material(reviewed).unknown_cause,
+                        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+                    );
+                }
+                _ => unreachable!(),
+            }
+            let mut checked = canonical_projection.clone();
+            preserve_unreviewed_comparison_material_unknowns(&invalid, &mut checked);
+            assert!(
+                checked
+                    .effective_unknowns
+                    .iter()
+                    .any(|u| u == "repository_material_inspection_unavailable"),
+                "{field}"
+            );
+        }
+        let mut finding = comparison.clone();
+        let mut injected = finding.change_evidence[0].clone();
+        injected.path = "src/foreign.rs".into();
+        // Reuse the public conformance payload as test data, without changing
+        // its bytes or granting it instruction authority. This fixture is also
+        // pinned by governance_signals::existing_attack_fixture_has_the_immutable_expected_digest.
+        let payload = include_str!(
+            "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+        );
+        assert_eq!(
+            Digest::sha256_bytes(payload.as_bytes()).to_string(),
+            "sha256:a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814"
+        );
+        let text = format!("fn injected() -> &'static str {{ {payload:?} }}");
+        injected.added_lines = vec![text.clone()];
+        injected.added_line_origins = vec![cockpit_git::AddedLineOrigin {
+            after_line: 1,
+            hunk_index: 0,
+        }];
+        injected.removed_lines.clear();
+        injected.after_text = Some(text);
+        assert_eq!(
+            crate::rust_material::diagnose_rust_material(&injected).assessment,
+            RustMaterialAssessment::Finding
+        );
+        finding.change_evidence.push(injected);
+        let mut checked = canonical_projection.clone();
+        preserve_unreviewed_comparison_material_unknowns(&finding, &mut checked);
+        assert!(
+            checked
+                .effective_unknowns
+                .iter()
+                .any(|u| u == "repository_material_inspection_unavailable")
+        );
+
+        let mut other_unknown = canonical_projection.clone();
+        other_unknown
+            .effective_unknowns
+            .push("evidence_stale".into());
+        preserve_unreviewed_comparison_material_unknowns(&comparison, &mut other_unknown);
+        assert_eq!(other_unknown.effective_unknowns, vec!["evidence_stale"]);
+        for field in ["receipt_missing", "foreign_request", "foreign_profile"] {
+            let original = fs::read(&summary_path).unwrap();
+            let original_contract = fs::read(&contract_path).unwrap();
+            let mut summary: serde_json::Value = serde_json::from_slice(&original).unwrap();
+            match field {
+                "receipt_missing" => {
+                    summary
+                        .as_object_mut()
+                        .unwrap()
+                        .remove("materialReviewReceipt");
+                }
+                "foreign_request" => {
+                    summary["materialReviewReceipt"]["requestDigest"] =
+                        json!(Digest::sha256_bytes(b"foreign"));
+                }
+                "foreign_profile" => {
+                    let mut value: serde_json::Value =
+                        serde_json::from_slice(&original_contract).unwrap();
+                    value["governanceProfile"]["materialInspectionReview"]["reviewerActor"] =
+                        json!("agent:foreign");
+                    fs::write(&contract_path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+            if let Ok(mut invalid) = material_review_gate_projection(root, &contract, &summary_path)
+            {
+                preserve_unreviewed_comparison_material_unknowns(&comparison, &mut invalid);
+                assert!(
+                    !invalid
+                        .discharged_unknowns
+                        .iter()
+                        .any(|u| u == "repository_material_inspection_unavailable"),
+                    "{field}"
+                );
+            }
+            fs::write(&summary_path, original).unwrap();
+            fs::write(&contract_path, original_contract).unwrap();
+        }
+        fs::write(
+            root.join("src/clean.rs"),
+            format!("{padding}fn material() {{ let token_count = 3; }}\n"),
+        )
+        .unwrap();
+        assert!(
+            material_review_gate_projection(root, &contract, &summary_path).is_err(),
+            "dirty blob must not create proof"
+        );
+        run_git(root, &["add", "src/clean.rs"]);
+        commit("changed committed blob");
+        let mut stale = material_review_gate_projection(root, &contract, &summary_path).unwrap();
+        let changed = GitRepository::discover(root)
+            .unwrap()
+            .snapshot_against(&base)
+            .unwrap();
+        preserve_unreviewed_comparison_material_unknowns(&changed, &mut stale);
+        assert!(
+            stale
+                .effective_unknowns
+                .iter()
+                .any(|u| u == "material_review_receipt_stale")
+        );
+        assert!(
+            !stale
+                .discharged_unknowns
+                .iter()
+                .any(|u| u == "repository_material_inspection_unavailable")
+        );
     }
 
     #[test]

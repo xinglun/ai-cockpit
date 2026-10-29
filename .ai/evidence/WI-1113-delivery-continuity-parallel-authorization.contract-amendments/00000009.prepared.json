@@ -1,0 +1,1198 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+    "sequence": 9,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1113-verification-process-supervision-20261027",
+      "expectedContractDigest": "sha256:620147a9220280edb06233f8a1fad5af2e846ec07e815a462c17b3d298ff6301",
+      "reason": "Add only the user-approved verification executor path for bounded child-process supervision/reaping; preserve existing per-check timeout, test failure semantics, and system security settings.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-verification/src/lib.rs"
+        }
+      ]
+    },
+    "requestDigest": "sha256:83dcfcc07db940388baa272349d00c152590061330a81ad6a0bdfa9cde786ba6",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve WI-1112's original source changes, all native recovery/verification/CI failure evidence, and the WI-1111 archive byte-for-byte; do not claim WI-1112 was verified or completed. Retire WI-1112 only as replaced/not_verified after its exact native retirement confirmation.",
+        "Keep the Windows local-Git clone fix and exact .ai byte preservation with core.autocrlf=true; retain strict byte/digest equality and reject an exact one-byte artifact mutation.",
+        "Expose a separately versioned read-only continuity projection derived from validated predecessor recovery lineage. Distinguish predecessor local archive, active successor, external/hosted obligations, and current Runtime-admitted next action.",
+        "Never infer delivery completion from archive, successor creation, PR creation, or one successful workflow shard; absent, stale, conflicting, or foreign evidence remains pending or unknown.",
+        "Implement an append-only material-profile transition that validates the prior receipt against its exact historic Contract, profile, request, manifest, and legal same-WI amendment chain; preserve the old receipt and pointer history, append a transition, and open a new current request.",
+        "The transition conveys no approval of the new request and never converts Unknown to Clean. A current review remains bound to the new request/manifest; any new cause, path, blob, hunk, Finding, scanner, policy, scope, or identity change remains unresolved.",
+        "Before applying a profile amendment, lint whether an existing receipt can be safely migrated. Refuse unmigratable changes before writing; corrupted, foreign, unbound, or unsupported historic receipts fail closed.",
+        "Prepare a deterministic read-only authorization manifest for an explicit list of same-repository Work Item IDs. Bind each member's repository, Work Item, Contract/snapshot, exact scope, actions, public target, budgets, actor, and expiry; one owner decision cannot add members or rewrite the manifest.",
+        "Issue separate child grants per Work Item. There is no cross-Work-Item authority inheritance, implicit future member, cross-repository member, or shared usage counter. One member's denial, expiry, failure, or revocation does not alter another member's grant.",
+        "Reserve each member's declared start quota atomically across processes. Concurrent requests cannot spend the same member's quota twice; distinct explicitly listed members may run concurrently within their own resource boundary.",
+        "Retries apply only to an explicitly named unchanged check with a bounded per-check budget. Preserve the original failure. Before recovery, inspect process, operation receipt, and durable state; an uncertain outcome blocks replay.",
+        "Render per-member partial, failed, pending, and successful results independently. Aggregate success is possible only when every required member and check is actually satisfied.",
+        "Provide equivalent CLI and MCP payload validation and explanations, plus English, Japanese, and Simplified Chinese documentation.",
+        "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at five total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved.",
+        "Do not edit workflow definitions except add the explicit caller-file argument to the existing hosted Work Item verification invocation in .github/workflows/ci.yml. The caller input must contain exactly schemaVersion=1, actor=agent:codex, the Contract-bound authoritySource, and assurance=self_declared; pass it only to preflight and verify. Missing or mismatched caller data fails closed. Do not change workflow permissions (retain contents: read), triggers, jobs, or other workflow steps; do not weaken tests, normalize protected evidence, publish secrets or unrelated personal data, release, enable production, replace the fixed Runtime, or record native close without its own exact confirmation.",
+        "Bind taskAuthorization.publicTarget and the eventual GitHub PR base to main in xinglun/ai-cockpit. After the actual PR exists, bind its exact URL, head branch codex/wi-1113-delivery-continuity-parallel-authorization, head revision, base main/revision, and native resourceContext. Keep the active Contract.baseRevision, current provider main comparison base, PR-tested merge revision, and final merge commit as distinct identities; the TaskAuthorizationPolicy does not bind the head branch.",
+        "Keep predecessor recovery identity and the active Contract baseline as distinct facts. The fixed Runtime's normal staged activation may set Contract.baseRevision from the discovered repository default; read back that native value and preserve predecessor HEAD 5a942f93acaf0a514a291e39674465feddfa69e7, Contract.baseRevision, provider comparison base, PR-tested merge revision, and final merge commit as separate identities. Do not force them equal or change the remote default.",
+        "Preserve PR #1074 (WI-1111 to main) and PR #1075 (WI-1112 to WI-1111) without retargeting or closing them. A WI-1113 PR directly to main contains the full inherited WI-1111, WI-1112, and WI-1113 cumulative diff; review its complete contents and provenance and do not describe it as WI-1113-only. Keep the new PR draft while required checks and review are pending. Do not require #1075 to merge first. Any merge remains subject to current checks, review, and native/provider admission.",
+        "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the five-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision.",
+        "For pre-merge evidence, bind the actual provider PR number, URL, head branch/revision, base branch/revision and native resourceContext to the WI-1113 Work Item. Treat the Contract baseline, provider comparison base, PR-tested merge revision and final merge commit as separate identities and preserve each exact value."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": {
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredChecks": [
+          "full-workspace-tests",
+          "zero-warning-clippy",
+          "material-transition-regressions",
+          "parallel-authorization-regressions",
+          "windows-hosted-ci",
+          "independent-review"
+        ],
+        "requiredStages": [
+          "before_finish"
+        ],
+        "schemaVersion": 1
+      },
+      "concurrencyBoundary": {
+        "generatedEvidencePaths": [],
+        "implementationPaths": [
+          ".gitattributes",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-protocol/src/lib.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/outcome_render.rs",
+          "crates/cockpit-repository/src/material_review.rs",
+          "crates/cockpit-repository/tests/recovery_decision.rs",
+          "crates/cockpit-repository/tests/outcome_report.rs",
+          "crates/cockpit-repository/tests/material_review.rs",
+          "crates/cockpit-cli/tests/material_review.rs",
+          "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "crates/cockpit-protocol/src/task_authorization.rs",
+          "crates/cockpit-protocol/tests/task_authorization.rs",
+          "crates/cockpit-repository/src/task_authorization.rs",
+          "crates/cockpit-repository/src/action_admission.rs",
+          "crates/cockpit-repository/src/coordination_store.rs",
+          "crates/cockpit-repository/src/contract_amendment.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "crates/cockpit-repository/tests/task_authorization.rs",
+          "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+          "crates/cockpit-repository/tests/coordination_store.rs",
+          "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+          "crates/cockpit-repository/tests/contract_amendment.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-cli/tests/scope_amendment.rs",
+          "crates/cockpit-cli/tests/lifecycle.rs",
+          "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+          "tests/ci/quality_route_test.py",
+          "tests/ci/resolve_work_item_test.sh",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workflow_convergence_test.sh"
+        ],
+        "maxWorkers": 1,
+        "reason": "Serialize edits to shared source/docs in this WI. Test parallel authorization only with independent Work Item fixtures, each having its own atomic lease and state.",
+        "schemaVersion": 1,
+        "serializedProjectionPaths": [],
+        "verificationOutputPaths": []
+      },
+      "contractVersion": null,
+      "createdAt": "2026-10-26T19:50:48Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Carry the unmerged WI-1112 repair forward, add a safe append-only transition from a historically valid material-review receipt to a newly reviewed request after an authorized profile amendment, and implement digest-bound one-time scope authorization for explicitly selected same-repository Work Items that can run concurrently with independent quotas and truthful partial results.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1113-local-check-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1113-local-check-timeout-v1"
+              ],
+              "reason": "Authorize a maximum of 900 seconds for each local verification check; this ceiling does not skip or weaken any test.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        },
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "review_development_amendment",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "create_pull_request",
+            "ready_pull_request",
+            "merge_pull_request",
+            "finalize_resources",
+            "record_finalization",
+            "finalize_verify"
+          ],
+          "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain).",
+          "closeoutActions": [],
+          "expiresAt": "2026-11-03T12:00:00Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "WI-1113 intent details (preserved from the typed plan):\n{\n  \"businessGoal\": \"Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.\",\n  \"constraints\": [\n    \"Append-only evidence only; preserve old receipts and failures.\",\n    \"Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.\",\n    \"Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.\",\n    \"No global Git configuration. The sole CI workflow exception is the explicit caller-file transport argument at the existing hosted verification invocation; no workflow permission, trigger, job, or other step changes.\"\n  ],\n  \"nonGoals\": [\n    \"No cross-repository grants.\",\n    \"No wildcard or future Work Item authorization.\",\n    \"No automatic PR, branch, or resource ownership transfer.\",\n    \"No Runtime replacement, release, production action, or implicit close.\"\n  ],\n  \"problem\": \"A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.\",\n  \"rationale\": \"Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.\",\n  \"userGoal\": \"Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects.\"\n}",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "global or user Git configuration",
+        "any WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, recovery receipt, or archive bytes",
+        "automatic inheritance of WI-1112 taskAuthorization or material-risk decisions",
+        "cross-repository authorization, wildcard/future Work Item selection, shared budget pools, arbitrary command retries, or automatic future membership",
+        "automatic PR/branch/resource transfer, automatic deletion, and provider authentication changes",
+        "Any workflow-definition change except the one explicit caller-file argument at the existing hosted verification invocation in .github/workflows/ci.yml; workflow permissions, triggers, jobs, and other steps remain unchanged.",
+        "Release, production enablement, shared Runtime replacement, and native close without their own exact confirmation."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+      "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
+      "problemStatement": "The current Runtime classifies a receipt whose profile digest changed as invalid before it can identify it as stale under a valid append-only amendment chain; that blocks the current review action. Separately, the current taskAuthorization schema has no atomic per-Work-Item start or declared-check retry quota and cannot represent one owner decision over an exact Work Item set without repeated confirmations or accidental cross-Work-Item authority.",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d08ad8bf813c518b3ece06a627f4521e2ca52eec2652a8ecbec1a156cf73223f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": {
+        "level": "high",
+        "reason": "This work changes lifecycle evidence interpretation and grants execution/publication actions across multiple Work Items. Exact identity, history, scope, and atomic budget behavior must fail closed.",
+        "riskTypes": [
+          "authorization",
+          "concurrency",
+          "evidence_integrity",
+          "lifecycle_recovery",
+          "compatibility"
+        ]
+      },
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
+          "expectedOutcome": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
+          "required": true,
+          "scenario": "windows_local_clone_spaces",
+          "status": "unverified",
+          "verificationPlan": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
+        },
+        {
+          "evidence": [],
+          "expected": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
+          "expectedOutcome": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
+          "required": true,
+          "scenario": "windows_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert core.autocrlf=true checkout bytes equal the committed .ai Git blob bytes."
+        },
+        {
+          "evidence": [],
+          "expected": "An older immutable fixture revision lacks the new attributes rule.",
+          "expectedOutcome": "An older immutable fixture revision lacks the new attributes rule.",
+          "required": true,
+          "scenario": "historical_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert the old revision fixture preserves blob bytes using only its local fixture attribute rule."
+        },
+        {
+          "evidence": [],
+          "expected": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
+          "expectedOutcome": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
+          "required": true,
+          "scenario": "windows_single_byte_tamper_rejected",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes -- --exact --test-threads=1; mutate exactly one byte, retain the original digest, assert rejection and unchanged tampered bytes."
+        },
+        {
+          "evidence": [],
+          "expected": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
+          "expectedOutcome": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
+          "required": true,
+          "scenario": "continuity_projection_valid_successor",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_marks_replaced_predecessor_and_active_successor -- --exact --test-threads=1; assert validated WI-1112 replaced/not_verified lineage is shown separately from active WI-1113 and no delivery completion is inferred."
+        },
+        {
+          "evidence": [],
+          "expected": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+          "expectedOutcome": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+          "required": true,
+          "scenario": "continuity_projection_invalid_lineage",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_rejects_missing_foreign_or_inconsistent_lineage -- --exact --test-threads=1; cover absent, malformed, foreign, and mismatched repository/predecessor/receipt/archive/successor bindings."
+        },
+        {
+          "evidence": [],
+          "expected": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+          "expectedOutcome": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+          "required": true,
+          "scenario": "archive_not_delivery_completion",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
+        },
+        {
+          "evidence": [],
+          "expected": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
+          "expectedOutcome": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
+          "required": true,
+          "scenario": "material_reference_only",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_current_reference_is_not_review_authority -- --exact --test-threads=1; assert same material references are read-only and never authorize a new review."
+        },
+        {
+          "evidence": [],
+          "expected": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
+          "expectedOutcome": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
+          "required": true,
+          "scenario": "material_delta_invalidates_context",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
+        },
+        {
+          "evidence": [],
+          "expected": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
+          "expectedOutcome": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
+          "required": true,
+          "scenario": "material_profile_transition_append_only",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review valid_profile_amendment_preserves_exact_prior_receipt_as_history -- --exact --test-threads=1; verify the old receipt against its historical Contract/profile/request/manifest and legal same-WI amendment chain, preserve it, and require a new request."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
+          "expectedOutcome": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
+          "required": true,
+          "scenario": "material_transition_negative_cases",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid -- --exact --test-threads=1 plus the material_review suite; reject forged, foreign, malformed, or unbound transition evidence."
+        },
+        {
+          "evidence": [],
+          "expected": "A transition sees a new Unknown cause, path, hunk, or Finding.",
+          "expectedOutcome": "A transition sees a new Unknown cause, path, hunk, or Finding.",
+          "required": true,
+          "scenario": "material_transition_new_risk_stays_blocked",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
+        },
+        {
+          "evidence": [],
+          "expected": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
+          "expectedOutcome": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
+          "required": true,
+          "scenario": "pre_amendment_profile_lint",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale -- --exact --test-threads=1; compare Contract and amendment-journal bytes before and after rejection."
+        },
+        {
+          "evidence": [],
+          "expected": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
+          "expectedOutcome": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
+          "required": true,
+          "scenario": "batch_manifest_exact_members",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
+        },
+        {
+          "evidence": [],
+          "expected": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
+          "expectedOutcome": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
+          "required": true,
+          "scenario": "per_work_item_grants_independent",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
+        },
+        {
+          "evidence": [],
+          "expected": "Two processes try to reserve the one allowed start for the same member concurrently.",
+          "expectedOutcome": "Two processes try to reserve the one allowed start for the same member concurrently.",
+          "required": true,
+          "scenario": "atomic_one_start_same_work_item",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency concurrent_member_start_reserves_one_quota_atomically -- --exact --test-threads=1; race separate processes and assert exactly one durable reservation."
+        },
+        {
+          "evidence": [],
+          "expected": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
+          "expectedOutcome": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
+          "required": true,
+          "scenario": "parallel_distinct_work_items_partial_results",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
+        },
+        {
+          "evidence": [],
+          "expected": "A named unchanged check fails and has retry budget remaining.",
+          "expectedOutcome": "A named unchanged check fails and has retry budget remaining.",
+          "required": true,
+          "scenario": "bounded_retry_preserves_first_failure",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
+        },
+        {
+          "evidence": [],
+          "expected": "Process or write result is uncertain after interruption.",
+          "expectedOutcome": "Process or write result is uncertain after interruption.",
+          "required": true,
+          "scenario": "unknown_outcome_no_resend",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
+        },
+        {
+          "evidence": [],
+          "expected": "A grant expires or receives a valid append-only withdrawn/completed termination.",
+          "expectedOutcome": "A grant expires or receives a valid append-only withdrawn/completed termination.",
+          "required": true,
+          "scenario": "expiry_and_termination",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
+        },
+        {
+          "evidence": [],
+          "expected": "CLI and MCP request the same batch, member, action, and manifest.",
+          "expectedOutcome": "CLI and MCP request the same batch, member, action, and manifest.",
+          "required": true,
+          "scenario": "cli_mcp_parity",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity explicit_batch_authorization_manifest_has_cli_mcp_parity -- --exact --test-threads=1; compare canonical request, member, action, manifest and errors."
+        },
+        {
+          "evidence": [],
+          "expected": "Successor recovery occurs while predecessor PR/branch remain open.",
+          "expectedOutcome": "Successor recovery occurs while predecessor PR/branch remain open.",
+          "required": true,
+          "scenario": "pr_resource_not_transferred",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision successor_does_not_transfer_predecessor_pr_or_branch_resource -- --exact --test-threads=1; assert predecessor PR/branch remain bound to their original Work Item."
+        },
+        {
+          "evidence": [],
+          "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+          "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+          "required": true,
+          "scenario": "pr_policy_and_provider_target_alignment",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
+        },
+        {
+          "evidence": [],
+          "expected": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+          "expectedOutcome": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+          "required": true,
+          "scenario": "stacked_pr_overlap_is_visible",
+          "status": "unverified",
+          "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
+        },
+        {
+          "evidence": [],
+          "expected": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+          "expectedOutcome": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+          "required": true,
+          "scenario": "main_merge_post_merge_push_ci_readback",
+          "status": "unverified",
+          "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the five-run budget."
+        }
+      ],
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/material_review.rs",
+        "crates/cockpit-cli/tests/material_review.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-mcp/tests/material_review.rs",
+        "docs/reference/outcome-report.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/troubleshooting.zh-CN.md",
+        "crates/cockpit-protocol/src/task_authorization.rs",
+        "crates/cockpit-protocol/tests/task_authorization.rs",
+        "crates/cockpit-repository/src/task_authorization.rs",
+        "crates/cockpit-repository/src/action_admission.rs",
+        "crates/cockpit-repository/src/coordination_store.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-repository/tests/task_authorization.rs",
+        "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+        "crates/cockpit-repository/tests/coordination_store.rs",
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+        "crates/cockpit-repository/tests/contract_amendment.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "crates/cockpit-cli/tests/scope_amendment.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+        "docs/reference/contract-fields.md",
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.ja.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.zh-CN.md",
+        "tests/ci/quality_route_test.py",
+        "tests/ci/resolve_work_item_test.sh",
+        ".github/workflows/ci.yml",
+        "tests/ci/run_hosted_runtime_verification.sh",
+        "tests/ci/hosted_runtime_verification_test.sh",
+        "tests/ci/workflow_convergence_test.sh",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-mcp/tests/usage.rs"
+      ],
+      "sources": [
+        {
+          "path": ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json",
+          "reason": "Exact predecessor plan and scope being continued."
+        },
+        {
+          "path": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
+          "reason": "Fixed native successor lineage and preserved predecessor disposition."
+        },
+        {
+          "path": "crates/cockpit-repository/src/material_review.rs",
+          "reason": "Current receipt validation and invalid-pointer admission path under review."
+        },
+        {
+          "path": "crates/cockpit-repository/src/task_authorization.rs",
+          "reason": "Current per-Work-Item action authority, expiry, and termination behavior."
+        },
+        {
+          "path": "crates/cockpit-repository/src/coordination_store.rs",
+          "reason": "Current repository-bound coordination and process-safe storage."
+        },
+        {
+          "path": "docs/reference/agent-workflow.md",
+          "reason": "Current task authorization and coordination semantics."
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "reason": "Read-only existing trigger and gate-routing contract: pull_request accepts PRs to any base; push is filtered to main."
+        },
+        {
+          "path": "tests/ci/quality_route.py",
+          "reason": "Read-only route selection logic used to bind pull_request checks to the active Work Item Contract."
+        },
+        {
+          "path": "tests/ci/resolve_work_item.sh",
+          "reason": "Read-only resolver behavior for PR and merged-event Work Item selection."
+        }
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": "Delivery continuity and parallel scope-specific authorization",
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-agent --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-core --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-evidence --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-git --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-interface --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-isolation --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-knowledge --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-mcp --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-protocol --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-release --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-review-receipt --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-verification --all-targets -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "python3 tests/ci/quality_route_test.py",
+        "bash tests/ci/resolve_work_item_test.sh",
+        "cargo fmt --all -- --check",
+        "git diff --check"
+      ],
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    "previousContractDigest": "sha256:620147a9220280edb06233f8a1fad5af2e846ec07e815a462c17b3d298ff6301",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve WI-1112's original source changes, all native recovery/verification/CI failure evidence, and the WI-1111 archive byte-for-byte; do not claim WI-1112 was verified or completed. Retire WI-1112 only as replaced/not_verified after its exact native retirement confirmation.",
+        "Keep the Windows local-Git clone fix and exact .ai byte preservation with core.autocrlf=true; retain strict byte/digest equality and reject an exact one-byte artifact mutation.",
+        "Expose a separately versioned read-only continuity projection derived from validated predecessor recovery lineage. Distinguish predecessor local archive, active successor, external/hosted obligations, and current Runtime-admitted next action.",
+        "Never infer delivery completion from archive, successor creation, PR creation, or one successful workflow shard; absent, stale, conflicting, or foreign evidence remains pending or unknown.",
+        "Implement an append-only material-profile transition that validates the prior receipt against its exact historic Contract, profile, request, manifest, and legal same-WI amendment chain; preserve the old receipt and pointer history, append a transition, and open a new current request.",
+        "The transition conveys no approval of the new request and never converts Unknown to Clean. A current review remains bound to the new request/manifest; any new cause, path, blob, hunk, Finding, scanner, policy, scope, or identity change remains unresolved.",
+        "Before applying a profile amendment, lint whether an existing receipt can be safely migrated. Refuse unmigratable changes before writing; corrupted, foreign, unbound, or unsupported historic receipts fail closed.",
+        "Prepare a deterministic read-only authorization manifest for an explicit list of same-repository Work Item IDs. Bind each member's repository, Work Item, Contract/snapshot, exact scope, actions, public target, budgets, actor, and expiry; one owner decision cannot add members or rewrite the manifest.",
+        "Issue separate child grants per Work Item. There is no cross-Work-Item authority inheritance, implicit future member, cross-repository member, or shared usage counter. One member's denial, expiry, failure, or revocation does not alter another member's grant.",
+        "Reserve each member's declared start quota atomically across processes. Concurrent requests cannot spend the same member's quota twice; distinct explicitly listed members may run concurrently within their own resource boundary.",
+        "Retries apply only to an explicitly named unchanged check with a bounded per-check budget. Preserve the original failure. Before recovery, inspect process, operation receipt, and durable state; an uncertain outcome blocks replay.",
+        "Render per-member partial, failed, pending, and successful results independently. Aggregate success is possible only when every required member and check is actually satisfied.",
+        "Provide equivalent CLI and MCP payload validation and explanations, plus English, Japanese, and Simplified Chinese documentation.",
+        "Use at most 900 seconds per local check, one local verification worker, and no more than two additional attempts for the same unchanged local check. WI-1113 hosted CI is capped at five total runs; count automatic triggers, entry failures, and reruns. The current Runtime does not enforce these quotas, so keep an append-only auditable manual ledger until candidate enforcement is proved.",
+        "Do not edit workflow definitions except add the explicit caller-file argument to the existing hosted Work Item verification invocation in .github/workflows/ci.yml. The caller input must contain exactly schemaVersion=1, actor=agent:codex, the Contract-bound authoritySource, and assurance=self_declared; pass it only to preflight and verify. Missing or mismatched caller data fails closed. Do not change workflow permissions (retain contents: read), triggers, jobs, or other workflow steps; do not weaken tests, normalize protected evidence, publish secrets or unrelated personal data, release, enable production, replace the fixed Runtime, or record native close without its own exact confirmation.",
+        "Bind taskAuthorization.publicTarget and the eventual GitHub PR base to main in xinglun/ai-cockpit. After the actual PR exists, bind its exact URL, head branch codex/wi-1113-delivery-continuity-parallel-authorization, head revision, base main/revision, and native resourceContext. Keep the active Contract.baseRevision, current provider main comparison base, PR-tested merge revision, and final merge commit as distinct identities; the TaskAuthorizationPolicy does not bind the head branch.",
+        "Keep predecessor recovery identity and the active Contract baseline as distinct facts. The fixed Runtime's normal staged activation may set Contract.baseRevision from the discovered repository default; read back that native value and preserve predecessor HEAD 5a942f93acaf0a514a291e39674465feddfa69e7, Contract.baseRevision, provider comparison base, PR-tested merge revision, and final merge commit as separate identities. Do not force them equal or change the remote default.",
+        "Preserve PR #1074 (WI-1111 to main) and PR #1075 (WI-1112 to WI-1111) without retargeting or closing them. A WI-1113 PR directly to main contains the full inherited WI-1111, WI-1112, and WI-1113 cumulative diff; review its complete contents and provenance and do not describe it as WI-1113-only. Keep the new PR draft while required checks and review are pending. Do not require #1075 to merge first. Any merge remains subject to current checks, review, and native/provider admission.",
+        "Use the existing CI workflow without editing it except for the one caller-file argument allowed by AC14: pull_request runs for any base and push runs on main. Count every WI-1113 hosted run, automatic trigger, entry failure, and rerun against the five-run budget, including the post-merge main push run. After merge, verify the exact merge commit and read back its actual main push workflow result; never claim a run that does not exist for that revision.",
+        "For pre-merge evidence, bind the actual provider PR number, URL, head branch/revision, base branch/revision and native resourceContext to the WI-1113 Work Item. Treat the Contract baseline, provider comparison base, PR-tested merge revision and final merge commit as separate identities and preserve each exact value."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": {
+        "profile": "strict",
+        "requiredBeforeFinish": true,
+        "requiredChecks": [
+          "full-workspace-tests",
+          "zero-warning-clippy",
+          "material-transition-regressions",
+          "parallel-authorization-regressions",
+          "windows-hosted-ci",
+          "independent-review"
+        ],
+        "requiredStages": [
+          "before_finish"
+        ],
+        "schemaVersion": 1
+      },
+      "concurrencyBoundary": {
+        "generatedEvidencePaths": [],
+        "implementationPaths": [
+          ".gitattributes",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-protocol/src/lib.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/outcome_render.rs",
+          "crates/cockpit-repository/src/material_review.rs",
+          "crates/cockpit-repository/tests/recovery_decision.rs",
+          "crates/cockpit-repository/tests/outcome_report.rs",
+          "crates/cockpit-repository/tests/material_review.rs",
+          "crates/cockpit-cli/tests/material_review.rs",
+          "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "crates/cockpit-protocol/src/task_authorization.rs",
+          "crates/cockpit-protocol/tests/task_authorization.rs",
+          "crates/cockpit-repository/src/task_authorization.rs",
+          "crates/cockpit-repository/src/action_admission.rs",
+          "crates/cockpit-repository/src/coordination_store.rs",
+          "crates/cockpit-repository/src/contract_amendment.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "crates/cockpit-repository/tests/task_authorization.rs",
+          "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+          "crates/cockpit-repository/tests/coordination_store.rs",
+          "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+          "crates/cockpit-repository/tests/contract_amendment.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-cli/tests/scope_amendment.rs",
+          "crates/cockpit-cli/tests/lifecycle.rs",
+          "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+          "tests/ci/quality_route_test.py",
+          "tests/ci/resolve_work_item_test.sh",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workflow_convergence_test.sh"
+        ],
+        "maxWorkers": 1,
+        "reason": "Serialize edits to shared source/docs in this WI. Test parallel authorization only with independent Work Item fixtures, each having its own atomic lease and state.",
+        "schemaVersion": 1,
+        "serializedProjectionPaths": [],
+        "verificationOutputPaths": []
+      },
+      "contractVersion": null,
+      "createdAt": "2026-10-26T19:50:48Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Carry the unmerged WI-1112 repair forward, add a safe append-only transition from a historically valid material-review receipt to a newly reviewed request after an authorized profile amendment, and implement digest-bound one-time scope authorization for explicitly selected same-repository Work Items that can run concurrently with independent quotas and truthful partial results.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1113-local-check-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1113-local-check-timeout-v1"
+              ],
+              "reason": "Authorize a maximum of 900 seconds for each local verification check; this ceiling does not skip or weaken any test.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        },
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "review_development_amendment",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "create_pull_request",
+            "ready_pull_request",
+            "merge_pull_request",
+            "finalize_resources",
+            "record_finalization",
+            "finalize_verify"
+          ],
+          "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain).",
+          "closeoutActions": [],
+          "expiresAt": "2026-11-03T12:00:00Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "WI-1113 intent details (preserved from the typed plan):\n{\n  \"businessGoal\": \"Make successor-based delivery recovery understandable and safe, and reduce repeated authorization friction for explicitly selected Work Items without sharing authority across them.\",\n  \"constraints\": [\n    \"Append-only evidence only; preserve old receipts and failures.\",\n    \"Every Work Item remains independently bound to repository, Contract, scope, actions, target, and expiry.\",\n    \"Use the fixed governing Runtime; candidate code is tested only in isolated fixtures.\",\n    \"No global Git configuration. The sole CI workflow exception is the explicit caller-file transport argument at the existing hosted verification invocation; no workflow permission, trigger, job, or other step changes.\"\n  ],\n  \"nonGoals\": [\n    \"No cross-repository grants.\",\n    \"No wildcard or future Work Item authorization.\",\n    \"No automatic PR, branch, or resource ownership transfer.\",\n    \"No Runtime replacement, release, production action, or implicit close.\"\n  ],\n  \"problem\": \"A valid predecessor material-review receipt becomes invalid after an authorized profile change, while the only renewal action is hidden by the invalid pointer. Existing task authorization has finite actions and expiry but cannot bind per-check retry/start budgets or an exact multi-Work-Item authorization manifest.\",\n  \"rationale\": \"Carry WI-1112's Windows byte-integrity repair forward while fixing the material-receipt deadlock and implementing the requested one-time, scope-specific authorization for parallel Work Items.\",\n  \"userGoal\": \"Let the owner review one exact batch of same-repository Work Items, see each Work Item's independent scope, permission, budget, and result, and recover interruptions without duplicate effects.\"\n}",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "global or user Git configuration",
+        "any WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, recovery receipt, or archive bytes",
+        "automatic inheritance of WI-1112 taskAuthorization or material-risk decisions",
+        "cross-repository authorization, wildcard/future Work Item selection, shared budget pools, arbitrary command retries, or automatic future membership",
+        "automatic PR/branch/resource transfer, automatic deletion, and provider authentication changes",
+        "Any workflow-definition change except the one explicit caller-file argument at the existing hosted verification invocation in .github/workflows/ci.yml; workflow permissions, triggers, jobs, and other steps remain unchanged.",
+        "Release, production enablement, shared Runtime replacement, and native close without their own exact confirmation."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+      "predecessorWorkItemId": "WI-1112-windows-archive-byte-preservation",
+      "problemStatement": "The current Runtime classifies a receipt whose profile digest changed as invalid before it can identify it as stale under a valid append-only amendment chain; that blocks the current review action. Separately, the current taskAuthorization schema has no atomic per-Work-Item start or declared-check retry quota and cannot represent one owner decision over an exact Work Item set without repeated confirmations or accidental cross-Work-Item authority.",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d08ad8bf813c518b3ece06a627f4521e2ca52eec2652a8ecbec1a156cf73223f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": {
+        "level": "high",
+        "reason": "This work changes lifecycle evidence interpretation and grants execution/publication actions across multiple Work Items. Exact identity, history, scope, and atomic budget behavior must fail closed.",
+        "riskTypes": [
+          "authorization",
+          "concurrency",
+          "evidence_integrity",
+          "lifecycle_recovery",
+          "compatibility"
+        ]
+      },
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
+          "expectedOutcome": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
+          "required": true,
+          "scenario": "windows_local_clone_spaces",
+          "status": "unverified",
+          "verificationPlan": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
+        },
+        {
+          "evidence": [],
+          "expected": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
+          "expectedOutcome": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
+          "required": true,
+          "scenario": "windows_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert core.autocrlf=true checkout bytes equal the committed .ai Git blob bytes."
+        },
+        {
+          "evidence": [],
+          "expected": "An older immutable fixture revision lacks the new attributes rule.",
+          "expectedOutcome": "An older immutable fixture revision lacks the new attributes rule.",
+          "required": true,
+          "scenario": "historical_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert the old revision fixture preserves blob bytes using only its local fixture attribute rule."
+        },
+        {
+          "evidence": [],
+          "expected": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
+          "expectedOutcome": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
+          "required": true,
+          "scenario": "windows_single_byte_tamper_rejected",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes -- --exact --test-threads=1; mutate exactly one byte, retain the original digest, assert rejection and unchanged tampered bytes."
+        },
+        {
+          "evidence": [],
+          "expected": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
+          "expectedOutcome": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
+          "required": true,
+          "scenario": "continuity_projection_valid_successor",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_marks_replaced_predecessor_and_active_successor -- --exact --test-threads=1; assert validated WI-1112 replaced/not_verified lineage is shown separately from active WI-1113 and no delivery completion is inferred."
+        },
+        {
+          "evidence": [],
+          "expected": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+          "expectedOutcome": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+          "required": true,
+          "scenario": "continuity_projection_invalid_lineage",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_rejects_missing_foreign_or_inconsistent_lineage -- --exact --test-threads=1; cover absent, malformed, foreign, and mismatched repository/predecessor/receipt/archive/successor bindings."
+        },
+        {
+          "evidence": [],
+          "expected": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+          "expectedOutcome": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+          "required": true,
+          "scenario": "archive_not_delivery_completion",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
+        },
+        {
+          "evidence": [],
+          "expected": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
+          "expectedOutcome": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
+          "required": true,
+          "scenario": "material_reference_only",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_current_reference_is_not_review_authority -- --exact --test-threads=1; assert same material references are read-only and never authorize a new review."
+        },
+        {
+          "evidence": [],
+          "expected": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
+          "expectedOutcome": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
+          "required": true,
+          "scenario": "material_delta_invalidates_context",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
+        },
+        {
+          "evidence": [],
+          "expected": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
+          "expectedOutcome": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
+          "required": true,
+          "scenario": "material_profile_transition_append_only",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review valid_profile_amendment_preserves_exact_prior_receipt_as_history -- --exact --test-threads=1; verify the old receipt against its historical Contract/profile/request/manifest and legal same-WI amendment chain, preserve it, and require a new request."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
+          "expectedOutcome": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
+          "required": true,
+          "scenario": "material_transition_negative_cases",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid -- --exact --test-threads=1 plus the material_review suite; reject forged, foreign, malformed, or unbound transition evidence."
+        },
+        {
+          "evidence": [],
+          "expected": "A transition sees a new Unknown cause, path, hunk, or Finding.",
+          "expectedOutcome": "A transition sees a new Unknown cause, path, hunk, or Finding.",
+          "required": true,
+          "scenario": "material_transition_new_risk_stays_blocked",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
+        },
+        {
+          "evidence": [],
+          "expected": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
+          "expectedOutcome": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
+          "required": true,
+          "scenario": "pre_amendment_profile_lint",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale -- --exact --test-threads=1; compare Contract and amendment-journal bytes before and after rejection."
+        },
+        {
+          "evidence": [],
+          "expected": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
+          "expectedOutcome": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
+          "required": true,
+          "scenario": "batch_manifest_exact_members",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
+        },
+        {
+          "evidence": [],
+          "expected": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
+          "expectedOutcome": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
+          "required": true,
+          "scenario": "per_work_item_grants_independent",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
+        },
+        {
+          "evidence": [],
+          "expected": "Two processes try to reserve the one allowed start for the same member concurrently.",
+          "expectedOutcome": "Two processes try to reserve the one allowed start for the same member concurrently.",
+          "required": true,
+          "scenario": "atomic_one_start_same_work_item",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency concurrent_member_start_reserves_one_quota_atomically -- --exact --test-threads=1; race separate processes and assert exactly one durable reservation."
+        },
+        {
+          "evidence": [],
+          "expected": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
+          "expectedOutcome": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
+          "required": true,
+          "scenario": "parallel_distinct_work_items_partial_results",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
+        },
+        {
+          "evidence": [],
+          "expected": "A named unchanged check fails and has retry budget remaining.",
+          "expectedOutcome": "A named unchanged check fails and has retry budget remaining.",
+          "required": true,
+          "scenario": "bounded_retry_preserves_first_failure",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
+        },
+        {
+          "evidence": [],
+          "expected": "Process or write result is uncertain after interruption.",
+          "expectedOutcome": "Process or write result is uncertain after interruption.",
+          "required": true,
+          "scenario": "unknown_outcome_no_resend",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
+        },
+        {
+          "evidence": [],
+          "expected": "A grant expires or receives a valid append-only withdrawn/completed termination.",
+          "expectedOutcome": "A grant expires or receives a valid append-only withdrawn/completed termination.",
+          "required": true,
+          "scenario": "expiry_and_termination",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
+        },
+        {
+          "evidence": [],
+          "expected": "CLI and MCP request the same batch, member, action, and manifest.",
+          "expectedOutcome": "CLI and MCP request the same batch, member, action, and manifest.",
+          "required": true,
+          "scenario": "cli_mcp_parity",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity explicit_batch_authorization_manifest_has_cli_mcp_parity -- --exact --test-threads=1; compare canonical request, member, action, manifest and errors."
+        },
+        {
+          "evidence": [],
+          "expected": "Successor recovery occurs while predecessor PR/branch remain open.",
+          "expectedOutcome": "Successor recovery occurs while predecessor PR/branch remain open.",
+          "required": true,
+          "scenario": "pr_resource_not_transferred",
+          "status": "unverified",
+          "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision successor_does_not_transfer_predecessor_pr_or_branch_resource -- --exact --test-threads=1; assert predecessor PR/branch remain bound to their original Work Item."
+        },
+        {
+          "evidence": [],
+          "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+          "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+          "required": true,
+          "scenario": "pr_policy_and_provider_target_alignment",
+          "status": "unverified",
+          "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
+        },
+        {
+          "evidence": [],
+          "expected": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+          "expectedOutcome": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+          "required": true,
+          "scenario": "stacked_pr_overlap_is_visible",
+          "status": "unverified",
+          "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
+        },
+        {
+          "evidence": [],
+          "expected": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+          "expectedOutcome": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+          "required": true,
+          "scenario": "main_merge_post_merge_push_ci_readback",
+          "status": "unverified",
+          "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the five-run budget."
+        }
+      ],
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/material_review.rs",
+        "crates/cockpit-cli/tests/material_review.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-mcp/tests/material_review.rs",
+        "docs/reference/outcome-report.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/troubleshooting.zh-CN.md",
+        "crates/cockpit-protocol/src/task_authorization.rs",
+        "crates/cockpit-protocol/tests/task_authorization.rs",
+        "crates/cockpit-repository/src/task_authorization.rs",
+        "crates/cockpit-repository/src/action_admission.rs",
+        "crates/cockpit-repository/src/coordination_store.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-repository/tests/task_authorization.rs",
+        "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+        "crates/cockpit-repository/tests/coordination_store.rs",
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+        "crates/cockpit-repository/tests/contract_amendment.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "crates/cockpit-cli/tests/scope_amendment.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+        "docs/reference/contract-fields.md",
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.ja.md",
+        "docs/work-items/WI-1113-delivery-continuity-parallel-authorization.zh-CN.md",
+        "tests/ci/quality_route_test.py",
+        "tests/ci/resolve_work_item_test.sh",
+        ".github/workflows/ci.yml",
+        "tests/ci/run_hosted_runtime_verification.sh",
+        "tests/ci/hosted_runtime_verification_test.sh",
+        "tests/ci/workflow_convergence_test.sh",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-mcp/tests/usage.rs",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "sources": [
+        {
+          "path": ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json",
+          "reason": "Exact predecessor plan and scope being continued."
+        },
+        {
+          "path": ".ai/decisions/WI-1112-windows-archive-byte-preservation.recovery.json",
+          "reason": "Fixed native successor lineage and preserved predecessor disposition."
+        },
+        {
+          "path": "crates/cockpit-repository/src/material_review.rs",
+          "reason": "Current receipt validation and invalid-pointer admission path under review."
+        },
+        {
+          "path": "crates/cockpit-repository/src/task_authorization.rs",
+          "reason": "Current per-Work-Item action authority, expiry, and termination behavior."
+        },
+        {
+          "path": "crates/cockpit-repository/src/coordination_store.rs",
+          "reason": "Current repository-bound coordination and process-safe storage."
+        },
+        {
+          "path": "docs/reference/agent-workflow.md",
+          "reason": "Current task authorization and coordination semantics."
+        },
+        {
+          "path": ".github/workflows/ci.yml",
+          "reason": "Read-only existing trigger and gate-routing contract: pull_request accepts PRs to any base; push is filtered to main."
+        },
+        {
+          "path": "tests/ci/quality_route.py",
+          "reason": "Read-only route selection logic used to bind pull_request checks to the active Work Item Contract."
+        },
+        {
+          "path": "tests/ci/resolve_work_item.sh",
+          "reason": "Read-only resolver behavior for PR and merged-event Work Item selection."
+        }
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": "Delivery continuity and parallel scope-specific authorization",
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-agent --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-core --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-evidence --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-git --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-interface --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-isolation --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-knowledge --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-mcp --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-protocol --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-release --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-review-receipt --all-targets -- --test-threads=1",
+        "cargo test --locked -p cockpit-verification --all-targets -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "python3 tests/ci/quality_route_test.py",
+        "bash tests/ci/resolve_work_item_test.sh",
+        "cargo fmt --all -- --check",
+        "git diff --check"
+      ],
+      "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+    },
+    "newContractDigest": "sha256:a58166a1119f831b602629320d3bb44156a895bb80ff54c443c15bc2cd8f9884",
+    "previousSummaryDigest": "sha256:e02d53cc368f271449f259b4815ab4b87d0fe10498662b55266611357937f985",
+    "repositorySnapshotDigest": "sha256:8173343ce52ebde309f10e50f6053e2dfcb9562ca2a312a9b5342b16968141c0",
+    "environmentObservationDigest": "sha256:bd90d6142580b04fafc1182eeddd7989081f5d8e9c4331507e6e21741a91b7b0",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:cee0b3878deb914d33dc17e8e6fb5bdbf6949294a765b1b09ffab4b10258c7b2"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:11132f67eb4411a293af1000b5801defc46e5aeb756525a89ac727820b6bcb37",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-27T08:25:34Z"
+  },
+  "preparedDigest": "sha256:d591aad549c553ea173330e8f677b49db6289377dd77dbbf5a5d4cb6e5fa4912"
+}

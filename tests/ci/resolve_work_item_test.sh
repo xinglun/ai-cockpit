@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Keep fixture-triggered Git maintenance in this supervised process tree. The
+# maintenance work remains enabled; only detached execution is disabled for
+# each Git command in this regression and its resolver subprocesses.
+git() {
+  command git -c maintenance.autoDetach=false -c gc.autoDetach=false "$@"
+}
+export -f git
+
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 resolver="$root/tests/ci/resolve_work_item.sh"
 fixture=$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-work-item-resolution.XXXXXX")

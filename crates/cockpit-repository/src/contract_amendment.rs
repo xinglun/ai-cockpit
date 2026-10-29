@@ -88,6 +88,11 @@ pub struct ContractAmendmentReceipt {
     pub invalidated_evidence: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub delegated_review: Option<DelegatedDevelopmentReview>,
+    /// Append-only provenance for an explicitly amended material-review
+    /// profile. This preserves the prior exact request and receipt but does
+    /// not authorize review under the new profile.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub material_review_profile_transition: Option<Value>,
     pub policy_review_required: bool,
     pub policy_review_requirements: Vec<String>,
     pub previous_journal_digest: Digest,
@@ -120,6 +125,8 @@ struct PreparedAmendment {
     policy_review_requirements: Vec<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     delegated_review: Option<DelegatedDevelopmentReview>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    material_review_profile_transition: Option<Value>,
     legacy_input_digest: Option<Digest>,
     prepared_at: String,
 }
@@ -1216,8 +1223,67 @@ fn read_activation_transition(
             "unresolved activation transition transaction",
         ));
     }
-    let prepared: PreparedActivationTransition = read_typed_record(&prepared_path)?;
-    let committed: ContinuityCommit = read_typed_record(&committed_path)?;
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| state_error(&directory, error.to_string()))?;
+    let topology = git
+        .topology()
+        .map_err(|error| state_error(&directory, error.to_string()))?;
+    let head = topology
+        .head
+        .ok_or_else(|| state_error(&directory, "activation history requires a committed HEAD"))?;
+    let local_owner = topology
+        .branch
+        .as_ref()
+        .map(|branch| ActivationOwnerBinding {
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            common_directory_id: Digest::sha256_bytes(
+                topology.common_dir.to_string_lossy().as_bytes(),
+            ),
+            branch: branch.clone(),
+        });
+    let prepared_current_bytes =
+        fs::read(&prepared_path).map_err(|source| ObserverError::Read {
+            path: prepared_path.clone(),
+            source,
+        })?;
+    let committed_current_bytes =
+        fs::read(&committed_path).map_err(|source| ObserverError::Read {
+            path: committed_path.clone(),
+            source,
+        })?;
+    let candidate: PreparedActivationTransition =
+        serde_json::from_slice(&prepared_current_bytes)
+            .map_err(|error| state_error(&prepared_path, error.to_string()))?;
+    let local_owner_matches = local_owner.as_ref() == Some(&candidate.record.owner);
+    let prepared_anchor = activation_path_history_anchor(
+        &git,
+        &head,
+        &prepared_path,
+        &format!(".ai/evidence/{id}.activation-transition/prepared.json"),
+        &prepared_current_bytes,
+    )?;
+    let committed_anchor = activation_path_history_anchor(
+        &git,
+        &head,
+        &committed_path,
+        &format!(".ai/evidence/{id}.activation-transition/committed.json"),
+        &committed_current_bytes,
+    )?;
+    let both_committed = prepared_anchor == ActivationPathHistoryAnchor::Committed
+        && committed_anchor == ActivationPathHistoryAnchor::Committed;
+    let pending_for_exact_owner = local_owner_matches
+        && prepared_anchor == ActivationPathHistoryAnchor::NotIntroduced
+        && committed_anchor == ActivationPathHistoryAnchor::NotIntroduced;
+    if !both_committed && !pending_for_exact_owner {
+        return Err(state_error(
+            directory,
+            "activation transaction has no committed introduction for this checkout unless both records are still new to their exact owner",
+        ));
+    }
+    let prepared: PreparedActivationTransition = serde_json::from_slice(&prepared_current_bytes)
+        .map_err(|error| state_error(&prepared_path, error.to_string()))?;
+    let committed: ContinuityCommit = serde_json::from_slice(&committed_current_bytes)
+        .map_err(|error| state_error(&committed_path, error.to_string()))?;
     let record = &prepared.record;
     let expected_start = json!({
         "eventType":"work_item_started", "occurredAt":record.recorded_at,
@@ -1233,7 +1299,6 @@ fn read_activation_transition(
         || record.capability != ACTIVATION_CONTINUITY_CAPABILITY
         || record.repository_id != super::repository_id(root).to_string()
         || record.work_item_id != id
-        || record.owner != observed_activation_owner(root)?
         || record.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
         || record.runtime.runtime_version.trim().is_empty()
         || !super::valid_git_object_id(&record.observed_head)
@@ -1271,6 +1336,37 @@ fn read_activation_transition(
         ));
     }
     Ok(Some(prepared))
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ActivationPathHistoryAnchor {
+    Committed,
+    NotIntroduced,
+}
+
+fn activation_path_history_anchor(
+    git: &cockpit_git::GitRepository,
+    head: &str,
+    path: &Path,
+    literal_repo_path: &str,
+    current_bytes: &[u8],
+) -> Result<ActivationPathHistoryAnchor, ObserverError> {
+    match git.first_path_introduction_bounded(head, literal_repo_path) {
+        Ok(introduction) if introduction.bytes == current_bytes => {
+            Ok(ActivationPathHistoryAnchor::Committed)
+        }
+        Ok(_) => Err(state_error(
+            path,
+            "activation record bytes differ from their first committed introduction",
+        )),
+        Err(cockpit_git::GitError::PathNotIntroduced(_)) => {
+            Ok(ActivationPathHistoryAnchor::NotIntroduced)
+        }
+        Err(error) => Err(state_error(
+            path,
+            format!("cannot prove committed activation history: {error}"),
+        )),
+    }
 }
 
 pub(crate) fn validate_transition_chain(
@@ -2272,6 +2368,8 @@ fn load_history_with_predecessor(
                 != (!prepared.prepared.policy_review_requirements.is_empty()
                     && prepared.prepared.delegated_review.is_none())
             || receipt.delegated_review != prepared.prepared.delegated_review
+            || receipt.material_review_profile_transition
+                != prepared.prepared.material_review_profile_transition
             || receipt.policy_review_requirements != prepared.prepared.policy_review_requirements
             || receipt.previous_journal_digest != previous_digest
             || journal_digest(&receipt)? != receipt.journal_digest
@@ -2336,6 +2434,44 @@ pub(crate) fn validated_amendment_predecessor(
         contract,
         digest: predecessor.clone(),
     }))
+}
+
+/// Prove that one historical Contract digest reaches the current Contract
+/// through the append-only amendment journal and any committed native
+/// activation continuity edge. Unlike verification predecessor recovery,
+/// material-review receipt continuity does not require a checkpointed
+/// verification for the historical Contract.
+pub(crate) fn validated_contract_transition_chain_reaches(
+    root: &Path,
+    work_item_id: &str,
+    predecessor: &Digest,
+    current: &Digest,
+) -> Result<bool, ObserverError> {
+    if predecessor == current {
+        return Ok(true);
+    }
+    let (history, pending, candidate) =
+        load_history_with_predecessor(root, work_item_id, false, Some(predecessor))?;
+    if pending.is_some()
+        || history
+            .last()
+            .is_none_or(|tail| tail.new_contract_digest != *current)
+    {
+        return Ok(false);
+    }
+    validate_transition_chain(root, work_item_id, &history, Some(current))?;
+    let Some(candidate) = candidate else {
+        return Ok(false);
+    };
+    if record_digest(&candidate.contract, root)? != *predecessor {
+        return Ok(false);
+    }
+    let contract: Contract = serde_json::from_value(candidate.contract)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    Ok(
+        contract.repository_id == super::repository_id(root).to_string()
+            && contract.work_item_id == work_item_id,
+    )
 }
 
 fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {
@@ -2629,8 +2765,18 @@ fn prepare_transaction(
         previous_summary,
         &repository_snapshot_digest,
     )?;
+    let material_review_profile_transition = super::material_review::prepare_profile_transition(
+        root,
+        work_item_id,
+        &previous_contract,
+        &previous_contract_digest,
+        &new_contract,
+        &new_contract_digest,
+        previous_summary,
+    )?;
     let prepared = PreparedAmendment {
         delegated_review,
+        material_review_profile_transition,
         schema_version: 1,
         repository_id: super::repository_id(root).to_string(),
         work_item_id: work_item_id.into(),
@@ -2729,6 +2875,7 @@ fn commit_prepared(
         invalidated_required_checks,
         invalidated_evidence,
         delegated_review: data.delegated_review.clone(),
+        material_review_profile_transition: data.material_review_profile_transition.clone(),
         policy_review_required: !data.policy_review_requirements.is_empty()
             && data.delegated_review.is_none(),
         policy_review_requirements: data.policy_review_requirements.clone(),
@@ -3389,8 +3536,10 @@ pub(crate) fn delegated_review_is_current(
 mod tests {
     use super::{AmendmentFailpoint, set_amendment_failpoint};
     use crate::{
-        ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, attach,
-        checkpoint_work_item, preflight_work_item, read_work_item_contract_amendments,
+        ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract,
+        amend_work_item_contract_with_runtime, attach, checkpoint_work_item,
+        plan_work_item_material_review, preflight_work_item, preflight_work_item_with_runtime,
+        read_work_item_contract_amendments, record_work_item_material_review,
         start_work_item_with_options,
     };
     use serde_json::{Value, json};
@@ -3408,8 +3557,207 @@ mod tests {
                 .expect("git init")
                 .success()
         );
+        git(
+            directory.path(),
+            &["config", "--local", "core.autocrlf", "false"],
+        );
         attach(directory.path()).expect("attach repository");
         directory
+    }
+
+    fn git(root: &Path, args: &[&str]) -> String {
+        let output = std::process::Command::new("git")
+            .args(["-C"])
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("run fixture git command");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout).expect("fixture git output is UTF-8")
+    }
+
+    fn portable_activation_transition_fixture() -> (tempfile::TempDir, String) {
+        let directory = repository();
+        let root = directory.path();
+        git(root, &["config", "user.name", "AI Cockpit Fixture"]);
+        git(root, &["config", "user.email", "fixture@example.invalid"]);
+        fs::write(root.join(".gitattributes"), b"/.ai/** -text\n")
+            .expect("preserve native evidence bytes in cloned fixture repositories");
+        fs::write(root.join("README.md"), "portable activation fixture\n").expect("fixture README");
+        git(root, &["add", "--all"]);
+        git(root, &["commit", "--quiet", "--allow-empty", "-m", "base"]);
+        git(root, &["branch", "-M", "main"]);
+        let base = git(root, &["rev-parse", "HEAD"]).trim().to_owned();
+        git(
+            root,
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://example.invalid/activation-fixture.git",
+            ],
+        );
+        git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+        git(
+            root,
+            &[
+                "symbolic-ref",
+                "refs/remotes/origin/HEAD",
+                "refs/remotes/origin/main",
+            ],
+        );
+        git(root, &["checkout", "-qb", "activation-fixture"]);
+
+        let id = "WI-PORTABLE-ACTIVATION".to_owned();
+        crate::scaffold_work_item(root, &id, "implementation").expect("create not_ready scaffold");
+        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+        let initial_contract = read_json(&contract_path);
+        crate::amend_work_item_contract(
+            root,
+            &id,
+            &json!({
+                "schemaVersion":1,
+                "changeId":"declare-before-portable-activation",
+                "expectedContractDigest":cockpit_protocol::digest_json(&initial_contract).unwrap(),
+                "reason":"isolated historical transition fixture",
+                "changes":[
+                    {"path":"/intent","operation":"set","value":"Bound native activation"},
+                    {"path":"/goal","operation":"set","value":"Preserve exact activation evidence"},
+                    {"path":"/scope","operation":"replace","value":["README.md"]},
+                    {"path":"/risk","operation":"set","value":"normal"},
+                    {"path":"/authority","operation":"set","value":"authorized"},
+                    {"path":"/acceptanceCriteria","operation":"replace","value":["only a committed transition is evidence"]},
+                    {"path":"/verification","operation":"replace","value":["git diff --check"]}
+                ]
+            }),
+            "",
+        )
+        .expect("record pre-activation Contract amendment");
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"portable activation fixture"),
+        };
+        crate::start_work_item_with_options_and_runtime(
+            root,
+            &id,
+            "Bound native activation",
+            "Preserve exact activation evidence",
+            &["README.md".into()],
+            &crate::WorkItemStartOptions {
+                risk: "normal".into(),
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["only a committed transition is evidence".into()],
+                verification_commands: vec!["git diff --check".into()],
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .expect("perform native activation");
+        git(root, &["add", "--all"]);
+        git(
+            root,
+            &["commit", "--quiet", "-m", "commit activation evidence"],
+        );
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read committed amendment history");
+        super::validate_transition_chain(root, &id, &history, None)
+            .expect("source checkout validates its own activation");
+        (directory, id)
+    }
+
+    #[test]
+    fn activation_owner_can_read_its_uncommitted_start_transaction() {
+        let (source, id) = portable_activation_transition_fixture();
+        let root = source.path();
+        git(root, &["reset", "--mixed", "HEAD^"]);
+
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read the committed amendment history");
+        super::validate_transition_chain(root, &id, &history, None)
+            .expect("the recorded local owner can read its pending native start transaction");
+    }
+
+    #[test]
+    fn foreign_checkout_cannot_read_an_uncommitted_activation_transaction() {
+        let (source, id) = portable_activation_transition_fixture();
+        let source_root = source.path();
+        git(source_root, &["reset", "--mixed", "HEAD^"]);
+
+        let clone_temp = tempfile::tempdir().expect("clone parent");
+        let clone_root = clone_temp.path().join("checkout");
+        git(
+            source_root,
+            &[
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                source_root.to_str().expect("source path"),
+                clone_root.to_str().expect("clone path"),
+            ],
+        );
+        let source_activation =
+            source_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let clone_activation = clone_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        fs::create_dir_all(&clone_activation).expect("create isolated activation directory");
+        for file_name in ["prepared.json", "committed.json"] {
+            fs::copy(
+                source_activation.join(file_name),
+                clone_activation.join(file_name),
+            )
+            .expect("copy the uncommitted activation bytes");
+        }
+
+        let history = crate::read_work_item_contract_amendments(&clone_root, &id)
+            .expect("read the clone's committed amendment history");
+        let error = super::validate_transition_chain(&clone_root, &id, &history, None)
+            .expect_err("a foreign checkout must not accept another owner's uncommitted record");
+        assert!(
+            error.to_string().contains("no committed introduction"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn local_owner_must_match_the_first_committed_activation_bytes() {
+        let (source, id) = portable_activation_transition_fixture();
+        let root = source.path();
+        let directory = root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let prepared_path = directory.join("prepared.json");
+        let committed_path = directory.join("committed.json");
+        let mut prepared = read_json(&prepared_path);
+        prepared["record"]["runtime"]["runtimeVersion"] = json!("resealed altered runtime");
+        let prepared_digest = super::record_digest(&prepared["record"], &prepared_path)
+            .expect("digest altered record");
+        prepared["recordDigest"] = serde_json::to_value(&prepared_digest).unwrap();
+        let mut committed = read_json(&committed_path);
+        committed["preparedDigest"] = serde_json::to_value(prepared_digest).unwrap();
+        fs::write(
+            &prepared_path,
+            serde_json::to_vec(&prepared).expect("serialize altered prepared record"),
+        )
+        .expect("write resealed prepared record");
+        fs::write(
+            &committed_path,
+            serde_json::to_vec(&committed).expect("serialize altered commit record"),
+        )
+        .expect("write resealed commit record");
+
+        let history = crate::read_work_item_contract_amendments(root, &id)
+            .expect("read committed amendment history");
+        let error = super::validate_transition_chain(root, &id, &history, None).expect_err(
+            "the local owner cannot rewrite records after their committed introduction",
+        );
+        assert!(
+            error
+                .to_string()
+                .contains("bytes differ from their first committed introduction"),
+            "{error}"
+        );
     }
 
     fn start_checkpointed(root: &Path, work_item_id: &str) -> PathBuf {
@@ -3436,6 +3784,293 @@ mod tests {
 
     fn read_json(path: impl AsRef<Path>) -> Value {
         serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+    }
+
+    #[test]
+    fn committed_activation_transition_is_readable_from_a_detached_clone_but_not_written_there() {
+        let (source, id) = portable_activation_transition_fixture();
+        let source_root = source.path();
+        let clone_temp = tempfile::tempdir().expect("clone parent");
+        let clone_root = clone_temp.path().join("checkout");
+        git(
+            source_root,
+            &[
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                source_root.to_str().expect("source path"),
+                clone_root.to_str().expect("clone path"),
+            ],
+        );
+        git(&clone_root, &["checkout", "--detach", "--quiet", "HEAD"]);
+
+        let history = crate::read_work_item_contract_amendments(&clone_root, &id)
+            .expect("read the clone's committed amendment history");
+        super::validate_transition_chain(&clone_root, &id, &history, None)
+            .expect("committed historical owner should be readable from another detached checkout");
+
+        let directory = clone_root.join(format!(".ai/evidence/{id}.activation-transition"));
+        let prepared_path = directory.join("prepared.json");
+        let committed_path = directory.join("committed.json");
+        let prepared: super::PreparedActivationTransition =
+            super::read_typed_record(&prepared_path).expect("read exact prepared record");
+        let committed_before = fs::read(&committed_path).expect("committed bytes");
+        let error = super::commit_activation_transition(&clone_root, &id, &prepared)
+            .expect_err("a clone may read history but cannot write as the recorded owner");
+        assert!(
+            error
+                .to_string()
+                .contains("activation owner requires a named branch"),
+            "{error}"
+        );
+        assert_eq!(fs::read(&committed_path).unwrap(), committed_before);
+
+        let original_prepared = fs::read(&prepared_path).unwrap();
+        let original_committed = fs::read(&committed_path).unwrap();
+        for field in ["owner", "repository", "work_item"] {
+            let mut altered = read_json(&prepared_path);
+            match field {
+                "owner" => {
+                    altered["record"]["owner"]["worktreePath"] = json!("/spoofed/checkout");
+                }
+                "repository" => altered["record"]["repositoryId"] = json!("sha256:foreign"),
+                "work_item" => altered["record"]["workItemId"] = json!("WI-FOREIGN"),
+                _ => unreachable!(),
+            }
+            let altered_digest = super::record_digest(&altered["record"], &prepared_path)
+                .expect("reseal altered prepared record");
+            altered["recordDigest"] = serde_json::to_value(&altered_digest).unwrap();
+            let mut altered_commit = read_json(&committed_path);
+            altered_commit["preparedDigest"] = serde_json::to_value(altered_digest).unwrap();
+            fs::write(&prepared_path, serde_json::to_vec(&altered).unwrap())
+                .expect("write isolated tampered prepared fixture");
+            fs::write(
+                &committed_path,
+                serde_json::to_vec(&altered_commit).unwrap(),
+            )
+            .expect("write internally consistent isolated commit fixture");
+            let error = super::validate_transition_chain(&clone_root, &id, &history, None)
+                .expect_err("re-sealed foreign bindings must not replace committed blobs");
+            assert!(
+                error
+                    .to_string()
+                    .contains("bytes differ from their first committed introduction"),
+                "field={field}: {error}"
+            );
+            fs::write(&prepared_path, &original_prepared).expect("restore exact prepared bytes");
+            fs::write(&committed_path, &original_committed).expect("restore exact committed bytes");
+        }
+    }
+
+    fn material_profile_amendment_fixture(
+        work_item_id: &str,
+    ) -> (
+        tempfile::TempDir,
+        cockpit_protocol::RuntimeContext,
+        PathBuf,
+        PathBuf,
+        PathBuf,
+        Vec<u8>,
+        Value,
+        Value,
+    ) {
+        let directory = tempfile::tempdir().expect("repository tempdir");
+        let root = directory.path();
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(root)
+                .status()
+                .expect("git init")
+                .success()
+        );
+        git(root, &["config", "--local", "core.autocrlf", "false"]);
+        fs::write(root.join("README.md"), "baseline\n").expect("README");
+        assert!(
+            Command::new("git")
+                .args(["add", "README.md"])
+                .current_dir(root)
+                .status()
+                .expect("git add baseline")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.invalid",
+                    "commit",
+                    "-qm",
+                    "baseline",
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit baseline")
+                .success()
+        );
+        let base_revision = Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(root)
+            .output()
+            .expect("read baseline revision");
+        assert!(base_revision.status.success());
+        let base_revision = String::from_utf8(base_revision.stdout)
+            .expect("UTF-8 baseline revision")
+            .trim()
+            .to_owned();
+        attach(root).expect("attach repository");
+        fs::create_dir_all(root.join("src")).expect("source directory");
+        fs::write(
+            root.join("src/material.rs"),
+            "fn material() -> String { let mut x = String::from(\"token\"); x.push_str(\"ization\"); x }\n",
+        )
+        .expect("committed reviewable Rust material");
+        assert!(
+            Command::new("git")
+                .args(["add", "README.md", "src/material.rs"])
+                .current_dir(root)
+                .status()
+                .expect("git add fixture source")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.invalid",
+                    "commit",
+                    "-qm",
+                    "material review fixture",
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit source")
+                .success()
+        );
+
+        let mut contract: cockpit_protocol::Contract = serde_json::from_value(json!({
+            "protocolVersion": 1,
+            "repositoryId": crate::repository_id(root).to_string(),
+            "workItemId": work_item_id,
+            "intent": "review bounded committed material",
+            "goal": "retain exact material evidence across an interrupted profile amendment",
+            "scope": ["README.md", "src/material.rs"],
+            "outOfScope": [],
+            "risk": "high",
+            "authority": "authorized",
+            "acceptanceCriteria": ["preserve an exact profile transition during retry"],
+            "requiredEvidenceClasses": [],
+            "baseRevision": base_revision,
+            "projectProfileDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "repositorySnapshotDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }))
+        .expect("fixture Contract");
+        let project: Value = read_json(root.join(".ai/project.json"));
+        contract.project_profile_digest = project["profileDigest"]
+            .as_str()
+            .expect("project profile digest")
+            .parse()
+            .expect("typed project profile digest");
+        contract.governance_profile = Some(json!({
+            "materialInspectionReview": {
+                "schemaVersion": 1,
+                "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown",
+                "assurance": "self_declared",
+                "reviewerActor": "agent:fixture",
+                "authoritySource": "user:synthetic profile transition fixture",
+                "acceptResidualRisk": true
+            }
+        }));
+        contract.required_runtime_capabilities =
+            vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.into()];
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
+        persisted_contract["predecessorWorkItemId"] = Value::Null;
+        persisted_contract["predecessorContractDigest"] = Value::Null;
+        persisted_contract["recoveryDecisionPath"] = Value::Null;
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
+        )
+        .expect("write active fixture Contract");
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&json!({
+                "workItemId": work_item_id,
+                "state": "implementation_active",
+                "checkpointCount": 0,
+                "createdAt": "2026-10-07T00:00:00Z"
+            }))
+            .expect("Summary JSON"),
+        )
+        .expect("write active fixture Summary");
+
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(
+                b"profile-transition-amendment-failpoint",
+            ),
+        };
+        preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight current material profile");
+        let request = plan_work_item_material_review(root, work_item_id)
+            .expect("plan current reviewable syntax Unknown");
+        let input: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+            serde_json::from_value(json!({
+                "schemaVersion": 1,
+                "decision": "accept_permitted_unknowns",
+                "requestDigest": request.request_digest,
+                "reviewerActor": "agent:fixture",
+                "authoritySource": "user:synthetic profile transition fixture",
+                "assurance": "self_declared",
+                "evidenceRefs": [{
+                    "path": "docs/review-evidence.md",
+                    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+                }],
+                "rationale": "Review only this isolated syntax Unknown.",
+                "residualRisk": "The isolated scanner does not parse this Rust syntax."
+            }))
+            .expect("typed self-declared material review input");
+        record_work_item_material_review(root, work_item_id, &input, &runtime)
+            .expect("write the exact prior test receipt");
+        let summary = read_json(&summary_path);
+        let pointer = summary["materialReviewReceipt"].clone();
+        let old_sidecar_path = root.join(pointer["path"].as_str().expect("sidecar path"));
+        let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old receipt sidecar");
+        let old_contract_digest =
+            cockpit_protocol::digest_json(&read_json(&contract_path)).expect("Contract digest");
+        let request = json!({
+            "schemaVersion": 1,
+            "changeId": format!("{work_item_id}-profile-transition-retry"),
+            "expectedContractDigest": old_contract_digest,
+            "reason": "preserve exact prior material review through a typed profile change",
+            "changes": [{
+                "path": "/governanceProfile/materialInspectionReview/reviewerActor",
+                "operation": "replace",
+                "value": "agent:fixture-updated"
+            }]
+        });
+        (
+            directory,
+            runtime,
+            contract_path,
+            summary_path,
+            old_sidecar_path,
+            old_sidecar_bytes,
+            pointer,
+            request,
+        )
     }
 
     #[test]
@@ -3851,5 +4486,191 @@ mod tests {
                 "exactly one prepared and one committed record for {suffix}"
             );
         }
+    }
+
+    #[test]
+    fn profile_transition_retries_exactly_once_after_durable_interruptions() {
+        for (suffix, failpoint, contract_replaced, commit_written) in [
+            ("PREPARED", AmendmentFailpoint::Prepared, false, false),
+            (
+                "CONTRACT_REPLACED",
+                AmendmentFailpoint::ContractReplaced,
+                true,
+                false,
+            ),
+            (
+                "COMMIT_MARKED",
+                AmendmentFailpoint::CommitMarked,
+                true,
+                true,
+            ),
+        ] {
+            let work_item_id = format!("WI-PROFILE-TRANSITION-{suffix}");
+            let (
+                directory,
+                runtime,
+                contract_path,
+                summary_path,
+                old_sidecar_path,
+                old_sidecar_bytes,
+                old_pointer,
+                request,
+            ) = material_profile_amendment_fixture(&work_item_id);
+            let root = directory.path();
+            let summary_before = fs::read(&summary_path).expect("Summary before interruption");
+            let prepared_path = super::amendment_record_path(root, &work_item_id, 1, "prepared");
+            let committed_path = super::amendment_record_path(root, &work_item_id, 1, "committed");
+
+            set_amendment_failpoint(failpoint);
+            let error =
+                amend_work_item_contract_with_runtime(root, &work_item_id, &request, "", &runtime)
+                    .expect_err("failpoint interrupts the exact typed profile transition");
+            assert!(
+                error.to_string().contains("injected interruption"),
+                "{error}"
+            );
+            assert!(prepared_path.is_file(), "prepared record survives {suffix}");
+            let prepared_before_retry: Value = read_json(&prepared_path);
+            let transition_before_retry =
+                prepared_before_retry["prepared"]["materialReviewProfileTransition"].clone();
+            assert!(
+                !transition_before_retry.is_null(),
+                "prepared transition survives interruption {suffix}"
+            );
+            assert_eq!(
+                committed_path.is_file(),
+                commit_written,
+                "commit boundary {suffix}"
+            );
+            let contract = read_json(&contract_path);
+            assert_eq!(
+                contract["governanceProfile"]["materialInspectionReview"]["reviewerActor"],
+                if contract_replaced {
+                    "agent:fixture-updated"
+                } else {
+                    "agent:fixture"
+                },
+                "Contract state at interruption {suffix}"
+            );
+            if commit_written {
+                assert_eq!(
+                    read_work_item_contract_amendments(root, &work_item_id)
+                        .expect("commit-marked journal is complete")
+                        .len(),
+                    1
+                );
+            } else {
+                assert!(
+                    read_work_item_contract_amendments(root, &work_item_id)
+                        .expect_err("uncommitted transition remains unreadable")
+                        .to_string()
+                        .contains("unresolved Contract amendment transaction")
+                );
+            }
+
+            amend_work_item_contract_with_runtime(root, &work_item_id, &request, "", &runtime)
+                .expect("retry resumes the same prepared transition");
+            let history = read_work_item_contract_amendments(root, &work_item_id)
+                .expect("recovered profile transition history");
+            assert_eq!(history.len(), 1, "retry adds no duplicate for {suffix}");
+            assert_eq!(history[0].sequence, 1);
+            assert_eq!(
+                history[0].change_id,
+                request["changeId"].as_str().expect("changeId")
+            );
+            assert_eq!(
+                history[0].material_review_profile_transition.as_ref(),
+                Some(&transition_before_retry),
+                "retry preserves the exact prepared transition payload {suffix}"
+            );
+            assert_eq!(
+                fs::read(&old_sidecar_path).expect("old immutable receipt"),
+                old_sidecar_bytes,
+                "recovery never changes old receipt bytes {suffix}"
+            );
+            assert_eq!(
+                fs::read(&summary_path).expect("Summary after retry"),
+                summary_before,
+                "uncheckpointed profile transition does not fabricate a receipt projection {suffix}"
+            );
+            let summary: Value = read_json(&summary_path);
+            assert_eq!(summary["materialReviewReceipt"], old_pointer, "{suffix}");
+        }
+    }
+
+    #[test]
+    fn committed_profile_transition_must_match_rehashed_prepared_payload() {
+        let work_item_id = "WI-PROFILE-TRANSITION-PAYLOAD-MISMATCH";
+        let (
+            directory,
+            runtime,
+            _contract_path,
+            summary_path,
+            old_sidecar_path,
+            old_sidecar_bytes,
+            old_pointer,
+            request,
+        ) = material_profile_amendment_fixture(work_item_id);
+        let root = directory.path();
+        amend_work_item_contract_with_runtime(root, work_item_id, &request, "", &runtime)
+            .expect("write a valid typed profile transition");
+
+        let prepared_path = super::amendment_record_path(root, work_item_id, 1, "prepared");
+        let committed_path = super::amendment_record_path(root, work_item_id, 1, "committed");
+        let mut prepared: super::PreparedRecord =
+            super::read_typed_record(&prepared_path).expect("prepared journal");
+        let transition = prepared
+            .prepared
+            .material_review_profile_transition
+            .as_mut()
+            .expect("prepared transition");
+        transition["nextRequest"]["requestDigest"] =
+            json!(cockpit_core::Digest::sha256_bytes(b"detached next request").to_string());
+        let mut transition_core = transition.clone();
+        transition_core
+            .as_object_mut()
+            .expect("transition object")
+            .remove("transitionDigest");
+        let transition_digest = cockpit_protocol::digest_json(&(
+            "ai-cockpit:material-review-profile-transition:v1",
+            transition_core,
+        ))
+        .expect("rehash transition payload");
+        transition["transitionDigest"] = json!(transition_digest.to_string());
+
+        prepared.prepared_digest =
+            super::record_digest(&prepared.prepared, &prepared_path).expect("prepared digest");
+        let prepared_digest = prepared.prepared_digest.clone();
+        fs::write(
+            &prepared_path,
+            serde_json::to_vec_pretty(&prepared).expect("prepared JSON"),
+        )
+        .expect("write rehashed prepared payload");
+        let mut committed: super::CommittedRecord =
+            super::read_typed_record(&committed_path).expect("committed journal");
+        committed.prepared_digest = prepared_digest;
+        fs::write(
+            &committed_path,
+            serde_json::to_vec_pretty(&committed).expect("committed JSON"),
+        )
+        .expect("bind commit to rehashed prepared payload");
+
+        let error = read_work_item_contract_amendments(root, work_item_id)
+            .expect_err("divergent prepared and committed transition payloads fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("committed record is detached from its prepared amendment"),
+            "unexpected mismatch rejection: {error}"
+        );
+        assert_eq!(
+            fs::read(&old_sidecar_path).expect("old immutable receipt"),
+            old_sidecar_bytes
+        );
+        assert_eq!(
+            read_json(&summary_path)["materialReviewReceipt"],
+            old_pointer,
+            "failed transition validation leaves the existing pointer unchanged"
+        );
     }
 }

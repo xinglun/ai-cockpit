@@ -68,8 +68,19 @@ stateDiagram-v2
     archived --> closed: human decision
     implementation_active --> implementation_active: red/missing preflight (stop)
     checkpointed --> checkpointed: failed verification (repair and retry)
-    finish_ready --> implementation_active: stale or failed evidence
+    finish_ready --> checkpointed: identity-bound retry after source change
+    finish_ready --> checkpointed: Contract amendment requires admitted revalidation
 ```
+
+When a source change makes a `finish_ready` snapshot stale, the Runtime rejects
+an implicit report refresh. If the Work Item still owns the change, an admitted
+identity-bound retry returns it to `checkpointed`; then run a fresh preflight,
+verification, and explicit finish. Keep the existing successor route when the
+Runtime denies retry or an authorized successor already owns the work.
+Contract amendment follows the existing checkpoint admission rules. A typed
+amendment is rejected once `before_finish` evidence exists; use a recovery Work
+Item for that case. Before the finish checkpoint, the normal checkpoint and
+finish admission rules still apply. An amendment does not bypass those gates.
 
 ```text
 Human / Agent / CI

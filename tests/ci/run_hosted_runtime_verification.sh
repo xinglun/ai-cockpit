@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-if [[ $# -ne 4 ]]; then
-  printf 'usage: %s <runtime-bin> <repository> <contract> <artifact-dir>\n' "$0" >&2
+if [[ $# -ne 4 && $# -ne 6 ]] || { [[ $# -eq 6 ]] && [[ $5 != --task-caller ]]; }; then
+  printf 'usage: %s <runtime-bin> <repository> <contract> <artifact-dir> [--task-caller <file>]\n' "$0" >&2
   exit 2
 fi
 
@@ -10,12 +10,17 @@ runtime_bin=$1
 repository=$2
 contract=$3
 artifact_dir=$4
+task_caller_file=""
+if [[ $# -eq 6 ]]; then task_caller_file=$6; fi
 repository=$(cd "$repository" && pwd -P) || exit 2
 source_repository=$repository
 execution_repository=$source_repository
 if [[ "$runtime_bin" != /* ]]; then runtime_bin="$source_repository/$runtime_bin"; fi
 if [[ "$contract" != /* ]]; then contract="$source_repository/$contract"; fi
 if [[ "$artifact_dir" != /* ]]; then artifact_dir="$source_repository/$artifact_dir"; fi
+if [[ -n "$task_caller_file" && "$task_caller_file" != /* ]]; then
+  task_caller_file="$source_repository/$task_caller_file"
+fi
 contract_directory=$(cd "$(dirname "$contract")" && pwd -P) || exit 2
 contract="$contract_directory/$(basename "$contract")"
 if [[ ! -x "$runtime_bin" ]]; then
@@ -51,6 +56,8 @@ cleanup_output="$artifact_dir/hosted-runtime-worktree-cleanup.json"
 worktree_parent=""
 worktree_path=""
 execution_isolation_state=not_needed_fresh_receipt
+execution_source_head=""
+execution_cargo_context=null
 
 work_item_id=$(jq -er '.workItemId | strings | select(length > 0)' "$contract") || {
   printf 'Contract does not declare a Work Item ID\n' >&2
@@ -71,6 +78,73 @@ verification_state=not_started
 failure_reason=""
 initial_actions='[]'
 refreshed_actions='[]'
+execution_output_seal=null
+
+capture_cargo_reuse_context() {
+  python3 - "$execution_repository" "$source_repository/tests/ci/run_process_observer_test_runner.sh" <<'PY_CARGO_CONTEXT'
+import hashlib
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+def cargo_reuse_context(repository, required_runner, host_target=None):
+    # Prove only the default/no-config case. Cargo's merging, includes,
+    # relative paths and custom targets are deliberately not reimplemented.
+    try:
+        repository = Path(repository).resolve(strict=True)
+        required_runner = Path(required_runner).absolute()
+        if host_target is None:
+            info = subprocess.run([os.environ.get("RUSTC", "rustc"), "-vV"],
+                                  cwd=repository, capture_output=True, text=True, timeout=30)
+            if info.returncode != 0:
+                return None
+            hosts = [line[6:] for line in info.stdout.splitlines() if line.startswith("host: ")]
+            if len(hosts) != 1:
+                return None
+            host_target = hosts[0]
+        if not re.fullmatch(r"[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)+", host_target):
+            return None
+        if os.environ.get("CARGO_BUILD_TARGET", "") not in ("", host_target):
+            return None
+        home = Path(os.environ.get("CARGO_HOME") or (Path.home() / ".cargo"))
+        if not home.is_absolute():
+            home = repository / home
+        candidates = [directory / ".cargo" / name
+                      for directory in (repository, *repository.parents)
+                      for name in ("config", "config.toml")]
+        candidates.extend(home / name for name in ("config", "config.toml"))
+        for path in candidates:
+            try:
+                path.lstat()
+            except FileNotFoundError:
+                continue
+            return None  # Any config, including dangling links, needs fresh execution.
+        runner_key = "CARGO_TARGET_" + host_target.upper().replace("-", "_") + "_RUNNER"
+        if os.environ.get(runner_key) != str(required_runner):
+            return None
+        if required_runner.resolve(strict=True) != required_runner:
+            return None
+        descriptor = os.open(required_runner, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+        with os.fdopen(descriptor, "rb") as stream:
+            mode = os.fstat(stream.fileno()).st_mode
+            if not stat.S_ISREG(mode) or not mode & 0o111:
+                return None
+            raw = stream.read(1024 * 1024 + 1)
+        if len(raw) > 1024 * 1024:
+            return None
+        return {"hostTarget": host_target, "configuration": "absent",
+                "runnerPath": str(required_runner),
+                "runnerDigest": "sha256:" + hashlib.sha256(raw).hexdigest()}
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        return None
+
+print(json.dumps(cargo_reuse_context(Path(sys.argv[1]), sys.argv[2]), sort_keys=True))
+PY_CARGO_CONTEXT
+}
 
 write_orchestration_report() {
   local formal_receipt_digest=""
@@ -94,7 +168,8 @@ PY
     --arg failureReason "$failure_reason" \
     --argjson initialActions "$initial_actions" \
     --argjson refreshedActions "$refreshed_actions" \
-    '{schemaVersion:1,workItemId:$workItemId,runtimeDigest:$runtimeDigest,executionRepository:$executionRepository,formalReceiptDigest:(if $formalReceiptDigest == "" then null else $formalReceiptDigest end),initialActions:$initialActions,refreshedActions:$refreshedActions,preflightState:$preflightState,verificationState:$verificationState,failureReason:(if $failureReason == "" then null else $failureReason end)}' \
+    --argjson executionOutput "$execution_output_seal" \
+    '{schemaVersion:1,workItemId:$workItemId,runtimeDigest:$runtimeDigest,executionRepository:$executionRepository,formalReceiptDigest:(if $formalReceiptDigest == "" then null else $formalReceiptDigest end),initialActions:$initialActions,refreshedActions:$refreshedActions,preflightState:$preflightState,verificationState:$verificationState,failureReason:(if $failureReason == "" then null else $failureReason end),executionOutput:$executionOutput}' \
     >"$orchestration_output"
 }
 
@@ -104,6 +179,24 @@ if [[ ! "$work_item_id" =~ ^[A-Za-z0-9_-]+$ ]]; then
   write_orchestration_report
   printf 'Work Item ID is unsafe for the canonical evidence path\n' >&2
   exit 1
+fi
+
+task_caller_args=()
+if [[ -n "$task_caller_file" ]]; then
+  if [[ ! -f "$task_caller_file" || -L "$task_caller_file" || ! -r "$task_caller_file" ]] \
+    || ! jq -e 'type == "object"
+      and (keys == ["actor", "assurance", "authoritySource", "schemaVersion"])
+      and .schemaVersion == 1
+      and (.actor | type == "string" and length > 0)
+      and (.authoritySource | type == "string" and length > 0)
+      and .assurance == "self_declared"' "$task_caller_file" >/dev/null; then
+    verification_state=invalidated
+    failure_reason=task_caller_invalid
+    write_orchestration_report
+    printf 'explicit task caller must be a readable regular JSON file with the exact schemaVersion/actor/authoritySource/assurance fields\n' >&2
+    exit 1
+  fi
+  task_caller_args=(--task-caller "$task_caller_file")
 fi
 
 cleanup_execution_worktree() {
@@ -172,6 +265,7 @@ prepare_isolated_execution() {
     execution_isolation_state=failed_to_resolve_source_head
     return 1
   }
+  execution_source_head=$source_head
   worktree_parent=$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/ai-cockpit-hosted-runtime.XXXXXX") || {
     execution_isolation_state=failed_to_create_parent
     return 1
@@ -223,10 +317,41 @@ query_validate() {
 
 validation_report_is_valid() {
   local report_path=$1
-  jq -e 'type == "object"
-    and (.state | type == "string")
-    and (.unknowns | type == "array")
-    and (.findings | type == "array")' "$report_path" >/dev/null
+  local contract_path=$2
+  jq -e --slurpfile contract "$contract_path" '
+    def nonblank: type == "string" and (gsub("^\\s+|\\s+$"; "") | length) > 0;
+    if type != "object"
+      or (.state | type != "string")
+      or (.unknowns | type != "array")
+      or (.findings | type != "array")
+      or any(.unknowns[]; type != "string")
+      or any(.findings[]; type != "object" or (.code | type != "string") or (.severity | type != "string"))
+    then false
+    else
+      . as $report
+      | $contract[0] as $document
+      | [$report.findings[] | select(.severity == "error")] as $errors
+      | [$report.unknowns[] | select(startswith("required_scenario_unverified:")) | ltrimstr("required_scenario_unverified:")] as $unknown_scenarios
+      | [$document.scenarioCoverage[]? | select(type == "object") | select(.required == true and .status == "unverified")] as $planned
+      | all($report.findings[]; .severity != "error")
+        or (
+          $report.state == "blocked"
+          and $report.scenarioCoverage == "blocked"
+          and ($document.scenarioCoverage | type == "array")
+          and all($document.scenarioCoverage[]; type == "object")
+          and ($errors | length) > 0
+          and all($errors[]; .code == "required_scenario_unverified")
+          and all($errors[]; (.message | nonblank))
+          and all($report.unknowns[]; startswith("required_scenario_unverified:"))
+          and all($planned[]; (.scenario | nonblank) and ((.expected // .expectedResult) | nonblank) and (.verificationPlan | nonblank))
+          and ($planned | length) > 0
+          and ($planned | length) == ($errors | length)
+          and ($planned | length) == ($unknown_scenarios | length)
+          and ($unknown_scenarios | unique | length) == ($unknown_scenarios | length)
+          and (($planned | map(.scenario) | sort) == ($unknown_scenarios | sort))
+          and (($errors | map(.message) | sort) == ($planned | map("required scenario \(.scenario) is unverified") | sort))
+        )
+    end' "$report_path" >/dev/null
 }
 
 status_allows() {
@@ -461,7 +586,7 @@ if ! query_validate "$validation_before" "$artifact_dir/hosted-runtime-validatio
     "$artifact_dir/hosted-runtime-validation-before.stderr" >&2
   exit 1
 fi
-if ! validation_report_is_valid "$validation_before"; then
+if ! validation_report_is_valid "$validation_before" "$contract"; then
   verification_state=invalidated
   failure_reason=validation_report_invalid
   write_orchestration_report
@@ -530,6 +655,14 @@ if jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' "
     verification_state=reused
   fi
 else
+  if [[ -z "$task_caller_file" ]] \
+    && jq -e '.governanceProfile.taskAuthorization? != null' "$contract" >/dev/null; then
+    verification_state=invalidated
+    failure_reason=task_caller_required
+    write_orchestration_report
+    printf 'task-authorized Work Item verification requires an explicit --task-caller file\n' >&2
+    exit 1
+  fi
   if ! prepare_isolated_execution; then
     [[ -n "$failure_reason" ]] || failure_reason=isolated_worktree_preparation_failed
     verification_state=failed
@@ -541,7 +674,8 @@ else
     preflight_exit=0
     "$runtime_bin" preflight \
       --repo "$execution_repository" \
-      --contract "$contract" >"$preflight_output" 2>"$artifact_dir/hosted-runtime-preflight.stderr" || preflight_exit=$?
+      --contract "$contract" \
+      "${task_caller_args[@]}" >"$preflight_output" 2>"$artifact_dir/hosted-runtime-preflight.stderr" || preflight_exit=$?
     if [[ "$preflight_exit" != 0 ]]; then
       preflight_state=failed
       failure_reason=preflight_failed
@@ -594,11 +728,23 @@ else
       "$artifact_dir/hosted-runtime-validation-after.stderr" >&2
     exit 1
   fi
-  if ! validation_report_is_valid "$validation_after"; then
+  if ! validation_report_is_valid "$validation_after" "$contract"; then
     verification_state=invalidated
     failure_reason=validation_report_invalid
     write_orchestration_report
     printf 'candidate Runtime returned an invalid refreshed Work Item validation report\n' >&2
+    exit 1
+  fi
+
+  # The source-local cheap consumers are prerequisites, not a permission or
+  # a reusable receipt. Run them against this exact isolated source before
+  # any declared project command. Unknown usage does not manufacture errors.
+  if ! bash "$(dirname "$0")/run_repository_prechecks.sh" --repo "$execution_repository" \
+    >"$artifact_dir/hosted-runtime-prechecks.log" 2>&1; then
+    verification_state=invalidated
+    failure_reason=repository_prechecks_failed
+    write_orchestration_report
+    cat "$artifact_dir/hosted-runtime-prechecks.log" >&2
     exit 1
   fi
 
@@ -636,10 +782,12 @@ PY
     verification_timeout_args=(--timeout-seconds "$verification_timeout")
   fi
 
+  execution_cargo_context=$(capture_cargo_reuse_context) || execution_cargo_context=null
+
   "$runtime_bin" verify \
     --repo "$execution_repository" \
     --work-item "$work_item_id" \
-    --workers 1 "${verification_timeout_args[@]}" \
+    --workers 1 "${verification_timeout_args[@]}" "${task_caller_args[@]}" \
     >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
   if [[ "$verification_exit" != 0 ]]; then
     verification_state=failed
@@ -714,6 +862,90 @@ if [[ "$final_runtime_digest" != "$runtime_digest" ]]; then
   verification_state=invalidated
   failure_reason=candidate_runtime_changed_during_verification
   verification_exit=1
+fi
+
+if [[ "$verification_state" == passed ]]; then
+  final_cargo_context=$(capture_cargo_reuse_context) || final_cargo_context=null
+  if [[ "$execution_cargo_context" != "$final_cargo_context" ]]; then
+    final_cargo_context=null
+  fi
+  # Capture only the stdout just returned by this Runtime invocation. This is
+  # same-job orchestration provenance, not a native signature or protection
+  # against an actor able to rewrite all of the hosted input artifacts.
+  if ! execution_output_seal=$(python3 - "$verification_output" "$formal_receipt_output" "$execution_source_head" "$final_cargo_context" <<'PY'
+import hashlib
+import json
+import os
+import re
+import stat
+import sys
+from pathlib import Path
+
+def coverage_environment_digest():
+    ignored = {"_", "SHLVL", "OLDPWD", "GITHUB_ACTION", "GITHUB_ENV", "GITHUB_OUTPUT",
+               "GITHUB_PATH", "GITHUB_STATE", "GITHUB_STEP_SUMMARY",
+               "AI_COCKPIT_DEFER_WORKTREE_CLEANUP", "ROUTE_CONTRACT_PATH", "ROUTE_LANE", "ROUTE_PROFILE",
+               "AI_COCKPIT_VERIFICATION_RECEIPT", "AI_COCKPIT_VERIFICATION_ORCHESTRATION",
+               "AI_COCKPIT_RUNTIME_BIN", "AI_COCKPIT_VERIFICATION_REPOSITORY",
+               "AI_COCKPIT_GATE_ID", "AI_COCKPIT_GATE_MANIFEST_DIGEST",
+               "AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST", "AI_COCKPIT_GATE_STAGE"}
+    values = sorted((key, value) for key, value in os.environ.items() if key not in ignored)
+    return "sha256:" + hashlib.sha256(json.dumps(values, separators=(",", ":"), ensure_ascii=True).encode()).hexdigest()
+
+def unique(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError("duplicate stdout/evidence JSON field")
+        value[key] = item
+    return value
+
+def read_regular(path):
+    descriptor = os.open(path, os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW)
+    with os.fdopen(descriptor, "rb") as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+            raise ValueError("hosted output is not a regular file")
+        raw = stream.read(64 * 1024 * 1024 + 1)
+        if len(raw) > 64 * 1024 * 1024:
+            raise ValueError("hosted output exceeds capture budget")
+        return raw
+
+try:
+    path = Path(sys.argv[1])
+    raw = read_regular(path)
+    output = json.loads(raw, object_pairs_hook=unique)
+    formal = json.loads(read_regular(sys.argv[2]), object_pairs_hook=unique)
+    receipt = formal["receipt"]
+    if not isinstance(output, dict) or output.get("workItemId", formal["workItemId"]) != formal["workItemId"]:
+        raise ValueError("Runtime stdout has an invalid Work Item identity")
+    projection = {key: output.get(key) for key in receipt}
+    projection["workItemId"] = output["planReceipt"]["workItemId"]
+    if (json.dumps(projection, sort_keys=True, allow_nan=False) != json.dumps(receipt, sort_keys=True, allow_nan=False)
+            or not isinstance(output.get("plannedNodes"), list)):
+        raise ValueError("Runtime stdout does not project to the formal receipt")
+    context = None
+    names = {"repository": "GITHUB_REPOSITORY", "runId": "GITHUB_RUN_ID",
+             "runAttempt": "GITHUB_RUN_ATTEMPT", "job": "GITHUB_JOB",
+             "headSha": "GITHUB_SHA", "runnerOs": "RUNNER_OS"}
+    candidate = {key: os.environ.get(name, "") for key, name in names.items()}
+    if (os.environ.get("GITHUB_ACTIONS") == "true"
+            and all(candidate.values()) and candidate["headSha"] == sys.argv[3]):
+        context = candidate
+    print(json.dumps({"schemaVersion": 1, "source": "runtime_stdout",
+                      "file": "hosted-runtime-execution.json",
+                      "sha256": "sha256:" + hashlib.sha256(raw).hexdigest(),
+                      "providerContext": context, "environmentDigest": coverage_environment_digest(),
+                      "cargoContext": json.loads(sys.argv[4])}))
+except (OSError, ValueError, KeyError, TypeError) as error:
+    print("hosted execution output binding rejected: " + str(error), file=sys.stderr)
+    raise SystemExit(1)
+PY
+  ); then
+    execution_output_seal=null
+    verification_state=invalidated
+    failure_reason=execution_output_binding_invalid
+    verification_exit=1
+  fi
 fi
 
 write_orchestration_report

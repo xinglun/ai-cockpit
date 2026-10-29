@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization",
+  "contractDigest": "sha256:c106287792ac63eb624cbb326a8e3883c187aa1c1db27d496b4904125941cf52",
+  "materialManifestDigest": "sha256:e66097bdbe84f7dec4d59cd82ab6bbc1e08b65b0284b485409a11addb4f87261",
+  "profileDigest": "sha256:62eb713ce08ef5a61c985f682b5712db643f87591483568a78ebbb71830efd81",
+  "requestDigest": "sha256:d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605",
+  "reviewedSourceHead": "fb9afb6d0df5418845ca5ea759d911487efe941a",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:87d3b04b1b08919d859cc935ecd952a9859534651856de2baf0a3147c0691db0",
+  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user authorized an initial WI-1113 profile limited to readable_committed_rust_syntax_unknown; this enables no concrete request and does not turn Unknown into Clean; any other cause stops).",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "digest": "sha256:c62d8e54f598c41b6709bbe22f680987fb2cd5ec5d1cfec20a2bc557391e93cc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:c8014f4f3ee9731513bb5eb5950d7dddf2992ea34f5dfaab8ea907af512d6385"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:dd676207af635db5de2c3918f3394bcbdcfc7d72258f5d48328dd555f2422604"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:95a96655334a58e2b8ce443d87c1f0804c665d26e0d16b44679c4fbf77c0de68"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:969f1cfa959ab2e43bd14c9b8b7420b548c88f61b727ed17872dd9bc5f0ea330"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:387872eba835c0e53d25d3bf12a33c354c0a576a0a9ca47df3df19eace994423"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "digest": "sha256:aef9a7e8d4273d47f612630047c0058df965c82cdac26cf83fb92448d47931a1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:84684bcb112cbd305b4f5a46a73e82bf3950077fe09512e455898b14546be8f0"
+    }
+  ],
+  "rationale": "Raydot made a new current ordinary technical acceptance for exact request d31d81b00fc7944f5b46454f9a62a21f136f2f6f70cd63703f05453cae5c2605 at source fb9afb6d0df5418845ca5ea759d911487efe941a with approved same-source isolated Runtime 87d3b04b1b08919d859cc935ecd952a9859534651856de2baf0a3147c0691db0 (user Runtime-switch approval conversation:Sentinel_f91d4cb3a4d08191a9c69b723928d5af). All current fields and eight complete entries were checked against that precise decision. Seven entries are byte-for-byte identical to the previously renewed source reviews; this is a fresh decision, not inherited receipt approval. The eighth material_review.rs entry is hunk 43626a6fabd44108af2ca1499cfbe72d585faccd92f39695a0e06d153667fad2, blob 95a96655334a58e2b8ce443d87c1f0804c665d26e0d16b44679c4fbf77c0de68. Its only new change is the independently reviewed synthetic fixture canonical-root construction, explicit rejection of a relative Summary path and failure-only readback diagnostics; production path constraints are unchanged. A real noncanonical TMPDIR reproduced the prior Summary-path escape failure, and the exact corrected regression executed and passed. The directed historical-recipe regression executed 1/1; strict repository Clippy and formatting passed. The underlying R/C proof, complete-source and real Finding/no-discharge boundaries retain their independent review and actual positive/negative evidence. The existing public corpus is unchanged and remains pinned at 43 bytes/SHA256 a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814 under user-approved transparent test reuse. The three parity documentation rows per Work Item accurately project WI1112 replaced/not_verified and WI1113 future lifecycle registration; the unchanged parity checker went from 15 Findings to zero. Scanner/profile/permissions/raw eleven-blob algorithm are unchanged. Acceptance is limited to eight profile-permitted syntax Unknowns with agent:codex/self_declared assurance; it does not claim Windows execution, latest complete CI success, merge, finish, release or production approval.",
+  "residualRisk": "All eight scanner members remain machine Unknown, not Clean, and bounded syntax inspection remains incomplete. Existing optional Git diagnostic stderr writes may block; no guarantee that the whole API returns in ten seconds or that diagnostic descendants were reaped is asserted. Direct test execution without required Cargo/Rustup environment can genuinely fail and cannot falsely pass. CI9 formal 113/113 remains bound to its original source and evidence; it is not transplanted to this source or Contract observation. Windows execution of the canonical-path fixture, five deferred complete targets, local evidence freshness and overall hosted CI remain unverified here. Any changed request/member/cause, Finding, profile/policy or analyzer identity requires current review.",
+  "recordedAt": "2026-10-28T13:16:38Z",
+  "receiptDigest": "sha256:f1783e69a0a3170c09c1d722f6baedf625b378086655b0b9902df4e8c68f5355"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:838f79f5457ef63502eb82698a3a59acb9fd90e987ad92b765829f3c6ca0c1a5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user message conversation:Sentinel_2ad2a12cd42c8191a360a65be05c5569 in parent01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1111 上述范围、场景、验证声明、有限预算及精确绑定，confirm_review。本次不包含公开推送、合并、版本发布、生产启用或共享 Runtime 替换。 Actual user timestamp not supplied;current recording time used. Agent records actual supplied decision,not independent human authentication or coordinator judgment.44 paths,12 unverified scenarios,15 declarations,finite900sec/workers1;not test evidence,public permission or close.",
+  "recordedAt": "2026-10-25T08:17:12.352500+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:22b87593afca538880b3f0a33795614597abbf8538325b05dc7fbacce56b79a2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

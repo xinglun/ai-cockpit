@@ -21,13 +21,14 @@ capabilityClaims:
 | Preflight `yellow` | Evidence is missing or requires confirmation. | Read blockers and safe actions; repair the Contract or obtain the required decision. |
 | Preflight `red` | Scope, authority, protocol, or repository state is invalid. | Stop. Fix the named repository fact or authority before editing. |
 | `finish` says receipt missing/stale | No passed current-snapshot Work Item verification exists. | Run `verify --work-item <id>` after the final edit; do not bypass the check. |
-| A `finish_ready` Work Item becomes stale before archive | The repository changed after its verification snapshot was bound. | Do not edit the summary or receipt. Preserve the historical bytes and create a new authorized Work Item from the current snapshot. |
+| A `finish_ready` Work Item becomes stale before archive | The repository changed after its verification snapshot was bound. | Do not edit the summary or receipt. If this Work Item still owns the work, use its identity-bound native retry, then run a fresh preflight, verification, and explicit finish. If Runtime denies retry or an authorized successor already owns the work, preserve the old receipt and use that bound successor path. |
 | A stale predecessor must no longer be retried | Its evidence is historical and a bound successor already owns the work. | Record an identity-bound `supersede` recovery decision, then archive and close the predecessor as historical; do not rewrite or re-verify its old evidence. |
 | `archive` or `close` fails | Governance is not green or an archive identity is invalid. | Preserve active records, repair evidence, then rerun the failed lifecycle step. |
 | `close` says retained resources require cleanup | The receipt is a legacy shared-primary record or an ordinary retained linked resource. | Confirm `provider=local` and the primary-checkout facts; if they cannot be derived, run `work-item finalize-recovery-plan` and record the explicit historical recovery receipt. Never change `retained` to `deleted` by hand. |
 | Historical direct-merge says the base differs from the Contract | A bundled merge can have a real first parent that differs from the Work Item's frozen Contract base. | Re-run `work-item finalize-recovery-plan --merge-commit <sha>`, preserve `pullRequest.baseRevision` as the real first parent, preserve `historical.contractBaseRevision` as the archived Contract base, and copy the exact `resourceContext`/branch/worktree identities. Do not edit either historical fact or invent a PR. |
 | Historical direct-merge says `resourceContext.<field>` does not match | A receipt identity field differs from the Contract or plan output. | Start from the complete `suggestedReceipt` emitted by `finalize-recovery-plan`; do not reconstruct protocol fields. Only fill the listed human fields, preserve the exact context/branch/worktree values, and retry. The Runtime writes no partial record on rejection. |
 | `finalize` or `finalize-recovery` rejects its own direct-merge plan | The plan generator and apply validator have diverged. | Keep the plan and failed input outside `.ai/`, do not edit generated records or invent a PR, and report the Runtime version/digest plus the exact error. A complete plan receipt must round-trip through both apply entry points. |
+| A successor material plan lists predecessor-reviewed Unknowns | That context confirms only an exact historical match; it is not an inherited decision and does not satisfy the successor request. | Review the current request normally. Changed or new paths, blobs, hunks, causes, Contract scope, scanner, policy, or profile remain unresolved. |
 | Verification reruns instead of reusing | One or more identity bindings changed or reuse is not authorized. | Treat the rerun as the safe behavior; inspect the receipt reason. |
 | MCP says repository binding is required | The server was started without a repository-bound adapter. | Configure `mcp --repo <path>` and keep the path explicit. |
 | Release asset or tag is absent | Public distribution evidence is not available yet. | Stop installation and wait for the immutable Release and matching assets. |
@@ -52,7 +53,9 @@ identity-bound successor/retry path. The reference source's Make/Python
 wizard commands are not Rust Runtime commands. Use the installed CLI and the
 repository's own declared verification commands.
 
-An already `finish_ready` Work Item has no implicit rewind operation. This is
-intentional: a rewind would make the state history ambiguous. Use a successor
-Work Item for the changed snapshot and reference the old receipt as historical
-evidence.
+An already `finish_ready` Work Item cannot be refreshed into a new finish by
+recording verification alone. For changed source that remains in the original
+Work Item's ownership, use its admitted, identity-bound retry, run fresh
+preflight and verification, then explicitly finish again. If retry is denied
+or a bound successor has taken ownership, preserve the predecessor evidence
+and continue through the existing successor path.

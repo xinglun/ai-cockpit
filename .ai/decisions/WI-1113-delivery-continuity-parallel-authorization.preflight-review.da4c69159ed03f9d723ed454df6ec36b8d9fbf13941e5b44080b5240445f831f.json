@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b492e123f4b30ce86f9015091f61acd630780d092651b64888dd8c80330735f8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea196bfad441774d41c41fb7e2a89ddd9b013c1f2d2f659a412b3bf956ff3641",
+  "reason": "Recorded the owner’s explicit confirmation of WI-1113 sequence 13 native evidence persistence scope, bound to the exact Contract, preflight and repository snapshot, in conversation Sentinel_2fa068eb9a34819194ae8da55776cd23 at 2026-10-28 01:31 UTC. This confirms only the WI-1113 native evidence paths and amendment/review records in sequence 13; it does not claim verification success, completion, or authorize another Work Item.",
+  "recordedAt": "2026-10-28T01:32:33Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3dfe53d632a4051568b60417e11c3288b6513aec1aeecc280dc4db9de47e169",
+  "schemaVersion": 1,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

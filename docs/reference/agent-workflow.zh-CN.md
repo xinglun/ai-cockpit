@@ -392,3 +392,21 @@ Schema-v3 资源收尾使用 `postMergeSync.lifecycleLayout`（`separate` 或 `c
 交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
 
 归档后仅允许已声明的剩余交付／资源操作；真实原生真人 close 后，只保留预授权的原生收尾发布和辅助清理，不能重新修改业务源码。收尾交付结束应记录 completed，撤回或到期则停止。真人关闭单独决定。本能力显式选择，本 WI 不用它自批、不替换共享 Runtime、不启用外部 B 或生产权限。
+
+
+## 受管的廉价前检入口
+
+checkpoint 前先保存完整 typed 计划。验收编号使用 `S01` 等规范格式，描述放在场景正文；初始映射写成 `plan` / `unverified`。规范 `work-item validate` 与 controls 拒绝非法编号，计划映射不代表测试通过或真人批准。
+
+本仓库声明验证使用：
+
+```sh
+bash tests/ci/run_work_item_verification.sh --runtime <已批准固定Runtime> \
+  --repo <源码根目录> --work-item <ID> --workers 1 --timeout-seconds <已批准有限上限>
+```
+
+入口读取规范校验和当前 `safeActions`，只在允许且必要时刷新 preflight，再执行 `run_repository_prechecks.sh`：复用现有文档／读取预算、工作流与测试消费者一致性、action 固定版本检查。任一失败都在昂贵验证前停止；前检成功不是授权或可复用通行证。用量未知或计划场景未验证本身不覆盖 Runtime 准入。Task 模式显式传 `--task-caller`，不推断身份。`--plan-only` 直接交给 Runtime，不启动前检或项目验证。入口不接受任意命令覆盖；裸 CLI／MCP 没有隐式仓库脚本钩子，hosted CI 显式组合相同源码侧前检。
+
+### 显式用量来源与覆盖
+
+`work-item usage import`／`work_item_usage_import` 只导入显式提供的 `openai-response-json-v1` 单个已完成 response JSON，在既有写锁内一次读取并校验摘要。计数来自来源记录，来源真实性仍为 `caller_claim`，不是受信适配器或完整任务总量；重放绑定原 response 身份与原字节。不把累计会话总数当单次调用，不读宿主会话目录、不调用 provider、不估算缺失计数。实际用量无法取得时显示 `unknown`、原因、覆盖及截止时间；Markdown、简短与完整 Outcome 一致。冻结原生报告不改字节或截止时间，历史缺字段显示 `historical_usage_not_recorded`，不从当前记录补零或补值。

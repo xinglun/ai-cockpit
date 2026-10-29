@@ -716,6 +716,11 @@ enum WorkItemCommand {
         #[command(subcommand)]
         command: WorkItemMaterialReviewCommand,
     },
+    /// Prepare a deterministic read-only authorization manifest for explicit same-repository Work Items.
+    AuthorizationManifest {
+        #[command(subcommand)]
+        command: WorkItemAuthorizationManifestCommand,
+    },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
     ReconcileArtifacts {
@@ -943,6 +948,13 @@ enum WorkItemCommand {
 
 #[derive(Debug, Subcommand)]
 enum WorkItemUsageCommand {
+    /// Import exact counters from one explicitly supplied completed response.
+    Import {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION)]
+        input: PathBuf,
+    },
     /// Append one strict UsageRecordRequest JSON claim.
     Record {
         #[arg(long)]
@@ -969,6 +981,76 @@ enum WorkItemMaterialReviewCommand {
         id: String,
         #[arg(long, help = "Strict MaterialInspectionReviewDecisionInput JSON file.")]
         input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemAuthorizationManifestCommand {
+    /// Build the exact member manifest without recording a decision or issuing grants.
+    Plan {
+        #[arg(long, help = "Repository path for current native member bindings.")]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchRequest JSON file.")]
+        input: PathBuf,
+    },
+    /// Persist one exact owner decision and its independently bound child grants.
+    Review {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchManifest JSON file.")]
+        manifest: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchReview JSON file.")]
+        review: PathBuf,
+    },
+    /// Reserve one start against the selected member's finite quota.
+    Start {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchStartRequest JSON file.")]
+        input: PathBuf,
+    },
+    /// Reserve the initial attempt or a bounded retry of one exact declared check.
+    Check {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchCheckRequest JSON file.")]
+        input: PathBuf,
+    },
+    /// Append the result for one previously reserved check attempt.
+    Outcome {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = "Strict TaskAuthorizationBatchOutcomeRequest JSON file.")]
+        input: PathBuf,
+    },
+    /// Resolve one uncertain result after attaching inspection evidence.
+    Inspect {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(
+            long,
+            help = "Strict TaskAuthorizationBatchInspectionRequest JSON file."
+        )]
+        input: PathBuf,
+    },
+    /// Terminate only the selected member's child grant.
+    Terminate {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(
+            long,
+            help = "Strict TaskAuthorizationBatchTerminationRequest JSON file."
+        )]
+        input: PathBuf,
+    },
+    /// Read one member's current append-only execution ledger.
+    Ledger {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        manifest_digest: String,
+        #[arg(long)]
+        work_item_id: String,
     },
 }
 
@@ -1658,6 +1740,18 @@ fn record_ordinary_cleanup_command(
 }
 
 fn main() {
+    // Run the per-command verification supervisor on the process leader
+    // thread so Linux subreaper ownership survives the CLI's normal worker
+    // thread and remains available while it reaps adopted children.
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__verification-supervisor"))
+    {
+        if let Err(error) = cockpit_verification::run_verification_supervisor_stdio() {
+            eprintln!("{error}");
+            std::process::exit(1);
+        }
+        return;
+    }
     // The CLI's dispatch stack exceeds the Windows process default in
     // unoptimized builds. Keep parsing and command execution on an explicit,
     // bounded stack instead of relying on the platform linker default.
@@ -1686,6 +1780,12 @@ fn main() {
 }
 
 fn run() -> Result<()> {
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__verification-supervisor"))
+    {
+        return cockpit_verification::run_verification_supervisor_stdio()
+            .map_err(anyhow::Error::msg);
+    }
     if std::env::args_os().nth(1).as_deref()
         == Some(std::ffi::OsStr::new("__composition-supervisor"))
     {
@@ -2505,6 +2605,8 @@ fn run() -> Result<()> {
             }
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
+            let supervisor_executable =
+                std::env::current_exe().context("resolve governing Runtime executable")?;
             let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
@@ -2552,10 +2654,11 @@ fn run() -> Result<()> {
                                 let process_concurrency = Arc::clone(&process_concurrency);
                                 let caller = task_caller.as_ref();
                                 let runtime = &runtime_context;
+                                let supervisor_executable = supervisor_executable.clone();
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
-                                    let run = cockpit_repository::run_repository_verification_with_task_authorization(
+                                    let run = cockpit_repository::run_repository_verification_with_task_authorization_supervised(
                                         repository_root,
                                         request,
                                         runtime,
@@ -2563,6 +2666,10 @@ fn run() -> Result<()> {
                                         move |_node_id, _process_id, started| {
                                             process_concurrency.observe(started)
                                         },
+                                        cockpit_verification::VerificationSupervisorLaunch::new(
+                                            supervisor_executable,
+                                            vec!["__verification-supervisor".into()],
+                                        ),
                                     );
                                     let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
                                     let _ = progress_sender.send((node_id, Some(passed)));
@@ -3354,6 +3461,20 @@ fn run() -> Result<()> {
                 }
             }
             WorkItemCommand::Usage { command } => match command {
+                WorkItemUsageCommand::Import { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::UsageImportRequest = serde_json::from_slice(
+                        &std::fs::read(&input)
+                            .with_context(|| format!("read usage import {}", input.display()))?,
+                    )
+                    .context("parse strict UsageImportRequest")?;
+                    let receipt = cockpit_repository::import_work_item_usage(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
                 WorkItemUsageCommand::Record { repo, input } => {
                     require_compatible(&repo, &runtime_context)?;
                     let request: cockpit_protocol::UsageRecordRequest = serde_json::from_slice(
@@ -3392,6 +3513,125 @@ fn run() -> Result<()> {
                     )
                     .context("record Work Item material review decision")?;
                     println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
+            WorkItemCommand::AuthorizationManifest { command } => match command {
+                WorkItemAuthorizationManifestCommand::Plan { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                        read_json_file(&input, "authorization batch request")?;
+                    request
+                        .validate()
+                        .map_err(anyhow::Error::msg)
+                        .context("validate authorization batch request")?;
+                    let manifest = cockpit_repository::prepare_task_authorization_batch_manifest(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("prepare read-only authorization batch manifest")?;
+                    println!("{}", serde_json::to_string_pretty(&manifest)?);
+                }
+                WorkItemAuthorizationManifestCommand::Review {
+                    repo,
+                    manifest,
+                    review,
+                } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let manifest: cockpit_protocol::TaskAuthorizationBatchManifest =
+                        read_json_file(&manifest, "authorization batch manifest")?;
+                    manifest
+                        .validate()
+                        .map_err(anyhow::Error::msg)
+                        .context("validate authorization batch manifest")?;
+                    let review: cockpit_protocol::TaskAuthorizationBatchReview =
+                        read_json_file(&review, "authorization batch review")?;
+                    let receipt = cockpit_repository::record_task_authorization_batch_review(
+                        &repo,
+                        &manifest,
+                        &review,
+                        &runtime_context,
+                    )
+                    .context("record exact authorization batch review")?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+                WorkItemAuthorizationManifestCommand::Start { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchStartRequest =
+                        read_json_file(&input, "authorization batch start request")?;
+                    let event = cockpit_repository::reserve_task_authorization_batch_start(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("reserve authorization batch member start")?;
+                    println!("{}", serde_json::to_string_pretty(&event)?);
+                }
+                WorkItemAuthorizationManifestCommand::Check { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchCheckRequest =
+                        read_json_file(&input, "authorization batch check request")?;
+                    let event = cockpit_repository::reserve_task_authorization_batch_check_attempt(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("reserve authorization batch check attempt")?;
+                    println!("{}", serde_json::to_string_pretty(&event)?);
+                }
+                WorkItemAuthorizationManifestCommand::Outcome { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchOutcomeRequest =
+                        read_json_file(&input, "authorization batch outcome request")?;
+                    let event = cockpit_repository::record_task_authorization_batch_check_outcome(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("record authorization batch check outcome")?;
+                    println!("{}", serde_json::to_string_pretty(&event)?);
+                }
+                WorkItemAuthorizationManifestCommand::Inspect { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchInspectionRequest =
+                        read_json_file(&input, "authorization batch inspection request")?;
+                    let event = cockpit_repository::inspect_task_authorization_batch_check_outcome(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("inspect authorization batch check outcome")?;
+                    println!("{}", serde_json::to_string_pretty(&event)?);
+                }
+                WorkItemAuthorizationManifestCommand::Terminate { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::TaskAuthorizationBatchTerminationRequest =
+                        read_json_file(&input, "authorization batch termination request")?;
+                    let event = cockpit_repository::terminate_task_authorization_batch_member(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("terminate authorization batch member")?;
+                    println!("{}", serde_json::to_string_pretty(&event)?);
+                }
+                WorkItemAuthorizationManifestCommand::Ledger {
+                    repo,
+                    manifest_digest,
+                    work_item_id,
+                } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let manifest_digest: cockpit_core::Digest =
+                        serde_json::from_value(json!(manifest_digest))
+                            .context("parse authorization batch manifest digest")?;
+                    let ledger = cockpit_repository::inspect_task_authorization_batch_member(
+                        &repo,
+                        &manifest_digest,
+                        &work_item_id,
+                        &runtime_context,
+                    )
+                    .context("inspect authorization batch member ledger")?;
+                    println!("{}", serde_json::to_string_pretty(&ledger)?);
                 }
             },
             WorkItemCommand::ReconcileArtifacts { repo, id } => {

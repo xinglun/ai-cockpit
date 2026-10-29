@@ -1,0 +1,110 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:b95703acd661b8b3bea0ce92e2688acc64165e44abddfa9a4abb7f55b0514c94",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1112-windows-archive-byte-preservation",
+    "sequence": 5,
+    "changeId": "wi1112-bounded-lifecycle-authorization",
+    "requestDigest": "sha256:e5d7895b33011109ba39e9086f0946c0e94d0807249a3fcf6df6feb56864481e",
+    "reason": "Apply the user-authorized bounded WI-1112 lifecycle policy to this exact repository, Work Item scope and GitHub target. The existing provider CI is observed and limited operationally to at most three rounds; this Runtime schema has no run_ci action or CI-round counter. Do not ready the draft PR, verify main, close the Work Item, or act on another repository, Work Item, base branch, release, production or shared Runtime.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending.",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending.",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "review_development_amendment",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "create_pull_request",
+              "merge_pull_request",
+              "finalize_resources",
+              "record_finalization",
+              "finalize_verify",
+              "cleanup_resources",
+              "publish_native_closeout",
+              "cleanup_auxiliary_resources"
+            ],
+            "authoritySource": "conversation:Sentinel_98f28639a3bc819199a1088f18184b9d (user authorization, 2026-10-26T11:43:44Z; bounded WI-1112 lifecycle grant stated in assistant message Sentinel_40c2f8e9b07c81919e46513f48d06273).",
+            "closeoutActions": [
+              "publish_native_closeout",
+              "cleanup_auxiliary_resources"
+            ],
+            "expiresAt": "2026-11-02T12:00:00Z",
+            "publicTarget": {
+              "baseBranch": "codex/wi-1111-token-outcome-ci",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+    "newContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+    "repositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+    "environmentObservationDigest": "sha256:3fa7424b94464ce656fd0a1c9d42f323d3c647b8e4f7d8d938b5c04f57be7d07",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:102b54a7440aa6f8fcce2e69cfa9b14ecff9a0c0302b296c037357170d88bc9b",
+    "journalDigest": "sha256:4aa286e200ce67260488d83688e7bbe2d66b54c621e0960d97ab000033ceda32",
+    "recordedAt": "2026-10-26T11:48:32Z"
+  }
+}

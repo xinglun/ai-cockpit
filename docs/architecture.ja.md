@@ -67,8 +67,19 @@ stateDiagram-v2
     archived --> closed: human decision
     implementation_active --> implementation_active: preflight が red/未実施（停止）
     checkpointed --> checkpointed: verification failed（修復して再試行）
-    finish_ready --> implementation_active: evidence が stale または failed
+    finish_ready --> checkpointed: source change 後の identity-bound retry
+    finish_ready --> checkpointed: Contract amendment は承認済みの再検証を要求
 ```
+
+source change により `finish_ready` snapshot が stale になった場合、Runtime は暗黙の
+report refresh を拒否する。作業を引き続きこの Work Item が所有するなら、許可された
+identity-bound retry で `checkpointed` に戻し、fresh preflight と verification の後に明示的に
+finish する。Runtime が retry を拒否する場合、または認可済み successor が作業を引き継いだ
+場合は、既存の successor path を使う。
+Contract amendment も既存の checkpoint admission に従う。`before_finish` evidence が
+存在する場合、typed amendment は拒否され、その場合は recovery Work Item を使う。
+この evidence が記録される前も、通常の checkpoint と finish admission に従う必要がある。
+amendment によってこれらの gate を回避することはできない。
 
 ```text
 Human / Agent / CI

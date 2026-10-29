@@ -355,10 +355,22 @@ pub(super) fn validate_frozen_usage_snapshot(
     Ok(())
 }
 
+pub(super) struct ValidatedFrozenUsage {
+    pub(super) usage: Option<UsageSummary>,
+    pub(super) final_report: Option<TaskOutcomeReport>,
+}
+
 pub(super) fn validate_existing_frozen_usage_snapshots(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Option<UsageSummary>, ObserverError> {
+    validate_existing_frozen_usage_and_report(root, work_item_id).map(|validated| validated.usage)
+}
+
+pub(super) fn validate_existing_frozen_usage_and_report(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ValidatedFrozenUsage, ObserverError> {
     let mut prior_usage_claim = false;
     for phase in ["active", "archive"] {
         let relative = format!(".ai/work-items/{phase}/{work_item_id}.task-report.json");
@@ -402,6 +414,7 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
     let relative = format!(".ai/decisions/{work_item_id}.close.json");
     let path = root.join(&relative);
     let mut close_usage = None;
+    let mut final_report = None;
     match fs::symlink_metadata(&path) {
         Ok(metadata) if !metadata.is_file() => {
             return Err(state_error(
@@ -462,6 +475,7 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
                         "frozen usage close report identity differs",
                     ));
                 }
+                final_report = Some(report.clone());
                 let observed_digest = cockpit_protocol::digest_json(final_report_value)
                     .map_err(|error| state_error(&path, error.to_string()))?;
                 if close["finalReportDigest"] != observed_digest.to_string() {
@@ -502,7 +516,10 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
         Err(error) if error.kind() == ErrorKind::NotFound => {}
         Err(source) => return Err(read_error(&path, source)),
     }
-    Ok(close_usage)
+    Ok(ValidatedFrozenUsage {
+        usage: close_usage,
+        final_report,
+    })
 }
 
 fn checked_sum(total: Option<u64>, next: Option<u64>, first: bool) -> Result<Option<u64>, ()> {
@@ -636,6 +653,16 @@ pub fn record_work_item_usage(
     request: &UsageRecordRequest,
     runtime: &RuntimeContext,
 ) -> Result<UsageReceipt, ObserverError> {
+    record_usage_from_source(root, request, runtime, |_| Ok(request.clone()))
+}
+
+pub(super) fn record_usage_from_source(
+    root: &Path,
+    context: &UsageRecordRequest,
+    runtime: &RuntimeContext,
+    resolve: impl FnOnce(&[u8]) -> Result<UsageRecordRequest, ObserverError>,
+) -> Result<UsageReceipt, ObserverError> {
+    let request = context;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
     request
         .validate()
@@ -664,6 +691,28 @@ pub fn record_work_item_usage(
             "usage evidence is too large or its digest differs from observed bytes",
         ));
     }
+    let resolved = resolve(&evidence)?;
+    resolved
+        .validate()
+        .map_err(|message| state_error(&root, message))?;
+    if resolved.repository_id != context.repository_id
+        || resolved.work_item_id != context.work_item_id
+        || resolved.evidence_ref != context.evidence_ref
+        || resolved.evidence_digest != context.evidence_digest
+        || resolved.actor != context.actor
+        || resolved.configured_model != context.configured_model
+        || resolved.role != context.role
+        || resolved.phase != context.phase
+        || resolved.source_kind != context.source_kind
+        || resolved.unit != context.unit
+        || resolved.source_observed_at.is_some()
+    {
+        return Err(state_error(
+            &root,
+            "resolved usage source context differs from admission",
+        ));
+    }
+    let request = &resolved;
     let lock = usage_lock(&root, true)?;
     lock.lock()
         .map_err(|source| read_error(&root.join(".ai/locks/usage.lock"), source))?;

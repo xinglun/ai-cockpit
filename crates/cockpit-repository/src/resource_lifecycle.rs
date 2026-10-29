@@ -3483,6 +3483,122 @@ fn validate_finish_attempt_history(
     Ok(())
 }
 
+/// Select archive embedded-report behavior from the fixed finish binding. A
+/// finish cannot delete an inherited policy to choose another renderer; a
+/// policy-free legacy finish remains subject to the caller's separately
+/// validated historical route.
+fn finish_has_policy_bound_task_outcome_projection(
+    root: &Path,
+    work_item_id: &str,
+    finish_revision: &str,
+) -> Result<bool, ObserverError> {
+    use cockpit_protocol::{
+        TASK_OUTCOME_JSON_FORMAT, TASK_OUTCOME_JSON_SCHEMA_VERSION, TASK_OUTCOME_MARKDOWN_RENDERER,
+        TASK_OUTCOME_MARKDOWN_RENDERER_VERSION, TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION,
+        TaskOutcomeProjectionFinishBinding, TaskOutcomeProjectionPolicy,
+    };
+
+    let active = format!(".ai/work-items/active/{work_item_id}");
+    let parent = single_parent(root, finish_revision)?;
+    let predecessor = git_json(root, &parent, &format!("{active}.summary.json"))?;
+    let finish = git_json(root, finish_revision, &format!("{active}.summary.json"))?;
+    let predecessor_policy = if predecessor["taskOutcomeProjectionPolicy"].is_null() {
+        None
+    } else {
+        Some(
+            serde_json::from_value::<TaskOutcomeProjectionPolicy>(
+                predecessor["taskOutcomeProjectionPolicy"].clone(),
+            )
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("pre-finish projection policy is invalid: {error}"),
+                )
+            })?,
+        )
+    };
+    if !predecessor["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null() {
+        return Err(post_merge_sync_error(
+            root,
+            "pre-finish Summary already contains a Task Outcome finish binding",
+        ));
+    }
+    let finish_policy = if finish["taskOutcomeProjectionPolicy"].is_null() {
+        None
+    } else {
+        Some(
+            serde_json::from_value::<TaskOutcomeProjectionPolicy>(
+                finish["taskOutcomeProjectionPolicy"].clone(),
+            )
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("finish projection policy is invalid: {error}"),
+                )
+            })?,
+        )
+    };
+    let finish_binding = if finish["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null()
+    {
+        None
+    } else {
+        Some(
+            serde_json::from_value::<TaskOutcomeProjectionFinishBinding>(
+                finish["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+            )
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("finish projection binding is invalid: {error}"),
+                )
+            })?,
+        )
+    };
+    match (finish_policy, finish_binding) {
+        (None, None) if predecessor_policy.is_none() => Ok(false),
+        (Some(policy), Some(binding)) => {
+            let policy_digest = cockpit_protocol::digest_json(&policy)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+            if predecessor_policy
+                .as_ref()
+                .is_some_and(|predecessor| predecessor != &policy)
+                || policy.schema_version != TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION
+                || policy.json_format != TASK_OUTCOME_JSON_FORMAT
+                || policy.json_schema_version != TASK_OUTCOME_JSON_SCHEMA_VERSION
+                || policy.markdown_renderer != TASK_OUTCOME_MARKDOWN_RENDERER
+                || policy.markdown_renderer_version != TASK_OUTCOME_MARKDOWN_RENDERER_VERSION
+                || policy.work_item_id != work_item_id
+                || policy.repository_id.trim().is_empty()
+                || policy.producer_runtime_version.trim().is_empty()
+                || binding.schema_version != 1
+                || binding.projection_policy_digest != policy_digest
+            {
+                return Err(post_merge_sync_error(
+                    root,
+                    "fixed finish Task Outcome policy or binding is unsupported or inconsistent",
+                ));
+            }
+            let report =
+                git_blob_bytes(root, finish_revision, &format!("{active}.task-report.json"))?;
+            let markdown =
+                git_blob_bytes(root, finish_revision, &format!("{active}.task-report.md"))?;
+            if binding.task_report_json_digest != Digest::sha256_bytes(&report)
+                || binding.task_report_markdown_digest != Digest::sha256_bytes(&markdown)
+            {
+                return Err(post_merge_sync_error(
+                    root,
+                    "fixed finish Task Outcome binding does not match report bytes",
+                ));
+            }
+            Ok(true)
+        }
+        _ => Err(post_merge_sync_error(
+            root,
+            "Task Outcome projection policy was removed, introduced, or left unbound at finish",
+        )),
+    }
+}
+
 fn validate_archive_stage_bytes(
     root: &Path,
     work_item_id: &str,
@@ -3491,6 +3607,8 @@ fn validate_archive_stage_bytes(
 ) -> Result<(), ObserverError> {
     let active = format!(".ai/work-items/active/{work_item_id}");
     let archive = format!(".ai/work-items/archive/{work_item_id}");
+    let policy_bound_projection =
+        finish_has_policy_bound_task_outcome_projection(root, work_item_id, finish_revision)?;
     let source_report =
         git_blob_bytes(root, finish_revision, &format!("{active}.task-report.json"))?;
     let report_value: serde_json::Value =
@@ -3520,11 +3638,9 @@ fn validate_archive_stage_bytes(
             };
         expected_artifacts.push((suffix, expected));
     }
-    let mut outcome = super::normalized_archive_artifact_bytes(
-        "outcome.json",
-        &git_blob_bytes(root, finish_revision, &format!("{active}.outcome.json"))?,
-        work_item_id,
-    )?;
+    let finish_outcome = git_blob_bytes(root, finish_revision, &format!("{active}.outcome.json"))?;
+    let mut outcome =
+        super::normalized_archive_artifact_bytes("outcome.json", &finish_outcome, work_item_id)?;
     let task_report_digest = expected_artifacts
         .iter()
         .find(|(suffix, _)| *suffix == "task-report.json")
@@ -3540,6 +3656,18 @@ fn validate_archive_stage_bytes(
                 format!("normalized archive Outcome is invalid: {error}"),
             )
         })?;
+    if policy_bound_projection {
+        let finish_outcome_value: serde_json::Value = serde_json::from_slice(&finish_outcome)
+            .map_err(|error| {
+                post_merge_sync_error(root, format!("finish-stage Outcome is invalid: {error}"))
+            })?;
+        if let Some(report) = finish_outcome_value.get("taskOutcomeReport") {
+            // archive_work_item preserves the embedded copy when the separate
+            // JSON and Markdown report bytes are cutoff-bound. Mirror that
+            // frozen finish artifact exactly while normalizing other refs.
+            outcome_value["taskOutcomeReport"] = report.clone();
+        }
+    }
     if let Some(digest) = task_report_digest {
         outcome_value["taskReportDigest"] = serde_json::json!(digest);
     }
@@ -5383,16 +5511,75 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     if historical.contains(&b'\r') || compiled.contains(&b'\r') {
         return false;
     }
-    match (
+    let (Some(historical_v1), Some(compiled_v1)) = (
         historical_analysis_recipe_projection(&historical),
         historical_analysis_recipe_projection(&compiled),
-    ) {
-        (Some(historical), Some(compiled)) => historical == compiled,
-        _ => false,
+    ) else {
+        return false;
+    };
+    if historical_v1 == compiled_v1 {
+        return true;
     }
+    let historical_v1_digest = Digest::sha256_bytes(historical_v1.as_bytes()).to_string();
+    let compiled_v1_digest = Digest::sha256_bytes(compiled_v1.as_bytes()).to_string();
+    // Version 1 includes test-only source items. Keep its original directed
+    // compatibility record intact for historical source pairs.
+    const SUPPORTED_V1_TRANSITIONS: &[(&str, &str)] = &[(
+        "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40",
+        "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b",
+    )];
+    if SUPPORTED_V1_TRANSITIONS.iter().any(|(previous, current)| {
+        *previous == historical_v1_digest && *current == compiled_v1_digest
+    }) {
+        return true;
+    }
+
+    let (Some(historical_v2), Some(compiled_v2)) = (
+        production_analysis_recipe_projection_v2(&historical),
+        production_analysis_recipe_projection_v2(&compiled),
+    ) else {
+        return false;
+    };
+    if historical_v2 == compiled_v2 {
+        return true;
+    }
+    let historical_v2_digest = Digest::sha256_bytes(historical_v2.as_bytes()).to_string();
+    let compiled_v2_digest = Digest::sha256_bytes(compiled_v2.as_bytes()).to_string();
+    // Version 2 projects out top-level items with exactly one `#[cfg(test)]`
+    // attribute; composite and additional attributes remain significant. The
+    // source pair below was computed from the exact historical Git blob and
+    // current source projection; it does not replace or broaden version 1.
+    const SUPPORTED_V2_TRANSITIONS: &[(&str, &str)] = &[
+        (
+            "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+        ),
+        // Exact comparison-only evolution: one canonical request supplies the
+        // reviewed-syntax and complete-Clean proofs. The raw digest recipe,
+        // receipt validation and historical blob reconstruction are unchanged.
+        (
+            "sha256:74b36a4062476f015ffeb4e77176b18c6d9c3f75804f8f5524fbab742613f11b",
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+        ),
+        (
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+        ),
+    ];
+    SUPPORTED_V2_TRANSITIONS.iter().any(|(previous, current)| {
+        *previous == historical_v2_digest && *current == compiled_v2_digest
+    })
 }
 
 fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
+    analysis_recipe_projection(source, false)
+}
+
+fn production_analysis_recipe_projection_v2(source: &[u8]) -> Option<String> {
+    analysis_recipe_projection(source, true)
+}
+
+fn analysis_recipe_projection(source: &[u8], omit_test_only_items: bool) -> Option<String> {
     use syn::spanned::Spanned;
 
     let source = std::str::from_utf8(source).ok()?;
@@ -5404,6 +5591,10 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
     let mut implementation_count = 0;
     let mut obsolete_import_count = 0;
     for item in &module.items {
+        if omit_test_only_items && exact_top_level_cfg_test_item(item)? {
+            omitted.push(item.span().byte_range());
+            continue;
+        }
         if let syn::Item::Fn(function) = item {
             match function.sig.ident.to_string().as_str() {
                 "record_work_item_material_review" => {
@@ -5475,6 +5666,41 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
         .parse::<proc_macro2::TokenStream>()
         .ok()
         .map(|tokens| tokens.to_string())
+}
+
+fn exact_top_level_cfg_test_item(item: &syn::Item) -> Option<bool> {
+    let attrs = match item {
+        syn::Item::Const(value) => &value.attrs,
+        syn::Item::Enum(value) => &value.attrs,
+        syn::Item::ExternCrate(value) => &value.attrs,
+        syn::Item::Fn(value) => &value.attrs,
+        syn::Item::ForeignMod(value) => &value.attrs,
+        syn::Item::Impl(value) => &value.attrs,
+        syn::Item::Macro(value) => &value.attrs,
+        syn::Item::Mod(value) => &value.attrs,
+        syn::Item::Static(value) => &value.attrs,
+        syn::Item::Struct(value) => &value.attrs,
+        syn::Item::Trait(value) => &value.attrs,
+        syn::Item::TraitAlias(value) => &value.attrs,
+        syn::Item::Type(value) => &value.attrs,
+        syn::Item::Union(value) => &value.attrs,
+        syn::Item::Use(value) => &value.attrs,
+        syn::Item::Verbatim(_) => return None,
+        _ => return None,
+    };
+    if attrs.len() != 1 {
+        return Some(false);
+    }
+    let syn::Meta::List(meta) = &attrs[0].meta else {
+        return Some(false);
+    };
+    if !meta.path.is_ident("cfg") {
+        return Some(false);
+    }
+    Some(matches!(
+        meta.parse_args::<syn::Meta>(),
+        Ok(syn::Meta::Path(path)) if path.is_ident("test")
+    ))
 }
 
 fn historical_writer_has_only_local_effects(function: &syn::ItemFn) -> bool {
@@ -5707,7 +5933,8 @@ fn apply_historical_material_projection(
         return Err(post_merge_sync_error(
             root,
             format!(
-                "historical material projection remains blocked or unknown: unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                "historical material projection remains blocked or unknown: blockers={:?}, unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                decision.blockers,
                 decision.unknowns,
                 projection.finding_codes,
                 projection.projection_unavailable,
@@ -5817,6 +6044,15 @@ fn validate_layout_finish_semantics(
     );
     let mut summary = git_json(root, parent, &format!("{active}.summary.json"))?;
     let observed = git_json(root, finish, &format!("{target}.summary.json"))?;
+    let historical_projection_policy_absent = observed["taskOutcomeProjectionPolicy"].is_null()
+        && observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null();
+    let observed_projection_policy_absent = observed["taskOutcomeProjectionPolicy"].is_null();
+    if !summary["taskOutcomeProjectionPolicy"].is_null() && observed_projection_policy_absent {
+        return Err(post_merge_sync_error(
+            root,
+            "finish Task Outcome policy was removed from a fixed pre-finish Summary",
+        ));
+    }
     let evidence_path = format!(".ai/evidence/{id}.verification.json");
     let evidence = git_json(root, finish, &evidence_path)?;
     let manifest = git_json(
@@ -5851,6 +6087,17 @@ fn validate_layout_finish_semantics(
             &snapshot,
         )?;
         summary = read_json(&isolated.join(format!("{active}.summary.json")))?;
+        if historical_projection_policy_absent {
+            // Reconstruct the fixed legacy finish projection without the
+            // current verifier's policy side effect. The legacy decision is
+            // bound to the exact Git-loaded finish Summary above; archived
+            // compatibility validation separately requires its fixed Git
+            // revision/receipt anchor. Current-format callers cannot choose
+            // this branch through report metadata.
+            if let Some(summary) = summary.as_object_mut() {
+                summary.remove("taskOutcomeProjectionPolicy");
+            }
+        }
         // The recorder's clock is nondeterministic, but the captured refresh
         // time must be between this verification and the recorded finish.
         let refresh = observed["preflightAt"]
@@ -6022,30 +6269,6 @@ fn validate_layout_finish_semantics(
             summary.as_object_mut().unwrap().remove(key);
         }
     }
-    let mut expected_summary = serde_json::to_vec_pretty(&summary)
-        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-    if combined {
-        expected_summary =
-            super::normalized_archive_artifact_bytes("summary.json", &expected_summary, id)?;
-    }
-    if expected_summary != git_blob_bytes(root, finish, &format!("{target}.summary.json"))? {
-        let expected: serde_json::Value = serde_json::from_slice(&expected_summary)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        let differences = expected
-            .as_object()
-            .unwrap()
-            .keys()
-            .filter(|k| observed.get(*k) != expected.get(*k))
-            .cloned()
-            .collect::<Vec<_>>()
-            .join(", ");
-        return Err(post_merge_sync_error(
-            root,
-            format!(
-                "Summary contains changes outside the Runtime finish projection: {differences}"
-            ),
-        ));
-    }
     if super::verification_evidence_state(isolated, &contract, &snapshot, false, None)?
         != super::EvidenceState::Complete
     {
@@ -6076,17 +6299,149 @@ fn validate_layout_finish_semantics(
     )
     .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
     let markdown = super::task_outcome_markdown(&report).into_bytes();
-    // Usage-bound reports are frozen at finish, including legal active refs.
-    for (suffix, bytes) in [
-        ("task-report.json", &report_bytes),
-        ("task-report.md", &markdown),
-    ] {
-        if *bytes != git_blob_bytes(root, finish, &format!("{target}.{suffix}"))? {
+    let actual_report_bytes = git_blob_bytes(root, finish, &format!("{target}.task-report.json"))?;
+    if actual_report_bytes != report_bytes {
+        return Err(super::task_outcome_projection_mismatch(
+            &root.join(format!("{target}.task-report.json")),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &report_bytes,
+            &actual_report_bytes,
+        ));
+    }
+    let actual_markdown = git_blob_bytes(root, finish, &format!("{target}.task-report.md"))?;
+    let projection_binding = if observed["taskOutcomeProjectionPolicy"].is_null() {
+        if !observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null() {
             return Err(post_merge_sync_error(
                 root,
-                "Task Outcome report differs from the canonical finish projection",
+                "Task Outcome finish binding exists but its predecessor projection policy is missing or downgraded",
             ));
         }
+        None
+    } else {
+        let policy: cockpit_protocol::TaskOutcomeProjectionPolicy = serde_json::from_value(
+            observed["taskOutcomeProjectionPolicy"].clone(),
+        )
+        .map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("Task Outcome projection policy is invalid: {error}"),
+            )
+        })?;
+        let source_digest =
+            serde_json::from_value::<Digest>(evidence["repositorySnapshotDigest"].clone())
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+        super::validate_task_outcome_projection_policy(
+            &policy,
+            &contract.repository_id,
+            id,
+            &super::contract_digest(&contract_path)?,
+            &source_digest,
+        )
+        .map_err(|message| post_merge_sync_error(root, message))?;
+        if policy.producer_runtime_version
+            != evidence["runtimeVersion"].as_str().unwrap_or_default()
+            || serde_json::from_value::<Digest>(evidence["runtimeDigest"].clone()).ok()
+                != Some(policy.producer_runtime_digest.clone())
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "Task Outcome projection policy producer Runtime differs from fixed verification evidence",
+            ));
+        }
+        let expected_binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+            schema_version: 1,
+            projection_policy_digest: cockpit_protocol::digest_json(&policy)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?,
+            task_report_json_digest: Digest::sha256_bytes(&report_bytes),
+            task_report_markdown_digest: Digest::sha256_bytes(&markdown),
+        };
+        let observed_binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding =
+            serde_json::from_value(
+                observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+            )
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("Task Outcome finish binding is missing or invalid: {error}"),
+                )
+            })?;
+        if observed_binding != expected_binding
+            || Digest::sha256_bytes(&actual_report_bytes)
+                != expected_binding.task_report_json_digest
+            || Digest::sha256_bytes(&actual_markdown)
+                != expected_binding.task_report_markdown_digest
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "Task Outcome policy/finish binding does not match canonical report digests",
+            ));
+        }
+        Some(expected_binding)
+    };
+    if projection_binding.is_some() {
+        if actual_markdown != markdown {
+            return Err(super::task_outcome_projection_mismatch(
+                &root.join(format!("{target}.task-report.md")),
+                "Markdown",
+                "ai-cockpit.task-outcome-markdown/v2",
+                &markdown,
+                &actual_markdown,
+            ));
+        }
+    } else {
+        let fixed_runtime_version = evidence["runtimeVersion"].as_str().ok_or_else(|| {
+            post_merge_sync_error(
+                root,
+                "fixed historical verification Runtime version is missing",
+            )
+        })?;
+        let legacy_markdown =
+            super::task_outcome_markdown_legacy_for_runtime(&report, fixed_runtime_version)
+                .map_err(|message| post_merge_sync_error(root, message))?
+                .into_bytes();
+        if actual_markdown != legacy_markdown {
+            return Err(super::task_outcome_projection_mismatch(
+                &root.join(format!("{target}.task-report.md")),
+                "Markdown",
+                "ai-cockpit.task-outcome-markdown/v1",
+                &legacy_markdown,
+                &actual_markdown,
+            ));
+        }
+    }
+    if let Some(binding) = &projection_binding {
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
+            serde_json::to_value(binding)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+    } else if let Some(facts) = summary["lifecycleFacts"].as_object_mut() {
+        // Finite legacy route: the fixed finish Git objects select the exact
+        // v1 Markdown renderer. Never re-render or backfill stored bytes.
+        facts.remove("taskOutcomeProjectionFinishBinding");
+    }
+    let mut expected_summary = serde_json::to_vec_pretty(&summary)
+        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
+    if combined {
+        expected_summary =
+            super::normalized_archive_artifact_bytes("summary.json", &expected_summary, id)?;
+    }
+    if expected_summary != git_blob_bytes(root, finish, &format!("{target}.summary.json"))? {
+        let expected: serde_json::Value = serde_json::from_slice(&expected_summary)
+            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
+        let differences = expected
+            .as_object()
+            .unwrap()
+            .keys()
+            .filter(|k| observed.get(*k) != expected.get(*k))
+            .cloned()
+            .collect::<Vec<_>>()
+            .join(", ");
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "Summary contains changes outside the Runtime finish projection: {differences}"
+            ),
+        ));
     }
     let outcome = OutcomeV2 {
         schema_version: 2, repository_id: contract.repository_id.clone(), work_item_id: id.into(), state: OutcomeState::Verified,
@@ -6107,12 +6462,30 @@ fn validate_layout_finish_semantics(
         .to_string()
         .into();
     value["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
-    value["taskReportMarkdownDigest"] = Digest::sha256_bytes(&markdown).to_string().into();
+    value["taskReportMarkdownDigest"] = projection_binding
+        .as_ref()
+        .map(|binding| binding.task_report_markdown_digest.clone())
+        .unwrap_or_else(|| Digest::sha256_bytes(&actual_markdown))
+        .to_string()
+        .into();
     let mut outcome_bytes = serde_json::to_vec_pretty(&value)
         .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
     if combined {
         outcome_bytes =
             super::normalized_archive_artifact_bytes("outcome.json", &outcome_bytes, id)?;
+        if projection_binding.is_some() {
+            let mut archived_outcome: serde_json::Value = serde_json::from_slice(&outcome_bytes)
+                .map_err(|error| {
+                    post_merge_sync_error(
+                        root,
+                        format!("normalized cutoff-bound Outcome is invalid: {error}"),
+                    )
+                })?;
+            archived_outcome["taskOutcomeReport"] = serde_json::to_value(&report)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+            outcome_bytes = serde_json::to_vec_pretty(&archived_outcome)
+                .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+        }
     }
     if outcome_bytes != git_blob_bytes(root, finish, &format!("{target}.outcome.json"))? {
         return Err(post_merge_sync_error(
@@ -6145,7 +6518,14 @@ fn validate_layout_finish_semantics(
             "completion event is outside lifecycle time bounds",
         ));
     }
-    super::append_task_outcome_events_at(isolated, &contract, &report, replace, event_time)?;
+    super::append_task_outcome_events_at_with_binding(
+        isolated,
+        &contract,
+        &report,
+        replace,
+        event_time,
+        projection_binding.clone(),
+    )?;
     let mut expected_events =
         super::read_governance_bytes(&event_path).map_err(|source| ObserverError::Read {
             path: event_path,
@@ -7467,6 +7847,24 @@ mod post_merge_sync_tests {
     fn post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts() {
         let fixture = real_combined_checkout();
         let root = &fixture.repository;
+        let mut invalid_successors = Vec::new();
+        for successor_id in [
+            "WI-754-runtime-recovery-digest-revalidation",
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+        ] {
+            let manifest_path = root.join(format!(
+                ".ai/work-items/archive/{successor_id}.archive.json"
+            ));
+            let manifest = crate::read_json(&manifest_path).expect("successor archive manifest");
+            if let Err(error) = crate::verify_archive_manifest(root, successor_id, &manifest) {
+                invalid_successors.push(format!("{successor_id}: {error}"));
+            }
+        }
+        assert!(
+            invalid_successors.is_empty(),
+            "historical successor archive validation failures: {invalid_successors:?}"
+        );
         let sync = real_combined_sync(root);
         super::validate_post_merge_layout_stages(root, "WI-1078-v1-0-1-post-merge-sync-finalization", &sync)
             .expect("actual combined artifacts and frozen prior attempts must validate against a synthetic clean advanced-base merge");
@@ -7759,6 +8157,26 @@ mod post_merge_sync_tests {
             serde_json::to_vec_pretty(&manifest).unwrap(),
         )
         .unwrap();
+        git(
+            &root,
+            &[
+                "add",
+                "--",
+                &format!(".ai/work-items/archive/{id}.archive.json"),
+                &format!(".ai/work-items/archive/{id}.contract.json"),
+                &format!(".ai/work-items/archive/{id}.summary.json"),
+                &format!(".ai/work-items/archive/{id}.outcome.json"),
+            ],
+        );
+        git(
+            &root,
+            &[
+                "commit",
+                "--quiet",
+                "-m",
+                "record the synthetic archive introduction",
+            ],
+        );
 
         let runtime = RuntimeContext {
             runtime_version: "test-runtime".into(),
@@ -9362,12 +9780,137 @@ mod post_merge_sync_tests {
             "crates/cockpit-repository/src/material_review.rs",
         )
         .unwrap();
+        let version_1_current = super::git_blob_bytes(
+            &root,
+            "77bb6c63b03b8d629c097944df9d1af9ec8afe92",
+            "crates/cockpit-repository/src/material_review.rs",
+        )
+        .unwrap();
         let current = include_bytes!("material_review.rs");
+        let historical_projection =
+            super::historical_analysis_recipe_projection(&historical).unwrap();
+        let version_1_current_projection =
+            super::historical_analysis_recipe_projection(&version_1_current).unwrap();
+        assert_eq!(
+            Digest::sha256_bytes(historical_projection.as_bytes()).to_string(),
+            "sha256:4edadbd1f9a576490bcaf37f3276a1c4df60a2af8272d087dcb194f4ccc1bf40"
+        );
+        assert_eq!(
+            Digest::sha256_bytes(version_1_current_projection.as_bytes()).to_string(),
+            "sha256:2c9adc8252be3327fe7c3d228248284041fd60fbe0572bdc504695afe5f73e2b"
+        );
+        assert_ne!(
+            super::historical_analysis_recipe_projection(current).unwrap(),
+            version_1_current_projection,
+            "version 1 must retain its historical sensitivity to test-only source"
+        );
         assert_ne!(
             Digest::sha256_bytes(&historical),
             Digest::sha256_bytes(current)
         );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            &version_1_current
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            &version_1_current,
+            &historical
+        ));
+
+        let historical_v2 = super::production_analysis_recipe_projection_v2(&historical).unwrap();
+        let current_v2 = super::production_analysis_recipe_projection_v2(current).unwrap();
+        let comparison_v2 =
+            super::production_analysis_recipe_projection_v2(&version_1_current).unwrap();
+        assert_eq!(
+            Digest::sha256_bytes(comparison_v2.as_bytes()).to_string(),
+            "sha256:681a972d5228b8ff5a6adc9120a4e728f3c625f1e36ff1da4bdeb57abdf9548e",
+            "the pre-union production projection stays a frozen historical anchor"
+        );
+        eprintln!(
+            "version 2 comparison proof fingerprints: historical={} previous={} current={}",
+            Digest::sha256_bytes(historical_v2.as_bytes()),
+            Digest::sha256_bytes(comparison_v2.as_bytes()),
+            Digest::sha256_bytes(current_v2.as_bytes())
+        );
+        assert_eq!(
+            Digest::sha256_bytes(current_v2.as_bytes()).to_string(),
+            "sha256:83ce73337cd744c5febbd9f084226f37bb15a7d805eaab3e1d831cd50459de68",
+            "only the audited comparison proof evolution is accepted"
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &version_1_current,
+            current
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            current,
+            &version_1_current
+        ));
         assert!(super::analysis_recipe_source_matches(&historical, current));
+        assert!(!super::analysis_recipe_source_matches(current, &historical));
+
+        let current_text = String::from_utf8(current.to_vec()).unwrap();
+        let changed_proof = current_text.replacen(
+            "comparison_snapshot.head.as_deref() != Some(proof.source_head.as_str())",
+            "comparison_snapshot.head.as_deref() == Some(proof.source_head.as_str())",
+            1,
+        );
+        assert_ne!(changed_proof, current_text);
+        assert!(!super::analysis_recipe_source_matches(
+            &historical,
+            changed_proof.as_bytes()
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            &version_1_current,
+            changed_proof.as_bytes()
+        ));
+        let fixture_only_change = current_text.replace(
+            "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"false\"]);",
+            "run_git(root, &[\"config\", \"--local\", \"core.autocrlf\", \"true\"]);",
+        );
+        assert_ne!(fixture_only_change, current_text);
+        assert_eq!(
+            super::production_analysis_recipe_projection_v2(current),
+            super::production_analysis_recipe_projection_v2(fixture_only_change.as_bytes())
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            fixture_only_change.as_bytes()
+        ));
+
+        let helper_only_change = current_text.replace(
+            "fn material_review_contract_amendment_digests_form_chain(",
+            "fn material_review_contract_amendment_digests_form_chain_test_only(",
+        );
+        assert_ne!(helper_only_change, current_text);
+        assert_eq!(
+            super::production_analysis_recipe_projection_v2(current),
+            super::production_analysis_recipe_projection_v2(helper_only_change.as_bytes())
+        );
+        assert!(super::analysis_recipe_source_matches(
+            &historical,
+            helper_only_change.as_bytes()
+        ));
+
+        let current_lf = current_text.replace("\r\n", "\n");
+        for (line_ending_name, line_ending) in [("LF", "\n"), ("CRLF", "\r\n")] {
+            let source = current_lf.replace('\n', line_ending);
+            assert!(
+                super::analysis_recipe_source_matches(&historical, source.as_bytes()),
+                "unmutated {line_ending_name} fixture must remain compatible"
+            );
+            let before = format!("#[cfg(test)]{line_ending}mod tests {{");
+            let after =
+                format!("#[cfg(any(test, feature = \"fixture-test\"))]{line_ending}mod tests {{");
+            let unsupported_cfg = source.replacen(before.as_str(), after.as_str(), 1);
+            assert_ne!(
+                unsupported_cfg, source,
+                "{line_ending_name} fixture mutation must change its source"
+            );
+            assert!(
+                !super::analysis_recipe_source_matches(&historical, unsupported_cfg.as_bytes()),
+                "{line_ending_name} composite cfg must remain unsupported"
+            );
+        }
 
         let historical = String::from_utf8(historical).unwrap();
         for (before, after) in [
@@ -9446,6 +9989,15 @@ mod post_merge_sync_tests {
         assert!(!super::analysis_recipe_source_matches(
             lone_cr.as_bytes(),
             current
+        ));
+        let changed_current = String::from_utf8(current.to_vec()).unwrap().replacen(
+            "material-analysis-implementation:v1",
+            "material-analysis-implementation:v2",
+            1,
+        );
+        assert!(!super::analysis_recipe_source_matches(
+            historical.as_bytes(),
+            changed_current.as_bytes()
         ));
     }
 
@@ -9884,6 +10436,139 @@ mod post_merge_sync_tests {
         fixture
     }
 
+    fn cutoff_report_archive_stage_fixture(
+        id: &str,
+        policy_before_finish: bool,
+        remove_finish_policy: bool,
+    ) -> (tempfile::TempDir, String, String) {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let active = root.join(format!(".ai/work-items/active/{id}"));
+        let archive = root.join(format!(".ai/work-items/archive/{id}"));
+        std::fs::create_dir_all(active.parent().unwrap()).unwrap();
+
+        let active_reference = format!(".ai/work-items/active/{id}.contract.json");
+        let report = serde_json::json!({
+            "schemaVersion": 1,
+            "usage": {"state": "unknown"},
+            "sections": {"evidence": [{"evidenceRefs": [active_reference]}]}
+        });
+        let report_bytes = serde_json::to_vec_pretty(&report).unwrap();
+        let markdown = format!("# Report\n\nEvidence: `{active_reference}`\n").into_bytes();
+        let policy = super::super::new_task_outcome_projection_policy(
+            &Digest::sha256_bytes(b"fixture repository").to_string(),
+            id,
+            Digest::sha256_bytes(b"fixture contract"),
+            Digest::sha256_bytes(b"fixture source snapshot"),
+            "fixture-runtime",
+            Digest::sha256_bytes(b"fixture runtime"),
+        );
+        let policy_value = serde_json::to_value(&policy).unwrap();
+        let predecessor_summary = if policy_before_finish {
+            serde_json::json!({
+                "state": "checkpointed",
+                "taskOutcomeProjectionPolicy": policy_value,
+                "lifecycleFacts": {}
+            })
+        } else {
+            serde_json::json!({"state": "checkpointed", "lifecycleFacts": {}})
+        };
+        std::fs::write(
+            format!("{}.contract.json", active.display()),
+            b"{\"workItemId\":\"fixture\"}\n",
+        )
+        .unwrap();
+        std::fs::write(
+            format!("{}.summary.json", active.display()),
+            serde_json::to_vec_pretty(&predecessor_summary).unwrap(),
+        )
+        .unwrap();
+        std::fs::write(
+            format!("{}.events.jsonl", active.display()),
+            format!("{{\"workItemId\":\"{id}\"}}\n"),
+        )
+        .unwrap();
+        commit(root, "persist finish-time projection policy");
+
+        let binding = cockpit_protocol::TaskOutcomeProjectionFinishBinding {
+            schema_version: 1,
+            projection_policy_digest: cockpit_protocol::digest_json(&policy).unwrap(),
+            task_report_json_digest: Digest::sha256_bytes(&report_bytes),
+            task_report_markdown_digest: Digest::sha256_bytes(&markdown),
+        };
+        let finish_summary = if remove_finish_policy {
+            serde_json::json!({"state": "finish_ready", "lifecycleFacts": {}})
+        } else if policy_before_finish {
+            serde_json::json!({
+                "state": "finish_ready",
+                "taskOutcomeProjectionPolicy": policy_value,
+                "lifecycleFacts": {
+                    "taskOutcomeProjectionFinishBinding": binding
+                }
+            })
+        } else {
+            serde_json::json!({"state": "finish_ready", "lifecycleFacts": {}})
+        };
+        let outcome = serde_json::json!({
+            "taskOutcomeReport": report,
+            "taskReportDigest": Digest::sha256_bytes(&report_bytes),
+            "taskReportMarkdownDigest": Digest::sha256_bytes(&markdown)
+        });
+        std::fs::write(
+            format!("{}.summary.json", active.display()),
+            serde_json::to_vec_pretty(&finish_summary).unwrap(),
+        )
+        .unwrap();
+        std::fs::write(
+            format!("{}.outcome.json", active.display()),
+            serde_json::to_vec_pretty(&outcome).unwrap(),
+        )
+        .unwrap();
+        std::fs::write(
+            format!("{}.task-report.json", active.display()),
+            &report_bytes,
+        )
+        .unwrap();
+        std::fs::write(format!("{}.task-report.md", active.display()), &markdown).unwrap();
+        let finish = commit(root, "finish with a cutoff-bound report");
+
+        std::fs::create_dir_all(archive.parent().unwrap()).unwrap();
+        for suffix in ["contract.json", "summary.json", "events.jsonl"] {
+            let source = std::fs::read(format!("{}.{}", active.display(), suffix)).unwrap();
+            std::fs::write(
+                format!("{}.{}", archive.display(), suffix),
+                super::super::normalized_archive_artifact_bytes(suffix, &source, id).unwrap(),
+            )
+            .unwrap();
+        }
+        std::fs::write(
+            format!("{}.task-report.json", archive.display()),
+            &report_bytes,
+        )
+        .unwrap();
+        std::fs::write(format!("{}.task-report.md", archive.display()), &markdown).unwrap();
+        let outcome_bytes = std::fs::read(format!("{}.outcome.json", active.display())).unwrap();
+        let mut archived_outcome: serde_json::Value = serde_json::from_slice(
+            &super::super::normalized_archive_artifact_bytes("outcome.json", &outcome_bytes, id)
+                .unwrap(),
+        )
+        .unwrap();
+        if policy_before_finish {
+            archived_outcome["taskOutcomeReport"] = report.clone();
+        }
+        archived_outcome["taskReportDigest"] =
+            serde_json::json!(Digest::sha256_bytes(&report_bytes).to_string());
+        archived_outcome["taskReportMarkdownDigest"] =
+            serde_json::json!(Digest::sha256_bytes(&markdown).to_string());
+        std::fs::write(
+            format!("{}.outcome.json", archive.display()),
+            serde_json::to_vec_pretty(&archived_outcome).unwrap(),
+        )
+        .unwrap();
+        let archive_revision = commit(root, "archive the cutoff-bound report");
+        (fixture, finish, archive_revision)
+    }
+
     #[test]
     fn post_merge_sync_finish_history_accepts_only_append_only_attempt_commits() {
         let fixture = post_merge_history_fixture();
@@ -10299,10 +10984,19 @@ mod post_merge_sync_tests {
         let id = "WI-9994-post-merge-sync-fixture";
         let active = root.join(format!(".ai/work-items/active/{id}"));
         std::fs::create_dir_all(active.parent().unwrap()).unwrap();
+        std::fs::write(format!("{}.contract.json", active.display()), b"contract\n").unwrap();
+        std::fs::write(
+            format!("{}.summary.json", active.display()),
+            b"{\"state\":\"checkpointed\",\"lifecycleFacts\":{}}\n",
+        )
+        .unwrap();
+        commit(root, "legacy checkpoint without a projection policy");
         for (suffix, bytes) in [
-            ("contract.json", b"contract\n".as_slice()),
             ("outcome.json", b"{}\n".as_slice()),
-            ("summary.json", b"summary\n".as_slice()),
+            (
+                "summary.json",
+                b"{\"state\":\"finish_ready\",\"lifecycleFacts\":{}}\n".as_slice(),
+            ),
             ("task-report.json", b"{}\n".as_slice()),
             ("task-report.md", b"report\n".as_slice()),
             ("events.jsonl", b"event\n".as_slice()),
@@ -10351,6 +11045,39 @@ mod post_merge_sync_tests {
         assert!(
             super::validate_archive_stage_bytes(root, id, &finish, &substituted_archive).is_err(),
             "an archive manifest cannot authorize a substituted archived summary blob"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_archive_stage_preserves_cutoff_bound_embedded_report_bytes() {
+        let id = "WI-9997-post-merge-sync-fixture";
+        let (fixture, finish, archive_revision) =
+            cutoff_report_archive_stage_fixture(id, true, false);
+        let root = fixture.path();
+        super::validate_archive_stage_bytes(root, id, &finish, &archive_revision)
+            .expect("the archived embedded report must preserve the exact frozen finish bytes");
+    }
+
+    #[test]
+    fn post_merge_sync_legacy_archive_stage_normalizes_embedded_report_references() {
+        let id = "WI-9996-post-merge-sync-fixture";
+        let (fixture, finish, archive_revision) =
+            cutoff_report_archive_stage_fixture(id, false, false);
+        super::validate_archive_stage_bytes(fixture.path(), id, &finish, &archive_revision)
+            .expect("fixed legacy projection keeps the historical normalized archive references");
+    }
+
+    #[test]
+    fn post_merge_sync_archive_stage_rejects_policy_removal_before_finish() {
+        let id = "WI-9995-post-merge-sync-fixture";
+        let (fixture, finish, archive_revision) =
+            cutoff_report_archive_stage_fixture(id, true, true);
+        let error =
+            super::validate_archive_stage_bytes(fixture.path(), id, &finish, &archive_revision)
+                .expect_err("a policy-bound predecessor cannot be reclassified as legacy");
+        assert!(
+            format!("{error:?}").contains("removed"),
+            "expected a policy removal diagnostic, got {error:?}"
         );
     }
 

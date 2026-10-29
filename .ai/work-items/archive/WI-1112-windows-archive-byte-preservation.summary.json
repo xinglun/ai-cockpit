@@ -1,0 +1,318 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.4ad655555dbd696a03cf5633f4c98ab77791808dca546fc2fe74ab6265e1d14c.json",
+    ".ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.ca911df5528a9daa91a8e8df1ee50f6df91cc5a84234aa5bae5b4ba7462d2ef2.json",
+    ".ai/decisions/WI-1112-windows-archive-byte-preservation.preflight-review.d7f1e59723c9ff7c2be972efc62b1cacd045358f89a71997e4ac032f404b5e94.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000004.prepared.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000005.committed.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.contract-amendments/00000005.prepared.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.2090af9ee9296d5a5786c873087517881db40fc53a25b9731ed3171579bb95be.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.2d918636e7b20be087d07da97dd5123d5bdd5fde5e2b3068d6d3949df58cb676.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.3b62517a613ed01a0109ba98c94175c1708ddc59ff422b6687e720c5e42145bf.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.3c375ebb481706b8cc9ff440d4e62600b85e229a563ad3233d504653b23d528c.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.52af52198fa459030a4a7ae134d5f98a1cbff2a3e3a89fba5b9b0fb3ee33787f.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.591f7ec4080e59efbbfad1f37c88300451f6f85aad8c95e0aa22ed21e0696103.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.618d64907582dde70184c969cebb413f6212a1e117cf2143599f50af36b5019f.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.913a7bffb8d2fc79dcbb8a75750c6aca6439e7236514362efeeadb348d695b06.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.991e452a2e16629519e246e6af8bf88cb608651174e9fb53c1378bf30cccc5f9.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.b5f61f7e237962234712f5a2fbaa4fce6cb5db100652203463515db24f0b601f.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.ce9d16fd0803bd0ac1a2f122f1a3a2994da7dbd382839e16714593b303032b59.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification-attempt.fc24b0d6984c8229fcb4ee99874be08b03828e12b4ab9840601f1f7a649a1346.json",
+    ".ai/evidence/WI-1112-windows-archive-byte-preservation.verification.json",
+    ".ai/evidence/material-inspection-review/WI-1112-windows-archive-byte-preservation/add96e6a8640ad4e2c81e38ee0e5ed39c6f85fc325bfccb992447998a7b286c9.json",
+    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.contract.json",
+    ".ai/work-items/active/WI-1112-windows-archive-byte-preservation.summary.json"
+  ],
+  "checkpointAt": "2026-10-26T09:18:45Z",
+  "checkpointContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+      "recorded": true,
+      "recordedAt": "2026-10-26T09:18:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6d68423578faec6edce5ffcf642894e285601e31aea97b191676e0b10d6ce2f9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+      "previousContractHash": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+      "reason": "Separate the historical source that enabled the bounded material-review profile from each request-specific risk approval. Preserve the declared cause and state that the current post-clippy material request remains pending.",
+      "recorded": true,
+      "recordedAt": "2026-10-26T10:16:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b62a90023bcdbc016e4d5fe41047bef1fe5455534f61f0199490c0a5a0f8a599",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+      "previousContractHash": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+      "reason": "Apply the user-authorized bounded WI-1112 lifecycle policy to this exact repository, Work Item scope and GitHub target. The existing provider CI is observed and limited operationally to at most three rounds; this Runtime schema has no run_ci action or CI-round counter. Do not ready the draft PR, verify main, close the Work Item, or act on another repository, Work Item, base branch, release, production or shared Runtime.",
+      "recorded": true,
+      "recordedAt": "2026-10-26T11:48:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+  "createdAt": "2026-10-26T05:57:59Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:688a8f46e17d34a1f878ec38f76c152aea30822b9ccb4f257750540f0029b40a",
+    "reason": "Ray's actual response Sentinel_e621aeb945448191aeeb85ac0077b312 confirms the exact WI-1112 sequence 5 Contract, preflight, and snapshot. The human decision actor is Ray; the native record is submitted by agent:Codex. This decision confirms the bounded taskAuthorization recorded in sequence 5; it does not assert that verification, CI, resource finalization, or delivery has passed.",
+    "recordedAt": "2026-10-26T12:02:36Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+    "schemaVersion": 1,
+    "workItemId": "WI-1112-windows-archive-byte-preservation"
+  },
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/outcome_report.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs",
+      "crates/cockpit-repository/tests/material_review.rs",
+      "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "/tmp/wi1112-seq5-formal.log"
+    ],
+    "reason": "The scoped implementation matches the stated repair intent and the declared local workspace verification passed. Hosted Windows CI has not yet run; no user-visible benefit or performance improvement is claimed.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-26T06:00:23.577488841Z",
+      "recordedAt": "2026-10-26T06:00:23.577488841Z",
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:c6d78ecfbc3928d4210226ae16fcf29a156a9d1d7a8aee5a0526fa0e134194e3",
+    "path": ".ai/evidence/material-inspection-review/WI-1112-windows-archive-byte-preservation/add96e6a8640ad4e2c81e38ee0e5ed39c6f85fc325bfccb992447998a7b286c9.json",
+    "receiptDigest": "sha256:72fe1b0bdb68ccf07599a2dcb5b143444f7a16d9fca8c9fc63592e10719dc6c4",
+    "requestDigest": "sha256:add96e6a8640ad4e2c81e38ee0e5ed39c6f85fc325bfccb992447998a7b286c9"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+  "preflightAt": "2026-10-26T12:16:37Z",
+  "preflightContractDigest": "sha256:941897b098b58616f08c2d884ecbc0c260723ab5fa2bdea95564cff2b1e74a04",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7cf79f0abded48197dc7041b7cb6a1063b7b5c65b4a299458e0477a28f938c2d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "recoveryDecisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs::current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf",
+        "crates/cockpit-repository/tests/outcome_report.rs::historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf"
+      ],
+      "expectedOutcome": "The fixed-history Git clone uses a local filesystem source path with spaces while retaining --shared --no-checkout isolation.",
+      "reason": "Verified by local Linux regression tests using paths with spaces and core.autocrlf=true; this does not claim hosted Windows CI has run.",
+      "required": true,
+      "scenario": "windows_local_clone_spaces",
+      "status": "verified",
+      "verificationPlan": "The helper succeeds on supported platforms without treating a drive path as a remote URL."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs::current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf",
+        "crates/cockpit-repository/tests/outcome_report.rs::historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf"
+      ],
+      "expectedOutcome": "A checkout with core.autocrlf=true preserves .ai evidence bytes using the scoped fixture attributes.",
+      "reason": "Verified by local Linux regression tests using paths with spaces and core.autocrlf=true; this does not claim hosted Windows CI has run.",
+      "required": true,
+      "scenario": "windows_ai_artifact_exact_bytes",
+      "status": "verified",
+      "verificationPlan": "Working-tree bytes match Git blob bytes exactly; no global Git setting is changed."
+    },
+    {
+      "evidence": [
+        "/tmp/wi1112-single-byte-autocrlf-true-evidence.json",
+        "/tmp/wi1112-single-byte-autocrlf-true-baseline.stdout",
+        "/tmp/wi1112-single-byte-autocrlf-true-tampered.stderr",
+        "/tmp/wi1112-attributes-current-test.log"
+      ],
+      "expectedOutcome": "The same fixture changes one byte in a protected artifact.",
+      "reason": "In a disposable clone at the current source HEAD with core.autocrlf=true and the repository .gitattributes rule, the candidate accepted the exact Git-blob baseline. Flipping exactly byte offset 2 from 0x54 to 0x55 changed one byte and the same reader rejected the artifact because its Markdown digest no longer matched the manifest.",
+      "required": true,
+      "scenario": "windows_single_byte_tamper_rejected",
+      "status": "verified",
+      "verificationPlan": "Current-head checkout preserves raw .ai bytes under core.autocrlf=true; candidate reads baseline, then rejects a single-byte artifact mutation with strict digest validation."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewriting_archive"
+      ],
+      "expectedOutcome": "A valid WI-1111 archived predecessor and WI-1112 active successor are linked through the validated recovery receipt.",
+      "reason": "The real predecessor/successor output is consistent across CLI and MCP and preserves archive bytes.",
+      "required": true,
+      "scenario": "continuity_projection_valid_successor",
+      "status": "verified",
+      "verificationPlan": "The current handoff clearly separates the archived local snapshot, external obligation, active successor, and next admitted action without changing archived bytes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs::outcome_rejects_a_foreign_current_recovery_with_a_stable_unknown"
+      ],
+      "expectedOutcome": "The recovery receipt, repository identity, predecessor Contract digest, archive digest, or successor identity is absent, malformed, or mismatched.",
+      "reason": "The invalid foreign recovery remains Unknown and cannot infer predecessor continuity.",
+      "required": true,
+      "scenario": "continuity_projection_invalid_lineage",
+      "status": "verified",
+      "verificationPlan": "No predecessor link or completion claim is inferred."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewriting_archive"
+      ],
+      "expectedOutcome": "The local archive is valid while hosted/provider evidence is failed, missing, stale, or pending.",
+      "reason": "The handoff preserves local archive facts while keeping external validation pending.",
+      "required": true,
+      "scenario": "archive_is_not_overall_delivery_completion",
+      "status": "verified",
+      "verificationPlan": "Archive remains frozen; overall delivery stays pending and no close/completion is projected."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs::real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority"
+      ],
+      "expectedOutcome": "The current request contains the same three predecessor-reviewed Unknown path/blob/hunk identities.",
+      "reason": "The real WI-1111 to WI-1112 fixture exposes matching bytes as reference-only and keeps changed analysis context unresolved.",
+      "required": true,
+      "scenario": "material_delta_context_is_reference_only",
+      "status": "verified",
+      "verificationPlan": "Plan displays the exact unchanged context, preserves raw Unknowns, and requires a fresh WI-1112-bound receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/material_review.rs::old_material_decision_is_stale_after_analysis_or_policy_identity_changes",
+        "crates/cockpit-repository/tests/material_review.rs::adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality"
+      ],
+      "expectedOutcome": "A source blob/hunk, scope, Contract, profile, policy, scanner identity, or cause changes, or a new Finding/Unknown appears.",
+      "reason": "The real WI-1111 to WI-1112 fixture exposes matching bytes as reference-only and keeps changed analysis context unresolved.",
+      "required": true,
+      "scenario": "material_delta_change_invalidates_context",
+      "status": "verified",
+      "verificationPlan": "No old context is treated as covering the changed request; the new material remains unresolved."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::successor_continuity_handoff_is_identical_across_cli_and_mcp_without_rewriting_archive",
+        "crates/cockpit-repository/tests/outcome_report.rs::fixed_git_anchored_pre_policy_archive_remains_readable"
+      ],
+      "expectedOutcome": "CLI and MCP render the same current continuity projection while reading an unchanged legacy archive.",
+      "reason": "The real predecessor/successor output is consistent across CLI and MCP and preserves archive bytes.",
+      "required": true,
+      "scenario": "cli_mcp_and_legacy_archive_compatibility",
+      "status": "verified",
+      "verificationPlan": "Archived wire bytes stay unchanged; the new projection is separately versioned and is not inserted into legacy events or reports."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-26T12:42:54.965104772+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:568c8352de8ec4d37d2ad590915cbd5df41522cf58417fd86bd14c6028025384",
+  "workItemId": "WI-1112-windows-archive-byte-preservation"
+}

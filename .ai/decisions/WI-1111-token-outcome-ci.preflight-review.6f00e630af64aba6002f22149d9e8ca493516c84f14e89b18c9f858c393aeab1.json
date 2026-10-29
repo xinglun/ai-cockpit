@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c540101c1641e95b5bb2d66e8201862bbde54e78e4ffbe95b4d3646d4cec658c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5c9d3d7863ef9368818f0155c9326ff2b3ad5e46361509ffcf4c26241d303e9e",
+  "reason": "Actual user confirmation from conversation Sentinel_efc3f250d78c81919174f530553ffed1 at 2026-10-25T18:29:07 UTC: ‘确认 WI-1111 上述测试与三语文档范围及 sequence 8 精确绑定，confirm_review。仍不包含公开推送、合并、发布、生产启用或共享 Runtime 替换。’ Recorded by agent: Codex through the fixed Runtime; this records the supplied user decision only.",
+  "recordedAt": "2026-10-25T18:30:21Z",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1e191237c0b03f774e7706b18398833f20b2799bc2528323bf51f1c27193054c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}

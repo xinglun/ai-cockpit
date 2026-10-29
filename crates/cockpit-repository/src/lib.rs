@@ -70,6 +70,7 @@ mod rust_material;
 mod status_projection;
 mod task_authorization;
 mod usage;
+mod usage_import;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
@@ -128,7 +129,13 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
-pub use task_authorization::{assess_task_authorization, task_authorization_timeout};
+pub use task_authorization::{
+    assess_task_authorization, inspect_task_authorization_batch_check_outcome,
+    inspect_task_authorization_batch_member, prepare_task_authorization_batch_manifest,
+    record_task_authorization_batch_check_outcome, record_task_authorization_batch_review,
+    reserve_task_authorization_batch_check_attempt, reserve_task_authorization_batch_start,
+    task_authorization_timeout, terminate_task_authorization_batch_member,
+};
 
 /// Compatibility controls cannot supply the Runtime identity required by
 /// activation continuity/recovery. Those items use the admitted Runtime
@@ -242,6 +249,7 @@ pub use usage::{
     query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
     record_work_item_usage,
 };
+pub use usage_import::import_work_item_usage;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
@@ -1447,7 +1455,7 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
-    run_repository_verification_inner(root, request, process_observer, |_| {}, None)
+    run_repository_verification_inner(root, request, process_observer, |_| {}, None, None)
 }
 
 #[cfg(all(test, unix))]
@@ -1464,6 +1472,7 @@ where
         request,
         |_node_id, _process_id, _started| Ok(()),
         post_prepare,
+        None,
         None,
     )
 }
@@ -1486,6 +1495,31 @@ where
         process_observer,
         |_| {},
         Some((runtime, caller)),
+        None,
+    )
+}
+
+/// Execute an admitted task verification through a per-command supervisor.
+/// The supervisor is selected by the governing CLI Runtime and keeps its own
+/// subprocess tree isolated from the caller that records native admission.
+pub fn run_repository_verification_with_task_authorization_supervised<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+    supervisor: cockpit_verification::VerificationSupervisorLaunch,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
+        Some(supervisor),
     )
 }
 
@@ -1562,6 +1596,7 @@ fn run_repository_verification_inner<F, H>(
         &RuntimeContext,
         Option<&cockpit_protocol::TaskAuthorizationCaller>,
     )>,
+    process_supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
 ) -> Result<RepositoryVerificationRun, ObserverError>
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
@@ -1604,12 +1639,25 @@ where
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let mut receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
-        vec![command],
-        request.workers,
-        move |node_id, process_id, started| observer(node_id, process_id, started),
-        Arc::clone(&start_gate),
-    )
+    let observer_callback =
+        move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
+    let mut receipt = match process_supervisor.clone() {
+        Some(supervisor) => {
+            cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+                supervisor,
+            )
+        }
+        None => cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
+            vec![command],
+            request.workers,
+            observer_callback,
+            Arc::clone(&start_gate),
+        ),
+    }
     .map_err(|error| ObserverError::State {
         path: root.clone(),
         message: error.to_string(),
@@ -1694,12 +1742,24 @@ where
             )
         };
         let observer = Arc::clone(&process_observer);
-        receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
-            vec![command],
-            request.workers,
-            move |node_id, process_id, started| observer(node_id, process_id, started),
-            Arc::clone(&start_gate),
-        )
+        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+            observer(node_id, process_id, started)
+        };
+        receipt = match process_supervisor {
+            Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+                supervisor,
+            ),
+            None => cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
+                vec![command],
+                request.workers,
+                observer_callback,
+                Arc::clone(&start_gate),
+            ),
+        }
         .map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
@@ -5075,8 +5135,7 @@ pub fn evaluate_contract_quality_gate(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
-            reviewed_source_head: None,
-            reviewed_unknown_members: Vec::new(),
+            comparison_material: None,
             finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,
@@ -5086,14 +5145,6 @@ pub fn evaluate_contract_quality_gate(
     material_review::preserve_unreviewed_comparison_material_unknowns(&snapshot, &mut projection);
     let projection =
         material_review::apply_material_review_projection_to_decision(projection, &mut decision);
-    reconcile_clean_comparison_material(
-        &root,
-        &contract,
-        &current_contract_digest,
-        &snapshot,
-        &projection,
-        &mut decision,
-    );
     decision.recompute_state_from_effective_facts();
     let raw_scanner_unknowns = projection.raw_scanner_unknowns;
     let material_manifest_digest = projection.material_manifest_digest;
@@ -5164,108 +5215,12 @@ pub fn evaluate_contract_quality_gate(
     Ok(report)
 }
 
-/// The small comparison snapshot may omit a complete Rust blob that the
-/// canonical committed-source inspector already read and classified. This
-/// fills only that exact missing-text observation; it is neither a review
-/// receipt nor acceptance of an unresolved syntax or material Finding.
-fn reconcile_clean_comparison_material(
-    root: &Path,
-    contract: &Contract,
-    contract_digest: &Digest,
-    comparison: &RepositorySnapshot,
-    projection: &material_review::MaterialReviewGateProjection,
-    decision: &mut GovernanceDecision,
-) {
-    const UNKNOWN: &str = "repository_material_inspection_unavailable";
-    if !decision.unknowns.iter().any(|unknown| unknown == UNKNOWN)
-        || !decision.blockers.is_empty()
-        || projection.projection_unavailable
-        || projection.blocked_by_finding
-        || !projection.effective_unknowns.is_empty()
-    {
-        return;
-    }
-    // Read the actual native document digest, including legacy/defaulted
-    // fields, rather than equating typed reserialization with that document.
-    // If this active-source request is unavailable, retain the Unknown.
-    let Ok(request) = material_review::plan_work_item_material_review(root, &contract.work_item_id)
-    else {
-        return;
-    };
-    if request.repository_id != repository_id(root).to_string()
-        || request.work_item_id != contract.work_item_id
-        || request.contract_digest != *contract_digest
-        || request.immutable_contract_base_revision != contract.base_revision
-        || projection.material_manifest_digest.as_ref() != Some(&request.material_manifest_digest)
-    {
-        return;
-    }
-    if comparison_material_is_completely_inspected(comparison, &request) {
-        decision.unknowns.retain(|unknown| unknown != UNKNOWN);
-    }
-}
-
+#[cfg(test)]
 fn comparison_material_is_completely_inspected(
     comparison: &RepositorySnapshot,
     request: &material_review::MaterialReviewRequest,
 ) -> bool {
-    if comparison.head.as_deref() != Some(request.reviewed_source_head.as_str())
-        || request.blocked_by_finding
-        || !request.finding_codes.is_empty()
-        || !request.raw_unknown_codes.is_empty()
-    {
-        return false;
-    }
-    let mut matched = false;
-    let mut residual = comparison.clone();
-    residual.change_evidence.retain(|change| {
-        let clean = change.content_state == cockpit_git::ChangeContentState::Text
-            && matches!(
-                change.kind,
-                cockpit_git::ChangeKind::Added
-                    | cockpit_git::ChangeKind::Modified
-                    | cockpit_git::ChangeKind::Renamed
-                    | cockpit_git::ChangeKind::Copied
-            )
-            && rust_material::diagnose_rust_material(change).unknown_cause
-                == Some(rust_material::MaterialUnknownCause::MissingCompleteSource)
-            && request.entries.iter().any(|entry| {
-                if change.path != entry.path
-                    || format!("{:?}", change.kind).to_ascii_lowercase() != entry.kind
-                    || !entry.path.to_ascii_lowercase().ends_with(".rs")
-                    || entry.content_state != "text"
-                    || entry.scanner_assessment != material_review::MaterialScannerAssessment::Clean
-                    || entry.unknown_cause.is_some()
-                    || entry
-                        .after_blob_digest
-                        .as_ref()
-                        .is_none_or(|digest| !valid_sha256_digest(digest.as_str()))
-                {
-                    return false;
-                }
-                let origins = change
-                    .added_line_origins
-                    .iter()
-                    .map(|origin| (origin.after_line, origin.hunk_index))
-                    .collect::<Vec<_>>();
-                // Same current HEAD binds the canonical committed after-blob
-                // to this path; checkout text cannot manufacture that proof.
-                cockpit_protocol::digest_json(&(
-                    &change.added_lines,
-                    origins,
-                    &change.removed_lines,
-                ))
-                .is_ok_and(|digest| digest == entry.changed_hunk_digest)
-            });
-        matched |= clean;
-        !clean
-    });
-    matched
-        && !derive_governance_signals_with_diagnostics(&residual)
-            .0
-            .unknowns
-            .iter()
-            .any(|unknown| unknown == "repository_material_inspection_unavailable")
+    material_review::clean_comparison_is_covered_for_test(comparison, request)
 }
 
 /// Validate a previously emitted Contract quality-gate report against the
@@ -10456,6 +10411,60 @@ pub fn reconcile_active_artifacts(
     Ok(receipt)
 }
 
+type PendingArchiveArtifact = (String, String, PathBuf, PathBuf, Vec<u8>, Vec<u8>);
+type MovedArchiveArtifact = (PathBuf, PathBuf, Vec<u8>, bool);
+
+fn rollback_archive_artifacts(moved: &[MovedArchiveArtifact]) -> Result<(), String> {
+    let mut failures = Vec::new();
+    for (source, target, original, normalized) in moved.iter().rev() {
+        if *normalized {
+            if let Err(error) = fs::remove_file(target)
+                && error.kind() != std::io::ErrorKind::NotFound
+            {
+                failures.push(format!("remove {}: {error}", target.display()));
+            }
+            if let Err(error) = atomic_write(source, original) {
+                failures.push(format!("restore {}: {error}", source.display()));
+            }
+        } else if let Err(error) = fs::rename(target, source) {
+            failures.push(format!("restore {}: {error}", source.display()));
+        }
+    }
+    if failures.is_empty() {
+        Ok(())
+    } else {
+        Err(failures.join("; "))
+    }
+}
+
+fn move_archive_artifacts(
+    pending: &[PendingArchiveArtifact],
+    mut install: impl FnMut(&Path, &Path, &[u8], &[u8]) -> Result<(), ObserverError>,
+) -> Result<Vec<MovedArchiveArtifact>, ObserverError> {
+    let mut moved = Vec::new();
+    for (_, _, source, target, source_bytes, archived_bytes) in pending {
+        let normalized = source_bytes != archived_bytes;
+        if let Err(error) = install(source, target, source_bytes, archived_bytes) {
+            return match rollback_archive_artifacts(&moved) {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(ObserverError::State {
+                    path: source.clone(),
+                    message: format!(
+                        "archive install failed: {error}; rollback failed: {rollback_error}"
+                    ),
+                }),
+            };
+        }
+        moved.push((
+            source.clone(),
+            target.clone(),
+            source_bytes.clone(),
+            normalized,
+        ));
+    }
+    Ok(moved)
+}
+
 fn archive_work_item_internal(
     root: &Path,
     work_item_id: &str,
@@ -10634,9 +10643,35 @@ fn archive_work_item_internal(
             message: "archive requires a verified outcome".into(),
         });
     }
+    let mut policy_bound_projection = false;
     if outcome.get("taskOutcomeReport").is_some() {
         let events_path = task_outcome_event_path(&root, work_item_id, false);
-        validate_task_outcome_events(&root, &events_path, &contract.repository_id, work_item_id)?;
+        let events = validate_task_outcome_events(
+            &root,
+            &events_path,
+            &contract.repository_id,
+            work_item_id,
+        )?;
+        validate_active_task_outcome_projection_binding(
+            &root,
+            work_item_id,
+            &contract,
+            &summary,
+            &outcome,
+            &events,
+            &snapshot_digest(&snapshot).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?,
+        )?;
+        policy_bound_projection = !summary["taskOutcomeProjectionPolicy"].is_null()
+            && !summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null();
+        if !policy_bound_projection {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "archive requires the validated Task Outcome projection policy and finish binding".into(),
+            });
+        }
     }
     fs::create_dir_all(&archive).map_err(|source| ObserverError::Read {
         path: archive.clone(),
@@ -10723,6 +10758,31 @@ fn archive_work_item_internal(
         } else {
             normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?
         };
+        let archived_bytes = if policy_bound_projection && suffix == "outcome.json" {
+            // Keep the embedded Task Outcome facts byte-equivalent to the
+            // separately frozen JSON report. Archive path resolution happens
+            // when reading references; rewriting this embedded copy would
+            // make the archive contain two different versions of the report.
+            let mut normalized: serde_json::Value = serde_json::from_slice(&archived_bytes)
+                .map_err(|error| ObserverError::State {
+                    path: target.clone(),
+                    message: format!("invalid normalized Outcome while preserving report: {error}"),
+                })?;
+            let original: serde_json::Value =
+                serde_json::from_slice(&source_bytes).map_err(|error| ObserverError::State {
+                    path: source_path.clone(),
+                    message: format!("invalid active Outcome while preserving report: {error}"),
+                })?;
+            if let Some(report) = original.get("taskOutcomeReport") {
+                normalized["taskOutcomeReport"] = report.clone();
+            }
+            serde_json::to_vec_pretty(&normalized).map_err(|error| ObserverError::State {
+                path: target.clone(),
+                message: format!("serialize frozen Outcome report copy: {error}"),
+            })?
+        } else {
+            archived_bytes
+        };
         if target.exists() {
             return Err(ObserverError::State {
                 path: target,
@@ -10792,50 +10852,29 @@ fn archive_work_item_internal(
             }));
         }
     }
-    let mut moved: Vec<(PathBuf, PathBuf, Vec<u8>, bool)> = Vec::new();
-    for (_, _, source, target, source_bytes, archived_bytes) in &pending {
-        let normalized = source_bytes != archived_bytes;
-        let result: Result<(), ObserverError> = if normalized {
-            atomic_write(target, archived_bytes)
-        } else {
-            fs::rename(source, target).map_err(|source_error| ObserverError::Read {
-                path: target.clone(),
-                source: source_error,
-            })
-        };
-        if let Err(error) = result {
-            for (moved_source, moved_target, original, moved_normalized) in moved.into_iter().rev()
-            {
-                if moved_normalized {
-                    let _ = fs::remove_file(moved_target);
-                    let _ = atomic_write(&moved_source, &original);
-                } else {
-                    let _ = fs::rename(moved_target, moved_source);
-                }
+    let moved =
+        move_archive_artifacts(&pending, |source, target, source_bytes, archived_bytes| {
+            if source_bytes != archived_bytes {
+                atomic_write(target, archived_bytes)
+            } else {
+                fs::rename(source, target).map_err(|source_error| ObserverError::Read {
+                    path: target.into(),
+                    source: source_error,
+                })
             }
-            return Err(error);
-        }
-        moved.push((
-            source.clone(),
-            target.clone(),
-            source_bytes.clone(),
-            normalized,
-        ));
-    }
+        })?;
     for (source, _target, _original, normalized) in &moved {
         if *normalized && let Err(source_error) = fs::remove_file(source) {
-            for (moved_source, moved_target, moved_original, moved_normalized) in moved.iter().rev()
-            {
-                if *moved_normalized {
-                    let _ = fs::remove_file(moved_target);
-                    let _ = atomic_write(moved_source, moved_original);
-                } else {
-                    let _ = fs::rename(moved_target, moved_source);
-                }
-            }
+            let rollback = rollback_archive_artifacts(&moved);
             return Err(ObserverError::Read {
                 path: source.clone(),
-                source: source_error,
+                source: if let Err(rollback_error) = rollback {
+                    std::io::Error::other(format!(
+                        "{source_error}; archive rollback failed: {rollback_error}"
+                    ))
+                } else {
+                    source_error
+                },
             });
         }
     }
@@ -10863,15 +10902,15 @@ fn archive_work_item_internal(
         manifest["archiveRoute"] = serde_json::json!("historical_evidence_compatibility");
     }
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
-        for (moved_source, moved_target, original, normalized) in moved.into_iter().rev() {
-            if normalized {
-                let _ = fs::remove_file(moved_target);
-                let _ = atomic_write(&moved_source, &original);
-            } else {
-                let _ = fs::rename(moved_target, moved_source);
-            }
-        }
-        return Err(error);
+        return match rollback_archive_artifacts(&moved) {
+            Ok(()) => Err(error),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: manifest_path,
+                message: format!(
+                    "archive manifest write failed: {error}; rollback failed: {rollback_error}"
+                ),
+            }),
+        };
     }
     let _ = fs::remove_file(ai.join("knowledge/index.json"));
     Ok(LifecycleReceipt {
@@ -10880,6 +10919,103 @@ fn archive_work_item_internal(
         timestamp,
         start_advisory: None,
     })
+}
+
+#[cfg(test)]
+mod archive_transaction_tests {
+    use super::*;
+
+    #[test]
+    fn archive_install_failure_restores_prior_split_artifacts() {
+        let directory = tempfile::tempdir().expect("transaction fixture directory");
+        let active = directory.path().join("active");
+        let archive = directory.path().join("archive");
+        fs::create_dir_all(&active).expect("active directory");
+        fs::create_dir_all(&archive).expect("archive directory");
+
+        let first_source = active.join("contract.json");
+        let first_target = archive.join("contract.json");
+        let first_bytes = b"original contract".to_vec();
+        fs::write(&first_source, &first_bytes).expect("first source artifact");
+
+        let second_source = active.join("summary.json");
+        let second_target = archive.join("summary.json");
+        let second_original = b"active summary".to_vec();
+        let second_normalized = b"normalized summary".to_vec();
+        fs::write(&second_source, &second_original).expect("second source artifact");
+
+        let third_source = active.join("outcome.json");
+        let third_target = archive.join("outcome.json");
+        let third_bytes = b"active outcome".to_vec();
+        fs::write(&third_source, &third_bytes).expect("third source artifact");
+
+        let pending = vec![
+            (
+                "contract".into(),
+                "contract.json".into(),
+                first_source.clone(),
+                first_target.clone(),
+                first_bytes.clone(),
+                first_bytes.clone(),
+            ),
+            (
+                "summary".into(),
+                "summary.json".into(),
+                second_source.clone(),
+                second_target.clone(),
+                second_original.clone(),
+                second_normalized,
+            ),
+            (
+                "outcome".into(),
+                "outcome.json".into(),
+                third_source.clone(),
+                third_target.clone(),
+                third_bytes.clone(),
+                third_bytes.clone(),
+            ),
+        ];
+        let mut writes = 0;
+        let error = move_archive_artifacts(&pending, |source, target, original, normalized| {
+            writes += 1;
+            if writes == 3 {
+                return Err(ObserverError::State {
+                    path: target.into(),
+                    message: "injected archive install failure".into(),
+                });
+            }
+            if original == normalized {
+                fs::rename(source, target).map_err(|source| ObserverError::Read {
+                    path: target.into(),
+                    source,
+                })
+            } else {
+                atomic_write(target, normalized)
+            }
+        })
+        .expect_err("the third install fails after two prior artifact moves");
+        assert!(
+            error
+                .to_string()
+                .contains("injected archive install failure")
+        );
+
+        assert_eq!(
+            fs::read(&first_source).expect("first source restored"),
+            first_bytes
+        );
+        assert!(!first_target.exists(), "first archive target rolled back");
+        assert_eq!(
+            fs::read(&second_source).expect("second source preserved"),
+            second_original
+        );
+        assert!(!second_target.exists(), "normalized target rolled back");
+        assert_eq!(
+            fs::read(&third_source).expect("failed source untouched"),
+            third_bytes
+        );
+        assert!(!third_target.exists(), "failed target was never installed");
+    }
 }
 
 fn archive_superseded_work_item(
@@ -11526,7 +11662,9 @@ fn close_work_item_with_structured_decision_internal(
     if let Some(artifact) = historical_archive_integrity {
         decision["historicalArchiveIntegrity"] = serde_json::json!({
             "state": "quarantined",
-            "artifact": artifact,
+            "artifact": artifact.artifact,
+            "expectedDigest": artifact.expected_digest,
+            "actualDigest": artifact.actual_digest,
             "manifestDigest": recovery_decision
                 .as_ref()
                 .and_then(|value| value.predecessor_archive_manifest_digest.as_ref())
@@ -11663,7 +11801,7 @@ fn verify_archive_manifest(
     work_item_id: &str,
     manifest: &serde_json::Value,
 ) -> Result<(), ObserverError> {
-    verify_archive_manifest_with_options(root, work_item_id, manifest, false).map(|_| ())
+    verify_archive_manifest_with_options(root, work_item_id, manifest, None).map(|_| ())
 }
 
 /// Verify an archive manifest while optionally quarantining one narrowly
@@ -11676,8 +11814,144 @@ fn verify_archive_manifest_with_options(
     root: &Path,
     work_item_id: &str,
     manifest: &serde_json::Value,
-    allow_task_report_markdown_digest_mismatch: bool,
-) -> Result<Option<String>, ObserverError> {
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+) -> Result<Option<QuarantinedArchiveArtifact>, ObserverError> {
+    verify_archive_manifest_with_report_options(root, work_item_id, manifest, supersede_receipt)
+        .map(|verified| verified.markdown_digest_mismatch)
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct QuarantinedArchiveArtifact {
+    artifact: String,
+    expected_digest: Digest,
+    actual_digest: Digest,
+}
+
+fn supersede_receipt_binds_manifest_bytes(
+    receipt: &RecoveryDecisionReceipt,
+    work_item_id: &str,
+    repository_id: &str,
+    manifest_bytes: &[u8],
+) -> bool {
+    receipt.schema_version == 1
+        && receipt.decision_id == "work-item-recovery"
+        && receipt.decision == "supersede"
+        && receipt.work_item_id == work_item_id
+        && receipt.predecessor_work_item_id == work_item_id
+        && receipt.repository_id == repository_id
+        && receipt
+            .successor_work_item_id
+            .as_deref()
+            .is_some_and(|successor| !successor.trim().is_empty() && successor != work_item_id)
+        && receipt.predecessor_archive_manifest_digest.as_ref()
+            == Some(&Digest::sha256_bytes(manifest_bytes))
+}
+
+struct VerifiedArchiveArtifacts {
+    markdown_digest_mismatch: Option<QuarantinedArchiveArtifact>,
+    task_outcome_report: Option<TaskOutcomeReport>,
+    archived_summary: serde_json::Value,
+    archived_outcome: serde_json::Value,
+    archived_contract_digest: Digest,
+    archived_events_bytes: Option<Vec<u8>>,
+    verification_evidence_bytes: Option<Vec<u8>>,
+    archive_manifest_digest: Digest,
+    archive_manifest: serde_json::Value,
+}
+
+#[derive(Clone, Debug)]
+enum ArchiveTaskOutcomeValidationContext {
+    OrdinaryRead,
+    InitialContractAmendmentRevalidation {
+        predecessor_contract_digest: Digest,
+        current_contract_digest: Digest,
+        verification_evidence_digest: Digest,
+    },
+}
+
+/// Inputs for archive report validation and delivery captured before the
+/// inter-stage boundary. Inner validation and Outcome projection only parse
+/// these bytes; they never reopen an archive artifact path.
+struct CapturedArchiveProjection {
+    archive_manifest_bytes: Vec<u8>,
+    repository_id: String,
+    contract_bytes: Vec<u8>,
+    summary_bytes: Vec<u8>,
+    outcome_bytes: Vec<u8>,
+    events_bytes: Option<Vec<u8>>,
+    contract: CanonicalContractDocument,
+    summary: serde_json::Value,
+    outcome: serde_json::Value,
+    events: Vec<TaskOutcomeEvent>,
+    task_report_json_bytes: Option<Vec<u8>>,
+    task_report_markdown_bytes: Option<Vec<u8>>,
+    verification_evidence_bytes: Option<Vec<u8>>,
+}
+
+fn verify_archive_manifest_with_report_options(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
+    let mut no_op = || {};
+    verify_archive_manifest_with_report_options_and_hook(
+        root,
+        work_item_id,
+        manifest,
+        supersede_receipt,
+        &mut no_op,
+    )
+}
+
+fn verify_archive_manifest_with_report_options_and_hook(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    after_outer_digest_checks: &mut dyn FnMut(),
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
+    verify_archive_manifest_with_context_and_hook(
+        root,
+        work_item_id,
+        manifest,
+        supersede_receipt,
+        ArchiveTaskOutcomeValidationContext::OrdinaryRead,
+        after_outer_digest_checks,
+    )
+}
+
+fn verify_archive_manifest_for_contract_amendment_revalidation(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    predecessor_contract_digest: Digest,
+    current_contract_digest: Digest,
+    verification_evidence_digest: Digest,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
+    let mut no_op = || {};
+    verify_archive_manifest_with_context_and_hook(
+        root,
+        work_item_id,
+        manifest,
+        None,
+        ArchiveTaskOutcomeValidationContext::InitialContractAmendmentRevalidation {
+            predecessor_contract_digest,
+            current_contract_digest,
+            verification_evidence_digest,
+        },
+        &mut no_op,
+    )
+}
+
+fn verify_archive_manifest_with_context_and_hook(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    validation_context: ArchiveTaskOutcomeValidationContext,
+    after_outer_digest_checks: &mut dyn FnMut(),
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
     if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
         || !matches!(
             manifest["state"].as_str(),
@@ -11691,8 +11965,47 @@ fn verify_archive_manifest_with_options(
             message: "archive manifest identity or state is invalid".into(),
         });
     }
-    validate_historical_archive_manifest_binding(root, work_item_id, manifest)?;
     let archive = root.join(".ai/work-items/archive");
+    let archive_manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    if !is_regular_non_symlink(&archive_manifest_path)? {
+        return Err(ObserverError::State {
+            path: archive_manifest_path,
+            message: "archive manifest must be a regular non-symlink file".into(),
+        });
+    }
+    let archive_manifest_bytes =
+        read_governance_bytes(&archive_manifest_path).map_err(|source| ObserverError::Read {
+            path: archive_manifest_path.clone(),
+            source,
+        })?;
+    let captured_manifest: serde_json::Value = serde_json::from_slice(&archive_manifest_bytes)
+        .map_err(|error| ObserverError::State {
+            path: archive_manifest_path.clone(),
+            message: format!("archive manifest JSON is invalid: {error}"),
+        })?;
+    if &captured_manifest != manifest {
+        return Err(ObserverError::State {
+            path: archive_manifest_path,
+            message: "archive manifest changed after it was read for Outcome projection".into(),
+        });
+    }
+    if let Some(receipt) = supersede_receipt
+        && !supersede_receipt_binds_manifest_bytes(
+            receipt,
+            work_item_id,
+            &repository_id(root).to_string(),
+            &archive_manifest_bytes,
+        )
+    {
+        return Err(ObserverError::State {
+            path: archive_manifest_path.clone(),
+            message:
+                "supersede quarantine receipt does not bind the captured archive manifest bytes"
+                    .into(),
+        });
+    }
+    let mut captured_files = BTreeMap::<String, Vec<u8>>::new();
+    let expected_repository_id = repository_id(root).to_string();
     for name in ["contract", "summary", "outcome"] {
         let path = archive.join(format!("{work_item_id}.{name}.json"));
         if !is_regular_non_symlink(&path)? {
@@ -11718,6 +12031,7 @@ fn verify_archive_manifest_with_options(
                 message: format!("archived {name} digest does not match manifest"),
             });
         }
+        captured_files.insert(name.to_owned(), bytes);
     }
     // Normal terminal archives embed the generated report digests in the
     // archived Outcome. Superseded predecessors must retain their original
@@ -11727,7 +12041,15 @@ fn verify_archive_manifest_with_options(
         manifest["state"].as_str(),
         Some("superseded" | "retired" | "replaced")
     ) {
-        let archived_outcome = read_json(&archive.join(format!("{work_item_id}.outcome.json")))?;
+        let archived_outcome: serde_json::Value = serde_json::from_slice(
+            captured_files
+                .get("outcome")
+                .expect("mandatory archived Outcome bytes were captured"),
+        )
+        .map_err(|error| ObserverError::State {
+            path: archive.join(format!("{work_item_id}.outcome.json")),
+            message: format!("archived Outcome JSON is invalid: {error}"),
+        })?;
         for name in ["taskReport", "taskReportMarkdown"] {
             let manifest_digest = manifest["files"][format!("{name}Digest")].as_str();
             let outcome_key = match name {
@@ -11766,6 +12088,7 @@ fn verify_archive_manifest_with_options(
             path: path.clone(),
             source,
         })?;
+        captured_files.insert(name.to_owned(), bytes.clone());
         let expected = manifest["files"][format!("{name}Digest")]
             .as_str()
             .ok_or_else(|| ObserverError::State {
@@ -11773,7 +12096,7 @@ fn verify_archive_manifest_with_options(
                 message: format!("archive manifest has an invalid {name} digest"),
             })?;
         if Digest::sha256_bytes(&bytes).to_string() != expected {
-            if allow_task_report_markdown_digest_mismatch && name == "taskReportMarkdown" {
+            if supersede_receipt.is_some() && name == "taskReportMarkdown" {
                 continue;
             }
             return Err(ObserverError::State {
@@ -11782,10 +12105,10 @@ fn verify_archive_manifest_with_options(
             });
         }
         if name == "events" {
-            validate_task_outcome_events(
-                root,
+            validate_task_outcome_events_bytes(
                 &path,
-                &repository_id(root).to_string(),
+                &bytes,
+                &expected_repository_id,
                 work_item_id,
             )?;
         } else if name == "taskReport" {
@@ -11799,7 +12122,7 @@ fn verify_archive_manifest_with_options(
                     path: path.clone(),
                     message: format!("archived Task Outcome report is invalid: {error}"),
                 })?;
-            if report.bindings.repository_id != repository_id(root).to_string()
+            if report.bindings.repository_id != expected_repository_id
                 || report.bindings.work_item_id != work_item_id
                 || report.work_item_id != work_item_id
             {
@@ -11822,7 +12145,7 @@ fn verify_archive_manifest_with_options(
                     path: path.clone(),
                     message: format!("archived Work Item intelligence is invalid: {error}"),
                 })?;
-            if intelligence.repository_id != repository_id(root).to_string()
+            if intelligence.repository_id != expected_repository_id
                 || intelligence.work_item_id != work_item_id
             {
                 return Err(ObserverError::State {
@@ -11872,12 +12195,17 @@ fn verify_archive_manifest_with_options(
                     message: "archive historical artifact is missing".into(),
                 });
             }
-            let actual = Digest::sha256_bytes(&read_governance_bytes(&path).map_err(|source| {
-                ObserverError::Read {
+            let bytes = if let Some(bytes) =
+                captured_files.get(path_value.strip_prefix("./").unwrap_or(path_value))
+            {
+                bytes.clone()
+            } else {
+                read_governance_bytes(&path).map_err(|source| ObserverError::Read {
                     path: path.clone(),
                     source,
-                }
-            })?);
+                })?
+            };
+            let actual = Digest::sha256_bytes(&bytes);
             if actual.to_string() != digest {
                 return Err(ObserverError::State {
                     path,
@@ -11886,19 +12214,1476 @@ fn verify_archive_manifest_with_options(
             }
         }
     }
-    let mismatched_report = if allow_task_report_markdown_digest_mismatch {
-        let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
-        let path = archive.join(format!("{work_item_id}.task-report.md"));
-        expected.and_then(|expected| {
-            read_governance_bytes(&path).ok().and_then(|bytes| {
-                (Digest::sha256_bytes(&bytes).to_string() != expected)
-                    .then(|| "taskReportMarkdown".to_owned())
-            })
+    let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let contract = parse_contract_document(
+        captured_files
+            .get("contract")
+            .expect("mandatory archived Contract bytes were captured"),
+        &contract_path,
+    )?;
+    let summary: serde_json::Value = serde_json::from_slice(
+        captured_files
+            .get("summary")
+            .expect("mandatory archived Summary bytes were captured"),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("archived Summary JSON is invalid: {error}"),
+    })?;
+    let outcome: serde_json::Value = serde_json::from_slice(
+        captured_files
+            .get("outcome")
+            .expect("mandatory archived Outcome bytes were captured"),
+    )
+    .map_err(|error| ObserverError::State {
+        path: outcome_path,
+        message: format!("archived Outcome JSON is invalid: {error}"),
+    })?;
+    let event_bytes = captured_files.get("events");
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = event_bytes
+        .map(|bytes| {
+            validate_task_outcome_events_bytes(
+                &events_path,
+                bytes,
+                &contract.contract.repository_id,
+                work_item_id,
+            )
         })
+        .transpose()?
+        .unwrap_or_default();
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let verification_evidence_bytes =
+        if optional_regular_artifact(&evidence_path, "archived verification evidence")? {
+            Some(
+                read_governance_bytes(&evidence_path).map_err(|source| ObserverError::Read {
+                    path: evidence_path,
+                    source,
+                })?,
+            )
+        } else {
+            None
+        };
+    let projection = CapturedArchiveProjection {
+        archive_manifest_bytes,
+        repository_id: expected_repository_id,
+        contract_bytes: captured_files
+            .get("contract")
+            .expect("mandatory archived Contract bytes were captured")
+            .clone(),
+        summary_bytes: captured_files
+            .get("summary")
+            .expect("mandatory archived Summary bytes were captured")
+            .clone(),
+        outcome_bytes: captured_files
+            .get("outcome")
+            .expect("mandatory archived Outcome bytes were captured")
+            .clone(),
+        events_bytes: event_bytes.cloned(),
+        contract,
+        summary,
+        outcome,
+        events,
+        task_report_json_bytes: captured_files.get("taskReport").cloned(),
+        task_report_markdown_bytes: captured_files.get("taskReportMarkdown").cloned(),
+        verification_evidence_bytes,
+    };
+    validate_historical_archive_manifest_binding(
+        root,
+        work_item_id,
+        manifest,
+        projection.verification_evidence_bytes.as_deref(),
+        &projection.contract.digest,
+        &projection.repository_id,
+    )?;
+    after_outer_digest_checks();
+    let task_outcome_report = validate_archived_task_outcome_projection_binding(
+        root,
+        work_item_id,
+        manifest,
+        &projection,
+        supersede_receipt,
+        &validation_context,
+    )?;
+    let mismatched_report = if supersede_receipt.is_some() {
+        let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
+        expected
+            .zip(projection.task_report_markdown_bytes.as_deref())
+            .and_then(|(expected, bytes)| {
+                let actual_digest = Digest::sha256_bytes(bytes);
+                (actual_digest.to_string() != expected)
+                    .then(|| {
+                        expected.parse::<Digest>().ok().map(|expected_digest| {
+                            QuarantinedArchiveArtifact {
+                                artifact: "taskReportMarkdown".to_owned(),
+                                expected_digest,
+                                actual_digest,
+                            }
+                        })
+                    })
+                    .flatten()
+            })
     } else {
         None
     };
-    Ok(mismatched_report)
+    let archive_manifest_digest = Digest::sha256_bytes(&projection.archive_manifest_bytes);
+    Ok(VerifiedArchiveArtifacts {
+        markdown_digest_mismatch: mismatched_report,
+        task_outcome_report,
+        archived_summary: projection.summary,
+        archived_outcome: projection.outcome,
+        archived_contract_digest: projection.contract.digest,
+        archived_events_bytes: projection.events_bytes,
+        verification_evidence_bytes: projection.verification_evidence_bytes,
+        archive_manifest_digest,
+        archive_manifest: manifest.clone(),
+    })
+}
+
+fn validate_archived_task_outcome_projection_binding(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    captured: &CapturedArchiveProjection,
+    supersede_receipt: Option<&RecoveryDecisionReceipt>,
+    validation_context: &ArchiveTaskOutcomeValidationContext,
+) -> Result<Option<TaskOutcomeReport>, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let summary = &captured.summary;
+    validate_task_outcome_projection_predecessors(summary, &summary_path)?;
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = &captured.events;
+    let outcome = &captured.outcome;
+    let policy_value = &summary["taskOutcomeProjectionPolicy"];
+    if policy_value.is_null() {
+        let explicit_unfinished_supersede = manifest["state"] == "superseded"
+            && manifest["historicalEvidence"] == true
+            && manifest["supersededBy"].is_string()
+            && manifest["supersessionDecisionPath"].is_string();
+        let has_finish_binding = summary
+            .get("lifecycleFacts")
+            .and_then(serde_json::Value::as_object)
+            .is_some_and(|facts| facts.contains_key("taskOutcomeProjectionFinishBinding"));
+        let has_event_binding = events
+            .iter()
+            .any(|event| event.projection_binding.is_some());
+        if (has_finish_binding || has_event_binding) && !explicit_unfinished_supersede {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "Task Outcome projection policy was removed or downgraded while a finish binding remains".into(),
+            });
+        }
+        if explicit_unfinished_supersede {
+            validate_unfinished_superseded_archive(root, work_item_id, manifest, captured)?;
+            return Ok(None);
+        }
+        // The only policy-free routes are an existing immutable archive commit
+        // or the already-supported explicit historical-evidence receipt. A
+        // freshly recomputed manifest alone is not a compatibility selector.
+        if manifest["archiveRoute"] == "historical_evidence_compatibility"
+            && manifest["historicalEvidence"].is_object()
+        {
+            return Ok(None);
+        }
+        return validate_legacy_archive_git_anchor(root, work_item_id, manifest, captured);
+    }
+    let policy: cockpit_protocol::TaskOutcomeProjectionPolicy =
+        serde_json::from_value(policy_value.clone()).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("archived Task Outcome projection policy is invalid: {error}"),
+        })?;
+    let binding: cockpit_protocol::TaskOutcomeProjectionFinishBinding = serde_json::from_value(
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("archived Task Outcome finish binding is missing or invalid: {error}"),
+    })?;
+    let contract = &captured.contract.contract;
+    let contract_hash = &captured.contract.digest;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence_bytes = captured
+        .verification_evidence_bytes
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: evidence_path.clone(),
+            message:
+                "current-format archived Task Outcome requires its original verification receipt"
+                    .into(),
+        })?;
+    let evidence: serde_json::Value =
+        serde_json::from_slice(evidence_bytes).map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!("current-format archived verification receipt is invalid: {error}"),
+        })?;
+    let evidence_envelope: VerificationEvidenceEnvelope = serde_json::from_value(evidence.clone())
+        .map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!(
+                "current-format archived verification receipt schema is invalid: {error}"
+            ),
+        })?;
+    validate_task_outcome_projection_policy(
+        &policy,
+        &contract.repository_id,
+        work_item_id,
+        &policy.contract_digest,
+        &policy.source_snapshot_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    if summary["checkpointRepositorySnapshotDigest"] != policy.source_snapshot_digest.to_string()
+        || summary["preflightRepositorySnapshotDigest"] != policy.source_snapshot_digest.to_string()
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "archived Task Outcome projection policy source snapshot differs from its fixed lifecycle facts".into(),
+        });
+    }
+    let evidence_digest =
+        cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!(
+                "current-format archived verification receipt digest is invalid: {error}"
+            ),
+        })?;
+    let captured_receipt_matches = match evidence_envelope.capture_mode {
+        VerificationCaptureMode::DigestOnly => evidence_envelope.receipt.is_none(),
+        VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture => {
+            evidence_envelope.receipt.as_ref().is_some_and(|receipt| {
+                cockpit_protocol::digest_json(receipt).ok().as_ref()
+                    == Some(&evidence_envelope.receipt_digest)
+            })
+        }
+        // The legacy Rust API can still read its own untyped receipt, but the
+        // archived Outcome digest and envelope must bind those exact bytes.
+        // Runtime-bound lifecycle operations reject this capture mode.
+        VerificationCaptureMode::LegacyUntyped => {
+            evidence_envelope.receipt.as_ref().is_some_and(|receipt| {
+                cockpit_protocol::digest_json(receipt).ok().as_ref()
+                    == Some(&evidence_envelope.receipt_digest)
+            })
+        }
+    };
+    if evidence_envelope.protocol_version != 1
+        || evidence_envelope.evidence_schema_version != 2
+        || !evidence_envelope.passed
+        || evidence_envelope.work_item_id != work_item_id
+        || evidence_envelope.repository_id != contract.repository_id
+        || evidence_envelope.contract_digest.as_ref() != Some(&policy.contract_digest)
+        || evidence_envelope.repository_snapshot_digest != policy.source_snapshot_digest
+        || evidence_envelope.runtime_version != policy.producer_runtime_version
+        || evidence_envelope.runtime_digest != policy.producer_runtime_digest
+        || !captured_receipt_matches
+        || outcome["evidenceDigest"] != evidence_digest.to_string()
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "archived Task Outcome projection policy differs from its fixed historical verification evidence or Outcome digest".into(),
+        });
+    }
+    if policy.contract_digest != *contract_hash {
+        let evidence_file_digest = Digest::sha256_bytes(evidence_bytes);
+        let exact_initial_revalidation_context = match validation_context {
+            ArchiveTaskOutcomeValidationContext::OrdinaryRead => false,
+            ArchiveTaskOutcomeValidationContext::InitialContractAmendmentRevalidation {
+                predecessor_contract_digest,
+                current_contract_digest,
+                verification_evidence_digest,
+            } => {
+                predecessor_contract_digest == &policy.contract_digest
+                    && current_contract_digest == contract_hash
+                    && verification_evidence_digest == &evidence_file_digest
+            }
+        };
+        let recovery = load_recovery_decision(root, work_item_id, None)?;
+        if let Some(recovery) = recovery {
+            if !archived_outcome_revalidation_receipt_matches(
+                &recovery,
+                work_item_id,
+                &contract.repository_id,
+                &policy.contract_digest,
+                contract_hash,
+                &evidence_file_digest,
+            ) {
+                return Err(ObserverError::State {
+                    path: root
+                        .join(".ai/decisions")
+                        .join(format!("{work_item_id}.recovery.json")),
+                    message: "archived Task Outcome policy does not match the validated Contract amendment predecessor chain".into(),
+                });
+            }
+        } else if !exact_initial_revalidation_context {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/decisions")
+                    .join(format!("{work_item_id}.recovery.json")),
+                message: "archived Task Outcome Contract differs from its fixed policy without an exact validated revalidation chain".into(),
+            });
+        }
+    }
+    let policy_digest =
+        cockpit_protocol::digest_json(&policy).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    let report_json_digest = manifest["files"]["taskReportDigest"]
+        .as_str()
+        .and_then(|value| value.parse::<Digest>().ok());
+    let report_markdown_digest = manifest["files"]["taskReportMarkdownDigest"]
+        .as_str()
+        .and_then(|value| value.parse::<Digest>().ok());
+    if binding.schema_version != 1
+        || binding.projection_policy_digest != policy_digest
+        || report_json_digest.as_ref() != Some(&binding.task_report_json_digest)
+        || report_markdown_digest.as_ref() != Some(&binding.task_report_markdown_digest)
+        || outcome["taskReportDigest"] != binding.task_report_json_digest.to_string()
+        || outcome["taskReportMarkdownDigest"] != binding.task_report_markdown_digest.to_string()
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message:
+                "archived Task Outcome policy, finish, Outcome, and manifest digests do not agree"
+                    .into(),
+        });
+    }
+    let completed = events
+        .iter()
+        .rev()
+        .find(|event| event.event_type == "completed")
+        .ok_or_else(|| ObserverError::State {
+            path: events_path.clone(),
+            message: "current-format archived Task Outcome has no completion event".into(),
+        })?;
+    if completed.projection_binding.as_ref() != Some(&binding) {
+        return Err(ObserverError::State {
+            path: events_path,
+            message: "archived completion event does not repeat the finish projection binding"
+                .into(),
+        });
+    }
+    let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+    let report_bytes =
+        captured
+            .task_report_json_bytes
+            .as_deref()
+            .ok_or_else(|| ObserverError::State {
+                path: report_path.clone(),
+                message: "current-format archived Task Outcome JSON is missing".into(),
+            })?;
+    if Digest::sha256_bytes(report_bytes) != binding.task_report_json_digest {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "archived Task Outcome JSON bytes differ from the fixed finish binding".into(),
+        });
+    }
+    let report_value: serde_json::Value =
+        serde_json::from_slice(report_bytes).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("archived Task Outcome JSON is invalid: {error}"),
+        })?;
+    let report: TaskOutcomeReport =
+        serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("archived Task Outcome JSON schema is unsupported: {error}"),
+        })?;
+    let outcome_report: TaskOutcomeReport =
+        serde_json::from_value(outcome["taskOutcomeReport"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: outcome_path.clone(),
+                message: format!("archived Outcome Task Outcome copy is invalid: {error}"),
+            }
+        })?;
+    if outcome_report != report {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message:
+                "archived Task Outcome JSON differs from the frozen report embedded in Outcome"
+                    .into(),
+        });
+    }
+    if report.format != policy.json_format
+        || report.schema_version != policy.json_schema_version
+        || report.work_item_id != policy.work_item_id
+        || report.bindings.repository_id != policy.repository_id
+        || report.bindings.work_item_id != policy.work_item_id
+        || report.bindings.repository_snapshot_digest.as_ref()
+            != Some(&policy.source_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message: "archived Task Outcome JSON format, schema, or identity differs from its fixed projection policy".into(),
+        });
+    }
+    let canonical_json =
+        serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+    if canonical_json != report_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &report_path,
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &canonical_json,
+            report_bytes,
+        ));
+    }
+    let markdown_path = archive.join(format!("{work_item_id}.task-report.md"));
+    let markdown_bytes = captured
+        .task_report_markdown_bytes
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: markdown_path.clone(),
+            message: "current-format archived Task Outcome Markdown is missing".into(),
+        })?;
+    let actual_markdown_digest = Digest::sha256_bytes(markdown_bytes);
+    let markdown_differs_from_finish =
+        actual_markdown_digest != binding.task_report_markdown_digest;
+    if markdown_differs_from_finish
+        && !supersede_receipt.is_some_and(|receipt| {
+            supersede_receipt_binds_manifest_bytes(
+                receipt,
+                work_item_id,
+                &captured.repository_id,
+                &captured.archive_manifest_bytes,
+            )
+        })
+    {
+        return Err(ObserverError::State {
+            path: markdown_path.clone(),
+            message: "archived Task Outcome Markdown bytes differ from the fixed finish binding"
+                .into(),
+        });
+    }
+    if !markdown_differs_from_finish {
+        let canonical_markdown = task_outcome_markdown(&report).into_bytes();
+        if canonical_markdown != markdown_bytes {
+            return Err(task_outcome_projection_mismatch(
+                &markdown_path,
+                "Markdown",
+                &format!(
+                    "{}/v{}",
+                    policy.markdown_renderer, policy.markdown_renderer_version
+                ),
+                &canonical_markdown,
+                markdown_bytes,
+            ));
+        }
+    }
+    Ok(Some(report))
+}
+
+/// Preserve a blocked, unfinished predecessor only when an explicit
+/// supersede manifest and its selected recovery receipt bind the exact source
+/// Contract/Summary/Outcome/Events. This route is historical and never
+/// invokes a legacy completed-report renderer or promotes verification.
+fn validate_unfinished_superseded_archive(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    captured: &CapturedArchiveProjection,
+) -> Result<(), ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let successor_id = manifest["supersededBy"].as_str().unwrap_or_default();
+    if successor_id.trim().is_empty()
+        || successor_id == work_item_id
+        || manifest["state"] != "superseded"
+        || manifest["historicalEvidence"] != true
+        || captured.summary["workItemId"] != work_item_id
+        || captured.outcome["workItemId"] != work_item_id
+        || captured.outcome["state"] != "blocked"
+        || captured.outcome["verification"]["status"] == "verified"
+        || captured.outcome.get("taskOutcomeReport").is_some()
+        || manifest["files"]["taskReportDigest"].is_string()
+        || manifest["files"]["taskReportMarkdownDigest"].is_string()
+        || captured.task_report_json_bytes.is_some()
+        || captured.task_report_markdown_bytes.is_some()
+        || captured
+            .summary
+            .get("lifecycleFacts")
+            .and_then(serde_json::Value::as_object)
+            .is_some_and(|facts| facts.contains_key("taskOutcomeProjectionFinishBinding"))
+    {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "unfinished superseded archive contains completed, missing, or unsupported projection facts".into(),
+        });
+    }
+    let events = &captured.events;
+    let predecessor_bindings =
+        captured.summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter_map(|value| {
+                serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPredecessor>(
+                    value.clone(),
+                )
+                .ok()
+                .and_then(|predecessor| predecessor.finish_binding)
+            })
+            .collect::<Vec<_>>();
+    for event in events
+        .iter()
+        .filter(|event| event.event_type == "completed" || event.projection_binding.is_some())
+    {
+        if event
+            .projection_binding
+            .as_ref()
+            .is_none_or(|binding| !predecessor_bindings.contains(binding))
+        {
+            return Err(ObserverError::State {
+                path: archive.join(format!("{work_item_id}.events.jsonl")),
+                message: "unfinished superseded archive has a completion event without a validated preserved predecessor".into(),
+            });
+        }
+    }
+    if captured.contract.contract.repository_id != captured.repository_id
+        || captured.contract.contract.work_item_id != work_item_id
+        || captured.summary["repositoryId"] != captured.repository_id
+    {
+        return Err(ObserverError::State {
+            path: archive.join(format!("{work_item_id}.contract.json")),
+            message: "unfinished superseded archive identity differs from its repository".into(),
+        });
+    }
+    let selected_path = manifest["supersessionDecisionPath"]
+        .as_str()
+        .ok_or_else(|| ObserverError::State {
+            path: manifest_path.clone(),
+            message: "unfinished superseded archive has no recovery decision path".into(),
+        })?;
+    let selected_relative = Path::new(selected_path);
+    let selected_name = selected_relative
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or_default();
+    let canonical = format!("{work_item_id}.recovery.json");
+    let versioned_prefix = format!("{work_item_id}.recovery.");
+    if selected_relative.parent() != Some(Path::new(".ai/decisions"))
+        || selected_relative
+            .components()
+            .any(|component| !matches!(component, std::path::Component::Normal(_)))
+        || (selected_name != canonical
+            && !(selected_name.starts_with(&versioned_prefix) && selected_name.ends_with(".json")))
+    {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "unfinished superseded archive recovery path is unsafe or foreign".into(),
+        });
+    }
+    let recovery_path = root.join(selected_relative);
+    if !is_regular_non_symlink(&recovery_path)? {
+        return Err(ObserverError::State {
+            path: recovery_path,
+            message: "unfinished superseded archive recovery receipt is missing or not regular"
+                .into(),
+        });
+    }
+    let recovery_bytes =
+        read_governance_bytes(&recovery_path).map_err(|source| ObserverError::Read {
+            path: recovery_path.clone(),
+            source,
+        })?;
+    reject_duplicate_json_keys(&recovery_bytes).map_err(|message| ObserverError::State {
+        path: recovery_path.clone(),
+        message: format!("unfinished superseded recovery JSON is invalid: {message}"),
+    })?;
+    let recovery_value: serde_json::Value =
+        serde_json::from_slice(&recovery_bytes).map_err(|error| ObserverError::State {
+            path: recovery_path.clone(),
+            message: format!("unfinished superseded recovery JSON is invalid: {error}"),
+        })?;
+    if selected_name != canonical {
+        let digest = cockpit_protocol::digest_json(&recovery_value).map_err(|error| {
+            ObserverError::State {
+                path: recovery_path.clone(),
+                message: error.to_string(),
+            }
+        })?;
+        let expected_name = format!(
+            "{versioned_prefix}{}.json",
+            digest.to_string().trim_start_matches("sha256:")
+        );
+        if selected_name != expected_name {
+            return Err(ObserverError::State {
+                path: recovery_path,
+                message:
+                    "unfinished superseded recovery filename does not match its content digest"
+                        .into(),
+            });
+        }
+    }
+    let recovery: RecoveryDecisionReceipt =
+        serde_json::from_value(recovery_value).map_err(|error| ObserverError::State {
+            path: recovery_path.clone(),
+            message: format!("unfinished superseded recovery schema is invalid: {error}"),
+        })?;
+    let outcome_digest =
+        cockpit_protocol::digest_json(&captured.outcome).map_err(|error| ObserverError::State {
+            path: archive.join(format!("{work_item_id}.outcome.json")),
+            message: error.to_string(),
+        })?;
+    let summary_digest =
+        cockpit_protocol::digest_json(&captured.summary).map_err(|error| ObserverError::State {
+            path: archive.join(format!("{work_item_id}.summary.json")),
+            message: error.to_string(),
+        })?;
+    let event_digest = captured.events_bytes.as_deref().map(Digest::sha256_bytes);
+    if recovery.schema_version != 1
+        || recovery.decision_id != "work-item-recovery"
+        || recovery.decision != "supersede"
+        || recovery.work_item_id != work_item_id
+        || recovery.predecessor_work_item_id != work_item_id
+        || recovery.repository_id != captured.repository_id
+        || recovery.successor_work_item_id.as_deref() != Some(successor_id)
+        || recovery.predecessor_contract_digest != captured.contract.digest
+        || recovery.predecessor_summary_digest != summary_digest
+        || recovery.predecessor_outcome_digest.as_ref() != Some(&outcome_digest)
+        || recovery.predecessor_events_digest != event_digest
+        || recovery.actor.trim().is_empty()
+        || recovery.authority_source.trim().is_empty()
+        || recovery.reason.trim().is_empty()
+        || recovery.resume_condition.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&recovery.decided_at).is_err()
+    {
+        return Err(ObserverError::State {
+            path: recovery_path,
+            message:
+                "unfinished superseded archive does not match its exact recovery decision facts"
+                    .into(),
+        });
+    }
+    Ok(())
+}
+
+fn archived_outcome_revalidation_receipt_matches(
+    receipt: &RecoveryDecisionReceipt,
+    work_item_id: &str,
+    repository_id: &str,
+    predecessor_contract_digest: &Digest,
+    current_contract_digest: &Digest,
+    verification_evidence_digest: &Digest,
+) -> bool {
+    receipt.schema_version == 1
+        && receipt.decision_id == "work-item-recovery"
+        && receipt.decision == "successor"
+        && receipt.work_item_id == work_item_id
+        && receipt.repository_id == repository_id
+        && receipt.predecessor_work_item_id == work_item_id
+        && receipt
+            .successor_work_item_id
+            .as_deref()
+            .is_some_and(|successor| successor != work_item_id)
+        && receipt.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
+        && receipt.predecessor_contract_digest == *predecessor_contract_digest
+        && receipt.current_contract_digest.as_ref() == Some(current_contract_digest)
+        && receipt.predecessor_verification_evidence_digest.as_ref()
+            == Some(verification_evidence_digest)
+        && receipt.predecessor_archive_manifest_digest.is_some()
+}
+
+#[cfg(test)]
+mod archived_outcome_revalidation_binding_tests {
+    use super::*;
+
+    fn valid_receipt() -> RecoveryDecisionReceipt {
+        RecoveryDecisionReceipt {
+            schema_version: 1,
+            decision_id: "work-item-recovery".into(),
+            decision: "successor".into(),
+            work_item_id: "WI-ARCHIVED".into(),
+            repository_id: "repo-fixed".into(),
+            predecessor_work_item_id: "WI-ARCHIVED".into(),
+            predecessor_contract_digest: Digest::sha256_bytes(b"predecessor contract"),
+            predecessor_summary_digest: Digest::sha256_bytes(b"summary"),
+            predecessor_outcome_digest: Some(Digest::sha256_bytes(b"outcome")),
+            predecessor_events_digest: Some(Digest::sha256_bytes(b"events")),
+            predecessor_archive_manifest_digest: Some(Digest::sha256_bytes(b"manifest")),
+            successor_work_item_id: Some("WI-ARCHIVED-REVALIDATION".into()),
+            successor_binding_mode: Some("contract_amendment_revalidation".into()),
+            current_contract_digest: Some(Digest::sha256_bytes(b"current contract")),
+            predecessor_verification_evidence_digest: Some(Digest::sha256_bytes(b"receipt")),
+            predecessor_finalization_contract_digest: None,
+            runtime_version: "1.0.1".into(),
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+            actor: "human:reviewer".into(),
+            authority_source: "reviewed amendment".into(),
+            reason: "the archived Contract was reviewed and amended".into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: "2026-10-25T12:00:00Z".into(),
+            resume_condition: "revalidate through the named successor".into(),
+        }
+    }
+
+    #[test]
+    fn amended_archive_accepts_only_the_exact_predecessor_and_successor_chain() {
+        let receipt = valid_receipt();
+        let predecessor = Digest::sha256_bytes(b"predecessor contract");
+        let current = Digest::sha256_bytes(b"current contract");
+        let evidence = Digest::sha256_bytes(b"receipt");
+        let matches = |candidate: &RecoveryDecisionReceipt| {
+            archived_outcome_revalidation_receipt_matches(
+                candidate,
+                "WI-ARCHIVED",
+                "repo-fixed",
+                &predecessor,
+                &current,
+                &evidence,
+            )
+        };
+        assert!(matches(&receipt));
+
+        let mut wrong_predecessor = receipt.clone();
+        wrong_predecessor.predecessor_contract_digest = Digest::sha256_bytes(b"other contract");
+        assert!(!matches(&wrong_predecessor));
+
+        let mut foreign_repository = receipt.clone();
+        foreign_repository.repository_id = "repo-foreign".into();
+        assert!(!matches(&foreign_repository));
+
+        let mut foreign_work_item = receipt.clone();
+        foreign_work_item.work_item_id = "WI-FOREIGN".into();
+        assert!(!matches(&foreign_work_item));
+
+        let mut wrong_predecessor_identity = receipt.clone();
+        wrong_predecessor_identity.predecessor_work_item_id = "WI-FOREIGN".into();
+        assert!(!matches(&wrong_predecessor_identity));
+
+        let mut wrong_current_contract = receipt.clone();
+        wrong_current_contract.current_contract_digest =
+            Some(Digest::sha256_bytes(b"unrelated current contract"));
+        assert!(!matches(&wrong_current_contract));
+
+        let mut wrong_evidence = receipt.clone();
+        wrong_evidence.predecessor_verification_evidence_digest =
+            Some(Digest::sha256_bytes(b"other receipt"));
+        assert!(!matches(&wrong_evidence));
+
+        let mut foreign_successor = receipt.clone();
+        foreign_successor.successor_work_item_id = Some("WI-ARCHIVED".into());
+        assert!(!matches(&foreign_successor));
+    }
+}
+
+fn validate_task_outcome_projection_predecessors(
+    summary: &serde_json::Value,
+    summary_path: &Path,
+) -> Result<(), ObserverError> {
+    let Some(history) = summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"].as_array()
+    else {
+        if summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"].is_null() {
+            return Ok(());
+        }
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "Task Outcome predecessor history is not an array".into(),
+        });
+    };
+    for (index, value) in history.iter().enumerate() {
+        let predecessor: cockpit_protocol::TaskOutcomeProjectionPredecessor =
+            serde_json::from_value(value.clone()).map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!("Task Outcome predecessor {index} is invalid: {error}"),
+            })?;
+        if predecessor.schema_version != 1 {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} uses unsupported schema version {}",
+                    predecessor.schema_version
+                ),
+            });
+        }
+        let json = predecessor.task_report_json_utf8.as_bytes();
+        let markdown = predecessor.task_report_markdown_utf8.as_bytes();
+        let outcome: serde_json::Value = serde_json::from_str(&predecessor.outcome_json_utf8)
+            .map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} has invalid Outcome JSON: {error}"
+                ),
+            })?;
+        let json_digest = Digest::sha256_bytes(json);
+        let markdown_digest = Digest::sha256_bytes(markdown);
+        if outcome["taskReportDigest"] != json_digest.to_string()
+            || outcome["taskReportMarkdownDigest"] != markdown_digest.to_string()
+        {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} raw bytes do not match its original Outcome digests"
+                ),
+            });
+        }
+        let report: TaskOutcomeReport =
+            serde_json::from_slice(json).map_err(|error| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!("Task Outcome predecessor {index} report is invalid: {error}"),
+            })?;
+        if predecessor.policy.is_some() != predecessor.finish_binding.is_some() {
+            return Err(ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: format!(
+                    "Task Outcome predecessor {index} has an incomplete policy/finish binding"
+                ),
+            });
+        }
+        if let (Some(policy), Some(binding)) = (
+            predecessor.policy.as_ref(),
+            predecessor.finish_binding.as_ref(),
+        ) {
+            let policy_digest =
+                cockpit_protocol::digest_json(policy).map_err(|error| ObserverError::State {
+                    path: summary_path.to_path_buf(),
+                    message: error.to_string(),
+                })?;
+            if binding.schema_version != 1
+                || binding.projection_policy_digest != policy_digest
+                || binding.task_report_json_digest != json_digest
+                || binding.task_report_markdown_digest != markdown_digest
+                || report.bindings.repository_id != policy.repository_id
+                || report.bindings.work_item_id != policy.work_item_id
+            {
+                return Err(ObserverError::State {
+                    path: summary_path.to_path_buf(),
+                    message: format!(
+                        "Task Outcome predecessor {index} differs from its typed policy or finish binding"
+                    ),
+                });
+            }
+        }
+    }
+    Ok(())
+}
+
+fn validate_active_task_outcome_projection_binding(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+    summary: &serde_json::Value,
+    outcome: &serde_json::Value,
+    events: &[cockpit_protocol::TaskOutcomeEvent],
+    current_snapshot_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let policy = serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPolicy>(
+        summary["taskOutcomeProjectionPolicy"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("active Task Outcome projection policy is missing or invalid: {error}"),
+    })?;
+    let binding = serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionFinishBinding>(
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("active Task Outcome finish binding is missing or invalid: {error}"),
+    })?;
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let contract_digest = contract_digest(&contract_path)?;
+    validate_task_outcome_projection_policy(
+        &policy,
+        &contract.repository_id,
+        work_item_id,
+        &contract_digest,
+        current_snapshot_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    let policy_digest =
+        cockpit_protocol::digest_json(&policy).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    let report_bytes =
+        read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
+            path: report_path.clone(),
+            source,
+        })?;
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let markdown_bytes =
+        read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
+            path: markdown_path.clone(),
+            source,
+        })?;
+    let completed = events
+        .iter()
+        .rev()
+        .find(|event| event.event_type == "completed")
+        .ok_or_else(|| ObserverError::State {
+            path: task_outcome_event_path(root, work_item_id, false),
+            message: "active Task Outcome has no completion event".into(),
+        })?;
+    if binding.schema_version != 1
+        || binding.projection_policy_digest != policy_digest
+        || binding.task_report_json_digest != Digest::sha256_bytes(&report_bytes)
+        || binding.task_report_markdown_digest != Digest::sha256_bytes(&markdown_bytes)
+        || outcome["taskReportDigest"] != binding.task_report_json_digest.to_string()
+        || outcome["taskReportMarkdownDigest"] != binding.task_report_markdown_digest.to_string()
+        || completed.projection_binding.as_ref() != Some(&binding)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message:
+                "active Task Outcome policy, finish, Outcome, event, and report bytes do not agree"
+                    .into(),
+        });
+    }
+    let report_value: serde_json::Value =
+        serde_json::from_slice(&report_bytes).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("active Task Outcome JSON is invalid: {error}"),
+        })?;
+    let report: TaskOutcomeReport =
+        serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("active Task Outcome JSON schema is unsupported: {error}"),
+        })?;
+    let embedded_report: TaskOutcomeReport =
+        serde_json::from_value(outcome["taskOutcomeReport"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: outcome_path.clone(),
+                message: format!("active Outcome Task Outcome copy is invalid: {error}"),
+            }
+        })?;
+    if embedded_report != report
+        || report.format != policy.json_format
+        || report.schema_version != policy.json_schema_version
+        || report.work_item_id != work_item_id
+        || report.bindings.repository_id != contract.repository_id
+        || report.bindings.work_item_id != work_item_id
+        || report.bindings.repository_snapshot_digest.as_ref()
+            != Some(&policy.source_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message:
+                "active Task Outcome JSON differs from its fixed finish policy or Outcome copy"
+                    .into(),
+        });
+    }
+    let canonical_json =
+        serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+    if canonical_json != report_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &report_path,
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &canonical_json,
+            &report_bytes,
+        ));
+    }
+    let canonical_markdown = task_outcome_markdown(&report).into_bytes();
+    if canonical_markdown != markdown_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &markdown_path,
+            "Markdown",
+            &format!(
+                "{}/v{}",
+                policy.markdown_renderer, policy.markdown_renderer_version
+            ),
+            &canonical_markdown,
+            &markdown_bytes,
+        ));
+    }
+    Ok(())
+}
+
+fn validate_legacy_archive_git_anchor(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    captured: &CapturedArchiveProjection,
+) -> Result<Option<TaskOutcomeReport>, ObserverError> {
+    let manifest_path = format!(".ai/work-items/archive/{work_item_id}.archive.json");
+    let revisions = git_text(
+        root,
+        &[
+            "log",
+            "--reverse",
+            "--diff-filter=A",
+            "--format=%H",
+            "HEAD",
+            "--",
+            &manifest_path,
+        ],
+    )
+    .filter(|revisions| !revisions.trim().is_empty())
+    .ok_or_else(|| ObserverError::State {
+        path: root.join(&manifest_path),
+        message: "legacy Task Outcome has no fixed archive-introduction revision; preserve the raw report and use a Runtime with a supported adapter".into(),
+    })?;
+    let revision = revisions.lines().next().ok_or_else(|| ObserverError::State {
+        path: root.join(&manifest_path),
+        message: "legacy Task Outcome has no fixed archive-introduction revision; preserve the raw report and use a Runtime with a supported adapter".into(),
+    })?;
+    let mut paths = vec![
+        manifest_path.clone(),
+        format!(".ai/work-items/archive/{work_item_id}.contract.json"),
+        format!(".ai/work-items/archive/{work_item_id}.summary.json"),
+        format!(".ai/work-items/archive/{work_item_id}.outcome.json"),
+    ];
+    for (name, suffix) in [
+        ("eventsDigest", "events.jsonl"),
+        ("taskReportDigest", "task-report.json"),
+        ("taskReportMarkdownDigest", "task-report.md"),
+    ] {
+        if manifest["files"][name].is_string() {
+            paths.push(format!(".ai/work-items/archive/{work_item_id}.{suffix}"));
+        }
+    }
+    let evidence_path = format!(".ai/evidence/{work_item_id}.verification.json");
+    let mut fixed_files = BTreeMap::<String, Vec<u8>>::new();
+    for path in paths {
+        let committed = git_revision_blob_bytes(root, revision, &path).map_err(|_| ObserverError::State {
+            path: root.join(&path),
+            message: format!("legacy Task Outcome path {path} is not present at fixed Git revision {revision}"),
+        })?;
+        let current =
+            captured_archive_file_bytes(captured, &path).ok_or_else(|| ObserverError::State {
+                path: root.join(&path),
+                message: format!(
+                    "legacy Task Outcome path {path} was not captured by archive verification"
+                ),
+            })?;
+        if committed != current {
+            return Err(ObserverError::State {
+                path: root.join(&path),
+                message: format!(
+                    "legacy Task Outcome bytes differ from fixed Git revision {revision}; preserve the original and use a Runtime with a supported adapter"
+                ),
+            });
+        }
+        fixed_files.insert(path, committed);
+    }
+    let fixed_manifest_bytes = fixed_files
+        .get(&manifest_path)
+        .expect("fixed manifest path is included");
+    let fixed_manifest: serde_json::Value =
+        serde_json::from_slice(fixed_manifest_bytes).map_err(|error| ObserverError::State {
+            path: root.join(&manifest_path),
+            message: format!("fixed legacy archive manifest is invalid: {error}"),
+        })?;
+    if &fixed_manifest != manifest {
+        return Err(ObserverError::State {
+            path: root.join(&manifest_path),
+            message: format!(
+                "legacy Task Outcome manifest differs from fixed Git revision {revision}"
+            ),
+        });
+    }
+    if manifest["files"]["taskReportDigest"].is_string() {
+        let relative_report_path =
+            format!(".ai/work-items/archive/{work_item_id}.task-report.json");
+        let report_path = root.join(&relative_report_path);
+        let report_bytes = fixed_files
+            .get(&relative_report_path)
+            .expect("fixed report path is included");
+        let report_value: serde_json::Value =
+            serde_json::from_slice(report_bytes).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("legacy Task Outcome JSON is invalid: {error}"),
+            })?;
+        let report: TaskOutcomeReport =
+            serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("legacy Task Outcome JSON schema is unsupported: {error}"),
+            })?;
+        if report.format != "ai-cockpit.task-outcome"
+            || report.schema_version != 1
+            || report.work_item_id != work_item_id
+            || report.bindings.work_item_id != work_item_id
+            || report.bindings.repository_id != captured.repository_id
+        {
+            return Err(ObserverError::State {
+                path: report_path,
+                message: "legacy Task Outcome JSON format, schema, or identity is unsupported"
+                    .into(),
+            });
+        }
+        let canonical_json =
+            serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: error.to_string(),
+            })?;
+        if canonical_json.as_slice() != report_bytes.as_slice() {
+            return Err(task_outcome_projection_mismatch(
+                &report_path,
+                "JSON",
+                "ai-cockpit.task-outcome/schema-v1",
+                &canonical_json,
+                report_bytes,
+            ));
+        }
+        let relative_outcome_path = format!(".ai/work-items/archive/{work_item_id}.outcome.json");
+        let outcome: serde_json::Value = serde_json::from_slice(
+            fixed_files
+                .get(&relative_outcome_path)
+                .expect("fixed Outcome path is included"),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.join(&relative_outcome_path),
+            message: format!("fixed legacy Outcome JSON is invalid: {error}"),
+        })?;
+        let relative_summary_path = format!(".ai/work-items/archive/{work_item_id}.summary.json");
+        let summary: serde_json::Value = serde_json::from_slice(
+            fixed_files
+                .get(&relative_summary_path)
+                .expect("fixed Summary path is included"),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.join(&relative_summary_path),
+            message: format!("fixed legacy Summary JSON is invalid: {error}"),
+        })?;
+        let fixed_verification = fixed_legacy_verification_receipt(
+            root,
+            revision,
+            work_item_id,
+            &evidence_path,
+            &report,
+            &read_legacy_archive_verification_binding(
+                root,
+                work_item_id,
+                &evidence_path,
+                &report,
+                &outcome,
+                &summary,
+                &captured.repository_id,
+            )?,
+            &captured.repository_id,
+        )?;
+        let current = captured
+            .verification_evidence_bytes
+            .as_deref()
+            .ok_or_else(|| ObserverError::State {
+                path: root.join(&evidence_path),
+                message: "legacy Task Outcome verification receipt was not captured by archive verification".into(),
+            })?;
+        if current != fixed_verification {
+            return Err(ObserverError::State {
+                path: root.join(&evidence_path),
+                message: "legacy Task Outcome verification receipt differs from the unique fixed receipt bound by its archived report".into(),
+            });
+        }
+        let verification: VerificationEvidenceEnvelope =
+            serde_json::from_slice(&fixed_verification).map_err(|error| ObserverError::State {
+                path: root.join(&evidence_path),
+                message: format!("fixed legacy verification receipt is invalid: {error}"),
+            })?;
+        if manifest["files"]["taskReportMarkdownDigest"].is_string() {
+            let relative_markdown_path =
+                format!(".ai/work-items/archive/{work_item_id}.task-report.md");
+            let markdown_path = root.join(&relative_markdown_path);
+            let markdown_bytes = fixed_files
+                .get(&relative_markdown_path)
+                .expect("fixed Markdown path is included");
+            let canonical_markdown =
+                task_outcome_markdown_legacy_for_runtime(&report, &verification.runtime_version)
+                    .map_err(|message| ObserverError::State {
+                        path: report_path.clone(),
+                        message,
+                    })?
+                    .into_bytes();
+            if canonical_markdown.as_slice() != markdown_bytes.as_slice() {
+                return Err(task_outcome_projection_mismatch(
+                    &markdown_path,
+                    "Markdown",
+                    "ai-cockpit.task-outcome-markdown/v1",
+                    &canonical_markdown,
+                    markdown_bytes,
+                ));
+            }
+        }
+        return Ok(Some(report));
+    } else if manifest["files"]["taskReportMarkdownDigest"].is_string() {
+        return Err(ObserverError::State {
+            path: root.join(format!(
+                ".ai/work-items/archive/{work_item_id}.task-report.md"
+            )),
+            message: "legacy Task Outcome Markdown has no bound canonical JSON source".into(),
+        });
+    }
+    Ok(None)
+}
+
+fn captured_archive_file_bytes<'a>(
+    captured: &'a CapturedArchiveProjection,
+    path: &str,
+) -> Option<&'a [u8]> {
+    if path.ends_with(".archive.json") {
+        Some(&captured.archive_manifest_bytes)
+    } else if path.ends_with(".contract.json") {
+        Some(&captured.contract_bytes)
+    } else if path.ends_with(".summary.json") {
+        Some(&captured.summary_bytes)
+    } else if path.ends_with(".outcome.json") {
+        Some(&captured.outcome_bytes)
+    } else if path.ends_with(".events.jsonl") {
+        captured.events_bytes.as_deref()
+    } else if path.ends_with(".task-report.json") {
+        captured.task_report_json_bytes.as_deref()
+    } else if path.ends_with(".task-report.md") {
+        captured.task_report_markdown_bytes.as_deref()
+    } else {
+        None
+    }
+}
+
+struct LegacyArchiveVerificationBinding {
+    evidence_digest: Digest,
+    contract_digest: Digest,
+}
+
+/// Read the selection facts from the fixed archive-introduction Outcome and
+/// Summary. The Outcome digest selects the exact receipt; the Summary binds
+/// the Contract and source snapshot used by preflight. Git history only finds
+/// the original bytes matching those already-fixed facts.
+fn read_legacy_archive_verification_binding(
+    root: &Path,
+    work_item_id: &str,
+    evidence_path: &str,
+    report: &TaskOutcomeReport,
+    outcome: &serde_json::Value,
+    summary: &serde_json::Value,
+    expected_repository_id: &str,
+) -> Result<LegacyArchiveVerificationBinding, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let evidence_digest: Digest = serde_json::from_value(outcome["evidenceDigest"].clone())
+        .map_err(|error| ObserverError::State {
+            path: outcome_path.clone(),
+            message: format!(
+                "fixed legacy Outcome has no valid verification evidence digest: {error}"
+            ),
+        })?;
+    let contract_digest: Digest =
+        serde_json::from_value(summary["preflightContractDigest"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: summary_path.clone(),
+                message: format!(
+                    "fixed legacy Summary has no valid preflight Contract digest: {error}"
+                ),
+            }
+        })?;
+    let source_snapshot: Digest = serde_json::from_value(
+        summary["preflightRepositorySnapshotDigest"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("fixed legacy Summary has no valid preflight source digest: {error}"),
+    })?;
+    let outcome_refs = outcome["evidenceRefs"].as_array();
+    if outcome["workItemId"].as_str() != Some(work_item_id)
+        || outcome["repositoryId"].as_str() != Some(expected_repository_id)
+        || !outcome_refs.is_some_and(|refs| {
+            refs.iter()
+                .any(|reference| reference.as_str() == Some(evidence_path))
+        })
+        || summary["workItemId"].as_str() != Some(work_item_id)
+        || summary["repositoryId"].as_str() != Some(expected_repository_id)
+        || report.bindings.repository_snapshot_digest.as_ref() != Some(&source_snapshot)
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "fixed legacy Outcome/Summary identity or source binding does not match the archived report".into(),
+        });
+    }
+    Ok(LegacyArchiveVerificationBinding {
+        evidence_digest,
+        contract_digest,
+    })
+}
+
+/// Select the one historical verification receipt whose canonical digest is
+/// fixed by the archived Outcome and whose Contract, repository, Work Item,
+/// and source snapshot match the fixed Summary and report. Git history only
+/// locates these original bytes; distinct appended candidates cannot establish
+/// authority, and identical copies of the same bytes do not create ambiguity.
+fn fixed_legacy_verification_receipt(
+    root: &Path,
+    archive_revision: &str,
+    work_item_id: &str,
+    evidence_path: &str,
+    report: &TaskOutcomeReport,
+    binding: &LegacyArchiveVerificationBinding,
+    expected_repository_id: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let path = root.join(evidence_path);
+    let expected_snapshot = report.bindings.repository_snapshot_digest.as_ref();
+    if report.bindings.repository_id != expected_repository_id
+        || report.bindings.work_item_id != work_item_id
+        || report.work_item_id != work_item_id
+        || expected_snapshot.is_none()
+        || !report
+            .bindings
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == evidence_path)
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "legacy Task Outcome report does not bind its fixed verification receipt and source snapshot".into(),
+        });
+    }
+    if git_text(
+        root,
+        &["merge-base", "--is-ancestor", archive_revision, "HEAD"],
+    )
+    .is_none()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "legacy Task Outcome archive-introduction revision is not an ancestor of the current Git history".into(),
+        });
+    }
+    let mut revisions = vec![archive_revision.to_owned()];
+    if let Some(descendants) = git_text(
+        root,
+        &[
+            "log",
+            "--reverse",
+            "--format=%H",
+            &format!("{archive_revision}..HEAD"),
+            "--",
+            evidence_path,
+        ],
+    ) {
+        revisions.extend(
+            descendants
+                .lines()
+                .filter(|revision| !revision.is_empty())
+                .map(str::to_owned),
+        );
+    }
+
+    let mut candidates = Vec::<(String, Vec<u8>)>::new();
+    for revision in revisions {
+        let Ok(bytes) = git_revision_blob_bytes(root, &revision, evidence_path) else {
+            continue;
+        };
+        if !legacy_verification_receipt_matches_report(
+            &bytes,
+            work_item_id,
+            expected_repository_id,
+            expected_snapshot.expect("checked above"),
+            &binding.evidence_digest,
+            &binding.contract_digest,
+        ) {
+            continue;
+        }
+        if !candidates
+            .iter()
+            .any(|(_, existing)| existing.as_slice() == bytes.as_slice())
+        {
+            candidates.push((revision, bytes));
+        }
+    }
+    if candidates.len() != 1 {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "legacy Task Outcome report has {} fixed Git verification receipts matching its source identity; preserve the report and use a Runtime with a supported adapter",
+                candidates.len()
+            ),
+        });
+    }
+    Ok(candidates.remove(0).1)
+}
+
+fn legacy_verification_receipt_matches_report(
+    bytes: &[u8],
+    work_item_id: &str,
+    repository_id: &str,
+    source_snapshot_digest: &Digest,
+    evidence_digest: &Digest,
+    contract_digest: &Digest,
+) -> bool {
+    if reject_duplicate_json_keys(bytes).is_err() {
+        return false;
+    }
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(bytes) else {
+        return false;
+    };
+    let Ok(evidence) = serde_json::from_value::<VerificationEvidenceEnvelope>(value.clone()) else {
+        return false;
+    };
+    let Some(raw_receipt) = value.get("receipt") else {
+        return false;
+    };
+    let Ok(receipt) =
+        serde_json::from_value::<cockpit_verification::VerificationReceipt>(raw_receipt.clone())
+    else {
+        return false;
+    };
+    cockpit_protocol::digest_json(&value).ok().as_ref() == Some(evidence_digest)
+        && evidence.contract_digest.as_ref() == Some(contract_digest)
+        && evidence.protocol_version == 1
+        && evidence.evidence_schema_version == 2
+        && evidence.work_item_id == work_item_id
+        && evidence.repository_id == repository_id
+        && evidence.repository_snapshot_digest == *source_snapshot_digest
+        && evidence.passed
+        && !evidence.runtime_version.trim().is_empty()
+        && matches!(
+            evidence.capture_mode,
+            VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture
+        )
+        && cockpit_protocol::digest_json(raw_receipt).ok().as_ref()
+            == Some(&evidence.receipt_digest)
+        && receipt.passed
+        && receipt.work_item_id.as_deref() == Some(work_item_id)
+        && receipt.repository_id.as_deref() == Some(repository_id)
+        && receipt.runtime_version.as_deref() == Some(evidence.runtime_version.as_str())
+        && receipt.runtime_digest.as_deref() == Some(evidence.runtime_digest.to_string().as_str())
+}
+
+fn git_revision_blob_bytes(
+    root: &Path,
+    revision: &str,
+    repository_path: &str,
+) -> Result<Vec<u8>, ObserverError> {
+    let object = format!("{revision}:{repository_path}");
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["show", "--no-ext-diff", "--no-textconv"])
+        .arg(&object)
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: root.join(repository_path),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(ObserverError::State {
+            path: root.join(repository_path),
+            message: format!("fixed Git object {object} is unavailable"),
+        });
+    }
+    Ok(output.stdout)
 }
 
 /// Validate the immutable binding added by the explicit historical archive
@@ -11910,6 +13695,9 @@ fn validate_historical_archive_manifest_binding(
     root: &Path,
     work_item_id: &str,
     manifest: &serde_json::Value,
+    evidence_bytes: Option<&[u8]>,
+    archived_contract_digest: &Digest,
+    expected_repository_id: &str,
 ) -> Result<(), ObserverError> {
     let Some(historical) = manifest.get("historicalEvidence") else {
         if manifest.get("archiveRoute").is_some() {
@@ -11963,12 +13751,11 @@ fn validate_historical_archive_manifest_binding(
             message: "historical verification evidence must remain a regular file".into(),
         });
     }
-    let evidence_bytes =
-        read_governance_bytes(&evidence_path).map_err(|source| ObserverError::Read {
-            path: evidence_path.clone(),
-            source,
-        })?;
-    let actual_file_digest = Digest::sha256_bytes(&evidence_bytes).to_string();
+    let evidence_bytes = evidence_bytes.ok_or_else(|| ObserverError::State {
+        path: evidence_path.clone(),
+        message: "historical verification evidence was not captured by archive verification".into(),
+    })?;
+    let actual_file_digest = Digest::sha256_bytes(evidence_bytes).to_string();
     if binding
         .get("fileDigest")
         .and_then(serde_json::Value::as_str)
@@ -11980,14 +13767,11 @@ fn validate_historical_archive_manifest_binding(
         });
     }
     let evidence: VerificationEvidenceEnvelope =
-        serde_json::from_slice(&evidence_bytes).map_err(|error| ObserverError::State {
+        serde_json::from_slice(evidence_bytes).map_err(|error| ObserverError::State {
             path: evidence_path.clone(),
             message: format!("historical verification evidence is invalid: {error}"),
         })?;
-    let archive = root.join(".ai/work-items/archive");
-    let archived_contract_path = archive.join(format!("{work_item_id}.contract.json"));
-    let archived_contract_digest = contract_digest(&archived_contract_path)?.to_string();
-    let expected_repository_id = repository_id(root).to_string();
+    let archived_contract_digest = archived_contract_digest.to_string();
     let envelope_matches = binding.get("schemaVersion") == Some(&serde_json::json!(1))
         && binding.get("evidenceSchemaVersion")
             == Some(&serde_json::json!(evidence.evidence_schema_version))
@@ -12085,9 +13869,19 @@ fn verify_historical_supersede_manifest(
     work_item_id: &str,
     manifest: &serde_json::Value,
     receipt: &RecoveryDecisionReceipt,
-) -> Result<Option<String>, ObserverError> {
+) -> Result<Option<QuarantinedArchiveArtifact>, ObserverError> {
+    verify_historical_supersede_manifest_with_report(root, work_item_id, manifest, receipt)
+        .map(|verified| verified.markdown_digest_mismatch)
+}
+
+fn verify_historical_supersede_manifest_with_report(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    receipt: &RecoveryDecisionReceipt,
+) -> Result<VerifiedArchiveArtifacts, ObserverError> {
     validate_recovery_archive_manifest_binding(root, work_item_id, receipt)?;
-    verify_archive_manifest_with_options(root, work_item_id, manifest, true)
+    verify_archive_manifest_with_report_options(root, work_item_id, manifest, Some(receipt))
 }
 
 pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
@@ -12334,6 +14128,149 @@ fn normalized_archive_artifact_bytes(
     }
 }
 
+/// Resolve frozen report references for readers without rewriting archived
+/// JSON or Markdown. The archive manifest, not a path guessed from the report,
+/// must list the destination artifact.
+fn resolve_archived_task_report_references(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+    require_existing_file: bool,
+    report: &mut TaskOutcomeReport,
+) -> Result<(), ObserverError> {
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let archived_paths = manifest["files"]
+        .as_object()
+        .into_iter()
+        .flat_map(|files| files.values())
+        .filter_map(serde_json::Value::as_str)
+        .filter(|value| value.starts_with(".ai/work-items/archive/"))
+        .map(str::to_owned)
+        .collect::<BTreeSet<_>>();
+    let active_prefix = format!(".ai/work-items/active/{work_item_id}.");
+    let archive_prefix = format!(".ai/work-items/archive/{work_item_id}.");
+
+    fn resolve_path(
+        path: &str,
+        root: &Path,
+        manifest_path: &Path,
+        active_prefix: &str,
+        archive_prefix: &str,
+        archived_paths: &BTreeSet<String>,
+        require_existing_file: bool,
+    ) -> Result<String, ObserverError> {
+        let Some(suffix) = path.strip_prefix(active_prefix) else {
+            return Ok(path.to_owned());
+        };
+        let resolved = format!("{archive_prefix}{suffix}");
+        if suffix.is_empty()
+            || suffix.contains('/')
+            || !archived_paths.contains(&resolved)
+            || (require_existing_file && !root.join(&resolved).is_file())
+        {
+            return Err(ObserverError::State {
+                path: manifest_path.into(),
+                message: "archived Task Outcome reference does not resolve through the bound archive manifest".into(),
+            });
+        }
+        Ok(resolved)
+    }
+
+    fn visit(
+        value: &mut serde_json::Value,
+        root: &Path,
+        manifest_path: &Path,
+        active_prefix: &str,
+        archive_prefix: &str,
+        archived_paths: &BTreeSet<String>,
+        require_existing_file: bool,
+    ) -> Result<(), ObserverError> {
+        match value {
+            serde_json::Value::Object(object) => {
+                for (key, child) in object.iter_mut() {
+                    if key == "evidenceRefs" {
+                        if let Some(references) = child.as_array_mut() {
+                            for reference in references {
+                                if let Some(path) = reference.as_str() {
+                                    *reference = serde_json::Value::String(resolve_path(
+                                        path,
+                                        root,
+                                        manifest_path,
+                                        active_prefix,
+                                        archive_prefix,
+                                        archived_paths,
+                                        require_existing_file,
+                                    )?);
+                                }
+                            }
+                        }
+                    } else if key == "text"
+                        && let Some(text) = child.as_str()
+                        && let Some(path) = text.strip_prefix("Changed path: ")
+                    {
+                        let resolved = resolve_path(
+                            path,
+                            root,
+                            manifest_path,
+                            active_prefix,
+                            archive_prefix,
+                            archived_paths,
+                            require_existing_file,
+                        )?;
+                        *child = serde_json::Value::String(format!("Changed path: {resolved}"));
+                    } else {
+                        visit(
+                            child,
+                            root,
+                            manifest_path,
+                            active_prefix,
+                            archive_prefix,
+                            archived_paths,
+                            require_existing_file,
+                        )?;
+                    }
+                }
+            }
+            serde_json::Value::Array(items) => {
+                for item in items {
+                    visit(
+                        item,
+                        root,
+                        manifest_path,
+                        active_prefix,
+                        archive_prefix,
+                        archived_paths,
+                        require_existing_file,
+                    )?;
+                }
+            }
+            _ => {}
+        }
+        Ok(())
+    }
+
+    let mut value = serde_json::to_value(&*report).map_err(|error| ObserverError::State {
+        path: manifest_path.clone(),
+        message: format!("archived Task Outcome report cannot be resolved: {error}"),
+    })?;
+    visit(
+        &mut value,
+        root,
+        &manifest_path,
+        &active_prefix,
+        &archive_prefix,
+        &archived_paths,
+        require_existing_file,
+    )?;
+    *report = serde_json::from_value(value).map_err(|error| ObserverError::State {
+        path: manifest_path,
+        message: format!("resolved archived Task Outcome report is invalid: {error}"),
+    })?;
+    Ok(())
+}
+
 /// Preserve a machine-readable recovery handoff when a lifecycle gate fails.
 /// The original gate error remains authoritative, while any persisted
 /// projection is identity-bound and never changes the lifecycle state to a
@@ -12511,6 +14448,1417 @@ fn lifecycle_failure_metadata(error: &ObserverError) -> (String, String) {
     }
 }
 
+pub(crate) fn new_task_outcome_projection_policy(
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: Digest,
+    source_snapshot_digest: Digest,
+    producer_runtime_version: &str,
+    producer_runtime_digest: Digest,
+) -> cockpit_protocol::TaskOutcomeProjectionPolicy {
+    cockpit_protocol::TaskOutcomeProjectionPolicy {
+        schema_version: cockpit_protocol::TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION,
+        repository_id: repository_id.into(),
+        work_item_id: work_item_id.into(),
+        contract_digest,
+        source_snapshot_digest,
+        producer_runtime_version: producer_runtime_version.into(),
+        producer_runtime_digest,
+        json_format: cockpit_protocol::TASK_OUTCOME_JSON_FORMAT.into(),
+        json_schema_version: cockpit_protocol::TASK_OUTCOME_JSON_SCHEMA_VERSION,
+        markdown_renderer: cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER.into(),
+        markdown_renderer_version: cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION,
+    }
+}
+
+pub(crate) fn validate_task_outcome_projection_policy(
+    policy: &cockpit_protocol::TaskOutcomeProjectionPolicy,
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: &Digest,
+    source_snapshot_digest: &Digest,
+) -> Result<(), String> {
+    if policy.schema_version != cockpit_protocol::TASK_OUTCOME_PROJECTION_POLICY_SCHEMA_VERSION {
+        return Err(format!(
+            "unsupported Task Outcome projection policy schema version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.schema_version
+        ));
+    }
+    if policy.markdown_renderer != cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER
+        || policy.markdown_renderer_version
+            != cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION
+    {
+        return Err(format!(
+            "unsupported Task Outcome Markdown renderer (identifier redacted), version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.markdown_renderer_version
+        ));
+    }
+    if policy.json_format != cockpit_protocol::TASK_OUTCOME_JSON_FORMAT
+        || policy.json_schema_version != cockpit_protocol::TASK_OUTCOME_JSON_SCHEMA_VERSION
+    {
+        return Err(format!(
+            "unsupported Task Outcome JSON projection (format identifier redacted), schema version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.json_schema_version
+        ));
+    }
+    if policy.repository_id != repository_id
+        || policy.work_item_id != work_item_id
+        || policy.contract_digest != *contract_digest
+        || policy.source_snapshot_digest != *source_snapshot_digest
+        || policy.producer_runtime_version.trim().is_empty()
+    {
+        return Err("Task Outcome projection policy identity or source binding does not match the fixed predecessor facts".into());
+    }
+    Ok(())
+}
+
+pub(crate) fn task_outcome_projection_mismatch(
+    path: &Path,
+    material: &str,
+    profile: &str,
+    expected: &[u8],
+    actual: &[u8],
+) -> ObserverError {
+    let expected_digest = Digest::sha256_bytes(expected);
+    let actual_digest = Digest::sha256_bytes(actual);
+    let location = if material == "JSON" {
+        match (
+            serde_json::from_slice::<serde_json::Value>(expected),
+            serde_json::from_slice::<serde_json::Value>(actual),
+        ) {
+            (Ok(expected), Ok(actual)) => first_json_difference(&expected, &actual, ""),
+            _ => None,
+        }
+        .map(|pointer| safe_json_difference_location(&pointer))
+        .unwrap_or_else(|| {
+            format!(
+                "first differing byte {}",
+                first_differing_byte(expected, actual)
+            )
+        })
+    } else {
+        let offset = first_differing_byte(expected, actual);
+        let line = expected[..offset.min(expected.len())]
+            .iter()
+            .filter(|byte| **byte == b'\n')
+            .count()
+            + 1;
+        format!("first differing Markdown line {line}, byte {offset}")
+    };
+    let safe_profile = match (material, profile) {
+        ("JSON", "ai-cockpit.task-outcome/schema-v1") => profile,
+        ("Markdown", "ai-cockpit.task-outcome-markdown/v1") => profile,
+        ("Markdown", "ai-cockpit.task-outcome-markdown/v2") => profile,
+        ("JSON", _) => "unrecognized JSON projection (identifier redacted)",
+        ("Markdown", _) => "unrecognized Markdown projection (identifier redacted)",
+        _ => "unrecognized projection (identifier redacted)",
+    };
+    ObserverError::State {
+        path: path.to_path_buf(),
+        message: format!(
+            "Task Outcome {material} projection ({safe_profile}) differs from its canonical finish bytes; expected {expected_digest}, actual {actual_digest}; {location}. Preserve the original evidence and use a Runtime with an explicit compatible adapter."
+        ),
+    }
+}
+
+fn safe_json_difference_location(pointer: &str) -> String {
+    let depth = pointer
+        .split('/')
+        .skip(1)
+        .filter(|segment| !segment.is_empty())
+        .count();
+    format!("first differing JSON location at nesting depth {depth} (object keys redacted)")
+}
+
+fn first_differing_byte(left: &[u8], right: &[u8]) -> usize {
+    left.iter()
+        .zip(right)
+        .position(|(left, right)| left != right)
+        .unwrap_or(left.len().min(right.len()))
+}
+
+fn first_json_difference(
+    expected: &serde_json::Value,
+    actual: &serde_json::Value,
+    pointer: &str,
+) -> Option<String> {
+    match (expected, actual) {
+        (serde_json::Value::Object(expected), serde_json::Value::Object(actual)) => {
+            let keys = expected
+                .keys()
+                .chain(actual.keys())
+                .collect::<BTreeSet<_>>();
+            for key in keys {
+                let escaped = key.replace('~', "~0").replace('/', "~1");
+                let child = format!("{pointer}/{escaped}");
+                match (expected.get(key), actual.get(key)) {
+                    (Some(left), Some(right)) => {
+                        if let Some(pointer) = first_json_difference(left, right, &child) {
+                            return Some(pointer);
+                        }
+                    }
+                    _ => return Some(child),
+                }
+            }
+            None
+        }
+        (serde_json::Value::Array(expected), serde_json::Value::Array(actual)) => {
+            for index in 0..expected.len().max(actual.len()) {
+                let child = format!("{pointer}/{index}");
+                match (expected.get(index), actual.get(index)) {
+                    (Some(left), Some(right)) => {
+                        if let Some(pointer) = first_json_difference(left, right, &child) {
+                            return Some(pointer);
+                        }
+                    }
+                    _ => return Some(child),
+                }
+            }
+            None
+        }
+        _ if expected == actual => None,
+        _ => Some(if pointer.is_empty() {
+            "/".into()
+        } else {
+            pointer.into()
+        }),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn local_shared_clone_from_spaced_source_preserves_isolation() {
+        let directory = tempfile::tempdir().expect("temporary spaced source fixture");
+        // Git receives the original temporary path: canonicalize() would turn
+        // the Windows clone destination into an unsupported verbatim path.
+        let root = directory.path();
+        let source = root.join("local source with spaces");
+        fs::create_dir(&source).expect("create spaced source path");
+        let git = |root: &Path, args: &[&str]| {
+            let output = Command::new("git")
+                .args([
+                    "-c",
+                    "maintenance.autoDetach=false",
+                    "-c",
+                    "gc.autoDetach=false",
+                ])
+                .args(args)
+                .current_dir(root)
+                .output()
+                .expect("fixture Git command");
+            assert!(
+                output.status.success(),
+                "{args:?}: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            output.stdout
+        };
+        git(&source, &["init", "-q"]);
+        git(&source, &["config", "--local", "core.autocrlf", "false"]);
+        fs::write(source.join("tracked.txt"), b"retained object bytes\n")
+            .expect("tracked source bytes");
+        git(&source, &["add", "tracked.txt"]);
+        git(
+            &source,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "spaced source baseline",
+            ],
+        );
+        let destination = root.join("isolated clone");
+        super::task_outcome_projection_diagnostic_tests::clone_shared_no_checkout(
+            &source,
+            &destination,
+        );
+        assert!(
+            !destination.join("tracked.txt").exists(),
+            "--no-checkout must leave tracked files absent"
+        );
+        let alternates = fs::read_to_string(destination.join(".git/objects/info/alternates"))
+            .expect("--shared clone must record the source object directory");
+        assert_eq!(
+            Path::new(alternates.trim())
+                .canonicalize()
+                .expect("canonical shared object path"),
+            source.join(".git/objects").canonicalize().unwrap()
+        );
+        assert_eq!(
+            git(&destination, &["show", "HEAD:tracked.txt"]),
+            b"retained object bytes\n"
+        );
+        assert_eq!(
+            git(&destination, &["rev-parse", "HEAD"]),
+            git(&source, &["rev-parse", "HEAD"])
+        );
+        assert!(
+            !destination.join("tracked.txt").exists(),
+            "object inspection must not populate the working tree"
+        );
+    }
+}
+
+#[cfg(test)]
+mod task_outcome_projection_diagnostic_tests {
+    use super::*;
+
+    const WI754_ARCHIVE_REVISION: &str = "74506e60f96dfcbc1352c186faefb9b8653e5a57";
+    const WI754_RECEIPT_REVISION: &str = "b8c90f327e82597ecc78d982611426c6eb78b3c7";
+    const WI754_ID: &str = "WI-754-runtime-recovery-digest-revalidation";
+
+    fn disable_fixture_autocrlf(root: &Path) {
+        assert!(
+            Command::new("git")
+                .args(["config", "--local", "core.autocrlf", "false"])
+                .current_dir(root)
+                .status()
+                .expect("set temporary repository line-ending policy")
+                .success(),
+            "could not set temporary repository core.autocrlf=false"
+        );
+    }
+
+    pub(super) fn clone_shared_no_checkout(source: &Path, destination: &Path) {
+        let output = Command::new("git")
+            .args(["clone", "--quiet", "--shared", "--no-checkout", "--", "."])
+            .arg(destination)
+            .current_dir(source)
+            .output()
+            .expect("clone fixed history from its Git working directory");
+        assert!(
+            output.status.success(),
+            "fixed history clone failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn preserve_ai_bytes_in_fixture(root: &Path) {
+        fs::write(root.join(".git/info/attributes"), b"/.ai/** -text\n")
+            .expect("preserve exact historical evidence bytes");
+    }
+
+    fn wi754_checkout_at_archive_introduction()
+    -> (tempfile::TempDir, PathBuf, serde_json::Value, Vec<u8>) {
+        let source = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("source repository");
+        let checkout = tempfile::tempdir().expect("temporary WI-754 checkout");
+        let root = checkout.path().join("repository");
+        clone_shared_no_checkout(&source, &root);
+        disable_fixture_autocrlf(&root);
+        preserve_ai_bytes_in_fixture(&root);
+        assert!(
+            Command::new("git")
+                .args(["checkout", "--quiet", "--detach", WI754_ARCHIVE_REVISION])
+                .current_dir(&root)
+                .status()
+                .expect("checkout fixed archive introduction")
+                .success()
+        );
+        let manifest =
+            read_json(&root.join(format!(".ai/work-items/archive/{WI754_ID}.archive.json")))
+                .expect("fixed WI-754 archive manifest");
+        let trusted_receipt = git_revision_blob_bytes(
+            &source,
+            WI754_RECEIPT_REVISION,
+            &format!(".ai/evidence/{WI754_ID}.verification.json"),
+        )
+        .expect("later fixed receipt bytes");
+        (checkout, root, manifest, trusted_receipt)
+    }
+
+    fn commit_wi754_receipt(root: &Path, bytes: &[u8], message: &str) {
+        let relative = format!(".ai/evidence/{WI754_ID}.verification.json");
+        fs::write(root.join(&relative), bytes).expect("write WI-754 receipt fixture");
+        assert!(
+            Command::new("git")
+                .args(["add", "-f", "--", &relative])
+                .current_dir(root)
+                .status()
+                .expect("stage WI-754 receipt fixture")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-m",
+                    message,
+                ])
+                .current_dir(root)
+                .status()
+                .expect("commit WI-754 receipt fixture")
+                .success()
+        );
+    }
+
+    fn wi754_fixed_report(root: &Path) -> TaskOutcomeReport {
+        serde_json::from_slice(
+            &fs::read(root.join(format!(
+                ".ai/work-items/archive/{WI754_ID}.task-report.json"
+            )))
+            .expect("fixed WI-754 report bytes"),
+        )
+        .expect("fixed WI-754 report schema")
+    }
+
+    fn closed_usage_fixture() -> (tempfile::TempDir, String) {
+        let root = tempfile::tempdir().expect("usage race fixture");
+        fs::write(root.path().join("README.md"), "fixture\n").expect("README");
+        assert!(
+            Command::new("git")
+                .args(["init", "-q", "--initial-branch=main"])
+                .current_dir(root.path())
+                .status()
+                .expect("git init")
+                .success()
+        );
+        disable_fixture_autocrlf(root.path());
+        assert!(
+            Command::new("git")
+                .args(["add", "."])
+                .current_dir(root.path())
+                .status()
+                .expect("git add")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-qm",
+                    "usage race fixture",
+                ])
+                .current_dir(root.path())
+                .status()
+                .expect("git commit")
+                .success()
+        );
+        attach(root.path()).expect("attach");
+        let source_bytes = b"{\"source\":\"caller-claim\"}\n";
+        fs::write(
+            root.path().join(".ai/evidence/source-usage.json"),
+            source_bytes,
+        )
+        .expect("usage source evidence");
+        let work_item_id = "WI-CLOSE-CAPTURED-REPORT-RACE".to_owned();
+        start_work_item_with_options(
+            root.path(),
+            &work_item_id,
+            "close report capture fixture",
+            "preserve the validated close projection",
+            &[".ai/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start");
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"close report capture runtime"),
+        };
+        let request = |event: &str| cockpit_protocol::UsageRecordRequest {
+            schema_version: 1,
+            repository_id: repository_id(root.path()).to_string(),
+            work_item_id: work_item_id.clone(),
+            source_event_id: event.into(),
+            source_kind: cockpit_protocol::UsageSourceKind::ProviderReported,
+            actor: None,
+            configured_model: Some("configured-model".into()),
+            reported_model: Some("reported-model".into()),
+            role: "implementer".into(),
+            phase: "implementation".into(),
+            unit: cockpit_protocol::UsageUnit::Turn,
+            input_tokens: Some(10),
+            output_tokens: Some(5),
+            cached_input_tokens: Some(3),
+            reasoning_tokens: Some(2),
+            source_observed_at: None,
+            evidence_ref: ".ai/evidence/source-usage.json".into(),
+            evidence_digest: Digest::sha256_bytes(source_bytes),
+        };
+        record_work_item_usage(root.path(), &request("before-finish"), &runtime)
+            .expect("initial usage");
+        let contract = root.path().join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        preflight_work_item(root.path(), &contract).expect("preflight");
+        checkpoint_work_item(root.path(), &work_item_id).expect("checkpoint");
+        record_verification(
+            root.path(),
+            &work_item_id,
+            &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+            &runtime.runtime_version,
+            &runtime.runtime_digest,
+        )
+        .expect("verification");
+        finish_work_item(root.path(), &work_item_id).expect("finish");
+        archive_work_item(root.path(), &work_item_id).expect("archive");
+        record_work_item_usage(root.path(), &request("after-archive"), &runtime)
+            .expect("late usage");
+        close_work_item_with_decision(root.path(), &work_item_id, "approved").expect("close");
+        (root, work_item_id)
+    }
+
+    fn current_format_archive_fixture() -> (tempfile::TempDir, String) {
+        let root = tempfile::tempdir().expect("current-format archive fixture");
+        fs::write(root.path().join("README.md"), "fixture\n").expect("README");
+        assert!(
+            Command::new("git")
+                .args(["init", "-q", "--initial-branch=main"])
+                .current_dir(root.path())
+                .status()
+                .expect("git init")
+                .success()
+        );
+        disable_fixture_autocrlf(root.path());
+        assert!(
+            Command::new("git")
+                .args(["add", "."])
+                .current_dir(root.path())
+                .status()
+                .expect("git add")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-qm",
+                    "current-format archive fixture",
+                ])
+                .current_dir(root.path())
+                .status()
+                .expect("git commit")
+                .success()
+        );
+        attach(root.path()).expect("attach");
+        let work_item_id = "WI-CURRENT-ARCHIVE-READ-SNAPSHOT".to_owned();
+        start_work_item_with_options(
+            root.path(),
+            &work_item_id,
+            "verify a current Task Outcome archive",
+            "preserve its validated report bytes",
+            &[".ai/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start");
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"current archive snapshot runtime"),
+        };
+        let contract_path = root.path().join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        preflight_work_item(root.path(), &contract_path).expect("preflight");
+        checkpoint_work_item(root.path(), &work_item_id).expect("checkpoint");
+        record_verification(
+            root.path(),
+            &work_item_id,
+            &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+            &runtime.runtime_version,
+            &runtime.runtime_digest,
+        )
+        .expect("verification");
+        finish_work_item(root.path(), &work_item_id).expect("finish");
+        archive_work_item(root.path(), &work_item_id).expect("archive");
+        (root, work_item_id)
+    }
+
+    #[test]
+    fn current_archive_projection_does_not_consume_a_coherent_path_swap_after_outer_digest_checks()
+    {
+        let (root, work_item_id) = current_format_archive_fixture();
+        let archive = root.path().join(".ai/work-items/archive");
+        let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+        let markdown_path = archive.join(format!("{work_item_id}.task-report.md"));
+        let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+        let expected: TaskOutcomeReport =
+            serde_json::from_slice(&fs::read(&report_path).expect("original report bytes"))
+                .expect("original report");
+        let manifest = read_json(&archive.join(format!("{work_item_id}.archive.json")))
+            .expect("original archive manifest");
+        let mut expected_delivery = expected.clone();
+        resolve_archived_task_report_references(
+            root.path(),
+            &work_item_id,
+            &manifest,
+            true,
+            &mut expected_delivery,
+        )
+        .expect("resolve original report references");
+
+        let mut replace_finish_artifacts = || {
+            let mut replacement = expected.clone();
+            replacement.status = OutcomeState::Partial;
+            let replacement_report_value =
+                serde_json::to_value(&replacement).expect("replacement report value");
+            let replacement_report_bytes = serde_json::to_vec_pretty(&replacement_report_value)
+                .expect("replacement report JSON");
+            let replacement_markdown = task_outcome_markdown(&replacement);
+            let mut outcome: serde_json::Value =
+                serde_json::from_slice(&fs::read(&outcome_path).expect("original Outcome bytes"))
+                    .expect("original Outcome");
+            outcome["taskOutcomeReport"] =
+                serde_json::to_value(&replacement).expect("replacement nested report");
+            fs::write(&report_path, replacement_report_bytes).expect("replace report JSON");
+            fs::write(&markdown_path, replacement_markdown).expect("replace Markdown");
+            fs::write(
+                &outcome_path,
+                serde_json::to_vec_pretty(&outcome).expect("replacement Outcome JSON"),
+            )
+            .expect("replace Outcome JSON");
+        };
+
+        let observed = outcome_v2_internal_with_archive_hook(
+            root.path(),
+            &work_item_id,
+            &mut replace_finish_artifacts,
+        )
+        .expect("archive Outcome projection");
+        assert_eq!(
+            observed.task_outcome_report.as_ref(),
+            Some(&expected_delivery),
+            "projection must use the report bytes that passed the outer digest checks, then resolve delivery references from that captured manifest"
+        );
+        let replacement: TaskOutcomeReport =
+            serde_json::from_slice(&fs::read(&report_path).expect("replacement report bytes"))
+                .expect("replacement report parses");
+        assert_ne!(observed.task_outcome_report.as_ref(), Some(&replacement));
+    }
+
+    #[test]
+    fn current_archive_projection_uses_the_captured_snapshot_when_each_file_is_swapped_after_outer_checks()
+     {
+        for artifact in [
+            "archive.json",
+            "contract.json",
+            "summary.json",
+            "outcome.json",
+            "events.jsonl",
+            "task-report.json",
+            "task-report.md",
+            "verification.json",
+        ] {
+            let (root, work_item_id) = current_format_archive_fixture();
+            let archive = root.path().join(".ai/work-items/archive");
+            let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+            let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+            let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+            let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+            let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+            let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+            let evidence_path = root
+                .path()
+                .join(".ai/evidence")
+                .join(format!("{work_item_id}.verification.json"));
+            let expected: TaskOutcomeReport =
+                serde_json::from_slice(&fs::read(&report_path).expect("original report bytes"))
+                    .expect("original report");
+            let manifest = read_json(&archive.join(format!("{work_item_id}.archive.json")))
+                .expect("original archive manifest");
+            let mut expected_delivery = expected.clone();
+            resolve_archived_task_report_references(
+                root.path(),
+                &work_item_id,
+                &manifest,
+                true,
+                &mut expected_delivery,
+            )
+            .expect("resolve original report references");
+
+            let mut replace_one_artifact = || match artifact {
+                "archive.json" => {
+                    fs::write(&manifest_path, b"{\"replaced\":true}\n")
+                        .expect("replace only archive manifest");
+                }
+                "contract.json" => {
+                    let mut contract: serde_json::Value = serde_json::from_slice(
+                        &fs::read(&contract_path).expect("original Contract bytes"),
+                    )
+                    .expect("original Contract");
+                    contract["goal"] = serde_json::json!("changed after outer checks");
+                    fs::write(
+                        &contract_path,
+                        serde_json::to_vec_pretty(&contract).expect("replacement Contract"),
+                    )
+                    .expect("replace only Contract");
+                }
+                "summary.json" => {
+                    let mut summary: serde_json::Value = serde_json::from_slice(
+                        &fs::read(&summary_path).expect("original Summary bytes"),
+                    )
+                    .expect("original Summary");
+                    summary["activationRecovery"] =
+                        serde_json::json!({"historicalTransitionAuthentication":"unknown"});
+                    fs::write(
+                        &summary_path,
+                        serde_json::to_vec_pretty(&summary).expect("replacement Summary"),
+                    )
+                    .expect("replace only Summary");
+                }
+                "task-report.json" => {
+                    let mut replacement = expected.clone();
+                    replacement.status = OutcomeState::Partial;
+                    fs::write(
+                        &report_path,
+                        serde_json::to_vec_pretty(&replacement).expect("replacement report"),
+                    )
+                    .expect("replace only report JSON");
+                }
+                "task-report.md" => {
+                    fs::write(
+                        archive.join(format!("{work_item_id}.task-report.md")),
+                        b"changed after outer checks\n",
+                    )
+                    .expect("replace only report Markdown");
+                }
+                "events.jsonl" => {
+                    fs::write(&events_path, b"not-json\n").expect("replace only event stream");
+                }
+                "verification.json" => {
+                    fs::write(&evidence_path, b"changed after outer checks\n")
+                        .expect("replace only verification receipt");
+                }
+                "outcome.json" => {
+                    let mut outcome: serde_json::Value = serde_json::from_slice(
+                        &fs::read(&outcome_path).expect("original Outcome bytes"),
+                    )
+                    .expect("original Outcome");
+                    outcome["state"] = serde_json::json!("partial");
+                    fs::write(
+                        &outcome_path,
+                        serde_json::to_vec_pretty(&outcome).expect("replacement Outcome"),
+                    )
+                    .expect("replace only Outcome JSON");
+                }
+                _ => unreachable!(),
+            };
+            let observed = outcome_v2_internal_with_archive_hook(
+                root.path(),
+                &work_item_id,
+                &mut replace_one_artifact,
+            )
+            .expect("archive Outcome projection");
+            assert_eq!(
+                observed.task_outcome_report.as_ref(),
+                Some(&expected_delivery),
+                "swapping {artifact} after outer digest checks must not change consumed projection bytes"
+            );
+            assert_eq!(observed.state, OutcomeState::Verified, "{artifact}");
+            if artifact == "summary.json" {
+                assert!(
+                    !observed.unknowns.iter().any(|unknown| {
+                        unknown == "historical_transition_authentication_unknown"
+                    })
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn current_archive_projection_rejects_each_single_artifact_change_before_digest_checks() {
+        for artifact in ["task-report.json", "task-report.md", "outcome.json"] {
+            let (root, work_item_id) = current_format_archive_fixture();
+            let archive = root.path().join(".ai/work-items/archive");
+            match artifact {
+                "task-report.json" => {
+                    let path = archive.join(format!("{work_item_id}.task-report.json"));
+                    let mut report: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).expect("report bytes"))
+                            .expect("report JSON");
+                    report["schemaVersion"] = serde_json::json!(7);
+                    fs::write(path, serde_json::to_vec_pretty(&report).unwrap())
+                        .expect("change report schema");
+                }
+                "task-report.md" => fs::write(
+                    archive.join(format!("{work_item_id}.task-report.md")),
+                    b"changed before digest checks\n",
+                )
+                .expect("change Markdown"),
+                "outcome.json" => {
+                    let path = archive.join(format!("{work_item_id}.outcome.json"));
+                    let mut outcome: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).expect("Outcome bytes"))
+                            .expect("Outcome JSON");
+                    outcome["state"] = serde_json::json!("partial");
+                    fs::write(path, serde_json::to_vec_pretty(&outcome).unwrap())
+                        .expect("change Outcome field");
+                }
+                _ => unreachable!(),
+            }
+            let observed = outcome_v2_internal(root.path(), &work_item_id, None)
+                .expect("invalid archive is projected as stopped outcome");
+            assert_eq!(observed.state, OutcomeState::Unknown, "{artifact}");
+            assert!(
+                observed
+                    .unknowns
+                    .iter()
+                    .any(|value| value == "outcome_report_invalid"),
+                "{artifact} tampering must remain explicit"
+            );
+        }
+    }
+
+    #[test]
+    fn fixed_outcome_digest_selects_only_the_bound_legacy_receipt() {
+        let (_checkout, root, _manifest, trusted_bytes) = wi754_checkout_at_archive_introduction();
+        let evidence_path = format!(".ai/evidence/{WI754_ID}.verification.json");
+        let report = wi754_fixed_report(&root);
+        let expected_repository_id = repository_id(&root).to_string();
+        let archive = root.join(".ai/work-items/archive");
+        let outcome =
+            read_json(&archive.join(format!("{WI754_ID}.outcome.json"))).expect("fixed Outcome");
+        let summary =
+            read_json(&archive.join(format!("{WI754_ID}.summary.json"))).expect("fixed Summary");
+        let binding = read_legacy_archive_verification_binding(
+            &root,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &outcome,
+            &summary,
+            &expected_repository_id,
+        )
+        .expect("fixed Outcome and Summary bind the receipt selection");
+        let baseline = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+            &expected_repository_id,
+        )
+        .expect_err("archive introduction does not contain the later fixed receipt");
+        assert!(
+            baseline
+                .to_string()
+                .contains("0 fixed Git verification receipts")
+        );
+
+        let evidence_file = root.join(&evidence_path);
+        let mut self_created: serde_json::Value =
+            serde_json::from_slice(&fs::read(&evidence_file).expect("archive receipt bytes"))
+                .expect("archive receipt JSON");
+        self_created["repositorySnapshotDigest"] =
+            serde_json::json!(report.bindings.repository_snapshot_digest);
+        self_created["contractDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"self-selected Contract context"));
+        let self_created_bytes =
+            serde_json::to_vec_pretty(&self_created).expect("serialize self-created candidate");
+        commit_wi754_receipt(
+            &root,
+            &self_created_bytes,
+            "append self-created identity-shaped candidate",
+        );
+        let only_self_created = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+            &expected_repository_id,
+        )
+        .expect_err("a self-created candidate cannot establish its own fixed digest");
+        assert!(
+            only_self_created
+                .to_string()
+                .contains("0 fixed Git verification receipts")
+        );
+
+        commit_wi754_receipt(&root, &trusted_bytes, "append exact fixed receipt bytes");
+
+        let mut same_identity_different_bytes: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        same_identity_different_bytes["createdAt"] = serde_json::json!("2026-10-25T12:34:56Z");
+        let same_identity_bytes = serde_json::to_vec_pretty(&same_identity_different_bytes)
+            .expect("serialize distinct same-identity receipt");
+        let same_identity_digest = cockpit_protocol::digest_json(&same_identity_different_bytes)
+            .expect("distinct same-identity receipt digest");
+        assert!(legacy_verification_receipt_matches_report(
+            &same_identity_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &same_identity_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &same_identity_bytes,
+            "append distinct same-identity candidate",
+        );
+        assert_eq!(
+            fixed_legacy_verification_receipt(
+                &root,
+                WI754_ARCHIVE_REVISION,
+                WI754_ID,
+                &evidence_path,
+                &report,
+                &binding,
+                &expected_repository_id,
+            )
+            .expect("pinned digest disambiguates same-identity candidate"),
+            trusted_bytes
+        );
+
+        let mut wrong_contract: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_contract["contractDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"wrong Contract context"));
+        let wrong_contract_bytes =
+            serde_json::to_vec_pretty(&wrong_contract).expect("serialize wrong Contract receipt");
+        let wrong_contract_digest =
+            cockpit_protocol::digest_json(&wrong_contract).expect("wrong Contract digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &wrong_contract_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &wrong_contract_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &wrong_contract_bytes,
+            "append wrong Contract candidate",
+        );
+
+        let mut wrong_runtime: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_runtime["runtimeVersion"] = serde_json::json!("0.0.0-counterfeit");
+        wrong_runtime["receipt"]["runtimeVersion"] = serde_json::json!("0.0.0-counterfeit");
+        wrong_runtime["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&wrong_runtime["receipt"])
+                .expect("digest counterfeit nested receipt"),
+        )
+        .expect("serialize counterfeit receipt digest");
+        let wrong_runtime_bytes =
+            serde_json::to_vec_pretty(&wrong_runtime).expect("serialize wrong Runtime receipt");
+        commit_wi754_receipt(
+            &root,
+            &wrong_runtime_bytes,
+            "append wrong Runtime candidate",
+        );
+
+        let mut wrong_source: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        wrong_source["repositorySnapshotDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"wrong source snapshot"));
+        let wrong_source_bytes =
+            serde_json::to_vec_pretty(&wrong_source).expect("serialize wrong source candidate");
+        let wrong_source_digest =
+            cockpit_protocol::digest_json(&wrong_source).expect("wrong source digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &wrong_source_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &wrong_source_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(&root, &wrong_source_bytes, "append wrong source candidate");
+
+        let mut foreign_work_item: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        foreign_work_item["workItemId"] = serde_json::json!("WI-754-FOREIGN");
+        foreign_work_item["receipt"]["workItemId"] = serde_json::json!("WI-754-FOREIGN");
+        foreign_work_item["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&foreign_work_item["receipt"])
+                .expect("foreign Work Item receipt digest"),
+        )
+        .expect("serialize foreign Work Item digest");
+        let foreign_work_item_bytes = serde_json::to_vec_pretty(&foreign_work_item)
+            .expect("serialize foreign Work Item candidate");
+        let foreign_work_item_digest =
+            cockpit_protocol::digest_json(&foreign_work_item).expect("foreign Work Item digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &foreign_work_item_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &foreign_work_item_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &foreign_work_item_bytes,
+            "append foreign Work Item candidate",
+        );
+
+        let mut foreign_repository: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        let foreign_repository_id = Digest::sha256_bytes(b"foreign repository");
+        foreign_repository["repositoryId"] = serde_json::json!(foreign_repository_id);
+        foreign_repository["receipt"]["repositoryId"] = serde_json::json!(foreign_repository_id);
+        foreign_repository["receiptDigest"] = serde_json::to_value(
+            cockpit_protocol::digest_json(&foreign_repository["receipt"])
+                .expect("foreign repository receipt digest"),
+        )
+        .expect("serialize foreign repository digest");
+        let foreign_repository_bytes = serde_json::to_vec_pretty(&foreign_repository)
+            .expect("serialize foreign repository candidate");
+        let foreign_repository_digest =
+            cockpit_protocol::digest_json(&foreign_repository).expect("foreign repository digest");
+        assert!(!legacy_verification_receipt_matches_report(
+            &foreign_repository_bytes,
+            WI754_ID,
+            &repository_id(&root).to_string(),
+            report
+                .bindings
+                .repository_snapshot_digest
+                .as_ref()
+                .expect("fixed report snapshot"),
+            &foreign_repository_digest,
+            &binding.contract_digest,
+        ));
+        commit_wi754_receipt(
+            &root,
+            &foreign_repository_bytes,
+            "append foreign repository candidate",
+        );
+
+        // Repeating the exact fixed bytes at another revision is the same
+        // candidate, not a second identity or an ambiguity.
+        commit_wi754_receipt(&root, &trusted_bytes, "repeat exact fixed receipt bytes");
+        let selected = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+            &expected_repository_id,
+        )
+        .expect("fixed Outcome digest selects the exact historical receipt");
+        assert_eq!(selected, trusted_bytes);
+
+        // A semantically identical JSON value can have the same canonical
+        // receipt digest while preserving different raw bytes. Historical
+        // selection must reject that ambiguity rather than treating the
+        // second encoding as an exact duplicate.
+        let mut semantically_same_but_differently_encoded = trusted_bytes.clone();
+        semantically_same_but_differently_encoded.push(b' ');
+        let trusted_value: serde_json::Value =
+            serde_json::from_slice(&trusted_bytes).expect("trusted receipt JSON");
+        let differently_encoded_value: serde_json::Value =
+            serde_json::from_slice(&semantically_same_but_differently_encoded)
+                .expect("same receipt with different JSON whitespace");
+        assert_ne!(trusted_bytes, semantically_same_but_differently_encoded);
+        assert_eq!(trusted_value, differently_encoded_value);
+        assert_eq!(
+            cockpit_protocol::digest_json(&trusted_value).expect("canonical trusted digest"),
+            cockpit_protocol::digest_json(&differently_encoded_value)
+                .expect("canonical whitespace-variant digest")
+        );
+        commit_wi754_receipt(
+            &root,
+            &semantically_same_but_differently_encoded,
+            "append same canonical receipt with distinct raw bytes",
+        );
+        let ambiguous = fixed_legacy_verification_receipt(
+            &root,
+            WI754_ARCHIVE_REVISION,
+            WI754_ID,
+            &evidence_path,
+            &report,
+            &binding,
+            &expected_repository_id,
+        )
+        .expect_err("same canonical digest with distinct raw bytes is ambiguous");
+        assert!(
+            ambiguous
+                .to_string()
+                .contains("2 fixed Git verification receipts"),
+            "{ambiguous}"
+        );
+    }
+
+    #[test]
+    fn legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement() {
+        let (_checkout, root, manifest, trusted_bytes) = wi754_checkout_at_archive_introduction();
+        commit_wi754_receipt(&root, &trusted_bytes, "append the fixed historical receipt");
+        let expected = wi754_fixed_report(&root);
+        let verified =
+            verify_archive_manifest_with_report_options(&root, WI754_ID, &manifest, None)
+                .expect("archive verifies against its fixed historical bytes");
+        let report_path = root.join(format!(
+            ".ai/work-items/archive/{WI754_ID}.task-report.json"
+        ));
+        let mut replacement = expected.clone();
+        replacement.status = OutcomeState::Partial;
+        let replacement_bytes =
+            serde_json::to_vec_pretty(&replacement).expect("replacement report JSON");
+        fs::write(&report_path, replacement_bytes).expect("replace path after validation");
+
+        let consumed = verified
+            .task_outcome_report
+            .expect("validated legacy report is returned to the caller");
+        assert_eq!(consumed, expected);
+        let path_after_validation: TaskOutcomeReport =
+            serde_json::from_slice(&fs::read(&report_path).expect("replacement bytes"))
+                .expect("replacement report parses");
+        assert_ne!(consumed, path_after_validation);
+    }
+
+    #[test]
+    fn close_projection_consumes_the_captured_final_report_after_path_replacement() {
+        let (root, work_item_id) = closed_usage_fixture();
+        let validation =
+            usage::validate_existing_frozen_usage_and_report(root.path(), &work_item_id)
+                .expect("close report and usage validate together");
+        let expected = validation
+            .final_report
+            .clone()
+            .expect("validated close final report");
+        let usage = expected.usage.as_ref().expect("final usage");
+        assert_eq!(usage.receipt_refs.len(), 2);
+        assert_eq!(usage.totals.input_tokens, Some(20));
+
+        let close_path = root
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json"));
+        let mut replacement: serde_json::Value =
+            serde_json::from_slice(&fs::read(&close_path).expect("close bytes"))
+                .expect("close JSON");
+        let finish_report: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.path().join(format!(
+                ".ai/work-items/archive/{work_item_id}.task-report.json"
+            )))
+            .expect("finish report bytes"),
+        )
+        .expect("finish report JSON");
+        replacement["finalReportDigest"] = serde_json::json!(
+            cockpit_protocol::digest_json(&finish_report).expect("finish report digest")
+        );
+        replacement["finalReport"] = finish_report;
+        fs::write(
+            &close_path,
+            serde_json::to_vec_pretty(&replacement).expect("replacement close JSON"),
+        )
+        .expect("replace close path after validation");
+
+        let consumed = validated_close_task_report(&Ok(validation))
+            .expect("consumer receives the validated captured report");
+        assert_eq!(consumed, expected);
+        assert_eq!(
+            consumed
+                .usage
+                .as_ref()
+                .expect("captured usage")
+                .receipt_refs
+                .len(),
+            2
+        );
+        let current_close: serde_json::Value =
+            serde_json::from_slice(&fs::read(&close_path).expect("replacement bytes"))
+                .expect("replacement close");
+        assert_ne!(
+            consumed,
+            serde_json::from_value::<TaskOutcomeReport>(current_close["finalReport"].clone())
+                .expect("replacement report parses")
+        );
+    }
+
+    #[test]
+    fn preserved_historical_reports_match_the_exact_legacy_markdown_renderer() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("workspace root");
+        for work_item_id in [
+            "WI-1076-governance-recovered-predecessor-projection",
+            "WI-1078-v1-0-1-post-merge-sync-finalization",
+            "WI-1043-amendment-review-admission-fix",
+            "WI-677-wi657-lifecycle-concurrency-successor",
+            "WI-754-runtime-recovery-digest",
+            "WI-755-p1-observation-context-successor",
+            "WI-798-collaboration-observability-performance",
+            "WI-902-verification-receipt-snapshot-boundary",
+            "WI-936-interface-ssot",
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+            "WI-819-docs-gate-convergence",
+            "WI-769-performance-terminal-docs",
+            "WI-771-wi770-doc-promotion",
+        ] {
+            let archive = root.join(".ai/work-items/archive");
+            let report_bytes = fs::read(archive.join(format!("{work_item_id}.task-report.json")))
+                .expect("preserved historical report");
+            let report: TaskOutcomeReport =
+                serde_json::from_slice(&report_bytes).expect("historical report schema");
+            let verification = read_json(
+                &root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.verification.json")),
+            )
+            .expect("fixed historical verification receipt");
+            let runtime_version = verification["runtimeVersion"]
+                .as_str()
+                .expect("historical producer version");
+            let markdown = fs::read(archive.join(format!("{work_item_id}.task-report.md")))
+                .expect("preserved historical Markdown");
+            if work_item_id == "WI-819-docs-gate-convergence" {
+                assert_eq!(runtime_version, "0.2.91");
+                assert_eq!(
+                    Digest::sha256_bytes(&markdown).to_string(),
+                    "sha256:e6aff8f3a80611f246d5cf30c17cc22e32ba66e93597f682d63c8a76d9981742"
+                );
+                assert!(markdown.ends_with(b"\n\n"));
+                assert!(!markdown.ends_with(b"\n\n\n"));
+            }
+            assert_eq!(
+                task_outcome_markdown_legacy_for_runtime(&report, runtime_version)
+                    .expect("supported fixed historical renderer")
+                    .as_bytes(),
+                markdown,
+                "historical renderer mismatch for {work_item_id}"
+            );
+        }
+    }
+
+    #[test]
+    fn historical_legacy_runtimes_markdown_matches_one_exact_legacy_v1_shape() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("workspace root");
+        for work_item_id in [
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+            "WI-769-performance-terminal-docs",
+            "WI-771-wi770-doc-promotion",
+        ] {
+            let archive = root.join(".ai/work-items/archive");
+            let report_bytes = fs::read(archive.join(format!("{work_item_id}.task-report.json")))
+                .expect("preserved historical report");
+            let report: TaskOutcomeReport =
+                serde_json::from_slice(&report_bytes).expect("historical report schema");
+            let markdown = fs::read(archive.join(format!("{work_item_id}.task-report.md")))
+                .expect("preserved historical Markdown");
+            let verification = read_json(
+                &root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.verification.json")),
+            )
+            .expect("fixed historical verification receipt");
+            let runtime_version = verification["runtimeVersion"]
+                .as_str()
+                .expect("historical producer version");
+            let base = task_outcome_markdown_legacy_v1(&report);
+            let mut one_extra_lf = base.clone();
+            one_extra_lf.push('\n');
+            let matches = [base.as_bytes(), one_extra_lf.as_bytes()]
+                .into_iter()
+                .filter(|candidate| *candidate == markdown.as_slice())
+                .count();
+            assert_eq!(
+                matches, 1,
+                "historical legacy renderer must match exactly one byte shape for {work_item_id}"
+            );
+            assert_eq!(
+                runtime_version == "0.2.89" || runtime_version == "0.2.100",
+                markdown == one_extra_lf.as_bytes(),
+                "fixed historical Runtime {runtime_version} must map to the exact checked renderer for {work_item_id}"
+            );
+        }
+    }
+
+    #[test]
+    fn json_projection_mismatch_reports_digests_and_safe_pointer_only() {
+        let expected = br#"{"sections":{"usage":{"total":3,"secret":"private"}}}"#;
+        let actual = br#"{"sections":{"usage":{"total":4,"secret":"private"}}}"#;
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.json"),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(diagnostic.contains(&Digest::sha256_bytes(expected).to_string()));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(actual).to_string()));
+        assert!(diagnostic.contains("nesting depth 3"));
+        assert!(diagnostic.contains("object keys redacted"));
+        assert!(!diagnostic.contains("/sections/usage/total"));
+        assert!(!diagnostic.contains("private"));
+    }
+
+    #[test]
+    fn markdown_projection_mismatch_reports_first_line_and_digest_without_content() {
+        let expected = b"# Task Outcome\n\n## Usage\n\n- private details\n";
+        let actual = b"# Task Outcome\n\n";
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.md"),
+            "Markdown",
+            "ai-cockpit.task-outcome-markdown/v2",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(diagnostic.contains("first differing Markdown line 3"));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(expected).to_string()));
+        assert!(diagnostic.contains(&Digest::sha256_bytes(actual).to_string()));
+        assert!(!diagnostic.contains("private details"));
+    }
+
+    #[test]
+    fn projection_policy_rejects_unknown_renderer_and_cross_work_item() {
+        let contract = Digest::sha256_bytes(b"contract");
+        let source = Digest::sha256_bytes(b"source");
+        let runtime = Digest::sha256_bytes(b"runtime");
+        let mut policy = new_task_outcome_projection_policy(
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "WI-PROJECTION",
+            contract.clone(),
+            source.clone(),
+            "1.0.1-candidate",
+            runtime,
+        );
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-PROJECTION",
+                &contract,
+                &source,
+            )
+            .is_ok()
+        );
+        policy.markdown_renderer_version += 1;
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-PROJECTION",
+                &contract,
+                &source,
+            )
+            .unwrap_err()
+            .contains("unsupported Task Outcome Markdown renderer")
+        );
+        policy.markdown_renderer_version = cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION;
+        assert!(
+            validate_task_outcome_projection_policy(
+                &policy,
+                &policy.repository_id,
+                "WI-OTHER",
+                &contract,
+                &source,
+            )
+            .unwrap_err()
+            .contains("identity or source binding")
+        );
+    }
+
+    #[test]
+    fn unknown_renderer_diagnostic_bounds_and_escapes_untrusted_metadata() {
+        let contract = Digest::sha256_bytes(b"contract");
+        let source = Digest::sha256_bytes(b"source");
+        let mut policy = new_task_outcome_projection_policy(
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "WI-PROJECTION",
+            contract.clone(),
+            source.clone(),
+            "1.0.1-candidate",
+            Digest::sha256_bytes(b"runtime"),
+        );
+        policy.markdown_renderer = format!("{}api_key=private\n\u{001b}[31m", "x".repeat(4096));
+        let error = validate_task_outcome_projection_policy(
+            &policy,
+            &policy.repository_id,
+            "WI-PROJECTION",
+            &contract,
+            &source,
+        )
+        .expect_err("unknown renderer must be refused");
+        assert!(
+            error.len() <= 512,
+            "renderer diagnostic is unbounded: {}",
+            error.len()
+        );
+        assert!(
+            !error.chars().any(char::is_control),
+            "control character leaked"
+        );
+        assert!(
+            !error.contains("api_key=private"),
+            "sensitive metadata leaked"
+        );
+    }
+
+    #[test]
+    fn json_pointer_diagnostic_does_not_echo_untrusted_key_names_or_controls() {
+        let expected = br#"{"sections":{"authorization\u001bBearerToken":"old"}}"#;
+        let actual = br#"{"sections":{"authorization\u001bBearerToken":"new"}}"#;
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.json"),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(
+            diagnostic.len() <= 1024,
+            "JSON pointer diagnostic is unbounded"
+        );
+        assert!(
+            !diagnostic.chars().any(char::is_control),
+            "control character leaked"
+        );
+        assert!(
+            !diagnostic.contains("authorization"),
+            "untrusted sensitive key name leaked in JSON pointer"
+        );
+        assert!(!diagnostic.contains("old") && !diagnostic.contains("new"));
+    }
+}
+
 struct TaskOutcomeReportInput<'a> {
     root: &'a Path,
     contract_path: &'a Path,
@@ -12526,8 +15874,16 @@ struct TaskOutcomeReportInput<'a> {
     recovery_condition_override: Option<&'a str>,
     historical: bool,
     usage_cutoff: Option<&'a str>,
-    closed_usage_validation:
-        Option<&'a Result<Option<cockpit_protocol::UsageSummary>, ObserverError>>,
+    closed_usage_validation: Option<&'a Result<usage::ValidatedFrozenUsage, ObserverError>>,
+}
+
+fn validated_close_task_report(
+    validation: &Result<usage::ValidatedFrozenUsage, ObserverError>,
+) -> Option<TaskOutcomeReport> {
+    validation
+        .as_ref()
+        .ok()
+        .and_then(|validated| validated.final_report.clone())
 }
 
 fn task_outcome_report(
@@ -12692,7 +16048,7 @@ fn task_outcome_report(
             ))
         };
         match closed_usage_validation {
-            Some(Ok(usage)) => usage.clone(),
+            Some(Ok(validated)) => validated.usage.clone(),
             Some(Err(_)) => invalid(),
             None => {
                 match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)
@@ -12796,12 +16152,13 @@ fn append_task_outcome_recovery_event(
             .unwrap_or_default(),
         correction_of: None,
         finding_fingerprint: None,
+        projection_binding: None,
     });
     append_task_outcome_event_lines(&path, &events[original_len..])
 }
 
 fn validate_task_outcome_events(
-    root: &Path,
+    _root: &Path,
     path: &Path,
     expected_repository_id: &str,
     expected_work_item_id: &str,
@@ -12816,9 +16173,22 @@ fn validate_task_outcome_events(
             message: "Task Outcome event stream must be a regular non-symlink file".into(),
         });
     }
-    let text = read_governance_text(path).map_err(|source| ObserverError::Read {
+    let bytes = read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.to_path_buf(),
         source,
+    })?;
+    validate_task_outcome_events_bytes(path, &bytes, expected_repository_id, expected_work_item_id)
+}
+
+fn validate_task_outcome_events_bytes(
+    path: &Path,
+    bytes: &[u8],
+    expected_repository_id: &str,
+    expected_work_item_id: &str,
+) -> Result<Vec<TaskOutcomeEvent>, ObserverError> {
+    let text = std::str::from_utf8(bytes).map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: format!("Task Outcome event stream is not valid UTF-8: {error}"),
     })?;
     let mut events = Vec::new();
     let mut ids = std::collections::BTreeSet::new();
@@ -12854,6 +16224,13 @@ fn validate_task_outcome_events(
             .is_none_or(|fingerprint| {
                 !finding_fingerprints.contains(fingerprint) || is_explicit_correction
             });
+        let projection_binding_valid = event.projection_binding.as_ref().is_none_or(|binding| {
+            event.event_type == "completed"
+                && binding.schema_version == 1
+                && valid_sha256_digest(&binding.projection_policy_digest.to_string())
+                && valid_sha256_digest(&binding.task_report_json_digest.to_string())
+                && valid_sha256_digest(&binding.task_report_markdown_digest.to_string())
+        });
         if event.schema_version != 1
             || event.repository_id != expected_repository_id
             || event.work_item_id != expected_work_item_id
@@ -12890,6 +16267,7 @@ fn validate_task_outcome_events(
             || !fingerprint_valid
             || !fingerprint_is_new
             || !correction_relationship_valid
+            || !projection_binding_valid
         {
             return Err(ObserverError::State {
                 path: path.to_path_buf(),
@@ -12921,7 +16299,6 @@ fn validate_task_outcome_events(
             message: "Task Outcome event stream must contain at least one event".into(),
         });
     }
-    let _ = root;
     Ok(events)
 }
 
@@ -12989,23 +16366,32 @@ fn finding_fingerprint(event_type: &str, detail: &str, evidence_refs: &[String])
     Digest::sha256_bytes(input.as_bytes()).to_string()
 }
 
-fn append_task_outcome_events(
+pub(crate) fn append_task_outcome_events_with_binding(
     root: &Path,
     contract: &Contract,
     report: &TaskOutcomeReport,
     allow_recovery_retry: bool,
+    projection_binding: Option<cockpit_protocol::TaskOutcomeProjectionFinishBinding>,
 ) -> Result<(), ObserverError> {
-    append_task_outcome_events_at(root, contract, report, allow_recovery_retry, &now())
+    append_task_outcome_events_at_with_binding(
+        root,
+        contract,
+        report,
+        allow_recovery_retry,
+        &now(),
+        projection_binding,
+    )
 }
 
 // Shared deterministic event projection for historical lifecycle validation.
 // This writes only to its supplied isolated checkout; callers supply captured time.
-fn append_task_outcome_events_at(
+fn append_task_outcome_events_at_with_binding(
     root: &Path,
     contract: &Contract,
     report: &TaskOutcomeReport,
     allow_recovery_retry: bool,
     timestamp: &str,
+    projection_binding: Option<cockpit_protocol::TaskOutcomeProjectionFinishBinding>,
 ) -> Result<(), ObserverError> {
     let path = task_outcome_event_path(root, &contract.work_item_id, false);
     let mut events = if fs::symlink_metadata(&path).is_ok() {
@@ -13067,6 +16453,9 @@ fn append_task_outcome_events_at(
                 .unwrap_or_default(),
             correction_of: None,
             finding_fingerprint: fingerprint,
+            projection_binding: (event_type == "completed")
+                .then(|| projection_binding.clone())
+                .flatten(),
         });
     };
     append(
@@ -13113,6 +16502,41 @@ fn append_task_outcome_events_at(
 }
 
 fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
+    task_outcome_markdown_with_usage(report, true)
+}
+
+/// Exact Markdown renderer for the fixed pre-Usage legacy projection. Callers
+/// may use it only after immutable predecessor facts select the legacy route.
+pub(crate) fn task_outcome_markdown_legacy_v1(report: &TaskOutcomeReport) -> String {
+    task_outcome_markdown_with_usage(report, false)
+}
+
+/// Select one exact historical renderer only after the caller has validated
+/// the fixed Git-bound verification receipt. The producer version is a
+/// compatibility discriminator here, not an authentication claim.
+pub(crate) fn task_outcome_markdown_legacy_for_runtime(
+    report: &TaskOutcomeReport,
+    fixed_runtime_version: &str,
+) -> Result<String, String> {
+    let mut markdown = task_outcome_markdown_legacy_v1(report);
+    match fixed_runtime_version {
+        // The 0.2.87/89/90/91/99/100 Task Outcome writers left one extra
+        // terminal blank line. Their exact bytes are committed historical reports.
+        "0.2.87" | "0.2.89" | "0.2.90" | "0.2.91" | "0.2.99" | "0.2.100" => {
+            markdown.push('\n');
+        }
+        // The 1.0.1 writer normalized the report to exactly one terminal LF.
+        "1.0.0" | "1.0.1" => {}
+        _ => {
+            return Err(
+                "legacy Task Outcome producer Runtime has no supported Markdown renderer".into(),
+            );
+        }
+    }
+    Ok(markdown)
+}
+
+fn task_outcome_markdown_with_usage(report: &TaskOutcomeReport, include_usage: bool) -> String {
     let mut output = format!(
         "# Task Outcome Report\n\n- Work Item: `{}`\n- Status: `{}`\n- Human status color: `{}`\n\n",
         report.work_item_id,
@@ -13150,6 +16574,13 @@ fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
         for claim in claims {
             let provenance = if claim.inference { " (inference)" } else { "" };
             output.push_str(&format!("- {}{}\n", claim.text, provenance));
+        }
+        output.push('\n');
+    }
+    if include_usage {
+        output.push_str("## Usage\n\n");
+        for item in outcome_render::localized_report_usage_items(Some(report), "en") {
+            output.push_str(&format!("- {item}\n"));
         }
         output.push('\n');
     }
@@ -13221,6 +16652,38 @@ fn outcome_v2_internal_with_snapshot(
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
     snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+) -> Result<OutcomeV2, ObserverError> {
+    let mut no_op = || {};
+    outcome_v2_internal_with_snapshot_and_hook(
+        root,
+        work_item_id,
+        current_runtime,
+        snapshot_override,
+        &mut no_op,
+    )
+}
+
+#[cfg(test)]
+fn outcome_v2_internal_with_archive_hook(
+    root: &Path,
+    work_item_id: &str,
+    after_outer_digest_checks: &mut dyn FnMut(),
+) -> Result<OutcomeV2, ObserverError> {
+    outcome_v2_internal_with_snapshot_and_hook(
+        root,
+        work_item_id,
+        None,
+        None,
+        after_outer_digest_checks,
+    )
+}
+
+fn outcome_v2_internal_with_snapshot_and_hook(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+    snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+    after_outer_digest_checks: &mut dyn FnMut(),
 ) -> Result<OutcomeV2, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -13397,6 +16860,9 @@ fn outcome_v2_internal_with_snapshot(
             Ok(decision) => (decision, false),
             Err(_) => (None, true),
         };
+    let mut frozen_archived_task_report: Option<TaskOutcomeReport> = None;
+    let mut frozen_archived_summary: Option<serde_json::Value> = None;
+    let mut frozen_archive_manifest: Option<(serde_json::Value, bool)> = None;
     if archived {
         let archive_manifest = root
             .join(".ai/work-items/archive")
@@ -13408,41 +16874,54 @@ fn outcome_v2_internal_with_snapshot(
             .ok()
             .and_then(|value| value.get("taskOutcomeReport").cloned())
             .is_some();
-        let events_required = read_json(&archive_manifest)
-            .ok()
-            .and_then(|value| value.get("files").cloned())
-            .and_then(|files| files.get("eventsDigest").cloned())
-            .is_some();
+        let manifest = read_json(&archive_manifest).ok();
         if report_present {
-            let manifest = read_json(&archive_manifest).ok();
-            let report_valid = manifest.as_ref().is_some_and(|manifest| {
-                verify_archive_manifest(&root, work_item_id, manifest).is_ok()
-                    || recovery_decision.as_ref().is_some_and(|decision| {
-                        decision.decision == "supersede"
-                            && decision.predecessor_archive_manifest_digest.is_some()
-                            && verify_historical_supersede_manifest(
+            let verified_archive = manifest.as_ref().map(|manifest| {
+                verify_archive_manifest_with_report_options_and_hook(
+                    &root,
+                    work_item_id,
+                    manifest,
+                    None,
+                    after_outer_digest_checks,
+                )
+                .or_else(|_| {
+                    recovery_decision
+                        .as_ref()
+                        .filter(|decision| {
+                            decision.decision == "supersede"
+                                && decision.predecessor_archive_manifest_digest.is_some()
+                        })
+                        .ok_or_else(|| ObserverError::State {
+                            path: archive_manifest.clone(),
+                            message: "historical supersede recovery is unavailable".into(),
+                        })
+                        .and_then(|decision| {
+                            verify_historical_supersede_manifest_with_report(
                                 &root,
                                 work_item_id,
                                 manifest,
                                 decision,
                             )
-                            .is_ok()
-                    })
+                        })
+                })
             });
-            let events_valid = !events_required
-                || validate_task_outcome_events(
-                    &root,
-                    &task_outcome_event_path(&root, work_item_id, true),
-                    &contract.repository_id,
-                    work_item_id,
-                )
-                .is_ok();
-            if !report_valid || !events_valid {
+            let verified_archive = verified_archive.and_then(Result::ok);
+            if verified_archive
+                .as_ref()
+                .is_none_or(|verified| verified.task_outcome_report.is_none())
+            {
                 state = OutcomeState::Unknown;
                 decision_state = DecisionState::Red;
                 summary = "Archived Task Outcome evidence is malformed or not bound to the archive manifest; outcome is stopped.";
                 evidence_unknown = Some("outcome_report_invalid");
+            } else {
+                let verified = verified_archive.expect("verified archive result was checked above");
+                frozen_archived_summary = Some(verified.archived_summary);
+                frozen_archive_manifest = Some((verified.archive_manifest, true));
+                frozen_archived_task_report = verified.task_outcome_report;
             }
+        } else {
+            frozen_archive_manifest = manifest.map(|manifest| (manifest, false));
         }
     }
     // A normal archived Work Item with a bound resource context is not a
@@ -13468,15 +16947,34 @@ fn outcome_v2_internal_with_snapshot(
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
     let closed_usage_validation =
-        usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
-    let frozen_usage_invalid = archived && !historical && closed_usage_validation.is_err();
+        usage::validate_existing_frozen_usage_and_report(&root, work_item_id);
+    let frozen_closed_task_report = if archived
+        && closed_usage_validation.is_ok()
+        && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id)
+    {
+        validated_close_task_report(&closed_usage_validation)
+    } else {
+        None
+    };
+    // Usage snapshot integrity is independent of whether verification evidence
+    // is historical.  A historically valid close event must remain visible,
+    // but it cannot make a close with a broken final usage binding terminal.
+    let frozen_usage_invalid = archived && closed_usage_validation.is_err();
     let close_pending = archived
-        && !historical
         && (frozen_usage_invalid
-            || !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id));
-    if close_pending && state == OutcomeState::Verified {
+            || (!historical
+                && !close_decision_is_valid_for_status(
+                    &root,
+                    work_item_id,
+                    &contract.repository_id,
+                )));
+    if close_pending && (state == OutcomeState::Verified || frozen_usage_invalid) {
         decision_state = DecisionState::Yellow;
-        summary = "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending.";
+        summary = if frozen_usage_invalid {
+            "Archived evidence is preserved, but the frozen close usage report is invalid; terminal handoff remains blocked."
+        } else {
+            "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending."
+        };
         evidence_unknown = Some(if frozen_usage_invalid {
             "frozen_usage_invalid"
         } else if fs::symlink_metadata(&close_decision_path).is_ok() {
@@ -13646,9 +17144,17 @@ fn outcome_v2_internal_with_snapshot(
     let summary_path = contract_path
         .parent()
         .map(|parent| parent.join(format!("{work_item_id}.summary.json")));
-    let summary_value = summary_path
-        .as_deref()
-        .and_then(|path| read_json(path).ok());
+    let summary_value = if archived {
+        frozen_archived_summary.or_else(|| {
+            summary_path
+                .as_deref()
+                .and_then(|path| read_json(path).ok())
+        })
+    } else {
+        summary_path
+            .as_deref()
+            .and_then(|path| read_json(path).ok())
+    };
     if summary_value.as_ref().is_some_and(|summary| {
         summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown"
     }) {
@@ -13656,7 +17162,7 @@ fn outcome_v2_internal_with_snapshot(
         unknowns.sort();
         unknowns.dedup();
     }
-    let task_report = task_outcome_report(TaskOutcomeReportInput {
+    let current_task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,
         contract: &contract,
@@ -13675,6 +17181,26 @@ fn outcome_v2_internal_with_snapshot(
         usage_cutoff: None,
         closed_usage_validation: Some(&closed_usage_validation),
     })?;
+    // A broken close usage binding must remain visible in the current
+    // projection.  The archived finish report is immutable and may still
+    // contain a valid earlier usage snapshot, but it cannot stand in for a
+    // rejected close-time snapshot.
+    let mut task_report = if frozen_usage_invalid {
+        current_task_report
+    } else {
+        frozen_closed_task_report
+            .or(frozen_archived_task_report)
+            .unwrap_or(current_task_report)
+    };
+    if archived && let Some((manifest, verified)) = frozen_archive_manifest.as_ref() {
+        resolve_archived_task_report_references(
+            &root,
+            work_item_id,
+            manifest,
+            !*verified,
+            &mut task_report,
+        )?;
+    }
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {
@@ -14542,14 +18068,12 @@ fn documentation_projection_is_required(
         "docs/reference/reference-parity.zh-CN.md".into(),
         "docs/reference/reference-parity.ja.md".into(),
     ];
-    if contract.scope.iter().any(|scope| {
-        projection_paths
-            .iter()
-            .any(|path| scope_pattern_relation(scope, path) != ScopeRelation::Disjoint)
-    }) || contract.acceptance_criteria.iter().any(|criterion| {
-        let criterion = criterion.to_ascii_lowercase();
-        criterion.contains("parity ledger") || criterion.contains("parity registration")
-    }) {
+    if scope_requires_documentation_projection(&contract.scope, &projection_paths)
+        || contract.acceptance_criteria.iter().any(|criterion| {
+            let criterion = criterion.to_ascii_lowercase();
+            criterion.contains("parity ledger") || criterion.contains("parity registration")
+        })
+    {
         return Ok(true);
     }
 
@@ -14559,6 +18083,14 @@ fn documentation_projection_is_required(
         return Ok(true);
     }
     Ok(false)
+}
+
+fn scope_requires_documentation_projection(scope: &[String], projection_paths: &[String]) -> bool {
+    scope.iter().any(|scope| {
+        projection_paths
+            .iter()
+            .any(|path| scope_pattern_matches_path(scope, path) != Some(false))
+    })
 }
 
 /// Return missing or malformed reader-projection facts only when the explicit
@@ -15293,8 +18825,115 @@ fn static_scope_prefix(value: &str) -> Option<String> {
     (!components.is_empty()).then(|| components.join("/"))
 }
 
+fn static_prefixes_are_disjoint(left: &str, right: &str) -> bool {
+    !exact_path_is_under_prefix(left, right) && !exact_path_is_under_prefix(right, left)
+}
+
 fn exact_path_is_under_prefix(path: &str, prefix: &str) -> bool {
     path == prefix || path.starts_with(&format!("{prefix}/"))
+}
+
+/// Match an exact repository-relative path against the deliberately supported
+/// subset of Contract scope patterns. This is separate from pattern overlap:
+/// unsupported glob forms remain unknown and cannot grant path membership.
+fn scope_pattern_matches_path(pattern: &str, path: &str) -> Option<bool> {
+    let pattern_raw = pattern.trim().replace('\\', "/");
+    let path_raw = path.trim().replace('\\', "/");
+    if scope_pattern_is_unsafe(&pattern_raw) || scope_pattern_is_unsafe(&path_raw) {
+        return None;
+    }
+
+    let pattern = normalized_scope_pattern(pattern);
+    let path = normalized_scope_pattern(path);
+    if pattern.is_empty() || path.is_empty() || scope_pattern_has_glob(&path) {
+        return None;
+    }
+    if pattern == path || pattern == "**" {
+        return Some(true);
+    }
+    if let Some(prefix) = simple_scope_prefix(&pattern) {
+        return Some(exact_path_is_under_prefix(&path, prefix));
+    }
+    if !scope_pattern_has_glob(&pattern) {
+        return Some(false);
+    }
+    if let Some(matches) = single_component_file_pattern_matches_path(&pattern, &path) {
+        return Some(matches);
+    }
+    static_scope_prefix(&pattern)
+        .filter(|prefix| static_prefixes_are_disjoint(prefix, &path))
+        .map(|_| false)
+}
+
+fn declared_scope_allows_path(scope: &[String], out_of_scope: &[String], path: &str) -> bool {
+    scope
+        .iter()
+        .any(|pattern| scope_pattern_matches_path(pattern, path) == Some(true))
+        && out_of_scope
+            .iter()
+            .all(|pattern| scope_pattern_matches_path(pattern, path) == Some(false))
+}
+
+/// Match the deliberately narrow `*` syntax supported for a single filename
+/// component against one exact repository-relative path. It does not support
+/// wildcards in directory components or other glob metacharacters.
+fn single_component_file_pattern_matches_path(pattern: &str, path: &str) -> Option<bool> {
+    if simple_scope_prefix(pattern).is_some() {
+        return None;
+    }
+    let (pattern_directory, pattern_name) = pattern
+        .rsplit_once('/')
+        .map_or(("", pattern), |(directory, name)| (directory, name));
+    if pattern_name.is_empty()
+        || !pattern_name.contains('*')
+        || pattern_name
+            .chars()
+            .any(|character| matches!(character, '?' | '[' | ']' | '{' | '}'))
+        || pattern_directory.split('/').any(scope_pattern_has_glob)
+    {
+        return None;
+    }
+
+    let (path_directory, path_name) = path
+        .rsplit_once('/')
+        .map_or(("", path), |(directory, name)| (directory, name));
+    if pattern_directory != path_directory {
+        return Some(false);
+    }
+    Some(filename_component_glob_matches(pattern_name, path_name))
+}
+
+fn filename_component_glob_matches(pattern: &str, value: &str) -> bool {
+    let pattern = pattern.chars().collect::<Vec<_>>();
+    let value = value.chars().collect::<Vec<_>>();
+    let (mut pattern_index, mut value_index) = (0, 0);
+    let mut last_star = None;
+    let mut last_star_value_index = 0;
+
+    while value_index < value.len() {
+        if pattern_index < pattern.len()
+            && pattern[pattern_index] != '*'
+            && pattern[pattern_index] == value[value_index]
+        {
+            pattern_index += 1;
+            value_index += 1;
+        } else if pattern_index < pattern.len() && pattern[pattern_index] == '*' {
+            last_star = Some(pattern_index);
+            pattern_index += 1;
+            last_star_value_index = value_index;
+        } else if let Some(star_index) = last_star {
+            pattern_index = star_index + 1;
+            last_star_value_index += 1;
+            value_index = last_star_value_index;
+        } else {
+            return false;
+        }
+    }
+
+    while pattern_index < pattern.len() && pattern[pattern_index] == '*' {
+        pattern_index += 1;
+    }
+    pattern_index == pattern.len()
 }
 
 fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
@@ -15311,7 +18950,7 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if left == right {
         return ScopeRelation::Overlap;
     }
-    if matches!(left.as_str(), "*" | "**") || matches!(right.as_str(), "*" | "**") {
+    if left == "**" || right == "**" {
         return ScopeRelation::Overlap;
     }
 
@@ -15320,7 +18959,6 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if left_exact && right_exact {
         return ScopeRelation::Disjoint;
     }
-
     // A shared literal directory prefix is not enough to prove overlap for
     // complex globs, but distinct static prefixes prove disjointness. This
     // keeps common code scopes such as `src/**/*.rs` from conservatively
@@ -15329,8 +18967,7 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     if let (Some(left_prefix), Some(right_prefix)) =
         (static_scope_prefix(&left), static_scope_prefix(&right))
         && left_prefix != right_prefix
-        && !left_prefix.starts_with(&format!("{right_prefix}/"))
-        && !right_prefix.starts_with(&format!("{left_prefix}/"))
+        && static_prefixes_are_disjoint(&left_prefix, &right_prefix)
     {
         return ScopeRelation::Disjoint;
     }
@@ -16392,6 +20029,7 @@ mod post_prepare_identity_tests {
                 fs::write(path, bytes).unwrap();
             },
             Some((&runtime, Some(&caller))),
+            None,
         );
         let second = second.unwrap();
         assert!(!second.receipt.passed);
@@ -16910,5 +20548,186 @@ mod canonical_clean_comparison_tests {
         assert!(!comparison_material_is_completely_inspected(
             &snapshot, &finding
         ));
+    }
+}
+
+#[cfg(test)]
+mod scope_pattern_relation_tests {
+    use super::{
+        ScopeRelation, declared_scope_allows_path, scope_pattern_matches_path,
+        scope_pattern_relation, scope_requires_documentation_projection,
+    };
+
+    const RECEIPT_PATTERN: &str = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.*.json";
+
+    #[test]
+    fn single_component_filename_pattern_matches_exact_digest_receipts() {
+        for digest in ["a".repeat(64), "b".repeat(64)] {
+            let receipt =
+                format!(".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.{digest}.json");
+            assert_eq!(
+                scope_pattern_matches_path(RECEIPT_PATTERN, &receipt),
+                Some(true),
+                "receipt path: {receipt}"
+            );
+        }
+    }
+
+    #[test]
+    fn single_component_filename_pattern_rejects_foreign_or_mismatched_paths() {
+        for path in [
+            ".ai/decisions/WI-OTHER.preflight-review.aaaaaaaa.json",
+            ".ai/decisions/WI-TASK-AUTHORIZATION.xpreflight-review.aaaaaaaa.json",
+            ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.toml",
+            ".ai/other/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json",
+            ".ai/decisions/nested/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json",
+        ] {
+            assert_eq!(
+                scope_pattern_matches_path(RECEIPT_PATTERN, path),
+                Some(false),
+                "out-of-pattern path: {path}"
+            );
+        }
+    }
+
+    #[test]
+    fn star_is_limited_to_one_path_component() {
+        assert_eq!(
+            scope_pattern_matches_path("*", "directory/file.json"),
+            Some(false)
+        );
+        assert_eq!(scope_pattern_matches_path("*", "file.json"), Some(true));
+        assert_eq!(
+            scope_pattern_matches_path("directory/*.json", "directory/nested/file.json"),
+            Some(false)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("directory/*.json", "directory/file.json"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("**", "directory/nested/file.json"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_relation("*", "directory/file.json"),
+            ScopeRelation::Unknown,
+            "pattern overlap stays separate from path membership"
+        );
+    }
+
+    #[test]
+    fn unsafe_or_unsupported_patterns_remain_unknown() {
+        for (pattern, path) in [
+            (
+                RECEIPT_PATTERN,
+                "../.ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                RECEIPT_PATTERN,
+                "/.ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                ".ai/**/preflight-review.*.json",
+                ".ai/decisions/preflight-review.a.json",
+            ),
+            (
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.?.json",
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json",
+            ),
+            (
+                ".ai/decisions/WI-*/preflight-review.*.json",
+                ".ai/decisions/WI-TASK-AUTHORIZATION/preflight-review.a.json",
+            ),
+        ] {
+            assert_eq!(
+                scope_pattern_matches_path(pattern, path),
+                None,
+                "unsupported or unsafe membership: {pattern:?} ↔ {path:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn an_out_of_scope_match_or_unknown_still_denies_membership() {
+        let scope = vec![RECEIPT_PATTERN.to_owned()];
+        let receipt = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json";
+        assert!(declared_scope_allows_path(&scope, &[], receipt));
+        assert!(!declared_scope_allows_path(
+            &scope,
+            &[receipt.to_owned()],
+            receipt
+        ));
+        assert!(!declared_scope_allows_path(
+            &scope,
+            &[".ai/**/preflight-review.*.json".to_owned()],
+            receipt
+        ));
+    }
+
+    #[test]
+    fn unrelated_code_scope_does_not_require_documentation_projection() {
+        let scope = vec!["src/**/*.rs".to_owned()];
+        let projections = vec!["docs/reference/commands.md".to_owned()];
+        assert!(!scope_requires_documentation_projection(
+            &scope,
+            &projections
+        ));
+    }
+
+    #[test]
+    fn unrelated_out_of_scope_prefix_does_not_block_receipt_membership() {
+        let scope = vec![RECEIPT_PATTERN.to_owned()];
+        let out_of_scope = vec!["other/**/*.rs".to_owned()];
+        let receipt = ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.aaaaaaaa.json";
+        assert!(declared_scope_allows_path(&scope, &out_of_scope, receipt));
+    }
+
+    #[test]
+    fn exact_paths_and_directory_prefix_patterns_keep_their_existing_meaning() {
+        assert_eq!(
+            scope_pattern_relation(
+                "crates/cockpit-repository/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            ScopeRelation::Overlap
+        );
+        assert_eq!(
+            scope_pattern_relation("docs/work-items/**", "crates/cockpit-repository/src/lib.rs"),
+            ScopeRelation::Disjoint
+        );
+        assert_eq!(
+            scope_pattern_relation("README.md", "src/lib.rs"),
+            ScopeRelation::Disjoint
+        );
+        assert_eq!(
+            scope_pattern_relation(
+                "**",
+                ".ai/decisions/WI-TASK-AUTHORIZATION.preflight-review.a.json"
+            ),
+            ScopeRelation::Overlap
+        );
+        assert_eq!(
+            scope_pattern_matches_path(
+                "crates/cockpit-repository/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path(
+                "docs/work-items/**",
+                "crates/cockpit-repository/src/lib.rs"
+            ),
+            Some(false)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("README.md", "README.md"),
+            Some(true)
+        );
+        assert_eq!(
+            scope_pattern_matches_path("README.md", "docs/reference.md"),
+            Some(false)
+        );
     }
 }

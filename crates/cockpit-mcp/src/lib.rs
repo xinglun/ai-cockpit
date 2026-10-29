@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 35] = [
+const TOOL_NAMES: [&str; 44] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,7 +22,16 @@ const TOOL_NAMES: [&str; 35] = [
     "preflight",
     "work_item_controls",
     "work_item_usage_record",
+    "work_item_usage_import",
     "work_item_material_review_plan",
+    "work_item_authorization_manifest_plan",
+    "work_item_authorization_manifest_review",
+    "work_item_authorization_batch_start",
+    "work_item_authorization_batch_check",
+    "work_item_authorization_batch_outcome",
+    "work_item_authorization_batch_inspect",
+    "work_item_authorization_batch_terminate",
+    "work_item_authorization_batch_ledger",
     "work_item_material_review_record",
     "work_item_activation_recovery_plan",
     "work_item_activation_recovery_record",
@@ -188,6 +197,209 @@ fn string_array_schema() -> Value {
 
 fn digest_schema() -> Value {
     json!({"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"})
+}
+
+fn task_authorization_batch_caller_schema() -> Value {
+    object_schema(
+        json!({
+            "schemaVersion": {"type":"integer", "const":1},
+            "actor": string_property("Explicit member agent actor; this self-declared value does not authenticate a person."),
+            "authoritySource": string_property("Exact member authority source from its current owner-reviewed policy."),
+            "assurance": {"type":"string", "const":"self_declared"}
+        }),
+        &["schemaVersion", "actor", "authoritySource", "assurance"],
+    )
+}
+
+fn task_authorization_batch_budget_schema() -> Value {
+    object_schema(
+        json!({
+            "startQuota": {"type":"integer", "minimum":1},
+            "retryBudgetByCheck": {
+                "type":"object",
+                "additionalProperties":{"type":"integer", "minimum":0, "maximum":2}
+            }
+        }),
+        &["startQuota"],
+    )
+}
+
+fn task_authorization_batch_member_schema() -> Value {
+    let target = object_schema(
+        json!({
+            "provider": string_property("Exact provider name."),
+            "repository": string_property("Exact provider repository."),
+            "baseBranch": string_property("Exact owner-reviewed destination branch.")
+        }),
+        &["provider", "repository", "baseBranch"],
+    );
+    object_schema(
+        json!({
+            "workItemId": string_property("One explicit active Work Item; no wildcard or future member."),
+            "contractDigest": digest_schema(),
+            "snapshotDigest": digest_schema(),
+            "scopeDigest": digest_schema(),
+            "parentGrantId": digest_schema(),
+            "actor": string_property("Exact member agent actor."),
+            "authoritySource": string_property("Exact member owner-reviewed authority source."),
+            "expiresAt": {"type":"string", "format":"date-time"},
+            "actions": {"type":"array", "minItems":1, "items":{"type":"string", "enum":cockpit_protocol::TASK_AUTHORIZATION_ACTIONS}},
+            "publicTarget": {"anyOf":[target, {"type":"null"}]},
+            "budget": task_authorization_batch_budget_schema()
+        }),
+        &[
+            "workItemId",
+            "contractDigest",
+            "snapshotDigest",
+            "scopeDigest",
+            "parentGrantId",
+            "actor",
+            "authoritySource",
+            "expiresAt",
+            "actions",
+            "publicTarget",
+            "budget",
+        ],
+    )
+}
+
+fn task_authorization_batch_manifest_schema() -> Value {
+    object_schema(
+        json!({
+            "schemaVersion":{"type":"integer", "const":cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION},
+            "repositoryId":string_property("Repository identity shared by every exact member."),
+            "members":{"type":"array", "minItems":1, "items":task_authorization_batch_member_schema()},
+            "manifestDigest":digest_schema()
+        }),
+        &["schemaVersion", "repositoryId", "members", "manifestDigest"],
+    )
+}
+
+fn task_authorization_batch_review_schema() -> Value {
+    object_schema(
+        json!({
+            "schemaVersion":{"type":"integer", "const":cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION},
+            "repositoryId":string_property("Repository identity of the reviewed manifest."),
+            "manifestDigest":digest_schema(),
+            "decision":{"type":"string", "enum":["confirm_review", "reject"]},
+            "reviewerActor":string_property("Explicit reviewer claim; the value is not identity authentication."),
+            "authoritySource":string_property("Source of the explicit review decision."),
+            "recordedAt":{"type":"string", "format":"date-time"},
+            "reason":string_property("Reason for this exact manifest decision.")
+        }),
+        &[
+            "schemaVersion",
+            "repositoryId",
+            "manifestDigest",
+            "decision",
+            "reviewerActor",
+            "authoritySource",
+            "recordedAt",
+            "reason",
+        ],
+    )
+}
+
+fn task_authorization_batch_request_schema(fields: Value, required: &[&str]) -> Value {
+    let mut properties = serde_json::Map::new();
+    properties.insert(
+        "schemaVersion".into(),
+        json!({"type":"integer", "const":cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION}),
+    );
+    properties.insert("manifestDigest".into(), digest_schema());
+    properties.insert(
+        "workItemId".into(),
+        string_property("Exact selected member Work Item."),
+    );
+    for (key, value) in fields.as_object().into_iter().flatten() {
+        properties.insert(key.clone(), value.clone());
+    }
+    let mut needed = vec!["schemaVersion", "manifestDigest", "workItemId"];
+    needed.extend_from_slice(required);
+    object_schema(Value::Object(properties), &needed)
+}
+
+fn task_authorization_batch_start_schema() -> Value {
+    task_authorization_batch_request_schema(
+        json!({
+            "operationId":string_property("Stable idempotency key for this member start."),
+            "action":{"type":"string", "enum":cockpit_protocol::TASK_AUTHORIZATION_ACTIONS},
+            "caller":task_authorization_batch_caller_schema()
+        }),
+        &["operationId", "action", "caller"],
+    )
+}
+
+fn task_authorization_batch_check_schema() -> Value {
+    task_authorization_batch_request_schema(
+        json!({
+            "operationId":string_property("Stable operation identity for this member run."),
+            "checkId":string_property("Exact Contract-declared check command; no aliases or globs."),
+            "caller":task_authorization_batch_caller_schema()
+        }),
+        &["operationId", "checkId", "caller"],
+    )
+}
+
+fn task_authorization_batch_outcome_schema() -> Value {
+    task_authorization_batch_request_schema(
+        json!({
+            "operationId":string_property("Exact reserved operation identity."),
+            "checkId":string_property("Exact Contract-declared check command."),
+            "attempt":{"type":"integer", "minimum":1},
+            "outcome":{"type":"string", "enum":["passed", "failed", "unknown"]},
+            "evidenceRef":string_property("Repository or execution evidence reference for this attempt."),
+            "evidenceDigest":digest_schema(),
+            "reason":string_property("Reason for recording this attempt result."),
+            "caller":task_authorization_batch_caller_schema()
+        }),
+        &[
+            "operationId",
+            "checkId",
+            "attempt",
+            "outcome",
+            "evidenceRef",
+            "evidenceDigest",
+            "reason",
+            "caller",
+        ],
+    )
+}
+
+fn task_authorization_batch_inspection_schema() -> Value {
+    task_authorization_batch_request_schema(
+        json!({
+            "operationId":string_property("Exact uncertain operation identity."),
+            "checkId":string_property("Exact Contract-declared check command."),
+            "attempt":{"type":"integer", "minimum":1},
+            "inspectedOutcome":{"type":"string", "enum":["passed", "failed", "not_started"]},
+            "evidenceRef":string_property("Evidence showing the exact uncertain attempt's result."),
+            "evidenceDigest":digest_schema(),
+            "reason":string_property("Reason for resolving the uncertainty."),
+            "caller":task_authorization_batch_caller_schema()
+        }),
+        &[
+            "operationId",
+            "checkId",
+            "attempt",
+            "inspectedOutcome",
+            "evidenceRef",
+            "evidenceDigest",
+            "reason",
+            "caller",
+        ],
+    )
+}
+
+fn task_authorization_batch_termination_schema() -> Value {
+    task_authorization_batch_request_schema(
+        json!({
+            "decision":{"type":"string", "enum":["withdrawn", "completed"]},
+            "caller":task_authorization_batch_caller_schema(),
+            "reason":string_property("Reason for terminating this exact child grant.")
+        }),
+        &["decision", "caller", "reason"],
+    )
 }
 
 fn enum_schema(values: &[&str]) -> Value {
@@ -695,6 +907,10 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_usage_import" => object_schema(
+            json!({"request": cockpit_protocol::usage::usage_import_request_schema()}),
+            &["request"],
+        ),
         "work_item_usage_record" => object_schema(
             json!({
                 "request": cockpit_protocol::usage::usage_record_request_schema(),
@@ -706,6 +922,74 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "workItemId": string_property("Active Work Item whose committed material is being planned for review."),
             }),
             &["workItemId"],
+        ),
+        "work_item_authorization_manifest_plan" => object_schema(
+            json!({
+                "request": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "schemaVersion": {"type":"integer", "const": cockpit_protocol::TASK_AUTHORIZATION_BATCH_SCHEMA_VERSION},
+                        "repositoryId": string_property("Repository identity shared by every explicit member."),
+                        "members": {
+                            "type":"array", "minItems":1,
+                            "items": {
+                                "type":"object", "additionalProperties":false,
+                                "properties": {
+                                    "workItemId": string_property("One explicitly selected active Work Item; wildcards and future members are not supported."),
+                                    "actions": {"type":"array", "minItems":1, "items":{"type":"string", "enum":cockpit_protocol::TASK_AUTHORIZATION_ACTIONS}},
+                                    "expiresAt": {"type":"string", "format":"date-time"},
+                                    "budget": {
+                                        "type":"object", "additionalProperties":false,
+                                        "properties": {
+                                            "startQuota": {"type":"integer", "minimum":1},
+                                            "retryBudgetByCheck": {"type":"object", "additionalProperties":{"type":"integer", "minimum":0, "maximum":2}}
+                                        },
+                                        "required":["startQuota"]
+                                    }
+                                },
+                                "required":["workItemId","actions","expiresAt","budget"]
+                            }
+                        }
+                    },
+                    "required":["schemaVersion","repositoryId","members"]
+                }
+            }),
+            &["request"],
+        ),
+        "work_item_authorization_manifest_review" => object_schema(
+            json!({
+                "manifest": task_authorization_batch_manifest_schema(),
+                "review": task_authorization_batch_review_schema()
+            }),
+            &["manifest", "review"],
+        ),
+        "work_item_authorization_batch_start" => object_schema(
+            json!({"request": task_authorization_batch_start_schema()}),
+            &["request"],
+        ),
+        "work_item_authorization_batch_check" => object_schema(
+            json!({"request": task_authorization_batch_check_schema()}),
+            &["request"],
+        ),
+        "work_item_authorization_batch_outcome" => object_schema(
+            json!({"request": task_authorization_batch_outcome_schema()}),
+            &["request"],
+        ),
+        "work_item_authorization_batch_inspect" => object_schema(
+            json!({"request": task_authorization_batch_inspection_schema()}),
+            &["request"],
+        ),
+        "work_item_authorization_batch_terminate" => object_schema(
+            json!({"request": task_authorization_batch_termination_schema()}),
+            &["request"],
+        ),
+        "work_item_authorization_batch_ledger" => object_schema(
+            json!({
+                "manifestDigest": digest_schema(),
+                "workItemId": string_property("Exact member Work Item whose ledger is requested.")
+            }),
+            &["manifestDigest", "workItemId"],
         ),
         "work_item_material_review_record" => object_schema(
             json!({
@@ -943,8 +1227,44 @@ fn mcp_tool_definitions() -> Vec<Value> {
             cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
         ),
         (
+            "work_item_usage_import",
+            cockpit_protocol::WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION,
+        ),
+        (
             "work_item_material_review_plan",
             "Build the canonical read-only committed-source material-review request for an active Work Item.",
+        ),
+        (
+            "work_item_authorization_manifest_plan",
+            "Prepare a deterministic read-only manifest for explicit same-repository Work Items; it records no owner decision and issues no durable grants.",
+        ),
+        (
+            "work_item_authorization_manifest_review",
+            "Persist the supplied decision over one exact, freshly re-planned same-repository manifest and bind independent child grant candidates; reviewer fields are claims, not identity authentication.",
+        ),
+        (
+            "work_item_authorization_batch_start",
+            "Reserve one idempotent start against one selected member's atomic start quota.",
+        ),
+        (
+            "work_item_authorization_batch_check",
+            "Reserve one attempt for an exact Contract-declared check, enforcing per-check retry budget and unresolved-outcome blocking.",
+        ),
+        (
+            "work_item_authorization_batch_outcome",
+            "Append one evidence-bound result for an already reserved member check attempt.",
+        ),
+        (
+            "work_item_authorization_batch_inspect",
+            "Append evidence-backed inspection of one uncertain attempt before any retry is admitted.",
+        ),
+        (
+            "work_item_authorization_batch_terminate",
+            "Append withdrawal or completion for only the selected member's child grant.",
+        ),
+        (
+            "work_item_authorization_batch_ledger",
+            "Read one member's independently bound grant, quota usage, immutable events, blockers, and next action.",
         ),
         (
             "work_item_material_review_record",
@@ -1064,7 +1384,16 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
+        "work_item_usage_import" => Some(&["request"][..]),
         "work_item_material_review_plan" => Some(&["workItemId"][..]),
+        "work_item_authorization_manifest_plan" => Some(&["request"][..]),
+        "work_item_authorization_manifest_review" => Some(&["manifest", "review"][..]),
+        "work_item_authorization_batch_start"
+        | "work_item_authorization_batch_check"
+        | "work_item_authorization_batch_outcome"
+        | "work_item_authorization_batch_inspect"
+        | "work_item_authorization_batch_terminate" => Some(&["request"][..]),
+        "work_item_authorization_batch_ledger" => Some(&["manifestDigest", "workItemId"][..]),
         "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
         "work_item_activation_recovery_plan" => Some(&["workItemId"][..]),
         "work_item_activation_recovery_record" => Some(&["workItemId", "decision"][..]),
@@ -1304,6 +1633,18 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
         }
+        "work_item_usage_import" => {
+            let value = object.get("request").ok_or_else(|| {
+                "invalid arguments for work_item_usage_import: request is required".to_owned()
+            })?;
+            let request: cockpit_protocol::UsageImportRequest =
+                serde_json::from_value(value.clone()).map_err(|error| {
+                    format!("invalid arguments for work_item_usage_import: {error}")
+                })?;
+            request.validate().map_err(|error| {
+                format!("invalid arguments for work_item_usage_import: {error}")
+            })?;
+        }
         "work_item_usage_record" => {
             let value = object.get("request").ok_or_else(|| {
                 "invalid arguments for work_item_usage_record: request is required".to_owned()
@@ -1317,6 +1658,62 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             })?;
         }
         "work_item_material_review_plan" => {
+            require_string(object, "workItemId", name)?;
+        }
+        "work_item_authorization_manifest_plan" => {
+            let value = object
+                .get("request")
+                .ok_or_else(|| format!("invalid arguments for {name}: request is required"))?;
+            let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                serde_json::from_value(value.clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+            request
+                .validate()
+                .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_manifest_review" => {
+            let manifest: cockpit_protocol::TaskAuthorizationBatchManifest =
+                serde_json::from_value(object["manifest"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+            manifest
+                .validate()
+                .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+            let review: cockpit_protocol::TaskAuthorizationBatchReview =
+                serde_json::from_value(object["review"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+            manifest
+                .derive_child_grant_candidates(&review)
+                .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_start" => {
+            let _: cockpit_protocol::TaskAuthorizationBatchStartRequest =
+                serde_json::from_value(object["request"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_check" => {
+            let _: cockpit_protocol::TaskAuthorizationBatchCheckRequest =
+                serde_json::from_value(object["request"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_outcome" => {
+            let _: cockpit_protocol::TaskAuthorizationBatchOutcomeRequest =
+                serde_json::from_value(object["request"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_inspect" => {
+            let _: cockpit_protocol::TaskAuthorizationBatchInspectionRequest =
+                serde_json::from_value(object["request"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_terminate" => {
+            let _: cockpit_protocol::TaskAuthorizationBatchTerminationRequest =
+                serde_json::from_value(object["request"].clone())
+                    .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
+        }
+        "work_item_authorization_batch_ledger" => {
+            require_string(object, "manifestDigest", name)?;
+            serde_json::from_value::<cockpit_core::Digest>(object["manifestDigest"].clone())
+                .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
             require_string(object, "workItemId", name)?;
         }
         "work_item_activation_recovery_plan" => {
@@ -2170,6 +2567,16 @@ pub fn handle_request_for_repo(
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => require_compatible(repo, runtime)
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
+        "work_item_usage_import" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::UsageImportRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| format!("invalid usage import request: {error}"))?;
+            cockpit_repository::import_work_item_usage(repo, &request, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|receipt| {
+                    serde_json::to_value(receipt).map_err(|error| error.to_string())
+                })
+        }),
         "work_item_usage_record" => require_compatible(repo, runtime).and_then(|_| {
             let request: cockpit_protocol::UsageRecordRequest =
                 serde_json::from_value(arguments["request"].clone())
@@ -2190,6 +2597,110 @@ pub fn handle_request_for_repo(
                     serde_json::to_value(request).map_err(|error| error.to_string())
                 })
         }),
+        "work_item_authorization_manifest_plan" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let request: cockpit_protocol::TaskAuthorizationBatchRequest =
+                    serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                request.validate().map_err(|error| error.to_string())?;
+                cockpit_repository::prepare_task_authorization_batch_manifest(
+                    repo, &request, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|manifest| {
+                    serde_json::to_value(manifest).map_err(|error| error.to_string())
+                })
+            })
+        }
+        "work_item_authorization_manifest_review" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let manifest: cockpit_protocol::TaskAuthorizationBatchManifest =
+                    serde_json::from_value(arguments["manifest"].clone())
+                        .map_err(|error| error.to_string())?;
+                let review: cockpit_protocol::TaskAuthorizationBatchReview =
+                    serde_json::from_value(arguments["review"].clone())
+                        .map_err(|error| error.to_string())?;
+                cockpit_repository::record_task_authorization_batch_review(
+                    repo, &manifest, &review, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|receipt| {
+                    serde_json::to_value(receipt).map_err(|error| error.to_string())
+                })
+            })
+        }
+        "work_item_authorization_batch_start" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::TaskAuthorizationBatchStartRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| error.to_string())?;
+            cockpit_repository::reserve_task_authorization_batch_start(repo, &request, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|event| serde_json::to_value(event).map_err(|error| error.to_string()))
+        }),
+        "work_item_authorization_batch_check" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::TaskAuthorizationBatchCheckRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| error.to_string())?;
+            cockpit_repository::reserve_task_authorization_batch_check_attempt(
+                repo, &request, runtime,
+            )
+            .map_err(|error| error.to_string())
+            .and_then(|event| serde_json::to_value(event).map_err(|error| error.to_string()))
+        }),
+        "work_item_authorization_batch_outcome" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let request: cockpit_protocol::TaskAuthorizationBatchOutcomeRequest =
+                    serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                cockpit_repository::record_task_authorization_batch_check_outcome(
+                    repo, &request, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|event| serde_json::to_value(event).map_err(|error| error.to_string()))
+            })
+        }
+        "work_item_authorization_batch_inspect" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let request: cockpit_protocol::TaskAuthorizationBatchInspectionRequest =
+                    serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                cockpit_repository::inspect_task_authorization_batch_check_outcome(
+                    repo, &request, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|event| serde_json::to_value(event).map_err(|error| error.to_string()))
+            })
+        }
+        "work_item_authorization_batch_terminate" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let request: cockpit_protocol::TaskAuthorizationBatchTerminationRequest =
+                    serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                cockpit_repository::terminate_task_authorization_batch_member(
+                    repo, &request, runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|event| serde_json::to_value(event).map_err(|error| error.to_string()))
+            })
+        }
+        "work_item_authorization_batch_ledger" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let manifest_digest: cockpit_core::Digest =
+                    serde_json::from_value(arguments["manifestDigest"].clone())
+                        .map_err(|error| error.to_string())?;
+                let work_item_id = arguments["workItemId"]
+                    .as_str()
+                    .expect("validated authorization batch member ID");
+                cockpit_repository::inspect_task_authorization_batch_member(
+                    repo,
+                    &manifest_digest,
+                    work_item_id,
+                    runtime,
+                )
+                .map_err(|error| error.to_string())
+                .and_then(|ledger| serde_json::to_value(ledger).map_err(|error| error.to_string()))
+            })
+        }
         "work_item_material_review_record" => require_compatible(repo, runtime).and_then(|_| {
             let work_item_id = arguments["workItemId"]
                 .as_str()

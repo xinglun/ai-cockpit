@@ -1,0 +1,481 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1112-windows-archive-byte-preservation",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1112-separate-profile-authority-from-request-approval-20261026",
+      "expectedContractDigest": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+      "reason": "Separate the historical source that enabled the bounded material-review profile from each request-specific risk approval. Preserve the declared cause and state that the current post-clippy material request remains pending.",
+      "changes": [
+        {
+          "path": "/governanceProfile/materialInspectionReview/authoritySource",
+          "operation": "replace",
+          "value": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending."
+        }
+      ]
+    },
+    "requestDigest": "sha256:749f179213a18913c363778bdce685e7cbd10c298651f320fa898d32fd846c2b",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve every WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, and recovery receipt byte unchanged.",
+        "Keep the fixed-history clone helper on the local Git filesystem path, preserving --shared --no-checkout isolation, and make the regression tests pass with paths containing spaces on supported platforms.",
+        "With core.autocrlf=true, preserve exact .ai artifact bytes for current and historical fixture checkouts; keep strict digest and byte-equality assertions, and prove a one-byte tamper is still rejected.",
+        "Do not change CI workflows or global Git configuration, and do not weaken, skip, or normalize the existing byte-integrity assertions.",
+        "Run the full declared local workspace verification and zero-warning Clippy; do not claim Windows-hosted CI success until a later authorized hosted run passes.",
+        "The active WI-1112 human handoff exposes a separately versioned, read-only delivery-continuity projection derived from a valid predecessor/successor lineage. It distinguishes the frozen local archive, outstanding external validation, active repair, and the Runtime-admitted next action. Missing, stale, contradictory, or invalid evidence never appears delivered or complete. The predecessor archive Contract, Summary, Outcome, Events, reports, and manifest remain byte-identical. OutcomeDelivery.deliveryState remains a handoff transport state.",
+        "The read-only material plan may show predecessor-review context only after validating the repository-bound recovery lineage and exact material identities. It highlights unchanged predecessor-reviewed Unknowns without discharging them or satisfying the current WI request. A fresh receipt remains bound to WI-1112 and its current request. Any changed or new path, blob, hunk, cause, Contract, scope, scanner, policy, or profile invalidates the comparison; new Findings or Unknowns remain unresolved."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-26T05:57:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1112-task-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "no_human_approval_for_low_risk",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1112-task-timeout-v1"
+              ],
+              "reason": "Authorize the requested 900-second maximum for this Work Item's local task verification commands.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; limited to WI-1112 material request sha256:d73ebcf8cc409fa693c2f17ee337cb8f35a2d0d48bc3f4daca2b2ae9d3286358 and manifest sha256:c945d25dbdc9413cf7de35b9f37d167ffb3cbe5c789c16476a98eee2dc786986; four current readable_committed_rust_syntax_unknown materials only; no future material changes)",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair Windows portability and archive-byte preservation regressions from WI-1111's failed hosted Windows repository-library run.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        ".github/workflows/**",
+        ".ai/work-items/archive/WI-1111-token-outcome-ci.*",
+        ".ai/decisions/WI-1111-token-outcome-ci.*",
+        ".ai/evidence/WI-1111-token-outcome-ci.*"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+      "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c3d0602505edfe6e7e03e232a4f296a50e7857a425a5491314e039d6872749f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expectedOutcome": "The fixed-history Git clone uses a local filesystem source path with spaces while retaining --shared --no-checkout isolation.",
+          "required": true,
+          "scenario": "windows_local_clone_spaces",
+          "status": "unverified",
+          "verificationPlan": "The helper succeeds on supported platforms without treating a drive path as a remote URL."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A checkout with core.autocrlf=true preserves .ai evidence bytes using the scoped fixture attributes.",
+          "required": true,
+          "scenario": "windows_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Working-tree bytes match Git blob bytes exactly; no global Git setting is changed."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The same fixture changes one byte in a protected artifact.",
+          "required": true,
+          "scenario": "windows_single_byte_tamper_rejected",
+          "status": "unverified",
+          "verificationPlan": "Strict digest and byte-equality validation rejects the tamper."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A valid WI-1111 archived predecessor and WI-1112 active successor are linked through the validated recovery receipt.",
+          "required": true,
+          "scenario": "continuity_projection_valid_successor",
+          "status": "unverified",
+          "verificationPlan": "The current handoff clearly separates the archived local snapshot, external obligation, active successor, and next admitted action without changing archived bytes."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The recovery receipt, repository identity, predecessor Contract digest, archive digest, or successor identity is absent, malformed, or mismatched.",
+          "required": true,
+          "scenario": "continuity_projection_invalid_lineage",
+          "status": "unverified",
+          "verificationPlan": "No predecessor link or completion claim is inferred."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The local archive is valid while hosted/provider evidence is failed, missing, stale, or pending.",
+          "required": true,
+          "scenario": "archive_is_not_overall_delivery_completion",
+          "status": "unverified",
+          "verificationPlan": "Archive remains frozen; overall delivery stays pending and no close/completion is projected."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The current request contains the same three predecessor-reviewed Unknown path/blob/hunk identities.",
+          "required": true,
+          "scenario": "material_delta_context_is_reference_only",
+          "status": "unverified",
+          "verificationPlan": "Plan displays the exact unchanged context, preserves raw Unknowns, and requires a fresh WI-1112-bound receipt."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A source blob/hunk, scope, Contract, profile, policy, scanner identity, or cause changes, or a new Finding/Unknown appears.",
+          "required": true,
+          "scenario": "material_delta_change_invalidates_context",
+          "status": "unverified",
+          "verificationPlan": "No old context is treated as covering the changed request; the new material remains unresolved."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "CLI and MCP render the same current continuity projection while reading an unchanged legacy archive.",
+          "required": true,
+          "scenario": "cli_mcp_and_legacy_archive_compatibility",
+          "status": "unverified",
+          "verificationPlan": "Archived wire bytes stay unchanged; the new projection is separately versioned and is not inserted into legacy events or reports."
+        }
+      ],
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/material_review.rs",
+        "crates/cockpit-cli/tests/material_review.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-mcp/tests/material_review.rs",
+        "docs/reference/outcome-report.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/troubleshooting.zh-CN.md"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40271040290/job/121404907259"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "cargo clippy --locked -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets --all-features -- -D warnings"
+      ],
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "previousContractDigest": "sha256:ee2b9a99151c6477061074fa5619996324b3a87c1c76e6cb9647a2e28341f780",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve every WI-1111 archived Contract, Summary, Outcome, Events, report, manifest, verification, and recovery receipt byte unchanged.",
+        "Keep the fixed-history clone helper on the local Git filesystem path, preserving --shared --no-checkout isolation, and make the regression tests pass with paths containing spaces on supported platforms.",
+        "With core.autocrlf=true, preserve exact .ai artifact bytes for current and historical fixture checkouts; keep strict digest and byte-equality assertions, and prove a one-byte tamper is still rejected.",
+        "Do not change CI workflows or global Git configuration, and do not weaken, skip, or normalize the existing byte-integrity assertions.",
+        "Run the full declared local workspace verification and zero-warning Clippy; do not claim Windows-hosted CI success until a later authorized hosted run passes.",
+        "The active WI-1112 human handoff exposes a separately versioned, read-only delivery-continuity projection derived from a valid predecessor/successor lineage. It distinguishes the frozen local archive, outstanding external validation, active repair, and the Runtime-admitted next action. Missing, stale, contradictory, or invalid evidence never appears delivered or complete. The predecessor archive Contract, Summary, Outcome, Events, reports, and manifest remain byte-identical. OutcomeDelivery.deliveryState remains a handoff transport state.",
+        "The read-only material plan may show predecessor-review context only after validating the repository-bound recovery lineage and exact material identities. It highlights unchanged predecessor-reviewed Unknowns without discharging them or satisfying the current WI request. A fresh receipt remains bound to WI-1112 and its current request. Any changed or new path, blob, hunk, cause, Contract, scope, scanner, policy, or profile invalidates the comparison; new Findings or Unknowns remain unresolved."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b4adab2e55119d50bb72ec29f3fdfd2693d14504",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-26T05:57:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make local Git fixture cloning platform-safe and preserve exact .ai historical artifact bytes in Windows checkouts without weakening archive integrity.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1112-task-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "no_human_approval_for_low_risk",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1112-task-timeout-v1"
+              ],
+              "reason": "Authorize the requested 900-second maximum for this Work Item's local task verification commands.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_6426526de1e48191a3584f5a1fa0b9c9 (Ray approval, 2026-10-26T08:56:54Z; source for enabling this WI's materialInspectionReview profile for permittedCause=readable_committed_rust_syntax_unknown only). The separate sequence-3 confirmation (conversation:Sentinel_1ec3b08015bc8191bb8fcf3fcad179e0) applied to that then-current exact request only. Neither historical approval authorizes the current post-clippy material request or later requests. Each material-review decision requires separate explicit approval bound to its exact requestDigest and manifestDigest; the current request remains pending.",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair Windows portability and archive-byte preservation regressions from WI-1111's failed hosted Windows repository-library run.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        ".github/workflows/**",
+        ".ai/work-items/archive/WI-1111-token-outcome-ci.*",
+        ".ai/decisions/WI-1111-token-outcome-ci.*",
+        ".ai/evidence/WI-1111-token-outcome-ci.*"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+      "predecessorWorkItemId": "WI-1111-token-outcome-ci",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c3d0602505edfe6e7e03e232a4f296a50e7857a425a5491314e039d6872749f",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expectedOutcome": "The fixed-history Git clone uses a local filesystem source path with spaces while retaining --shared --no-checkout isolation.",
+          "required": true,
+          "scenario": "windows_local_clone_spaces",
+          "status": "unverified",
+          "verificationPlan": "The helper succeeds on supported platforms without treating a drive path as a remote URL."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A checkout with core.autocrlf=true preserves .ai evidence bytes using the scoped fixture attributes.",
+          "required": true,
+          "scenario": "windows_ai_artifact_exact_bytes",
+          "status": "unverified",
+          "verificationPlan": "Working-tree bytes match Git blob bytes exactly; no global Git setting is changed."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The same fixture changes one byte in a protected artifact.",
+          "required": true,
+          "scenario": "windows_single_byte_tamper_rejected",
+          "status": "unverified",
+          "verificationPlan": "Strict digest and byte-equality validation rejects the tamper."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A valid WI-1111 archived predecessor and WI-1112 active successor are linked through the validated recovery receipt.",
+          "required": true,
+          "scenario": "continuity_projection_valid_successor",
+          "status": "unverified",
+          "verificationPlan": "The current handoff clearly separates the archived local snapshot, external obligation, active successor, and next admitted action without changing archived bytes."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The recovery receipt, repository identity, predecessor Contract digest, archive digest, or successor identity is absent, malformed, or mismatched.",
+          "required": true,
+          "scenario": "continuity_projection_invalid_lineage",
+          "status": "unverified",
+          "verificationPlan": "No predecessor link or completion claim is inferred."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The local archive is valid while hosted/provider evidence is failed, missing, stale, or pending.",
+          "required": true,
+          "scenario": "archive_is_not_overall_delivery_completion",
+          "status": "unverified",
+          "verificationPlan": "Archive remains frozen; overall delivery stays pending and no close/completion is projected."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "The current request contains the same three predecessor-reviewed Unknown path/blob/hunk identities.",
+          "required": true,
+          "scenario": "material_delta_context_is_reference_only",
+          "status": "unverified",
+          "verificationPlan": "Plan displays the exact unchanged context, preserves raw Unknowns, and requires a fresh WI-1112-bound receipt."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "A source blob/hunk, scope, Contract, profile, policy, scanner identity, or cause changes, or a new Finding/Unknown appears.",
+          "required": true,
+          "scenario": "material_delta_change_invalidates_context",
+          "status": "unverified",
+          "verificationPlan": "No old context is treated as covering the changed request; the new material remains unresolved."
+        },
+        {
+          "evidence": [],
+          "expectedOutcome": "CLI and MCP render the same current continuity projection while reading an unchanged legacy archive.",
+          "required": true,
+          "scenario": "cli_mcp_and_legacy_archive_compatibility",
+          "status": "unverified",
+          "verificationPlan": "Archived wire bytes stay unchanged; the new projection is separately versioned and is not inserted into legacy events or reports."
+        }
+      ],
+      "scope": [
+        ".gitattributes",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.ja.md",
+        "docs/work-items/WI-1112-windows-archive-byte-preservation.zh-CN.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/src/material_review.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        "crates/cockpit-repository/tests/material_review.rs",
+        "crates/cockpit-cli/tests/material_review.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-mcp/tests/material_review.rs",
+        "docs/reference/outcome-report.md",
+        "docs/reference/outcome-report.ja.md",
+        "docs/reference/outcome-report.zh-CN.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/troubleshooting.md",
+        "docs/reference/troubleshooting.ja.md",
+        "docs/reference/troubleshooting.zh-CN.md"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40271040290/job/121404907259"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "cargo clippy --locked -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets --all-features -- -D warnings"
+      ],
+      "workItemId": "WI-1112-windows-archive-byte-preservation"
+    },
+    "newContractDigest": "sha256:40b6b5f3df55995f73bdd341a80cb79a70ec5f0241a2dcf8cd2d60a0bdc33da8",
+    "previousSummaryDigest": "sha256:5a870435aa7649cd94e2f7b482ee3e64d7decfb5baa0f6e74bda0a03de5e7c5c",
+    "repositorySnapshotDigest": "sha256:b62a90023bcdbc016e4d5fe41047bef1fe5455534f61f0199490c0a5a0f8a599",
+    "environmentObservationDigest": "sha256:3fa7424b94464ce656fd0a1c9d42f323d3c647b8e4f7d8d938b5c04f57be7d07",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:134567563cc90a9a20744f075952eae6812b21c7f606ae3722d49ae249b0bd5b"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:cce64bb925627cdab76cad6ee29b6be783fb5ace87baab9ee9598e9f091a94dd",
+    "policyReviewRequirements": [
+      "/governanceProfile/materialInspectionReview/authoritySource"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-26T10:16:06Z"
+  },
+  "preparedDigest": "sha256:0f86b255b5bdbb19fef93bfc230365330019b93b10f4047c03d25756e1e884e9"
+}

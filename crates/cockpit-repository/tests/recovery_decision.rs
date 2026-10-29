@@ -1,17 +1,18 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{HumanDecision, OutcomeState, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
-    checkpoint_work_item, close_work_item_with_structured_decision,
-    close_work_item_with_structured_decision_and_runtime, finish_work_item,
-    finish_work_item_with_runtime, outcome_render_input, outcome_render_input_with_runtime,
-    outcome_v2, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
-    preflight_work_item_with_runtime, record_recovery_decision, record_verification_with_runtime,
+    ArchivedContractRevalidationRequest, RepositoryVerificationPolicy,
+    RepositoryVerificationRequest, WorkItemStartOptions, amend_work_item_contract,
+    archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
+    finish_work_item, finish_work_item_with_runtime, outcome_render_input,
+    outcome_render_input_with_runtime, outcome_v2, outcome_v2_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
+    record_recovery_decision, record_verification_with_runtime,
     record_work_item_governance_controls, render_human_outcome, repository_id,
-    require_current_action_admission, revalidate_contract_amendment, run_repository_verification,
-    scaffold_work_item, snapshot_digest, start_work_item_with_options, status,
-    work_item_status_snapshot_with_runtime,
+    require_current_action_admission, revalidate_archived_work_item_with_runtime,
+    revalidate_contract_amendment, run_repository_verification, scaffold_work_item,
+    snapshot_digest, start_work_item_with_options, status, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -407,6 +408,108 @@ fn ready_archived_repository() -> tempfile::TempDir {
     directory
 }
 
+fn amend_archived_contract_without_revalidation_chain(
+    directory: &tempfile::TempDir,
+    goal: &str,
+    message: &str,
+) {
+    let archive = directory.path().join(".ai/work-items/archive");
+    let contract_path = archive.join("WI-ARCHIVED-RECOVERY.contract.json");
+    let mut contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    contract["goal"] = json!(goal);
+    let contract_bytes = serde_json::to_vec_pretty(&contract).unwrap();
+    fs::write(&contract_path, &contract_bytes).unwrap();
+
+    let manifest_path = archive.join("WI-ARCHIVED-RECOVERY.archive.json");
+    let mut manifest: Value = serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+    manifest["files"]["contractDigest"] = json!(Digest::sha256_bytes(&contract_bytes).to_string());
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).unwrap(),
+    )
+    .unwrap();
+    commit(directory.path(), message);
+}
+
+fn ready_finished_active_repository() -> (tempfile::TempDir, RuntimeContext) {
+    let directory = tempfile::tempdir().expect("fixture directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git init")
+            .success()
+    );
+    commit_empty_baseline(directory.path());
+    attach(directory.path()).expect("attach");
+    let id = "WI-BLOCKED";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "recover a blocked item",
+        "record an explicit recovery decision",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["predecessor remains immutable".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/retry-after-completion".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/retry-after-completion"
+                .into(),
+        },
+    )
+    .expect("finalization plan");
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    let runtime = current_runtime();
+    preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    let git = cockpit_git::GitRepository::discover(directory.path()).expect("git repository");
+    let snapshot = git.snapshot().expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "retry-after-completion-initial-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("initial verification");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &runtime,
+        &snapshot,
+    )
+    .expect("record initial verification");
+    finish_work_item_with_runtime(directory.path(), id, &runtime).expect("initial finish");
+    (directory, runtime)
+}
+
 fn archived_recovery_receipt(
     directory: &tempfile::TempDir,
     decision: &str,
@@ -548,6 +651,90 @@ fn recovery_successor_can_continue_a_bound_archived_ancestor_chain() {
         },
     )
     .expect("a selected ancestor chain must not self-block the successor start");
+
+    let predecessor_archive = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{second}"));
+    let frozen_archive_bytes = [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "events.jsonl",
+        "task-report.json",
+        "task-report.md",
+        "archive.json",
+    ]
+    .into_iter()
+    .map(|suffix| {
+        let path = predecessor_archive.with_file_name(format!("{second}.{suffix}"));
+        (
+            path.clone(),
+            fs::read(path).expect("predecessor archive artifact"),
+        )
+    })
+    .collect::<Vec<_>>();
+    let handoff = outcome_render_input_with_runtime(directory.path(), third, &runtime)
+        .expect("successor handoff derives continuity from its validated lineage");
+    let continuity = handoff
+        .delivery_continuity
+        .as_ref()
+        .expect("active successor handoff includes continuity");
+    assert_eq!(continuity.schema_version, 1);
+    assert_eq!(continuity.state, "in_progress");
+    assert_eq!(continuity.predecessor_work_item_id.as_deref(), Some(second));
+    assert_eq!(continuity.predecessor_archive_state, "verified_archived");
+    assert_eq!(continuity.external_validation_state, "pending");
+    assert_eq!(
+        continuity.successor_lifecycle_state,
+        "implementation_active"
+    );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), third, &runtime)
+        .expect("current action admission");
+    let action = continuity
+        .runtime_admitted_next_action
+        .as_deref()
+        .expect("a supplied Runtime produces an admitted next action");
+    assert!(status.safe_actions.iter().any(|safe| safe == action));
+    let rendered = render_human_outcome(&handoff, "en");
+    assert!(rendered.contains("Delivery continuity v1"));
+    assert!(rendered.contains("External validation: pending"));
+    for (path, bytes) in frozen_archive_bytes {
+        assert_eq!(
+            fs::read(&path).expect("read frozen predecessor artifact"),
+            bytes
+        );
+    }
+
+    let successor_contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{third}.contract.json"));
+    let successor_contract: Value =
+        serde_json::from_slice(&fs::read(&successor_contract_path).unwrap()).unwrap();
+    let recovery_path = directory.path().join(
+        successor_contract["recoveryDecisionPath"]
+            .as_str()
+            .expect("bound recovery path"),
+    );
+    let mut damaged_recovery: Value =
+        serde_json::from_slice(&fs::read(&recovery_path).unwrap()).unwrap();
+    damaged_recovery["successorWorkItemId"] = json!("WI-UNRELATED");
+    fs::write(
+        &recovery_path,
+        serde_json::to_vec_pretty(&damaged_recovery).unwrap(),
+    )
+    .unwrap();
+    let invalid = outcome_render_input_with_runtime(directory.path(), third, &runtime)
+        .expect("invalid lineage remains explainable in the handoff");
+    let continuity = invalid
+        .delivery_continuity
+        .as_ref()
+        .expect("a declared but invalid predecessor remains visible as unknown");
+    assert_eq!(continuity.state, "unknown");
+    assert_eq!(continuity.predecessor_work_item_id, None);
+    assert_eq!(continuity.runtime_admitted_next_action, None);
+    let rendered = render_human_outcome(&invalid, "en");
+    assert!(rendered.contains("lineage is unverified"));
+    assert!(!rendered.contains("delivery complete"));
 }
 
 fn write_forged_supersede(
@@ -1213,6 +1400,12 @@ fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
     );
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+    assert!(
+        recovered["lifecycleFacts"]["taskOutcomeProjectionPredecessors"]
+            .as_array()
+            .is_none_or(Vec::is_empty),
+        "failed pre-finish artifacts must not become a completed predecessor"
+    );
     let outcome: serde_json::Value = serde_json::from_slice(
         &fs::read(
             directory
@@ -1292,6 +1485,12 @@ fn retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed
     assert_eq!(recovered["recoveryRetryPending"], true);
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+    assert!(
+        recovered["lifecycleFacts"]["taskOutcomeProjectionPredecessors"]
+            .as_array()
+            .is_none_or(Vec::is_empty),
+        "partial blocked artifacts must remain provisional"
+    );
 }
 
 #[test]
@@ -1952,48 +2151,11 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
 
 #[test]
 fn retry_after_previous_completion_appends_a_new_completion_without_rewriting_history() {
-    let directory = repository();
+    let (directory, runtime) = ready_finished_active_repository();
     let id = "WI-BLOCKED";
-    let runtime = current_runtime();
-    plan_resource_finalization(
-        directory.path(),
-        id,
-        &ResourceFinalizationContext {
-            branch: "feature/retry-after-completion".into(),
-            worktree: directory.path().display().to_string(),
-            base_branch: "main".into(),
-            base_remote: "origin".into(),
-            provider: "github".into(),
-            pull_request: "https://github.com/example/ai-cockpit/pull/retry-after-completion"
-                .into(),
-        },
-    )
-    .expect("finalization plan");
     let events_path = directory
         .path()
         .join(format!(".ai/work-items/active/{id}.events.jsonl"));
-    let mut events = fs::OpenOptions::new()
-        .append(true)
-        .open(&events_path)
-        .expect("events");
-    use std::io::Write;
-    writeln!(
-        events,
-        "{}",
-        json!({
-            "schemaVersion": 1,
-            "eventId": "completed-before-retry",
-            "repositoryId": repository_id(directory.path()),
-            "workItemId": id,
-            "eventType": "completed",
-            "timestamp": "2026-08-23T00:00:01Z",
-            "detail": "previous completion remains historical",
-            "evidenceRefs": [],
-            "relatedEventIds": ["blocked-1"],
-            "correctionOf": null
-        })
-    )
-    .expect("append historical completion");
     let historical_event_bytes = fs::read(&events_path).expect("historical events");
 
     let mut retry = receipt(&directory, "retry after a previously completed attempt");
@@ -2051,6 +2213,64 @@ fn retry_after_previous_completion_appends_a_new_completion_without_rewriting_hi
         2,
         "retry should append exactly one current completion"
     );
+}
+
+#[test]
+fn retry_cannot_downgrade_a_completed_predecessor_after_finish_markers_are_removed() {
+    for remove_event_binding in [false, true] {
+        let (directory, runtime) = ready_finished_active_repository();
+        let id = "WI-BLOCKED";
+        let active = directory.path().join(".ai/work-items/active");
+        let summary_path = active.join(format!("{id}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+        summary
+            .as_object_mut()
+            .unwrap()
+            .remove("taskOutcomeProjectionPolicy");
+        summary["lifecycleFacts"]
+            .as_object_mut()
+            .unwrap()
+            .remove("taskOutcomeProjectionFinishBinding");
+        fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+
+        if remove_event_binding {
+            let events_path = active.join(format!("{id}.events.jsonl"));
+            let mut events = String::new();
+            for line in fs::read_to_string(&events_path).unwrap().lines() {
+                let mut value: serde_json::Value = serde_json::from_str(line).unwrap();
+                if value["eventType"] == "completed" {
+                    value.as_object_mut().unwrap().remove("projectionBinding");
+                }
+                events.push_str(&serde_json::to_string(&value).unwrap());
+                events.push('\n');
+            }
+            fs::write(events_path, events).unwrap();
+        }
+
+        let mut retry = receipt(&directory, "reject marker deletion after completion");
+        retry["decision"] = json!("retry");
+        retry.as_object_mut().unwrap().remove("successorWorkItemId");
+        retry["runtimeVersion"] = json!(runtime.runtime_version);
+        retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+        retry["decidedAt"] = json!("2026-08-23T00:08:00Z");
+        let error = record_recovery_decision(directory.path(), id, &retry, &runtime)
+            .expect_err("a completion declaration cannot be downgraded into an early retry");
+        assert!(
+            error.to_string().contains("completion event exists"),
+            "unexpected rejection for remove_event_binding={remove_event_binding}: {error}"
+        );
+        let unchanged: serde_json::Value =
+            serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+        assert_eq!(unchanged["state"], "finish_ready");
+        assert!(unchanged.get("recoveryRetryPending").is_none());
+        assert!(
+            !directory
+                .path()
+                .join(format!(".ai/decisions/{id}.recovery.json"))
+                .exists()
+        );
+    }
 }
 
 #[test]
@@ -2678,6 +2898,89 @@ fn snapshot_digest_is_stable_when_the_same_source_change_is_committed() {
 }
 
 #[test]
+fn successor_does_not_transfer_predecessor_pr_or_branch_resource() {
+    let directory = ready_archived_repository();
+    let root = directory
+        .path()
+        .canonicalize()
+        .expect("canonical resource fixture");
+    let predecessor = "WI-ARCHIVED-RECOVERY";
+    let successor = "WI-RESOURCE-INDEPENDENT-SUCCESSOR";
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let archive = root.join(".ai/work-items/archive");
+    let original = [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "events.jsonl",
+        "archive.json",
+    ]
+    .map(|suffix| {
+        let path = archive.join(format!("{predecessor}.{suffix}"));
+        let bytes = fs::read(&path).expect("original predecessor artifact");
+        (path, bytes)
+    });
+    let contract: Value = serde_json::from_slice(&original[0].1).unwrap();
+    assert_eq!(
+        contract["resourceContext"]["branch"],
+        "feature/archived-recovery"
+    );
+    assert_eq!(
+        contract["resourceContext"]["pullRequest"],
+        "https://github.com/example/ai-cockpit/pull/340"
+    );
+    let decision = archived_recovery_receipt(&directory, "successor", Some(successor), &runtime);
+    record_recovery_decision(&root, predecessor, &decision, &runtime)
+        .expect("native successor decision");
+    let recovery_path = root.join(format!(".ai/decisions/{predecessor}.recovery.json"));
+    let recovery_bytes = fs::read(&recovery_path).expect("native recovery receipt");
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        &root,
+        successor,
+        "continue without resource inheritance",
+        "keep predecessor resources bound to the predecessor",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["no implicit predecessor PR or branch binding".into()],
+            ..WorkItemStartOptions::default()
+        },
+        &runtime,
+    )
+    .expect("normal native successor activation without a resource override");
+    let current: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/active/{successor}.contract.json"))).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(current["predecessorWorkItemId"], predecessor);
+    assert!(
+        current.get("resourceContext").is_none_or(Value::is_null),
+        "successor must not inherit the predecessor context: {current}"
+    );
+    assert!(
+        !root
+            .join(format!(".ai/decisions/{successor}.resource-context.json"))
+            .exists()
+    );
+    assert_eq!(
+        fs::read(recovery_path).unwrap(),
+        recovery_bytes,
+        "activation preserves the original native recovery receipt"
+    );
+    for (path, bytes) in original {
+        assert_eq!(
+            fs::read(&path).unwrap(),
+            bytes,
+            "predecessor artifact changed: {path:?}"
+        );
+    }
+}
+
+#[test]
 fn archived_pending_finalization_requires_explicit_supersede_recovery_before_close() {
     let directory = ready_archived_repository();
     let id = "WI-ARCHIVED-RECOVERY";
@@ -2785,7 +3088,11 @@ fn supersede_quarantines_a_bound_optional_archive_report_mismatch() {
     };
     let archive = directory.path().join(".ai/work-items/archive");
     let manifest_path = archive.join(format!("{id}.archive.json"));
-    let manifest_digest = Digest::sha256_bytes(&fs::read(&manifest_path).unwrap());
+    let manifest_bytes = fs::read(&manifest_path).unwrap();
+    let manifest_digest = Digest::sha256_bytes(&manifest_bytes);
+    let manifest: serde_json::Value = serde_json::from_slice(&manifest_bytes).unwrap();
+    let expected_markdown_digest: Digest =
+        serde_json::from_value(manifest["files"]["taskReportMarkdownDigest"].clone()).unwrap();
     let markdown_path = archive.join(format!("{id}.task-report.md"));
     let mut markdown = fs::read(&markdown_path).expect("archived Task Outcome Markdown");
     markdown.extend_from_slice(b"\nHistorical recovery note.");
@@ -2838,6 +3145,18 @@ fn supersede_quarantines_a_bound_optional_archive_report_mismatch() {
         decision["historicalArchiveIntegrity"]["artifact"],
         json!("taskReportMarkdown")
     );
+    assert_eq!(
+        decision["historicalArchiveIntegrity"]["expectedDigest"],
+        json!(expected_markdown_digest.to_string())
+    );
+    assert_eq!(
+        decision["historicalArchiveIntegrity"]["actualDigest"],
+        json!(Digest::sha256_bytes(&fs::read(&markdown_path).unwrap()).to_string())
+    );
+    assert_eq!(
+        decision["historicalArchiveIntegrity"]["manifestDigest"],
+        json!(manifest_digest.to_string())
+    );
 
     let input = outcome_render_input_with_runtime(directory.path(), id, &runtime).expect("outcome");
     assert_eq!(
@@ -2854,6 +3173,128 @@ fn supersede_quarantines_a_bound_optional_archive_report_mismatch() {
             .outcome
             .unknowns
             .contains(&"outcome_report_invalid".into())
+    );
+}
+
+#[test]
+fn supersede_quarantine_requires_the_exact_manifest_and_unchanged_required_artifacts() {
+    for attack in ["missing_manifest_binding", "outcome_json", "events"] {
+        let directory = ready_archived_repository();
+        let id = "WI-ARCHIVED-RECOVERY";
+        let runtime = RuntimeContext {
+            runtime_version: "0.2.33".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+        };
+        let archive = directory.path().join(".ai/work-items/archive");
+        let manifest_path = archive.join(format!("{id}.archive.json"));
+        let manifest_digest = Digest::sha256_bytes(&fs::read(&manifest_path).unwrap());
+        let markdown_path = archive.join(format!("{id}.task-report.md"));
+        let mut markdown = fs::read(&markdown_path).unwrap();
+        markdown.extend_from_slice(b"\nHistorical recovery note.");
+        fs::write(&markdown_path, markdown).unwrap();
+
+        let successor =
+            archived_recovery_receipt(&directory, "successor", Some("WI-ARCHIVED-NEXT"), &runtime);
+        record_recovery_decision(directory.path(), id, &successor, &runtime)
+            .expect("successor recovery decision");
+        let mut supersede =
+            archived_recovery_receipt(&directory, "supersede", Some("WI-ARCHIVED-NEXT"), &runtime);
+        supersede["decidedAt"] = json!("2026-08-28T00:01:00Z");
+        if attack != "missing_manifest_binding" {
+            supersede["predecessorArchiveManifestDigest"] = json!(manifest_digest.to_string());
+        }
+        record_recovery_decision(directory.path(), id, &supersede, &runtime)
+            .expect("supersede recovery decision");
+
+        if attack == "outcome_json" {
+            let outcome_path = archive.join(format!("{id}.outcome.json"));
+            let mut bytes = fs::read(&outcome_path).unwrap();
+            bytes.extend_from_slice(b" ");
+            fs::write(outcome_path, bytes).unwrap();
+        } else if attack == "events" {
+            let events_path = archive.join(format!("{id}.events.jsonl"));
+            let mut bytes = fs::read(&events_path).unwrap();
+            bytes.extend_from_slice(b"\n");
+            fs::write(events_path, bytes).unwrap();
+        }
+
+        let close = close_work_item_with_structured_decision_and_runtime(
+            directory.path(),
+            id,
+            &HumanDecision {
+                decision: "superseded".into(),
+                actor: "human:owner".into(),
+                authority_source: "repository-owner".into(),
+                reason: "reject an incompletely bound historical report quarantine".into(),
+                evidence_refs: vec![format!(".ai/decisions/{id}.recovery.json")],
+                policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+                decided_at: "2026-08-28T00:01:00Z".into(),
+                resume_condition: Some("continue on WI-ARCHIVED-NEXT".into()),
+            },
+            &runtime,
+        );
+        assert!(
+            close.is_err(),
+            "quarantine must reject attack case {attack}"
+        );
+        assert!(
+            !directory
+                .path()
+                .join(format!(".ai/decisions/{id}.close.json"))
+                .exists(),
+            "a rejected quarantine must not record a close receipt"
+        );
+    }
+}
+
+#[test]
+fn ordinary_unanchored_legacy_archive_is_not_accepted_as_terminal_recovery_evidence() {
+    let directory = ready_archived_repository();
+    let id = "WI-ARCHIVED-RECOVERY";
+    let archive = directory.path().join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{id}.archive.json"));
+    let summary_path = archive.join(format!("{id}.summary.json"));
+    let events_path = archive.join(format!("{id}.events.jsonl"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).expect("archived Summary");
+    summary
+        .as_object_mut()
+        .unwrap()
+        .remove("taskOutcomeProjectionPolicy");
+    summary["lifecycleFacts"]
+        .as_object_mut()
+        .unwrap()
+        .remove("taskOutcomeProjectionFinishBinding");
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+
+    let mut events = String::new();
+    for line in fs::read_to_string(&events_path).unwrap().lines() {
+        let mut event: serde_json::Value = serde_json::from_str(line).unwrap();
+        event.as_object_mut().unwrap().remove("projectionBinding");
+        events.push_str(&serde_json::to_string(&event).unwrap());
+        events.push('\n');
+    }
+    fs::write(&events_path, events).unwrap();
+
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+    manifest["files"]["summaryDigest"] =
+        json!(Digest::sha256_bytes(&fs::read(&summary_path).unwrap()).to_string());
+    manifest["files"]["eventsDigest"] =
+        json!(Digest::sha256_bytes(&fs::read(&events_path).unwrap()).to_string());
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).unwrap(),
+    )
+    .unwrap();
+
+    let outcome = outcome_v2_with_runtime(directory.path(), id, &current_runtime())
+        .expect("unanchored legacy evidence remains a fail-closed Outcome");
+    assert!(
+        outcome.state != OutcomeState::Verified
+            && outcome.unknowns.contains(&"outcome_report_invalid".into()),
+        "a locally recomputed manifest cannot establish an ordinary legacy anchor: {outcome:#?}"
     );
 }
 
@@ -3209,11 +3650,9 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         "historicalArtifacts": [],
         "createdAt": "2026-08-28T00:04:00Z"
     });
-    fs::write(
-        archive.join(format!("{successor_id}.archive.json")),
-        serde_json::to_vec_pretty(&manifest).unwrap(),
-    )
-    .unwrap();
+    let successor_manifest_path = archive.join(format!("{successor_id}.archive.json"));
+    let successor_manifest_bytes = serde_json::to_vec_pretty(&manifest).unwrap();
+    fs::write(&successor_manifest_path, &successor_manifest_bytes).unwrap();
     let close = json!({
         "protocolVersion": 1,
         "workItemId": successor_id,
@@ -3244,6 +3683,43 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         .path()
         .join(format!(".ai/evidence/{successor_id}.verification.json"));
     let evidence_bytes = fs::read(&evidence_path).unwrap();
+
+    for (field, forged_value) in [
+        (
+            "repositoryId",
+            json!(Digest::sha256_bytes(b"foreign-repository")),
+        ),
+        ("workItemId", json!("WI-FOREIGN-SUCCESSOR")),
+    ] {
+        let mut forged_contract: serde_json::Value =
+            serde_json::from_slice(&contract_bytes).unwrap();
+        forged_contract[field] = forged_value;
+        let forged_contract_bytes = serde_json::to_vec_pretty(&forged_contract).unwrap();
+        fs::write(&archived_contract, &forged_contract_bytes).unwrap();
+        let mut forged_manifest = manifest.clone();
+        forged_manifest["files"]["contractDigest"] =
+            json!(Digest::sha256_bytes(&forged_contract_bytes).to_string());
+        fs::write(
+            &successor_manifest_path,
+            serde_json::to_vec_pretty(&forged_manifest).unwrap(),
+        )
+        .unwrap();
+        let mut invalid_identity =
+            archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+        invalid_identity["decidedAt"] = json!(format!("2026-08-28T00:04:2{}Z", field.len() % 10));
+        let error = record_recovery_decision(directory.path(), id, &invalid_identity, &runtime)
+            .expect_err("foreign legacy terminal Contract identity must be rejected");
+        assert!(
+            error.to_string().contains("successor_binding_mismatch")
+                || error
+                    .to_string()
+                    .contains("legacy_successor_evidence_invalid"),
+            "unexpected {field} rejection: {error}"
+        );
+        fs::write(&archived_contract, &contract_bytes).unwrap();
+        fs::write(&successor_manifest_path, &successor_manifest_bytes).unwrap();
+    }
+
     let mut tampered_evidence: serde_json::Value = serde_json::from_slice(&evidence_bytes).unwrap();
     tampered_evidence["passed"] = json!(false);
     fs::write(
@@ -3264,6 +3740,40 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
     );
     fs::write(&evidence_path, &evidence_bytes).unwrap();
 
+    let mut wrong_contract_evidence: serde_json::Value =
+        serde_json::from_slice(&evidence_bytes).unwrap();
+    wrong_contract_evidence["contractDigest"] =
+        json!(Digest::sha256_bytes(b"wrong-legacy-contract"));
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&wrong_contract_evidence).unwrap(),
+    )
+    .unwrap();
+    let mut wrong_evidence_contract =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    wrong_evidence_contract["decidedAt"] = json!("2026-08-28T00:04:40Z");
+    let error = record_recovery_decision(directory.path(), id, &wrong_evidence_contract, &runtime)
+        .expect_err("legacy terminal evidence bound to another Contract must be rejected");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_evidence_invalid")
+    );
+    fs::write(&evidence_path, &evidence_bytes).unwrap();
+
+    fs::remove_file(&evidence_path).unwrap();
+    let mut missing_evidence =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    missing_evidence["decidedAt"] = json!("2026-08-28T00:04:42Z");
+    let error = record_recovery_decision(directory.path(), id, &missing_evidence, &runtime)
+        .expect_err("missing legacy verification evidence must be rejected");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_evidence_missing")
+    );
+    fs::write(&evidence_path, &evidence_bytes).unwrap();
+
     let close_path = directory
         .path()
         .join(format!(".ai/decisions/{successor_id}.close.json"));
@@ -3281,6 +3791,109 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         "unexpected error: {error}"
     );
     fs::write(&close_path, &close_bytes).unwrap();
+
+    // A no-Git compatibility selection must not turn a current projection
+    // into legacy evidence when every corresponding manifest declaration is
+    // removed. Keep this combined downgrade attempt separate from the genuine
+    // policy-free legacy fixture that is accepted below.
+    let summary_path = archive.join(format!("{successor_id}.summary.json"));
+    let outcome_path = archive.join(format!("{successor_id}.outcome.json"));
+    let manifest_path = archive.join(format!("{successor_id}.archive.json"));
+    let summary_before = fs::read(&summary_path).unwrap();
+    let outcome_before = fs::read(&outcome_path).unwrap();
+    let manifest_before = fs::read(&manifest_path).unwrap();
+    let events_path = archive.join(format!("{successor_id}.events.jsonl"));
+    let report_json_path = archive.join(format!("{successor_id}.task-report.json"));
+    let report_markdown_path = archive.join(format!("{successor_id}.task-report.md"));
+    let projection_digest = Digest::sha256_bytes(b"current projection marker");
+    let finish_binding = json!({
+        "schemaVersion": 1,
+        "projectionPolicyDigest": projection_digest,
+        "taskReportJsonDigest": projection_digest,
+        "taskReportMarkdownDigest": projection_digest
+    });
+    let mut current_summary: Value = serde_json::from_slice(&summary_before).unwrap();
+    current_summary["taskOutcomeProjectionPolicy"] = json!({"schemaVersion": 1});
+    current_summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
+        finish_binding.clone();
+    current_summary["lifecycleFacts"]["taskOutcomeProjectionPredecessors"] = json!([]);
+    let current_summary_bytes = serde_json::to_vec_pretty(&current_summary).unwrap();
+    fs::write(&summary_path, &current_summary_bytes).unwrap();
+
+    let mut current_outcome: Value = serde_json::from_slice(&outcome_before).unwrap();
+    current_outcome["taskOutcomeReport"] = json!({
+        "format": "ai-cockpit.task-outcome",
+        "schemaVersion": 1,
+        "workItemId": successor_id
+    });
+    current_outcome["taskReportDigest"] = json!(projection_digest.to_string());
+    current_outcome["taskReportMarkdownDigest"] = json!(projection_digest.to_string());
+    let current_outcome_bytes = serde_json::to_vec_pretty(&current_outcome).unwrap();
+    fs::write(&outcome_path, &current_outcome_bytes).unwrap();
+
+    let current_event = json!({
+        "schemaVersion": 1,
+        "eventId": "current-format-completed",
+        "repositoryId": repository_id(directory.path()),
+        "workItemId": successor_id,
+        "eventType": "completed",
+        "timestamp": "2026-08-28T00:04:56Z",
+        "detail": "current projection marker",
+        "projectionBinding": finish_binding
+    });
+    fs::write(
+        &events_path,
+        format!("{}\n", serde_json::to_string(&current_event).unwrap()),
+    )
+    .unwrap();
+    fs::write(
+        &report_json_path,
+        br#"{"format":"ai-cockpit.task-outcome"}"#,
+    )
+    .unwrap();
+    fs::write(&report_markdown_path, "# current Task Outcome\n").unwrap();
+
+    let mut downgraded_manifest: Value = serde_json::from_slice(&manifest_before).unwrap();
+    downgraded_manifest["files"]["summaryDigest"] =
+        json!(Digest::sha256_bytes(&current_summary_bytes).to_string());
+    downgraded_manifest["files"]["outcomeDigest"] =
+        json!(Digest::sha256_bytes(&current_outcome_bytes).to_string());
+    for key in [
+        "taskReportPath",
+        "taskReportDigest",
+        "taskReportMarkdownPath",
+        "taskReportMarkdownDigest",
+        "eventsPath",
+        "eventsDigest",
+    ] {
+        downgraded_manifest["files"]
+            .as_object_mut()
+            .unwrap()
+            .remove(key);
+    }
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&downgraded_manifest).unwrap(),
+    )
+    .unwrap();
+    let mut current_projection =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    current_projection["decidedAt"] = json!("2026-08-28T00:04:56Z");
+    let error = record_recovery_decision(directory.path(), id, &current_projection, &runtime)
+        .expect_err("current projection residue cannot qualify for the no-Git legacy adapter");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_evidence_invalid"),
+        "unexpected current projection downgrade rejection: {error}"
+    );
+
+    fs::write(&summary_path, &summary_before).unwrap();
+    fs::write(&outcome_path, &outcome_before).unwrap();
+    fs::write(&manifest_path, &manifest_before).unwrap();
+    fs::remove_file(&events_path).unwrap();
+    fs::remove_file(&report_json_path).unwrap();
+    fs::remove_file(&report_markdown_path).unwrap();
 
     #[cfg(unix)]
     {
@@ -3303,6 +3916,34 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         fs::rename(backup, &evidence_path).unwrap();
     }
 
+    let selected_successor_path = directory
+        .path()
+        .join(format!(".ai/decisions/{id}.recovery.json"));
+    let selected_successor: serde_json::Value =
+        serde_json::from_slice(&fs::read(&selected_successor_path).unwrap()).unwrap();
+    let selected_digest = cockpit_protocol::digest_json(&selected_successor).unwrap();
+    let duplicate_selection_path = directory.path().join(format!(
+        ".ai/decisions/{id}.recovery.{}.json",
+        selected_digest.to_string().trim_start_matches("sha256:")
+    ));
+    fs::write(
+        &duplicate_selection_path,
+        serde_json::to_vec_pretty(&selected_successor).unwrap(),
+    )
+    .expect("append a duplicate successor selection candidate");
+    let mut ambiguous =
+        archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
+    ambiguous["decidedAt"] = json!("2026-08-28T00:04:58Z");
+    let error = record_recovery_decision(directory.path(), id, &ambiguous, &runtime)
+        .expect_err("duplicate successor selections are not an exact unique anchor");
+    assert!(
+        error
+            .to_string()
+            .contains("legacy_successor_selection_ambiguous"),
+        "unexpected duplicate-selection rejection: {error}"
+    );
+    fs::remove_file(&duplicate_selection_path).unwrap();
+
     let mut supersede =
         archived_recovery_receipt(&directory, "supersede", Some(successor_id), &runtime);
     supersede["decidedAt"] = json!("2026-08-28T00:05:00Z");
@@ -3313,6 +3954,15 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         json!("legacy_terminal_evidence"),
         "legacy compatibility must be explicitly marked in the append-only recovery receipt"
     );
+
+    let projected = outcome_v2_with_runtime(directory.path(), id, &runtime)
+        .expect("legacy digest-only terminal evidence remains a historical supersede");
+    assert_eq!(projected.state, OutcomeState::Unknown);
+    assert_eq!(
+        projected.decision_state,
+        Some(cockpit_core::DecisionState::Yellow)
+    );
+    assert_eq!(projected.historical_status.as_deref(), Some("superseded"));
 
     close_work_item_with_structured_decision_and_runtime(
         directory.path(),
@@ -3330,4 +3980,105 @@ fn supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt() {
         &runtime,
     )
     .expect("superseded predecessor should close");
+}
+
+#[test]
+fn ordinary_archive_read_rejects_contract_change_without_revalidation_chain() {
+    let directory = ready_archived_repository();
+    amend_archived_contract_without_revalidation_chain(
+        &directory,
+        "unlinked Contract edit",
+        "commit unlinked archived Contract edit",
+    );
+
+    let outcome =
+        outcome_v2_with_runtime(directory.path(), "WI-ARCHIVED-RECOVERY", &current_runtime())
+            .expect(
+                "ordinary archived Outcome reads return a stopped projection for invalid evidence",
+            );
+    assert!(
+        outcome.task_outcome_report.as_ref().is_some_and(|report| {
+            report.status == OutcomeState::Unknown
+                && report.human_status_color == DecisionState::Red
+        }),
+        "an unlinked Contract change must project an explicitly invalid report, never the frozen Verified report: {outcome:?}"
+    );
+    assert!(
+        outcome
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "outcome_report_invalid"),
+        "an unlinked Contract change must remain visibly contradictory: {outcome:?}"
+    );
+}
+
+#[test]
+fn archived_contract_revalidation_is_the_only_pre_receipt_exception() {
+    let directory = ready_archived_repository();
+    let work_item_id = "WI-ARCHIVED-RECOVERY";
+    amend_archived_contract_without_revalidation_chain(
+        &directory,
+        "reviewed archived Contract amendment",
+        "commit reviewed archived Contract amendment",
+    );
+    let runtime = current_runtime();
+
+    let unlinked = outcome_v2_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("ordinary invalid archived reads produce a stopped projection");
+    assert!(
+        unlinked.task_outcome_report.as_ref().is_some_and(|report| {
+            report.status == OutcomeState::Unknown
+                && report.human_status_color == DecisionState::Red
+        }),
+        "ordinary reads must reject the old report before an explicit revalidation receipt"
+    );
+    assert!(
+        unlinked
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "outcome_report_invalid")
+    );
+
+    revalidate_archived_work_item_with_runtime(
+        directory.path(),
+        work_item_id,
+        &ArchivedContractRevalidationRequest {
+            successor_work_item_id: "WI-ARCHIVED-RECOVERY-REVALIDATION".into(),
+            reason: "the archived Contract change requires successor verification".into(),
+            actor: "human:test-reviewer".into(),
+            authority_source: "explicit-test-authorization".into(),
+            resume_condition: "verify the successor before relying on amended intent".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+        },
+        &runtime,
+    )
+    .expect("explicit archived revalidation should validate and record the exact chain");
+
+    let linked = outcome_v2_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("ordinary reads may accept the exact recorded revalidation chain");
+    assert_eq!(
+        linked.historical_status.as_deref(),
+        Some("contract_amendment_revalidation")
+    );
+    assert_eq!(linked.state, OutcomeState::NotReady);
+
+    amend_archived_contract_without_revalidation_chain(
+        &directory,
+        "second unrelated Contract edit",
+        "commit second unrelated archived Contract edit",
+    );
+    let stale = outcome_v2_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("stale chain is represented as stopped Outcome");
+    assert!(
+        stale.task_outcome_report.as_ref().is_some_and(|report| {
+            report.status == OutcomeState::Unknown
+                && report.human_status_color == DecisionState::Red
+        }) && stale.historical_status.is_none()
+            && stale.decision_state == Some(DecisionState::Red)
+            && stale.unknowns.iter().any(|unknown| {
+                unknown == "outcome_report_invalid" || unknown == "recovery_decision_invalid"
+            }),
+        "an earlier revalidation receipt must not authorize a later Contract edit: {stale:?}"
+    );
 }

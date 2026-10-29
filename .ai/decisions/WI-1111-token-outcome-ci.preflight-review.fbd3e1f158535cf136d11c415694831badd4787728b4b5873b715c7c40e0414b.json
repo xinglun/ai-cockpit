@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:86a8a052a905aefef9f880ebc7ea7653b612d47b6d31e7c86f8aeb25b2dcdfec",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:498017d0b76a571cb2598d938b3a1063f4cbbc62f2c469c10f603a2da349c889",
+  "reason": "Actual user confirmation from conversation Sentinel_f4c8e0c962108191a1ff8ee3365e6013 at 2026-10-25T15:00:21 UTC: ‘确认 WI-1111 补齐上述测试路径及 sequence 7 精确绑定，confirm_review。仍不包含公开推送、合并、发布、生产启用或共享 Runtime 替换。’ Recorded by agent:Codex through the fixed Runtime; this records that supplied decision only.",
+  "recordedAt": "2026-10-25T15:01:28Z",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3fad30ae5c38c16021a5c569c742fbe90783c0db557d770fad5ed1aecd6d4949",
+  "schemaVersion": 1,
+  "workItemId": "WI-1111-token-outcome-ci"
+}
