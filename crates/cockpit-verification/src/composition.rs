@@ -3387,23 +3387,42 @@ fn inspect_lsof_worktree_output(
     worktree: &Path,
     output: &std::process::Output,
 ) -> Result<Option<u32>, String> {
+    // A partial inspection cannot establish the absence of references, even
+    // when lsof reports its ordinary no-match exit status.
+    if !output.stderr.is_empty() {
+        return Err(format!(
+            "lsof observation has diagnostics: {}",
+            bounded(&String::from_utf8_lossy(&output.stderr))
+        ));
+    }
+    if !output.status.success() {
+        if output.status.code() == Some(1) && output.stdout.is_empty() {
+            return Ok(None);
+        }
+        return Err(format!(
+            "lsof exited with status {:?}",
+            output.status.code()
+        ));
+    }
+    let stdout = std::str::from_utf8(&output.stdout)
+        .map_err(|_| "lsof output is not valid UTF-8".to_owned())?;
     let mut process_id = None;
-    for line in String::from_utf8_lossy(&output.stdout).lines() {
+    for line in stdout.lines() {
         if let Some(value) = line.strip_prefix('p') {
-            process_id = value.parse::<u32>().ok();
+            process_id = Some(
+                value
+                    .parse::<u32>()
+                    .ok()
+                    .filter(|process_id| *process_id > 0)
+                    .ok_or_else(|| "lsof returned an invalid process identity".to_owned())?,
+            );
         } else if let Some(value) = line.strip_prefix('n')
             && path_is_within(worktree, Path::new(value))
         {
-            return Ok(process_id);
+            return process_id.map(Some).ok_or_else(|| {
+                "lsof returned a worktree reference without a process identity".into()
+            });
         }
-    }
-    if !output.status.success() && !(output.status.code() == Some(1) && output.stdout.is_empty()) {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!(
-            "lsof exited with status {:?}: {}",
-            output.status.code(),
-            stderr.trim()
-        ));
     }
     Ok(None)
 }
@@ -3427,18 +3446,32 @@ mod macos_lsof_output_tests {
     fn empty_no_match_with_permission_diagnostic_is_unknown() {
         let result = inspect_lsof_worktree_output(
             Path::new("/tmp/worktree with spaces"),
-            &output(1, b"", b"lsof: cannot inspect directory: Permission denied\n"),
+            &output(
+                1,
+                b"",
+                b"lsof: cannot inspect directory: Permission denied\n",
+            ),
         );
-        assert!(result.is_err(), "a diagnostic is not a complete negative observation");
+        assert!(
+            result.is_err(),
+            "a diagnostic is not a complete negative observation"
+        );
     }
 
     #[test]
     fn successful_output_with_warning_is_unknown() {
         let result = inspect_lsof_worktree_output(
             Path::new("/tmp/worktree with spaces"),
-            &output(0, b"p42\nn/tmp/worktree with spaces/file\n", b"lsof: observation incomplete\n"),
+            &output(
+                0,
+                b"p42\nn/tmp/worktree with spaces/file\n",
+                b"lsof: observation incomplete\n",
+            ),
         );
-        assert!(result.is_err(), "partial observation must retain the worktree");
+        assert!(
+            result.is_err(),
+            "partial observation must retain the worktree"
+        );
     }
 
     #[test]
@@ -3447,7 +3480,10 @@ mod macos_lsof_output_tests {
             Path::new("/tmp/worktree with spaces"),
             &output(0, b"p42\nn/tmp/\xff\n", b""),
         );
-        assert!(result.is_err(), "lossy decoding cannot prove an empty reference set");
+        assert!(
+            result.is_err(),
+            "lossy decoding cannot prove an empty reference set"
+        );
     }
 
     #[test]
@@ -3456,7 +3492,10 @@ mod macos_lsof_output_tests {
             Path::new("/tmp/worktree with spaces"),
             &output(0, b"n/tmp/worktree with spaces/file\n", b""),
         );
-        assert!(result.is_err(), "a matching file without a PID cannot be clear");
+        assert!(
+            result.is_err(),
+            "a matching file without a PID cannot be clear"
+        );
     }
 
     #[test]
@@ -3465,7 +3504,10 @@ mod macos_lsof_output_tests {
             Path::new("/tmp/worktree with spaces"),
             &output(0, b"pnot-a-pid\nn/tmp/worktree with spaces/file\n", b""),
         );
-        assert!(result.is_err(), "malformed process identity must fail closed");
+        assert!(
+            result.is_err(),
+            "malformed process identity must fail closed"
+        );
     }
 
     #[test]
