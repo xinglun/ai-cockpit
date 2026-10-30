@@ -2776,6 +2776,20 @@ fn write_supervisor_message<W: Write, T: Serialize>(
         .map_err(|error| format!("write composition supervisor protocol: {error}"))
 }
 
+// Failure-baseline seam: this intentionally preserves the old single-message
+// read. The production repair must additionally observe natural channel EOF
+// within the same deadline before accepting a terminal reply.
+#[cfg(test)]
+fn read_composition_terminal_until<T: DeserializeOwned>(
+    receiver: &mpsc::Receiver<Result<String, String>>,
+    deadline: std::time::Instant,
+) -> Result<T, String> {
+    read_supervisor_message(
+        receiver,
+        Some(deadline.saturating_duration_since(std::time::Instant::now())),
+    )
+}
+
 fn stop_unreleased_supervisor(child: &mut Child) {
     let _ = child.kill();
     let _ = child.wait();
@@ -4446,5 +4460,120 @@ mod registered_worktree_file_windows_tests {
         );
         assert!(active_path.join(leaf).is_file());
         assert!(!moved_active.exists());
+    }
+}
+
+
+#[cfg(test)]
+mod composition_channel_deadline_tests {
+    use super::*;
+    use serde::Deserialize;
+    use std::time::Instant;
+
+    #[derive(Debug, Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct TestFrame {
+        value: String,
+    }
+
+    // Producers are ordinary bounded threads: no child processes, detached
+    // workers or rescue cleanup. Every producer is joined before an assertion.
+    #[test]
+    fn ready_diagnostic_lines_cannot_restart_the_absolute_deadline() {
+        let (sender, receiver) = mpsc::channel();
+        let producer = std::thread::spawn(move || {
+            for _ in 0..5 {
+                if sender.send(Ok("diagnostic\n".into())).is_err() {
+                    return;
+                }
+                std::thread::sleep(Duration::from_millis(20));
+            }
+            let _ = sender.send(Ok("{\"value\":\"late\"}\n".into()));
+        });
+        let started = Instant::now();
+        let result = read_supervisor_message::<TestFrame>(
+            &receiver,
+            Some(Duration::from_millis(35)),
+        );
+        let elapsed = started.elapsed();
+        producer.join().expect("bounded diagnostic producer");
+        assert!(result.is_err(), "late Ready received a renewed budget: {result:?}");
+        assert!(elapsed < Duration::from_millis(90), "read took {elapsed:?}");
+    }
+
+    #[test]
+    fn oversized_ready_is_rejected_instead_of_deserialized() {
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok(format!("{{\"value\":\"{}\"}}\n", "x".repeat(65_536))))
+            .expect("queue oversized frame");
+        drop(sender);
+        let result = read_supervisor_message::<TestFrame>(
+            &receiver,
+            Some(Duration::from_secs(1)),
+        );
+        assert!(result.is_err(), "oversized Ready was accepted");
+        assert!(result.unwrap_err().contains("byte limit"));
+    }
+
+    #[test]
+    fn malformed_json_protocol_is_not_skipped_as_diagnostic_text() {
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok("{\"value\":null}\n".into())).expect("malformed protocol");
+        sender.send(Ok("{\"value\":\"after-invalid\"}\n".into()))
+            .expect("later valid frame");
+        drop(sender);
+        let result = read_supervisor_message::<TestFrame>(
+            &receiver,
+            Some(Duration::from_secs(1)),
+        );
+        assert!(result.is_err(), "malformed expected JSON was skipped: {result:?}");
+    }
+
+    #[test]
+    fn terminal_reply_without_natural_eof_is_not_success() {
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok("{\"value\":\"terminal\"}\n".into()))
+            .expect("terminal frame");
+        let producer = std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_millis(150));
+            drop(sender);
+        });
+        let started = Instant::now();
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            started + Duration::from_millis(35),
+        );
+        let elapsed = started.elapsed();
+        producer.join().expect("finite held channel");
+        assert!(result.is_err(), "terminal without natural EOF was accepted: {result:?}");
+        assert!(elapsed < Duration::from_millis(100), "terminal took {elapsed:?}");
+    }
+
+    #[test]
+    fn duplicate_terminal_reply_is_not_ignored() {
+        let (sender, receiver) = mpsc::channel();
+        for _ in 0..2 {
+            sender.send(Ok("{\"value\":\"terminal\"}\n".into()))
+                .expect("duplicate terminal");
+        }
+        drop(sender);
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            Instant::now() + Duration::from_secs(1),
+        );
+        assert!(result.is_err(), "a second terminal frame was ignored: {result:?}");
+    }
+
+    #[test]
+    fn one_terminal_and_natural_eof_preserve_the_original_value() {
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok("{\"value\":\"original\"}\n".into()))
+            .expect("terminal frame");
+        drop(sender);
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            Instant::now() + Duration::from_secs(1),
+        ).expect("complete channel");
+        assert_eq!(result.value, "original");
     }
 }
