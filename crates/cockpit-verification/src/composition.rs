@@ -3542,6 +3542,215 @@ mod macos_lsof_output_tests {
             Ok(None),
         );
     }
+
+    #[test]
+    fn successful_empty_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn unexpected_selected_field_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\ng42\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn process_only_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn next_process_cannot_complete_the_previous_process() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\np43\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn descriptor_without_name_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn next_descriptor_cannot_complete_the_previous_descriptor() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\nf1\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn unbound_unrelated_name_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"n/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn empty_or_relative_file_name_is_unknown() {
+        for source in [b"p42\nn\n".as_slice(), b"p42\nnrelative/file\n".as_slice()] {
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source, b""),
+                )
+                .is_err(),
+                "{source:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn unterminated_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/other/file", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn escaped_or_control_bearing_name_is_unknown() {
+        let sources: &[&[u8]] = &[
+            b"p42\nn/tmp/other/\\x20file\n",
+            b"p42\nn/tmp/other/file\tname\n",
+            b"p42\r\nn/tmp/other/file\r\n",
+            b"p42\nn/tmp/other/\0file\n",
+            b"p42\nn/tmp/other/\x7ffile\n",
+            b"p42\nn/tmp/other/\xc2\x85file\n",
+        ];
+        for source in sources {
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source, b""),
+                )
+                .is_err(),
+                "{source:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn oversized_listing_is_unknown() {
+        let mut source = b"p42\n".to_vec();
+        while source.len() <= super::MAX_OUTPUT_BYTES {
+            source.extend_from_slice(b"n/tmp/other/file\n");
+        }
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, &source, b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn pid_must_be_a_canonical_platform_process_identity() {
+        for pid in ["4294967295", "+42", "0", "042"] {
+            let source = format!("p{pid}\nn/tmp/other/file\n");
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source.as_bytes(), b""),
+                )
+                .is_err(),
+                "{pid}"
+            );
+        }
+    }
+
+    #[test]
+    fn malformed_tail_is_not_hidden_by_a_positive_reference() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces/file\nqbad\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn legacy_implicit_descriptors_are_accepted() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\nn/tmp/worktree with spaces/file\n", b""),
+            ),
+            Ok(Some(42))
+        );
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nf1\nn/tmp/other/file\n", b""),
+            ),
+            Ok(None)
+        );
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(
+                    0,
+                    "p42\nfcwd\nn/tmp/worktree with spaces/確認\n".as_bytes(),
+                    b"",
+                ),
+            ),
+            Ok(Some(42))
+        );
+    }
+
+    #[test]
+    fn complete_process_and_file_sets_keep_matching_identity() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(
+                    0,
+                    b"p42\nfcwd\nn/tmp/other/file\nf1\nn/tmp/other/second\np43\nfcwd\nn/tmp/worktree with spaces/file\nf2\nn/tmp/other/third\n",
+                    b"",
+                ),
+            ),
+            Ok(Some(43))
+        );
+    }
 }
 
 #[cfg(all(unix, not(any(target_os = "linux", target_os = "macos"))))]
