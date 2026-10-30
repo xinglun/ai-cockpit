@@ -3705,7 +3705,72 @@ mod tests {
             atomic::{AtomicUsize, Ordering},
         };
         let (directory, id) = portable_activation_transition_fixture();
-        let root = directory.path();
+        // Keep only this test's own repository and out-of-repository
+        // diagnostics on panic. Drop never observes native state or Git.
+        struct PreserveOnFailure {
+            repository: Option<tempfile::TempDir>,
+            diagnostics: Option<tempfile::TempDir>,
+        }
+        impl Drop for PreserveOnFailure {
+            fn drop(&mut self) {
+                if std::thread::panicking() {
+                    let repository = self.repository.take().map(tempfile::TempDir::keep);
+                    let diagnostics = self.diagnostics.take().map(tempfile::TempDir::keep);
+                    eprintln!("HISTORY_FIXTURE_PRESERVED repository={repository:?} diagnostics={diagnostics:?}");
+                }
+            }
+        }
+        fn save<T: serde::Serialize + ?Sized>(directory: &Path, name: &str, value: &T) {
+            let bytes = serde_json::to_vec_pretty(value).expect("serialize actual fixture diagnostic");
+            assert!(bytes.len() <= 2 * 1024 * 1024, "fixture diagnostic exceeds explicit byte budget");
+            fs::write(directory.join(name), bytes).expect("save private fixture diagnostic");
+        }
+        fn observe(
+            root: &Path,
+            diagnostics: &Path,
+            id: &str,
+            runtime: &cockpit_protocol::RuntimeContext,
+            caller: &cockpit_protocol::TaskAuthorizationCaller,
+            stage: &str,
+        ) {
+            // No process environment, credentials or arbitrary source export.
+            // Preserve these fixed synthetic native records byte-for-byte.
+            let active = root.join(".ai/work-items/active");
+            let pinned = crate::legacy_closeout_source::PinnedRoot::open(&active)
+                .expect("pin fixture native record directory");
+            let directory = pinned.directory().expect("clone fixture record capability");
+            for kind in ["contract", "summary"] {
+                let leaf = format!("{id}.{kind}.json");
+                let bytes = crate::legacy_closeout_source::read_regular_cap_bounded(
+                    &directory, &leaf, &active.join(&leaf), 128 * 1024,
+                ).expect("read bounded no-follow actual fixture native record");
+                pinned.require_current().expect("fixture native directory stays current");
+                fs::write(diagnostics.join(format!("{stage}.{kind}.json")), bytes)
+                    .expect("save exact fixture native record bytes");
+            }
+            match crate::work_item_status_snapshot_with_runtime(root, id, runtime) {
+                Ok(status) => {
+                    save(diagnostics, &format!("{stage}.action-explanation.json"), &status.action_explanation);
+                    save(diagnostics, &format!("{stage}.status.json"), &status);
+                }
+                Err(error) => save(diagnostics, &format!("{stage}.status-error.json"), &error.to_string()),
+            }
+            let request = cockpit_protocol::TaskAuthorizationRequest {
+                schema_version: 1, caller: caller.clone(), action: "run_verification".into(),
+                paths: Vec::new(), public_target: None,
+            };
+            match crate::assess_task_authorization(root, id, &request, runtime) {
+                Ok(assessment) => save(diagnostics, &format!("{stage}.authorization.json"), &assessment),
+                Err(error) => save(diagnostics, &format!("{stage}.authorization-error.json"), &error.to_string()),
+            }
+        }
+        let directory = PreserveOnFailure {
+            repository: Some(directory),
+            diagnostics: Some(tempfile::Builder::new().prefix("history-fixture-diagnostic-")
+                .tempdir().expect("own private out-of-repository diagnostic directory")),
+        };
+        let root = directory.repository.as_ref().expect("owned fixture repository").path();
+        let diagnostics = directory.diagnostics.as_ref().expect("owned fixture diagnostics").path();
         let runtime = cockpit_protocol::RuntimeContext {
             runtime_version: "1.0.1-test".into(),
             protocol_version: cockpit_protocol::PROTOCOL_VERSION,
@@ -3753,8 +3818,33 @@ mod tests {
         };
         // This fixture now has an active delegated grant. Use its original
         // explicit caller at the native preflight boundary, just as at spawn.
-        crate::preflight_work_item_with_task_authorization(root, &contract_path, &runtime, &caller)
-            .expect("refresh native preflight with the active fixture caller");
+        observe(root, diagnostics, &id, &runtime, &caller, "before-refresh");
+        let refreshed = crate::preflight_work_item_with_task_authorization(root, &contract_path, &runtime, &caller);
+        match &refreshed {
+            Ok(preflight) => save(diagnostics, "actual-preflight-result.json", preflight),
+            Err(error) => save(diagnostics, "actual-preflight-error.json", &error.to_string()),
+        }
+        refreshed.expect("refresh native preflight with the active fixture caller");
+        observe(root, diagnostics, &id, &runtime, &caller, "before-checkpoint");
+        // Native start intentionally leaves implementation_active. Preflight
+        // does not replace the required before-edit lifecycle checkpoint.
+        let checkpoint = crate::checkpoint_work_item_with_caller(root, &id, &runtime, Some(&caller));
+        match &checkpoint {
+            Ok(receipt) => save(diagnostics, "actual-checkpoint-result.json", receipt),
+            Err(error) => save(diagnostics, "actual-checkpoint-error.json", &error.to_string()),
+        }
+        let checkpoint = checkpoint.expect("native checkpoint before the first verification");
+        observe(root, diagnostics, &id, &runtime, &caller, "after-checkpoint");
+        assert_eq!(checkpoint.state, "checkpointed");
+        let admission = crate::work_item_status_snapshot_with_runtime(root, &id, &runtime)
+            .expect("read the actual checkpointed action admission");
+        assert!(
+            admission
+                .safe_actions
+                .iter()
+                .any(|action| action == "run_verification"),
+            "fixture must enter normal verification admission: {admission:?}"
+        );
         let command = crate::RepositoryVerificationRequest {
             node_id: "first".into(),
             program: "git".into(),
@@ -3779,20 +3869,38 @@ mod tests {
         let plans = requests
             .iter()
             .map(|request| {
-                crate::plan_repository_verification_action(root, request, &snapshot, 1).unwrap()
+                let plan = crate::plan_repository_verification_action(root, request, &snapshot, 1);
+                match &plan {
+                    Ok(value) => save(diagnostics, &format!("actual-plan-{}.json", request.node_id), value),
+                    Err(error) => save(diagnostics, &format!("actual-plan-{}-error.json", request.node_id), &error.to_string()),
+                }
+                plan.unwrap()
             })
             .collect::<Vec<_>>();
+        save(diagnostics, "actual-plan-route.json", &json!({
+            "stage":command.stage, "runner":command.runner, "program":command.program,
+            "args":command.args, "runtimeDigest":command.runtime_digest,
+            "baseCommit":command.base_commit, "workItemId":command.work_item_id,
+            "requestTimeoutSeconds":command.timeout_seconds, "workers":command.workers,
+            "scope":command.scope, "plans":plans,
+        }));
         let run_checkpoint =
             crate::VerificationRunCheckpoint::prepare(root, &requests, &plans, &snapshot, &runtime)
                 .unwrap();
+        observe(root, diagnostics, &id, &runtime, &caller, "before-first-command");
         let first = crate::run_repository_verification_with_task_authorization(
             root,
             &command,
             &runtime,
             Some(&caller),
             |_, _, _| Ok(()),
-        )
-        .expect("real authorized first child");
+        );
+        match &first {
+            Ok(run) => save(diagnostics, "actual-first-receipt.json", &run.receipt),
+            Err(error) => save(diagnostics, "actual-first-error.json", &error.to_string()),
+        }
+        observe(root, diagnostics, &id, &runtime, &caller, "after-first-command");
+        let first = first.expect("real authorized first child");
         assert!(
             first.receipt.passed,
             "actual first receipt: {}",
