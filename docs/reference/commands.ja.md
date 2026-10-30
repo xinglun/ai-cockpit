@@ -41,7 +41,7 @@ capabilityClaims:
 | `ai-cockpit archive` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit archive-historical` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit close` | `--actor`, `--authority-source`, `--decided-at`, `--evidence-ref`, `--human-decision`, `--id`, `--json`, `--language`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--task-caller`, `-h / --help` |  |
-| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
+| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
 | `ai-cockpit gate` | `--base-revision`, `--contract`, `--repo`, `--report`, `--runner`, `--stage`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-report` | `--repo`, `--report`, `--route-receipt`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |

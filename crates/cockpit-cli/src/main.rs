@@ -335,6 +335,10 @@ enum CommandKind {
         /// Explicit verification program; repeat for multiple commands.
         #[arg(long, action = ArgAction::Append)]
         command: Vec<String>,
+        /// Select exact current declared node IDs. Repeat to select several;
+        /// omission selects the full declaration inventory. Selection is not full coverage.
+        #[arg(long, action=ArgAction::Append, requires="work_item", conflicts_with_all=["command","args","archived_recovery"])]
+        node: Vec<String>,
         /// Comma-separated program arguments, preserving their declared order.
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
@@ -2510,6 +2514,7 @@ fn run() -> Result<()> {
             repo,
             work_item,
             command,
+            node,
             args,
             workers,
             stage,
@@ -2582,6 +2587,7 @@ fn run() -> Result<()> {
                 let declared =
                     declared_verification_commands(&root, work_item_id, archived_recovery)?;
                 if declared.is_empty() {
+                    if !node.is_empty(){anyhow::bail!("--node requires an explicit current Contract declaration inventory");}
                     detected_verification_commands(&root)?
                         .into_iter()
                         .map(|(program, args)| DeclaredVerificationCommand {
@@ -2634,6 +2640,13 @@ fn run() -> Result<()> {
                     },
                 })
                 .collect::<Vec<_>>();
+            let declared_inventory=requests.iter().map(|r|r.node_id.clone()).collect::<Vec<_>>();
+            let requests=select_declared_nodes(requests,&node)?;
+            let selected_inventory=requests.iter().map(|r|r.node_id.clone()).collect::<Vec<_>>();
+            let omitted_inventory=declared_inventory.iter().filter(|id|!selected_inventory.contains(id)).cloned().collect::<Vec<_>>();
+            let partial_declaration_selection=!node.is_empty() && !omitted_inventory.is_empty();
+            let declared_coverage=json!({"level":"declared_commands","inventory":declared_inventory,
+                "selected":selected_inventory,"omitted":omitted_inventory,"complete":omitted_inventory.is_empty()});
             if let Some(work_item_id) = work_item.as_deref()
                 && !archived_recovery
             {
@@ -2787,20 +2800,9 @@ fn run() -> Result<()> {
                 coverage_manifest = workspace_test_manifests.pop();
             }
             let requests = planned_requests;
-            let reusable_attempt = if let Some(work_item_id) = work_item.as_deref()
-                && !archived_recovery
-            {
-                cockpit_repository::load_reusable_verification_attempt(
-                    &root,
-                    work_item_id,
-                    &requests,
-                    &initial_snapshot,
-                    &runtime_context,
-                )
-                .context("load identity-bound verification attempt")?
-            } else {
-                None
-            };
+            let local_node_plan=if !explicit && !archived_recovery && work_item.is_some() {
+                cockpit_repository::plan_local_node_reuse(&root,&requests,&initial_snapshot,&runtime_context)?
+            } else {Vec::new()};
             let now_epoch_seconds = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
@@ -2851,35 +2853,18 @@ fn run() -> Result<()> {
                     }
                 }
             }
-            if let Some(attempt) = reusable_attempt.as_ref()
-                && let Some(results) = attempt
-                    .get("receipt")
-                    .and_then(|receipt| receipt.get("results"))
-                    .and_then(serde_json::Value::as_array)
-            {
-                for node in &mut planned_nodes {
-                    let node_id = node.get("nodeId").and_then(serde_json::Value::as_str);
-                    let result = results.iter().find(|result| {
-                        result.get("nodeId").and_then(serde_json::Value::as_str) == node_id
-                    });
-                    if let Some(result) = result {
-                        node["action"] = json!("reuse");
-                        node["state"] = json!("fresh");
-                        node["reason"] = json!("fresh_exact_binding");
-                        node["satisfiedBy"] = json!("reused_receipt");
-                        node["reuseAuthorization"] = json!("identity_bound_work_item_attempt");
-                        node["receiptId"] = result
-                            .get("receiptId")
-                            .cloned()
-                            .unwrap_or(serde_json::Value::Null);
-                        node["identityBinding"]["verificationAttemptId"] = attempt
-                            .get("attemptId")
-                            .cloned()
-                            .unwrap_or(serde_json::Value::Null);
-                        node["identityBinding"]["contractExecutionScopeDigest"] = attempt
-                            .get("contractExecutionScopeDigest")
-                            .cloned()
-                            .unwrap_or(serde_json::Value::Null);
+            for node in &mut planned_nodes {
+                if let Some(decision)=local_node_plan.iter().find(|d|node["nodeId"]==d.node_id) {
+                    node["localNodeReuseReason"]=json!(decision.reason);
+                    if decision.fresh_required {
+                        node["action"]=json!("execute");node["state"]=json!("unknown");
+                        node["reason"]=json!(decision.reason);node["satisfiedBy"]=json!("execution");node["receiptId"]=serde_json::Value::Null;
+                        node["reuseAuthorization"]=json!("fresh_required_by_native_observation");
+                    }
+                    if let Some(candidate)=&decision.candidate {
+                        node["action"]=json!("reuse");node["state"]=json!("fresh");
+                        node["reason"]=json!("fresh_local_node_exact_binding");node["satisfiedBy"]=json!("reused_receipt");
+                        node["reuseAuthorization"]=json!("identity_bound_local_node");node["localNodeEvidence"]=candidate.projection();node["localNodeCostCompleteness"]=json!("partial_source_counters_only");
                     }
                 }
             }
@@ -2890,6 +2875,7 @@ fn run() -> Result<()> {
                     .count();
                 let plan = ::serde_json::json!({
                     "coverageManifest": coverage_manifest,
+                    "declaredCoverage": declared_coverage,
                     "requests": requests.iter().zip(&planned_nodes).map(|(request, node)| ::serde_json::json!({
                         "nodeId": request.node_id,
                         "program": request.program,
@@ -2917,7 +2903,7 @@ fn run() -> Result<()> {
                 println!("{}", serde_json::to_string_pretty(&plan)?);
                 return Ok(());
             }
-            let interruption_checkpoint = if work_item.is_some() && reusable_attempt.is_none() {
+            let interruption_checkpoint = if work_item.is_some() {
                 Some(
                     cockpit_repository::VerificationRunCheckpoint::prepare(
                         &root,
@@ -2931,6 +2917,18 @@ fn run() -> Result<()> {
             } else {
                 None
             };
+            let local_run_identity=interruption_checkpoint.as_ref().map(|checkpoint|checkpoint.local_run_identity());
+            let attempt_work_item=work_item.clone();
+            let persist_for_run=|snapshot:&cockpit_git::RepositorySnapshot,state:&str,diagnostic:Option<(&str,&str)>,receipt:Option<&serde_json::Value>,supersedes:Option<&str>| {
+                let wi=attempt_work_item.as_deref().expect("native attempt requires WI");
+                if let Some(checkpoint)=interruption_checkpoint.as_ref(){
+                    checkpoint.persist_local_run_attempt(&requests,snapshot,&runtime_context,cockpit_repository::LocalRunAttemptWrite{state,diagnostic,receipt,supersedes})
+                } else if let Some(prior)=supersedes {
+                    cockpit_repository::persist_verification_attempt_superseding(&root,wi,&requests,snapshot,&runtime_context,state,diagnostic,receipt,prior)
+                } else {
+                    cockpit_repository::persist_verification_attempt(&root,wi,&requests,snapshot,&runtime_context,state,diagnostic,receipt)
+                }
+            };
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
             let supervisor_executable =
@@ -2939,35 +2937,7 @@ fn run() -> Result<()> {
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
             let mut execution_elapsed_ms = 0_u128;
-            if let Some(attempt) = reusable_attempt {
-                let receipt_value = attempt
-                    .get("receipt")
-                    .cloned()
-                    .ok_or_else(|| anyhow::anyhow!("reusable attempt has no receipt"))?;
-                let mut receipt: cockpit_verification::VerificationReceipt =
-                    serde_json::from_value(receipt_value)
-                        .context("decode reusable verification receipt")?;
-                for result in &mut receipt.results {
-                    result.reused = true;
-                    result.action = cockpit_verification::PlannedAction::Reuse;
-                    result.state = cockpit_verification::PlannedState::Fresh;
-                    result.reason = "fresh_exact_binding".into();
-                    result.satisfied_by = cockpit_verification::PlannedSatisfaction::ReusedReceipt;
-                }
-                receipt.execution_records.clear();
-                receipt.receipt_candidates.clear();
-                receipt.nodes_executed = 0;
-                receipt.nodes_reused = receipt.nodes_planned;
-                receipt.processes_spawned = 0;
-                receipt.max_concurrent_processes = 0;
-                receipt.execution_elapsed_ms = 0;
-                receipt.elapsed_ms = 0;
-                receipt.passed = true;
-                runs.push(cockpit_repository::RepositoryVerificationRun {
-                    receipt,
-                    final_snapshot: initial_snapshot.clone(),
-                });
-            } else {
+            {
                 let total_requests = requests.len();
                 let mut completed_requests = 0_usize;
                 for (batch_index, batch) in requests.chunks(workers.max(1)).enumerate() {
@@ -2983,10 +2953,21 @@ fn run() -> Result<()> {
                                 let caller = task_caller.as_ref();
                                 let runtime = &runtime_context;
                                 let supervisor_executable = supervisor_executable.clone();
+                                let local_node_plan = &local_node_plan;
+                                let local_run_identity=local_run_identity.as_ref();
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
-                                    let run = cockpit_repository::run_repository_verification_with_task_authorization_supervised(
+                                    let decision=local_node_plan.iter().find(|d|d.node_id==request.node_id);
+                                    let candidate=decision.and_then(|d|d.candidate.as_ref());
+                                    let force_fresh=candidate.is_some() || decision.is_some_and(|d|d.fresh_required);
+                                    let reused=match candidate {
+                                        Some(candidate)=>cockpit_repository::reuse_local_node_in_run_with_task_authorization(repository_root,request,runtime,caller,candidate,local_run_identity),
+                                        None=>Ok(None),
+                                    };
+                                    let run = reused.and_then(|reused| match reused {
+                                        Some(run)=>Ok(run),
+                                        None=>cockpit_repository::run_repository_verification_with_local_node_guard(
                                         repository_root,
                                         request,
                                         runtime,
@@ -2994,11 +2975,13 @@ fn run() -> Result<()> {
                                         move |_node_id, _process_id, started| {
                                             process_concurrency.observe(started)
                                         },
-                                        cockpit_verification::VerificationSupervisorLaunch::new(
+                                        Some(cockpit_verification::VerificationSupervisorLaunch::new(
                                             supervisor_executable,
                                             vec!["__verification-supervisor".into()],
-                                        ),
-                                    );
+                                        )),
+                                        cockpit_repository::LocalNodeExecutionContext{own_run:local_run_identity,force_fresh},
+                                    ),
+                                    });
                                     let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
                                     let _ = progress_sender.send((node_id, Some(passed)));
                                     run
@@ -3209,6 +3192,24 @@ fn run() -> Result<()> {
             plan_receipt.saved_executions = run.receipt.nodes_reused;
             plan_receipt.timeout_seconds = run.receipt.timeout_seconds;
             run.receipt.plan_receipt = Some(plan_receipt);
+            let used_local_nodes=local_node_plan.iter().filter_map(|d|d.candidate.as_ref()).filter(|candidate|
+                run.receipt.results.iter().any(|r|r.node_id==candidate.node_id() && r.reused && r.receipt_id.as_deref()==candidate.projection()["nodeFactId"].as_str())).cloned().collect::<Vec<_>>();
+            if !used_local_nodes.is_empty() {
+                let mut final_local_phase="local_node_snapshot";
+                let final_local_check=(|| -> Result<()> {
+                    let current_snapshot=GitRepository::discover(&root)?.snapshot()?;
+                    if cockpit_repository::snapshot_digest(&current_snapshot)?!=cockpit_repository::snapshot_digest(&run.final_snapshot)? {anyhow::bail!("source changed before local reuse finalization");}
+                    final_local_phase="local_node_preconditions";
+                    cockpit_repository::require_verification_preconditions_with_caller(&root,work_item.as_deref().expect("WI local nodes"),&runtime_context,&current_snapshot,task_caller.as_ref())?;
+                    final_local_phase="local_node_candidates";
+                    cockpit_repository::require_local_node_candidates_current_in_run(&root,&requests,&current_snapshot,&runtime_context,&used_local_nodes,local_run_identity.as_ref())?;
+                    Ok(())
+                })();
+                if let Err(error)=final_local_check {
+                    return Err(interrupted_verification_error(interruption_checkpoint.as_ref(),std::slice::from_ref(&run),&[],&[],&[],final_local_phase,&error.to_string()));
+                }
+            }
+            reconcile_actual_local_node_projection(&mut planned_nodes,&run.receipt.results)?;
             let cost_observation = run.receipt.cost_observation();
             run.receipt.cost_observation = Some(cost_observation);
             // Keep the strict protocol receipt separate from CLI-only planning
@@ -3221,6 +3222,7 @@ fn run() -> Result<()> {
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
             output["plannedNodes"] = json!(planned_nodes);
+            output["declaredCoverage"] = declared_coverage;
             output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
                 &run.receipt.execution_records
             ));
@@ -3232,20 +3234,11 @@ fn run() -> Result<()> {
                     .filter(|result| !result.passed)
                     .map(|result| format!("{} ({})", result.node_id, result.reason))
                     .collect::<Vec<_>>();
-                if let Some(work_item_id) = work_item.as_deref() {
-                    let attempt = cockpit_repository::persist_verification_attempt(
-                        &root,
-                        work_item_id,
-                        &requests,
-                        &initial_snapshot,
-                        &runtime_context,
-                        "execution_failed",
-                        Some((
+                if work_item.is_some() {
+                    let attempt = persist_for_run(&initial_snapshot,"execution_failed",Some((
                             "verification_execution",
                             "one or more verification nodes failed",
-                        )),
-                        Some(&verification_receipt),
-                    );
+                        )),Some(&verification_receipt),None);
                     if let Err(error) = &attempt {
                         eprintln!("could not persist failed verification attempt: {error}");
                     }
@@ -3265,21 +3258,24 @@ fn run() -> Result<()> {
                 // it into completion evidence.  A later governance/schema
                 // rejection must therefore retain the child results for a
                 // safe reclassification or reuse decision.
-                let execution_attempt = cockpit_repository::persist_verification_attempt(
-                    &root,
-                    &work_item,
-                    &requests,
-                    &initial_snapshot,
-                    &runtime_context,
-                    "execution_completed",
-                    None,
-                    Some(&verification_receipt),
-                )
+                let execution_attempt = persist_for_run(&initial_snapshot,"execution_completed",if partial_declaration_selection {Some(("partial_declaration_coverage","Selected declarations completed; omitted declarations remain unverified; no formal evidence promotion."))} else {None},Some(&verification_receipt),None)
                 .context("persist verification attempt")?;
                 let execution_attempt_id = execution_attempt["attemptId"]
                     .as_str()
                     .context("persisted verification attempt has no identity")?
                     .to_owned();
+                if partial_declaration_selection {
+                    // Keep this exact execution attempt, but retain all prior formal
+                    // evidence, Summary/Outcome and complete-verification retry state.
+                    if let Some(checkpoint)=interruption_checkpoint.as_ref(){
+                        output["localRunCompletion"]=match checkpoint.record_local_run_completion(&execution_attempt){
+                            Ok(value)=>json!({"state":"recorded","checkpointId":value["checkpointId"]}),
+                            Err(_)=>json!({"state":"unavailable","reusePermitted":false}),
+                        };
+                    }
+                    println!("{}",serde_json::to_string_pretty(&output)?);
+                    return Ok(());
+                }
                 if archived_recovery {
                     if let Err(error) = cockpit_repository::record_archived_verification_recovery_with_runtime(
                         &root,
@@ -3301,17 +3297,7 @@ fn run() -> Result<()> {
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
-                        let recovery_attempt = cockpit_repository::persist_verification_attempt_superseding(
-                            &root,
-                            &work_item,
-                            &requests,
-                            &initial_snapshot,
-                            &runtime_context,
-                            "formal_receipt_rejected",
-                            Some(("formal_receipt", &error.to_string())),
-                            Some(&verification_receipt),
-                            &execution_attempt_id,
-                        );
+                        let recovery_attempt = persist_for_run(&initial_snapshot,"formal_receipt_rejected",Some(("formal_receipt", &error.to_string())),Some(&verification_receipt),Some(&execution_attempt_id));
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!("could not persist receipt rejection attempt: {persist_error}");
                         }
@@ -3327,17 +3313,7 @@ fn run() -> Result<()> {
                         task_caller.as_ref(),
                     ) {
                         let recovery_attempt =
-                            cockpit_repository::persist_verification_attempt_superseding(
-                                &root,
-                                &work_item,
-                                &requests,
-                                &initial_snapshot,
-                                &runtime_context,
-                                "formal_receipt_rejected",
-                                Some(("formal_receipt", &error.to_string())),
-                                Some(&verification_receipt),
-                                &execution_attempt_id,
-                            );
+                            persist_for_run(&initial_snapshot,"formal_receipt_rejected",Some(("formal_receipt", &error.to_string())),Some(&verification_receipt),Some(&execution_attempt_id));
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!(
                                 "could not persist receipt rejection attempt: {persist_error}"
@@ -3346,6 +3322,12 @@ fn run() -> Result<()> {
                         anyhow::bail!("record verification evidence: {error}");
                     }
                 }
+                    if let Some(checkpoint)=interruption_checkpoint.as_ref(){
+                        output["localRunCompletion"]=match checkpoint.record_local_run_completion(&execution_attempt){
+                            Ok(value)=>json!({"state":"recorded","checkpointId":value["checkpointId"]}),
+                            Err(_)=>json!({"state":"unavailable","reusePermitted":false}),
+                        };
+                    }
             }
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
@@ -6887,5 +6869,76 @@ mod tests {
             before,
             "a rejected CLI operation must not create a receipt"
         );
+    }
+}
+
+
+fn select_declared_nodes(requests:Vec<RepositoryVerificationRequest>,selected:&[String])->Result<Vec<RepositoryVerificationRequest>>{
+    let mut inventory=std::collections::BTreeSet::new();
+    for request in &requests {if !inventory.insert(request.node_id.clone()){anyhow::bail!("duplicate canonical declared node ID");}}
+    let mut wanted=std::collections::BTreeSet::new();
+    for id in selected {if !inventory.contains(id) || !wanted.insert(id.clone()){anyhow::bail!("unknown or duplicate declared node ID: {id}");}}
+    // RED scaffold: retain the validated whole inventory until selection is implemented.
+    Ok(requests)
+}
+#[cfg(test)]
+mod declared_node_selection_tests {
+    use super::*;
+    #[test]
+    fn declared_node_selection_preserves_inventory_order_and_rejects_unknown_duplicate_ids(){
+        let request=|id:&str|RepositoryVerificationRequest{node_id:id.into(),program:"cargo".into(),args:vec!["fmt".into()],scope:vec!["**".into()],stage:"task".into(),runner:"local".into(),runtime_digest:"runtime".into(),base_commit:None,workers:1,work_item_id:Some("WI-X".into()),timeout_seconds:Some(30),policy:RepositoryVerificationPolicy::NeverReuse};
+        let selected=select_declared_nodes(vec![request("first"),request("second")],&["second".into()]).unwrap();
+        assert_eq!(selected.len(),1);assert_eq!(selected[0].node_id,"second");assert_eq!(selected[0].program,"cargo");
+        assert!(select_declared_nodes(vec![request("first")],&["unknown".into()]).is_err());
+        assert!(select_declared_nodes(vec![request("first")],&["first".into(),"first".into()]).is_err());
+        assert!(select_declared_nodes(vec![request("first"),request("first")],&[]).is_err());
+        let both=select_declared_nodes(vec![request("first"),request("second")],&["second".into(),"first".into()]).unwrap();
+        assert_eq!(both.iter().map(|r|r.node_id.as_str()).collect::<Vec<_>>(),vec!["first","second"]);
+    }
+    #[test]
+    fn declared_node_parser_rejects_execution_overrides_and_requires_wi(){
+        for argv in [vec!["ai-cockpit","verify","--repo",".","--node","n"],
+            vec!["ai-cockpit","verify","--repo",".","--work-item","WI-X","--node","n","--command","sh"],
+            vec!["ai-cockpit","verify","--repo",".","--work-item","WI-X","--node","n","--args","-c,true"],
+            vec!["ai-cockpit","verify","--repo",".","--work-item","WI-X","--node","n","--archived-recovery"]] {
+            assert!(Cli::try_parse_from(argv).is_err());
+        }
+        assert!(Cli::try_parse_from(["ai-cockpit","verify","--repo",".","--work-item","WI-X","--node","canonical","--plan-only"]).is_ok());
+    }
+}
+
+fn reconcile_actual_local_node_projection(planned_nodes:&mut [serde_json::Value],results:&[cockpit_verification::VerificationResult])->anyhow::Result<()> {
+    for node in planned_nodes {
+                if let Some(result)=results.iter().find(|r|node["nodeId"]==r.node_id) {
+                    let local_used=result.reused && node["localNodeEvidence"]["nodeFactId"].as_str()==result.receipt_id.as_deref();
+                    if !local_used {
+                        let object=node.as_object_mut().expect("native planned node");
+                        if object.remove("localNodeEvidence").is_some(){object.insert("localNodeReuseReason".into(),json!("planned_candidate_not_used"));}
+                        object.remove("localNodeCostCompleteness");
+                        object.insert("reuseAuthorization".into(),json!(if result.reused{"profile_authorized"}else{"executed"}));
+                    }
+                    node["action"]=serde_json::to_value(&result.action)?;
+                    node["state"]=serde_json::to_value(&result.state)?;
+                    node["reason"]=json!(result.reason);
+                    node["satisfiedBy"]=serde_json::to_value(&result.satisfied_by)?;
+                    node["receiptId"]=json!(result.receipt_id);
+                }
+            }
+
+    Ok(())
+}
+
+#[cfg(test)]
+mod local_projection_regression_tests {
+    use super::*;
+    #[test]
+    fn invalid_candidate_fallback_clears_all_reuse_claims() {
+        let mut planned=vec![json!({"nodeId":"n","action":"reuse","state":"fresh","reason":"fresh_local_node_exact_binding","satisfiedBy":"reused_receipt","receiptId":"old","localNodeEvidence":{"nodeFactId":"old"},"localNodeCostCompleteness":"source_only","reuseAuthorization":"local"})];
+        let result=cockpit_verification::VerificationResult{node_id:"n".into(),passed:true,reused:false,protected:false,action:cockpit_verification::PlannedAction::Execute,state:cockpit_verification::PlannedState::Unknown,reason:"candidate_invalidated_before_execution".into(),receipt_id:None,output_digest:None,output_truncated:false,timed_out:false,satisfied_by:cockpit_verification::PlannedSatisfaction::Execution};
+        reconcile_actual_local_node_projection(&mut planned,&[result]).unwrap();
+        assert_eq!(planned[0]["action"],"execute");assert_eq!(planned[0]["state"],"unknown");assert_eq!(planned[0]["reason"],"candidate_invalidated_before_execution");
+        assert_eq!(planned[0]["reuseAuthorization"],"executed");assert!(planned[0]["receiptId"].is_null());
+        assert!(planned[0].get("localNodeEvidence").is_none());assert!(planned[0].get("localNodeCostCompleteness").is_none());
+        assert_ne!(planned[0]["satisfiedBy"],"reused_receipt");
     }
 }

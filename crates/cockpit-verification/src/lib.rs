@@ -1220,6 +1220,27 @@ pub struct VerificationCommand {
     timeout_seconds: u64,
 }
 
+
+/// Native capture of actual command inputs. Environment values are never serialized.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all="camelCase",deny_unknown_fields)]
+pub struct VerificationCommandInputIdentity {
+    pub schema_version:u32,
+    pub platform_os:String,
+    pub platform_arch:String,
+    pub program:String,
+    pub args:Vec<String>,
+    pub cwd_bytes:Option<Vec<u8>>,
+    pub resource_weight:usize,
+    pub clear_environment:bool,
+    pub timeout_seconds:u64,
+    pub dependencies:Vec<String>,
+    pub environment_complete:bool,
+    pub environment_digest:String,
+    pub environment_keys_digest:String,
+    pub command_digest:String,
+}
+
 impl VerificationCommand {
     pub fn new(
         id: &str,
@@ -1313,6 +1334,27 @@ impl VerificationCommand {
 
     pub fn timeout_seconds(&self) -> u64 {
         self.timeout_seconds
+    }
+
+
+    /// Capture from this exact prepared Command, before it is moved to the executor.
+    /// No identity filtering or sorting changes command_digest semantics.
+    pub fn input_identity(&self)->VerificationCommandInputIdentity {
+        let (program,args)=self.logical_identity.as_ref().map_or((&self.program,&self.args),|(p,a)|(p,a));
+        let environment=self.environment.iter().map(|(k,v)|(k.as_encoded_bytes(),v.as_encoded_bytes())).collect::<Vec<_>>();
+        let keys=self.environment.iter().map(|(k,_)|k.as_encoded_bytes()).collect::<Vec<_>>();
+        // Unix repository builders capture the complete inherited environment.
+        // Missing inherited inputs and unproven Windows key equivalence refuse reuse.
+        let environment_complete=cfg!(unix) && (self.clear_environment || std::env::vars_os().all(|(k,_)|self.environment.iter().any(|(name,_)|name==&k)));
+        VerificationCommandInputIdentity{
+            schema_version:1,platform_os:std::env::consts::OS.into(),platform_arch:std::env::consts::ARCH.into(),
+            program:program.clone(),args:args.clone(),cwd_bytes:self.current_dir.as_ref().map(|p|p.as_os_str().as_encoded_bytes().to_vec()),
+            resource_weight:self.resource_weight,clear_environment:self.clear_environment,timeout_seconds:self.timeout_seconds,
+            dependencies:self.dependencies.clone(),environment_complete,
+            environment_digest:Digest::sha256_bytes(&serde_json::to_vec(&environment).expect("OS environment serializable")).to_string(),
+            environment_keys_digest:Digest::sha256_bytes(&serde_json::to_vec(&keys).expect("OS keys serializable")).to_string(),
+            command_digest:self.command_digest(),
+        }
     }
 
     pub fn command_digest(&self) -> String {
@@ -7504,5 +7546,30 @@ mod supervisor_finalization_tests {
             elapsed < cap,
             "outer finalization exceeded its bound: {elapsed:?}"
         );
+    }
+}
+
+
+#[cfg(test)]
+mod local_node_input_identity_tests {
+    use super::*;
+    fn command()->VerificationCommand {
+        VerificationCommand::new("canonical","program",vec!["argument".into()],VerificationReusePolicy::NeverReuse)
+            .with_cleared_environment().with_environment(vec![("FIRST".into(),"private-value-never-serialized".into()),("SECOND".into(),"two".into())])
+            .with_current_dir(std::env::temp_dir()).with_timeout_seconds(37)
+    }
+    #[test]
+    fn local_node_input_preserves_every_execution_dimension_without_raw_environment() {
+        let base=command();let identity=base.input_identity();
+        let encoded=serde_json::to_string(&identity).unwrap();
+        assert!(!encoded.contains("private-value-never-serialized"));
+        for changed in [command().with_timeout_seconds(38),command().with_resource_weight(2),command().with_current_dir("other"),
+            command().with_dependencies(vec!["upstream".into()]),
+            command().with_environment(vec![("FIRST".into(),"changed".into()),("SECOND".into(),"two".into())]),
+            command().with_environment(vec![("SECOND".into(),"two".into()),("FIRST".into(),"private-value-never-serialized".into())])] {
+            assert_ne!(changed.input_identity(),identity);
+        }
+        let mut inherited=command();inherited.clear_environment=false;assert_ne!(inherited.input_identity(),identity);
+        let mut alias=command();alias.id="other-node".into();assert_eq!(alias.input_identity(),identity,"node association is not physical input identity");
     }
 }
