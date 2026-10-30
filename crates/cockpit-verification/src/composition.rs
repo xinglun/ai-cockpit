@@ -20,7 +20,7 @@ use std::sync::Arc;
 #[cfg(unix)]
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -3374,12 +3374,99 @@ fn linux_process_ancestor_ids(proc_root: &Path, process_id: u32) -> Result<BTree
 fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
     let user_id = unsafe { libc::getuid() }.to_string();
-    let output = Command::new("lsof")
+    let mut command = Command::new("lsof");
+    command
         .args(["-nP", "-Fpn", "-a", "-u", &user_id, "+D"])
-        .arg(&worktree)
-        .output()
-        .map_err(|error| format!("cannot inspect open worktree files: {error}"))?;
+        .arg(&worktree);
+    let output = capture_worktree_query(&mut command, Duration::from_secs(10))?;
     inspect_lsof_worktree_output(&worktree, &output)
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn capture_worktree_query(
+    command: &mut Command,
+    _timeout: Duration,
+) -> Result<std::process::Output, String> {
+    command
+        .output()
+        .map_err(|error| format!("cannot inspect open worktree files: {error}"))
+}
+
+#[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
+mod worktree_query_execution_tests {
+    use super::capture_worktree_query;
+    use std::io::Write;
+    use std::process::Command;
+    use std::time::{Duration, Instant};
+
+    fn fixture(mode: &str) -> Command {
+        let mut command = Command::new(std::env::current_exe().expect("test executable"));
+        command
+            .args([
+                "--exact",
+                "composition::worktree_query_execution_tests::worktree_query_child",
+                "--nocapture",
+            ])
+            .env("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD", mode);
+        command
+    }
+
+    #[test]
+    fn worktree_query_child() {
+        let Ok(mode) = std::env::var("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD") else {
+            return;
+        };
+        match mode.as_str() {
+            "timeout" => std::thread::sleep(Duration::from_millis(1500)),
+            "oversize" => std::io::stdout()
+                .write_all(&vec![b'x'; 128 * 1024])
+                .expect("fixture stdout"),
+            "nonzero" => {
+                std::io::stderr()
+                    .write_all(b"query fixture denied\n")
+                    .expect("fixture stderr");
+                std::process::exit(7);
+            }
+            "no_match" => std::process::exit(1),
+            "complete" => std::io::stdout()
+                .write_all(b"query fixture complete\n")
+                .expect("fixture stdout"),
+            other => panic!("unknown test fixture mode {other}"),
+        }
+        std::io::stdout().flush().expect("fixture flush");
+    }
+
+    #[test]
+    fn worktree_query_timeout_is_not_complete_output() {
+        let started = Instant::now();
+        let result = capture_worktree_query(&mut fixture("timeout"), Duration::from_millis(80));
+        assert!(result.is_err(), "a timed-out query must remain unknown");
+        assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[test]
+    fn worktree_query_output_limit_is_not_complete_output() {
+        let result = capture_worktree_query(&mut fixture("oversize"), Duration::from_secs(2));
+        assert!(result.is_err(), "an oversized query must remain unknown");
+    }
+
+    #[test]
+    fn worktree_query_preserves_complete_output_and_actual_status() {
+        let output = capture_worktree_query(&mut fixture("complete"), Duration::from_secs(2))
+            .expect("complete query");
+        assert!(output.status.success());
+        assert!(output
+            .stdout
+            .windows(b"query fixture complete\n".len())
+            .any(|bytes| bytes == b"query fixture complete\n"));
+        let output = capture_worktree_query(&mut fixture("nonzero"), Duration::from_secs(2))
+            .expect("completed nonzero query");
+        assert_eq!(output.status.code(), Some(7));
+        assert_eq!(output.stderr, b"query fixture denied\n");
+        let output = capture_worktree_query(&mut fixture("no_match"), Duration::from_secs(2))
+            .expect("completed no-match query");
+        assert_eq!(output.status.code(), Some(1));
+    }
 }
 
 #[cfg(any(target_os = "macos", all(test, unix)))]
