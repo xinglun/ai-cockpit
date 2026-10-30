@@ -1824,10 +1824,16 @@ fn node_subset_without_formal_baseline_cannot_promote_status_or_finish() {
     assert_eq!(status["evidenceFreshness"]["state"], "missing");
     let finish = run_output(binary, &["finish", "--id", "WI-NODE-SUBSET"], repo);
     assert!(!finish.status.success());
+    let finish_error = String::from_utf8_lossy(&finish.stderr);
+    // Admission also reports the fixture's undeclared acceptance/benefit;
+    // require the verification-specific blocker without claiming it is alone.
     assert!(
-        String::from_utf8_lossy(&finish.stderr).contains("recorded verification receipt"),
-        "{}",
-        String::from_utf8_lossy(&finish.stderr)
+        finish_error.contains("current action admission rejected requested action \"finish\""),
+        "{finish_error}"
+    );
+    assert!(
+        finish_error.contains("\"verification_evidence_missing\""),
+        "{finish_error}"
     );
     let failed_status = run(
         binary,
@@ -1846,7 +1852,9 @@ fn node_subset_without_formal_baseline_cannot_promote_status_or_finish() {
         &fs::read(repo.join(".ai/work-items/active/WI-NODE-SUBSET.summary.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(summary["failedGate"], "finish.verification");
+    // This refusal occurs at current action admission, before the later
+    // recorded-receipt check, so its real failure projection is lifecycle.
+    assert_eq!(summary["failedGate"], "finish.lifecycle");
 }
 
 #[cfg(target_os = "linux")]
@@ -2039,7 +2047,9 @@ fn cli_causal_failure_cannot_fall_back_to_the_older_real_profile_receipt() {
         base_commit: descriptor["baseCommit"].as_str().map(str::to_owned),
         workers: 1,
         work_item_id: Some("WI-DUAL-CACHE".into()),
-        timeout_seconds: descriptor["timeoutSeconds"].as_u64(),
+        // The original CLI verify omitted --timeout-seconds. The descriptor
+        // records its effective deadline, not an explicit override grant.
+        timeout_seconds: None,
         policy: cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized,
     };
     let now = || {
@@ -2057,6 +2067,14 @@ fn cli_causal_failure_cannot_fall_back_to_the_older_real_profile_receipt() {
     let legacy =
         cockpit_repository::plan_repository_verification_action(&repo, &request, &snapshot, now())
             .unwrap();
+    assert_eq!(
+        legacy["timeoutSeconds"], descriptor["timeoutSeconds"],
+        "reconstructed implicit timeout must retain the native effective deadline"
+    );
+    assert_eq!(
+        legacy["identityBinding"]["commandDigest"], descriptor["commandDigest"],
+        "reconstructed declaration must retain the native command identity"
+    );
     assert_eq!(
         legacy["action"], "reuse",
         "must start with an actual old profile receipt, not just a local candidate"
