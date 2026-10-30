@@ -99,6 +99,7 @@ where
     if let Some(failure) = &observed.collection.failure {
         gaps.push(failure.clone());
     }
+    gaps.extend(observed.diagnostic_gaps);
     let state = if observed.rejected {
         GithubPlanState::MetadataRejected
     } else if observed.collection.complete {

@@ -107,6 +107,7 @@ fn ci_admission_complete_metadata_collection_stays_non_admitting_and_has_real_mi
             .contains(&json!("producer_runtime_unverified"))
     );
     assert_eq!(p.collection.requests.len(), 5);
+    assert!(p.diagnostic_gaps.is_empty());
     assert!(!p.rejected);
 }
 
@@ -188,6 +189,16 @@ fn ci_admission_non_success_and_oversized_responses_never_complete() {
         p.collection.failure.as_deref(),
         Some("provider_http_status_403")
     );
+    assert!(has_tag(
+        &p.diagnostic_gaps,
+        "provider_diagnostic_source_collector_http_status"
+    ));
+    assert!(has_tag(
+        &p.diagnostic_gaps,
+        "provider_diagnostic_http_status_403_observed"
+    ));
+    assert!(p.collection.requests.is_empty());
+    assert!(p.metadata.is_none());
     assert!(!p.collection.complete);
     let mut r = fixture();
     r.replies[0].1.body = vec![b' '; 8 * 1024 * 1024 + 1];
@@ -420,4 +431,355 @@ fn ci_admission_source_drift_is_an_explicit_gap_and_never_acceptance() {
             .join(format!(".ai/evidence/{SERVICE_WI}.verification.json"))
             .exists()
     );
+}
+
+// Proposed diagnostic regression cases. No network is used by these cases.
+fn diagnostic_tags(failure: &Failure) -> Vec<String> {
+    match failure {
+        Failure::Transport(tags) => tags.clone(),
+        other => panic!("expected transport failure, got {other:?}"),
+    }
+}
+
+fn has_tag(tags: &[String], expected: &str) -> bool {
+    tags.iter().any(|tag| tag == expected)
+}
+
+#[test]
+fn ci_admission_transport_phase_requires_typed_ureq_evidence_not_elapsed_time() {
+    for (error, source, phase) in [
+        (
+            ureq::Error::HostNotFound,
+            "source_ureq_host_not_found",
+            "phase_resolve",
+        ),
+        (
+            ureq::Error::Tls("DO_NOT_ECHO_TLS_DETAIL"),
+            "source_ureq_tls",
+            "phase_tls",
+        ),
+        (
+            ureq::Error::ConnectionFailed,
+            "source_ureq_connection_failed",
+            "phase_unknown",
+        ),
+        (
+            ureq::Error::TlsRequired,
+            "source_ureq_tls_required",
+            "phase_unknown",
+        ),
+    ] {
+        let failure = github::request_failure(&error);
+        let tags = diagnostic_tags(&failure);
+        assert!(has_tag(&tags, "provider_diagnostic_stage_request_call"));
+        assert!(has_tag(&tags, &format!("provider_diagnostic_{source}")));
+        assert!(has_tag(&tags, &format!("provider_diagnostic_{phase}")));
+        assert!(!tags.iter().any(|tag| tag.contains("DO_NOT_ECHO")
+            || tag.contains("phase_tcp")
+            || tag.contains("handshake")));
+    }
+}
+
+#[test]
+fn ci_admission_timeout_scope_preserves_global_unknown_and_connect_setup_ambiguity() {
+    for (timeout, scope, phase) in [
+        (ureq::Timeout::Global, "global", "unknown"),
+        (ureq::Timeout::PerCall, "per_call", "unknown"),
+        (ureq::Timeout::Connect, "connect", "connect_setup"),
+        (ureq::Timeout::Resolve, "resolve", "resolve"),
+        (
+            ureq::Timeout::RecvResponse,
+            "receive_headers",
+            "receive_headers",
+        ),
+        (ureq::Timeout::RecvBody, "receive_body", "receive_body"),
+        (ureq::Timeout::PerRead, "per_read", "transport_read"),
+    ] {
+        let tags = diagnostic_tags(&github::request_failure(&ureq::Error::Timeout(timeout)));
+        assert!(has_tag(&tags, "provider_diagnostic_kind_timeout"));
+        assert!(has_tag(
+            &tags,
+            &format!("provider_diagnostic_timeout_scope_{scope}")
+        ));
+        assert!(has_tag(
+            &tags,
+            &format!("provider_diagnostic_phase_{phase}")
+        ));
+        assert!(
+            !tags
+                .iter()
+                .any(|tag| tag.contains("phase_tcp") || tag.contains("handshake"))
+        );
+    }
+}
+
+#[test]
+fn ci_admission_io_kind_is_preserved_without_inventing_a_network_phase() {
+    for (kind, want) in [
+        (std::io::ErrorKind::TimedOut, "timed_out"),
+        (std::io::ErrorKind::ConnectionRefused, "connection_refused"),
+        (std::io::ErrorKind::ConnectionReset, "connection_reset"),
+        (std::io::ErrorKind::UnexpectedEof, "unexpected_eof"),
+        (std::io::ErrorKind::Other, "other"),
+    ] {
+        let error = ureq::Error::Io(std::io::Error::new(
+            kind,
+            "DNS TLS timeout HTTP 403 https://secret.invalid/?token=SECRET",
+        ));
+        let tags = diagnostic_tags(&github::request_failure(&error));
+        assert!(has_tag(&tags, "provider_diagnostic_source_ureq_io"));
+        assert!(has_tag(
+            &tags,
+            &format!("provider_diagnostic_io_kind_{want}")
+        ));
+        assert!(has_tag(&tags, "provider_diagnostic_phase_unknown"));
+        assert!(!tags.iter().any(|tag| tag.contains("SECRET")
+            || tag.contains("secret.invalid")
+            || tag.contains("phase_resolve")
+            || tag.contains("phase_tls")
+            || tag.contains("http_status_403")));
+    }
+}
+
+#[test]
+fn ci_admission_raw_os_error_is_numeric_evidence_not_a_phase_guess() {
+    let tags = diagnostic_tags(&github::body_failure(&std::io::Error::from_raw_os_error(
+        12345,
+    )));
+    assert!(has_tag(&tags, "provider_diagnostic_io_os_error_12345"));
+    assert!(has_tag(&tags, "provider_diagnostic_phase_unknown"));
+}
+
+#[test]
+fn ci_admission_body_read_unwraps_only_real_typed_ureq_io_payload() {
+    let error = ureq::Error::Timeout(ureq::Timeout::RecvBody).into_io();
+    let tags = diagnostic_tags(&github::body_failure(&error));
+    for expected in [
+        "provider_diagnostic_stage_response_body_read",
+        "provider_diagnostic_http_status_200_observed",
+        "provider_diagnostic_source_std_io",
+        "provider_diagnostic_source_std_io_wrapped_ureq",
+        "provider_diagnostic_source_ureq_timeout",
+        "provider_diagnostic_phase_receive_body",
+        "provider_diagnostic_kind_timeout",
+    ] {
+        assert!(has_tag(&tags, expected), "missing {expected}: {tags:?}");
+    }
+}
+
+#[derive(Debug)]
+struct DoNotFormat;
+impl std::fmt::Display for DoNotFormat {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        panic!("raw diagnostic formatter must not be called")
+    }
+}
+impl std::error::Error for DoNotFormat {}
+
+#[test]
+fn ci_admission_unknown_errors_are_redacted_without_display_or_debug_fallback() {
+    let error = ureq::Error::Other(Box::new(DoNotFormat));
+    let tags = diagnostic_tags(&github::request_failure(&error));
+    assert!(has_tag(&tags, "provider_diagnostic_source_ureq_other"));
+    assert!(has_tag(&tags, "provider_diagnostic_kind_unknown"));
+    assert!(has_tag(&tags, "provider_diagnostic_phase_unknown"));
+    let text = serde_json::to_string(&tags).unwrap();
+    assert!(!text.contains("DoNotFormat"));
+    let error = std::io::Error::other(
+        "Authorization: Bearer SECRET\nCookie: secret\nhttps://secret.invalid/path?token=SECRET\nBODY",
+    );
+    let text = serde_json::to_string(&diagnostic_tags(&github::body_failure(&error))).unwrap();
+    for secret in [
+        "Authorization",
+        "Bearer",
+        "SECRET",
+        "Cookie",
+        "secret.invalid",
+        "token=",
+        "BODY",
+    ] {
+        assert!(!text.contains(secret), "leaked {secret}");
+    }
+}
+
+#[test]
+fn ci_admission_wrapped_error_inspection_is_bounded_and_stays_unknown_at_limit() {
+    let mut error = ureq::Error::HostNotFound;
+    for _ in 0..16 {
+        error = ureq::Error::Io(std::io::Error::other(error));
+    }
+    let tags = diagnostic_tags(&github::request_failure(&error));
+    assert!(has_tag(&tags, "provider_diagnostic_source_wrapper_limit"));
+    assert!(has_tag(&tags, "provider_diagnostic_kind_unknown"));
+    assert!(has_tag(&tags, "provider_diagnostic_phase_unknown"));
+    assert!(!has_tag(&tags, "provider_diagnostic_phase_resolve"));
+    assert!(tags.len() <= 24);
+}
+
+#[test]
+fn ci_admission_deadline_priority_keeps_prior_typed_diagnostic_separately() {
+    let (result, tags) = github::collection_result_with_diagnostics::<()>(
+        Err(github::request_failure(&ureq::Error::HostNotFound)),
+        Instant::now(),
+    );
+    assert_eq!(result, Err(Failure::Deadline));
+    assert!(has_tag(
+        &tags,
+        "provider_diagnostic_source_ureq_host_not_found"
+    ));
+    assert!(has_tag(&tags, "provider_diagnostic_phase_resolve"));
+    let (result, tags) = github::collection_result_with_diagnostics::<()>(
+        Err(Failure::HttpStatus(403)),
+        Instant::now(),
+    );
+    assert_eq!(result, Err(Failure::Deadline));
+    assert!(has_tag(
+        &tags,
+        "provider_diagnostic_http_status_403_observed"
+    ));
+}
+
+struct FailureReader {
+    failure: Option<Failure>,
+    calls: usize,
+}
+impl MetadataReader for FailureReader {
+    fn read(&mut self, _: &str, _: bool, _: Instant) -> Result<Reply, Failure> {
+        self.calls += 1;
+        Err(self.failure.take().expect("collector must not retry"))
+    }
+}
+
+#[test]
+fn ci_admission_transport_diagnostics_keep_stable_failure_and_no_complete_observation() {
+    let mut reader = FailureReader {
+        failure: Some(github::body_failure(&std::io::Error::new(
+            std::io::ErrorKind::UnexpectedEof,
+            "SECRET",
+        ))),
+        calls: 0,
+    };
+    let collected = github::collect_with(&selector(), &mut reader, Duration::from_secs(60));
+    assert_eq!(reader.calls, 1);
+    assert_eq!(
+        collected.collection.failure.as_deref(),
+        Some("provider_transport_unavailable")
+    );
+    assert!(!collected.collection.complete);
+    assert_eq!(collected.collection.assurance, "not_observed");
+    assert!(collected.collection.requests.is_empty());
+    assert!(collected.metadata.is_none());
+    assert!(!collected.rejected);
+    assert!(has_tag(
+        &collected.diagnostic_gaps,
+        "provider_diagnostic_http_status_200_observed"
+    ));
+}
+
+#[test]
+fn ci_admission_diagnostic_tags_use_existing_plan_gaps_without_acceptance_or_writes() {
+    let (root, runtime, caller) = service_fixture();
+    let plan = super::plan_with_collection(
+        root.path(),
+        SERVICE_WI,
+        &selector(),
+        &runtime,
+        Some(&caller),
+        |_| {
+            let mut reader = FailureReader {
+                failure: Some(github::request_failure(&ureq::Error::HostNotFound)),
+                calls: 0,
+            };
+            github::collect_with(&selector(), &mut reader, Duration::from_secs(60))
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        plan.state,
+        cockpit_protocol::ci_admission::GithubPlanState::ProviderUnavailable
+    );
+    assert_eq!(
+        plan.collection.failure.as_deref(),
+        Some("provider_transport_unavailable")
+    );
+    assert!(!plan.collection.complete);
+    assert!(plan.collection.requests.is_empty());
+    assert!(plan.metadata.is_none());
+    assert!(has_tag(&plan.gaps, "provider_transport_unavailable"));
+    assert!(has_tag(
+        &plan.gaps,
+        "provider_diagnostic_source_ureq_host_not_found"
+    ));
+    for gap in [
+        "admission_not_implemented",
+        "producer_runtime_unverified",
+        "native_receipt_not_inspected",
+    ] {
+        assert!(has_tag(&plan.gaps, gap));
+    }
+    assert_eq!(
+        plan.admission,
+        cockpit_protocol::ci_admission::GithubPlanAdmission::NotAttempted
+    );
+    assert_eq!(plan.verification_commands_executed, 0);
+    assert_eq!(plan.writes_performed, 0);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{SERVICE_WI}.verification.json"))
+            .exists()
+    );
+    let value = serde_json::to_value(&plan).unwrap();
+    assert_eq!(value["schemaVersion"], 1);
+    assert!(value.get("diagnostics").is_none());
+    assert!(value["collection"].get("diagnostics").is_none());
+    assert!(!value.to_string().contains("SECRET"));
+}
+
+#[test]
+fn ci_admission_collector_deadline_wins_after_reader_returns_typed_transport_error() {
+    struct OverdueTransportReader {
+        calls: usize,
+        returned_after_deadline: bool,
+    }
+    impl MetadataReader for OverdueTransportReader {
+        fn read(&mut self, _: &str, _: bool, deadline: Instant) -> Result<Reply, Failure> {
+            self.calls += 1;
+            // Condition-driven: return the typed error only after this actual
+            // collection deadline, not after an unrelated guessed sleep.
+            while let Some(remaining) = deadline.checked_duration_since(Instant::now()) {
+                std::thread::sleep(remaining);
+            }
+            self.returned_after_deadline = true;
+            Err(github::request_failure(&ureq::Error::HostNotFound))
+        }
+    }
+    let mut reader = OverdueTransportReader {
+        calls: 0,
+        returned_after_deadline: false,
+    };
+    let collected = github::collect_with(&selector(), &mut reader, Duration::from_secs(1));
+    assert_eq!(reader.calls, 1);
+    assert!(reader.returned_after_deadline);
+    assert_eq!(
+        collected.collection.failure.as_deref(),
+        Some("provider_collection_deadline")
+    );
+    assert!(!collected.collection.complete);
+    assert_eq!(collected.collection.assurance, "not_observed");
+    assert!(collected.collection.requests.is_empty());
+    assert!(collected.metadata.is_none());
+    assert!(!collected.rejected);
+    for expected in [
+        "provider_diagnostic_stage_request_call",
+        "provider_diagnostic_source_ureq_host_not_found",
+        "provider_diagnostic_kind_host_not_found",
+        "provider_diagnostic_phase_resolve",
+    ] {
+        assert!(
+            has_tag(&collected.diagnostic_gaps, expected),
+            "missing {expected}: {:?}",
+            collected.diagnostic_gaps
+        );
+    }
 }

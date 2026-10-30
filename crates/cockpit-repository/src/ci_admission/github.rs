@@ -18,11 +18,12 @@ pub(super) struct Collected {
     pub collection: GithubCollectionReport,
     pub metadata: Option<serde_json::Value>,
     pub rejected: bool,
+    pub diagnostic_gaps: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub(super) enum Failure {
-    Transport,
+    Transport(Vec<String>),
     Deadline,
     BodyLimit,
     TotalLimit,
@@ -35,7 +36,7 @@ pub(super) enum Failure {
 impl Failure {
     fn code(&self) -> String {
         match self {
-            Self::Transport => "provider_transport_unavailable".into(),
+            Self::Transport(_) => "provider_transport_unavailable".into(),
             Self::Deadline => "provider_collection_deadline".into(),
             Self::BodyLimit => "provider_response_size_limit".into(),
             Self::TotalLimit => "provider_aggregate_size_limit".into(),
@@ -43,6 +44,13 @@ impl Failure {
             Self::Metadata => "provider_metadata_invalid".into(),
             Self::Route => "provider_request_route_rejected".into(),
             Self::HttpStatus(status) => format!("provider_http_status_{status}"),
+        }
+    }
+
+    fn diagnostic_gaps(&self) -> Vec<String> {
+        match self {
+            Self::Transport(tags) => tags.clone(),
+            _ => Vec::new(),
         }
     }
 }
@@ -57,6 +65,16 @@ pub(super) struct Reply {
 // a public provider-authenticated capability from caller JSON.
 pub(super) trait MetadataReader {
     fn read(&mut self, path: &str, raw: bool, deadline: Instant) -> Result<Reply, Failure>;
+}
+
+// API-complete conservative scaffold for an assertion-level RED run.
+// No raw error is formatted and no diagnostic tag is emitted by these adapters.
+pub(super) fn request_failure(_error: &ureq::Error) -> Failure {
+    Failure::Transport(Vec::new())
+}
+
+pub(super) fn body_failure(_error: &std::io::Error) -> Failure {
+    Failure::Transport(Vec::new())
 }
 
 struct HttpsReader;
@@ -89,7 +107,7 @@ impl MetadataReader for HttpsReader {
             )
             .header("User-Agent", "ai-cockpit-github-verification-plan")
             .call()
-            .map_err(|_| Failure::Transport)?;
+            .map_err(|error| request_failure(&error))?;
         let status = response.status().as_u16();
         if status != 200 {
             return Err(Failure::HttpStatus(status));
@@ -101,7 +119,7 @@ impl MetadataReader for HttpsReader {
             .as_reader()
             .take((BODY_LIMIT + 1) as u64)
             .read_to_end(&mut body)
-            .map_err(|_| Failure::Transport)?;
+            .map_err(|error| body_failure(&error))?;
         if body.len() > BODY_LIMIT {
             return Err(Failure::BodyLimit);
         }
@@ -284,7 +302,7 @@ pub(super) fn collect_with<R: MetadataReader>(
     let result = collect_snapshot(selector, &mut session);
     // Parsing/projection is synchronous. Reject a result that outlived the same
     // collection deadline; this check does not interrupt that work mid-parse.
-    let result = collection_result_before_deadline(result, session.deadline);
+    let (result, diagnostic_gaps) = collection_result_with_diagnostics(result, session.deadline);
     let (metadata, failure, rejected) = match result {
         Ok((value, rejected)) => (Some(value), None, rejected),
         Err(e) => (
@@ -310,7 +328,22 @@ pub(super) fn collect_with<R: MetadataReader>(
         },
         metadata,
         rejected,
+        diagnostic_gaps,
     }
+}
+
+// Preserve original typed diagnostic evidence before the existing deadline
+// precedence can replace the primary failure. This changes no success decision.
+pub(super) fn collection_result_with_diagnostics<T>(
+    result: Result<T, Failure>,
+    deadline: Instant,
+) -> (Result<T, Failure>, Vec<String>) {
+    let tags = result
+        .as_ref()
+        .err()
+        .map(Failure::diagnostic_gaps)
+        .unwrap_or_default();
+    (collection_result_before_deadline(result, deadline), tags)
 }
 
 pub(super) fn collection_result_before_deadline<T>(
