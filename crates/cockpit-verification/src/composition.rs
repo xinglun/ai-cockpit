@@ -3576,6 +3576,26 @@ mod worktree_query_execution_tests {
     use std::process::Command;
     use std::time::{Duration, Instant};
 
+    struct QueryFixtureDirectory(std::path::PathBuf);
+
+    impl QueryFixtureDirectory {
+        fn new() -> Self {
+            let path = super::unique_composition_parent();
+            super::create_private_composition_parent(&path).expect("exclusive private fixture directory");
+            Self(path)
+        }
+
+        fn path(&self) -> &std::path::Path {
+            &self.0
+        }
+    }
+
+    impl Drop for QueryFixtureDirectory {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
     fn fixture(mode: &str) -> Command {
         let mut command = Command::new(std::env::current_exe().expect("test executable"));
         command
@@ -3767,7 +3787,7 @@ mod worktree_query_execution_tests {
             super::initialize_composition_supervisor_backend().expect("fixture owner backend"),
             super::CompositionSupervisorBackend::LinuxSubreaper
         );
-        let root = tempfile::TempDir::new().expect("private pipe fixture directory");
+        let root = QueryFixtureDirectory::new();
         let nonce = format!("{}-{}", std::process::id(), root.path().display());
         let mut command = Command::new("/bin/sh");
         command
@@ -3848,7 +3868,7 @@ mod worktree_query_execution_tests {
 
     #[test]
     fn worktree_query_launch_failure_stays_unknown() {
-        let directory = tempfile::TempDir::new().expect("fixture directory");
+        let directory = QueryFixtureDirectory::new();
         let mut command = Command::new(directory.path().join("missing-query-executable"));
         let error = capture_worktree_query(&mut command, Duration::from_secs(2))
             .expect_err("a missing query cannot prove absence of references");
