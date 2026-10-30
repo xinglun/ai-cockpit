@@ -3,7 +3,7 @@ use super::{
     EvidenceState, GovernanceDecision, HumanBenefitReport, LifecycleReceipt,
     MAX_EXTERNAL_EVIDENCE_BYTES, NEXT_ATOMIC_WRITE_ID, ObservationPhase, ObserverError,
     OutcomeState, OutcomeV2, RecoveryDecisionReceipt, RepositoryExecutionContext,
-    RepositorySnapshot, RepositoryVerificationRequest, RuntimeContext,
+    RepositorySnapshot, RepositoryVerificationRequest, RepositoryVerificationRun, RuntimeContext,
     SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeReport, TaskOutcomeReportInput,
     VerificationCaptureMode, VerificationEvidenceEnvelope, WorkItemScaffoldFacts,
     WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
