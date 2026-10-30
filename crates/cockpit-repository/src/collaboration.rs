@@ -3369,10 +3369,10 @@ impl NativeCompositionParentStore {
         if directory_change_token(&handle).map_err(|error| error.to_string())? != before {
             return Err("child catalog changed during registration read".into());
         }
-        if let Some((parent_handle, token)) = parent_read_token {
-            if directory_change_token(&parent_handle).map_err(|error| error.to_string())? != token {
-                return Err("parent observations changed during registration read".into());
-            }
+        if let Some((parent_handle, token)) = parent_read_token
+            && directory_change_token(&parent_handle).map_err(|error| error.to_string())? != token
+        {
+            return Err("parent observations changed during registration read".into());
         }
         self.require_current()?;
         cockpit_verification::CompositionParentCatalog::from_native_observations(
