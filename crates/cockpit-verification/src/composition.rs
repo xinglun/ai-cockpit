@@ -655,6 +655,459 @@ fn legacy_node_identity_digest() -> Digest {
     Digest::sha256_bytes(b"legacy-composition-node-identity")
 }
 
+// Parent observations are additional native execution facts, not replacement
+// child attempts or caller-supplied permission. Publishing one never authorizes
+// verification, reuse, cleanup or a lifecycle transition.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentIdentity {
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub binding: CompositionBinding,
+    pub launch_input_identity: CompositionIdentity,
+    pub generation: u64,
+    pub owner: CompositionProcessIdentity,
+    pub child_pid: u32,
+    pub observed_supervisor: Option<CompositionProcessIdentity>,
+    pub registered_receipt: Option<CompositionSupervisorReceipt>,
+    pub command_plan_digest: Digest,
+    pub input_environment_digest: Digest,
+    pub attempt_started_at_unix_nanos: u128,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentCleanup {
+    pub child_reaped: Option<bool>,
+    pub exit_code: Option<i32>,
+    pub termination_signal: Option<i32>,
+    pub actions: Vec<String>,
+    pub diagnostic: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "state", rename_all = "snake_case", deny_unknown_fields)]
+pub enum CompositionParentEvent {
+    Failure {
+        phase: String,
+        diagnostic: String,
+        release_may_have_been_delivered: bool,
+    },
+    Cleanup {
+        failure_observation_id: Digest,
+        facts: CompositionParentCleanup,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentObservationFacts {
+    pub schema_version: u32,
+    pub kind: String,
+    pub identity: CompositionParentIdentity,
+    pub event: CompositionParentEvent,
+    pub observed_at_unix_nanos: u128,
+    pub passed: bool,
+    pub post_execution_identity_validated: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentObservation {
+    pub observation_id: Digest,
+    pub facts: CompositionParentObservationFacts,
+}
+
+impl CompositionParentObservation {
+    pub fn new(
+        identity: CompositionParentIdentity,
+        event: CompositionParentEvent,
+        observed_at_unix_nanos: u128,
+    ) -> Result<Self, CompositionError> {
+        let facts = CompositionParentObservationFacts {
+            schema_version: 1,
+            kind: "composition_parent_observation".into(),
+            identity,
+            event,
+            observed_at_unix_nanos,
+            passed: false,
+            post_execution_identity_validated: false,
+        };
+        let observation_id = composition_parent_observation_digest(&facts)?;
+        let observation = Self {
+            observation_id,
+            facts,
+        };
+        observation.validate()?;
+        Ok(observation)
+    }
+
+    pub fn validate(&self) -> Result<(), CompositionError> {
+        let identity = &self.facts.identity;
+        validate_binding(&identity.binding)?;
+        let id_bytes = serde_json::to_vec(&(
+            &identity.binding,
+            &identity.launch_input_identity,
+            &identity.run_nonce,
+        ))
+        .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let expected_id = format!("composition-{}", Digest::sha256_bytes(&id_bytes));
+        if self.facts.schema_version != 1
+            || self.facts.kind != "composition_parent_observation"
+            || self.facts.passed
+            || self.facts.post_execution_identity_validated
+            || self.observation_id != composition_parent_observation_digest(&self.facts)?
+            || !(2..=i32::MAX as u32).contains(&identity.child_pid)
+            || identity.attempt_started_at_unix_nanos == 0
+            || self.facts.observed_at_unix_nanos == 0
+            || identity.owner.process_id == 0
+            || identity.run_nonce.is_empty()
+            || identity.attempt_id != expected_id
+            || identity
+                .observed_supervisor
+                .as_ref()
+                .is_some_and(|process| process.process_id != identity.child_pid)
+            || identity.registered_receipt.as_ref().is_some_and(|receipt| {
+                receipt.attempt_id != identity.attempt_id
+                    || receipt.run_nonce != identity.run_nonce
+                    || receipt.generation != identity.generation
+                    || receipt.owner != identity.owner
+                    || receipt.supervisor.process_id != identity.child_pid
+                    || identity.observed_supervisor.as_ref() != Some(&receipt.supervisor)
+                    || receipt.runtime_version != identity.binding.verifier.runtime_version
+                    || receipt.runtime_digest != identity.binding.verifier.runtime_digest
+                    || receipt.repository_id != identity.binding.repository_id
+                    || receipt.target_sha != identity.binding.target_sha
+                    || receipt.command_plan_digest != identity.command_plan_digest
+                    || receipt.input_environment_digest != identity.input_environment_digest
+            })
+        {
+            return Err(CompositionError::Serialization(
+                "composition parent observation identity/digest mismatch".into(),
+            ));
+        }
+        if matches!(
+            self.facts.event,
+            CompositionParentEvent::Failure {
+                release_may_have_been_delivered: true,
+                ..
+            }
+        ) && identity.registered_receipt.is_none()
+        {
+            return Err(CompositionError::Serialization(
+                "Release observation lacks the bound registered receipt".into(),
+            ));
+        }
+        if let CompositionParentEvent::Cleanup { facts, .. } = &self.facts.event {
+            if facts.child_reaped != Some(true)
+                && (facts.exit_code.is_some() || facts.termination_signal.is_some())
+                || facts.exit_code.is_some() && facts.termination_signal.is_some()
+            {
+                return Err(CompositionError::Serialization(
+                    "composition parent cleanup facts contradict exit/reap state".into(),
+                ));
+            }
+        }
+        Ok(())
+    }
+}
+
+fn composition_parent_observation_digest(
+    facts: &CompositionParentObservationFacts,
+) -> Result<Digest, CompositionError> {
+    let bytes = serde_json::to_vec(&("ai-cockpit:composition-parent-observation:v1", facts))
+        .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
+// A view keeps raw child evidence intact. parent_failures affects authority to
+// project/reuse that exact attempt, without changing its real exit/output,
+// cleanup disposition, ECHILD proof or stored bytes.
+#[derive(Clone, Debug)]
+pub struct CompositionParentView {
+    pub attempt_id: String,
+    pub binding: CompositionBinding,
+    pub recorded_at_unix_nanos: u128,
+    pub child_attempt: Option<CompositionAttempt>,
+    pub parent_failures: Vec<CompositionParentObservation>,
+    pub parent_cleanup: Vec<CompositionParentObservation>,
+    pub parent_context_valid: bool,
+}
+
+impl CompositionParentView {
+    pub fn has_parent_failure(&self) -> bool {
+        !self.parent_failures.is_empty()
+    }
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct CompositionParentCatalog {
+    views: Vec<CompositionParentView>,
+    registrations: Option<Vec<CompositionSupervisorReceipt>>,
+}
+
+impl CompositionParentCatalog {
+    // Pure identity validation only. The repository-owned caller must acquire
+    // native originals through the pinned bounded reader, not an external
+    // artifact or an input JSON assertion. No CLI/MCP import grants this trust.
+    pub fn from_native_observations(
+        attempts: Vec<CompositionAttempt>,
+        observations: Vec<CompositionParentObservation>,
+    ) -> Result<Self, CompositionError> {
+        let mut views = BTreeMap::<String, CompositionParentView>::new();
+        for attempt in attempts {
+            validate_binding(&attempt.binding)?;
+            attempt.binding.verifier.validate_candidate()?;
+            if !(1..=COMPOSITION_SCHEMA_VERSION).contains(&attempt.schema_version) {
+                return Err(CompositionError::Serialization(
+                    "unsupported child attempt schema".into(),
+                ));
+            }
+            let id = attempt.attempt_id.clone();
+            if views.contains_key(&id) {
+                return Err(CompositionError::Serialization(
+                    "duplicate child attempt identity".into(),
+                ));
+            }
+            views.insert(
+                id.clone(),
+                CompositionParentView {
+                    attempt_id: id,
+                    binding: attempt.binding.clone(),
+                    recorded_at_unix_nanos: attempt.recorded_at_unix_nanos,
+                    child_attempt: Some(attempt),
+                    parent_failures: Vec::new(),
+                    parent_cleanup: Vec::new(),
+                    parent_context_valid: true,
+                },
+            );
+        }
+        let mut seen = BTreeMap::<String, CompositionParentObservation>::new();
+        for observation in observations {
+            observation.validate()?;
+            let key = observation.observation_id.to_string();
+            if let Some(previous) = seen.get(&key) {
+                if previous != &observation {
+                    return Err(CompositionError::Serialization(
+                        "conflicting parent observation".into(),
+                    ));
+                }
+                continue;
+            }
+            let identity = &observation.facts.identity;
+            let id = identity.attempt_id.clone();
+            let view = views
+                .entry(id.clone())
+                .or_insert_with(|| CompositionParentView {
+                    attempt_id: id,
+                    binding: identity.binding.clone(),
+                    recorded_at_unix_nanos: identity.attempt_started_at_unix_nanos,
+                    child_attempt: None,
+                    parent_failures: Vec::new(),
+                    parent_cleanup: Vec::new(),
+                    parent_context_valid: true,
+                });
+            if view.binding != identity.binding {
+                return Err(CompositionError::Serialization(
+                    "parent/child composition binding conflict".into(),
+                ));
+            }
+            if let Some(previous) = view.parent_failures.first().or(view.parent_cleanup.first()) {
+                if previous.facts.identity != *identity {
+                    return Err(CompositionError::Serialization(
+                        "parent observation nonce/owner/supervisor conflict".into(),
+                    ));
+                }
+            }
+            if let Some(child) = &view.child_attempt {
+                if let Some(receipt) = &child.supervisor_receipt {
+                    if let Some(registered) = &identity.registered_receipt {
+                        let mut expected = registered.clone();
+                        expected.execution_records_digest =
+                            receipt.execution_records_digest.clone();
+                        expected.descendants_reaped_to_echild =
+                            receipt.descendants_reaped_to_echild;
+                        if &expected != receipt {
+                            return Err(CompositionError::Serialization(
+                                "raw child receipt changed its parent binding".into(),
+                            ));
+                        }
+                    }
+                    if receipt.attempt_id != identity.attempt_id
+                        || receipt.run_nonce != identity.run_nonce
+                        || receipt.owner != identity.owner
+                        || receipt.runtime_version != identity.binding.verifier.runtime_version
+                        || receipt.runtime_digest != identity.binding.verifier.runtime_digest
+                        || receipt.supervisor.process_id != identity.child_pid
+                        || identity
+                            .observed_supervisor
+                            .as_ref()
+                            .is_some_and(|supervisor| supervisor != &receipt.supervisor)
+                        || receipt.command_plan_digest != identity.command_plan_digest
+                    {
+                        return Err(CompositionError::Serialization(
+                            "parent observation does not bind the raw child receipt".into(),
+                        ));
+                    }
+                } else if child.processes_spawned != 0
+                    || !child.execution_records.is_empty()
+                    || child.passed
+                {
+                    return Err(CompositionError::Serialization(
+                        "unbound child execution cannot join a parent observation".into(),
+                    ));
+                }
+            }
+            // Start order, not a later cleanup/failure append, determines which
+            // attempt is current. A late helper write cannot erase its failure.
+            view.recorded_at_unix_nanos = identity.attempt_started_at_unix_nanos;
+            match &observation.facts.event {
+                CompositionParentEvent::Failure { .. } => {
+                    view.parent_failures.push(observation.clone())
+                }
+                CompositionParentEvent::Cleanup { .. } => {
+                    view.parent_cleanup.push(observation.clone())
+                }
+            }
+            seen.insert(key, observation);
+        }
+        for view in views.values() {
+            for cleanup in &view.parent_cleanup {
+                let CompositionParentEvent::Cleanup {
+                    failure_observation_id,
+                    facts,
+                } = &cleanup.facts.event
+                else {
+                    unreachable!()
+                };
+                if !view
+                    .parent_failures
+                    .iter()
+                    .any(|failure| &failure.observation_id == failure_observation_id)
+                {
+                    return Err(CompositionError::Serialization(
+                        "cleanup does not reference its exact parent failure".into(),
+                    ));
+                }
+                for other in &view.parent_cleanup {
+                    let CompositionParentEvent::Cleanup { facts: other, .. } = &other.facts.event
+                    else {
+                        unreachable!()
+                    };
+                    if facts.child_reaped == Some(true)
+                        && other.child_reaped == Some(true)
+                        && (facts.exit_code != other.exit_code
+                            || facts.termination_signal != other.termination_signal)
+                    {
+                        return Err(CompositionError::Serialization(
+                            "conflicting cleanup exit observations".into(),
+                        ));
+                    }
+                }
+            }
+        }
+        Ok(Self {
+            views: views.into_values().collect(),
+            registrations: None,
+        })
+    }
+
+    #[doc(hidden)]
+    pub fn with_native_registrations(
+        mut self,
+        registrations: Vec<CompositionSupervisorReceipt>,
+    ) -> Result<Self, CompositionError> {
+        let mut ids = BTreeSet::new();
+        for registration in &registrations {
+            if registration.schema_version != 1
+                || !ids.insert(registration.attempt_id.clone())
+                || registration.run_nonce.is_empty()
+                || registration.owner.process_id == 0
+                || registration.supervisor.process_id == 0
+            {
+                return Err(CompositionError::Serialization(
+                    "invalid or duplicate native supervisor registration".into(),
+                ));
+            }
+        }
+        self.registrations = Some(registrations);
+        Ok(self)
+    }
+
+    fn checked_view(&self, view: &CompositionParentView) -> CompositionParentView {
+        let mut result = view.clone();
+        result.parent_context_valid =
+            self.parent_context_valid(&view.attempt_id, &mut BTreeSet::new());
+        result
+    }
+
+    fn parent_context_valid(&self, id: &str, visiting: &mut BTreeSet<String>) -> bool {
+        if visiting.len() >= 128 || !visiting.insert(id.into()) {
+            return false;
+        }
+        let valid = self
+            .views
+            .iter()
+            .find(|view| view.attempt_id == id)
+            .is_some_and(|view| {
+                view.parent_failures.is_empty()
+                    && view.child_attempt.as_ref().is_some_and(|attempt| {
+                        attempt
+                            .execution_records
+                            .iter()
+                            .filter(|record| record.reused)
+                            .all(|record| {
+                                record
+                                    .predecessor_attempt_id
+                                    .as_deref()
+                                    .is_some_and(|parent| {
+                                        self.parent_context_valid(parent, visiting)
+                                    })
+                            })
+                    })
+            });
+        visiting.remove(id);
+        valid
+    }
+
+    pub fn view_for_attempt(&self, attempt_id: &str) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .find(|view| view.attempt_id == attempt_id)
+            .map(|view| self.checked_view(view))
+    }
+
+    pub fn latest_for_work_item(&self, work_item_id: &str) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .filter(|view| {
+                view.binding
+                    .participant_work_items
+                    .iter()
+                    .any(|id| id == work_item_id)
+            })
+            .max_by(|left, right| {
+                (left.recorded_at_unix_nanos, &left.attempt_id)
+                    .cmp(&(right.recorded_at_unix_nanos, &right.attempt_id))
+            })
+            .map(|view| self.checked_view(view))
+    }
+
+    pub fn latest_for_binding(
+        &self,
+        binding: &CompositionBinding,
+    ) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .filter(|view| same_composition_lineage(&view.binding, binding))
+            .max_by(|left, right| {
+                (left.recorded_at_unix_nanos, &left.attempt_id)
+                    .cmp(&(right.recorded_at_unix_nanos, &right.attempt_id))
+            })
+            .map(|view| self.checked_view(view))
+    }
+}
+
 #[derive(Debug, Error)]
 pub enum CompositionError {
     #[error(transparent)]
@@ -721,6 +1174,155 @@ pub fn run_composition_with_supervisor_receipt(
     )
 }
 
+/// Native repository adapter. The catalog is acquired through its pinned,
+/// bounded store reader. This does not accept evidence from a CLI JSON import.
+#[doc(hidden)]
+pub fn run_composition_with_supervisor_receipt_and_parent_catalog(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+    receipt: CompositionSupervisorReceipt,
+    catalog_loader: &dyn Fn() -> Result<CompositionParentCatalog, String>,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    run_composition_inner_with_observer(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+        CompositionObservationHooks {
+            parent_catalog_loader: Some(catalog_loader),
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation: FinalWorktreeObservation::Real,
+        },
+    )
+}
+
+fn require_parent_predecessor_current(
+    previous: &CompositionAttempt,
+    catalog: &CompositionParentCatalog,
+) -> Result<(), CompositionError> {
+    let view = catalog
+        .view_for_attempt(&previous.attempt_id)
+        .ok_or_else(|| CompositionError::UnknownAttemptOwner {
+            attempt_id: previous.attempt_id.clone(),
+        })?;
+    let unknown = || CompositionError::UnknownAttemptOwner {
+        attempt_id: previous.attempt_id.clone(),
+    };
+    let expected = digest_serialized(previous).ok_or_else(unknown)?;
+    let actual = view
+        .child_attempt
+        .as_ref()
+        .and_then(digest_serialized)
+        .ok_or_else(unknown)?;
+    if !view.parent_context_valid || actual != expected {
+        return Err(unknown());
+    }
+    Ok(())
+}
+
+fn safe_unreleased_parent_failure(view: &CompositionParentView) -> bool {
+    !view.parent_failures.is_empty()
+        && view.parent_failures.iter().all(|event| {
+            matches!(
+                &event.facts.event,
+                CompositionParentEvent::Failure {
+                    release_may_have_been_delivered: false,
+                    ..
+                }
+            )
+        })
+        && view.parent_cleanup.iter().any(|event| {
+            matches!(&event.facts.event,
+            CompositionParentEvent::Cleanup { facts, .. } if facts.child_reaped == Some(true))
+        })
+        && view.child_attempt.as_ref().is_none_or(|attempt| {
+            attempt.processes_spawned == 0 && attempt.execution_records.is_empty()
+        })
+}
+
+fn child_resources_are_proven_clean(child: &CompositionAttempt) -> bool {
+    let Some(owner_pid) = child.owner_pid else {
+        return false;
+    };
+    let Some((worktree, parent)) = validated_composition_paths(child, owner_pid) else {
+        return false;
+    };
+    let known_absent = |path: &Path| matches!(fs::symlink_metadata(path), Err(error) if error.kind() == std::io::ErrorKind::NotFound);
+    if !known_absent(&worktree) || !known_absent(&parent) {
+        return false;
+    }
+    child.schema_version >= 3
+        && child.cleanup_disposition == CompositionCleanupDisposition::Cleaned
+        && child
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
+        && !child.owned_tree_termination_unknown
+        && child.active_execution_node.is_none()
+        && child.active_process_group_id.is_none()
+        && child.active_process_group_identity.is_none()
+        && child.supervisor_receipt.as_ref().is_some_and(|receipt| {
+            receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+                && receipt.descendants_reaped_to_echild
+                && receipt.execution_records_digest
+                    == execution_records_digest(&child.execution_records)
+                && child.owner_pid == Some(receipt.supervisor.process_id)
+        })
+}
+
+fn require_safe_new_attempt_after_parent_failure(
+    view: &CompositionParentView,
+    current: Option<&CompositionSupervisorReceipt>,
+) -> Result<(), CompositionError> {
+    let unknown = || CompositionError::UnknownAttemptOwner {
+        attempt_id: view.attempt_id.clone(),
+    };
+    let current = current.ok_or_else(unknown)?;
+    if current.attempt_id == view.attempt_id {
+        return Err(unknown());
+    }
+    if let Some(failure) = view.parent_failures.first() {
+        let identity = &failure.facts.identity;
+        if current.run_nonce == identity.run_nonce {
+            return Err(CompositionError::Serialization(
+                "parent failure retry requires a new exact attempt identity and nonce".into(),
+            ));
+        }
+        if safe_unreleased_parent_failure(view) {
+            return Ok(());
+        }
+        let reaped = view.parent_cleanup.iter().any(|event| {
+            matches!(&event.facts.event,
+            CompositionParentEvent::Cleanup { facts, .. } if facts.child_reaped == Some(true))
+        });
+        if !reaped
+            || !view
+                .child_attempt
+                .as_ref()
+                .is_some_and(child_resources_are_proven_clean)
+        {
+            return Err(unknown());
+        }
+        return Ok(());
+    }
+    // A known bad/missing reuse ancestor cannot be reused either. If this
+    // descendant's own real cleanup and exact supervisor termination are
+    // independently known, a new nonce can execute fresh without rewriting it.
+    let child = view.child_attempt.as_ref().ok_or_else(unknown)?;
+    let receipt = child.supervisor_receipt.as_ref().ok_or_else(unknown)?;
+    if current.run_nonce == receipt.run_nonce
+        || !child_resources_are_proven_clean(child)
+        || linux_prior_supervisor_termination_proven(receipt).is_err()
+    {
+        return Err(unknown());
+    }
+    Ok(())
+}
+
 /// Test-only final worktree observation for selected pure cache fixtures.
 /// The production observer remains authoritative for recovery and retry.
 #[cfg(all(feature = "test-support", target_os = "linux"))]
@@ -752,6 +1354,7 @@ pub fn run_composition_with_test_completed_worktree_observation(
         Some(receipt),
         Some(attempt_id),
         CompositionObservationHooks {
+            parent_catalog_loader: None,
             observe_worktree_process: &verifier_process_using_worktree,
             reap_owned_descendants: &reap_composition_supervisor_descendants,
             final_observation,
@@ -830,6 +1433,7 @@ fn run_composition_inner(
         supervisor_receipt,
         supervised_attempt_id,
         CompositionObservationHooks {
+            parent_catalog_loader: None,
             observe_worktree_process: &verifier_process_using_worktree,
             reap_owned_descendants: &reap_composition_supervisor_descendants,
             final_observation: FinalWorktreeObservation::Real,
@@ -845,6 +1449,7 @@ enum FinalWorktreeObservation {
 }
 
 struct CompositionObservationHooks<'a> {
+    parent_catalog_loader: Option<&'a dyn Fn() -> Result<CompositionParentCatalog, String>>,
     observe_worktree_process: &'a dyn Fn(&Path) -> Result<Option<u32>, String>,
     reap_owned_descendants: &'a dyn Fn() -> Result<(), String>,
     final_observation: FinalWorktreeObservation,
@@ -859,6 +1464,7 @@ fn run_composition_inner_with_observer(
     hooks: CompositionObservationHooks<'_>,
 ) -> Result<CompositionAttempt, CompositionError> {
     let CompositionObservationHooks {
+        parent_catalog_loader,
         observe_worktree_process,
         reap_owned_descendants,
         final_observation,
@@ -871,8 +1477,45 @@ fn run_composition_inner_with_observer(
     input.identity = CompositionIdentity::default();
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
-    validate_supervisor_registrations(&input.state_dir, supervisor_receipt.as_ref())?;
-    let loaded_predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
+    let parent_catalog = parent_catalog_loader
+        .map(|load| load().map_err(CompositionError::Serialization))
+        .transpose()?;
+    validate_supervisor_registrations(
+        &input.state_dir,
+        supervisor_receipt.as_ref(),
+        parent_catalog.as_ref(),
+    )?;
+    let loaded_predecessor = match parent_catalog.as_ref() {
+        Some(catalog) => match catalog.latest_for_binding(&input.binding) {
+            Some(view) if !view.parent_context_valid => {
+                require_safe_new_attempt_after_parent_failure(&view, supervisor_receipt.as_ref())?;
+                // Do not classify, reuse or rewrite any old child record. The
+                // new nonce executes fresh only after the retained resources
+                // and exact owned-child exit can be proven safe.
+                None
+            }
+            Some(view) => view.child_attempt,
+            None => None,
+        },
+        None => {
+            match fs::symlink_metadata(input.state_dir.join("parent-observations")) {
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(source) => {
+                    return Err(CompositionError::Io {
+                        path: input.state_dir.join("parent-observations"),
+                        source,
+                    });
+                }
+                Ok(_) => {
+                    return Err(CompositionError::Serialization(
+                        "native parent-observation reader is required; legacy fallback forbidden"
+                            .into(),
+                    ));
+                }
+            }
+            load_latest_attempt(&input.state_dir, &input.binding)?
+        }
+    };
     let deferred_predecessor = loaded_predecessor
         .as_ref()
         .is_some_and(is_deferred_cleanup_attempt);
@@ -1193,6 +1836,13 @@ fn run_composition_inner_with_observer(
             let mut persistence_error = None;
             let admission_result = {
                 let mut accept_reuse = || {
+                    if let (Some(load), Some(previous)) =
+                        (parent_catalog_loader, predecessor.as_ref())
+                    {
+                        let catalog = load()?;
+                        require_parent_predecessor_current(previous, &catalog)
+                            .map_err(|error| error.to_string())?;
+                    }
                     accepted = true;
                     attempt.execution_records.push(record.clone());
                     refresh_execution_records_digest(&mut attempt);
@@ -1282,6 +1932,20 @@ fn run_composition_inner_with_observer(
         || attempt.failure.as_deref() == Some("in_progress"))
         && attempt.execution_records.len() == input.commands.len()
         && attempt.execution_records.iter().all(|record| record.passed);
+    if attempt.execution_records.iter().any(|record| record.reused) {
+        if let Some(load) = parent_catalog_loader {
+            let previous =
+                predecessor
+                    .as_ref()
+                    .ok_or_else(|| CompositionError::UnknownAttemptOwner {
+                        attempt_id: attempt.attempt_id.clone(),
+                    })?;
+            require_parent_predecessor_current(
+                previous,
+                &load().map_err(CompositionError::Serialization)?,
+            )?;
+        }
+    }
     if attempt.passed {
         attempt.failure = None;
     }
@@ -1588,7 +2252,56 @@ fn load_latest_attempt(
 fn validate_supervisor_registrations(
     state_dir: &Path,
     active_receipt: Option<&CompositionSupervisorReceipt>,
+    parent_catalog: Option<&CompositionParentCatalog>,
 ) -> Result<(), CompositionError> {
+    if let Some(catalog) = parent_catalog {
+        let registrations = catalog.registrations.as_ref().ok_or_else(|| {
+            CompositionError::Serialization("native registrations were not acquired".into())
+        })?;
+        for registered in registrations {
+            let view = catalog.view_for_attempt(&registered.attempt_id);
+            let raw = view.as_ref().and_then(|view| view.child_attempt.as_ref());
+            match raw {
+                None => {
+                    let active = active_receipt
+                        .filter(|active| *active == registered)
+                        .and_then(|_| current_composition_process_identity().ok());
+                    if active.as_ref() == Some(&registered.supervisor) {
+                        continue;
+                    }
+                    if view.as_ref().is_some_and(|view| {
+                        safe_unreleased_parent_failure(view)
+                            && view
+                                .parent_failures
+                                .first()
+                                .and_then(|event| event.facts.identity.registered_receipt.as_ref())
+                                == Some(registered)
+                    }) {
+                        continue;
+                    }
+                    return Err(CompositionError::UnknownAttemptOwner {
+                        attempt_id: registered.attempt_id.clone(),
+                    });
+                }
+                Some(attempt) => {
+                    let actual = attempt.supervisor_receipt.as_ref().ok_or_else(|| {
+                        CompositionError::UnknownAttemptOwner {
+                            attempt_id: registered.attempt_id.clone(),
+                        }
+                    })?;
+                    let mut expected = registered.clone();
+                    expected.execution_records_digest = actual.execution_records_digest.clone();
+                    expected.descendants_reaped_to_echild = actual.descendants_reaped_to_echild;
+                    if attempt.attempt_id != actual.attempt_id || &expected != actual {
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id.clone(),
+                        });
+                    }
+                }
+            }
+        }
+        return Ok(());
+    }
     let directory = state_dir.join("supervisors");
     let entries = match fs::read_dir(&directory) {
         Ok(entries) => entries,
@@ -6087,6 +6800,11 @@ fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
     portable
 }
 
+#[doc(hidden)]
+pub fn composition_attempt_record_name_matches(path: &Path, attempt_id: &str) -> bool {
+    attempt_record_filename_matches(path, attempt_id)
+}
+
 fn attempt_record_filename_matches(path: &Path, attempt_id: &str) -> bool {
     let Some(file_name) = path.file_name().and_then(|name| name.to_str()) else {
         return false;
@@ -7002,6 +7720,350 @@ mod external_observer_deferred_tests {
         (repository, state, input)
     }
 
+    // Reuse the existing cfg(test) supervisor entry, but give these new cases
+    // an explicit parent deadline. No test-only environment is read in a
+    // production entry. A timeout/rescue is always a test failure.
+    fn real_parent_guard_predecessor(
+        input: &CompositionInput,
+        expected_verifier_spawns: usize,
+    ) -> CompositionAttempt {
+        let io = TestDir::new("parent-guard-io");
+        let input_path = io.path().join("input.json");
+        let output_path = io.path().join("output.json");
+        fs::write(&input_path, serde_json::to_vec(input).expect("input")).expect("write input");
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args(["external_observer_test_child_entry", "--nocapture"])
+            .env("AI_COCKPIT_A12_CHILD_INPUT", &input_path)
+            .env("AI_COCKPIT_A12_CHILD_OUTPUT", &output_path)
+            .env("AI_COCKPIT_A12_UNKNOWN_PATH", "")
+            .env("AI_COCKPIT_A12_GENERATION", "1")
+            .stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .expect("spawn owned test supervisor");
+        let pid = child.id();
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            match child.try_wait() {
+                Ok(Some(status)) => break status,
+                Ok(None) if Instant::now() < deadline => {
+                    std::thread::sleep(Duration::from_millis(10))
+                }
+                Ok(None) => {
+                    // Exact unreaped Child only, never killpg or an inferred PID.
+                    let kill = child.kill();
+                    let cleanup_deadline = Instant::now() + Duration::from_secs(2);
+                    let mut reaped = false;
+                    while Instant::now() < cleanup_deadline {
+                        if matches!(child.try_wait(), Ok(Some(_))) {
+                            reaped = true;
+                            break;
+                        }
+                        std::thread::sleep(Duration::from_millis(10));
+                    }
+                    panic!(
+                        "parent guard fixture did not finish naturally: pid={pid} kill={kill:?} reaped={reaped}; rescue is not a pass"
+                    );
+                }
+                Err(error) => panic!(
+                    "parent guard fixture wait ownership unknown: pid={pid} error={error}; no signal authorized"
+                ),
+            }
+        };
+        assert!(status.success(), "owned supervisor exited {status}");
+        let result: Result<CompositionAttempt, String> = serde_json::from_slice(
+            &fs::read(&output_path)
+                .expect("real child must publish its output; zero tests is not success"),
+        )
+        .expect("child result");
+        let attempt = result.expect("completed predecessor");
+        assert_eq!(attempt.owner_pid, Some(pid));
+        assert_eq!(
+            attempt
+                .supervisor_receipt
+                .as_ref()
+                .expect("actual receipt")
+                .supervisor
+                .process_id,
+            pid
+        );
+        assert_eq!(attempt.processes_spawned, expected_verifier_spawns);
+        attempt
+    }
+
+    fn parent_guard_catalog(
+        input: &CompositionInput,
+        previous: &CompositionAttempt,
+        release_may_have_been_delivered: bool,
+        child_reaped: bool,
+        include_child: bool,
+    ) -> CompositionParentCatalog {
+        let receipt = previous
+            .supervisor_receipt
+            .as_ref()
+            .expect("real predecessor receipt");
+        let identity = CompositionParentIdentity {
+            attempt_id: receipt.attempt_id.clone(),
+            run_nonce: receipt.run_nonce.clone(),
+            binding: previous.binding.clone(),
+            launch_input_identity: input.identity.clone(),
+            generation: receipt.generation,
+            owner: receipt.owner.clone(),
+            child_pid: receipt.supervisor.process_id,
+            observed_supervisor: Some(receipt.supervisor.clone()),
+            registered_receipt: Some(receipt.clone()),
+            command_plan_digest: receipt.command_plan_digest.clone(),
+            input_environment_digest: receipt.input_environment_digest.clone(),
+            attempt_started_at_unix_nanos: previous.recorded_at_unix_nanos,
+        };
+        // Parent transport fault injection is synthetic; the child exit,
+        // command count, cleanup, and ECHILD below come from the real fixture.
+        let failure = CompositionParentObservation::new(
+            identity.clone(),
+            CompositionParentEvent::Failure {
+                phase: "injected_parent_eof".into(),
+                diagnostic: "test parent transport failure".into(),
+                release_may_have_been_delivered,
+            },
+            previous.recorded_at_unix_nanos + 1,
+        )
+        .expect("failure fact");
+        let cleanup = CompositionParentObservation::new(
+            identity,
+            CompositionParentEvent::Cleanup {
+                failure_observation_id: failure.observation_id.clone(),
+                facts: CompositionParentCleanup {
+                    child_reaped: Some(child_reaped),
+                    exit_code: child_reaped.then_some(0),
+                    termination_signal: None,
+                    actions: Vec::new(),
+                    diagnostic: None,
+                },
+            },
+            previous.recorded_at_unix_nanos + 2,
+        )
+        .expect("cleanup fact");
+        CompositionParentCatalog::from_native_observations(
+            if include_child {
+                vec![previous.clone()]
+            } else {
+                Vec::new()
+            },
+            vec![failure, cleanup],
+        )
+        .expect("typed guard catalog")
+        .with_native_registrations(Vec::new())
+        .expect("fixture native catalog")
+    }
+
+    fn next_parent_guard_receipt(
+        input: &CompositionInput,
+        previous: &CompositionAttempt,
+    ) -> CompositionSupervisorReceipt {
+        let mut next = previous.supervisor_receipt.clone().expect("receipt");
+        next.run_nonce = new_composition_run_nonce();
+        next.attempt_id = new_supervised_composition_attempt_id(input, &next.run_nonce);
+        next
+    }
+
+    #[test]
+    fn parent_failure_pre_release_without_child_record_calls_the_safe_fresh_guard() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        input.preconditions.push(CompositionPrecondition {
+            name: "parent_guard_zero_execution".into(),
+            satisfied: false,
+            reason: "injected_before_execute_node".into(),
+        });
+        let previous = real_parent_guard_predecessor(&input, 0);
+        assert_eq!(
+            previous.failure.as_deref(),
+            Some("precondition_failed:parent_guard_zero_execution:injected_before_execute_node")
+        );
+        assert!(!previous.passed);
+        assert!(
+            previous.isolated_worktree.is_empty(),
+            "must reject before worktree preparation"
+        );
+        assert!(previous.execution_records.is_empty());
+        assert!(!state.path().join("a12-verifier-spawns").exists());
+        let raw = fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+            .expect("original raw");
+        // Missing child-record is an explicit catalog scenario. The real raw
+        // file remains intact; this does not claim an actual pre-Release EOF.
+        let catalog = parent_guard_catalog(&input, &previous, false, true, false);
+        let view = catalog
+            .latest_for_binding(&input.binding)
+            .expect("failed parent");
+        assert!(view.child_attempt.is_none());
+        let next = next_parent_guard_receipt(&input, &previous);
+        require_safe_new_attempt_after_parent_failure(&view, Some(&next))
+            .expect("real guard permits zero-verifier, reaped, pre-Release boundary");
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            raw
+        );
+    }
+
+    #[test]
+    fn parent_failure_post_release_real_cleanup_calls_fresh_guard_and_rejects_unsafe_variants() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        let previous = real_parent_guard_predecessor(&input, 1);
+        assert!(previous.passed);
+        assert!(
+            previous
+                .supervisor_receipt
+                .as_ref()
+                .expect("receipt")
+                .descendants_reaped_to_echild
+        );
+        let (worktree, parent) =
+            validated_composition_paths(&previous, previous.owner_pid.expect("owner"))
+                .expect("actual owned paths");
+        assert!(!worktree.exists() && !parent.exists());
+        assert!(child_resources_are_proven_clean(&previous));
+        let raw = fs::read(attempt_record_path(state.path(), &previous.attempt_id)).expect("raw");
+        let catalog = parent_guard_catalog(&input, &previous, true, true, true);
+        let view = catalog
+            .latest_for_binding(&input.binding)
+            .expect("failed parent");
+        let next = next_parent_guard_receipt(&input, &previous);
+        require_safe_new_attempt_after_parent_failure(&view, Some(&next))
+            .expect("actual guard allows safe fresh identity");
+        let mut same_nonce = next.clone();
+        same_nonce.run_nonce = previous
+            .supervisor_receipt
+            .as_ref()
+            .expect("receipt")
+            .run_nonce
+            .clone();
+        let mut changed_identity = input.clone();
+        changed_identity.identity.interface_digest =
+            Digest::sha256_bytes(b"same nonce different attempt");
+        same_nonce.attempt_id =
+            new_supervised_composition_attempt_id(&changed_identity, &same_nonce.run_nonce);
+        assert!(require_safe_new_attempt_after_parent_failure(&view, Some(&same_nonce)).is_err());
+        let unreaped = parent_guard_catalog(&input, &previous, true, false, true);
+        assert!(
+            require_safe_new_attempt_after_parent_failure(
+                &unreaped.latest_for_binding(&input.binding).expect("view"),
+                Some(&next)
+            )
+            .is_err()
+        );
+        let mut retained = previous.clone();
+        retained.cleanup_disposition = CompositionCleanupDisposition::Retained;
+        let retained = parent_guard_catalog(&input, &retained, true, true, true);
+        assert!(
+            require_safe_new_attempt_after_parent_failure(
+                &retained.latest_for_binding(&input.binding).expect("view"),
+                Some(&next)
+            )
+            .is_err()
+        );
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            raw
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("one actual verifier"),
+            b"x"
+        );
+        // These call the real safety guard; they do not claim a second fresh
+        // verifier executed. Full parent-protocol retry remains separate.
+    }
+
+    #[test]
+    fn parent_failure_between_reuse_acceptance_and_final_recheck_cannot_finish_green() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        let previous = real_parent_guard_predecessor(&input, 1);
+        assert!(is_reusable_terminal_attempt(&previous));
+        let original =
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id)).expect("raw");
+        let clean =
+            CompositionParentCatalog::from_native_observations(vec![previous.clone()], Vec::new())
+                .expect("clean catalog")
+                .with_native_registrations(Vec::new())
+                .expect("native fixture");
+        let failed = parent_guard_catalog(&input, &previous, true, true, true);
+        let loads = std::cell::Cell::new(0);
+        let load = || {
+            loads.set(loads.get() + 1);
+            // Initial selection and actual accept_reuse see the original.
+            // The final production recheck sees an appended parent failure.
+            Ok(if loads.get() <= 2 {
+                clean.clone()
+            } else {
+                failed.clone()
+            })
+        };
+        let accepted = Arc::new(AtomicBool::new(false));
+        let accepted_in_gate = Arc::clone(&accepted);
+        let check: ProcessAdmissionCheck = Arc::new(move |_, accept| {
+            accept()?;
+            accepted_in_gate.store(true, Ordering::SeqCst);
+            Ok(())
+        });
+        let gate: ProcessStartGate =
+            Arc::new(|_, _| panic!("a reuse must never start a second verifier"));
+        let observe = |_worktree: &Path| Ok(None);
+        let result = run_composition_inner_with_observer(
+            input,
+            Some(check),
+            Some(gate),
+            None,
+            None,
+            CompositionObservationHooks {
+                parent_catalog_loader: Some(&load),
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| panic!("no current supervisor receipt"),
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        );
+        assert!(
+            accepted.load(Ordering::SeqCst),
+            "must exercise actual accept_reuse, not early rejection"
+        );
+        assert_eq!(loads.get(), 3, "initial, accept, and final catalog reads");
+        assert!(
+            matches!(result, Err(CompositionError::UnknownAttemptOwner { .. })),
+            "late parent failure cannot produce a successful final attempt: {result:?}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("one actual verifier"),
+            b"x"
+        );
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            original
+        );
+        let entries = fs::read_dir(state.path()).expect("native attempt state");
+        let incomplete = entries
+            .filter_map(Result::ok)
+            .filter_map(|entry| {
+                let path = entry.path();
+                if path.extension().and_then(|s| s.to_str()) != Some("json") {
+                    return None;
+                }
+                let attempt: CompositionAttempt =
+                    serde_json::from_slice(&fs::read(&path).expect("raw attempt"))
+                        .expect("raw attempt JSON");
+                (attempt.attempt_id != previous.attempt_id).then_some(attempt)
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(incomplete.len(), 1);
+        assert!(
+            !incomplete[0].passed,
+            "late failure cannot persist a green terminal"
+        );
+    }
+
     fn real_eacces_is_testable_without_ptrace_capability() -> bool {
         if unsafe { libc::geteuid() } == 0 {
             eprintln!("skipping real EACCES observer case: root may bypass procfs ptrace checks");
@@ -7254,6 +8316,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     panic!("an attempt without a supervisor receipt must not reap descendants")
@@ -7349,6 +8412,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     panic!("no supervisor receipt must not reap descendants")
@@ -7480,6 +8544,7 @@ mod external_observer_deferred_tests {
             Some(receipt),
             Some(attempt_id),
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     if unknown_path == "owned-proof-unknown" {
@@ -7759,6 +8824,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe_clean,
                 reap_owned_descendants: &reap_without_receipt,
                 final_observation: FinalWorktreeObservation::Real,
@@ -7796,6 +8862,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe_eacces,
                 reap_owned_descendants: &reap_without_receipt,
                 final_observation: FinalWorktreeObservation::Real,

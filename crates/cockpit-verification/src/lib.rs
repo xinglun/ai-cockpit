@@ -6,15 +6,19 @@ pub mod runtime_benchmark_scenarios;
 pub use composition::{
     CompositionAttempt, CompositionCleanupDisposition, CompositionCommand, CompositionError,
     CompositionExecutionOutcome, CompositionExecutionRecord, CompositionIdentity, CompositionInput,
-    CompositionPrecondition, CompositionProcessIdentity, CompositionSupervisorBackend,
-    CompositionSupervisorControl, CompositionSupervisorLaunch, CompositionSupervisorReady,
-    CompositionSupervisorReceipt, CompositionSupervisorReply, OwnerInterruptionGuard,
-    ReuseDecision, ReuseDecisionKind, classify_reuse, composition_commands_digest,
+    CompositionParentCatalog, CompositionParentCleanup, CompositionParentEvent,
+    CompositionParentIdentity, CompositionParentObservation, CompositionParentObservationFacts,
+    CompositionParentView, CompositionPrecondition, CompositionProcessIdentity,
+    CompositionSupervisorBackend, CompositionSupervisorControl, CompositionSupervisorLaunch,
+    CompositionSupervisorReady, CompositionSupervisorReceipt, CompositionSupervisorReply,
+    OwnerInterruptionGuard, ReuseDecision, ReuseDecisionKind, classify_reuse,
+    composition_attempt_record_name_matches, composition_commands_digest,
     composition_linux_boot_id, current_composition_process_identity, execution_records_digest,
     initialize_composition_supervisor_backend, new_composition_run_nonce,
     new_supervised_composition_attempt_id, observe_composition_process_identity,
     reap_composition_supervisor_descendants, record_composition_supervisor_failure,
     run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
+    run_composition_with_supervisor_receipt_and_parent_catalog,
 };
 
 #[cfg(all(feature = "test-support", target_os = "linux"))]
@@ -55,6 +59,283 @@ const SUPERVISOR_PARENT_CLEANUP_GRACE: Duration = Duration::from_secs(
 );
 const MAX_CLEANUP_REMAINING_PIDS: usize = 128;
 const MAX_CLEANUP_DIAGNOSTIC_BYTES: usize = 4096;
+
+/// Shared Unix pipe mechanics only. These operations confer no process-tree,
+/// authority, receipt-validation or protocol-state assurance.
+#[cfg(unix)]
+#[doc(hidden)]
+pub mod supervisor_pipe {
+    use std::collections::VecDeque;
+    use std::io::{self, Read, Write};
+    use std::os::fd::AsRawFd;
+    use std::process::Child;
+    use std::time::Instant;
+
+    fn nonblocking(stream: &impl AsRawFd) -> io::Result<()> {
+        let fd = stream.as_raw_fd();
+        // SAFETY: the caller retains the live owned or borrowed descriptor.
+        let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
+        if flags < 0 {
+            return Err(io::Error::last_os_error());
+        }
+        // SAFETY: preserve all flags except enabling nonblocking I/O.
+        if unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
+            return Err(io::Error::last_os_error());
+        }
+        Ok(())
+    }
+
+    fn poll_until(stream: &impl AsRawFd, events: i16, deadline: Instant) -> io::Result<()> {
+        loop {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            if remaining.is_zero() {
+                return Err(io::Error::new(
+                    io::ErrorKind::TimedOut,
+                    "supervisor pipe deadline",
+                ));
+            }
+            let mut fd = libc::pollfd {
+                fd: stream.as_raw_fd(),
+                events,
+                revents: 0,
+            };
+            // SAFETY: one live descriptor and a finite timeout in every call.
+            let ready = unsafe {
+                libc::poll(
+                    &mut fd,
+                    1,
+                    remaining.as_millis().clamp(1, 10) as libc::c_int,
+                )
+            };
+            if ready < 0 {
+                let error = io::Error::last_os_error();
+                if error.kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return Err(error);
+            }
+            if fd.revents & (libc::POLLERR | libc::POLLNVAL) != 0 {
+                return Err(io::Error::new(
+                    io::ErrorKind::BrokenPipe,
+                    "supervisor pipe invalid",
+                ));
+            }
+            if ready > 0 {
+                return Ok(());
+            }
+        }
+    }
+
+    pub fn write_until<W: Write + AsRawFd>(
+        stream: &mut W,
+        bytes: &[u8],
+        deadline: Instant,
+    ) -> io::Result<()> {
+        nonblocking(stream)?;
+        let mut offset = 0;
+        while offset < bytes.len() {
+            if Instant::now() >= deadline {
+                return Err(io::Error::new(
+                    io::ErrorKind::TimedOut,
+                    "supervisor pipe write deadline",
+                ));
+            }
+            let end = bytes.len().min(offset.saturating_add(8192));
+            match stream.write(&bytes[offset..end]) {
+                Ok(0) => {
+                    return Err(io::Error::new(
+                        io::ErrorKind::WriteZero,
+                        "supervisor pipe made no progress",
+                    ));
+                }
+                Ok(count) => offset += count,
+                Err(error) if error.kind() == io::ErrorKind::Interrupted => {}
+                Err(error) if error.kind() == io::ErrorKind::WouldBlock => {
+                    poll_until(stream, libc::POLLOUT, deadline)?;
+                }
+                Err(error) => return Err(error),
+            }
+        }
+        if Instant::now() >= deadline {
+            return Err(io::Error::new(
+                io::ErrorKind::TimedOut,
+                "supervisor pipe write deadline",
+            ));
+        }
+        // The supported pipe handles are unbuffered; no blocking flush follows.
+        Ok(())
+    }
+
+    pub struct FrameReader<R> {
+        stream: R,
+        pending: VecDeque<Vec<u8>>,
+        frame: Vec<u8>,
+        bytes: usize,
+        total_limit: usize,
+        frame_limit: usize,
+        eof: bool,
+        failure: Option<(io::ErrorKind, String)>,
+    }
+
+    impl<R: Read + AsRawFd> FrameReader<R> {
+        pub fn new(stream: R, total_limit: usize, frame_limit: usize) -> io::Result<Self> {
+            if total_limit == 0 || frame_limit == 0 || frame_limit > total_limit {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "invalid supervisor pipe byte limit",
+                ));
+            }
+            nonblocking(&stream)?;
+            Ok(Self {
+                stream,
+                pending: VecDeque::new(),
+                frame: Vec::new(),
+                bytes: 0,
+                total_limit,
+                frame_limit,
+                eof: false,
+                failure: None,
+            })
+        }
+
+        fn fail(&mut self, kind: io::ErrorKind, reason: String) -> io::Result<()> {
+            let (kind, reason) = self.failure.get_or_insert((kind, reason));
+            self.pending.clear();
+            Err(io::Error::new(*kind, reason.clone()))
+        }
+
+        pub fn set_frame_limit(&mut self, limit: usize) -> io::Result<()> {
+            if limit == 0
+                || limit > self.total_limit
+                || self.frame.len() > limit
+                || self.pending.iter().any(|frame| frame.len() > limit)
+            {
+                return self.fail(
+                    io::ErrorKind::InvalidData,
+                    "supervisor frame byte limit".into(),
+                );
+            }
+            self.frame_limit = limit;
+            Ok(())
+        }
+
+        pub fn pump(&mut self) -> io::Result<()> {
+            if let Some((kind, reason)) = &self.failure {
+                return Err(io::Error::new(*kind, reason.clone()));
+            }
+            if self.eof {
+                return Ok(());
+            }
+            let mut buffer = [0_u8; 8192];
+            // A finite quantum prevents noisy or infinitely writable pipes from
+            // starving the absolute deadline in their protocol adapter.
+            for _ in 0..2 {
+                let count = match self.stream.read(&mut buffer) {
+                    Ok(0) => {
+                        self.eof = true;
+                        if !self.frame.is_empty() {
+                            return self.fail(
+                                io::ErrorKind::InvalidData,
+                                "unterminated supervisor frame".into(),
+                            );
+                        }
+                        return Ok(());
+                    }
+                    Ok(count) => count,
+                    Err(error)
+                        if matches!(
+                            error.kind(),
+                            io::ErrorKind::WouldBlock | io::ErrorKind::Interrupted
+                        ) =>
+                    {
+                        return Ok(());
+                    }
+                    Err(error) => {
+                        return self.fail(error.kind(), format!("read supervisor pipe: {error}"));
+                    }
+                };
+                self.bytes = self.bytes.saturating_add(count);
+                if self.bytes > self.total_limit {
+                    return self.fail(
+                        io::ErrorKind::InvalidData,
+                        "supervisor aggregate byte limit".into(),
+                    );
+                }
+                for byte in &buffer[..count] {
+                    if *byte == b'\n' {
+                        self.pending.push_back(std::mem::take(&mut self.frame));
+                    } else {
+                        self.frame.push(*byte);
+                        if self.frame.len() > self.frame_limit {
+                            return self.fail(
+                                io::ErrorKind::InvalidData,
+                                "supervisor frame byte limit".into(),
+                            );
+                        }
+                    }
+                }
+            }
+            Ok(())
+        }
+
+        pub fn pop_frame(&mut self) -> Option<Vec<u8>> {
+            self.pending.pop_front()
+        }
+        pub fn eof(&self) -> bool {
+            self.eof
+        }
+        pub fn has_buffered_bytes(&self) -> bool {
+            !self.frame.is_empty() || !self.pending.is_empty()
+        }
+        pub fn wait_readable_until(&self, deadline: Instant) -> io::Result<()> {
+            poll_until(&self.stream, libc::POLLIN | libc::POLLHUP, deadline)
+        }
+        pub fn receive_until(&mut self, deadline: Instant) -> io::Result<Option<Vec<u8>>> {
+            loop {
+                if Instant::now() >= deadline {
+                    return Err(io::Error::new(
+                        io::ErrorKind::TimedOut,
+                        "supervisor pipe read deadline",
+                    ));
+                }
+                self.pump()?;
+                if let Some(frame) = self.pop_frame() {
+                    return Ok(Some(frame));
+                }
+                if self.eof {
+                    return Ok(None);
+                }
+                self.wait_readable_until(deadline)?;
+            }
+        }
+    }
+
+    /// Observe an exclusively owned direct child without releasing its PID.
+    /// ECHILD is ownership loss, never evidence of a clean descendant tree.
+    pub fn observe_owned_child_exit(child: &Child) -> io::Result<bool> {
+        if !(2..=i32::MAX as u32).contains(&child.id()) {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "invalid owned child PID",
+            ));
+        }
+        // SAFETY: initialized writable siginfo_t and the exact unreaped Child ID.
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        let result = unsafe {
+            libc::waitid(
+                libc::P_PID,
+                child.id() as libc::id_t,
+                &mut info,
+                libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+            )
+        };
+        if result < 0 {
+            return Err(io::Error::last_os_error());
+        }
+        // SAFETY: waitid initialized the process-event representation above.
+        Ok(unsafe { info.si_pid() } == child.id() as libc::pid_t)
+    }
+}
 
 /// A machine-readable measurement captured by a repository-local performance
 /// fixture.  The identity fields are intentionally required: a timing value
@@ -3063,10 +3344,8 @@ impl VerificationSupervisorMessages {
 
 #[cfg(unix)]
 struct UnixSupervisorMessagePipe {
-    stream: std::process::ChildStderr,
+    reader: supervisor_pipe::FrameReader<std::process::ChildStderr>,
     pending: VecDeque<VerificationSupervisorMessage>,
-    frame: Vec<u8>,
-    total_bytes: usize,
     started: bool,
     terminal: bool,
     eof: bool,
@@ -3076,28 +3355,14 @@ struct UnixSupervisorMessagePipe {
 #[cfg(unix)]
 impl UnixSupervisorMessagePipe {
     fn new(stream: std::process::ChildStderr) -> Result<Self, String> {
-        use std::os::fd::AsRawFd;
-        let descriptor = stream.as_raw_fd();
-        // SAFETY: stream owns the live pipe descriptor for both fcntl calls.
-        let flags = unsafe { libc::fcntl(descriptor, libc::F_GETFL) };
-        if flags < 0 {
-            return Err(format!(
-                "inspect supervisor message pipe: {}",
-                std::io::Error::last_os_error()
-            ));
-        }
-        // SAFETY: preserve existing flags and change only our owned read end.
-        if unsafe { libc::fcntl(descriptor, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
-            return Err(format!(
-                "make supervisor message pipe nonblocking: {}",
-                std::io::Error::last_os_error()
-            ));
-        }
         Ok(Self {
-            stream,
+            reader: supervisor_pipe::FrameReader::new(
+                stream,
+                MAX_SUPERVISOR_RESPONSE_BYTES,
+                MAX_SUPERVISOR_RESPONSE_BYTES,
+            )
+            .map_err(|error| format!("initialize supervisor message pipe: {error}"))?,
             pending: VecDeque::new(),
-            frame: Vec::new(),
-            total_bytes: 0,
             started: false,
             terminal: false,
             eof: false,
@@ -3117,7 +3382,6 @@ impl UnixSupervisorMessagePipe {
             })
             .unwrap_or(reason);
         let failure = self.failure.get_or_insert(reason).clone();
-        // A later framing error must not leave a previously queued Outcome green.
         self.pending.clear();
         Err(failure)
     }
@@ -3126,70 +3390,45 @@ impl UnixSupervisorMessagePipe {
         if let Some(error) = &self.failure {
             return Err(error.clone());
         }
-        if self.eof {
-            return Ok(());
+        if let Err(error) = self.reader.pump() {
+            return self.fail(format!("read verification supervisor message: {error}"));
         }
-        let mut buffer = [0_u8; 8192];
-        // Finite work quantum: an always-ready writer cannot starve a deadline.
-        for _ in 0..2 {
-            let count = match self.stream.read(&mut buffer) {
-                Ok(0) => {
-                    self.eof = true;
-                    if !self.terminal || !self.frame.is_empty() {
-                        return self.fail(
-                            "verification supervisor closed before a complete outcome".into(),
-                        );
-                    }
-                    return Ok(());
-                }
-                Ok(count) => count,
-                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => return Ok(()),
-                Err(error) if error.kind() == std::io::ErrorKind::Interrupted => return Ok(()),
+        while let Some(frame) = self.reader.pop_frame() {
+            if self.terminal {
+                return self.fail(
+                    "verification supervisor emitted data after its terminal message".into(),
+                );
+            }
+            let message = match serde_json::from_slice::<VerificationSupervisorMessage>(&frame) {
+                Ok(message) => message,
                 Err(error) => {
-                    return self.fail(format!("read verification supervisor message: {error}"));
+                    return self.fail(format!("decode verification supervisor message: {error}"));
                 }
             };
-            self.total_bytes = self.total_bytes.saturating_add(count);
-            if self.total_bytes > MAX_SUPERVISOR_RESPONSE_BYTES {
-                return self.fail("verification supervisor messages exceed the byte limit".into());
-            }
-            for byte in &buffer[..count] {
-                if self.terminal {
+            match &message {
+                VerificationSupervisorMessage::Started { .. } if self.started => {
+                    return self.fail("verification supervisor emitted duplicate Started".into());
+                }
+                VerificationSupervisorMessage::Started { .. } => self.started = true,
+                VerificationSupervisorMessage::Outcome { outcome }
+                    if !self.started && outcome.spawned && outcome.passed =>
+                {
                     return self.fail(
-                        "verification supervisor emitted data after its terminal message".into(),
+                        "verification supervisor omitted Started for a spawned command".into(),
                     );
                 }
-                if *byte != b'\n' {
-                    self.frame.push(*byte);
-                    continue;
-                }
-                let message =
-                    match serde_json::from_slice::<VerificationSupervisorMessage>(&self.frame) {
-                        Ok(message) => message,
-                        Err(error) => {
-                            return self
-                                .fail(format!("decode verification supervisor message: {error}"));
-                        }
-                    };
-                self.frame.clear();
-                match &message {
-                    VerificationSupervisorMessage::Started { .. } if self.started => {
-                        return self
-                            .fail("verification supervisor emitted duplicate Started".into());
-                    }
-                    VerificationSupervisorMessage::Started { .. } => self.started = true,
-                    VerificationSupervisorMessage::Outcome { outcome }
-                        if !self.started && outcome.spawned && outcome.passed =>
-                    {
-                        return self.fail(
-                            "verification supervisor omitted Started for a spawned command".into(),
-                        );
-                    }
-                    VerificationSupervisorMessage::Outcome { .. }
-                    | VerificationSupervisorMessage::Error { .. } => self.terminal = true,
-                }
-                self.pending.push_back(message);
+                VerificationSupervisorMessage::Outcome { .. }
+                | VerificationSupervisorMessage::Error { .. } => self.terminal = true,
             }
+            self.pending.push_back(message);
+        }
+        if self.terminal && self.reader.has_buffered_bytes() {
+            return self
+                .fail("verification supervisor emitted data after its terminal message".into());
+        }
+        self.eof = self.reader.eof();
+        if self.eof && !self.terminal {
+            return self.fail("verification supervisor closed before a complete outcome".into());
         }
         Ok(())
     }
@@ -3198,49 +3437,27 @@ impl UnixSupervisorMessagePipe {
         &mut self,
         deadline: Instant,
     ) -> Result<Result<VerificationSupervisorMessage, String>, mpsc::RecvTimeoutError> {
-        use std::os::fd::AsRawFd;
         loop {
             if let Err(error) = self.pump() {
                 return Ok(Err(error));
             }
-            let may_deliver = self.pending.front().is_some_and(|message| {
+            if self.pending.front().is_some_and(|message| {
                 matches!(message, VerificationSupervisorMessage::Started { .. }) || self.eof
-            });
-            if may_deliver {
+            }) {
                 return Ok(Ok(self.pending.pop_front().expect("front checked above")));
             }
-            let remaining = deadline.saturating_duration_since(Instant::now());
-            if remaining.is_zero() {
+            if Instant::now() >= deadline {
                 return Err(mpsc::RecvTimeoutError::Timeout);
             }
-            let mut descriptor = libc::pollfd {
-                fd: self.stream.as_raw_fd(),
-                events: libc::POLLIN | libc::POLLHUP,
-                revents: 0,
-            };
-            // SAFETY: one initialized descriptor; timeout is always finite.
-            let ready = unsafe {
-                libc::poll(
-                    &mut descriptor,
-                    1,
-                    remaining.as_millis().clamp(1, 10) as libc::c_int,
-                )
-            };
-            if ready < 0 {
-                let error = std::io::Error::last_os_error();
-                if error.kind() == std::io::ErrorKind::Interrupted {
-                    continue;
+            if let Err(error) = self.reader.wait_readable_until(deadline) {
+                if error.kind() == std::io::ErrorKind::TimedOut {
+                    return Err(mpsc::RecvTimeoutError::Timeout);
                 }
                 let _ = self.fail(format!(
                     "poll verification supervisor message pipe: {error}"
                 ));
                 return Ok(Err(self.failure.clone().expect("failure stored above")));
             }
-            if descriptor.revents & (libc::POLLERR | libc::POLLNVAL) != 0 {
-                let _ = self.fail("verification supervisor message pipe became invalid".into());
-                return Ok(Err(self.failure.clone().expect("failure stored above")));
-            }
-            // HUP is not synthetic EOF: next pump drains all already-read bytes.
         }
     }
 }
@@ -4593,73 +4810,7 @@ fn write_verification_supervisor_request_until(
     request_bytes: &[u8],
     deadline: Instant,
 ) -> std::io::Result<()> {
-    use std::os::fd::AsRawFd;
-
-    let descriptor = stdin.as_raw_fd();
-    // SAFETY: ChildStdin owns this live descriptor throughout the exchange.
-    let flags = unsafe { libc::fcntl(descriptor, libc::F_GETFL) };
-    if flags < 0 {
-        return Err(std::io::Error::last_os_error());
-    }
-    // Preserve existing status flags. This owned pipe remains only a lifetime
-    // channel after the request; there are no later parent writes to restore.
-    // SAFETY: ChildStdin still owns the descriptor used by F_GETFL above.
-    if unsafe { libc::fcntl(descriptor, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
-        return Err(std::io::Error::last_os_error());
-    }
-    let mut written = 0;
-    while written < request_bytes.len() {
-        if Instant::now() >= deadline {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::TimedOut,
-                "verification supervisor request exceeded its startup deadline",
-            ));
-        }
-        match stdin.write(&request_bytes[written..]) {
-            Ok(0) => {
-                return Err(std::io::Error::new(
-                    std::io::ErrorKind::WriteZero,
-                    "verification supervisor request pipe made no progress",
-                ));
-            }
-            Ok(count) => {
-                written += count;
-                continue;
-            }
-            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
-            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {}
-            Err(error) => return Err(error),
-        }
-        let remaining = deadline.saturating_duration_since(Instant::now());
-        if remaining.is_zero() {
-            continue;
-        }
-        let timeout_ms = remaining.as_millis().clamp(1, 10) as libc::c_int;
-        let mut poll_descriptor = libc::pollfd {
-            fd: descriptor,
-            events: libc::POLLOUT,
-            revents: 0,
-        };
-        // SAFETY: one initialized pollfd remains valid for this bounded call.
-        let ready = unsafe { libc::poll(&mut poll_descriptor, 1, timeout_ms) };
-        if ready < 0 {
-            let error = std::io::Error::last_os_error();
-            if error.kind() == std::io::ErrorKind::Interrupted {
-                continue;
-            }
-            return Err(error);
-        }
-        if ready > 0
-            && poll_descriptor.revents & (libc::POLLERR | libc::POLLHUP | libc::POLLNVAL) != 0
-        {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::BrokenPipe,
-                "verification supervisor request pipe closed while sending",
-            ));
-        }
-    }
-    // ChildStdin is an unbuffered pipe, not a buffered writer needing flush.
-    Ok(())
+    supervisor_pipe::write_until(stdin, request_bytes, deadline)
 }
 
 #[cfg(all(test, unix))]
@@ -4931,22 +5082,7 @@ fn close_supervisor_input(child: &mut Child) {
 
 #[cfg(unix)]
 fn observe_owned_supervisor_exit(child: &mut Child) -> std::io::Result<bool> {
-    // SAFETY: zero is a valid writable siginfo_t output representation.
-    let mut observed: libc::siginfo_t = unsafe { std::mem::zeroed() };
-    // SAFETY: this exclusively owned Child is observed without releasing its PID.
-    let result = unsafe {
-        libc::waitid(
-            libc::P_PID,
-            child.id() as libc::id_t,
-            &mut observed,
-            libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
-        )
-    };
-    if result < 0 {
-        return Err(std::io::Error::last_os_error());
-    }
-    // SAFETY: waitid initialized the siginfo_t union for this process event.
-    Ok(unsafe { observed.si_pid() } == child.id() as libc::pid_t)
+    supervisor_pipe::observe_owned_child_exit(child)
 }
 
 #[cfg(unix)]

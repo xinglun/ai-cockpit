@@ -3789,7 +3789,11 @@ mod tests {
             |_, _, _| Ok(()),
         )
         .expect("real authorized first child");
-        assert!(first.receipt.passed);
+        assert!(
+            first.receipt.passed,
+            "actual first receipt: {}",
+            serde_json::to_string(&first.receipt).expect("actual first receipt JSON")
+        );
         assert_eq!(first.receipt.nodes_executed, 1);
         assert!(first.receipt.execution_records[0].spawned);
         assert_eq!(first.receipt.execution_records[0].exit_code, Some(0));
