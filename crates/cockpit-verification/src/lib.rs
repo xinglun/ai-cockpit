@@ -4161,7 +4161,11 @@ fn exchange_verification_supervisor_startup(
     receiver: &VerificationSupervisorMessages,
     startup_timeout: Duration,
 ) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
+    let deadline = Instant::now() + startup_timeout;
     let write_result = match stdin {
+        #[cfg(unix)]
+        Some(stdin) => write_verification_supervisor_request_until(stdin, request_bytes, deadline),
+        #[cfg(not(unix))]
         Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
         None => Err(std::io::Error::new(
             std::io::ErrorKind::BrokenPipe,
@@ -4169,10 +4173,91 @@ fn exchange_verification_supervisor_startup(
         )),
     };
     write_result.map_err(VerificationSupervisorStartupError::Request)?;
+    let remaining = deadline.saturating_duration_since(Instant::now());
+    if remaining.is_zero() {
+        return Err(VerificationSupervisorStartupError::Receive(
+            mpsc::RecvTimeoutError::Timeout,
+        ));
+    }
     receiver
-        .recv_timeout(startup_timeout)
+        .recv_timeout(remaining)
         .map_err(VerificationSupervisorStartupError::Receive)?
         .map_err(VerificationSupervisorStartupError::Message)
+}
+
+#[cfg(unix)]
+fn write_verification_supervisor_request_until(
+    stdin: &mut std::process::ChildStdin,
+    request_bytes: &[u8],
+    deadline: Instant,
+) -> std::io::Result<()> {
+    use std::os::fd::AsRawFd;
+
+    let descriptor = stdin.as_raw_fd();
+    // SAFETY: ChildStdin owns this live descriptor throughout the exchange.
+    let flags = unsafe { libc::fcntl(descriptor, libc::F_GETFL) };
+    if flags < 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    // Preserve existing status flags. This owned pipe remains only a lifetime
+    // channel after the request; there are no later parent writes to restore.
+    // SAFETY: ChildStdin still owns the descriptor used by F_GETFL above.
+    if unsafe { libc::fcntl(descriptor, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    let mut written = 0;
+    while written < request_bytes.len() {
+        if Instant::now() >= deadline {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::TimedOut,
+                "verification supervisor request exceeded its startup deadline",
+            ));
+        }
+        match stdin.write(&request_bytes[written..]) {
+            Ok(0) => {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::WriteZero,
+                    "verification supervisor request pipe made no progress",
+                ));
+            }
+            Ok(count) => {
+                written += count;
+                continue;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {}
+            Err(error) => return Err(error),
+        }
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            continue;
+        }
+        let timeout_ms = remaining.as_millis().clamp(1, 10) as libc::c_int;
+        let mut poll_descriptor = libc::pollfd {
+            fd: descriptor,
+            events: libc::POLLOUT,
+            revents: 0,
+        };
+        // SAFETY: one initialized pollfd remains valid for this bounded call.
+        let ready = unsafe { libc::poll(&mut poll_descriptor, 1, timeout_ms) };
+        if ready < 0 {
+            let error = std::io::Error::last_os_error();
+            if error.kind() == std::io::ErrorKind::Interrupted {
+                continue;
+            }
+            return Err(error);
+        }
+        if ready > 0
+            && poll_descriptor.revents & (libc::POLLERR | libc::POLLHUP | libc::POLLNVAL) != 0
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::BrokenPipe,
+                "verification supervisor request pipe closed while sending",
+            ));
+        }
+    }
+    // ChildStdin is an unbuffered pipe, not a buffered writer needing flush.
+    Ok(())
 }
 
 #[cfg(all(test, unix))]
@@ -4258,16 +4343,26 @@ mod supervisor_startup_channel_tests {
         let _ = child.kill();
         let deadline = Instant::now() + Duration::from_secs(2);
         loop {
-            if child.try_wait().expect("observe exact fixture child").is_some() {
+            if child
+                .try_wait()
+                .expect("observe exact fixture child")
+                .is_some()
+            {
                 break;
             }
-            assert!(Instant::now() < deadline, "fixture did not reap in teardown");
+            assert!(
+                Instant::now() < deadline,
+                "fixture did not reap in teardown"
+            );
             std::thread::sleep(Duration::from_millis(5));
         }
         while !reader.is_finished() && Instant::now() < deadline {
             std::thread::sleep(Duration::from_millis(5));
         }
-        assert!(reader.is_finished(), "fixture response reader did not finish");
+        assert!(
+            reader.is_finished(),
+            "fixture response reader did not finish"
+        );
         reader.join().expect("fixture response reader");
     }
 
@@ -4292,7 +4387,10 @@ mod supervisor_startup_channel_tests {
                 if error.kind() == std::io::ErrorKind::TimedOut),
             "unread request must expire as a request timeout: {result:?}",
         );
-        assert!(elapsed < Duration::from_millis(400), "phase took {elapsed:?}");
+        assert!(
+            elapsed < Duration::from_millis(400),
+            "phase took {elapsed:?}"
+        );
     }
 
     // Request backpressure consumes roughly 300 ms; Started arrives roughly
@@ -4310,9 +4408,12 @@ mod supervisor_startup_channel_tests {
         );
         finish_fixture(child, reader);
         assert!(
-            matches!(result, Err(VerificationSupervisorStartupError::Receive(
-                mpsc::RecvTimeoutError::Timeout
-            ))),
+            matches!(
+                result,
+                Err(VerificationSupervisorStartupError::Receive(
+                    mpsc::RecvTimeoutError::Timeout
+                ))
+            ),
             "late Started must not get a new full budget: {result:?}",
         );
     }
