@@ -5188,6 +5188,24 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
             path: state_dir.to_path_buf(),
             source,
         })?;
+    if let Some(failure) = attempt
+        .failure
+        .as_deref()
+        .filter(|failure| *failure != "in_progress")
+    {
+        let thread = std::thread::current();
+        let last_record = attempt.execution_records.last();
+        reconciliation_trace(&format!(
+            "stage=persisted_attempt thread={:?} attempt={} outcome={:?} cleanup={:?} last_exit={:?} last_signal={:?} failure={}",
+            thread.name(),
+            attempt.attempt_id,
+            attempt.execution_outcome,
+            attempt.cleanup_disposition,
+            last_record.and_then(|record| record.exit_code),
+            last_record.and_then(|record| record.termination_signal),
+            bounded(failure),
+        ));
+    }
     Ok(())
 }
 
