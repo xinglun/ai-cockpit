@@ -297,3 +297,489 @@ fn decision(state: ReuseState, action: ReuseAction, reason: ReuseReason) -> Reus
         reason,
     }
 }
+
+/// Exact fact comparison for cross-boundary CI evidence. This API does not
+/// authenticate GitHub, authorize a caller, execute artifact-supplied commands,
+/// or mint a reusable receipt. Only the provider admission service may do that
+/// after independent provenance and current authorization checks.
+pub const CI_NODE_FACTS_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CiCommandFacts {
+    pub logical_program: String,
+    pub logical_args: Vec<String>,
+    pub execution_program: String,
+    pub execution_args: Vec<String>,
+    /// Exact platform-native encoded bytes; no path rewriting or root aliasing.
+    pub cwd_bytes: Vec<u8>,
+    /// Hash of the exact explicit environment vector, including order.
+    pub explicit_environment_digest: Digest,
+    /// Hash of every effective child environment entry, not the coverage
+    /// helper's environment projection that deliberately omits transient keys.
+    pub effective_environment_digest: Digest,
+    pub clear_environment: bool,
+    pub resource_weight: u64,
+    pub timeout_seconds: u64,
+    /// Only empty is supported by this first slice. Node IDs alone do not
+    /// bind upstream receipts, outputs or generated inputs.
+    pub dependencies: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CiSourceFacts {
+    pub repository_id: Digest,
+    pub snapshot_digest: Digest,
+    /// PR source/head commit, never implicitly substituted for tested_commit.
+    pub source_commit: String,
+    /// Actual checked-out and tested commit (normally the PR merge commit).
+    pub tested_commit: String,
+    pub base_commit: String,
+    pub source_tree: String,
+    pub tested_tree: String,
+    pub cargo_lock_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CiCoverageFacts {
+    pub manifest_digest: Digest,
+    pub metadata_digest: Digest,
+    pub target_inventory_digest: Digest,
+    pub selected_targets: Vec<String>,
+    pub features: Vec<String>,
+    pub complete: bool,
+    pub warning_capture_complete: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CiNodeFacts {
+    pub schema_version: u32,
+    pub node_id: String,
+    pub command: CiCommandFacts,
+    pub source: CiSourceFacts,
+    /// Runtime-defined identity of OS, architecture, runner, host and target.
+    pub platform_digest: Digest,
+    pub toolchain_digest: Digest,
+    /// Identity of the Runtime that authored the execution receipt, not the
+    /// local Runtime that later imported DelegatedEvidence bytes.
+    pub producer_runtime_digest: Digest,
+    pub scope_digest: Digest,
+    pub policy_digest: Digest,
+    pub governance_digest: Digest,
+    pub profile_digest: Digest,
+    pub stage: String,
+    pub coverage: CiCoverageFacts,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CiNodeMismatch {
+    InvalidCurrent,
+    InvalidProducer,
+    NodeId,
+    LogicalProgram,
+    LogicalArgs,
+    ExecutionProgram,
+    ExecutionArgs,
+    Cwd,
+    ExplicitEnvironment,
+    EffectiveEnvironment,
+    ClearEnvironment,
+    ResourceWeight,
+    Timeout,
+    UnsupportedDependencies,
+    Repository,
+    Snapshot,
+    SourceCommit,
+    TestedCommit,
+    BaseCommit,
+    SourceTree,
+    TestedTree,
+    CargoLock,
+    Platform,
+    Toolchain,
+    ProducerRuntime,
+    Scope,
+    Policy,
+    Governance,
+    Profile,
+    Stage,
+    CoverageManifest,
+    Metadata,
+    TargetInventory,
+    TargetSelection,
+    Features,
+    CoverageIncomplete,
+    WarningCaptureIncomplete,
+}
+
+impl CiNodeFacts {
+    fn valid(&self) -> bool {
+        fn nonempty_no_nul(value: &str) -> bool {
+            !value.trim().is_empty() && !value.contains('\0')
+        }
+        fn distinct_nonempty(values: &[String]) -> bool {
+            let mut seen = std::collections::BTreeSet::new();
+            values.iter().all(|v| nonempty_no_nul(v) && seen.insert(v))
+        }
+        self.schema_version == CI_NODE_FACTS_SCHEMA_VERSION
+            && nonempty_no_nul(&self.node_id)
+            && nonempty_no_nul(&self.command.logical_program)
+            && nonempty_no_nul(&self.command.execution_program)
+            && self.command.logical_args.iter().all(|v| !v.contains('\0'))
+            && self
+                .command
+                .execution_args
+                .iter()
+                .all(|v| !v.contains('\0'))
+            && !self.command.cwd_bytes.is_empty()
+            && !self.command.cwd_bytes.contains(&0)
+            && self.command.resource_weight > 0
+            && (1..=900).contains(&self.command.timeout_seconds)
+            && matches!(
+                self.stage.as_str(),
+                "task" | "pre_ci" | "pr" | "merge" | "release"
+            )
+            && !self.coverage.selected_targets.is_empty()
+            && distinct_nonempty(&self.command.dependencies)
+            && distinct_nonempty(&self.coverage.selected_targets)
+            && distinct_nonempty(&self.coverage.features)
+            && [
+                &self.source.source_commit,
+                &self.source.tested_commit,
+                &self.source.base_commit,
+                &self.source.source_tree,
+                &self.source.tested_tree,
+            ]
+            .iter()
+            .all(|v| validate_object_id("CI Git object id", v).is_ok())
+            && [
+                &self.command.explicit_environment_digest,
+                &self.command.effective_environment_digest,
+                &self.source.repository_id,
+                &self.source.snapshot_digest,
+                &self.source.cargo_lock_digest,
+                &self.platform_digest,
+                &self.toolchain_digest,
+                &self.producer_runtime_digest,
+                &self.scope_digest,
+                &self.policy_digest,
+                &self.governance_digest,
+                &self.profile_digest,
+                &self.coverage.manifest_digest,
+                &self.coverage.metadata_digest,
+                &self.coverage.target_inventory_digest,
+            ]
+            .iter()
+            .all(|v| Digest::from_str(v.as_str()).is_ok())
+    }
+}
+
+/// Return unequal binding dimensions in a stable order, or a fail-closed
+/// malformed/unsupported-input reason. An empty result
+/// means only that the supplied complete fact objects are equal. It is NOT
+/// provider authentication, evidence acceptance, or permission to skip work.
+/// The current object must be derived by Runtime from current local policy;
+/// callers must never construct it from the candidate artifact.
+pub fn compare_ci_node_facts(current: &CiNodeFacts, producer: &CiNodeFacts) -> Vec<CiNodeMismatch> {
+    // Conservative local TDD baseline: matching facts are not implemented yet.
+    // This baseline cannot authorize admission or skip execution.
+    let mut result = Vec::new();
+    if !current.valid() {
+        result.push(CiNodeMismatch::InvalidCurrent);
+    }
+    if !producer.valid() {
+        result.push(CiNodeMismatch::InvalidProducer);
+    }
+    if result.is_empty() {
+        result.push(CiNodeMismatch::InvalidCurrent);
+    }
+    result
+}
+
+#[cfg(test)]
+mod ci_node_fact_tests {
+    use super::*;
+
+    fn digest(label: &str) -> Digest {
+        Digest::sha256_bytes(label.as_bytes())
+    }
+
+    fn fixture() -> CiNodeFacts {
+        CiNodeFacts {
+            schema_version: CI_NODE_FACTS_SCHEMA_VERSION,
+            node_id: "project-command-1".into(),
+            command: CiCommandFacts {
+                logical_program: "cargo".into(),
+                logical_args: vec![
+                    "test".into(),
+                    "--locked".into(),
+                    "-p".into(),
+                    "cockpit-core".into(),
+                    "--all-targets".into(),
+                    "--".into(),
+                    "--test-threads=1".into(),
+                ],
+                execution_program: "/opt/pinned/cargo".into(),
+                execution_args: vec![
+                    "test".into(),
+                    "--locked".into(),
+                    "-p".into(),
+                    "cockpit-core".into(),
+                    "--all-targets".into(),
+                    "--".into(),
+                    "--test-threads=1".into(),
+                ],
+                cwd_bytes: b"/fixed/checkout".to_vec(),
+                explicit_environment_digest: digest("explicit env bytes"),
+                effective_environment_digest: digest("all actual child env bytes"),
+                clear_environment: true,
+                resource_weight: 1,
+                timeout_seconds: 900,
+                dependencies: vec![],
+            },
+            source: CiSourceFacts {
+                repository_id: digest("attached repository id"),
+                snapshot_digest: digest("repository snapshot"),
+                source_commit: "a".repeat(40),
+                tested_commit: "b".repeat(40),
+                base_commit: "c".repeat(40),
+                source_tree: "d".repeat(40),
+                tested_tree: "e".repeat(40),
+                cargo_lock_digest: digest("lock"),
+            },
+            platform_digest: digest("linux x86_64 host target runner"),
+            toolchain_digest: digest("exact tools"),
+            producer_runtime_digest: digest("receipt authoring runtime"),
+            scope_digest: digest("scope"),
+            policy_digest: digest("policy"),
+            governance_digest: digest("governance"),
+            profile_digest: digest("profile"),
+            stage: "task".into(),
+            coverage: CiCoverageFacts {
+                manifest_digest: digest("manifest"),
+                metadata_digest: digest("metadata"),
+                target_inventory_digest: digest("metadata-derived target inventory"),
+                selected_targets: vec!["cockpit-core:lib".into()],
+                features: vec!["default".into()],
+                complete: true,
+                warning_capture_complete: true,
+            },
+        }
+    }
+
+    #[test]
+    fn identical_complete_facts_match_without_becoming_admission() {
+        let facts = fixture();
+        assert!(compare_ci_node_facts(&facts, &facts).is_empty());
+        // There is intentionally no receipt writer, executor, provider-status
+        // input or conversion from this result to ReuseAction in this API.
+    }
+
+    #[test]
+    fn every_identity_dimension_is_compared_without_normalization() {
+        type Mutation = (CiNodeMismatch, fn(&mut CiNodeFacts));
+        let mutations: Vec<Mutation> = vec![
+            (CiNodeMismatch::NodeId, |v| v.node_id.push('x')),
+            (CiNodeMismatch::LogicalProgram, |v| {
+                v.command.logical_program.push('x')
+            }),
+            (CiNodeMismatch::LogicalArgs, |v| {
+                v.command.logical_args.push("--lib".into())
+            }),
+            (CiNodeMismatch::ExecutionProgram, |v| {
+                v.command.execution_program.push('x')
+            }),
+            (CiNodeMismatch::ExecutionArgs, |v| {
+                v.command.execution_args.reverse()
+            }),
+            (CiNodeMismatch::Cwd, |v| v.command.cwd_bytes.push(b'/')),
+            (CiNodeMismatch::ExplicitEnvironment, |v| {
+                v.command.explicit_environment_digest = digest("other explicit env")
+            }),
+            (CiNodeMismatch::EffectiveEnvironment, |v| {
+                v.command.effective_environment_digest = digest("other inherited env")
+            }),
+            (CiNodeMismatch::ClearEnvironment, |v| {
+                v.command.clear_environment = false
+            }),
+            (CiNodeMismatch::ResourceWeight, |v| {
+                v.command.resource_weight = 2
+            }),
+            (CiNodeMismatch::Timeout, |v| v.command.timeout_seconds = 899),
+            (CiNodeMismatch::UnsupportedDependencies, |v| {
+                v.command.dependencies.push("prior".into())
+            }),
+            (CiNodeMismatch::Repository, |v| {
+                v.source.repository_id = digest("other repo")
+            }),
+            (CiNodeMismatch::Snapshot, |v| {
+                v.source.snapshot_digest = digest("other snapshot")
+            }),
+            (CiNodeMismatch::SourceCommit, |v| {
+                v.source.source_commit = "f".repeat(40)
+            }),
+            (CiNodeMismatch::TestedCommit, |v| {
+                v.source.tested_commit = "f".repeat(40)
+            }),
+            (CiNodeMismatch::BaseCommit, |v| {
+                v.source.base_commit = "f".repeat(40)
+            }),
+            (CiNodeMismatch::SourceTree, |v| {
+                v.source.source_tree = "f".repeat(40)
+            }),
+            (CiNodeMismatch::TestedTree, |v| {
+                v.source.tested_tree = "f".repeat(40)
+            }),
+            (CiNodeMismatch::CargoLock, |v| {
+                v.source.cargo_lock_digest = digest("other lock")
+            }),
+            (CiNodeMismatch::Platform, |v| {
+                v.platform_digest = digest("mac arm64")
+            }),
+            (CiNodeMismatch::Toolchain, |v| {
+                v.toolchain_digest = digest("other tools")
+            }),
+            (CiNodeMismatch::ProducerRuntime, |v| {
+                v.producer_runtime_digest = digest("other runtime")
+            }),
+            (CiNodeMismatch::Scope, |v| {
+                v.scope_digest = digest("other scope")
+            }),
+            (CiNodeMismatch::Policy, |v| {
+                v.policy_digest = digest("other policy")
+            }),
+            (CiNodeMismatch::Governance, |v| {
+                v.governance_digest = digest("other governance")
+            }),
+            (CiNodeMismatch::Profile, |v| {
+                v.profile_digest = digest("other profile")
+            }),
+            (CiNodeMismatch::Stage, |v| v.stage = "release".into()),
+            (CiNodeMismatch::CoverageManifest, |v| {
+                v.coverage.manifest_digest = digest("other manifest")
+            }),
+            (CiNodeMismatch::Metadata, |v| {
+                v.coverage.metadata_digest = digest("other metadata")
+            }),
+            (CiNodeMismatch::TargetInventory, |v| {
+                v.coverage.target_inventory_digest = digest("other inventory")
+            }),
+            (CiNodeMismatch::TargetSelection, |v| {
+                v.coverage
+                    .selected_targets
+                    .push("cockpit-core:example:demo".into())
+            }),
+            (CiNodeMismatch::Features, |v| {
+                v.coverage.features.push("test-support".into())
+            }),
+        ];
+        let current = fixture();
+        for (expected, mutate) in mutations {
+            let mut claimed = current.clone();
+            mutate(&mut claimed);
+            assert_eq!(compare_ci_node_facts(&current, &claimed), vec![expected]);
+        }
+    }
+
+    #[test]
+    fn same_incomplete_or_malformed_claim_never_matches() {
+        let mut facts = fixture();
+        facts.coverage.complete = false;
+        assert_eq!(
+            compare_ci_node_facts(&facts, &facts),
+            vec![CiNodeMismatch::CoverageIncomplete]
+        );
+        facts.coverage.complete = true;
+        facts.coverage.warning_capture_complete = false;
+        assert_eq!(
+            compare_ci_node_facts(&facts, &facts),
+            vec![CiNodeMismatch::WarningCaptureIncomplete]
+        );
+        facts.coverage.warning_capture_complete = true;
+        facts.command.timeout_seconds = 0;
+        assert_eq!(
+            compare_ci_node_facts(&facts, &facts),
+            vec![
+                CiNodeMismatch::InvalidCurrent,
+                CiNodeMismatch::InvalidProducer
+            ]
+        );
+    }
+
+    #[test]
+    fn duplicate_or_empty_target_inventory_is_invalid() {
+        let current = fixture();
+        for targets in [vec![], vec!["".into()], vec!["same".into(), "same".into()]] {
+            let mut claimed = current.clone();
+            claimed.coverage.selected_targets = targets;
+            assert_eq!(
+                compare_ci_node_facts(&current, &claimed),
+                vec![CiNodeMismatch::InvalidProducer]
+            );
+        }
+    }
+
+    #[test]
+    fn malformed_identity_fields_are_invalid() {
+        let mutations: [fn(&mut CiNodeFacts); 8] = [
+            |v| v.schema_version = 0,
+            |v| v.node_id.push('\0'),
+            |v| v.command.logical_program.clear(),
+            |v| v.command.execution_args.push("bad\0arg".into()),
+            |v| v.source.source_commit = "A".repeat(40),
+            |v| v.command.timeout_seconds = 0,
+            |v| v.command.timeout_seconds = 901,
+            |v| v.stage = "future".into(),
+        ];
+        let current = fixture();
+        for mutate in mutations {
+            let mut claimed = current.clone();
+            mutate(&mut claimed);
+            assert_eq!(
+                compare_ci_node_facts(&current, &claimed),
+                vec![CiNodeMismatch::InvalidProducer]
+            );
+        }
+    }
+
+    #[test]
+    fn equal_unknown_stage_and_dependency_claims_stay_unsupported() {
+        let mut facts = fixture();
+        for invalid_stage in ["future", "pull_request", ""] {
+            facts.stage = invalid_stage.into();
+            assert_eq!(
+                compare_ci_node_facts(&facts, &facts),
+                vec![
+                    CiNodeMismatch::InvalidCurrent,
+                    CiNodeMismatch::InvalidProducer
+                ]
+            );
+        }
+        for valid_stage in ["task", "pre_ci", "pr", "merge", "release"] {
+            facts.stage = valid_stage.into();
+            assert!(compare_ci_node_facts(&facts, &facts).is_empty());
+        }
+        facts.command.dependencies = vec!["same-upstream-node".into()];
+        assert_eq!(
+            compare_ci_node_facts(&facts, &facts),
+            vec![CiNodeMismatch::UnsupportedDependencies]
+        );
+    }
+
+    #[test]
+    fn strict_schema_rejects_missing_unknown_and_untyped_legacy_fields() {
+        let value = serde_json::to_value(fixture()).expect("serialize fixture");
+        for missing in ["producerRuntimeDigest", "coverage", "platformDigest"] {
+            let mut v = value.clone();
+            v.as_object_mut().expect("object").remove(missing);
+            assert!(serde_json::from_value::<CiNodeFacts>(v).is_err());
+        }
+        let mut v = value;
+        v["providerAuthenticated"] = serde_json::json!(true);
+        assert!(serde_json::from_value::<CiNodeFacts>(v).is_err());
+    }
+}
