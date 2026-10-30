@@ -2448,11 +2448,6 @@ fn worktree_is_registered(
     }))
 }
 
-#[cfg(all(unix, not(target_os = "linux")))]
-fn process_is_alive(pid: u32) -> bool {
-    process_liveness_probe(pid).0
-}
-
 #[cfg(unix)]
 fn process_liveness_probe(pid: u32) -> (bool, i32, Option<i32>) {
     // SAFETY: `kill(pid, 0)` performs no signal delivery and only probes the
@@ -3385,11 +3380,193 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
 #[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
 fn capture_worktree_query(
     command: &mut Command,
-    _timeout: Duration,
+    timeout: Duration,
 ) -> Result<std::process::Output, String> {
-    command
-        .output()
-        .map_err(|error| format!("cannot inspect open worktree files: {error}"))
+    capture_worktree_query_with_reaper(command, timeout, |child| child.try_wait())
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn capture_worktree_query_with_reaper(
+    command: &mut Command,
+    timeout: Duration,
+    mut reap: impl FnMut(&mut std::process::Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+) -> Result<std::process::Output, String> {
+    use std::os::unix::process::CommandExt;
+    use std::process::Stdio;
+
+    let deadline = Instant::now() + timeout;
+    let mut child = command
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .process_group(0)
+        .spawn()
+        .map_err(|error| format!("cannot start open-worktree query: {error}"))?;
+    let child_id = child.id() as libc::pid_t;
+    let mut stdout = Vec::new();
+    let mut stderr = Vec::new();
+    let mut stdout_closed = false;
+    let mut stderr_closed = false;
+    let mut owns_child = true;
+    let execution = (|| {
+        nonblocking_worktree_query_pipe(child.stdout.as_ref())?;
+        nonblocking_worktree_query_pipe(child.stderr.as_ref())?;
+        loop {
+            drain_worktree_query_pipe(child.stdout.as_mut(), &mut stdout, &mut stdout_closed)?;
+            drain_worktree_query_pipe(child.stderr.as_mut(), &mut stderr, &mut stderr_closed)?;
+            if Instant::now() >= deadline {
+                return Err("open-worktree query exceeded its execution deadline".to_owned());
+            }
+            // Observe without reaping: the owned leader keeps its PID reserved
+            // until the only process-group signal below has completed. Never
+            // signal a numeric group after try_wait has released that identity.
+            let mut observed: libc::siginfo_t = unsafe { std::mem::zeroed() };
+            let result = unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    child_id as libc::id_t,
+                    &mut observed,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            };
+            if result < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                if error.raw_os_error() == Some(libc::ECHILD) {
+                    owns_child = false;
+                }
+                return Err(format!("cannot observe owned open-worktree query: {error}"));
+            }
+            if unsafe { observed.si_pid() } == child_id {
+                return Ok(());
+            }
+            std::thread::sleep(Duration::from_millis(2));
+        }
+    })();
+    let mut failure = execution.err();
+    if failure.is_some() {
+        // A setup error may leave a pipe blocking. Never read it during error
+        // cleanup; incomplete capture remains an error, not an empty listing.
+        drop(child.stdout.take());
+        drop(child.stderr.take());
+        stdout_closed = true;
+        stderr_closed = true;
+    }
+    if owns_child {
+        // This kills only the group created by this spawn while its unreaped
+        // leader is still owned. It is not proof about detached descendants.
+        let killed = unsafe { libc::kill(-child_id, libc::SIGKILL) };
+        if killed < 0 {
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() != Some(libc::ESRCH) {
+                failure.get_or_insert_with(|| {
+                    format!("cannot terminate owned open-worktree query group: {error}")
+                });
+            }
+        }
+        let _ = child.kill();
+    }
+    let cleanup_deadline = Instant::now() + Duration::from_millis(250);
+    let mut status = None;
+    loop {
+        if status.is_none() {
+            match reap(&mut child) {
+                Ok(Some(observed)) => status = Some(observed),
+                Ok(None) => {}
+                Err(error) => {
+                    failure.get_or_insert_with(|| {
+                        format!("cannot reap owned open-worktree query: {error}")
+                    });
+                    break;
+                }
+            }
+        }
+        for result in [
+            drain_worktree_query_pipe(child.stdout.as_mut(), &mut stdout, &mut stdout_closed),
+            drain_worktree_query_pipe(child.stderr.as_mut(), &mut stderr, &mut stderr_closed),
+        ] {
+            if let Err(error) = result {
+                failure.get_or_insert(error);
+            }
+        }
+        if status.is_some() && stdout_closed && stderr_closed {
+            break;
+        }
+        if Instant::now() >= cleanup_deadline {
+            failure.get_or_insert_with(|| {
+                format!(
+                    "open-worktree query cleanup is uncertain for owned child {child_id}: reaped={}, stdoutComplete={stdout_closed}, stderrComplete={stderr_closed}",
+                    status.is_some()
+                )
+            });
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(2));
+    }
+    if let Some(failure) = failure {
+        return Err(failure);
+    }
+    let status = status.ok_or("open-worktree query has no complete exit observation")?;
+    Ok(std::process::Output {
+        status,
+        stdout,
+        stderr,
+    })
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn nonblocking_worktree_query_pipe(
+    pipe: Option<&impl std::os::fd::AsRawFd>,
+) -> Result<(), String> {
+    let pipe = pipe.ok_or("open-worktree query capture pipe is missing")?;
+    let descriptor = pipe.as_raw_fd();
+    let flags = unsafe { libc::fcntl(descriptor, libc::F_GETFL) };
+    if flags < 0 || unsafe { libc::fcntl(descriptor, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
+        return Err(format!(
+            "cannot configure bounded open-worktree query capture: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn drain_worktree_query_pipe(
+    pipe: Option<&mut impl std::io::Read>,
+    bytes: &mut Vec<u8>,
+    complete: &mut bool,
+) -> Result<(), String> {
+    if *complete {
+        return Ok(());
+    }
+    let pipe = pipe.ok_or("open-worktree query capture pipe is missing")?;
+    let mut buffer = [0_u8; 8192];
+    // Bound each turn so a continuously writable stream cannot starve the
+    // other stream or the execution/cleanup deadline.
+    for _ in 0..8 {
+        match pipe.read(&mut buffer) {
+            Ok(0) => {
+                *complete = true;
+                return Ok(());
+            }
+            Ok(count) if count > MAX_OUTPUT_BYTES.saturating_sub(bytes.len()) => {
+                return Err("open-worktree query exceeded its capture limit".into());
+            }
+            Ok(count) => bytes.extend_from_slice(&buffer[..count]),
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::WouldBlock | std::io::ErrorKind::Interrupted
+                ) =>
+            {
+                return Ok(());
+            }
+            Err(error) => return Err(format!("cannot capture open-worktree query output: {error}")),
+        }
+    }
+    Ok(())
 }
 
 #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
@@ -3416,11 +3593,32 @@ mod worktree_query_execution_tests {
         let Ok(mode) = std::env::var("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD") else {
             return;
         };
+        #[cfg(target_os = "linux")]
+        if let Some(detached) = match mode.as_str() {
+            "pipe_owner_same_group" => Some(false),
+            "pipe_owner_detached" => Some(true),
+            _ => None,
+        } {
+            pipe_holder_owner(detached);
+            return;
+        }
+        #[cfg(target_os = "linux")]
+        if let Some(detached) = match mode.as_str() {
+            "pipe_holder_same_group" => Some(false),
+            "pipe_holder_detached" => Some(true),
+            _ => None,
+        } {
+            pipe_holder_child(detached);
+            return;
+        }
         match mode.as_str() {
             "timeout" => std::thread::sleep(Duration::from_millis(1500)),
             "oversize" => std::io::stdout()
                 .write_all(&vec![b'x'; 128 * 1024])
                 .expect("fixture stdout"),
+            "stderr_oversize" => std::io::stderr()
+                .write_all(&vec![b'x'; 128 * 1024])
+                .expect("fixture stderr"),
             "nonzero" => {
                 std::io::stderr()
                     .write_all(b"query fixture denied\n")
@@ -3440,14 +3638,221 @@ mod worktree_query_execution_tests {
     fn worktree_query_timeout_is_not_complete_output() {
         let started = Instant::now();
         let result = capture_worktree_query(&mut fixture("timeout"), Duration::from_millis(80));
-        assert!(result.is_err(), "a timed-out query must remain unknown");
+        let error = result.expect_err("a timed-out query must remain unknown");
+        assert!(error.contains("execution deadline"), "{error}");
         assert!(started.elapsed() < Duration::from_secs(1));
     }
 
     #[test]
     fn worktree_query_output_limit_is_not_complete_output() {
-        let result = capture_worktree_query(&mut fixture("oversize"), Duration::from_secs(2));
-        assert!(result.is_err(), "an oversized query must remain unknown");
+        for mode in ["oversize", "stderr_oversize"] {
+            let result = capture_worktree_query(&mut fixture(mode), Duration::from_secs(2));
+            let error = result.expect_err("an oversized query must remain unknown");
+            assert!(error.contains("capture limit"), "{mode}: {error}");
+        }
+    }
+
+    #[test]
+    fn worktree_query_budget_covers_both_streams_together() {
+        let mut command = Command::new("/bin/sh");
+        command
+            .args(["-c", "printf '%s' \"$1\"; printf '%s' \"$2\" >&2", "query-budget"])
+            .arg("x".repeat(40 * 1024))
+            .arg("y".repeat(40 * 1024));
+        let error = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .expect_err("two individually small streams must share the capture budget");
+        assert!(error.contains("capture limit"), "{error}");
+    }
+
+    #[test]
+    fn worktree_query_accepts_the_exact_combined_budget() {
+        let mut command = Command::new("/bin/sh");
+        command
+            .args(["-c", "printf '%s' \"$1\"; printf '%s' \"$2\" >&2", "query-budget"])
+            .arg("x".repeat(32 * 1024))
+            .arg("y".repeat(32 * 1024));
+        let output = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .expect("complete output exactly at the combined limit");
+        assert!(output.status.success());
+        assert_eq!(output.stdout, vec![b'x'; 32 * 1024]);
+        assert_eq!(output.stderr, vec![b'y'; 32 * 1024]);
+    }
+
+    #[test]
+    fn worktree_query_preserves_primary_and_unreaped_cleanup_facts() {
+        let mut owned_child = None;
+        let result = super::capture_worktree_query_with_reaper(
+            &mut fixture("timeout"),
+            Duration::from_millis(80),
+            |child| {
+                owned_child = Some(child.id());
+                // Fault injection only: deliberately withhold the cleanup
+                // observation. This never reports a reusable success.
+                Ok(None)
+            },
+        );
+        let owned_child = owned_child.expect("real child held by the cleanup observer");
+        // Reap the exact, already killed test child after the negative result.
+        // This fixture cleanup is not credited as Runtime cleanup.
+        let mut status = 0;
+        let waited = unsafe { libc::waitpid(owned_child as libc::pid_t, &mut status, libc::WNOHANG) };
+        assert_eq!(waited, owned_child as libc::pid_t);
+        assert!(libc::WIFSIGNALED(status));
+        assert_eq!(libc::WTERMSIG(status), libc::SIGKILL);
+        let error = result.expect_err("unobserved cleanup must remain unknown");
+        assert!(error.contains("execution deadline"), "{error}");
+        assert!(error.contains(&format!("ownedChild={owned_child}")), "{error}");
+        assert!(error.contains("reaped=false"), "{error}");
+        assert!(error.contains("stdoutNaturalEof="), "{error}");
+        assert!(error.contains("stderrNaturalEof="), "{error}");
+        assert!(error.contains("groupSignal="), "{error}");
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn leader_exit_before_same_group_pipe_holder_is_not_a_complete_query() {
+        let output = fixture("pipe_owner_same_group")
+            .output()
+            .expect("isolated pipe-holder test owner");
+        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn leader_exit_before_detached_pipe_holder_is_not_a_complete_query() {
+        let output = fixture("pipe_owner_detached")
+            .output()
+            .expect("isolated pipe-holder test owner");
+        assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+    }
+
+    #[cfg(target_os = "linux")]
+    fn pipe_holder_child(detached: bool) {
+        use std::fs;
+        let root = std::path::PathBuf::from(
+            std::env::var_os("AI_COCKPIT_QUERY_PIPE_FIXTURE_ROOT").expect("private fixture root"),
+        );
+        let nonce = std::env::var("AI_COCKPIT_QUERY_PIPE_FIXTURE_NONCE").expect("private nonce");
+        if detached {
+            assert!(unsafe { libc::setsid() } > 0, "fixture setsid");
+        }
+        let identity = super::current_composition_process_identity().expect("holder identity");
+        let ready = serde_json::json!({"nonce":nonce,"identity":identity,"parentProcessId":unsafe {libc::getppid()}});
+        fs::write(root.join("ready.pending"), serde_json::to_vec(&ready).unwrap())
+            .expect("complete ready marker");
+        fs::rename(root.join("ready.pending"), root.join("ready.json"))
+            .expect("atomic ready publication");
+        // This fixture expires itself. The test owner never kills a detached
+        // holder or credits its TTL exit as Runtime cleanup.
+        std::thread::sleep(Duration::from_millis(1500));
+        let late = b"p123\nn/late-observation\n";
+        let written = unsafe { libc::write(3, late.as_ptr().cast(), late.len()) };
+        let expired = serde_json::json!({"nonce":nonce,"identity":identity,"lateWriteAttempted":true,"writeResult":written});
+        fs::write(root.join("expired.pending"), serde_json::to_vec(&expired).unwrap())
+            .expect("expiry observation");
+        fs::rename(root.join("expired.pending"), root.join("expired.json"))
+            .expect("atomic expiry publication");
+    }
+
+    #[cfg(target_os = "linux")]
+    fn pipe_holder_owner(detached: bool) {
+        use std::fs;
+        // Isolate the subreaper from the library test process and every other
+        // fixture. A hard self deadline makes owner failure non-green.
+        std::thread::spawn(|| {
+            std::thread::sleep(Duration::from_secs(5));
+            std::process::exit(98);
+        });
+        assert_eq!(
+            super::initialize_composition_supervisor_backend().expect("fixture owner backend"),
+            super::CompositionSupervisorBackend::LinuxSubreaper
+        );
+        let root = tempfile::TempDir::new().expect("private pipe fixture directory");
+        let nonce = format!("{}-{}", std::process::id(), root.path().display());
+        let mut command = Command::new("/bin/sh");
+        command
+            .args([
+                "-c",
+                "\"$1\" --exact composition::worktree_query_execution_tests::worktree_query_child --nocapture 3>&1 4>&2 >/dev/null 2>&1 &\nprintf '%s\\n' \"$!\" > \"$2/holder.pid\"\nturn=0\nwhile [ ! -f \"$2/ready.json\" ]; do turn=$((turn+1)); [ \"$turn\" -lt 1000000 ] || exit 97; done\nexit 1",
+                "query-leader",
+            ])
+            .arg(std::env::current_exe().expect("fixture executable"))
+            .arg(root.path())
+            .env("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD", if detached {"pipe_holder_detached"} else {"pipe_holder_same_group"})
+            .env("AI_COCKPIT_QUERY_PIPE_FIXTURE_ROOT", root.path())
+            .env("AI_COCKPIT_QUERY_PIPE_FIXTURE_NONCE", &nonce);
+        let mut leader_pid = None;
+        let result = super::capture_worktree_query_with_reaper(
+            &mut command,
+            Duration::from_millis(500),
+            |child| {
+                leader_pid = Some(child.id());
+                child.try_wait()
+            },
+        );
+        let holder: libc::pid_t = fs::read_to_string(root.path().join("holder.pid"))
+            .expect("leader registered its exact child")
+            .trim()
+            .parse()
+            .expect("positive holder PID");
+        assert!(holder > 0);
+        let ready: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.path().join("ready.json")).expect("complete holder identity"),
+        ).expect("valid ready record");
+        assert_eq!(ready["nonce"], nonce);
+        assert_eq!(ready["parentProcessId"], leader_pid.expect("actual owned query leader"));
+        let recorded: super::CompositionProcessIdentity =
+            serde_json::from_value(ready["identity"].clone()).expect("recorded holder identity");
+        assert_eq!(recorded.process_id, holder as u32);
+        assert_eq!(recorded.process_group_id, if detached {Some(holder as u32)} else {leader_pid});
+        if detached {assert_eq!(recorded.session_id, Some(holder as u32));}
+        assert_eq!(
+            super::observe_composition_process_identity(holder as u32).expect("current owned identity"),
+            recorded
+        );
+        let deadline = Instant::now() + Duration::from_secs(3);
+        let mut status = 0;
+        loop {
+            let waited = unsafe { libc::waitpid(holder, &mut status, libc::WNOHANG) };
+            if waited == holder { break; }
+            assert_eq!(waited, 0, "exact owned holder wait: {}", std::io::Error::last_os_error());
+            assert!(Instant::now() < deadline, "fixture holder did not expire; no rescue permitted");
+            std::thread::sleep(Duration::from_millis(2));
+        }
+        if detached {
+            assert!(libc::WIFEXITED(status));
+            assert_eq!(libc::WEXITSTATUS(status), 0);
+            let expired: serde_json::Value = serde_json::from_slice(
+                &fs::read(root.path().join("expired.json")).expect("fixture TTL evidence"),
+            ).expect("valid expiry record");
+            assert_eq!(expired["nonce"], nonce);
+            assert_eq!(expired["identity"], ready["identity"]);
+            assert_eq!(expired["lateWriteAttempted"], true);
+        } else {
+            assert!(libc::WIFSIGNALED(status));
+            assert_eq!(libc::WTERMSIG(status), libc::SIGKILL);
+            assert!(!root.path().join("expired.json").exists());
+        }
+        let mut unexpected: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        let inspected = unsafe {
+            libc::waitid(libc::P_ALL, 0, &mut unexpected, libc::WEXITED | libc::WNOHANG | libc::WNOWAIT)
+        };
+        assert_eq!(inspected, -1, "unexpected child remains; never reap an unidentified child");
+        assert_eq!(std::io::Error::last_os_error().raw_os_error(), Some(libc::ECHILD));
+        let premature = result.as_ref().ok().map(|output| {
+            (output.status.code(), output.stdout.len(), output.stderr.len(), super::inspect_lsof_worktree_output(root.path(), output))
+        });
+        let error = result.expect_err(&format!("leader exit with inherited pipes cannot prove a complete query; premature={premature:?}"));
+        assert!(error.contains("deadline") || error.contains("cleanup is uncertain"), "{error}");
+    }
+
+    #[test]
+    fn worktree_query_launch_failure_stays_unknown() {
+        let directory = tempfile::TempDir::new().expect("fixture directory");
+        let mut command = Command::new(directory.path().join("missing-query-executable"));
+        let error = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .expect_err("a missing query cannot prove absence of references");
+        assert!(error.contains("cannot start"), "{error}");
     }
 
     #[test]
