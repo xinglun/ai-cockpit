@@ -1225,6 +1225,39 @@ fn changed_timeout_invalidates_reuse_without_rewriting_the_attempt() {
 
 
 #[cfg(unix)]
+fn authorize_local_node_fixture_timeout(root: &Path) {
+    // Install only this disposable repository's finite grant before native WI
+    // creation/preflight/checkpoint; retain explicit timeout identity coverage.
+    fs::write(
+        root.join(".ai/policy.json"),
+        serde_json::to_vec_pretty(&json!({
+            "schemaVersion": 1,
+            "project": {
+                "policyId": "local-node-timeout-fixture-v1",
+                "layer": "project",
+                "rules": [{
+                    "operation": "modify_source",
+                    "approvalMode": "single_authorized_human",
+                    "requiredEvidence": [],
+                    "verificationRequirement": {
+                        "schemaVersion": 1,
+                        "requiredTier": "T0",
+                        "requiredAssurance": "self_declared",
+                        "policyRefs": ["local-node-timeout-fixture-v1"],
+                        "stageRefs": ["task"],
+                        "gateRefs": [],
+                        "maxTimeoutSeconds": 30,
+                        "reason": "Bound explicit local-node fixture deadlines to 30 seconds"
+                    }
+                }]
+            }
+        }))
+        .expect("encode fixture timeout policy"),
+    )
+    .expect("write fixture timeout policy");
+}
+
+#[cfg(unix)]
 #[test]
 fn local_node_reuse_requires_real_new_fact_parent_and_exact_current_identity(){
     let directory=attached_repository();let root=directory.path();
@@ -1234,6 +1267,7 @@ fn local_node_reuse_requires_real_new_fact_parent_and_exact_current_identity(){
     let mut command=checkpoint_command(root,&script);command.timeout_seconds=Some(30);command.policy=RepositoryVerificationPolicy::ProfileAuthorized;
     cockpit_repository::confirm_profile_update(root,&command.program,&command.args).unwrap();
     cockpit_repository::confirm_profile_update(root,"sh",&["-c".into(),"printf actual-gap-output".into()]).unwrap();
+    authorize_local_node_fixture_timeout(root);
     start_attempt(root);
     preflight_work_item(root,&root.join(".ai/work-items/active/WI-ATTEMPT.contract.json")).unwrap();
     checkpoint_work_item(root,"WI-ATTEMPT").unwrap();
@@ -1280,6 +1314,7 @@ fn local_node_fact_and_parent_mutations_never_authorize_reuse() {
     let mut command=checkpoint_command(root,"printf mutation-baseline");command.timeout_seconds=Some(30);command.policy=RepositoryVerificationPolicy::ProfileAuthorized;
     cockpit_repository::confirm_profile_update(root,&command.program,&command.args).unwrap();
     cockpit_repository::confirm_profile_update(root,"sh",&["-c".into(),"printf actual-gap-output".into()]).unwrap();
+    authorize_local_node_fixture_timeout(root);
     start_attempt(root);
     preflight_work_item(root,&root.join(".ai/work-items/active/WI-ATTEMPT.contract.json")).unwrap();
     checkpoint_work_item(root,"WI-ATTEMPT").unwrap();

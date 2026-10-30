@@ -13792,8 +13792,6 @@ fn try_plan_local_node_reuse(root:&Path,requests:&[RepositoryVerificationRequest
                 fact_id:chosen[0]["factId"].as_str().ok_or_else(||local_node_error(&root,"node fact identity"))?.into(),parent_receipt:parent["receipt"].clone()});
             break;
         }
-        // RED scaffold: no optional local candidate is accepted yet.
-        decision.candidate=None;
         if decision.candidate.is_none() && decision.reason!="local_node_fact_missing_or_legacy"{decision.fresh_required=true;}
         result.push(decision);
     }

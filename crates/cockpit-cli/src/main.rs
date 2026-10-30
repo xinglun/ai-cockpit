@@ -6878,8 +6878,7 @@ fn select_declared_nodes(requests:Vec<RepositoryVerificationRequest>,selected:&[
     for request in &requests {if !inventory.insert(request.node_id.clone()){anyhow::bail!("duplicate canonical declared node ID");}}
     let mut wanted=std::collections::BTreeSet::new();
     for id in selected {if !inventory.contains(id) || !wanted.insert(id.clone()){anyhow::bail!("unknown or duplicate declared node ID: {id}");}}
-    // RED scaffold: retain the validated whole inventory until selection is implemented.
-    Ok(requests)
+    Ok(requests.into_iter().filter(|r|selected.is_empty() || wanted.contains(&r.node_id)).collect())
 }
 #[cfg(test)]
 mod declared_node_selection_tests {
