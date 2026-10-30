@@ -1974,18 +1974,17 @@ where
         local_node_input.as_ref(),
         task_context,
         execution_checkpoint.as_ref(),
-    ) {
-        if let Some(execution_id) = checkpoint.local_execution_id() {
-            lifecycle::publish_validated_local_node(
-                &root,
-                request,
-                &final_snapshot,
-                runtime,
-                before,
-                &receipt,
-                execution_id,
-            )?;
-        }
+    ) && let Some(execution_id) = checkpoint.local_execution_id()
+    {
+        lifecycle::publish_validated_local_node(
+            &root,
+            request,
+            &final_snapshot,
+            runtime,
+            before,
+            &receipt,
+            execution_id,
+        )?;
     }
     Ok(RepositoryVerificationRun {
         receipt,
