@@ -485,8 +485,6 @@ impl CiNodeFacts {
 /// The current object must be derived by Runtime from current local policy;
 /// callers must never construct it from the candidate artifact.
 pub fn compare_ci_node_facts(current: &CiNodeFacts, producer: &CiNodeFacts) -> Vec<CiNodeMismatch> {
-    // Conservative local TDD baseline: matching facts are not implemented yet.
-    // This baseline cannot authorize admission or skip execution.
     let mut result = Vec::new();
     if !current.valid() {
         result.push(CiNodeMismatch::InvalidCurrent);
@@ -494,8 +492,158 @@ pub fn compare_ci_node_facts(current: &CiNodeFacts, producer: &CiNodeFacts) -> V
     if !producer.valid() {
         result.push(CiNodeMismatch::InvalidProducer);
     }
-    if result.is_empty() {
-        result.push(CiNodeMismatch::InvalidCurrent);
+    if !result.is_empty() {
+        return result;
+    }
+    // Dependency IDs do not establish the identity of upstream outputs.
+    // Keep this slice dependency-free rather than imply complete DAG reuse.
+    if !current.command.dependencies.is_empty() || !producer.command.dependencies.is_empty() {
+        return vec![CiNodeMismatch::UnsupportedDependencies];
+    }
+    macro_rules! compare {
+        ($kind:ident, $left:expr, $right:expr) => {
+            if $left != $right {
+                result.push(CiNodeMismatch::$kind);
+            }
+        };
+    }
+    compare!(NodeId, current.node_id, producer.node_id);
+    compare!(
+        LogicalProgram,
+        current.command.logical_program,
+        producer.command.logical_program
+    );
+    compare!(
+        LogicalArgs,
+        current.command.logical_args,
+        producer.command.logical_args
+    );
+    compare!(
+        ExecutionProgram,
+        current.command.execution_program,
+        producer.command.execution_program
+    );
+    compare!(
+        ExecutionArgs,
+        current.command.execution_args,
+        producer.command.execution_args
+    );
+    compare!(Cwd, current.command.cwd_bytes, producer.command.cwd_bytes);
+    compare!(
+        ExplicitEnvironment,
+        current.command.explicit_environment_digest,
+        producer.command.explicit_environment_digest
+    );
+    compare!(
+        EffectiveEnvironment,
+        current.command.effective_environment_digest,
+        producer.command.effective_environment_digest
+    );
+    compare!(
+        ClearEnvironment,
+        current.command.clear_environment,
+        producer.command.clear_environment
+    );
+    compare!(
+        ResourceWeight,
+        current.command.resource_weight,
+        producer.command.resource_weight
+    );
+    compare!(
+        Timeout,
+        current.command.timeout_seconds,
+        producer.command.timeout_seconds
+    );
+    compare!(
+        Repository,
+        current.source.repository_id,
+        producer.source.repository_id
+    );
+    compare!(
+        Snapshot,
+        current.source.snapshot_digest,
+        producer.source.snapshot_digest
+    );
+    compare!(
+        SourceCommit,
+        current.source.source_commit,
+        producer.source.source_commit
+    );
+    compare!(
+        TestedCommit,
+        current.source.tested_commit,
+        producer.source.tested_commit
+    );
+    compare!(
+        BaseCommit,
+        current.source.base_commit,
+        producer.source.base_commit
+    );
+    compare!(
+        SourceTree,
+        current.source.source_tree,
+        producer.source.source_tree
+    );
+    compare!(
+        TestedTree,
+        current.source.tested_tree,
+        producer.source.tested_tree
+    );
+    compare!(
+        CargoLock,
+        current.source.cargo_lock_digest,
+        producer.source.cargo_lock_digest
+    );
+    compare!(Platform, current.platform_digest, producer.platform_digest);
+    compare!(
+        Toolchain,
+        current.toolchain_digest,
+        producer.toolchain_digest
+    );
+    compare!(
+        ProducerRuntime,
+        current.producer_runtime_digest,
+        producer.producer_runtime_digest
+    );
+    compare!(Scope, current.scope_digest, producer.scope_digest);
+    compare!(Policy, current.policy_digest, producer.policy_digest);
+    compare!(
+        Governance,
+        current.governance_digest,
+        producer.governance_digest
+    );
+    compare!(Profile, current.profile_digest, producer.profile_digest);
+    compare!(Stage, current.stage, producer.stage);
+    compare!(
+        CoverageManifest,
+        current.coverage.manifest_digest,
+        producer.coverage.manifest_digest
+    );
+    compare!(
+        Metadata,
+        current.coverage.metadata_digest,
+        producer.coverage.metadata_digest
+    );
+    compare!(
+        TargetInventory,
+        current.coverage.target_inventory_digest,
+        producer.coverage.target_inventory_digest
+    );
+    compare!(
+        TargetSelection,
+        current.coverage.selected_targets,
+        producer.coverage.selected_targets
+    );
+    compare!(
+        Features,
+        current.coverage.features,
+        producer.coverage.features
+    );
+    if !current.coverage.complete || !producer.coverage.complete {
+        result.push(CiNodeMismatch::CoverageIncomplete);
+    }
+    if !current.coverage.warning_capture_complete || !producer.coverage.warning_capture_complete {
+        result.push(CiNodeMismatch::WarningCaptureIncomplete);
     }
     result
 }
