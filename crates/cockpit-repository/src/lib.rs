@@ -1540,13 +1540,26 @@ where
 /// Guard both optional caches with current native causal observations. The
 /// context can request physical execution; it cannot grant profile authority.
 pub fn run_repository_verification_with_local_node_guard<F>(
-    root:&Path,request:&RepositoryVerificationRequest,runtime:&RuntimeContext,
-    caller:Option<&cockpit_protocol::TaskAuthorizationCaller>,process_observer:F,
-    supervisor:Option<cockpit_verification::VerificationSupervisorLaunch>,
-    context:LocalNodeExecutionContext<'_>,
-)->Result<RepositoryVerificationRun,ObserverError>
-where F:Fn(&str,u32,bool)->Result<(),String>+Send+Sync+'static {
-    run_repository_verification_inner(root,request,process_observer,|_|{},Some((runtime,caller)),supervisor,Some(context))
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+    context: LocalNodeExecutionContext<'_>,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
+        supervisor,
+        Some(context),
+    )
 }
 
 /// The existing executor holds this own-WI lock through the actual OS spawn,
@@ -1657,22 +1670,37 @@ where
     post_prepare(&prepared);
     let local_node_input = match (request.work_item_id.as_deref(), task_context) {
         (Some(_), Some((runtime, _))) => Some(lifecycle::capture_local_node_input(
-            &root, request, &snapshot, runtime, &prepared.command,
-            prepared.execution_identity.as_ref(), prepared.authorized_binding.as_ref())?),
+            &root,
+            request,
+            &snapshot,
+            runtime,
+            &prepared.command,
+            prepared.execution_identity.as_ref(),
+            prepared.authorized_binding.as_ref(),
+        )?),
         _ => None,
     };
     if let Some((_, authorization)) = prepared.authorized_binding.as_ref() {
         // A legacy WI call cannot claim a known local observation belongs to
         // another Runtime version. Absent such observations its old route is
         // preserved; bare non-WI calls never consult this WI-local guard.
-        let causal_fresh=match local_node_input.as_ref() {
-            Some(input)=>lifecycle::local_profile_cache_requires_fresh(&root,input,local_context.and_then(|context|context.own_run)),
-            None if request.work_item_id.is_some()=>lifecycle::local_unbound_profile_cache_requires_fresh(&root,request,&snapshot),
-            None=>false,
+        let causal_fresh = match local_node_input.as_ref() {
+            Some(input) => lifecycle::local_profile_cache_requires_fresh(
+                &root,
+                input,
+                local_context.and_then(|context| context.own_run),
+            ),
+            None if request.work_item_id.is_some() => {
+                lifecycle::local_unbound_profile_cache_requires_fresh(&root, request, &snapshot)
+            }
+            None => false,
         };
-        if local_context.is_some_and(|context|context.force_fresh) || causal_fresh {
-            prepared.command=prepared.command.clone().with_reuse_candidate(None,authorization.context.clone());
-            prepared.reuse_authorization="authorized_forced_fresh".into();
+        if local_context.is_some_and(|context| context.force_fresh) || causal_fresh {
+            prepared.command = prepared
+                .command
+                .clone()
+                .with_reuse_candidate(None, authorization.context.clone());
+            prepared.reuse_authorization = "authorized_forced_fresh".into();
         }
     }
     let mut store_files_read = prepared.store_files_read;
@@ -1942,9 +1970,21 @@ where
         plan_receipt.timeout_seconds = receipt.timeout_seconds;
         receipt.plan_receipt = Some(plan_receipt);
     }
-    if let (Some(before), Some((runtime, _)),Some(checkpoint)) = (local_node_input.as_ref(), task_context,execution_checkpoint.as_ref()) {
-        if let Some(execution_id)=checkpoint.local_execution_id(){
-            lifecycle::publish_validated_local_node(&root, request, &final_snapshot, runtime, before, &receipt,execution_id)?;
+    if let (Some(before), Some((runtime, _)), Some(checkpoint)) = (
+        local_node_input.as_ref(),
+        task_context,
+        execution_checkpoint.as_ref(),
+    ) {
+        if let Some(execution_id) = checkpoint.local_execution_id() {
+            lifecycle::publish_validated_local_node(
+                &root,
+                request,
+                &final_snapshot,
+                runtime,
+                before,
+                &receipt,
+                execution_id,
+            )?;
         }
     }
     Ok(RepositoryVerificationRun {

@@ -9313,27 +9313,86 @@ impl VerificationRunCheckpoint {
         })
     }
 
-    pub fn local_run_identity(&self)->LocalVerificationRunIdentity {
-        LocalVerificationRunIdentity{root:self.checkpoint.root.clone(),run_id:self.checkpoint.binding["runId"].as_str().expect("native run identity").into()}
-    }
-
-    pub fn persist_local_run_attempt(&self,requests:&[RepositoryVerificationRequest],snapshot:&RepositorySnapshot,runtime:&RuntimeContext,write:LocalRunAttemptWrite<'_>)->Result<serde_json::Value,ObserverError>{
-        persist_verification_attempt_internal(&self.checkpoint.root,self.checkpoint.binding["workItemId"].as_str().expect("typed WI"),requests,snapshot,runtime,write.state,write.diagnostic,write.receipt,write.supersedes,Some(self.checkpoint.binding["runId"].as_str().expect("native run identity")))
-    }
-
-    pub fn record_local_run_completion(&self,parent_summary:&serde_json::Value)->Result<serde_json::Value,ObserverError>{
-        self.checkpoint.require_current_destination()?;
-        let id=parent_summary["attemptId"].as_str().filter(|id|valid_sha256_digest(id)).ok_or_else(||local_node_error(&self.checkpoint.root,"invalid run terminal identity"))?;
-        let wi=self.checkpoint.binding["workItemId"].as_str().expect("typed WI");
-        let name=format!("{wi}.verification-attempt.{}.json",id.trim_start_matches("sha256:"));
-        let bytes=super::legacy_closeout_source::read_regular_cap_bounded(&self.checkpoint.evidence,&name,&self.checkpoint.root.join(".ai/evidence").join(&name),MAX_VERIFICATION_ATTEMPT_RECORD_BYTES)?;
-        super::reject_duplicate_json_keys(&bytes).map_err(|_|local_node_error(&self.checkpoint.root,"duplicate run terminal keys"))?;
-        let parent:serde_json::Value=serde_json::from_slice(&bytes).map_err(|_|local_node_error(&self.checkpoint.root,"invalid run terminal bytes"))?;
-        if !verification_attempt_content_digest_matches(&parent) || parent["attemptId"]!=id || parent["state"]!="execution_completed" || parent["passed"]!=true || parent["runId"]!=self.checkpoint.binding["runId"]
-            || !local_run_parent_binding_matches(&self.checkpoint.binding,&parent) {
-            return Err(local_node_error(&self.checkpoint.root,"invalid successful run terminal link"));
+    pub fn local_run_identity(&self) -> LocalVerificationRunIdentity {
+        LocalVerificationRunIdentity {
+            root: self.checkpoint.root.clone(),
+            run_id: self.checkpoint.binding["runId"]
+                .as_str()
+                .expect("native run identity")
+                .into(),
         }
-        let mut value=self.checkpoint.binding.clone();value["state"]=serde_json::json!("run_completed");value["parentAttemptId"]=parent["attemptId"].clone();
+    }
+
+    pub fn persist_local_run_attempt(
+        &self,
+        requests: &[RepositoryVerificationRequest],
+        snapshot: &RepositorySnapshot,
+        runtime: &RuntimeContext,
+        write: LocalRunAttemptWrite<'_>,
+    ) -> Result<serde_json::Value, ObserverError> {
+        persist_verification_attempt_internal(
+            &self.checkpoint.root,
+            self.checkpoint.binding["workItemId"]
+                .as_str()
+                .expect("typed WI"),
+            requests,
+            snapshot,
+            runtime,
+            write.state,
+            write.diagnostic,
+            write.receipt,
+            write.supersedes,
+            Some(
+                self.checkpoint.binding["runId"]
+                    .as_str()
+                    .expect("native run identity"),
+            ),
+        )
+    }
+
+    pub fn record_local_run_completion(
+        &self,
+        parent_summary: &serde_json::Value,
+    ) -> Result<serde_json::Value, ObserverError> {
+        self.checkpoint.require_current_destination()?;
+        let id = parent_summary["attemptId"]
+            .as_str()
+            .filter(|id| valid_sha256_digest(id))
+            .ok_or_else(|| {
+                local_node_error(&self.checkpoint.root, "invalid run terminal identity")
+            })?;
+        let wi = self.checkpoint.binding["workItemId"]
+            .as_str()
+            .expect("typed WI");
+        let name = format!(
+            "{wi}.verification-attempt.{}.json",
+            id.trim_start_matches("sha256:")
+        );
+        let bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+            &self.checkpoint.evidence,
+            &name,
+            &self.checkpoint.root.join(".ai/evidence").join(&name),
+            MAX_VERIFICATION_ATTEMPT_RECORD_BYTES,
+        )?;
+        super::reject_duplicate_json_keys(&bytes)
+            .map_err(|_| local_node_error(&self.checkpoint.root, "duplicate run terminal keys"))?;
+        let parent: serde_json::Value = serde_json::from_slice(&bytes)
+            .map_err(|_| local_node_error(&self.checkpoint.root, "invalid run terminal bytes"))?;
+        if !verification_attempt_content_digest_matches(&parent)
+            || parent["attemptId"] != id
+            || parent["state"] != "execution_completed"
+            || parent["passed"] != true
+            || parent["runId"] != self.checkpoint.binding["runId"]
+            || !local_run_parent_binding_matches(&self.checkpoint.binding, &parent)
+        {
+            return Err(local_node_error(
+                &self.checkpoint.root,
+                "invalid successful run terminal link",
+            ));
+        }
+        let mut value = self.checkpoint.binding.clone();
+        value["state"] = serde_json::json!("run_completed");
+        value["parentAttemptId"] = parent["attemptId"].clone();
         self.checkpoint.publish(value)
     }
 
@@ -9491,7 +9550,9 @@ impl VerificationExecutionCheckpoint {
         Ok(checkpoint)
     }
 
-    pub(crate) fn local_execution_id(&self)->Option<&str>{self.binding["executionId"].as_str()}
+    pub(crate) fn local_execution_id(&self) -> Option<&str> {
+        self.binding["executionId"].as_str()
+    }
 
     fn open(root: &Path, binding: serde_json::Value) -> Result<Self, ObserverError> {
         let pinned_root = super::legacy_closeout_source::PinnedRoot::open(root)?;
@@ -10066,12 +10127,15 @@ fn persist_verification_attempt_internal(
         });
     }
     // Optional cache metadata cannot erase mandatory execution/denial facts.
-    let (node_execution_facts, local_node_link_state) = if state == "execution_completed" && passed {
+    let (node_execution_facts, local_node_link_state) = if state == "execution_completed" && passed
+    {
         match local_node_fact_links(&root, work_item_id, &execution_records) {
             Ok(links) => (links, "available"),
             Err(_) => (serde_json::json!([]), "unavailable"),
         }
-    } else { (serde_json::json!([]), "not_applicable") };
+    } else {
+        (serde_json::json!([]), "not_applicable")
+    };
     let mut value = serde_json::json!({
         "protocolVersion": 1,
         "schemaVersion": VERIFICATION_ATTEMPT_SCHEMA_VERSION,
@@ -10093,7 +10157,9 @@ fn persist_verification_attempt_internal(
         "receipt": bound_receipt,
         "createdAt": now(),
     });
-    if let Some(run_id)=local_run_id.filter(|id|valid_sha256_digest(id)){value["runId"]=serde_json::json!(run_id);}
+    if let Some(run_id) = local_run_id.filter(|id| valid_sha256_digest(id)) {
+        value["runId"] = serde_json::json!(run_id);
+    }
     if let Some(supersedes_attempt_id) = supersedes_attempt_id {
         value["supersedesAttemptId"] = serde_json::json!(supersedes_attempt_id);
     }
@@ -13539,7 +13605,7 @@ mod cross_checkout_closeout_tests {
 // A local fact is not sufficient for reuse: an exact successful parent must link it.
 #[derive(Clone, Debug)]
 pub struct LocalNodeCandidate {
-    execution_id:String,
+    execution_id: String,
     node_id: String,
     parent_attempt_id: String,
     fact_id: String,
@@ -13547,7 +13613,9 @@ pub struct LocalNodeCandidate {
 }
 
 impl LocalNodeCandidate {
-    pub fn node_id(&self) -> &str { &self.node_id }
+    pub fn node_id(&self) -> &str {
+        &self.node_id
+    }
     pub fn projection(&self) -> serde_json::Value {
         serde_json::json!({"nodeId":self.node_id,"parentAttemptId":self.parent_attempt_id,
             "nodeFactId":self.fact_id,"executionId":self.execution_id,"assurance":"self_declared","producer":"native_local"})
@@ -13563,87 +13631,174 @@ pub struct LocalNodeDecision {
 }
 
 fn local_node_error(root: &Path, message: &str) -> ObserverError {
-    ObserverError::State { path:root.join(".ai/evidence"),message:message.into() }
+    ObserverError::State {
+        path: root.join(".ai/evidence"),
+        message: message.into(),
+    }
 }
 
-fn local_fact_directory(root: &Path, wi: &str, create: bool) -> Result<cap_std::fs::Dir, ObserverError> {
+fn local_fact_directory(
+    root: &Path,
+    wi: &str,
+    create: bool,
+) -> Result<cap_std::fs::Dir, ObserverError> {
     validate_work_item_id(wi)?;
-    let pinned=super::legacy_closeout_source::PinnedRoot::open(root)?;
-    let mut directory=pinned.directory()?;
-    let mut path=root.to_path_buf();
-    for name in [".ai".to_owned(),"evidence".into(),format!("{wi}.verification-admissions"),"local-node-facts".into()] {
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+    let mut directory = pinned.directory()?;
+    let mut path = root.to_path_buf();
+    for name in [
+        ".ai".to_owned(),
+        "evidence".into(),
+        format!("{wi}.verification-admissions"),
+        "local-node-facts".into(),
+    ] {
         path.push(&name);
-        directory=if create {
-            super::evidence_store::create_and_open_cap_directory(&directory,&name,&path)?
+        directory = if create {
+            super::evidence_store::create_and_open_cap_directory(&directory, &name, &path)?
         } else {
-            super::evidence_store::open_cap_directory_nofollow_strict(&directory,&name,&path)?
+            super::evidence_store::open_cap_directory_nofollow_strict(&directory, &name, &path)?
         };
     }
     pinned.require_current()?;
     Ok(directory)
 }
 
-fn read_local_json_directory(root: &Path, directory: &cap_std::fs::Dir, prefix: &str) -> Result<Vec<serde_json::Value>,ObserverError> {
-    let mut result=Vec::new(); let mut total=0usize; let mut scanned=0usize;
-    let entries=directory.entries().map_err(|source|ObserverError::Read{path:root.into(),source})?;
+fn read_local_json_directory(
+    root: &Path,
+    directory: &cap_std::fs::Dir,
+    prefix: &str,
+) -> Result<Vec<serde_json::Value>, ObserverError> {
+    let mut result = Vec::new();
+    let mut total = 0usize;
+    let mut scanned = 0usize;
+    let entries = directory.entries().map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
     for entry in entries {
-        let entry=entry.map_err(|source|ObserverError::Read{path:root.into(),source})?;
-        let name=entry.file_name();
-        let Some(name)=name.to_str() else { return Err(local_node_error(root,"non-UTF8 local evidence name")); };
-        if !name.starts_with(prefix) || !name.ends_with(".json") { continue; }
-        scanned+=1; if scanned>4096 { return Err(local_node_error(root,"local evidence inventory limit")); }
-        let bytes=super::legacy_closeout_source::read_regular_cap_bounded(directory,name,&root.join(name),MAX_VERIFICATION_ATTEMPT_RECORD_BYTES)?;
-        total=total.saturating_add(bytes.len());
-        if total>32*1024*1024 { return Err(local_node_error(root,"local evidence total byte limit")); }
-        super::reject_duplicate_json_keys(&bytes).map_err(|_|local_node_error(root,"duplicate local evidence JSON key"))?;
-        let value:serde_json::Value=serde_json::from_slice(&bytes).map_err(|_|local_node_error(root,"malformed local evidence JSON"))?;
-        let id_key=if value["kind"]=="local_node_execution_fact" {"factId"} else if value["kind"]=="verification_attempt" {"attemptId"} else if value["kind"]=="verification_run_checkpoint" || value["kind"]=="verification_execution_checkpoint" {"checkpointId"} else {return Err(local_node_error(root,"unknown local evidence kind"));};
-        if value["schemaVersion"]!=1 || (id_key!="factId" && value["protocolVersion"]!=1){return Err(local_node_error(root,"unknown local evidence schema"));}
-        let Some(id)=value[id_key].as_str() else{return Err(local_node_error(root,"missing local evidence identity"));};
-        if !valid_sha256_digest(id) || !name.ends_with(&format!("{}.json",id.trim_start_matches("sha256:"))) {
-            return Err(local_node_error(root,"local evidence name/identity mismatch"));
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else {
+            return Err(local_node_error(root, "non-UTF8 local evidence name"));
+        };
+        if !name.starts_with(prefix) || !name.ends_with(".json") {
+            continue;
         }
-        let mut unsigned=value.clone(); unsigned.as_object_mut().ok_or_else(||local_node_error(root,"local evidence is not object"))?.remove(id_key);
-        if cockpit_protocol::digest_json(&unsigned).map_err(|_|local_node_error(root,"local evidence digest failure"))?.to_string()!=id {
-            return Err(local_node_error(root,"local evidence content mismatch"));
+        scanned += 1;
+        if scanned > 4096 {
+            return Err(local_node_error(root, "local evidence inventory limit"));
+        }
+        let bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+            directory,
+            name,
+            &root.join(name),
+            MAX_VERIFICATION_ATTEMPT_RECORD_BYTES,
+        )?;
+        total = total.saturating_add(bytes.len());
+        if total > 32 * 1024 * 1024 {
+            return Err(local_node_error(root, "local evidence total byte limit"));
+        }
+        super::reject_duplicate_json_keys(&bytes)
+            .map_err(|_| local_node_error(root, "duplicate local evidence JSON key"))?;
+        let value: serde_json::Value = serde_json::from_slice(&bytes)
+            .map_err(|_| local_node_error(root, "malformed local evidence JSON"))?;
+        let id_key = if value["kind"] == "local_node_execution_fact" {
+            "factId"
+        } else if value["kind"] == "verification_attempt" {
+            "attemptId"
+        } else if value["kind"] == "verification_run_checkpoint"
+            || value["kind"] == "verification_execution_checkpoint"
+        {
+            "checkpointId"
+        } else {
+            return Err(local_node_error(root, "unknown local evidence kind"));
+        };
+        if value["schemaVersion"] != 1 || (id_key != "factId" && value["protocolVersion"] != 1) {
+            return Err(local_node_error(root, "unknown local evidence schema"));
+        }
+        let Some(id) = value[id_key].as_str() else {
+            return Err(local_node_error(root, "missing local evidence identity"));
+        };
+        if !valid_sha256_digest(id)
+            || !name.ends_with(&format!("{}.json", id.trim_start_matches("sha256:")))
+        {
+            return Err(local_node_error(
+                root,
+                "local evidence name/identity mismatch",
+            ));
+        }
+        let mut unsigned = value.clone();
+        unsigned
+            .as_object_mut()
+            .ok_or_else(|| local_node_error(root, "local evidence is not object"))?
+            .remove(id_key);
+        if cockpit_protocol::digest_json(&unsigned)
+            .map_err(|_| local_node_error(root, "local evidence digest failure"))?
+            .to_string()
+            != id
+        {
+            return Err(local_node_error(root, "local evidence content mismatch"));
         }
         result.push(value);
     }
     Ok(result)
 }
 
-fn local_facts(root:&Path, wi:&str)->Result<Vec<serde_json::Value>,ObserverError>{
-    match local_fact_directory(root,wi,false) {
-        Ok(directory)=>read_local_json_directory(root,&directory,""),
-        Err(ObserverError::Read{source,..}) if source.kind()==std::io::ErrorKind::NotFound=>Ok(Vec::new()),
-        Err(error)=>Err(error),
+fn local_facts(root: &Path, wi: &str) -> Result<Vec<serde_json::Value>, ObserverError> {
+    match local_fact_directory(root, wi, false) {
+        Ok(directory) => read_local_json_directory(root, &directory, ""),
+        Err(ObserverError::Read { source, .. })
+            if source.kind() == std::io::ErrorKind::NotFound =>
+        {
+            Ok(Vec::new())
+        }
+        Err(error) => Err(error),
     }
 }
 
 pub(crate) fn capture_local_node_input(
-    root:&Path, request:&RepositoryVerificationRequest, snapshot:&RepositorySnapshot,
-    runtime:&RuntimeContext, command:&cockpit_verification::VerificationCommand,
-    executable:Option<&super::execution_context::ResolvedExecutableIdentity>,
-    authorized:Option<&(super::ReceiptStoreBinding,super::VerificationReuseAuthorization)>,
-)->Result<serde_json::Value,ObserverError>{
-    let wi=request.work_item_id.as_deref().ok_or_else(||local_node_error(root,"local node requires WI"))?;
-    let contract_path=work_item_artifact_path(root,wi,"contract.json")?;
-    let contract=read_json(&contract_path)?;
-    let input=command.input_identity();
-    let request_policy=match &request.policy {
-        super::RepositoryVerificationPolicy::ProfileAuthorized=>serde_json::json!("profile_authorized"),
-        super::RepositoryVerificationPolicy::NeverReuse=>serde_json::json!("never_reuse"),
-        super::RepositoryVerificationPolicy::Protected(class)=>serde_json::json!({"protected":class}),
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    command: &cockpit_verification::VerificationCommand,
+    executable: Option<&super::execution_context::ResolvedExecutableIdentity>,
+    authorized: Option<&(
+        super::ReceiptStoreBinding,
+        super::VerificationReuseAuthorization,
+    )>,
+) -> Result<serde_json::Value, ObserverError> {
+    let wi = request
+        .work_item_id
+        .as_deref()
+        .ok_or_else(|| local_node_error(root, "local node requires WI"))?;
+    let contract_path = work_item_artifact_path(root, wi, "contract.json")?;
+    let contract = read_json(&contract_path)?;
+    let input = command.input_identity();
+    let request_policy = match &request.policy {
+        super::RepositoryVerificationPolicy::ProfileAuthorized => {
+            serde_json::json!("profile_authorized")
+        }
+        super::RepositoryVerificationPolicy::NeverReuse => serde_json::json!("never_reuse"),
+        super::RepositoryVerificationPolicy::Protected(class) => {
+            serde_json::json!({"protected":class})
+        }
     };
-    let effective_policy=serde_json::to_value(command.reuse_policy()).map_err(|_|local_node_error(root,"encode actual reuse policy"))?;
+    let effective_policy = serde_json::to_value(command.reuse_policy())
+        .map_err(|_| local_node_error(root, "encode actual reuse policy"))?;
     let profile_authorization=authorized.map(|(binding,authorization)|serde_json::json!({
         "repositoryId":binding.repository_id,"profileDigest":binding.profile_digest,"nodeId":binding.node_id,
         "context":authorization.context,"configFileDigest":authorization.config_file_digest,
         "profileFileDigest":authorization.profile_file_digest,
     }));
-    let typed_contract:cockpit_protocol::Contract=serde_json::from_value(contract.clone()).map_err(|_|local_node_error(root,"invalid node Contract"))?;
-    let policy=super::effective_policy_for_contract(root,&typed_contract)?;
-    Ok(serde_json::json!({"schemaVersion":1,"workItemId":wi,"repositoryId":repository_id(root),
+    let typed_contract: cockpit_protocol::Contract = serde_json::from_value(contract.clone())
+        .map_err(|_| local_node_error(root, "invalid node Contract"))?;
+    let policy = super::effective_policy_for_contract(root, &typed_contract)?;
+    Ok(
+        serde_json::json!({"schemaVersion":1,"workItemId":wi,"repositoryId":repository_id(root),
         "contractDigest":contract_digest(&contract_path)?,"contractExecutionScopeDigest":contract_execution_scope_digest(&contract_path)?,
         "repositorySnapshotDigest":snapshot_digest(snapshot)?,"runtimeVersion":runtime.runtime_version,"runtimeDigest":runtime.runtime_digest,
         "declaredInventoryDigest":cockpit_protocol::digest_json(&contract["verification"]).map_err(|_|local_node_error(root,"inventory digest"))?,
@@ -13652,449 +13807,1345 @@ pub(crate) fn capture_local_node_input(
         "stage":request.stage,"runner":request.runner,"baseCommit":request.base_commit,
         "requestPolicy":request_policy,"effectivePolicy":effective_policy,"profileAuthorization":profile_authorization,
         "executionInput":input,"executablePath":executable.map(|e|&e.path),"executableDigest":executable.map(|e|&e.digest),
-        "assurance":"self_declared","producer":"native_local"}))
+        "assurance":"self_declared","producer":"native_local"}),
+    )
 }
 
-fn current_local_node_input(root:&Path,request:&RepositoryVerificationRequest,snapshot:&RepositorySnapshot,runtime:&RuntimeContext)->Result<serde_json::Value,ObserverError>{
-    let prepared=super::prepare_repository_verification_command(root,request,snapshot)?;
-    capture_local_node_input(root,request,snapshot,runtime,&prepared.command,prepared.execution_identity.as_ref(),prepared.authorized_binding.as_ref())
+fn current_local_node_input(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let prepared = super::prepare_repository_verification_command(root, request, snapshot)?;
+    capture_local_node_input(
+        root,
+        request,
+        snapshot,
+        runtime,
+        &prepared.command,
+        prepared.execution_identity.as_ref(),
+        prepared.authorized_binding.as_ref(),
+    )
 }
 
-fn successful_local_record(record:&serde_json::Value,node:&str,digest:&str)->bool{
-    record["nodeId"]==node && record["commandDigest"]==digest && record["spawned"]==true
-        && record["passed"]==true && record["exitCode"]==0 && record["timedOut"]==false
-        && record["stdoutTruncated"]==false && record["stderrTruncated"]==false
-        && record["stdout"].is_string() && record["stderr"].is_string()
+fn successful_local_record(record: &serde_json::Value, node: &str, digest: &str) -> bool {
+    record["nodeId"] == node
+        && record["commandDigest"] == digest
+        && record["spawned"] == true
+        && record["passed"] == true
+        && record["exitCode"] == 0
+        && record["timedOut"] == false
+        && record["stdoutTruncated"] == false
+        && record["stderrTruncated"] == false
+        && record["stdout"].is_string()
+        && record["stderr"].is_string()
 }
 
 pub(crate) fn publish_validated_local_node(
-    root:&Path,request:&RepositoryVerificationRequest,snapshot:&RepositorySnapshot,runtime:&RuntimeContext,
-    before:&serde_json::Value,receipt:&cockpit_verification::VerificationReceipt,execution_id:&str,
-)->Result<(),ObserverError>{
-    if !receipt.passed || receipt.nodes_executed!=1 || receipt.nodes_reused!=0 || receipt.execution_records.len()!=1 || receipt.results.len()!=1 {return Ok(());}
-    if matches!(&request.policy,super::RepositoryVerificationPolicy::Protected(_)){return Ok(());}
-    if before["requestPolicy"]!="profile_authorized" || before["effectivePolicy"]!="reusable" || before["profileAuthorization"].is_null(){return Ok(());}
-    let after=current_local_node_input(root,request,snapshot,runtime)?;
-    if before!=&after || !local_dependency_reuse_supported(&after["executionInput"])
-        || after["executableDigest"].is_null() || after["executionInput"]["environmentComplete"]!=true { return Ok(()); }
-    let record=serde_json::to_value(&receipt.execution_records[0]).map_err(|_|local_node_error(root,"encode local record"))?;
-    let Some(command_digest)=after["executionInput"]["commandDigest"].as_str() else{return Ok(());};
-    if !successful_local_record(&record,&request.node_id,command_digest) || !receipt.results[0].passed || receipt.results[0].reused {return Ok(());}
-    let wi=request.work_item_id.as_deref().ok_or_else(||local_node_error(root,"missing WI"))?;
-    let mut fact=serde_json::json!({"schemaVersion":1,"kind":"local_node_execution_fact","identity":after,"executionId":execution_id,
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    before: &serde_json::Value,
+    receipt: &cockpit_verification::VerificationReceipt,
+    execution_id: &str,
+) -> Result<(), ObserverError> {
+    if !receipt.passed
+        || receipt.nodes_executed != 1
+        || receipt.nodes_reused != 0
+        || receipt.execution_records.len() != 1
+        || receipt.results.len() != 1
+    {
+        return Ok(());
+    }
+    if matches!(
+        &request.policy,
+        super::RepositoryVerificationPolicy::Protected(_)
+    ) {
+        return Ok(());
+    }
+    if before["requestPolicy"] != "profile_authorized"
+        || before["effectivePolicy"] != "reusable"
+        || before["profileAuthorization"].is_null()
+    {
+        return Ok(());
+    }
+    let after = current_local_node_input(root, request, snapshot, runtime)?;
+    if before != &after
+        || !local_dependency_reuse_supported(&after["executionInput"])
+        || after["executableDigest"].is_null()
+        || after["executionInput"]["environmentComplete"] != true
+    {
+        return Ok(());
+    }
+    let record = serde_json::to_value(&receipt.execution_records[0])
+        .map_err(|_| local_node_error(root, "encode local record"))?;
+    let Some(command_digest) = after["executionInput"]["commandDigest"].as_str() else {
+        return Ok(());
+    };
+    if !successful_local_record(&record, &request.node_id, command_digest)
+        || !receipt.results[0].passed
+        || receipt.results[0].reused
+    {
+        return Ok(());
+    }
+    let wi = request
+        .work_item_id
+        .as_deref()
+        .ok_or_else(|| local_node_error(root, "missing WI"))?;
+    let mut fact = serde_json::json!({"schemaVersion":1,"kind":"local_node_execution_fact","identity":after,"executionId":execution_id,
         "executionRecord":record,"result":receipt.results[0],"postExecutionIdentityValidated":true,
         "parentAttemptRequired":true,"createdAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos,true)});
-    let id=cockpit_protocol::digest_json(&fact).map_err(|_|local_node_error(root,"local fact digest"))?;
-    fact["factId"]=serde_json::json!(id);
-    let pinned=super::legacy_closeout_source::PinnedRoot::open(root)?;
-    let directory=local_fact_directory(root,wi,true)?;
-    let identity=super::legacy_closeout_source::directory_identity(root,&directory)?;
-    let name=format!("{}.json",id.to_string().trim_start_matches("sha256:"));
-    let bytes=serde_json::to_vec_pretty(&fact).map_err(|_|local_node_error(root,"encode local fact"))?;
-    if bytes.len() as u64>MAX_VERIFICATION_ATTEMPT_RECORD_BYTES{return Err(local_node_error(root,"local node fact byte limit"));}
-    super::evidence_store::write_cap_immutable(&directory,&name,&root.join(".ai/evidence").join(format!("{wi}.verification-admissions/local-node-facts/{name}")),&bytes)?;
+    let id = cockpit_protocol::digest_json(&fact)
+        .map_err(|_| local_node_error(root, "local fact digest"))?;
+    fact["factId"] = serde_json::json!(id);
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+    let directory = local_fact_directory(root, wi, true)?;
+    let identity = super::legacy_closeout_source::directory_identity(root, &directory)?;
+    let name = format!("{}.json", id.to_string().trim_start_matches("sha256:"));
+    let bytes = serde_json::to_vec_pretty(&fact)
+        .map_err(|_| local_node_error(root, "encode local fact"))?;
+    if bytes.len() as u64 > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES {
+        return Err(local_node_error(root, "local node fact byte limit"));
+    }
+    super::evidence_store::write_cap_immutable(
+        &directory,
+        &name,
+        &root.join(".ai/evidence").join(format!(
+            "{wi}.verification-admissions/local-node-facts/{name}"
+        )),
+        &bytes,
+    )?;
     pinned.require_current()?;
-    if super::legacy_closeout_source::directory_identity(root,&local_fact_directory(root,wi,false)?)?!=identity {
-        return Err(local_node_error(root,"published local fact directory replaced"));
+    if super::legacy_closeout_source::directory_identity(
+        root,
+        &local_fact_directory(root, wi, false)?,
+    )? != identity
+    {
+        return Err(local_node_error(
+            root,
+            "published local fact directory replaced",
+        ));
     }
     Ok(())
 }
 
 // Parent binding is derived from actual records, never aggregate passed alone.
-pub(crate) fn local_node_fact_links(root:&Path,wi:&str,records:&serde_json::Value)->Result<serde_json::Value,ObserverError>{
-    let facts=local_facts(root,wi)?;
-    let mut links=Vec::new();
-    for record in records.as_array().into_iter().flatten(){
-        let matching=facts.iter().filter(|fact|fact["executionRecord"]==*record && fact["postExecutionIdentityValidated"]==true).collect::<Vec<_>>();
-        if matching.len()==1 { links.push(serde_json::json!({"nodeId":record["nodeId"],"factId":matching[0]["factId"],"executionId":matching[0]["executionId"]})); }
+pub(crate) fn local_node_fact_links(
+    root: &Path,
+    wi: &str,
+    records: &serde_json::Value,
+) -> Result<serde_json::Value, ObserverError> {
+    let facts = local_facts(root, wi)?;
+    let mut links = Vec::new();
+    for record in records.as_array().into_iter().flatten() {
+        let matching = facts
+            .iter()
+            .filter(|fact| {
+                fact["executionRecord"] == *record && fact["postExecutionIdentityValidated"] == true
+            })
+            .collect::<Vec<_>>();
+        if matching.len() == 1 {
+            links.push(serde_json::json!({"nodeId":record["nodeId"],"factId":matching[0]["factId"],"executionId":matching[0]["executionId"]}));
+        }
     }
     Ok(serde_json::json!(links))
 }
 
 /// Plans only current requests; candidate data never supplies executable argv.
-fn try_plan_local_node_reuse(root:&Path,requests:&[RepositoryVerificationRequest],snapshot:&RepositorySnapshot,runtime:&RuntimeContext,own_run:Option<&LocalVerificationRunIdentity>)->Result<Vec<LocalNodeDecision>,ObserverError>{
-    let root=fs::canonicalize(root).map_err(|source|ObserverError::Read{path:root.into(),source})?;
-    if fs::canonicalize(&snapshot.root).ok().as_ref()!=Some(&root){return Err(ObserverError::SnapshotRootMismatch);}
-    let Some(wi)=requests.first().and_then(|r|r.work_item_id.as_deref()) else{return Ok(Vec::new());};
+fn try_plan_local_node_reuse(
+    root: &Path,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    own_run: Option<&LocalVerificationRunIdentity>,
+) -> Result<Vec<LocalNodeDecision>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let Some(wi) = requests.first().and_then(|r| r.work_item_id.as_deref()) else {
+        return Ok(Vec::new());
+    };
     validate_work_item_id(wi)?;
-    let pinned=super::legacy_closeout_source::PinnedRoot::open(&root)?;
-    let ai=super::evidence_store::open_cap_directory_nofollow_strict(&pinned.directory()?,".ai",&root.join(".ai"))?;
-    let evidence=super::evidence_store::open_cap_directory_nofollow_strict(&ai,"evidence",&root.join(".ai/evidence"))?;
-    let parents=read_local_json_directory(&root,&evidence,&format!("{wi}.verification-attempt."))?;
-    let facts=local_facts(&root,wi)?;
-    let blocked=parents.iter().filter_map(|p|p.get("supersedesAttemptId").and_then(serde_json::Value::as_str)).collect::<BTreeSet<_>>();
-    let mut seen=BTreeSet::new();let mut result=Vec::new();
-    for request in requests{
-        if request.work_item_id.as_deref()!=Some(wi) || !seen.insert(&request.node_id) {return Err(local_node_error(&root,"mixed or duplicate local node inventory"));}
-        let expected=current_local_node_input(&root,request,snapshot,runtime)?;
-        let mut decision=LocalNodeDecision{node_id:request.node_id.clone(),reason:"local_node_fact_missing_or_legacy",fresh_required:false,candidate:None};
-        if request.policy==super::RepositoryVerificationPolicy::NeverReuse {decision.reason="never_reuse_requested";result.push(decision);continue;}
-        if matches!(&request.policy,super::RepositoryVerificationPolicy::Protected(_)){decision.reason="protected_node";result.push(decision);continue;}
-        if expected["requestPolicy"]!="profile_authorized" || expected["effectivePolicy"]!="reusable" || expected["profileAuthorization"].is_null(){decision.reason="current_profile_not_authorized";result.push(decision);continue;}
-        if expected["executionInput"]["environmentComplete"]!=true {decision.reason="platform_or_environment_unproven";result.push(decision);continue;}
-        if !local_dependency_reuse_supported(&expected["executionInput"]) {
-            decision.reason="dependencies_unsupported";decision.fresh_required=true;result.push(decision);continue;
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(&root)?;
+    let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+        &pinned.directory()?,
+        ".ai",
+        &root.join(".ai"),
+    )?;
+    let evidence = super::evidence_store::open_cap_directory_nofollow_strict(
+        &ai,
+        "evidence",
+        &root.join(".ai/evidence"),
+    )?;
+    let parents =
+        read_local_json_directory(&root, &evidence, &format!("{wi}.verification-attempt."))?;
+    let facts = local_facts(&root, wi)?;
+    let blocked = parents
+        .iter()
+        .filter_map(|p| {
+            p.get("supersedesAttemptId")
+                .and_then(serde_json::Value::as_str)
+        })
+        .collect::<BTreeSet<_>>();
+    let mut seen = BTreeSet::new();
+    let mut result = Vec::new();
+    for request in requests {
+        if request.work_item_id.as_deref() != Some(wi) || !seen.insert(&request.node_id) {
+            return Err(local_node_error(
+                &root,
+                "mixed or duplicate local node inventory",
+            ));
         }
-        if let Some(reason)=local_causal_gap(&root,&parents,&facts,&expected,own_run){decision.reason=reason;decision.fresh_required=true;result.push(decision);continue;}
-        let mut matching=parents.iter().filter(|p|p["kind"]=="verification_attempt" && local_run_completed(&parents,p,&expected) &&
-            p["workItemId"]==wi && p["repositoryId"]==expected["repositoryId"] && p["runtimeDigest"]==expected["runtimeDigest"]
-            && p["runtimeVersion"]==expected["runtimeVersion"] && p["contractDigest"]==expected["contractDigest"]
-            && p["contractExecutionScopeDigest"]==expected["contractExecutionScopeDigest"]
-            && p["repositorySnapshotDigest"]==expected["repositorySnapshotDigest"]
-            && p["commands"].as_array().is_some_and(|c|c.iter().any(|c|c["nodeId"]==request.node_id))
-        ).collect::<Vec<_>>();
+        let expected = current_local_node_input(&root, request, snapshot, runtime)?;
+        let mut decision = LocalNodeDecision {
+            node_id: request.node_id.clone(),
+            reason: "local_node_fact_missing_or_legacy",
+            fresh_required: false,
+            candidate: None,
+        };
+        if request.policy == super::RepositoryVerificationPolicy::NeverReuse {
+            decision.reason = "never_reuse_requested";
+            result.push(decision);
+            continue;
+        }
+        if matches!(
+            &request.policy,
+            super::RepositoryVerificationPolicy::Protected(_)
+        ) {
+            decision.reason = "protected_node";
+            result.push(decision);
+            continue;
+        }
+        if expected["requestPolicy"] != "profile_authorized"
+            || expected["effectivePolicy"] != "reusable"
+            || expected["profileAuthorization"].is_null()
+        {
+            decision.reason = "current_profile_not_authorized";
+            result.push(decision);
+            continue;
+        }
+        if expected["executionInput"]["environmentComplete"] != true {
+            decision.reason = "platform_or_environment_unproven";
+            result.push(decision);
+            continue;
+        }
+        if !local_dependency_reuse_supported(&expected["executionInput"]) {
+            decision.reason = "dependencies_unsupported";
+            decision.fresh_required = true;
+            result.push(decision);
+            continue;
+        }
+        if let Some(reason) = local_causal_gap(&root, &parents, &facts, &expected, own_run) {
+            decision.reason = reason;
+            decision.fresh_required = true;
+            result.push(decision);
+            continue;
+        }
+        let mut matching = parents
+            .iter()
+            .filter(|p| {
+                p["kind"] == "verification_attempt"
+                    && local_run_completed(&parents, p, &expected)
+                    && p["workItemId"] == wi
+                    && p["repositoryId"] == expected["repositoryId"]
+                    && p["runtimeDigest"] == expected["runtimeDigest"]
+                    && p["runtimeVersion"] == expected["runtimeVersion"]
+                    && p["contractDigest"] == expected["contractDigest"]
+                    && p["contractExecutionScopeDigest"] == expected["contractExecutionScopeDigest"]
+                    && p["repositorySnapshotDigest"] == expected["repositorySnapshotDigest"]
+                    && p["commands"]
+                        .as_array()
+                        .is_some_and(|c| c.iter().any(|c| c["nodeId"] == request.node_id))
+            })
+            .collect::<Vec<_>>();
         // All relevant observations have an explicit successful resolution.
         // Stable ID order selects provenance; it does not claim recency.
-        matching.sort_by_key(|parent|parent["attemptId"].as_str().unwrap_or_default().to_owned());
-        for parent in matching.into_iter().rev(){
-            if parent["schemaVersion"]!=VERIFICATION_ATTEMPT_SCHEMA_VERSION || parent["protocolVersion"]!=1 || parent["state"]!="execution_completed" || parent["passed"]!=true || parent["receipt"]["passed"]!=true
-                || blocked.contains(parent["attemptId"].as_str().unwrap_or_default()){
-                decision.reason="parent_terminal_not_reusable";break;
+        matching.sort_by_key(|parent| parent["attemptId"].as_str().unwrap_or_default().to_owned());
+        for parent in matching.into_iter().rev() {
+            if parent["schemaVersion"] != VERIFICATION_ATTEMPT_SCHEMA_VERSION
+                || parent["protocolVersion"] != 1
+                || parent["state"] != "execution_completed"
+                || parent["passed"] != true
+                || parent["receipt"]["passed"] != true
+                || blocked.contains(parent["attemptId"].as_str().unwrap_or_default())
+            {
+                decision.reason = "parent_terminal_not_reusable";
+                break;
             }
-            if serde_json::from_value::<cockpit_verification::VerificationReceipt>(parent["receipt"].clone()).is_err(){decision.reason="parent_typed_receipt_invalid";break;}
-            for key in ["workItemId","repositoryId","runtimeVersion","runtimeDigest"] {
-                if parent["receipt"][key]!=parent[key] {return Err(local_node_error(&root,"parent receipt binding mismatch"));}
+            if serde_json::from_value::<cockpit_verification::VerificationReceipt>(
+                parent["receipt"].clone(),
+            )
+            .is_err()
+            {
+                decision.reason = "parent_typed_receipt_invalid";
+                break;
             }
-            let commands=parent["commands"].as_array().ok_or_else(||local_node_error(&root,"parent commands missing"))?;
-            let commands=commands.iter().filter(|c|c["nodeId"]==request.node_id).collect::<Vec<_>>();
-            if commands.len()!=1 || ["nodeId","program","args","scope","stage","runner","baseCommit"].iter().any(|k|commands[0][*k]!=expected[*k])
-                || commands[0]["runtimeDigest"]!=expected["runtimeDigest"] || commands[0]["commandDigest"]!=expected["executionInput"]["commandDigest"]
-                || commands[0]["timeoutSeconds"]!=expected["executionInput"]["timeoutSeconds"] {
-                decision.reason="parent_command_descriptor_mismatch";break;
+            for key in [
+                "workItemId",
+                "repositoryId",
+                "runtimeVersion",
+                "runtimeDigest",
+            ] {
+                if parent["receipt"][key] != parent[key] {
+                    return Err(local_node_error(&root, "parent receipt binding mismatch"));
+                }
             }
-            let records=parent["executionRecords"].as_array().ok_or_else(||local_node_error(&root,"parent records missing"))?;
-            let records=records.iter().filter(|r|r["nodeId"]==request.node_id).collect::<Vec<_>>();
-            let results=parent["receipt"]["results"].as_array().ok_or_else(||local_node_error(&root,"parent results missing"))?;
-            let results=results.iter().filter(|r|r["nodeId"]==request.node_id).collect::<Vec<_>>();
+            let commands = parent["commands"]
+                .as_array()
+                .ok_or_else(|| local_node_error(&root, "parent commands missing"))?;
+            let commands = commands
+                .iter()
+                .filter(|c| c["nodeId"] == request.node_id)
+                .collect::<Vec<_>>();
+            if commands.len() != 1
+                || [
+                    "nodeId",
+                    "program",
+                    "args",
+                    "scope",
+                    "stage",
+                    "runner",
+                    "baseCommit",
+                ]
+                .iter()
+                .any(|k| commands[0][*k] != expected[*k])
+                || commands[0]["runtimeDigest"] != expected["runtimeDigest"]
+                || commands[0]["commandDigest"] != expected["executionInput"]["commandDigest"]
+                || commands[0]["timeoutSeconds"] != expected["executionInput"]["timeoutSeconds"]
+            {
+                decision.reason = "parent_command_descriptor_mismatch";
+                break;
+            }
+            let records = parent["executionRecords"]
+                .as_array()
+                .ok_or_else(|| local_node_error(&root, "parent records missing"))?;
+            let records = records
+                .iter()
+                .filter(|r| r["nodeId"] == request.node_id)
+                .collect::<Vec<_>>();
+            let results = parent["receipt"]["results"]
+                .as_array()
+                .ok_or_else(|| local_node_error(&root, "parent results missing"))?;
+            let results = results
+                .iter()
+                .filter(|r| r["nodeId"] == request.node_id)
+                .collect::<Vec<_>>();
             // A completed pure-reuse parent may refer to the original executed parent;
             // it cannot manufacture a new physical observation or erase rejection.
-            if records.is_empty() && results.len()==1 && results[0]["reused"]==true && results[0]["passed"]==true {continue;}
-            if records.len()!=1 || results.len()!=1 || results[0]["passed"]!=true || results[0]["reused"]!=false {
-                decision.reason="parent_node_inventory_invalid";break;
+            if records.is_empty()
+                && results.len() == 1
+                && results[0]["reused"] == true
+                && results[0]["passed"] == true
+            {
+                continue;
             }
-            if !successful_local_record(records[0],&request.node_id,expected["executionInput"]["commandDigest"].as_str().unwrap_or_default()){
-                decision.reason="execution_record_not_exact_success";break;
+            if records.len() != 1
+                || results.len() != 1
+                || results[0]["passed"] != true
+                || results[0]["reused"] != false
+            {
+                decision.reason = "parent_node_inventory_invalid";
+                break;
             }
-            if !local_parent_inventory_valid(parent) {decision.reason="parent_inventory_not_complete_success";break;}
-            if parent["localNodeLinkState"]!="available"{decision.reason="local_fact_links_unavailable";break;}
-            let linked=parent["nodeExecutionFacts"].as_array().into_iter().flatten().filter(|l|l["nodeId"]==request.node_id).collect::<Vec<_>>();
-            if linked.len()!=1 {decision.reason="local_node_fact_missing_or_legacy";break;}
-            let chosen=facts.iter().filter(|f|f["factId"]==linked[0]["factId"]).collect::<Vec<_>>();
-            if chosen.len()!=1 || chosen[0]["identity"]!=expected || chosen[0]["postExecutionIdentityValidated"]!=true || chosen[0]["parentAttemptRequired"]!=true || chosen[0]["schemaVersion"]!=1
-                || chosen[0]["executionRecord"]!=*records[0] || chosen[0]["result"]!=*results[0]
-                || !local_receipt_records_match(parent){
-                decision.reason="local_node_fact_identity_mismatch";break;
+            if !successful_local_record(
+                records[0],
+                &request.node_id,
+                expected["executionInput"]["commandDigest"]
+                    .as_str()
+                    .unwrap_or_default(),
+            ) {
+                decision.reason = "execution_record_not_exact_success";
+                break;
             }
-            if chosen[0]["executionId"]!=linked[0]["executionId"] || !local_fact_has_execution_pair(&parents,chosen[0],&expected) {decision.reason="local_execution_checkpoint_pair_unproven";break;}
-            if !local_historical_parent_reuse_valid(&parents,&facts,parent,&mut BTreeSet::new(),0) {decision.reason="local_parent_reused_history_unproven";break;}
-            decision.reason="fresh_local_node_exact_binding";
-            decision.candidate=Some(LocalNodeCandidate{execution_id:chosen[0]["executionId"].as_str().filter(|id|valid_sha256_digest(id)).ok_or_else(||local_node_error(&root,"physical execution association missing"))?.into(),node_id:request.node_id.clone(),parent_attempt_id:parent["attemptId"].as_str().ok_or_else(||local_node_error(&root,"parent attempt identity"))?.into(),
-                fact_id:chosen[0]["factId"].as_str().ok_or_else(||local_node_error(&root,"node fact identity"))?.into(),parent_receipt:parent["receipt"].clone()});
+            if !local_parent_inventory_valid(parent) {
+                decision.reason = "parent_inventory_not_complete_success";
+                break;
+            }
+            if parent["localNodeLinkState"] != "available" {
+                decision.reason = "local_fact_links_unavailable";
+                break;
+            }
+            let linked = parent["nodeExecutionFacts"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter(|l| l["nodeId"] == request.node_id)
+                .collect::<Vec<_>>();
+            if linked.len() != 1 {
+                decision.reason = "local_node_fact_missing_or_legacy";
+                break;
+            }
+            let chosen = facts
+                .iter()
+                .filter(|f| f["factId"] == linked[0]["factId"])
+                .collect::<Vec<_>>();
+            if chosen.len() != 1
+                || chosen[0]["identity"] != expected
+                || chosen[0]["postExecutionIdentityValidated"] != true
+                || chosen[0]["parentAttemptRequired"] != true
+                || chosen[0]["schemaVersion"] != 1
+                || chosen[0]["executionRecord"] != *records[0]
+                || chosen[0]["result"] != *results[0]
+                || !local_receipt_records_match(parent)
+            {
+                decision.reason = "local_node_fact_identity_mismatch";
+                break;
+            }
+            if chosen[0]["executionId"] != linked[0]["executionId"]
+                || !local_fact_has_execution_pair(&parents, chosen[0], &expected)
+            {
+                decision.reason = "local_execution_checkpoint_pair_unproven";
+                break;
+            }
+            if !local_historical_parent_reuse_valid(
+                &parents,
+                &facts,
+                parent,
+                &mut BTreeSet::new(),
+                0,
+            ) {
+                decision.reason = "local_parent_reused_history_unproven";
+                break;
+            }
+            decision.reason = "fresh_local_node_exact_binding";
+            decision.candidate = Some(LocalNodeCandidate {
+                execution_id: chosen[0]["executionId"]
+                    .as_str()
+                    .filter(|id| valid_sha256_digest(id))
+                    .ok_or_else(|| {
+                        local_node_error(&root, "physical execution association missing")
+                    })?
+                    .into(),
+                node_id: request.node_id.clone(),
+                parent_attempt_id: parent["attemptId"]
+                    .as_str()
+                    .ok_or_else(|| local_node_error(&root, "parent attempt identity"))?
+                    .into(),
+                fact_id: chosen[0]["factId"]
+                    .as_str()
+                    .ok_or_else(|| local_node_error(&root, "node fact identity"))?
+                    .into(),
+                parent_receipt: parent["receipt"].clone(),
+            });
             break;
         }
-        if decision.candidate.is_none() && decision.reason!="local_node_fact_missing_or_legacy"{decision.fresh_required=true;}
+        if decision.candidate.is_none() && decision.reason != "local_node_fact_missing_or_legacy" {
+            decision.fresh_required = true;
+        }
         result.push(decision);
     }
     pinned.require_current()?;
     Ok(result)
 }
 
-pub fn require_local_node_candidates_current(root:&Path,requests:&[RepositoryVerificationRequest],snapshot:&RepositorySnapshot,runtime:&RuntimeContext,used:&[LocalNodeCandidate])->Result<(),ObserverError>{
-    require_local_node_candidates_current_in_run(root,requests,snapshot,runtime,used,None)
+pub fn require_local_node_candidates_current(
+    root: &Path,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    used: &[LocalNodeCandidate],
+) -> Result<(), ObserverError> {
+    require_local_node_candidates_current_in_run(root, requests, snapshot, runtime, used, None)
 }
-pub fn require_local_node_candidates_current_in_run(root:&Path,requests:&[RepositoryVerificationRequest],snapshot:&RepositorySnapshot,runtime:&RuntimeContext,used:&[LocalNodeCandidate],own_run:Option<&LocalVerificationRunIdentity>)->Result<(),ObserverError>{
-    let current=match try_plan_local_node_reuse(root,requests,snapshot,runtime,own_run){Ok(plan)=>plan,Err(_)=>return Err(local_node_error(root,"current local evidence unavailable"))};
-    for old in used{
-        let now=current.iter().find(|d|d.node_id==old.node_id).and_then(|d|d.candidate.as_ref());
-        if !now.is_some_and(|n|n.parent_attempt_id==old.parent_attempt_id && n.fact_id==old.fact_id){return Err(local_node_error(root,"local node candidate changed after planning"));}
+pub fn require_local_node_candidates_current_in_run(
+    root: &Path,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    used: &[LocalNodeCandidate],
+    own_run: Option<&LocalVerificationRunIdentity>,
+) -> Result<(), ObserverError> {
+    let current = match try_plan_local_node_reuse(root, requests, snapshot, runtime, own_run) {
+        Ok(plan) => plan,
+        Err(_) => return Err(local_node_error(root, "current local evidence unavailable")),
+    };
+    for old in used {
+        let now = current
+            .iter()
+            .find(|d| d.node_id == old.node_id)
+            .and_then(|d| d.candidate.as_ref());
+        if !now.is_some_and(|n| {
+            n.parent_attempt_id == old.parent_attempt_id && n.fact_id == old.fact_id
+        }) {
+            return Err(local_node_error(
+                root,
+                "local node candidate changed after planning",
+            ));
+        }
     }
     Ok(())
 }
 
-pub fn reuse_local_node_with_task_authorization(root:&Path,request:&RepositoryVerificationRequest,runtime:&RuntimeContext,caller:Option<&cockpit_protocol::TaskAuthorizationCaller>,candidate:&LocalNodeCandidate)->Result<Option<RepositoryVerificationRun>,ObserverError>{
-    reuse_local_node_in_run_with_task_authorization(root,request,runtime,caller,candidate,None)
+pub fn reuse_local_node_with_task_authorization(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    candidate: &LocalNodeCandidate,
+) -> Result<Option<RepositoryVerificationRun>, ObserverError> {
+    reuse_local_node_in_run_with_task_authorization(root, request, runtime, caller, candidate, None)
 }
-pub fn reuse_local_node_in_run_with_task_authorization(root:&Path,request:&RepositoryVerificationRequest,runtime:&RuntimeContext,caller:Option<&cockpit_protocol::TaskAuthorizationCaller>,candidate:&LocalNodeCandidate,own_run:Option<&LocalVerificationRunIdentity>)->Result<Option<RepositoryVerificationRun>,ObserverError>{
-    let reuse_started=std::time::Instant::now();
-    super::task_authorization::require_declared_task_command(root,request,runtime,caller)?;
-    let snapshot=cockpit_git::GitRepository::discover(root).and_then(|g|g.snapshot()).map_err(|error|local_node_error(root,&error.to_string()))?;
-    super::require_verification_preconditions_with_caller(root,request.work_item_id.as_deref().ok_or_else(||local_node_error(root,"local reuse WI missing"))?,runtime,&snapshot,caller)?;
-    if require_local_node_candidates_current_in_run(root,std::slice::from_ref(request),&snapshot,runtime,std::slice::from_ref(candidate),own_run).is_err(){return Ok(None);}
-    let mut receipt:cockpit_verification::VerificationReceipt=serde_json::from_value(candidate.parent_receipt.clone()).map_err(|_|local_node_error(root,"typed local parent receipt"))?;
-    receipt.results.retain(|r|r.node_id==request.node_id);
-    if receipt.results.len()!=1 || !receipt.results[0].passed{return Err(local_node_error(root,"local parent result changed"));}
-    let result=&mut receipt.results[0]; result.reused=true;
-    result.action=cockpit_verification::PlannedAction::Reuse;result.state=cockpit_verification::PlannedState::Fresh;
-    result.reason="fresh_local_node_exact_binding".into();result.satisfied_by=cockpit_verification::PlannedSatisfaction::ReusedReceipt;result.receipt_id=Some(candidate.fact_id.clone());
-    receipt.execution_records.clear();receipt.receipt_candidates.clear();receipt.nodes_planned=1;receipt.nodes_executed=0;receipt.nodes_reused=1;
-    receipt.processes_spawned=0;receipt.max_concurrent_processes=0;receipt.process_spawn_failures=0;
-    receipt.rerun_stale=0;receipt.rerun_unknown=0;receipt.protected_nodes_executed=0;receipt.protected_nodes_skipped=0;
-    receipt.git_calls=snapshot.git_calls;receipt.files_read=snapshot.files_read;receipt.files_hashed=snapshot.files_hashed;
-    receipt.planning_elapsed_ms=reuse_started.elapsed().as_millis();receipt.execution_elapsed_ms=0;receipt.elapsed_ms=receipt.planning_elapsed_ms;receipt.plan_receipt=None;receipt.cost_observation=None;
-    Ok(Some(RepositoryVerificationRun{receipt,final_snapshot:snapshot}))
+pub fn reuse_local_node_in_run_with_task_authorization(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    candidate: &LocalNodeCandidate,
+    own_run: Option<&LocalVerificationRunIdentity>,
+) -> Result<Option<RepositoryVerificationRun>, ObserverError> {
+    let reuse_started = std::time::Instant::now();
+    super::task_authorization::require_declared_task_command(root, request, runtime, caller)?;
+    let snapshot = cockpit_git::GitRepository::discover(root)
+        .and_then(|g| g.snapshot())
+        .map_err(|error| local_node_error(root, &error.to_string()))?;
+    super::require_verification_preconditions_with_caller(
+        root,
+        request
+            .work_item_id
+            .as_deref()
+            .ok_or_else(|| local_node_error(root, "local reuse WI missing"))?,
+        runtime,
+        &snapshot,
+        caller,
+    )?;
+    if require_local_node_candidates_current_in_run(
+        root,
+        std::slice::from_ref(request),
+        &snapshot,
+        runtime,
+        std::slice::from_ref(candidate),
+        own_run,
+    )
+    .is_err()
+    {
+        return Ok(None);
+    }
+    let mut receipt: cockpit_verification::VerificationReceipt =
+        serde_json::from_value(candidate.parent_receipt.clone())
+            .map_err(|_| local_node_error(root, "typed local parent receipt"))?;
+    receipt.results.retain(|r| r.node_id == request.node_id);
+    if receipt.results.len() != 1 || !receipt.results[0].passed {
+        return Err(local_node_error(root, "local parent result changed"));
+    }
+    let result = &mut receipt.results[0];
+    result.reused = true;
+    result.action = cockpit_verification::PlannedAction::Reuse;
+    result.state = cockpit_verification::PlannedState::Fresh;
+    result.reason = "fresh_local_node_exact_binding".into();
+    result.satisfied_by = cockpit_verification::PlannedSatisfaction::ReusedReceipt;
+    result.receipt_id = Some(candidate.fact_id.clone());
+    receipt.execution_records.clear();
+    receipt.receipt_candidates.clear();
+    receipt.nodes_planned = 1;
+    receipt.nodes_executed = 0;
+    receipt.nodes_reused = 1;
+    receipt.processes_spawned = 0;
+    receipt.max_concurrent_processes = 0;
+    receipt.process_spawn_failures = 0;
+    receipt.rerun_stale = 0;
+    receipt.rerun_unknown = 0;
+    receipt.protected_nodes_executed = 0;
+    receipt.protected_nodes_skipped = 0;
+    receipt.git_calls = snapshot.git_calls;
+    receipt.files_read = snapshot.files_read;
+    receipt.files_hashed = snapshot.files_hashed;
+    receipt.planning_elapsed_ms = reuse_started.elapsed().as_millis();
+    receipt.execution_elapsed_ms = 0;
+    receipt.elapsed_ms = receipt.planning_elapsed_ms;
+    receipt.plan_receipt = None;
+    receipt.cost_observation = None;
+    Ok(Some(RepositoryVerificationRun {
+        receipt,
+        final_snapshot: snapshot,
+    }))
 }
 
 /// Corrupt or unreadable optional evidence never authorizes reuse. Fresh execution
 /// remains subject to the ordinary caller/declaration and start gates.
-pub fn plan_local_node_reuse(root:&Path,requests:&[RepositoryVerificationRequest],snapshot:&RepositorySnapshot,runtime:&RuntimeContext)->Result<Vec<LocalNodeDecision>,ObserverError>{
-    match try_plan_local_node_reuse(root,requests,snapshot,runtime,None){
-        Ok(plan)=>Ok(plan),
-        Err(_)=>Ok(requests.iter().map(|r|LocalNodeDecision{node_id:r.node_id.clone(),reason:"local_store_or_identity_unknown",fresh_required:true,candidate:None}).collect()),
+pub fn plan_local_node_reuse(
+    root: &Path,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+) -> Result<Vec<LocalNodeDecision>, ObserverError> {
+    match try_plan_local_node_reuse(root, requests, snapshot, runtime, None) {
+        Ok(plan) => Ok(plan),
+        Err(_) => Ok(requests
+            .iter()
+            .map(|r| LocalNodeDecision {
+                node_id: r.node_id.clone(),
+                reason: "local_store_or_identity_unknown",
+                fresh_required: true,
+                candidate: None,
+            })
+            .collect()),
     }
 }
 
 /// Opaque identity from a durable native prepared run, never external JSON.
-#[derive(Clone,Debug)]
-pub struct LocalVerificationRunIdentity { root:PathBuf,run_id:String }
+#[derive(Clone, Debug)]
+pub struct LocalVerificationRunIdentity {
+    root: PathBuf,
+    run_id: String,
+}
 /// An opaque native run may exempt only its own prepared checkpoint. Fresh is
 /// restrictive: the executor still rechecks caller, profile and spawn gates.
-#[derive(Clone,Copy)]
-pub struct LocalNodeExecutionContext<'a>{pub own_run:Option<&'a LocalVerificationRunIdentity>,pub force_fresh:bool}
-pub struct LocalRunAttemptWrite<'a>{pub state:&'a str,pub diagnostic:Option<(&'a str,&'a str)>,pub receipt:Option<&'a serde_json::Value>,pub supersedes:Option<&'a str>}
+#[derive(Clone, Copy)]
+pub struct LocalNodeExecutionContext<'a> {
+    pub own_run: Option<&'a LocalVerificationRunIdentity>,
+    pub force_fresh: bool,
+}
+pub struct LocalRunAttemptWrite<'a> {
+    pub state: &'a str,
+    pub diagnostic: Option<(&'a str, &'a str)>,
+    pub receipt: Option<&'a serde_json::Value>,
+    pub supersedes: Option<&'a str>,
+}
 
 // Isolated proposal: native observation IDs, not wall-clock ordering.
-fn local_observation_matches(value:&serde_json::Value,expected:&serde_json::Value)->bool {
-    ["workItemId","repositoryId","runtimeVersion","runtimeDigest","contractDigest","contractExecutionScopeDigest","repositorySnapshotDigest"].iter().all(|k|value[*k]==expected[*k])
-        && value["commands"].as_array().is_some_and(|commands|commands.iter().any(|c|c["nodeId"]==expected["nodeId"]))
+fn local_observation_matches(value: &serde_json::Value, expected: &serde_json::Value) -> bool {
+    [
+        "workItemId",
+        "repositoryId",
+        "runtimeVersion",
+        "runtimeDigest",
+        "contractDigest",
+        "contractExecutionScopeDigest",
+        "repositorySnapshotDigest",
+    ]
+    .iter()
+    .all(|k| value[*k] == expected[*k])
+        && value["commands"]
+            .as_array()
+            .is_some_and(|commands| commands.iter().any(|c| c["nodeId"] == expected["nodeId"]))
 }
 
-fn local_parent_inventory_valid(parent:&serde_json::Value)->bool {
-    if parent["kind"]!="verification_attempt" || parent["schemaVersion"]!=VERIFICATION_ATTEMPT_SCHEMA_VERSION
-        || parent["protocolVersion"]!=1 || parent["state"]!="execution_completed" || parent["passed"]!=true
-        || parent["receipt"]["passed"]!=true || !local_receipt_records_match(parent)
-        || serde_json::from_value::<cockpit_verification::VerificationReceipt>(parent["receipt"].clone()).is_err()
-        || ["workItemId","repositoryId","runtimeVersion","runtimeDigest"].iter().any(|k|parent[*k]!=parent["receipt"][*k]) {return false;}
-    let (Some(commands),Some(records),Some(results))=(parent["commands"].as_array(),parent["executionRecords"].as_array(),parent["receipt"]["results"].as_array()) else{return false;};
-    let command_ids=commands.iter().filter_map(|c|c["nodeId"].as_str()).collect::<BTreeSet<_>>();
-    let record_ids=records.iter().filter_map(|r|r["nodeId"].as_str()).collect::<BTreeSet<_>>();
-    let result_ids=results.iter().filter_map(|r|r["nodeId"].as_str()).collect::<BTreeSet<_>>();
-    !commands.is_empty() && command_ids.len()==commands.len() && result_ids==command_ids && results.len()==commands.len()
-        && record_ids.len()==records.len() && record_ids.is_subset(&command_ids)
-        && parent["receipt"]["nodesPlanned"]==serde_json::json!(commands.len())
-        && parent["receipt"]["nodesExecuted"]==serde_json::json!(records.len())
-        && parent["receipt"]["nodesReused"]==serde_json::json!(results.iter().filter(|r|r["reused"]==true).count())
-        && parent["processesSpawned"]==serde_json::json!(records.len()) && parent["receipt"]["processesSpawned"]==parent["processesSpawned"]
-        && records.iter().all(|r|successful_local_record(r,r["nodeId"].as_str().unwrap_or_default(),r["commandDigest"].as_str().unwrap_or_default())
-            && commands.iter().filter(|c|c["nodeId"]==r["nodeId"] && c["commandDigest"]==r["commandDigest"]).count()==1)
-        && results.iter().all(|r|r["passed"]==true && r["protected"]==false && r["timedOut"]==false && r["outputTruncated"]==false
-            && match r["reused"].as_bool(){
-                Some(false)=>records.iter().filter(|record|record["nodeId"]==r["nodeId"]).count()==1,
-                Some(true)=>!records.iter().any(|record|record["nodeId"]==r["nodeId"]) && r["receiptId"].as_str().is_some_and(valid_sha256_digest),
-                None=>false,
-            })
-}
-
-fn local_run_parent_binding_matches(observation:&serde_json::Value,parent:&serde_json::Value)->bool {
-    if ["runId","workItemId","repositoryId","runtimeDigest","runtimeVersion","contractDigest","contractExecutionScopeDigest","repositorySnapshotDigest"].iter().any(|key|observation[*key]!=parent[*key]) {return false;}
-    let Some(commands)=observation["commands"].as_array() else{return false;};
-    let mut stripped=Vec::new();
-    for command in commands {
-        let Some(mut command)=command.as_object().cloned() else{return false;};
-        command.remove("plannedNode");stripped.push(serde_json::Value::Object(command));
+fn local_parent_inventory_valid(parent: &serde_json::Value) -> bool {
+    if parent["kind"] != "verification_attempt"
+        || parent["schemaVersion"] != VERIFICATION_ATTEMPT_SCHEMA_VERSION
+        || parent["protocolVersion"] != 1
+        || parent["state"] != "execution_completed"
+        || parent["passed"] != true
+        || parent["receipt"]["passed"] != true
+        || !local_receipt_records_match(parent)
+        || serde_json::from_value::<cockpit_verification::VerificationReceipt>(
+            parent["receipt"].clone(),
+        )
+        .is_err()
+        || [
+            "workItemId",
+            "repositoryId",
+            "runtimeVersion",
+            "runtimeDigest",
+        ]
+        .iter()
+        .any(|k| parent[*k] != parent["receipt"][*k])
+    {
+        return false;
     }
-    serde_json::json!(stripped)==parent["commands"]
+    let (Some(commands), Some(records), Some(results)) = (
+        parent["commands"].as_array(),
+        parent["executionRecords"].as_array(),
+        parent["receipt"]["results"].as_array(),
+    ) else {
+        return false;
+    };
+    let command_ids = commands
+        .iter()
+        .filter_map(|c| c["nodeId"].as_str())
+        .collect::<BTreeSet<_>>();
+    let record_ids = records
+        .iter()
+        .filter_map(|r| r["nodeId"].as_str())
+        .collect::<BTreeSet<_>>();
+    let result_ids = results
+        .iter()
+        .filter_map(|r| r["nodeId"].as_str())
+        .collect::<BTreeSet<_>>();
+    !commands.is_empty()
+        && command_ids.len() == commands.len()
+        && result_ids == command_ids
+        && results.len() == commands.len()
+        && record_ids.len() == records.len()
+        && record_ids.is_subset(&command_ids)
+        && parent["receipt"]["nodesPlanned"] == serde_json::json!(commands.len())
+        && parent["receipt"]["nodesExecuted"] == serde_json::json!(records.len())
+        && parent["receipt"]["nodesReused"]
+            == serde_json::json!(results.iter().filter(|r| r["reused"] == true).count())
+        && parent["processesSpawned"] == serde_json::json!(records.len())
+        && parent["receipt"]["processesSpawned"] == parent["processesSpawned"]
+        && records.iter().all(|r| {
+            successful_local_record(
+                r,
+                r["nodeId"].as_str().unwrap_or_default(),
+                r["commandDigest"].as_str().unwrap_or_default(),
+            ) && commands
+                .iter()
+                .filter(|c| c["nodeId"] == r["nodeId"] && c["commandDigest"] == r["commandDigest"])
+                .count()
+                == 1
+        })
+        && results.iter().all(|r| {
+            r["passed"] == true
+                && r["protected"] == false
+                && r["timedOut"] == false
+                && r["outputTruncated"] == false
+                && match r["reused"].as_bool() {
+                    Some(false) => {
+                        records
+                            .iter()
+                            .filter(|record| record["nodeId"] == r["nodeId"])
+                            .count()
+                            == 1
+                    }
+                    Some(true) => {
+                        !records.iter().any(|record| record["nodeId"] == r["nodeId"])
+                            && r["receiptId"].as_str().is_some_and(valid_sha256_digest)
+                    }
+                    None => false,
+                }
+        })
 }
 
-fn local_run_completed(catalog:&[serde_json::Value],parent:&serde_json::Value,expected:&serde_json::Value)->bool {
-    let Some(run_id)=parent["runId"].as_str() else{return true;}; // legacy API has no prepared run to resolve
-    if !valid_sha256_digest(run_id){return false;}
-    let observations=catalog.iter().filter(|o|o["kind"]=="verification_run_checkpoint" && o["runId"]==run_id && local_observation_matches(o,expected)).collect::<Vec<_>>();
-    observations.iter().any(|o|o["state"]=="run_prepared" && local_run_parent_binding_matches(o,parent))
-        && observations.iter().any(|o|o["state"]=="run_completed" && o["parentAttemptId"]==parent["attemptId"] && local_run_parent_binding_matches(o,parent))
-        && !observations.iter().any(|o|o["state"]!="run_prepared" && o["state"]!="run_completed")
-        && !catalog.iter().any(|o|o["kind"]=="verification_attempt" && o["runId"]==run_id && local_observation_matches(o,expected) && o["state"]!="execution_completed")
+fn local_run_parent_binding_matches(
+    observation: &serde_json::Value,
+    parent: &serde_json::Value,
+) -> bool {
+    if [
+        "runId",
+        "workItemId",
+        "repositoryId",
+        "runtimeDigest",
+        "runtimeVersion",
+        "contractDigest",
+        "contractExecutionScopeDigest",
+        "repositorySnapshotDigest",
+    ]
+    .iter()
+    .any(|key| observation[*key] != parent[*key])
+    {
+        return false;
+    }
+    let Some(commands) = observation["commands"].as_array() else {
+        return false;
+    };
+    let mut stripped = Vec::new();
+    for command in commands {
+        let Some(mut command) = command.as_object().cloned() else {
+            return false;
+        };
+        command.remove("plannedNode");
+        stripped.push(serde_json::Value::Object(command));
+    }
+    serde_json::json!(stripped) == parent["commands"]
 }
 
-fn local_causal_gap(root:&Path,catalog:&[serde_json::Value],facts:&[serde_json::Value],expected:&serde_json::Value,own_run:Option<&LocalVerificationRunIdentity>)->Option<&'static str>{
-    let related=catalog.iter().filter(|o|local_observation_matches(o,expected)).collect::<Vec<_>>();
-    let blocked=related.iter().filter_map(|o|o["supersedesAttemptId"].as_str()).collect::<BTreeSet<_>>();
-    let completed=related.iter().copied().filter(|o|local_parent_inventory_valid(o) && !blocked.contains(o["attemptId"].as_str().unwrap_or_default()) && local_run_completed(catalog,o,expected)).collect::<Vec<_>>();
+fn local_run_completed(
+    catalog: &[serde_json::Value],
+    parent: &serde_json::Value,
+    expected: &serde_json::Value,
+) -> bool {
+    let Some(run_id) = parent["runId"].as_str() else {
+        return true;
+    }; // legacy API has no prepared run to resolve
+    if !valid_sha256_digest(run_id) {
+        return false;
+    }
+    let observations = catalog
+        .iter()
+        .filter(|o| {
+            o["kind"] == "verification_run_checkpoint"
+                && o["runId"] == run_id
+                && local_observation_matches(o, expected)
+        })
+        .collect::<Vec<_>>();
+    observations
+        .iter()
+        .any(|o| o["state"] == "run_prepared" && local_run_parent_binding_matches(o, parent))
+        && observations.iter().any(|o| {
+            o["state"] == "run_completed"
+                && o["parentAttemptId"] == parent["attemptId"]
+                && local_run_parent_binding_matches(o, parent)
+        })
+        && !observations
+            .iter()
+            .any(|o| o["state"] != "run_prepared" && o["state"] != "run_completed")
+        && !catalog.iter().any(|o| {
+            o["kind"] == "verification_attempt"
+                && o["runId"] == run_id
+                && local_observation_matches(o, expected)
+                && o["state"] != "execution_completed"
+        })
+}
+
+fn local_causal_gap(
+    root: &Path,
+    catalog: &[serde_json::Value],
+    facts: &[serde_json::Value],
+    expected: &serde_json::Value,
+    own_run: Option<&LocalVerificationRunIdentity>,
+) -> Option<&'static str> {
+    let related = catalog
+        .iter()
+        .filter(|o| local_observation_matches(o, expected))
+        .collect::<Vec<_>>();
+    let blocked = related
+        .iter()
+        .filter_map(|o| o["supersedesAttemptId"].as_str())
+        .collect::<BTreeSet<_>>();
+    let completed = related
+        .iter()
+        .copied()
+        .filter(|o| {
+            local_parent_inventory_valid(o)
+                && !blocked.contains(o["attemptId"].as_str().unwrap_or_default())
+                && local_run_completed(catalog, o, expected)
+        })
+        .collect::<Vec<_>>();
     for observation in &related {
-        match observation["kind"].as_str(){
-            Some("verification_attempt")=>{
-                if observation["state"]!="execution_completed" || observation["passed"]!=true || blocked.contains(observation["attemptId"].as_str().unwrap_or_default()) {return Some("local_terminal_failure");}
-                if !local_parent_inventory_valid(observation){return Some("local_parent_inventory_invalid");}
+        match observation["kind"].as_str() {
+            Some("verification_attempt") => {
+                if observation["state"] != "execution_completed"
+                    || observation["passed"] != true
+                    || blocked.contains(observation["attemptId"].as_str().unwrap_or_default())
+                {
+                    return Some("local_terminal_failure");
+                }
+                if !local_parent_inventory_valid(observation) {
+                    return Some("local_parent_inventory_invalid");
+                }
             }
-            Some("verification_run_checkpoint")=>{
-                let Some(run_id)=observation["runId"].as_str().filter(|id|valid_sha256_digest(id)) else{return Some("local_run_identity_unavailable");};
-                if observation["state"]!="run_prepared" && observation["state"]!="run_completed"{return Some("local_run_interrupted");}
-                let is_own=own_run.is_some_and(|own|own.root==root && own.run_id==run_id);
-                if !is_own && !completed.iter().any(|parent|parent["runId"]==run_id){return Some("local_run_unresolved");}
+            Some("verification_run_checkpoint") => {
+                let Some(run_id) = observation["runId"]
+                    .as_str()
+                    .filter(|id| valid_sha256_digest(id))
+                else {
+                    return Some("local_run_identity_unavailable");
+                };
+                if observation["state"] != "run_prepared" && observation["state"] != "run_completed"
+                {
+                    return Some("local_run_interrupted");
+                }
+                let is_own = own_run.is_some_and(|own| own.root == root && own.run_id == run_id);
+                if !is_own && !completed.iter().any(|parent| parent["runId"] == run_id) {
+                    return Some("local_run_unresolved");
+                }
             }
-            Some("verification_execution_checkpoint")=>{
-                let Some(execution_id)=observation["executionId"].as_str().filter(|id|valid_sha256_digest(id)) else{return Some("local_execution_identity_unavailable");};
-                if observation["state"]!="execution_prepared" && observation["state"]!="node_execution_completed"{return Some("local_execution_unavailable");}
-                if observation["state"]=="node_execution_completed" && observation["receipt"]["passed"]!=true{return Some("local_execution_failed");}
-                let resolved=completed.iter().any(|parent|parent["localNodeLinkState"]=="available"
-                    && parent["nodeExecutionFacts"].as_array().into_iter().flatten().any(|link|link["nodeId"]==expected["nodeId"] && link["executionId"]==execution_id
-                        && facts.iter().any(|fact|fact["factId"]==link["factId"] && fact["executionId"]==execution_id && fact["identity"]==*expected
-                            && parent["executionRecords"].as_array().into_iter().flatten().any(|record|*record==fact["executionRecord"])
-                            && local_fact_has_execution_pair(catalog,fact,expected))));
+            Some("verification_execution_checkpoint") => {
+                let Some(execution_id) = observation["executionId"]
+                    .as_str()
+                    .filter(|id| valid_sha256_digest(id))
+                else {
+                    return Some("local_execution_identity_unavailable");
+                };
+                if observation["state"] != "execution_prepared"
+                    && observation["state"] != "node_execution_completed"
+                {
+                    return Some("local_execution_unavailable");
+                }
+                if observation["state"] == "node_execution_completed"
+                    && observation["receipt"]["passed"] != true
+                {
+                    return Some("local_execution_failed");
+                }
+                let resolved = completed.iter().any(|parent| {
+                    parent["localNodeLinkState"] == "available"
+                        && parent["nodeExecutionFacts"]
+                            .as_array()
+                            .into_iter()
+                            .flatten()
+                            .any(|link| {
+                                link["nodeId"] == expected["nodeId"]
+                                    && link["executionId"] == execution_id
+                                    && facts.iter().any(|fact| {
+                                        fact["factId"] == link["factId"]
+                                            && fact["executionId"] == execution_id
+                                            && fact["identity"] == *expected
+                                            && parent["executionRecords"]
+                                                .as_array()
+                                                .into_iter()
+                                                .flatten()
+                                                .any(|record| *record == fact["executionRecord"])
+                                            && local_fact_has_execution_pair(
+                                                catalog, fact, expected,
+                                            )
+                                    })
+                            })
+                });
                 // Equal cached results are not a native execution/owner link.
                 // Without a fact + parent association for this ID, stay unresolved.
-                if !resolved{return Some("local_execution_unresolved");}
+                if !resolved {
+                    return Some("local_execution_unresolved");
+                }
             }
-            _=>return Some("local_observation_kind_unknown"),
+            _ => return Some("local_observation_kind_unknown"),
         }
     }
     None
 }
 
-fn local_dependency_reuse_supported(input:&serde_json::Value)->bool {input["dependencies"].as_array().is_some_and(Vec::is_empty)}
-#[cfg(all(test,unix))]
+fn local_dependency_reuse_supported(input: &serde_json::Value) -> bool {
+    input["dependencies"].as_array().is_some_and(Vec::is_empty)
+}
+#[cfg(all(test, unix))]
 mod local_reuse_dependency_guard_tests {
     use super::*;
     #[test]
-    fn actual_dependency_graph_success_is_not_upstream_reuse_proof(){
-        use cockpit_verification::{VerificationCommand,VerificationReusePolicy,execute_bounded};
-        let upstream=VerificationCommand::new("upstream","/bin/sh",vec!["-c".into(),"printf upstream".into()],VerificationReusePolicy::NeverReuse).with_cleared_environment().with_timeout_seconds(3);
-        let target=VerificationCommand::new("target","/bin/sh",vec!["-c".into(),"printf target".into()],VerificationReusePolicy::NeverReuse).with_cleared_environment().with_dependencies(vec!["upstream".into()]).with_timeout_seconds(3);
-        let same=target.input_identity();let candidate=target.input_identity();assert_eq!(same,candidate);
-        let receipt=execute_bounded(vec![upstream,target],1).expect("real bounded dependency execution");
-        assert!(receipt.passed);assert_eq!(receipt.processes_spawned,2);assert_eq!(receipt.execution_records.len(),2);
-        assert!(receipt.execution_records.iter().all(|r|r.spawned && r.exit_code==Some(0) && !r.timed_out));
-        assert!(!local_dependency_reuse_supported(&serde_json::to_value(same).unwrap()));
-        for unsupported in [serde_json::json!({}),serde_json::json!({"dependencies":null}),serde_json::json!({"dependencies":"unknown"})] {assert!(!local_dependency_reuse_supported(&unsupported));}
-        assert!(!local_dependency_reuse_supported(&serde_json::to_value(candidate).unwrap()),"equal upstream IDs are not a complete physical dependency proof");
+    fn actual_dependency_graph_success_is_not_upstream_reuse_proof() {
+        use cockpit_verification::{VerificationCommand, VerificationReusePolicy, execute_bounded};
+        let upstream = VerificationCommand::new(
+            "upstream",
+            "/bin/sh",
+            vec!["-c".into(), "printf upstream".into()],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_cleared_environment()
+        .with_timeout_seconds(3);
+        let target = VerificationCommand::new(
+            "target",
+            "/bin/sh",
+            vec!["-c".into(), "printf target".into()],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_cleared_environment()
+        .with_dependencies(vec!["upstream".into()])
+        .with_timeout_seconds(3);
+        let same = target.input_identity();
+        let candidate = target.input_identity();
+        assert_eq!(same, candidate);
+        let receipt =
+            execute_bounded(vec![upstream, target], 1).expect("real bounded dependency execution");
+        assert!(receipt.passed);
+        assert_eq!(receipt.processes_spawned, 2);
+        assert_eq!(receipt.execution_records.len(), 2);
+        assert!(
+            receipt
+                .execution_records
+                .iter()
+                .all(|r| r.spawned && r.exit_code == Some(0) && !r.timed_out)
+        );
+        assert!(!local_dependency_reuse_supported(
+            &serde_json::to_value(same).unwrap()
+        ));
+        for unsupported in [
+            serde_json::json!({}),
+            serde_json::json!({"dependencies":null}),
+            serde_json::json!({"dependencies":"unknown"}),
+        ] {
+            assert!(!local_dependency_reuse_supported(&unsupported));
+        }
+        assert!(
+            !local_dependency_reuse_supported(&serde_json::to_value(candidate).unwrap()),
+            "equal upstream IDs are not a complete physical dependency proof"
+        );
     }
 }
 
 // A selected physical fact must prove its native checkpoint pair even when
 // either file was removed from the catalog. Traversal alone is not proof.
-fn local_fact_has_execution_pair(catalog:&[serde_json::Value],fact:&serde_json::Value,expected:&serde_json::Value)->bool {
-    let Some(id)=fact["executionId"].as_str().filter(|id|valid_sha256_digest(id)) else{return false;};
-    if fact["identity"]!=*expected || fact["postExecutionIdentityValidated"]!=true || fact["parentAttemptRequired"]!=true {return false;}
-    let observations=catalog.iter().filter(|o|o["kind"]=="verification_execution_checkpoint" && o["executionId"]==id).collect::<Vec<_>>();
-    let mut prepared=false;let mut completed=false;
+fn local_fact_has_execution_pair(
+    catalog: &[serde_json::Value],
+    fact: &serde_json::Value,
+    expected: &serde_json::Value,
+) -> bool {
+    let Some(id) = fact["executionId"]
+        .as_str()
+        .filter(|id| valid_sha256_digest(id))
+    else {
+        return false;
+    };
+    if fact["identity"] != *expected
+        || fact["postExecutionIdentityValidated"] != true
+        || fact["parentAttemptRequired"] != true
+    {
+        return false;
+    }
+    let observations = catalog
+        .iter()
+        .filter(|o| o["kind"] == "verification_execution_checkpoint" && o["executionId"] == id)
+        .collect::<Vec<_>>();
+    let mut prepared = false;
+    let mut completed = false;
     for observation in observations {
-        if observation["commands"].as_array().is_none_or(|commands|commands.len()!=1)
-            || !local_observation_matches(observation,expected) || !local_command_matches_identity(observation,expected) {return false;}
+        if observation["commands"]
+            .as_array()
+            .is_none_or(|commands| commands.len() != 1)
+            || !local_observation_matches(observation, expected)
+            || !local_command_matches_identity(observation, expected)
+        {
+            return false;
+        }
         match observation["state"].as_str() {
-            Some("execution_prepared")=>prepared=true,
-            Some("node_execution_completed")=>{
+            Some("execution_prepared") => prepared = true,
+            Some("node_execution_completed") => {
                 // A profile-cache observation is not a physical record. A later
                 // actual fallback under this ID must still supply the exact
                 // physical completed record; two differing physical outputs fail.
-                if local_checkpoint_is_pure_reuse(observation,expected){continue;}
-                let Some(records)=observation["executionRecords"].as_array() else{return false;};
-                let Some(results)=observation["receipt"]["results"].as_array() else{return false;};
-                if observation["receipt"]["passed"]!=true || records.len()!=1 || records[0]!=fact["executionRecord"]
-                    || observation["receipt"]["executionRecords"]!=observation["executionRecords"] || results.len()!=1
-                    || results[0]["reused"]!=false
-                    || !["nodeId","passed","protected","outputDigest","outputTruncated","timedOut"].iter().all(|key|results[0][*key]==fact["result"][*key]) {return false;}
-                completed=true;
+                if local_checkpoint_is_pure_reuse(observation, expected) {
+                    continue;
+                }
+                let Some(records) = observation["executionRecords"].as_array() else {
+                    return false;
+                };
+                let Some(results) = observation["receipt"]["results"].as_array() else {
+                    return false;
+                };
+                if observation["receipt"]["passed"] != true
+                    || records.len() != 1
+                    || records[0] != fact["executionRecord"]
+                    || observation["receipt"]["executionRecords"] != observation["executionRecords"]
+                    || results.len() != 1
+                    || results[0]["reused"] != false
+                    || ![
+                        "nodeId",
+                        "passed",
+                        "protected",
+                        "outputDigest",
+                        "outputTruncated",
+                        "timedOut",
+                    ]
+                    .iter()
+                    .all(|key| results[0][*key] == fact["result"][*key])
+                {
+                    return false;
+                }
+                completed = true;
             }
-            _=>return false,
+            _ => return false,
         }
     }
     prepared && completed
 }
 
-fn local_command_matches_identity(observation:&serde_json::Value,identity:&serde_json::Value)->bool {
-    let Some(commands)=observation["commands"].as_array() else{return false;};
-    let matches=commands.iter().filter(|c|c["nodeId"]==identity["nodeId"]).collect::<Vec<_>>();
-    matches.len()==1 && ["nodeId","program","args","scope","stage","runner","baseCommit"].iter().all(|key|matches[0][*key]==identity[*key])
-        && matches[0]["runtimeDigest"]==identity["runtimeDigest"]
-        && matches[0]["commandDigest"]==identity["executionInput"]["commandDigest"]
-        && matches[0]["timeoutSeconds"]==identity["executionInput"]["timeoutSeconds"]
+fn local_command_matches_identity(
+    observation: &serde_json::Value,
+    identity: &serde_json::Value,
+) -> bool {
+    let Some(commands) = observation["commands"].as_array() else {
+        return false;
+    };
+    let matches = commands
+        .iter()
+        .filter(|c| c["nodeId"] == identity["nodeId"])
+        .collect::<Vec<_>>();
+    matches.len() == 1
+        && [
+            "nodeId",
+            "program",
+            "args",
+            "scope",
+            "stage",
+            "runner",
+            "baseCommit",
+        ]
+        .iter()
+        .all(|key| matches[0][*key] == identity[*key])
+        && matches[0]["runtimeDigest"] == identity["runtimeDigest"]
+        && matches[0]["commandDigest"] == identity["executionInput"]["commandDigest"]
+        && matches[0]["timeoutSeconds"] == identity["executionInput"]["timeoutSeconds"]
 }
 
 // The strict receipt wire intentionally omits an empty executionRecords Vec.
 // Only absence is normalized; null, non-array and nonempty disagreement reject.
-fn local_receipt_records_match(parent:&serde_json::Value)->bool {
+fn local_receipt_records_match(parent: &serde_json::Value) -> bool {
     match parent["receipt"].get("executionRecords") {
-        None=>parent["executionRecords"].as_array().is_some_and(Vec::is_empty),
-        Some(records)=>records.is_array() && parent["executionRecords"]==*records,
+        None => parent["executionRecords"]
+            .as_array()
+            .is_some_and(Vec::is_empty),
+        Some(records) => records.is_array() && parent["executionRecords"] == *records,
     }
 }
 
 // Historical sibling provenance is limited to the referenced source chain.
 // It does not query the sibling's unrelated current execution state.
-fn local_historical_parent_reuse_valid(catalog:&[serde_json::Value],facts:&[serde_json::Value],parent:&serde_json::Value,stack:&mut BTreeSet<String>,depth:usize)->bool {
-    local_historical_parent_reuse_valid_bounded(catalog,facts,parent,stack,depth,&mut 256)
+fn local_historical_parent_reuse_valid(
+    catalog: &[serde_json::Value],
+    facts: &[serde_json::Value],
+    parent: &serde_json::Value,
+    stack: &mut BTreeSet<String>,
+    depth: usize,
+) -> bool {
+    local_historical_parent_reuse_valid_bounded(catalog, facts, parent, stack, depth, &mut 256)
 }
 
-fn local_historical_parent_reuse_valid_bounded(catalog:&[serde_json::Value],facts:&[serde_json::Value],parent:&serde_json::Value,stack:&mut BTreeSet<String>,depth:usize,remaining:&mut usize)->bool {
-    if *remaining==0{return false;}*remaining-=1;
-    let Some(parent_id)=parent["attemptId"].as_str().filter(|id|valid_sha256_digest(id)) else{return false;};
-    if depth>=16 || !stack.insert(parent_id.to_owned()) {return false;}
-    let valid=local_parent_inventory_valid(parent) && parent["receipt"]["results"].as_array().is_some_and(|results|results.iter().filter(|r|r["reused"]==true).all(|result| {
-        let referenced=facts.iter().filter(|f|f["factId"]==result["receiptId"]).collect::<Vec<_>>();
-        if referenced.len()!=1 {return false;}
-        let fact=referenced[0];let identity=&fact["identity"];
-        if !local_observation_matches(parent,identity) || !local_command_matches_identity(parent,identity)
-            || identity["producer"]!="native_local" || identity["assurance"]!="self_declared"
-            || identity["requestPolicy"]!="profile_authorized" || identity["effectivePolicy"]!="reusable" || !local_historical_profile_binding_valid(identity)
-            || identity["executionInput"]["environmentComplete"]!=true || !local_dependency_reuse_supported(&identity["executionInput"])
-            || !successful_local_record(&fact["executionRecord"],identity["nodeId"].as_str().unwrap_or_default(),identity["executionInput"]["commandDigest"].as_str().unwrap_or_default())
-            || fact["result"]["reused"]!=false || !local_fact_has_execution_pair(catalog,fact,identity)
-            || !["nodeId","passed","protected","outputDigest","outputTruncated","timedOut"].iter().all(|key|result[*key]==fact["result"][*key]) {return false;}
-        let original=catalog.iter().filter(|p|p["kind"]=="verification_attempt" && p["nodeExecutionFacts"].as_array().is_some_and(|links|links.iter().any(|link|link["factId"]==fact["factId"] && link["executionId"]==fact["executionId"]))).collect::<Vec<_>>();
-        if original.iter().any(|p|catalog.iter().any(|other|other["supersedesAttemptId"]==p["attemptId"])) {return false;}
-        original.iter().any(|source|local_observation_matches(source,identity) && local_command_matches_identity(source,identity)
-            && local_run_completed(catalog,source,identity)
-            && source["executionRecords"].as_array().is_some_and(|records|records.iter().filter(|record|**record==fact["executionRecord"]).count()==1)
-            && source["receipt"]["results"].as_array().is_some_and(|results|results.iter().filter(|r|r["nodeId"]==identity["nodeId"] && **r==fact["result"]).count()==1)
-            && local_historical_parent_reuse_valid_bounded(catalog,facts,source,stack,depth+1,remaining))
-    }));
-    stack.remove(parent_id);valid
+fn local_historical_parent_reuse_valid_bounded(
+    catalog: &[serde_json::Value],
+    facts: &[serde_json::Value],
+    parent: &serde_json::Value,
+    stack: &mut BTreeSet<String>,
+    depth: usize,
+    remaining: &mut usize,
+) -> bool {
+    if *remaining == 0 {
+        return false;
+    }
+    *remaining -= 1;
+    let Some(parent_id) = parent["attemptId"]
+        .as_str()
+        .filter(|id| valid_sha256_digest(id))
+    else {
+        return false;
+    };
+    if depth >= 16 || !stack.insert(parent_id.to_owned()) {
+        return false;
+    }
+    let valid = local_parent_inventory_valid(parent)
+        && parent["receipt"]["results"]
+            .as_array()
+            .is_some_and(|results| {
+                results
+                    .iter()
+                    .filter(|r| r["reused"] == true)
+                    .all(|result| {
+                        let referenced = facts
+                            .iter()
+                            .filter(|f| f["factId"] == result["receiptId"])
+                            .collect::<Vec<_>>();
+                        if referenced.len() != 1 {
+                            return false;
+                        }
+                        let fact = referenced[0];
+                        let identity = &fact["identity"];
+                        if !local_observation_matches(parent, identity)
+                            || !local_command_matches_identity(parent, identity)
+                            || identity["producer"] != "native_local"
+                            || identity["assurance"] != "self_declared"
+                            || identity["requestPolicy"] != "profile_authorized"
+                            || identity["effectivePolicy"] != "reusable"
+                            || !local_historical_profile_binding_valid(identity)
+                            || identity["executionInput"]["environmentComplete"] != true
+                            || !local_dependency_reuse_supported(&identity["executionInput"])
+                            || !successful_local_record(
+                                &fact["executionRecord"],
+                                identity["nodeId"].as_str().unwrap_or_default(),
+                                identity["executionInput"]["commandDigest"]
+                                    .as_str()
+                                    .unwrap_or_default(),
+                            )
+                            || fact["result"]["reused"] != false
+                            || !local_fact_has_execution_pair(catalog, fact, identity)
+                            || ![
+                                "nodeId",
+                                "passed",
+                                "protected",
+                                "outputDigest",
+                                "outputTruncated",
+                                "timedOut",
+                            ]
+                            .iter()
+                            .all(|key| result[*key] == fact["result"][*key])
+                        {
+                            return false;
+                        }
+                        let original = catalog
+                            .iter()
+                            .filter(|p| {
+                                p["kind"] == "verification_attempt"
+                                    && p["nodeExecutionFacts"].as_array().is_some_and(|links| {
+                                        links.iter().any(|link| {
+                                            link["factId"] == fact["factId"]
+                                                && link["executionId"] == fact["executionId"]
+                                        })
+                                    })
+                            })
+                            .collect::<Vec<_>>();
+                        if original.iter().any(|p| {
+                            catalog
+                                .iter()
+                                .any(|other| other["supersedesAttemptId"] == p["attemptId"])
+                        }) {
+                            return false;
+                        }
+                        original.iter().any(|source| {
+                            local_observation_matches(source, identity)
+                                && local_command_matches_identity(source, identity)
+                                && local_run_completed(catalog, source, identity)
+                                && source["executionRecords"]
+                                    .as_array()
+                                    .is_some_and(|records| {
+                                        records
+                                            .iter()
+                                            .filter(|record| **record == fact["executionRecord"])
+                                            .count()
+                                            == 1
+                                    })
+                                && source["receipt"]["results"]
+                                    .as_array()
+                                    .is_some_and(|results| {
+                                        results
+                                            .iter()
+                                            .filter(|r| {
+                                                r["nodeId"] == identity["nodeId"]
+                                                    && **r == fact["result"]
+                                            })
+                                            .count()
+                                            == 1
+                                    })
+                                && local_historical_parent_reuse_valid_bounded(
+                                    catalog,
+                                    facts,
+                                    source,
+                                    stack,
+                                    depth + 1,
+                                    remaining,
+                                )
+                        })
+                    })
+            });
+    stack.remove(parent_id);
+    valid
 }
 
 /// Optional-store problems are restrictive for both local and legacy profile
 /// caches. They never prevent the ordinary fresh executor or core failure write.
-pub(crate) fn local_profile_cache_requires_fresh(root:&Path,expected:&serde_json::Value,own_run:Option<&LocalVerificationRunIdentity>)->bool {
-    let check=||->Result<bool,ObserverError>{
-        let wi=expected["workItemId"].as_str().ok_or_else(||local_node_error(root,"local profile guard WI missing"))?;
-        let pinned=super::legacy_closeout_source::PinnedRoot::open(root)?;
-        let ai=super::evidence_store::open_cap_directory_nofollow_strict(&pinned.directory()?,".ai",&root.join(".ai"))?;
-        let evidence=super::evidence_store::open_cap_directory_nofollow_strict(&ai,"evidence",&root.join(".ai/evidence"))?;
-        let catalog=read_local_json_directory(root,&evidence,&format!("{wi}.verification-attempt."))?;
-        let facts=local_facts(root,wi)?;
-        let fresh=local_causal_gap(root,&catalog,&facts,expected,own_run).is_some()
-            || facts.iter().any(|fact|fact["identity"]==*expected && !local_fact_has_execution_pair(&catalog,fact,expected));
-        pinned.require_current()?;Ok(fresh)
+pub(crate) fn local_profile_cache_requires_fresh(
+    root: &Path,
+    expected: &serde_json::Value,
+    own_run: Option<&LocalVerificationRunIdentity>,
+) -> bool {
+    let check = || -> Result<bool, ObserverError> {
+        let wi = expected["workItemId"]
+            .as_str()
+            .ok_or_else(|| local_node_error(root, "local profile guard WI missing"))?;
+        let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+            &pinned.directory()?,
+            ".ai",
+            &root.join(".ai"),
+        )?;
+        let evidence = super::evidence_store::open_cap_directory_nofollow_strict(
+            &ai,
+            "evidence",
+            &root.join(".ai/evidence"),
+        )?;
+        let catalog =
+            read_local_json_directory(root, &evidence, &format!("{wi}.verification-attempt."))?;
+        let facts = local_facts(root, wi)?;
+        let fresh = local_causal_gap(root, &catalog, &facts, expected, own_run).is_some()
+            || facts.iter().any(|fact| {
+                fact["identity"] == *expected
+                    && !local_fact_has_execution_pair(&catalog, fact, expected)
+            });
+        pinned.require_current()?;
+        Ok(fresh)
     };
     check().unwrap_or(true)
 }
 
-fn local_historical_profile_binding_valid(identity:&serde_json::Value)->bool {
-    let authorization=&identity["profileAuthorization"];
-    let Ok(context)=serde_json::from_value::<cockpit_evidence::EvidenceContext>(authorization["context"].clone()) else{return false;};
-    authorization["repositoryId"]==identity["repositoryId"] && authorization["nodeId"]==identity["nodeId"]
-        && ["profileDigest","configFileDigest","profileFileDigest"].iter().all(|key|authorization[*key].as_str().is_some_and(valid_sha256_digest))
-        && authorization["profileDigest"]==context.profile_digest && identity["repositorySnapshotDigest"]==context.content_digest
+fn local_historical_profile_binding_valid(identity: &serde_json::Value) -> bool {
+    let authorization = &identity["profileAuthorization"];
+    let Ok(context) = serde_json::from_value::<cockpit_evidence::EvidenceContext>(
+        authorization["context"].clone(),
+    ) else {
+        return false;
+    };
+    authorization["repositoryId"] == identity["repositoryId"]
+        && authorization["nodeId"] == identity["nodeId"]
+        && ["profileDigest", "configFileDigest", "profileFileDigest"]
+            .iter()
+            .all(|key| {
+                authorization[*key]
+                    .as_str()
+                    .is_some_and(valid_sha256_digest)
+            })
+        && authorization["profileDigest"] == context.profile_digest
+        && identity["repositorySnapshotDigest"] == context.content_digest
 }
 
-fn local_checkpoint_is_pure_reuse(observation:&serde_json::Value,expected:&serde_json::Value)->bool {
-    let receipt=&observation["receipt"];
-    observation["kind"]=="verification_execution_checkpoint" && observation["state"]=="node_execution_completed"
-        && observation["commands"].as_array().is_some_and(|commands|commands.len()==1)
-        && local_observation_matches(observation,expected) && local_command_matches_identity(observation,expected)
-        && serde_json::from_value::<cockpit_verification::VerificationReceipt>(receipt.clone()).is_ok()
-        && local_receipt_records_match(observation) && observation["executionRecords"].as_array().is_some_and(Vec::is_empty)
-        && receipt["passed"]==true && receipt["nodesPlanned"]==1 && receipt["nodesExecuted"]==0 && receipt["nodesReused"]==1 && receipt["processesSpawned"]==0
-        && receipt["results"].as_array().is_some_and(|results|results.len()==1 && results[0]["nodeId"]==expected["nodeId"]
-            && results[0]["passed"]==true && results[0]["reused"]==true && results[0]["protected"]==false && results[0]["timedOut"]==false && results[0]["outputTruncated"]==false
-            && results[0]["receiptId"].as_str().is_some_and(valid_sha256_digest))
+fn local_checkpoint_is_pure_reuse(
+    observation: &serde_json::Value,
+    expected: &serde_json::Value,
+) -> bool {
+    let receipt = &observation["receipt"];
+    observation["kind"] == "verification_execution_checkpoint"
+        && observation["state"] == "node_execution_completed"
+        && observation["commands"]
+            .as_array()
+            .is_some_and(|commands| commands.len() == 1)
+        && local_observation_matches(observation, expected)
+        && local_command_matches_identity(observation, expected)
+        && serde_json::from_value::<cockpit_verification::VerificationReceipt>(receipt.clone())
+            .is_ok()
+        && local_receipt_records_match(observation)
+        && observation["executionRecords"]
+            .as_array()
+            .is_some_and(Vec::is_empty)
+        && receipt["passed"] == true
+        && receipt["nodesPlanned"] == 1
+        && receipt["nodesExecuted"] == 0
+        && receipt["nodesReused"] == 1
+        && receipt["processesSpawned"] == 0
+        && receipt["results"].as_array().is_some_and(|results| {
+            results.len() == 1
+                && results[0]["nodeId"] == expected["nodeId"]
+                && results[0]["passed"] == true
+                && results[0]["reused"] == true
+                && results[0]["protected"] == false
+                && results[0]["timedOut"] == false
+                && results[0]["outputTruncated"] == false
+                && results[0]["receiptId"]
+                    .as_str()
+                    .is_some_and(valid_sha256_digest)
+        })
 }
 
 // Without a governing Runtime version, known same-digest/source/node local
 // observations cannot be dismissed as foreign. This is restrictive only; it
 // does not manufacture a Runtime identity or publish any new local fact.
-pub(crate) fn local_unbound_profile_cache_requires_fresh(root:&Path,request:&RepositoryVerificationRequest,snapshot:&RepositorySnapshot)->bool {
-    let check=||->Result<bool,ObserverError>{
-        let Some(wi)=request.work_item_id.as_deref() else{return Ok(false);};
-        let pinned=super::legacy_closeout_source::PinnedRoot::open(root)?;
-        let ai=super::evidence_store::open_cap_directory_nofollow_strict(&pinned.directory()?,".ai",&root.join(".ai"))?;
-        let evidence=super::evidence_store::open_cap_directory_nofollow_strict(&ai,"evidence",&root.join(".ai/evidence"))?;
-        let contract=work_item_artifact_path(root,wi,"contract.json")?;
-        let source=snapshot_digest(snapshot)?.to_string();let contract_id=contract_digest(&contract)?.to_string();let scope_id=contract_execution_scope_digest(&contract)?.to_string();let repository=repository_id(root).to_string();
-        let matches=|value:&serde_json::Value|value["workItemId"]==wi && value["repositoryId"]==repository && value["runtimeDigest"]==request.runtime_digest
-            && value["repositorySnapshotDigest"]==source && value["contractDigest"]==contract_id && value["contractExecutionScopeDigest"]==scope_id;
-        let catalog=read_local_json_directory(root,&evidence,&format!("{wi}.verification-attempt."))?;let facts=local_facts(root,wi)?;
-        let fresh=catalog.iter().any(|v|matches(v)&&v["commands"].as_array().is_some_and(|commands|commands.iter().any(|command|command["nodeId"]==request.node_id)))
-            || facts.iter().any(|v|matches(&v["identity"])&&v["identity"]["nodeId"]==request.node_id);
-        pinned.require_current()?;Ok(fresh)
+pub(crate) fn local_unbound_profile_cache_requires_fresh(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
+) -> bool {
+    let check = || -> Result<bool, ObserverError> {
+        let Some(wi) = request.work_item_id.as_deref() else {
+            return Ok(false);
+        };
+        let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+        let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+            &pinned.directory()?,
+            ".ai",
+            &root.join(".ai"),
+        )?;
+        let evidence = super::evidence_store::open_cap_directory_nofollow_strict(
+            &ai,
+            "evidence",
+            &root.join(".ai/evidence"),
+        )?;
+        let contract = work_item_artifact_path(root, wi, "contract.json")?;
+        let source = snapshot_digest(snapshot)?.to_string();
+        let contract_id = contract_digest(&contract)?.to_string();
+        let scope_id = contract_execution_scope_digest(&contract)?.to_string();
+        let repository = repository_id(root).to_string();
+        let matches = |value: &serde_json::Value| {
+            value["workItemId"] == wi
+                && value["repositoryId"] == repository
+                && value["runtimeDigest"] == request.runtime_digest
+                && value["repositorySnapshotDigest"] == source
+                && value["contractDigest"] == contract_id
+                && value["contractExecutionScopeDigest"] == scope_id
+        };
+        let catalog =
+            read_local_json_directory(root, &evidence, &format!("{wi}.verification-attempt."))?;
+        let facts = local_facts(root, wi)?;
+        let fresh = catalog.iter().any(|v| {
+            matches(v)
+                && v["commands"].as_array().is_some_and(|commands| {
+                    commands
+                        .iter()
+                        .any(|command| command["nodeId"] == request.node_id)
+                })
+        }) || facts
+            .iter()
+            .any(|v| matches(&v["identity"]) && v["identity"]["nodeId"] == request.node_id);
+        pinned.require_current()?;
+        Ok(fresh)
     };
     check().unwrap_or(true)
 }
