@@ -365,10 +365,10 @@ fn collect_snapshot<R: MetadataReader>(
             .and_then(serde_json::Value::as_array)
             .ok_or(Failure::Metadata)?;
         for row in rows {
-            if row.get("id").and_then(serde_json::Value::as_u64) == Some(selector.artifact_id) {
-                if selected.replace(row.clone()).is_some() {
-                    return Err(Failure::Metadata);
-                }
+            if row.get("id").and_then(serde_json::Value::as_u64) == Some(selector.artifact_id)
+                && selected.replace(row.clone()).is_some()
+            {
+                return Err(Failure::Metadata);
             }
         }
     }
