@@ -798,15 +798,14 @@ impl CompositionParentObservation {
                 "Release observation lacks the bound registered receipt".into(),
             ));
         }
-        if let CompositionParentEvent::Cleanup { facts, .. } = &self.facts.event {
-            if facts.child_reaped != Some(true)
+        if let CompositionParentEvent::Cleanup { facts, .. } = &self.facts.event
+            && (facts.child_reaped != Some(true)
                 && (facts.exit_code.is_some() || facts.termination_signal.is_some())
-                || facts.exit_code.is_some() && facts.termination_signal.is_some()
-            {
-                return Err(CompositionError::Serialization(
-                    "composition parent cleanup facts contradict exit/reap state".into(),
-                ));
-            }
+                || facts.exit_code.is_some() && facts.termination_signal.is_some())
+        {
+            return Err(CompositionError::Serialization(
+                "composition parent cleanup facts contradict exit/reap state".into(),
+            ));
         }
         Ok(())
     }
@@ -912,12 +911,12 @@ impl CompositionParentCatalog {
                     "parent/child composition binding conflict".into(),
                 ));
             }
-            if let Some(previous) = view.parent_failures.first().or(view.parent_cleanup.first()) {
-                if previous.facts.identity != *identity {
-                    return Err(CompositionError::Serialization(
-                        "parent observation nonce/owner/supervisor conflict".into(),
-                    ));
-                }
+            if let Some(previous) = view.parent_failures.first().or(view.parent_cleanup.first())
+                && previous.facts.identity != *identity
+            {
+                return Err(CompositionError::Serialization(
+                    "parent observation nonce/owner/supervisor conflict".into(),
+                ));
             }
             if let Some(child) = &view.child_attempt {
                 if let Some(receipt) = &child.supervisor_receipt {
@@ -1932,19 +1931,19 @@ fn run_composition_inner_with_observer(
         || attempt.failure.as_deref() == Some("in_progress"))
         && attempt.execution_records.len() == input.commands.len()
         && attempt.execution_records.iter().all(|record| record.passed);
-    if attempt.execution_records.iter().any(|record| record.reused) {
-        if let Some(load) = parent_catalog_loader {
-            let previous =
-                predecessor
-                    .as_ref()
-                    .ok_or_else(|| CompositionError::UnknownAttemptOwner {
-                        attempt_id: attempt.attempt_id.clone(),
-                    })?;
-            require_parent_predecessor_current(
-                previous,
-                &load().map_err(CompositionError::Serialization)?,
-            )?;
-        }
+    if attempt.execution_records.iter().any(|record| record.reused)
+        && let Some(load) = parent_catalog_loader
+    {
+        let previous =
+            predecessor
+                .as_ref()
+                .ok_or_else(|| CompositionError::UnknownAttemptOwner {
+                    attempt_id: attempt.attempt_id.clone(),
+                })?;
+        require_parent_predecessor_current(
+            previous,
+            &load().map_err(CompositionError::Serialization)?,
+        )?;
     }
     if attempt.passed {
         attempt.failure = None;

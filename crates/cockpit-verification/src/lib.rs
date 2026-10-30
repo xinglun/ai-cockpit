@@ -3441,10 +3441,11 @@ impl UnixSupervisorMessagePipe {
             if let Err(error) = self.pump() {
                 return Ok(Err(error));
             }
-            if self.pending.front().is_some_and(|message| {
-                matches!(message, VerificationSupervisorMessage::Started { .. }) || self.eof
+            let natural_eof = self.eof;
+            if let Some(message) = self.pending.pop_front_if(|message| {
+                matches!(message, VerificationSupervisorMessage::Started { .. }) || natural_eof
             }) {
-                return Ok(Ok(self.pending.pop_front().expect("front checked above")));
+                return Ok(Ok(message));
             }
             if Instant::now() >= deadline {
                 return Err(mpsc::RecvTimeoutError::Timeout);
