@@ -47,6 +47,8 @@ Generated from the current Clap command tree, including inherited global argumen
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
 | `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence observe` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence list` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
