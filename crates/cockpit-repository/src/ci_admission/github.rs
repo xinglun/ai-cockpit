@@ -96,18 +96,7 @@ impl MetadataReader for HttpsReader {
         if status != 200 {
             return Err(Failure::HttpStatus(status));
         }
-        let link = response
-            .headers()
-            .get("link")
-            .map(|v| {
-                v.to_str()
-                    .map(str::to_owned)
-                    .map_err(|_| Failure::Pagination)
-            })
-            .transpose()?;
-        if link.as_ref().is_some_and(|s| s.len() > 8192) {
-            return Err(Failure::Pagination);
-        }
+        let link = single_link_header(response.headers())?;
         let mut body = Vec::new();
         response
             .body_mut()
@@ -123,6 +112,29 @@ impl MetadataReader for HttpsReader {
         }
         Ok(Reply { status, link, body })
     }
+}
+
+pub(super) fn single_link_header(
+    headers: &ureq::http::HeaderMap,
+) -> Result<Option<String>, Failure> {
+    let mut values = headers.get_all("link").iter();
+    let first = values.next();
+    // Do not silently ignore a second field that could contain rel=next.
+    // This first collector rejects multiple fields rather than infer a merge.
+    if values.next().is_some() {
+        return Err(Failure::Pagination);
+    }
+    let value = first
+        .map(|v| {
+            v.to_str()
+                .map(str::to_owned)
+                .map_err(|_| Failure::Pagination)
+        })
+        .transpose()?;
+    if value.as_ref().is_some_and(|s| s.len() > 8192) {
+        return Err(Failure::Pagination);
+    }
+    Ok(value)
 }
 
 fn validate_path(path: &str) -> Result<(), Failure> {
@@ -272,6 +284,13 @@ pub(super) fn collect_with<R: MetadataReader>(
         observations: Vec::new(),
     };
     let result = collect_snapshot(selector, &mut session);
+    // Parsing/projection is synchronous. Reject a result that outlived the same
+    // collection deadline; this check does not interrupt that work mid-parse.
+    let result = if Instant::now() >= session.deadline {
+        Err(Failure::Deadline)
+    } else {
+        result
+    };
     let (metadata, failure, rejected) = match result {
         Ok((value, rejected)) => (Some(value), None, rejected),
         Err(e) => (
@@ -283,7 +302,12 @@ pub(super) fn collect_with<R: MetadataReader>(
     Collected {
         collection: GithubCollectionReport {
             origin: ORIGIN.into(),
-            assurance: "https_origin_metadata_only".into(),
+            assurance: if session.observations.is_empty() {
+                "not_observed"
+            } else {
+                "https_origin_metadata_only"
+            }
+            .into(),
             elapsed_ms: started.elapsed().as_millis().min(u64::MAX as u128) as u64,
             maximum_seconds: budget.as_secs(),
             requests: session.observations,
@@ -296,10 +320,125 @@ pub(super) fn collect_with<R: MetadataReader>(
 }
 
 fn collect_snapshot<R: MetadataReader>(
-    _selector: &GithubEvidenceSelector,
-    _session: &mut Session<'_, R>,
+    selector: &GithubEvidenceSelector,
+    session: &mut Session<'_, R>,
 ) -> Result<(serde_json::Value, bool), Failure> {
-    // Conservative assertion-RED checkpoint: no metadata is promoted or admitted.
+    let run = session.read(
+        &format!(
+            "{PREFIX}/actions/runs/{}/attempts/{}",
+            selector.run_id, selector.attempt
+        ),
+        false,
+    )?;
+    let run_value: serde_json::Value =
+        serde_json::from_slice(&run.body).map_err(|_| Failure::Metadata)?;
+    let head = run_value
+        .get("head_sha")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(Failure::Metadata)?;
+    if !matches!(head.len(), 40 | 64)
+        || !head
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+    {
+        return Err(Failure::Metadata);
+    }
+    let jobs = session.pages(&format!(
+        "{PREFIX}/actions/runs/{}/attempts/{}/jobs",
+        selector.run_id, selector.attempt
+    ))?;
+    let artifacts = session.pages(&format!(
+        "{PREFIX}/actions/runs/{}/artifacts",
+        selector.run_id
+    ))?;
+    let mut selected = None;
+    for bytes in &artifacts {
+        let page: serde_json::Value =
+            serde_json::from_slice(bytes).map_err(|_| Failure::Metadata)?;
+        let rows = page
+            .get("artifacts")
+            .and_then(serde_json::Value::as_array)
+            .ok_or(Failure::Metadata)?;
+        for row in rows {
+            if row.get("id").and_then(serde_json::Value::as_u64) == Some(selector.artifact_id) {
+                if selected.replace(row.clone()).is_some() {
+                    return Err(Failure::Metadata);
+                }
+            }
+        }
+    }
+    let selected = selected.ok_or(Failure::Metadata)?;
+    if selected
+        .get("digest")
+        .and_then(serde_json::Value::as_str)
+        .is_some_and(|v| v.len() > 128)
+    {
+        return Err(Failure::Metadata);
+    }
+    let direct = session.read(
+        &format!("{PREFIX}/actions/artifacts/{}", selector.artifact_id),
+        false,
+    )?;
+    let direct: serde_json::Value =
+        serde_json::from_slice(&direct.body).map_err(|_| Failure::Metadata)?;
+    for key in ["id", "name", "expired", "digest"] {
+        if selected.get(key) != direct.get(key) {
+            return Err(Failure::Metadata);
+        }
+    }
+    for key in ["id", "repository_id", "head_repository_id", "head_sha"] {
+        if selected.get("workflow_run").and_then(|v| v.get(key))
+            != direct.get("workflow_run").and_then(|v| v.get(key))
+        {
+            return Err(Failure::Metadata);
+        }
+    }
+    let workflow = session.read(
+        &format!("{PREFIX}/contents/.github/workflows/ci.yml?ref={head}"),
+        true,
+    )?;
+    // Both expectations here are source observations, not a reviewed catalog.
+    // The supplied-snapshot inspector retains all missing closure/runtime and
+    // job/artifact proofs; these bytes never construct trusted producer facts.
+    let expected = snapshot::MainFixtureExpectations {
+        workflow_commit: head.into(),
+        workflow_bytes_digest: Digest::sha256_bytes(&workflow.body),
+    };
+    let inspection = snapshot::plan_main_snapshot_fixture(
+        &snapshot::MainFixtureSelector {
+            run_id: selector.run_id,
+            attempt: selector.attempt,
+            job_id: selector.job_id,
+            artifact_id: selector.artifact_id,
+        },
+        &expected,
+        snapshot::MainSnapshotFixture {
+            run_json: &run.body,
+            jobs_pages: &jobs.iter().map(Vec::as_slice).collect::<Vec<_>>(),
+            artifact_pages: &artifacts.iter().map(Vec::as_slice).collect::<Vec<_>>(),
+            supplied_workflow_read_commit: Some(head),
+            supplied_workflow_bytes: Some(&workflow.body),
+        },
+    )
+    .map_err(|_| Failure::Metadata)?;
+    if !inspection.jobs_supplied_counts_cover_declared_total
+        || !inspection.artifacts_supplied_counts_cover_declared_total
+    {
+        return Err(Failure::Pagination);
+    }
+    let rejected = !inspection.metadata_consistent;
+    let value = serde_json::to_value(inspection).map_err(|_| Failure::Metadata)?;
+    if rejected {
+        return Ok((value, true));
+    }
+    publish_complete_metadata(value)
+}
+
+fn publish_complete_metadata(
+    _value: serde_json::Value,
+) -> Result<(serde_json::Value, bool), Failure> {
+    // The conservative assertion-RED boundary is successful report publication.
+    // Real collection/parsing above stays reachable, with no warning suppression.
     Err(Failure::NotImplemented)
 }
 
@@ -839,20 +978,6 @@ mod snapshot {
             && artifacts_complete
             && p.observed_job_id.is_some()
             && p.observed_artifact_id.is_some();
-        // Conservative assertion-RED scaffold. Keep bounded parse/field checks,
-        // but withhold all positive observation projections until real assertion
-        // failures have been observed by core. This does not create acceptance.
-        p.metadata_consistent = false;
-        p.observed_job_id = None;
-        p.observed_artifact_id = None;
-        p.observed_artifact_digest = None;
-        p.jobs_supplied_counts_cover_declared_total = false;
-        p.artifacts_supplied_counts_cover_declared_total = false;
-        p.workflow.state = WorkflowFixtureState::NotSupplied;
-        p.workflow.observed_bytes_digest = None;
-        p.upload_observation = UploadFixtureState::Unavailable;
-        p.upload_observed_step_number = None;
-        p.mismatches.push(MainPlanMismatch::FixtureNotEvaluated);
         Ok(p)
     }
 

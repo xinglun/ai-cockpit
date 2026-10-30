@@ -29,6 +29,20 @@ fn selector() -> GithubEvidenceSelector {
     }
 }
 
+#[test]
+fn ci_admission_duplicate_link_fields_cannot_hide_a_later_next_relation() {
+    use ureq::http::{HeaderMap, HeaderValue};
+    let mut headers = HeaderMap::new();
+    assert_eq!(github::single_link_header(&headers), Ok(None));
+    headers.append("link", HeaderValue::from_static("<https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/1/attempts/2/jobs?per_page=100&page=1>; rel=\"prev\""));
+    assert!(github::single_link_header(&headers).unwrap().is_some());
+    headers.append("link", HeaderValue::from_static("<https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/1/attempts/2/jobs?per_page=100&page=3>; rel=\"next\""));
+    assert_eq!(
+        github::single_link_header(&headers),
+        Err(Failure::Pagination)
+    );
+}
+
 fn fixture() -> FixtureReader {
     let repo = json!({"id":1341189248,"full_name":"xinglun/ai-cockpit"});
     let run = json!({"id":1,"run_attempt":2,"event":"push","path":".github/workflows/ci.yml","workflow_id":338986437,"head_sha":"a".repeat(40),"head_branch":"main","status":"completed","conclusion":"success","repository":repo,"head_repository":repo});
