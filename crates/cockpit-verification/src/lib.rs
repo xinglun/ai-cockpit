@@ -2981,7 +2981,36 @@ enum VerificationSupervisorMessage {
     },
 }
 
-type VerificationSupervisorMessages = mpsc::Receiver<Result<VerificationSupervisorMessage, String>>;
+type VerificationSupervisorReader = std::thread::JoinHandle<()>;
+
+enum VerificationSupervisorMessages {
+    Channel(mpsc::Receiver<Result<VerificationSupervisorMessage, String>>),
+}
+
+impl VerificationSupervisorMessages {
+    fn from_channel(receiver: mpsc::Receiver<Result<VerificationSupervisorMessage, String>>) -> Self {
+        Self::Channel(receiver)
+    }
+    fn recv_timeout(&self, timeout: Duration) -> Result<Result<VerificationSupervisorMessage, String>, mpsc::RecvTimeoutError> {
+        match self { Self::Channel(receiver) => receiver.recv_timeout(timeout) }
+    }
+    #[cfg(unix)]
+    fn pump(&self) -> Result<(), String> { Ok(()) }
+    #[cfg(unix)]
+    fn terminal_seen(&self) -> bool { false }
+    #[cfg(unix)]
+    fn completed_naturally(&self) -> bool { false }
+}
+
+fn supervisor_message_transport(stderr: std::process::ChildStderr) -> Result<(VerificationSupervisorMessages, Option<VerificationSupervisorReader>), String> {
+    let (sender, receiver) = mpsc::sync_channel(4);
+    let reader = std::thread::Builder::new()
+        .name("verification-supervisor-messages".into())
+        .spawn(move || read_supervisor_messages(stderr, sender))
+        .map_err(|error| format!("start verification supervisor handshake reader: {error}"))?;
+    Ok((VerificationSupervisorMessages::from_channel(receiver), Some(reader)))
+}
+
 const CLEANUP_UNCERTAIN_LAUNCH_PREFIX: &str = "__verification_cleanup_uncertain__:";
 
 /// Entry point for the private CLI supervisor mode. One helper process owns
@@ -3757,6 +3786,7 @@ fn execute_supervised_captured(
                 worker_id,
                 SUPERVISOR_PARENT_CLEANUP_GRACE,
                 &mut forced,
+                message_receiver.as_ref(),
             );
             join_startup_reader(&mut startup_reader);
             let mut outcome = match ExecutionOutcome::try_from(wire) {
@@ -3791,7 +3821,7 @@ fn execute_supervised_captured(
             return outcome;
         }
         let forced =
-            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, message_receiver.as_ref());
         join_startup_reader(&mut startup_reader);
         return if forced {
             failed_cleanup_uncertain_outcome(
@@ -3817,7 +3847,7 @@ fn execute_supervised_captured(
     {
         close_supervisor_input(&mut worker);
         let forced =
-            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            terminate_supervisor_worker(&mut worker, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, message_receiver.as_ref());
         join_startup_reader(&mut startup_reader);
         let _ = observer(&command.id, target_id, false);
         #[cfg(windows)]
@@ -3839,8 +3869,41 @@ fn execute_supervised_captured(
     let command_deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let mut parent_timed_out = false;
     let mut cleanup_forced_termination = false;
+    #[cfg(unix)]
+    let mut protocol_error: Option<String> = None;
+    #[cfg(not(unix))]
+    let protocol_error: Option<String> = None;
+    #[cfg(unix)]
+    let mut terminal_close_deadline = None;
     let worker_status = loop {
-        match worker.try_wait() {
+        #[cfg(unix)]
+        if let Some(messages) = message_receiver.as_ref() {
+            if let Err(error) = messages.pump() {
+                protocol_error = Some(error);
+                close_supervisor_input(&mut worker);
+                cleanup_forced_termination = true;
+                break wait_supervisor_cleanup(&mut worker, worker_id,
+                    SUPERVISOR_PROTOCOL_CLOSE_GRACE, &mut cleanup_forced_termination,
+                    message_receiver.as_ref());
+            }
+            if messages.terminal_seen() {
+                close_supervisor_input(&mut worker);
+                terminal_close_deadline.get_or_insert(Instant::now() + SUPERVISOR_PROTOCOL_CLOSE_GRACE);
+            }
+        }
+        let worker_poll = worker.try_wait();
+        #[cfg(unix)]
+        if terminal_close_deadline.is_some_and(|deadline| Instant::now() >= deadline)
+            && matches!(worker_poll, Ok(None))
+        {
+            protocol_error = Some("verification supervisor did not reach natural control EOF and exit within its close deadline".into());
+            close_supervisor_input(&mut worker);
+            cleanup_forced_termination = true;
+            break wait_supervisor_cleanup(&mut worker, worker_id,
+                SUPERVISOR_PROTOCOL_CLOSE_GRACE, &mut cleanup_forced_termination,
+                message_receiver.as_ref());
+        }
+        match worker_poll {
             Ok(Some(status)) => break Some(status),
             Ok(None) if composition::owner_interruption_signal().is_some() => {
                 close_supervisor_input(&mut worker);
@@ -3849,6 +3912,7 @@ fn execute_supervised_captured(
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
+                    message_receiver.as_ref(),
                 );
             }
             Ok(None) if Instant::now() < command_deadline + SUPERVISOR_CLEANUP_GRACE => {
@@ -3862,6 +3926,7 @@ fn execute_supervised_captured(
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
+                    message_receiver.as_ref(),
                 ) {
                     Some(status) => break Some(status),
                     None => break None,
@@ -3874,6 +3939,7 @@ fn execute_supervised_captured(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
+                    message_receiver.as_ref(),
                 );
                 join_startup_reader(&mut startup_reader);
                 #[cfg(windows)]
@@ -3892,10 +3958,16 @@ fn execute_supervised_captured(
     close_supervisor_input(&mut worker);
     #[cfg(windows)]
     drop(windows_tree);
-    let response = if worker_status.is_some() {
+    #[cfg(unix)]
+    let response_timeout = SUPERVISOR_STARTUP_DEADLINE;
+    #[cfg(not(unix))]
+    let response_timeout = SUPERVISOR_STARTUP_DEADLINE;
+    let response = if let Some(error) = protocol_error {
+        Err(error)
+    } else if worker_status.is_some() {
         match message_receiver.as_ref() {
             Some(receiver) => receiver
-                .recv_timeout(SUPERVISOR_STARTUP_DEADLINE)
+                .recv_timeout(response_timeout)
                 .map_err(|error| format!("read verification supervisor outcome: {error}"))
                 .and_then(|message| message),
             None => Err("verification supervisor message channel is unavailable".into()),
@@ -3999,7 +4071,7 @@ fn spawn_verification_supervisor(
     command: &VerificationCommand,
     supervisor: &VerificationSupervisorLaunch,
     target_process_id: &mut Option<u32>,
-    startup_reader: &mut Option<std::thread::JoinHandle<()>>,
+    startup_reader: &mut Option<VerificationSupervisorReader>,
     message_receiver: &mut Option<VerificationSupervisorMessages>,
     initial_message: &mut Option<VerificationSupervisorMessage>,
     #[cfg(windows)] windows_tree: &mut Option<WindowsProcessTree>,
@@ -4036,36 +4108,28 @@ fn spawn_verification_supervisor(
     #[cfg(windows)]
     {
         let Some(tree) = WindowsProcessTree::attach(&child) else {
-            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE, None);
             return Err("attach verification supervisor to its process job".into());
         };
         if !resume_suspended_process(&child) {
             drop(tree);
-            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE, None);
             return Err("resume verification supervisor process".into());
         }
         *windows_tree = Some(tree);
     }
     let Some(stderr) = child.stderr.take() else {
-        terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
+        terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE, None);
         return Err("verification supervisor stderr pipe is unavailable".into());
     };
-    let (sender, receiver) = mpsc::sync_channel(4);
-    let reader = std::thread::Builder::new()
-        .name("verification-supervisor-messages".into())
-        .spawn(move || {
-            read_supervisor_messages(stderr, sender);
-        });
-    let reader = match reader {
-        Ok(reader) => reader,
+    let (receiver, reader) = match supervisor_message_transport(stderr) {
+        Ok(transport) => transport,
         Err(error) => {
-            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE);
-            return Err(format!(
-                "start verification supervisor handshake reader: {error}"
-            ));
+            terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_CLEANUP_GRACE, None);
+            return Err(error);
         }
     };
-    *startup_reader = Some(reader);
+    *startup_reader = reader;
     let start_message = match exchange_verification_supervisor_startup(
         child.stdin.as_mut(),
         &request_bytes,
@@ -4076,7 +4140,7 @@ fn spawn_verification_supervisor(
         Err(VerificationSupervisorStartupError::Request(error)) => {
             close_supervisor_input(&mut child);
             let _ =
-                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, Some(&receiver));
             join_startup_reader(startup_reader);
             let message = format!("write verification supervisor request: {error}");
             return Err(uncertain_launch_error(
@@ -4087,7 +4151,7 @@ fn spawn_verification_supervisor(
         Err(VerificationSupervisorStartupError::Message(error)) => {
             close_supervisor_input(&mut child);
             let _ =
-                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, Some(&receiver));
             join_startup_reader(startup_reader);
             return Err(uncertain_launch_error(
                 &error,
@@ -4097,7 +4161,7 @@ fn spawn_verification_supervisor(
         Err(VerificationSupervisorStartupError::Receive(error)) => {
             close_supervisor_input(&mut child);
             let _ =
-                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, Some(&receiver));
             join_startup_reader(startup_reader);
             let message = format!("verification supervisor start handshake failed: {error}");
             return Err(uncertain_launch_error(
@@ -4121,7 +4185,7 @@ fn spawn_verification_supervisor(
         } => {
             close_supervisor_input(&mut child);
             let forced =
-                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, Some(&receiver));
             join_startup_reader(startup_reader);
             return Err(if forced {
                 uncertain_launch_error(
@@ -4135,7 +4199,7 @@ fn spawn_verification_supervisor(
         _ => {
             close_supervisor_input(&mut child);
             let _ =
-                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE, Some(&receiver));
             join_startup_reader(startup_reader);
             let message = "verification supervisor returned an invalid start identity";
             return Err(uncertain_launch_error(
@@ -4333,7 +4397,7 @@ mod supervisor_startup_channel_tests {
         let stderr = child.stderr.take().expect("fixture stderr");
         let (sender, receiver) = mpsc::sync_channel(4);
         let reader = std::thread::spawn(move || read_supervisor_messages(stderr, sender));
-        (child, receiver, reader)
+        (child, VerificationSupervisorMessages::from_channel(receiver), reader)
     }
 
     fn finish_fixture(mut child: Child, reader: std::thread::JoinHandle<()>) {
@@ -4441,6 +4505,7 @@ mod supervisor_startup_channel_tests {
     #[test]
     fn missing_request_pipe_remains_a_request_error() {
         let (_sender, receiver) = mpsc::sync_channel(4);
+        let receiver = VerificationSupervisorMessages::from_channel(receiver);
         let result = exchange_verification_supervisor_startup(
             None,
             b"request\n",
@@ -4506,30 +4571,36 @@ fn read_supervisor_messages(
     }
 }
 
-fn join_startup_reader(reader: &mut Option<std::thread::JoinHandle<()>>) {
-    if let Some(reader) = reader.take() {
-        let _ = reader.join();
-    }
+fn join_startup_reader(reader: &mut Option<VerificationSupervisorReader>) {
+    if let Some(reader) = reader.take() { let _ = reader.join(); }
 }
 
 fn close_supervisor_input(child: &mut Child) {
     drop(child.stdin.take());
 }
 
-fn wait_supervisor_cleanup(
+#[cfg(unix)]
+fn observe_owned_supervisor_exit(child: &mut Child) -> std::io::Result<bool> {
+    child.try_wait().map(|status| status.is_some())
+}
+
+#[cfg(unix)]
+fn wait_supervisor_cleanup_with_operations(
     child: &mut Child,
     child_id: u32,
     grace: Duration,
     forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+    observe: fn(&mut Child) -> std::io::Result<bool>,
+    reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
 ) -> Option<std::process::ExitStatus> {
+    let _ = messages;
     let deadline = Instant::now() + grace;
     loop {
-        match child.try_wait() {
-            Ok(Some(status)) => return Some(status),
-            Ok(None) if Instant::now() < deadline => {
-                std::thread::sleep(Duration::from_millis(10));
-            }
-            Ok(None) | Err(_) => {
+        match observe(child) {
+            Ok(true) => return reap(child).ok().flatten(),
+            Ok(false) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
+            Ok(false) | Err(_) => {
                 *forced_termination = true;
                 terminate_descendants(child_id);
                 let _ = child.kill();
@@ -4539,14 +4610,52 @@ fn wait_supervisor_cleanup(
     }
 }
 
-fn terminate_supervisor_worker(child: &mut Child, child_id: u32, grace: Duration) -> bool {
+fn wait_supervisor_cleanup(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+) -> Option<std::process::ExitStatus> {
+    #[cfg(unix)]
+    {
+        wait_supervisor_cleanup_with_operations(child, child_id, grace, forced_termination,
+            messages, observe_owned_supervisor_exit, Child::try_wait)
+    }
+    #[cfg(not(unix))]
+    {
+        let _ = messages;
+        let deadline = Instant::now() + grace;
+        loop {
+            match child.try_wait() {
+                Ok(Some(status)) => return Some(status),
+                Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
+                Ok(None) | Err(_) => {
+                    *forced_termination = true;
+                    terminate_descendants(child_id);
+                    let _ = child.kill();
+                    return child.wait().ok();
+                }
+            }
+        }
+    }
+}
+
+fn terminate_supervisor_worker(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    messages: Option<&VerificationSupervisorMessages>,
+) -> bool {
     close_supervisor_input(child);
     let mut forced_termination = false;
-    if wait_supervisor_cleanup(child, child_id, grace, &mut forced_termination).is_none() {
+    if wait_supervisor_cleanup(child, child_id, grace, &mut forced_termination, messages).is_none() {
         forced_termination = true;
-        terminate_descendants(child_id);
-        let _ = child.kill();
-        let _ = child.wait();
+        {
+            terminate_descendants(child_id);
+            let _ = child.kill();
+            let _ = child.wait();
+        }
     }
     forced_termination
 }
@@ -6163,5 +6272,407 @@ mod tests {
         assert!(
             serde_json::from_value::<VerificationSupervisorMessage>(non_string_number).is_err()
         );
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod supervisor_finalization_tests {
+    use super::*;
+    use std::os::unix::process::CommandExt;
+
+    const FIXTURE: &str = "AI_COCKPIT_FINALIZATION_FIXTURE";
+    const SCENARIO: &str = "AI_COCKPIT_FINALIZATION_SCENARIO";
+    const HOLDER_RECORD: &str = "AI_COCKPIT_FINALIZATION_HOLDER_RECORD";
+    const HOLDER_NONCE: &str = "AI_COCKPIT_FINALIZATION_HOLDER_NONCE";
+
+    #[derive(Serialize, Deserialize)]
+    struct HolderRecord {
+        nonce: String,
+        holder_pid: libc::pid_t,
+        original_parent_pid: libc::pid_t,
+        start_time_ticks: u64,
+    }
+
+    fn hard_deadline(seconds: u64) {
+        std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_secs(seconds));
+            // SAFETY: only this isolated fixture/scenario process exits.
+            unsafe { libc::_exit(97) };
+        });
+    }
+
+    fn finite_holder(detach: bool) {
+        // SAFETY: the post-fork child uses only async-signal-safe syscalls;
+        // it allocates no Rust data and returns through _exit, never unwinds.
+        let pid = unsafe { libc::fork() };
+        assert!(pid >= 0, "fork finite pipe holder");
+        if pid == 0 {
+            unsafe {
+                if detach && libc::setsid() < 0 { libc::_exit(96); }
+                libc::close(0);
+                libc::close(1);
+                let mut remaining = libc::timespec { tv_sec: 3, tv_nsec: 0 };
+                loop {
+                    let mut next = libc::timespec { tv_sec: 0, tv_nsec: 0 };
+                    if libc::nanosleep(&remaining, &mut next) == 0 { break; }
+                    if *libc::__errno_location() != libc::EINTR {
+                        libc::_exit(95);
+                    }
+                    remaining = next;
+                }
+                libc::_exit(0);
+            }
+        }
+        let identity = observe_verification_process(pid).expect("observe newly forked holder")
+            .expect("holder exists before publishing identity");
+        assert_eq!(identity.parent_process_id, std::process::id() as libc::pid_t);
+        let record = HolderRecord {
+            nonce: std::env::var(HOLDER_NONCE).expect("private holder nonce"),
+            holder_pid: pid,
+            original_parent_pid: identity.parent_process_id,
+            start_time_ticks: identity.start_time_ticks,
+        };
+        let path = std::env::var_os(HOLDER_RECORD).expect("private holder record path");
+        let mut file = std::fs::OpenOptions::new().write(true).create_new(true)
+            .open(path).expect("publish exact holder identity once");
+        file.write_all(&serde_json::to_vec(&record).expect("holder identity bytes"))
+            .expect("publish complete holder identity");
+    }
+
+    #[test]
+    fn finalization_fixture() {
+        let Ok(mode) = std::env::var(FIXTURE) else { return; };
+        hard_deadline(4);
+        if mode == "silent" {
+            std::thread::sleep(Duration::from_secs(3));
+            std::process::exit(0);
+        }
+        let mut request = Vec::new();
+        std::io::stdin().lock().take((MAX_SUPERVISOR_REQUEST_BYTES + 1) as u64)
+            .read_until(b'\n', &mut request).expect("read bounded fixture request");
+        assert!(request.len() <= MAX_SUPERVISOR_REQUEST_BYTES && request.last() == Some(&b'\n'));
+        if mode == "disconnect" {
+            write_supervisor_start_message(Some(std::process::id()), None).expect("Started");
+            let mut byte = [0_u8; 1];
+            assert_eq!(std::io::stdin().lock().read(&mut byte).expect("await EOF"), 0);
+            std::process::exit(0);
+        }
+        if mode != "invalid-notspawned" {
+            write_supervisor_start_message(Some(std::process::id()), None).expect("Started");
+        }
+        if mode == "partial-frame" || mode == "oversize" {
+            let mut stderr = std::io::stderr().lock();
+            if mode == "partial-frame" {
+                stderr.write_all(b"{\"messageType\":\"outcome\"").expect("partial frame");
+            } else {
+                stderr.write_all(&vec![b'x'; MAX_SUPERVISOR_RESPONSE_BYTES + 1]).expect("oversize frame");
+            }
+            stderr.flush().expect("fixture framing bytes");
+            std::process::exit(0);
+        }
+        if mode == "duplicates" {
+            for _ in 0..8 {
+                write_supervisor_start_message(Some(std::process::id()), None).expect("duplicate Started");
+            }
+            std::thread::sleep(Duration::from_secs(3));
+            std::process::exit(0);
+        }
+        if mode == "held-pipe" || mode == "terminal-held" { finite_holder(true); }
+        if mode == "terminal-held" || mode == "large-outcome" || mode == "invalid-notspawned" || mode == "invalid-cleanup" || mode == "terminal-trailing" {
+            // Synthetic control payload only, never a native execution receipt.
+            // It deliberately offers passed=true so cleanup uncertainty must
+            // override it; no test calls this actual full-tree evidence.
+            let outcome = ExecutionOutcome {
+                spawned: mode != "invalid-notspawned", passed: true, exit_code: Some(0), termination_signal: None,
+                stdout: if mode == "large-outcome" { vec![0; MAX_CAPTURE_BYTES_PER_STREAM] } else { Vec::new() },
+                stderr: if mode == "large-outcome" { vec![1; MAX_CAPTURE_BYTES_PER_STREAM] } else { Vec::new() }, stdout_truncated: false,
+                stderr_truncated: false, output_digest: None, output_truncated: false,
+                timed_out: false, elapsed_ms: 1, timeout_seconds: 1, deadline_ms: 1,
+                cleanup_uncertain: if mode == "invalid-cleanup" {
+                    Some(parent_cleanup_uncertainty("fixture-inconsistent", "synthetic contradictory protocol payload", &[]))
+                } else { None },
+            };
+            let response = serde_json::to_vec(&VerificationSupervisorMessage::Outcome { outcome: outcome.into() }).expect("terminal frame");
+            let mut stderr = std::io::stderr().lock();
+            write_supervisor_outcome_message(&response, &mut stderr).expect("write terminal frame");
+            if mode == "terminal-trailing" {
+                stderr.write_all(b"unexpected trailing data\n").expect("trailing bytes");
+                stderr.flush().expect("trailing flush");
+            }
+        }
+        std::process::exit(0);
+    }
+
+    fn fixture_child(mode: &str) -> Child {
+        Command::new(std::env::current_exe().expect("test executable"))
+            .args(["--exact", "supervisor_finalization_tests::finalization_fixture", "--nocapture", "--test-threads=1"])
+            .env(FIXTURE, mode)
+            .stdin(Stdio::piped()).stdout(Stdio::null()).stderr(Stdio::piped())
+            .process_group(0).spawn().expect("spawn exact owned finite helper")
+    }
+
+    fn finish_owned_fixture(mut child: Child) {
+        drop(child.stdin.take());
+        if child.try_wait().expect("owned child status").is_none() {
+            let _ = child.kill();
+        }
+        let deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            if child.try_wait().expect("exact fixture reap").is_some() { break; }
+            assert!(Instant::now() < deadline, "fixture teardown failed to reap");
+            std::thread::sleep(Duration::from_millis(5));
+        }
+    }
+
+    fn injected_wait_error(_: &mut Child) -> std::io::Result<bool> {
+        Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+    }
+    fn injected_running(_: &mut Child) -> std::io::Result<bool> { Ok(false) }
+    fn injected_interrupted(_: &mut Child) -> std::io::Result<bool> {
+        Err(std::io::Error::from_raw_os_error(libc::EINTR))
+    }
+    fn withheld_reap(_: &mut Child) -> std::io::Result<Option<std::process::ExitStatus>> { Ok(None) }
+
+    #[test]
+    fn observation_error_does_not_signal_the_live_owned_child() {
+        let mut child = fixture_child("silent");
+        let pid = child.id();
+        let mut forced = false;
+        let result = wait_supervisor_cleanup_with_operations(&mut child, pid,
+            Duration::from_millis(80), &mut forced, None, injected_wait_error, Child::try_wait);
+        let still_alive = child.try_wait().expect("actual owned child status").is_none();
+        finish_owned_fixture(child);
+        assert!(result.is_none() && forced && still_alive,
+            "injected ownership loss must be unknown, not signal/reap success");
+    }
+
+    #[test]
+    fn withheld_reap_expires_without_a_blocking_wait_fallback() {
+        let mut child = fixture_child("silent");
+        let pid = child.id();
+        let mut forced = false;
+        let started = Instant::now();
+        let result = wait_supervisor_cleanup_with_operations(&mut child, pid,
+            Duration::from_millis(80), &mut forced, None, injected_running, withheld_reap);
+        let elapsed = started.elapsed();
+        finish_owned_fixture(child);
+        assert!(result.is_none() && forced, "withheld reap must remain unknown");
+        assert!(elapsed < Duration::from_millis(500), "cleanup took {elapsed:?}");
+    }
+
+    #[test]
+    fn repeated_wait_interruption_cannot_reset_the_cleanup_deadline() {
+        let mut child = fixture_child("silent");
+        let pid = child.id();
+        let mut forced = false;
+        let started = Instant::now();
+        let result = wait_supervisor_cleanup_with_operations(&mut child, pid,
+            Duration::from_millis(80), &mut forced, None, injected_interrupted, withheld_reap);
+        let elapsed = started.elapsed();
+        let still_alive = child.try_wait().expect("actual owned child status").is_none();
+        finish_owned_fixture(child);
+        assert!(result.is_none() && forced && still_alive);
+        assert!(elapsed < Duration::from_millis(500), "cleanup took {elapsed:?}");
+    }
+
+    #[test]
+    fn parent_disconnect_without_outcome_stays_unknown_after_natural_helper_exit() {
+        let mut child = fixture_child("disconnect");
+        let pid = child.id();
+        let (messages, reader) = supervisor_message_transport(child.stderr.take().expect("stderr")).expect("transport");
+        let command = VerificationCommand::new("disconnect-control-probe", "/usr/bin/true", Vec::new(), VerificationReusePolicy::NeverReuse);
+        let mut request = serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command)).expect("request");
+        request.push(b'\n');
+        let started = exchange_verification_supervisor_startup(child.stdin.as_mut(), &request, &messages, Duration::from_secs(1));
+        drop(child.stdin.take());
+        let mut forced = false;
+        let status = wait_supervisor_cleanup(&mut child, pid, Duration::from_secs(3), &mut forced, Some(&messages));
+        let mut reader = reader;
+        join_startup_reader(&mut reader);
+        finish_owned_fixture(child);
+        assert!(matches!(started, Ok(VerificationSupervisorMessage::Started { .. })));
+        assert!(status.is_some_and(|status| status.success()) && forced,
+            "EOF-triggered natural helper exit without Outcome is not complete proof");
+    }
+
+    fn assert_pipe_framing_error(mode: &str, expected: &[&str]) {
+        let mut child = fixture_child(mode);
+        let pid = child.id();
+        let (messages, mut reader) = supervisor_message_transport(child.stderr.take().expect("stderr")).expect("transport");
+        let command = VerificationCommand::new("framing-control-probe", "/usr/bin/true", Vec::new(), VerificationReusePolicy::NeverReuse);
+        let mut request = serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command)).expect("request");
+        request.push(b'\n');
+        let first = exchange_verification_supervisor_startup(child.stdin.as_mut(), &request, &messages, Duration::from_secs(1));
+        let error = match first {
+            Ok(VerificationSupervisorMessage::Started { .. }) => match messages.recv_timeout(Duration::from_secs(2)) {
+                Ok(Err(error)) => Some(error),
+                _ => None,
+            },
+            Err(VerificationSupervisorStartupError::Message(error)) => Some(error),
+            _ => None,
+        };
+        drop(child.stdin.take());
+        let mut forced = false;
+        let _ = wait_supervisor_cleanup(&mut child, pid, Duration::from_secs(2), &mut forced, Some(&messages));
+        join_startup_reader(&mut reader);
+        finish_owned_fixture(child);
+        assert!(error.as_ref().is_some_and(|error| expected.iter().any(|word| error.contains(word))),
+            "actual pipe must return the framing failure, not Outcome/timeout: {mode}: {error:?}");
+    }
+
+    #[test]
+    fn partial_frame_eof_is_rejected_by_the_actual_pipe_transport() {
+        assert_pipe_framing_error("partial-frame", &["complete", "unterminated"]);
+    }
+    #[test]
+    fn bytes_after_terminal_are_rejected_by_the_actual_pipe_transport() {
+        assert_pipe_framing_error("terminal-trailing", &["terminal"]);
+    }
+    #[test]
+    fn aggregate_byte_limit_is_enforced_by_the_actual_pipe_transport() {
+        assert_pipe_framing_error("oversize", &["byte limit"]);
+    }
+
+    #[test]
+    fn contradictory_success_wire_states_are_rejected_without_changing_truncation_semantics() {
+        fn valid() -> VerificationSupervisorOutcomeWire {
+            ExecutionOutcome {
+                spawned: true, passed: true, exit_code: Some(0), termination_signal: None,
+                stdout: Vec::new(), stderr: Vec::new(), stdout_truncated: false, stderr_truncated: false,
+                output_digest: None, output_truncated: false, timed_out: false, elapsed_ms: 1,
+                timeout_seconds: 1, deadline_ms: 1, cleanup_uncertain: None,
+            }.into()
+        }
+        type Mutate = fn(&mut VerificationSupervisorOutcomeWire);
+        let cases: [(&str, Mutate); 6] = [
+            ("not-spawned", |wire| wire.spawned = false),
+            ("cleanup-uncertain", |wire| wire.cleanup_uncertain = Some(parent_cleanup_uncertainty("fixture", "inconsistent wire", &[]))),
+            ("timed-out", |wire| wire.timed_out = true),
+            ("missing-exit", |wire| wire.exit_code = None),
+            ("nonzero-exit", |wire| wire.exit_code = Some(1)),
+            ("signalled", |wire| wire.termination_signal = Some(libc::SIGKILL)),
+        ];
+        for (name, mutate) in cases {
+            let mut wire = valid();
+            mutate(&mut wire);
+            assert!(ExecutionOutcome::try_from(wire).is_err(), "invalid success invariant: {name}");
+        }
+        let mut truncated = valid();
+        truncated.stdout_truncated = true;
+        truncated.output_truncated = true;
+        assert!(ExecutionOutcome::try_from(truncated).expect("existing truncation semantics").passed);
+    }
+
+    // The following wrapper makes a legacy unbounded join/send failure a finite
+    // assertion failure in the parent test, never an indefinitely hung test run.
+    fn run_isolated_scenario(scenario: &str) {
+        let child = Command::new(std::env::current_exe().expect("test executable"))
+            .args(["--exact", "supervisor_finalization_tests::finalization_scenario", "--nocapture", "--test-threads=1"])
+            .env(SCENARIO, scenario).stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::inherit())
+            .spawn().expect("isolated scenario");
+        let mut child = child;
+        let deadline = Instant::now() + Duration::from_secs(10);
+        let status = loop {
+            if let Some(status) = child.try_wait().expect("scenario status") { break status; }
+            assert!(Instant::now() < deadline, "scenario exceeded independent watchdog");
+            std::thread::sleep(Duration::from_millis(10));
+        };
+        assert!(status.success(), "isolated scenario failed: {scenario}: {status}");
+    }
+
+    #[test]
+    fn held_control_pipe_cannot_extend_outer_cleanup_to_holder_ttl() {
+        run_isolated_scenario("held-pipe");
+    }
+    #[test]
+    fn terminal_outcome_with_a_held_pipe_is_not_green() {
+        run_isolated_scenario("terminal-held");
+    }
+    #[test]
+    fn duplicate_started_cannot_deadlock_reader_send_or_join() {
+        run_isolated_scenario("duplicates");
+    }
+    #[test]
+    fn large_outcome_is_drained_while_waiting_for_worker_exit() {
+        run_isolated_scenario("large-outcome");
+    }
+    #[test]
+    fn not_spawned_but_passed_outcome_is_rejected_after_natural_eof() {
+        run_isolated_scenario("invalid-notspawned");
+    }
+    #[test]
+    fn cleanup_uncertain_but_passed_outcome_is_rejected_after_natural_eof() {
+        run_isolated_scenario("invalid-cleanup");
+    }
+
+    #[test]
+    fn finalization_scenario() {
+        let Ok(scenario) = std::env::var(SCENARIO) else { return; };
+        hard_deadline(8);
+        initialize_composition_supervisor_backend().expect("dedicated Linux scenario subreaper");
+        let nonce = new_composition_run_nonce();
+        let record_path = std::env::temp_dir().join(format!("cockpit-finalization-holder-{}-{nonce}.json", std::process::id()));
+        assert!(!record_path.exists());
+        let launch = VerificationSupervisorLaunch::test_harness(
+            std::env::current_exe().expect("test executable"),
+            vec!["--exact".into(), "supervisor_finalization_tests::finalization_fixture".into(), "--nocapture".into(), "--test-threads=1".into()],
+        ).with_test_environment(FIXTURE, scenario.clone())
+            .with_test_environment(HOLDER_RECORD, record_path.as_os_str())
+            .with_test_environment(HOLDER_NONCE, nonce.clone());
+        let command = VerificationCommand::new("finalization-control-probe", "/usr/bin/true",
+            Vec::new(), VerificationReusePolicy::NeverReuse).with_timeout_seconds(1);
+        let started = Instant::now();
+        let helper_id = Arc::new(std::sync::atomic::AtomicU32::new(0));
+        let helper_id_for_gate = Arc::clone(&helper_id);
+        let gate: ProcessStartGate = Arc::new(move |_id, spawn| {
+            let child = spawn()?;
+            helper_id_for_gate.store(child.id(), Ordering::Release);
+            Ok(child)
+        });
+        let outcome = execute_supervised_captured(&command, None, Some(&gate), &launch);
+        let elapsed = started.elapsed();
+        let cap = if scenario == "duplicates" { Duration::from_secs(4) } else { Duration::from_millis(2600) };
+        // Reap only the exact, nonce/start-time/original-parent bound holder.
+        // Its natural TTL cleanup is never attributed to Runtime. Unknown
+        // children below are observed with WNOWAIT and fail, never swallowed.
+        let fixture_deadline = Instant::now() + Duration::from_secs(4);
+        if scenario == "held-pipe" || scenario == "terminal-held" {
+            let bytes = std::fs::read(&record_path).expect("exact holder registration");
+            assert!(bytes.len() < 4096);
+            let record: HolderRecord = serde_json::from_slice(&bytes).expect("holder registration");
+            assert_eq!(record.nonce, nonce);
+            assert_eq!(record.original_parent_pid as u32, helper_id.load(Ordering::Acquire));
+            let current = observe_verification_process(record.holder_pid).expect("current holder identity")
+                .expect("unreaped holder identity still exists");
+            assert_eq!(current.start_time_ticks, record.start_time_ticks);
+            assert_eq!(current.parent_process_id, std::process::id() as libc::pid_t);
+            loop {
+                let mut status = 0;
+                let reaped = unsafe { libc::waitpid(record.holder_pid, &mut status, libc::WNOHANG) };
+                if reaped == record.holder_pid {
+                    assert!(libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == 0,
+                        "detached fixture holder must expire itself, not be Runtime-killed");
+                    break;
+                }
+                assert_eq!(reaped, 0, "unexpected exact-holder wait error");
+                assert!(Instant::now() < fixture_deadline, "registered finite holder did not finish");
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            std::fs::remove_file(&record_path).expect("remove own private holder record");
+        } else {
+            assert!(!record_path.exists(), "scenario unexpectedly created a holder");
+        }
+        let mut unknown: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        let all = unsafe { libc::waitid(libc::P_ALL, 0, &mut unknown, libc::WEXITED | libc::WNOHANG | libc::WNOWAIT) };
+        assert!(all < 0 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD),
+            "unknown live or unreaped child remains; do not rescue it as a passing fixture");
+        if scenario == "large-outcome" {
+            assert!(outcome.passed && outcome.cleanup_uncertain.is_none(),
+                "complete synthetic control payload should drain before helper exit");
+        } else {
+            assert!(!outcome.passed && outcome.cleanup_uncertain.is_some(),
+                "incomplete control boundary must remain unknown");
+        }
+        assert!(elapsed < cap, "outer finalization exceeded its bound: {elapsed:?}");
     }
 }
