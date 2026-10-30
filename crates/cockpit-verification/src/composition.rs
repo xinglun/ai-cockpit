@@ -3404,27 +3404,71 @@ fn inspect_lsof_worktree_output(
             output.status.code()
         ));
     }
+    if output.stdout.len() > MAX_OUTPUT_BYTES {
+        return Err("lsof listing exceeds the observation limit".into());
+    }
     let stdout = std::str::from_utf8(&output.stdout)
         .map_err(|_| "lsof output is not valid UTF-8".to_owned())?;
+    if stdout.is_empty()
+        || !stdout.ends_with('\n')
+        || stdout
+            .chars()
+            .any(|character| character.is_control() && character != '\n')
+    {
+        return Err("lsof listing has incomplete or invalid field framing".into());
+    }
     let mut process_id = None;
-    for line in stdout.lines() {
+    let mut process_has_name = false;
+    let mut descriptor_needs_name = false;
+    let mut reference = None;
+    for line in stdout.split_terminator('\n') {
         if let Some(value) = line.strip_prefix('p') {
+            if process_id.is_some() && (!process_has_name || descriptor_needs_name) {
+                return Err("lsof process has an incomplete file observation".into());
+            }
             process_id = Some(
                 value
                     .parse::<u32>()
                     .ok()
-                    .filter(|process_id| *process_id > 0)
+                    .filter(|process_id| {
+                        *process_id > 0
+                            && i32::try_from(*process_id).is_ok()
+                            && process_id.to_string() == value
+                    })
                     .ok_or_else(|| "lsof returned an invalid process identity".to_owned())?,
             );
-        } else if let Some(value) = line.strip_prefix('n')
-            && path_is_within(worktree, Path::new(value))
-        {
-            return process_id.map(Some).ok_or_else(|| {
-                "lsof returned a worktree reference without a process identity".into()
-            });
+            process_has_name = false;
+            descriptor_needs_name = false;
+        } else if let Some(value) = line.strip_prefix('f') {
+            // Some older lsof versions emit this descriptor field even when
+            // only p/n were selected. It must still belong to a complete set.
+            if process_id.is_none() || value.is_empty() || descriptor_needs_name {
+                return Err("lsof returned an incomplete descriptor observation".into());
+            }
+            descriptor_needs_name = true;
+        } else if let Some(value) = line.strip_prefix('n') {
+            let Some(process_id) = process_id else {
+                return Err("lsof returned a file name without a process identity".into());
+            };
+            // Display escapes cannot be compared to native paths reliably.
+            // Keep them Unknown rather than interpreting an escaped name as
+            // an unrelated file and declaring the worktree unreferenced.
+            if value.is_empty() || value.contains('\\') || !Path::new(value).is_absolute() {
+                return Err("lsof returned an unobservable file name".into());
+            }
+            process_has_name = true;
+            descriptor_needs_name = false;
+            if path_is_within(worktree, Path::new(value)) && reference.is_none() {
+                reference = Some(process_id);
+            }
+        } else {
+            return Err("lsof returned an unexpected field".into());
         }
     }
-    Ok(None)
+    if process_id.is_none() || !process_has_name || descriptor_needs_name {
+        return Err("lsof listing ends with an incomplete process or file observation".into());
+    }
+    Ok(reference)
 }
 
 #[cfg(all(test, unix))]
