@@ -5864,11 +5864,14 @@ mod composition_unix_channel_tests {
         let start = Instant::now();
         let deadline = start + Duration::from_millis(100);
         let producer = std::thread::spawn(move || {
-            cockpit_verification::supervisor_pipe::write_until(
+            let produced = cockpit_verification::supervisor_pipe::write_until(
                 &mut writer,
                 &vec![b'x'; MAX_COMPOSITION_READY_BYTES + 1],
                 deadline,
-            )
+            );
+            // JoinHandle's result owns the endpoint after this thread exits.
+            // EOF therefore cannot explain a rejection before the reader decides.
+            (writer, produced)
         });
         let result = read_composition_message_until::<serde_json::Value>(
             &reader,
@@ -5878,12 +5881,17 @@ mod composition_unix_channel_tests {
         // Join only the producer whose every I/O operation uses the same
         // absolute deadline. Never block-write before starting the reader or
         // assume a particular Linux/macOS socket buffer capacity.
-        let produced = producer.join().expect("bounded oversize producer");
+        let (_held_writer, produced) = producer.join().expect("bounded oversize producer");
         assert!(
             produced.is_ok(),
             "fault bytes did not complete: {produced:?}"
         );
-        assert!(result.is_err_and(|error| error.contains("byte limit")));
+        assert!(
+            result
+                .as_ref()
+                .is_err_and(|error| error.contains("byte limit")),
+            "actual frame result: {result:?}"
+        );
         assert!(start.elapsed() < Duration::from_millis(400));
     }
 
@@ -6671,6 +6679,13 @@ mod composition_parent_observation_tests {
         );
         let mut foreign = identity.clone();
         foreign.owner.process_id += 1;
+        foreign
+            .registered_receipt
+            .as_mut()
+            .expect("bound receipt")
+            .owner = foreign.owner.clone();
+        // Both observations are valid in isolation; the catalog must still
+        // reject incompatible owners for the same exact attempt identity.
         let conflict = failure(&foreign, "exit");
         assert!(
             CompositionParentCatalog::from_native_observations(vec![child], vec![event, conflict])

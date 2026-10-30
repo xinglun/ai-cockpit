@@ -3745,6 +3745,10 @@ mod tests {
             "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
             "reason":"Synthetic isolated owner confirmation; no external human identity claim."
         }}), &runtime).unwrap();
+        // The real first receipt reported nextAction=run_preflight. Refresh
+        // through that native entry after the decision; never edit gate facts.
+        crate::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("refresh native preflight after the recorded fixture decision");
         let caller = cockpit_protocol::TaskAuthorizationCaller {
             schema_version: 1,
             actor: "agent:history-test".into(),
