@@ -3745,16 +3745,16 @@ mod tests {
             "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
             "reason":"Synthetic isolated owner confirmation; no external human identity claim."
         }}), &runtime).unwrap();
-        // The real first receipt reported nextAction=run_preflight. Refresh
-        // through that native entry after the decision; never edit gate facts.
-        crate::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-            .expect("refresh native preflight after the recorded fixture decision");
         let caller = cockpit_protocol::TaskAuthorizationCaller {
             schema_version: 1,
             actor: "agent:history-test".into(),
             authority_source: "synthetic:history-timeout-test".into(),
             assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
         };
+        // This fixture now has an active delegated grant. Use its original
+        // explicit caller at the native preflight boundary, just as at spawn.
+        crate::preflight_work_item_with_task_authorization(root, &contract_path, &runtime, &caller)
+            .expect("refresh native preflight with the active fixture caller");
         let command = crate::RepositoryVerificationRequest {
             node_id: "first".into(),
             program: "git".into(),
