@@ -2989,7 +2989,9 @@ const CLEANUP_UNCERTAIN_LAUNCH_PREFIX: &str = "__verification_cleanup_uncertain_
 /// this process and waits for its observed child PIDs only.
 pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     if cfg!(all(unix, not(target_os = "linux"))) {
-        return Err("verification subprocess supervision is unsupported on this Unix platform".into());
+        return Err(
+            "verification subprocess supervision is unsupported on this Unix platform".into(),
+        );
     }
 
     #[cfg(target_os = "linux")]
