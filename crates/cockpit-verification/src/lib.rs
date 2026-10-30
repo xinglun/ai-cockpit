@@ -4066,26 +4066,25 @@ fn spawn_verification_supervisor(
         }
     };
     *startup_reader = Some(reader);
-    let write_result = match child.stdin.as_mut() {
-        Some(stdin) => stdin.write_all(&request_bytes).and_then(|()| stdin.flush()),
-        None => Err(std::io::Error::new(
-            std::io::ErrorKind::BrokenPipe,
-            "verification supervisor stdin pipe is unavailable",
-        )),
-    };
-    if let Err(error) = write_result {
-        close_supervisor_input(&mut child);
-        let _ = terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
-        join_startup_reader(startup_reader);
-        let message = format!("write verification supervisor request: {error}");
-        return Err(uncertain_launch_error(
-            &message,
-            &parent_cleanup_uncertainty("request_channel", &message, &[worker_id]),
-        ));
-    }
-    let start_message = match receiver.recv_timeout(SUPERVISOR_STARTUP_DEADLINE) {
-        Ok(Ok(message)) => message,
-        Ok(Err(error)) => {
+    let start_message = match exchange_verification_supervisor_startup(
+        child.stdin.as_mut(),
+        &request_bytes,
+        &receiver,
+        SUPERVISOR_STARTUP_DEADLINE,
+    ) {
+        Ok(message) => message,
+        Err(VerificationSupervisorStartupError::Request(error)) => {
+            close_supervisor_input(&mut child);
+            let _ =
+                terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
+            join_startup_reader(startup_reader);
+            let message = format!("write verification supervisor request: {error}");
+            return Err(uncertain_launch_error(
+                &message,
+                &parent_cleanup_uncertainty("request_channel", &message, &[worker_id]),
+            ));
+        }
+        Err(VerificationSupervisorStartupError::Message(error)) => {
             close_supervisor_input(&mut child);
             let _ =
                 terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
@@ -4095,7 +4094,7 @@ fn spawn_verification_supervisor(
                 &parent_cleanup_uncertainty("startup_message_channel", &error, &[worker_id]),
             ));
         }
-        Err(error) => {
+        Err(VerificationSupervisorStartupError::Receive(error)) => {
             close_supervisor_input(&mut child);
             let _ =
                 terminate_supervisor_worker(&mut child, worker_id, SUPERVISOR_PARENT_CLEANUP_GRACE);
@@ -4147,6 +4146,212 @@ fn spawn_verification_supervisor(
     }
     *message_receiver = Some(receiver);
     Ok(child)
+}
+
+#[derive(Debug)]
+enum VerificationSupervisorStartupError {
+    Request(std::io::Error),
+    Message(String),
+    Receive(mpsc::RecvTimeoutError),
+}
+
+fn exchange_verification_supervisor_startup(
+    stdin: Option<&mut std::process::ChildStdin>,
+    request_bytes: &[u8],
+    receiver: &VerificationSupervisorMessages,
+    startup_timeout: Duration,
+) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
+    let write_result = match stdin {
+        Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
+        None => Err(std::io::Error::new(
+            std::io::ErrorKind::BrokenPipe,
+            "verification supervisor stdin pipe is unavailable",
+        )),
+    };
+    write_result.map_err(VerificationSupervisorStartupError::Request)?;
+    receiver
+        .recv_timeout(startup_timeout)
+        .map_err(VerificationSupervisorStartupError::Receive)?
+        .map_err(VerificationSupervisorStartupError::Message)
+}
+
+#[cfg(all(test, unix))]
+mod supervisor_startup_channel_tests {
+    use super::*;
+
+    const FIXTURE_MODE: &str = "AI_COCKPIT_STARTUP_CHANNEL_FIXTURE";
+    const REQUEST_SIZE: usize = 1024 * 1024;
+
+    // This helper never forks and has an independent two-second hard deadline.
+    // Its stdout/stderr are ordinary test-owned pipes, not full-tree evidence.
+    #[test]
+    fn startup_channel_fixture() {
+        let Some(mode) = std::env::var_os(FIXTURE_MODE) else {
+            return;
+        };
+        std::thread::spawn(|| {
+            std::thread::sleep(Duration::from_secs(2));
+            // SAFETY: this is the isolated fixture process. _exit avoids any
+            // blocked I/O or at-exit hooks; expiry must be a non-success exit.
+            unsafe { libc::_exit(97) };
+        });
+        if mode == "never-read" {
+            std::thread::sleep(Duration::from_millis(700));
+            std::process::exit(0);
+        }
+        if mode == "delayed-start" {
+            std::thread::sleep(Duration::from_millis(300));
+        }
+        let mut request = vec![0_u8; REQUEST_SIZE];
+        std::io::stdin()
+            .lock()
+            .read_exact(&mut request)
+            .expect("fixture reads the exact transport payload");
+        assert!(request.iter().all(|byte| *byte == b'x'));
+        if mode == "delayed-start" {
+            std::thread::sleep(Duration::from_millis(300));
+        }
+        write_supervisor_start_message(Some(std::process::id()), None)
+            .expect("fixture sends a real Started frame");
+        std::process::exit(0);
+    }
+
+    fn fixture(
+        mode: &str,
+    ) -> (
+        Child,
+        VerificationSupervisorMessages,
+        std::thread::JoinHandle<()>,
+    ) {
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "supervisor_startup_channel_tests::startup_channel_fixture",
+                "--nocapture",
+                "--test-threads=1",
+            ])
+            .env(FIXTURE_MODE, mode)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("spawn finite test-owned startup fixture");
+        #[cfg(target_os = "linux")]
+        {
+            use std::os::fd::AsRawFd;
+            let descriptor = child.stdin.as_ref().expect("fixture stdin").as_raw_fd();
+            // SAFETY: shrink only our newly owned pipe, making backpressure
+            // deterministic without privileges or another process's handles.
+            let capacity = unsafe { libc::fcntl(descriptor, libc::F_SETPIPE_SZ, 4096) };
+            assert!(capacity > 0 && capacity < REQUEST_SIZE as libc::c_int);
+        }
+        let stderr = child.stderr.take().expect("fixture stderr");
+        let (sender, receiver) = mpsc::sync_channel(4);
+        let reader = std::thread::spawn(move || read_supervisor_messages(stderr, sender));
+        (child, receiver, reader)
+    }
+
+    fn finish_fixture(mut child: Child, reader: std::thread::JoinHandle<()>) {
+        // Test teardown acts only on the exact owned child. It is not Runtime
+        // cleanup evidence and is intentionally outside measured phase time.
+        drop(child.stdin.take());
+        let _ = child.kill();
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            if child.try_wait().expect("observe exact fixture child").is_some() {
+                break;
+            }
+            assert!(Instant::now() < deadline, "fixture did not reap in teardown");
+            std::thread::sleep(Duration::from_millis(5));
+        }
+        while !reader.is_finished() && Instant::now() < deadline {
+            std::thread::sleep(Duration::from_millis(5));
+        }
+        assert!(reader.is_finished(), "fixture response reader did not finish");
+        reader.join().expect("fixture response reader");
+    }
+
+    // A blocking request write cannot reach the receive timeout while this
+    // finite helper holds its stdin unread. Replacing nonblocking transmission
+    // with write_all is the production mutation this test must catch.
+    #[test]
+    fn unread_request_returns_request_timeout_before_fixture_ttl() {
+        let (mut child, receiver, reader) = fixture("never-read");
+        let request = vec![b'x'; REQUEST_SIZE];
+        let started = Instant::now();
+        let result = exchange_verification_supervisor_startup(
+            child.stdin.as_mut(),
+            &request,
+            &receiver,
+            Duration::from_millis(80),
+        );
+        let elapsed = started.elapsed();
+        finish_fixture(child, reader);
+        assert!(
+            matches!(result, Err(VerificationSupervisorStartupError::Request(ref error))
+                if error.kind() == std::io::ErrorKind::TimedOut),
+            "unread request must expire as a request timeout: {result:?}",
+        );
+        assert!(elapsed < Duration::from_millis(400), "phase took {elapsed:?}");
+    }
+
+    // Request backpressure consumes roughly 300 ms; Started arrives roughly
+    // 600 ms after launch. A fresh 450 ms allowance after writing incorrectly
+    // accepts it; one deadline for both phases must reject it.
+    #[test]
+    fn request_and_started_share_one_startup_deadline() {
+        let (mut child, receiver, reader) = fixture("delayed-start");
+        let request = vec![b'x'; REQUEST_SIZE];
+        let result = exchange_verification_supervisor_startup(
+            child.stdin.as_mut(),
+            &request,
+            &receiver,
+            Duration::from_millis(450),
+        );
+        finish_fixture(child, reader);
+        assert!(
+            matches!(result, Err(VerificationSupervisorStartupError::Receive(
+                mpsc::RecvTimeoutError::Timeout
+            ))),
+            "late Started must not get a new full budget: {result:?}",
+        );
+    }
+
+    #[test]
+    fn complete_request_and_timely_started_preserve_process_identity() {
+        let (mut child, receiver, reader) = fixture("immediate-start");
+        let child_id = child.id();
+        let request = vec![b'x'; REQUEST_SIZE];
+        let result = exchange_verification_supervisor_startup(
+            child.stdin.as_mut(),
+            &request,
+            &receiver,
+            Duration::from_secs(2),
+        );
+        finish_fixture(child, reader);
+        assert!(
+            matches!(result, Ok(VerificationSupervisorMessage::Started {
+                process_id: Some(pid), error: None
+            }) if pid == child_id),
+            "timely Started retains the real child identity: {result:?}",
+        );
+    }
+
+    #[test]
+    fn missing_request_pipe_remains_a_request_error() {
+        let (_sender, receiver) = mpsc::sync_channel(4);
+        let result = exchange_verification_supervisor_startup(
+            None,
+            b"request\n",
+            &receiver,
+            Duration::from_millis(80),
+        );
+        assert!(
+            matches!(result, Err(VerificationSupervisorStartupError::Request(ref error))
+                if error.kind() == std::io::ErrorKind::BrokenPipe),
+            "missing stdin must not become a receive timeout: {result:?}",
+        );
+    }
 }
 
 fn read_supervisor_messages(
