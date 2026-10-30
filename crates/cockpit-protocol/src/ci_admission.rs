@@ -1,0 +1,106 @@
+//! Read-only GitHub verification planning. No plan is an admission receipt.
+
+use cockpit_core::Digest;
+use serde::{Deserialize, Serialize};
+
+pub const GITHUB_PLAN_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GithubEvidenceSelector {
+    pub run_id: u64,
+    pub attempt: u32,
+    pub job_id: u64,
+    pub artifact_id: u64,
+}
+
+impl GithubEvidenceSelector {
+    pub fn validate(&self) -> Result<(), &'static str> {
+        if self.run_id == 0 || self.attempt == 0 || self.job_id == 0 || self.artifact_id == 0 {
+            Err("GitHub run, attempt, job and artifact identities must be positive")
+        } else {
+            Ok(())
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GithubPlanState {
+    Gaps,
+    ProviderUnavailable,
+    MetadataRejected,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GithubPlanAdmission {
+    NotAttempted,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GithubReadObservation {
+    /// Fixed-origin request path, never a caller-supplied or redirect URL.
+    pub path: String,
+    pub status: u16,
+    pub body_digest: Digest,
+    pub body_bytes: u64,
+    pub link_digest: Option<Digest>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GithubCollectionReport {
+    pub origin: String,
+    pub assurance: String,
+    pub elapsed_ms: u64,
+    pub maximum_seconds: u64,
+    pub requests: Vec<GithubReadObservation>,
+    pub complete: bool,
+    /// Stable failure class; raw response/error bodies and credentials are not echoed.
+    pub failure: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GithubAdmissionPlan {
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub contract_digest: Digest,
+    pub consumer_snapshot_digest: Digest,
+    pub consumer_runtime_digest: Digest,
+    pub selector: GithubEvidenceSelector,
+    pub state: GithubPlanState,
+    pub collection: GithubCollectionReport,
+    /// Non-authoritative bounded metadata inspection, never producer node facts.
+    pub metadata: Option<serde_json::Value>,
+    pub gaps: Vec<String>,
+    pub admission: GithubPlanAdmission,
+    pub verification_commands_executed: usize,
+    pub writes_performed: usize,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn selector_requires_each_positive_identity_and_rejects_authority_fields() {
+        let value = serde_json::json!({"runId":1,"attempt":1,"jobId":2,"artifactId":3});
+        let selector: GithubEvidenceSelector = serde_json::from_value(value.clone()).unwrap();
+        assert!(selector.validate().is_ok());
+        for field in ["runId", "attempt", "jobId", "artifactId"] {
+            let mut changed = value.clone();
+            changed[field] = 0.into();
+            let changed: GithubEvidenceSelector = serde_json::from_value(changed).unwrap();
+            assert!(changed.validate().is_err());
+        }
+        for field in ["providerAuthenticated", "trusted", "endpoint", "command"] {
+            let mut changed = value.clone();
+            changed[field] = true.into();
+            assert!(serde_json::from_value::<GithubEvidenceSelector>(changed).is_err());
+        }
+    }
+}

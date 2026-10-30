@@ -6,6 +6,7 @@ use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
 pub mod audit_query;
+pub mod ci_admission;
 mod contract_amendment;
 pub mod release_plan;
 pub mod review_authority;

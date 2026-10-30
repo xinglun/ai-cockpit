@@ -37,6 +37,7 @@ use std::{
 };
 
 mod cognitive_benefit;
+mod github_evidence;
 mod runtime_identity;
 
 /// Inspect, verify and govern repository work with explicit authority and evidence.
@@ -509,6 +510,11 @@ enum CommandKind {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Plan GitHub verification evidence from independent read-only provider metadata.
+    Github {
+        #[command(subcommand)]
+        command: github_evidence::GithubEvidenceCommand,
+    },
     /// Import delegated evidence metadata and raw bytes under repository policy.
     Import {
         /// Repository checkout to inspect or operate on.
@@ -3410,6 +3416,9 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Evidence { command } => match command {
+            EvidenceCommand::Github { command } => {
+                github_evidence::run(command, &runtime_context, task_caller.as_ref())?;
+            }
             EvidenceCommand::Import {
                 repo,
                 work_item,

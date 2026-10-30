@@ -50,6 +50,7 @@ use thiserror::Error;
 
 mod action_admission;
 mod audit_query;
+mod ci_admission;
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;
@@ -71,6 +72,8 @@ mod status_projection;
 mod task_authorization;
 mod usage;
 mod usage_import;
+
+pub use ci_admission::plan_github_verification_admission;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
