@@ -27,6 +27,29 @@ pub fn plan_github_verification_admission(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<GithubAdmissionPlan, ObserverError> {
+    plan_with_collection(
+        root,
+        work_item_id,
+        selector,
+        runtime,
+        caller,
+        github::collect,
+    )
+}
+
+// Private injection boundary for deterministic collection/authority tests. The
+// public service always uses the fixed-origin HTTPS collector above.
+fn plan_with_collection<F>(
+    root: &Path,
+    work_item_id: &str,
+    selector: &GithubEvidenceSelector,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    collect: F,
+) -> Result<GithubAdmissionPlan, ObserverError>
+where
+    F: FnOnce(&GithubEvidenceSelector) -> github::Collected,
+{
     validate_work_item_id(work_item_id)?;
     selector.validate().map_err(|e| plan_error(root, e))?;
     require_current_action_admission_with_caller(
@@ -47,7 +70,7 @@ pub fn plan_github_verification_admission(
         .get("repositorySnapshot")
         .ok_or_else(|| plan_error(root, "current snapshot binding is missing"))?
         .clone();
-    let observed = github::collect(selector);
+    let observed = collect(selector);
     // Recheck present authority after network I/O. A stale plan cannot become
     // an operation token, and expiry cannot be hidden behind a slow provider.
     task_authorization::require_task_caller(

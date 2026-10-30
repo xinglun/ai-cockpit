@@ -22,7 +22,6 @@ pub(super) struct Collected {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub(super) enum Failure {
-    NotImplemented,
     Transport,
     Deadline,
     BodyLimit,
@@ -36,7 +35,6 @@ pub(super) enum Failure {
 impl Failure {
     fn code(&self) -> String {
         match self {
-            Self::NotImplemented => "provider_collection_not_implemented".into(),
             Self::Transport => "provider_transport_unavailable".into(),
             Self::Deadline => "provider_collection_deadline".into(),
             Self::BodyLimit => "provider_response_size_limit".into(),
@@ -286,11 +284,7 @@ pub(super) fn collect_with<R: MetadataReader>(
     let result = collect_snapshot(selector, &mut session);
     // Parsing/projection is synchronous. Reject a result that outlived the same
     // collection deadline; this check does not interrupt that work mid-parse.
-    let result = if Instant::now() >= session.deadline {
-        Err(Failure::Deadline)
-    } else {
-        result
-    };
+    let result = collection_result_before_deadline(result, session.deadline);
     let (metadata, failure, rejected) = match result {
         Ok((value, rejected)) => (Some(value), None, rejected),
         Err(e) => (
@@ -316,6 +310,17 @@ pub(super) fn collect_with<R: MetadataReader>(
         },
         metadata,
         rejected,
+    }
+}
+
+pub(super) fn collection_result_before_deadline<T>(
+    result: Result<T, Failure>,
+    deadline: Instant,
+) -> Result<T, Failure> {
+    if Instant::now() >= deadline {
+        Err(Failure::Deadline)
+    } else {
+        result
     }
 }
 
@@ -431,15 +436,7 @@ fn collect_snapshot<R: MetadataReader>(
     if rejected {
         return Ok((value, true));
     }
-    publish_complete_metadata(value)
-}
-
-fn publish_complete_metadata(
-    _value: serde_json::Value,
-) -> Result<(serde_json::Value, bool), Failure> {
-    // The conservative assertion-RED boundary is successful report publication.
-    // Real collection/parsing above stays reachable, with no warning suppression.
-    Err(Failure::NotImplemented)
+    Ok((value, false))
 }
 
 mod snapshot {

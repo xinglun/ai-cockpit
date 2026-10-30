@@ -198,3 +198,226 @@ fn ci_admission_non_success_and_oversized_responses_never_complete() {
     );
     assert!(!p.collection.complete);
 }
+
+#[test]
+fn ci_admission_final_deadline_rejects_success_and_prior_error_after_projection() {
+    let expired = Instant::now();
+    assert_eq!(
+        github::collection_result_before_deadline(Ok(()), expired),
+        Err(Failure::Deadline)
+    );
+    assert_eq!(
+        github::collection_result_before_deadline::<()>(Err(Failure::Metadata), expired),
+        Err(Failure::Deadline)
+    );
+    assert_eq!(
+        github::collection_result_before_deadline(Ok(()), Instant::now() + Duration::from_secs(60)),
+        Ok(())
+    );
+    let mut reader = fixture();
+    let plan = github::collect_with(&selector(), &mut reader, Duration::ZERO);
+    assert_eq!(
+        plan.collection.failure.as_deref(),
+        Some("provider_collection_deadline")
+    );
+    assert!(reader.seen.is_empty());
+    assert!(!plan.collection.complete);
+}
+
+const SERVICE_WI: &str = "WI-CI-ADMISSION-AUTHORITY";
+
+fn service_fixture() -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    cockpit_protocol::TaskAuthorizationCaller,
+) {
+    use crate::*;
+    let root = tempfile::Builder::new()
+        .prefix("cockpit ci admission ")
+        .tempdir()
+        .unwrap();
+    std::fs::write(root.path().join("tracked.txt"), "before\n").unwrap();
+    for args in [
+        vec!["init", "-q", "--initial-branch=main"],
+        vec!["config", "core.autocrlf", "false"],
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        assert!(
+            std::process::Command::new("git")
+                .args(args)
+                .current_dir(root.path())
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+    attach(root.path()).unwrap();
+    confirm_profile_update(root.path(), "cargo", &["test".into()]).unwrap();
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"ci-admission-authority-fixture"),
+    };
+    let caller = cockpit_protocol::TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: "agent:ci-admission-fixture".into(),
+        authority_source: "fixture:synthetic-owner-not-provider-or-human-authentication".into(),
+        assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+    };
+    start_work_item_with_options_and_runtime(
+        root.path(),
+        SERVICE_WI,
+        "observe metadata",
+        "keep current caller authority",
+        &["tracked.txt".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["collection cannot outlive current caller authority".into()],
+            verification_commands: vec!["cargo test".into()],
+            task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
+                schema_version: 1,
+                agent_actor: caller.actor.clone(),
+                authority_source: caller.authority_source.clone(),
+                allowed_actions: vec![
+                    "run_preflight".into(),
+                    "checkpoint".into(),
+                    "run_verification".into(),
+                ],
+                closeout_actions: vec![],
+                expires_at: Some("2099-01-01T00:00:00Z".into()),
+                public_target: None,
+            }),
+            ..Default::default()
+        },
+        &runtime,
+    )
+    .unwrap();
+    let contract_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{SERVICE_WI}.contract.json"));
+    preflight_work_item_with_runtime_report(root.path(), &contract_path, &runtime).unwrap();
+    let contract: Value = crate::read_json(&contract_path).unwrap();
+    let summary: Value = crate::read_json(
+        &root
+            .path()
+            .join(format!(".ai/work-items/active/{SERVICE_WI}.summary.json")),
+    )
+    .unwrap();
+    record_work_item_governance_controls_with_runtime(root.path(), SERVICE_WI, &json!({
+        "decisionEvidence": {
+            "schemaVersion": 1, "decisionId": "contract-preflight-review", "decision": "confirm_review",
+            "workItemId": SERVICE_WI, "repositoryId": crate::repository_id(root.path()),
+            "contractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": chrono::Utc::now().to_rfc3339(), "recordedBy": "agent:test-recorder",
+            "reason": "Synthetic local fixture; not external human or provider authentication."
+        }
+    }), &runtime).unwrap();
+    checkpoint_work_item_with_caller(root.path(), SERVICE_WI, &runtime, Some(&caller)).unwrap();
+    (root, runtime, caller)
+}
+
+#[test]
+fn ci_admission_wrong_caller_is_rejected_before_collection() {
+    let (root, runtime, mut caller) = service_fixture();
+    caller.authority_source.push_str("-foreign");
+    let calls = std::cell::Cell::new(0);
+    let error = super::plan_with_collection(
+        root.path(),
+        SERVICE_WI,
+        &selector(),
+        &runtime,
+        Some(&caller),
+        |_| {
+            calls.set(calls.get() + 1);
+            github::collect_with(&selector(), &mut fixture(), Duration::from_secs(2))
+        },
+    )
+    .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("task_authorization_caller_mismatch"),
+        "{error}"
+    );
+    assert_eq!(calls.get(), 0);
+}
+
+#[test]
+fn ci_admission_withdrawal_during_collection_cannot_publish_a_plan() {
+    let (root, runtime, caller) = service_fixture();
+    let grant = crate::work_item_status_snapshot_with_runtime(root.path(), SERVICE_WI, &runtime)
+        .unwrap()
+        .task_authorization
+        .unwrap()
+        .grant_id;
+    let calls = std::cell::Cell::new(0);
+    let error = super::plan_with_collection(root.path(), SERVICE_WI, &selector(), &runtime, Some(&caller), |_| {
+        calls.set(calls.get() + 1);
+        let collected = github::collect_with(&selector(), &mut fixture(), Duration::from_secs(2));
+        assert!(collected.collection.complete);
+        crate::record_work_item_governance_controls_with_runtime(root.path(), SERVICE_WI, &json!({
+            "taskAuthorizationTermination": {"schemaVersion": 1, "grantId": grant,
+                "decision": "withdrawn", "caller": caller, "reason": "fixture withdrawal during metadata collection"}
+        }), &runtime).unwrap();
+        collected
+    }).unwrap_err();
+    assert_eq!(calls.get(), 1);
+    assert!(error.to_string().contains("withdrawn"), "{error}");
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{SERVICE_WI}.verification.json"))
+            .exists()
+    );
+}
+
+#[test]
+fn ci_admission_source_drift_is_an_explicit_gap_and_never_acceptance() {
+    let (root, runtime, caller) = service_fixture();
+    let plan = super::plan_with_collection(
+        root.path(),
+        SERVICE_WI,
+        &selector(),
+        &runtime,
+        Some(&caller),
+        |_| {
+            let collected =
+                github::collect_with(&selector(), &mut fixture(), Duration::from_secs(2));
+            std::fs::write(
+                root.path().join("tracked.txt"),
+                "changed during collection\n",
+            )
+            .unwrap();
+            collected
+        },
+    )
+    .unwrap();
+    assert!(
+        plan.gaps
+            .iter()
+            .any(|g| g == "consumer_bindings_changed_during_collection")
+    );
+    assert_eq!(
+        plan.admission,
+        cockpit_protocol::ci_admission::GithubPlanAdmission::NotAttempted
+    );
+    assert_eq!(plan.verification_commands_executed, 0);
+    assert_eq!(plan.writes_performed, 0);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{SERVICE_WI}.verification.json"))
+            .exists()
+    );
+}
