@@ -883,12 +883,207 @@ fn archive2a_central(raw: &[u8]) -> usize {
     u32::from_le_bytes(raw[eocd + 16..eocd + 20].try_into().unwrap()) as usize
 }
 
+// Self-owned synthetic archive bytes only. These helpers never execute or
+// authenticate the declarations they encode.
+fn archive2a_deflate(raw: &[u8]) -> Vec<u8> {
+    use std::io::Write as _;
+    let mut encoder = flate2::write::DeflateEncoder::new(Vec::new(), flate2::Compression::fast());
+    encoder.write_all(raw).unwrap();
+    encoder.finish().unwrap()
+}
+
+fn archive2a_zip_encoded(
+    entries: &[(&str, Vec<u8>)],
+    deflate: bool,
+    descriptor: Option<bool>,
+) -> Vec<u8> {
+    let mut out = Vec::new();
+    let mut directory = Vec::new();
+    for (name, raw) in entries {
+        let offset = out.len() as u32;
+        let crc = archive2a_crc(raw);
+        let data = if deflate {
+            archive2a_deflate(raw)
+        } else {
+            raw.clone()
+        };
+        let flags = if descriptor.is_some() { 8 } else { 0 };
+        let method = if deflate { 8 } else { 0 };
+        archive2a_u32(&mut out, 0x04034b50);
+        for v in [20, flags, method, 0, 0] {
+            archive2a_u16(&mut out, v);
+        }
+        for v in if descriptor.is_some() {
+            [0, 0, 0]
+        } else {
+            [crc, data.len() as u32, raw.len() as u32]
+        } {
+            archive2a_u32(&mut out, v);
+        }
+        archive2a_u16(&mut out, name.len() as u16);
+        archive2a_u16(&mut out, 0);
+        out.extend_from_slice(name.as_bytes());
+        out.extend_from_slice(&data);
+        if let Some(signed) = descriptor {
+            if signed {
+                archive2a_u32(&mut out, 0x08074b50);
+            }
+            for v in [crc, data.len() as u32, raw.len() as u32] {
+                archive2a_u32(&mut out, v);
+            }
+        }
+        archive2a_u32(&mut directory, 0x02014b50);
+        for v in [0x0314, 20, flags, method, 0, 0] {
+            archive2a_u16(&mut directory, v);
+        }
+        for v in [crc, data.len() as u32, raw.len() as u32] {
+            archive2a_u32(&mut directory, v);
+        }
+        for v in [name.len() as u16, 0, 0, 0, 0] {
+            archive2a_u16(&mut directory, v);
+        }
+        archive2a_u32(&mut directory, 0o100600 << 16);
+        archive2a_u32(&mut directory, offset);
+        directory.extend_from_slice(name.as_bytes());
+    }
+    let start = out.len() as u32;
+    out.extend_from_slice(&directory);
+    archive2a_u32(&mut out, 0x06054b50);
+    for v in [0, 0, entries.len() as u16, entries.len() as u16] {
+        archive2a_u16(&mut out, v);
+    }
+    archive2a_u32(&mut out, directory.len() as u32);
+    archive2a_u32(&mut out, start);
+    archive2a_u16(&mut out, 0);
+    out
+}
+
+fn archive2a_inventory(natives: &[(&str, Vec<u8>)]) -> Vec<(String, Vec<u8>)> {
+    let entries = natives
+        .iter()
+        .map(|(path, bytes)| {
+            json!({
+                "path":path,"role":"native_verification_evidence","bytes":bytes.len(),
+                "digest":ArchiveDigest::sha256_bytes(bytes)
+            })
+        })
+        .collect::<Vec<_>>();
+    let mut values = vec![(
+        "manifest.json".to_owned(),
+        serde_json::to_vec(&json!({"schemaVersion":1,"entries":entries})).unwrap(),
+    )];
+    values.extend(
+        natives
+            .iter()
+            .map(|(path, raw)| ((*path).to_owned(), raw.clone())),
+    );
+    values
+}
+
+fn archive2a_bundle_encoded(
+    natives: &[(&str, Vec<u8>)],
+    deflate: bool,
+    descriptor: Option<bool>,
+) -> Vec<u8> {
+    let entries = archive2a_inventory(natives);
+    let borrowed = entries
+        .iter()
+        .map(|(path, bytes)| (path.as_str(), bytes.clone()))
+        .collect::<Vec<_>>();
+    archive2a_zip_encoded(&borrowed, deflate, descriptor)
+}
+
+// Insert bytes in the first local member; relocate central directory and later
+// local-header offsets without changing any declared payload sizes.
+fn archive2a_insert_first(raw: &[u8], at: usize, bytes: &[u8]) -> Vec<u8> {
+    let old_central = archive2a_central(raw);
+    let mut changed = raw.to_vec();
+    changed.splice(at..at, bytes.iter().copied());
+    let central = old_central + bytes.len();
+    let eocd = changed.len() - 22;
+    changed[eocd + 16..eocd + 20].copy_from_slice(&(central as u32).to_le_bytes());
+    let count = u16::from_le_bytes(changed[eocd + 10..eocd + 12].try_into().unwrap());
+    let mut entry = central;
+    for _ in 0..count {
+        let offset = u32::from_le_bytes(changed[entry + 42..entry + 46].try_into().unwrap());
+        if offset as usize >= at {
+            changed[entry + 42..entry + 46]
+                .copy_from_slice(&(offset + bytes.len() as u32).to_le_bytes());
+        }
+        let name = u16::from_le_bytes(changed[entry + 28..entry + 30].try_into().unwrap()) as usize;
+        let extra =
+            u16::from_le_bytes(changed[entry + 30..entry + 32].try_into().unwrap()) as usize;
+        let comment =
+            u16::from_le_bytes(changed[entry + 32..entry + 34].try_into().unwrap()) as usize;
+        entry += 46 + name + extra + comment;
+    }
+    changed
+}
+
+fn archive2a_claims_native(count: usize, prefix: &str) -> Vec<u8> {
+    // Synthetic internally consistent declarations for cardinality boundaries,
+    // not new physical execution facts or authenticated producer evidence.
+    let mut envelope: Value = serde_json::from_slice(&archive2a_native()).unwrap();
+    let mut result = envelope["receipt"]["results"][0].clone();
+    let mut record = envelope["receipt"]["executionRecords"][0].clone();
+    record["stdout"] = json!("");
+    record["stderr"] = json!("");
+    record["elapsedMs"] = json!(0);
+    result["outputDigest"] = json!(ArchiveDigest::sha256_bytes(br#"{"success":true,"exitCode":0,"terminationSignal":null,"stdout":[],"stderr":[],"stdoutTruncated":false,"stderrTruncated":false,"timedOut":false}"#));
+    let mut results = Vec::new();
+    let mut records = Vec::new();
+    let mut nodes = Vec::new();
+    for index in 0..count {
+        let node = format!("{prefix}-{index}");
+        let mut next_result = result.clone();
+        next_result["nodeId"] = json!(node);
+        let mut next_record = record.clone();
+        next_record["nodeId"] = json!(node);
+        results.push(next_result);
+        records.push(next_record);
+        nodes.push(node);
+    }
+    envelope["receipt"]["results"] = json!(results);
+    envelope["receipt"]["executionRecords"] = json!(records);
+    for name in ["nodesPlanned", "nodesExecuted", "processesSpawned"] {
+        envelope["receipt"][name] = json!(count);
+    }
+    envelope["receipt"]["planReceipt"]["executedNodes"] = json!(nodes);
+    envelope["receipt"]
+        .as_object_mut()
+        .unwrap()
+        .remove("costObservation");
+    envelope["receiptDigest"] = json!(cockpit_protocol::digest_json(&envelope["receipt"]).unwrap());
+    serde_json::to_vec(&envelope).unwrap()
+}
+
 #[test]
 fn ci_admission_archive_raw_limit_boundaries_need_no_large_allocation() {
     assert!(archive::check_raw_archive_size(64 * 1024 * 1024).is_ok());
     assert_eq!(
         archive::check_raw_archive_size(64 * 1024 * 1024 + 1),
         Err(ArchiveError::RawSize)
+    );
+
+    let one = 64_u64 * 1024 * 1024;
+    let compressed = one.div_ceil(100);
+    assert!(archive::check_declared_budgets(&[(compressed, one), (compressed, one)]).is_ok());
+    assert_eq!(
+        archive::check_declared_budgets(&[(compressed, one), (compressed, one), (1, 1)]),
+        Err(ArchiveError::ExpandedSize)
+    );
+    assert!(archive::check_declared_budgets(&[(1, 100), (0, 0)]).is_ok());
+    assert_eq!(
+        archive::check_declared_budgets(&[(1, 101)]),
+        Err(ArchiveError::ExpansionRatio)
+    );
+    assert_eq!(
+        archive::check_declared_budgets(&[(0, 1)]),
+        Err(ArchiveError::ExpansionRatio)
+    );
+    assert_eq!(
+        archive::check_declared_budgets(&[(u64::MAX, 0), (1, 0)]),
+        Err(ArchiveError::ExpansionRatio)
     );
 }
 
@@ -965,6 +1160,34 @@ fn ci_admission_archive_valid_stored_native_is_only_untrusted_structure() {
             .raw,
         archive2a_native()
     );
+
+    for signed in [false, true] {
+        let streamed = archive2a_bundle_encoded(
+            &[("receipts/verification.json", archive2a_native())],
+            false,
+            Some(signed),
+        );
+        let parsed = archive::inspect_untrusted_github_archive(
+            &streamed,
+            &ArchiveDigest::sha256_bytes(&streamed),
+        )
+        .unwrap();
+        assert_eq!(parsed.receipts.len(), 1);
+        assert!(
+            parsed
+                .gaps
+                .iter()
+                .any(|gap| gap == "producer_runtime_unverified")
+        );
+        let central = archive2a_central(&streamed);
+        let compressed =
+            u32::from_le_bytes(streamed[central + 20..central + 24].try_into().unwrap()) as usize;
+        let data = 30 + "manifest.json".len();
+        let descriptor_crc = data + compressed + if signed { 4 } else { 0 };
+        let mut bad = streamed;
+        bad[descriptor_crc] ^= 1;
+        archive2a_reject(&bad, ArchiveError::ZipStructure);
+    }
 }
 
 #[test]
@@ -983,6 +1206,42 @@ fn ci_admission_archive_valid_deflate_has_the_same_untrusted_semantics() {
             .raw,
         archive2a_native()
     );
+
+    for signed in [false, true] {
+        let streamed = archive2a_bundle_encoded(
+            &[("receipts/verification.json", archive2a_native())],
+            true,
+            Some(signed),
+        );
+        let parsed = archive::inspect_untrusted_github_archive(
+            &streamed,
+            &ArchiveDigest::sha256_bytes(&streamed),
+        )
+        .unwrap();
+        assert_eq!(parsed.receipts.len(), 1);
+        assert_eq!(
+            parsed
+                .members
+                .iter()
+                .find(|member| member.path == "receipts/verification.json")
+                .unwrap()
+                .raw,
+            archive2a_native()
+        );
+    }
+    let zipped = archive2a_bundle_encoded(
+        &[("receipts/verification.json", archive2a_native())],
+        true,
+        None,
+    );
+    let central = archive2a_central(&zipped);
+    let compressed = u32::from_le_bytes(zipped[central + 20..central + 24].try_into().unwrap());
+    let data_end = 30 + "manifest.json".len() + compressed as usize;
+    let mut trailing = archive2a_insert_first(&zipped, data_end, &[0]);
+    let central = archive2a_central(&trailing);
+    trailing[18..22].copy_from_slice(&(compressed + 1).to_le_bytes());
+    trailing[central + 20..central + 24].copy_from_slice(&(compressed + 1).to_le_bytes());
+    archive2a_reject(&trailing, ArchiveError::Checksum);
 }
 
 #[test]
@@ -1009,6 +1268,26 @@ fn ci_admission_archive_count_and_offsets_reject_before_decoder() {
         assert_eq!(actual.unwrap_err(), expected);
         assert!(!entered.get());
     }
+
+    let names = (0..64)
+        .map(|index| format!("entry-{index:03}.json"))
+        .collect::<Vec<_>>();
+    let entries = names
+        .iter()
+        .map(|name| (name.as_str(), b"{}".to_vec()))
+        .collect::<Vec<_>>();
+    let exact = archive2a_zip(&entries);
+    let entered = std::cell::Cell::new(false);
+    let result =
+        archive::inspect_with_decoder(&exact, &ArchiveDigest::sha256_bytes(&exact), |_, _| {
+            entered.set(true);
+            Err(ArchiveError::NotImplemented)
+        });
+    assert_eq!(result.unwrap_err(), ArchiveError::NotImplemented);
+    assert!(
+        entered.get(),
+        "exact64 directory bound must reach the injected decoder"
+    );
 }
 
 #[test]
@@ -1028,6 +1307,15 @@ fn ci_admission_archive_zip64_multidisk_encryption_and_method_are_unsupported() 
     method[central + 10] = 12;
     for raw in [zip64, disk, encrypted, method] {
         archive2a_reject(&raw, ArchiveError::UnsupportedFormat);
+    }
+
+    for id in [0x0001_u16, 0x7075, 0x6375, 0x9901] {
+        let mut extra = Vec::new();
+        archive2a_u16(&mut extra, id);
+        archive2a_u16(&mut extra, 0);
+        let mut changed = archive2a_insert_first(&valid, 30 + "manifest.json".len(), &extra);
+        changed[28..30].copy_from_slice(&4_u16.to_le_bytes());
+        archive2a_reject(&changed, ArchiveError::UnsupportedFormat);
     }
 }
 
@@ -1061,6 +1349,26 @@ fn ci_admission_archive_paths_aliases_duplicates_and_special_files_are_rejected(
         changed[central + 38..central + 42].copy_from_slice(&(mode << 16).to_le_bytes());
         archive2a_reject(&changed, ArchiveError::SpecialFile);
     }
+
+    for name in [
+        "receipts/CON.json",
+        "receipts/NUL.json",
+        "receipts/COM1.json",
+        "receipts/a.json.",
+        "receipts/a%2e.json",
+        "receipts/a：b.json",
+    ] {
+        archive2a_reject(
+            &archive2a_zip(&[(name, b"{}".to_vec())]),
+            ArchiveError::Path,
+        );
+    }
+    for flag in [0x10_u32, 0x40, 0x400] {
+        let mut changed = valid.clone();
+        changed[central + 38..central + 42]
+            .copy_from_slice(&((0o100600 << 16) | flag).to_le_bytes());
+        archive2a_reject(&changed, ArchiveError::SpecialFile);
+    }
 }
 
 #[test]
@@ -1075,6 +1383,27 @@ fn ci_admission_archive_truncation_crc_and_directory_local_name_conflict_are_rej
     let mut name = valid.clone();
     name[30] = b'X';
     archive2a_reject(&name, ArchiveError::ZipStructure);
+
+    let central = archive2a_central(&valid);
+    let old = u32::from_le_bytes(valid[central + 20..central + 24].try_into().unwrap());
+    let mut overlapping = valid.clone();
+    for offset in [18, 22, central + 20, central + 24] {
+        overlapping[offset..offset + 4].copy_from_slice(&(old + 1).to_le_bytes());
+    }
+    let entered = std::cell::Cell::new(false);
+    let result = archive::inspect_with_decoder(
+        &overlapping,
+        &ArchiveDigest::sha256_bytes(&overlapping),
+        |_, _| {
+            entered.set(true);
+            Err(ArchiveError::NotImplemented)
+        },
+    );
+    assert_eq!(result.unwrap_err(), ArchiveError::ZipStructure);
+    assert!(
+        !entered.get(),
+        "overlapping checked local/data spans must fail before decoding"
+    );
 }
 
 #[test]
@@ -1099,6 +1428,34 @@ fn ci_admission_archive_declared_expansion_and_ratio_are_checked_before_decoder(
         assert_eq!(actual.unwrap_err(), expected);
         assert!(!entered.get());
     }
+
+    let compressed = archive2a_deflate(b"hello");
+    assert_eq!(
+        archive::decode_deflate_exact(&compressed, 5, 5).unwrap(),
+        b"hello"
+    );
+    assert_eq!(
+        archive::decode_deflate_exact(&compressed, 4, 5),
+        Err(ArchiveError::ExpandedSize)
+    );
+    assert_eq!(
+        archive::decode_deflate_exact(&compressed, 5, 4),
+        Err(ArchiveError::ExpandedSize)
+    );
+    assert_eq!(
+        archive::decode_deflate_exact(&compressed, 6, 6),
+        Err(ArchiveError::Checksum)
+    );
+    assert_eq!(
+        archive::decode_deflate_exact(&compressed[..compressed.len() - 1], 5, 5),
+        Err(ArchiveError::Checksum)
+    );
+    let mut trailing = compressed;
+    trailing.push(0);
+    assert_eq!(
+        archive::decode_deflate_exact(&trailing, 5, 5),
+        Err(ArchiveError::Checksum)
+    );
 }
 
 #[test]
@@ -1154,6 +1511,17 @@ fn ci_admission_archive_exact_manifest_inventory_and_member_digest_are_mandatory
         &archive2a_zip(&[("other-manifest.json", b"{}".to_vec())]),
         ArchiveError::Manifest,
     );
+
+    let native = archive2a_native();
+    let entry = json!({"path":"receipts/verification.json","role":"native_verification_evidence","bytes":native.len(),"digest":ArchiveDigest::sha256_bytes(&native)});
+    let duplicated = json!({"schemaVersion":1,"entries":[entry.clone(),entry]});
+    archive2a_reject(
+        &archive2a_zip(&[
+            ("manifest.json", serde_json::to_vec(&duplicated).unwrap()),
+            ("receipts/verification.json", native),
+        ]),
+        ArchiveError::Manifest,
+    );
 }
 
 #[test]
@@ -1183,6 +1551,101 @@ fn ci_admission_archive_native_failure_timeout_truncation_and_accounting_are_not
     ] {
         let mut changed = original.clone();
         *changed.pointer_mut(pointer).unwrap() = json!(2);
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+
+    for (field, invalid) in [
+        ("exitCode", json!(1)),
+        ("exitCode", Value::Null),
+        ("terminationSignal", json!(15)),
+        ("spawned", json!(false)),
+        ("stdoutTruncated", json!(true)),
+        ("timeoutSeconds", json!(0)),
+        ("deadlineMs", json!(0)),
+        ("elapsedMs", json!(900001)),
+        ("stdout", json!("ff")),
+        ("stderr", json!("nothex")),
+        ("commandDigest", json!("sha256:bad")),
+    ] {
+        let mut changed = original.clone();
+        changed["receipt"]["executionRecords"][0][field] = invalid;
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+    for (field, invalid) in [
+        ("schemaVersion", json!(2)),
+        ("advisoryOnly", json!(false)),
+        ("confidence", json!("unknown")),
+        ("unknowns", json!(["forged_complete_cost"])),
+        (
+            "repositoryId",
+            json!(ArchiveDigest::sha256_bytes(b"foreign-repository")),
+        ),
+        (
+            "runtimeDigest",
+            json!(ArchiveDigest::sha256_bytes(b"foreign-runtime")),
+        ),
+        ("nodesExecuted", json!(2)),
+        ("elapsedMs", json!(44081)),
+        ("providerAuthenticated", json!(true)),
+    ] {
+        let mut changed = original.clone();
+        changed["receipt"]["costObservation"][field] = invalid;
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+    for (pointer, invalid) in [
+        ("/receipt/results/0/state", json!("fresh")),
+        ("/receipt/results/0/reason", json!("fresh_exact_binding")),
+        ("/receipt/planReceipt/stage", json!("unknown_stage")),
+        (
+            "/receipt/planReceipt/reusedNodes",
+            json!(["project-command-0"]),
+        ),
+        (
+            "/receipt/planReceipt/sharedNodes",
+            json!(["project-command-0"]),
+        ),
+        ("/receipt/planReceipt/savedExecutions", json!(1)),
+    ] {
+        let mut changed = original.clone();
+        *changed.pointer_mut(pointer).unwrap() = invalid;
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+    for pointer in ["", "/receipt", "/receipt/planReceipt"] {
+        let mut changed = original.clone();
+        changed.pointer_mut(pointer).unwrap()["qualityGateReceipt"] = json!({"passed":true});
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+    for invalid_version in ["", "1", "v1.0.1", "01.0.1", "1.0.1-01", "1.0.1+"] {
+        let mut changed = original.clone();
+        // Keep all identities equal so this exercises version structure itself.
+        changed["runtimeVersion"] = json!(invalid_version);
+        changed["receipt"]["runtimeVersion"] = json!(invalid_version);
+        changed["receipt"]["costObservation"]["runtimeVersion"] = json!(invalid_version);
         changed["receiptDigest"] =
             json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
         archive2a_reject(
@@ -1239,6 +1702,46 @@ fn ci_admission_archive_aggregate_expansion_and_node_claim_limits_are_not_ignore
         &archive2a_bundle(serde_json::to_vec(&envelope).unwrap()),
         ArchiveError::NodeLimit,
     );
+
+    let exact = archive2a_bundle(archive2a_claims_native(4096, "exact"));
+    let parsed =
+        archive::inspect_untrusted_github_archive(&exact, &ArchiveDigest::sha256_bytes(&exact))
+            .unwrap();
+    assert_eq!(parsed.receipts[0].receipt.results.len(), 4096);
+    let aggregate = archive2a_bundle_encoded(
+        &[
+            ("receipts/a.json", archive2a_claims_native(2048, "a")),
+            ("receipts/b.json", archive2a_claims_native(2048, "b")),
+        ],
+        false,
+        None,
+    );
+    assert_eq!(
+        archive::inspect_untrusted_github_archive(
+            &aggregate,
+            &ArchiveDigest::sha256_bytes(&aggregate)
+        )
+        .unwrap()
+        .receipts
+        .len(),
+        2
+    );
+    let overflow = archive2a_bundle_encoded(
+        &[
+            ("receipts/a.json", archive2a_claims_native(2048, "a")),
+            ("receipts/b.json", archive2a_claims_native(2049, "b")),
+        ],
+        false,
+        None,
+    );
+    archive2a_reject(&overflow, ArchiveError::NodeLimit);
+    let mut counter: Value = serde_json::from_slice(&archive2a_native()).unwrap();
+    counter["receipt"]["nodesPlanned"] = json!(u64::MAX);
+    counter["receiptDigest"] = json!(cockpit_protocol::digest_json(&counter["receipt"]).unwrap());
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&counter).unwrap()),
+        ArchiveError::NodeLimit,
+    );
 }
 
 #[test]
@@ -1260,6 +1763,49 @@ fn ci_admission_archive_duplicate_json_missing_records_and_producer_reuse_remain
     let policy: cockpit_protocol::EvidenceRetentionPolicy =
         serde_json::from_value(retention.clone()).unwrap();
     assert!(cockpit_protocol::validate_evidence_retention(&policy.retention).is_ok());
+    let mut with_retention = parsed.clone();
+    with_retention["retention"] = retention.clone();
+    let raw_with_retention = archive2a_bundle(serde_json::to_vec(&with_retention).unwrap());
+    let inspected_with_retention = archive::inspect_untrusted_github_archive(
+        &raw_with_retention,
+        &ArchiveDigest::sha256_bytes(&raw_with_retention),
+    )
+    .unwrap();
+    assert_eq!(inspected_with_retention.receipts.len(), 1);
+    assert_eq!(
+        inspected_with_retention.receipts[0].retention,
+        Some(retention.clone())
+    );
+    for (pointer, invalid) in [
+        ("/retention/schemaVersion", json!(2)),
+        ("/retention/workItemId", json!("WI-FOREIGN")),
+        (
+            "/retention/repositoryId",
+            json!(ArchiveDigest::sha256_bytes(b"foreign-retention")),
+        ),
+        ("/retention/createdAt", json!("not-a-timestamp")),
+        ("/retention/retention/retentionDays", json!(0)),
+        ("/retention/retention/retentionDays", json!(u64::MAX)),
+        ("/retention/retention/persistence", json!("digest_only")),
+        (
+            "/retention/retention/classification",
+            json!("secret_prohibited"),
+        ),
+        ("/retention/retention/disposalAction", json!("")),
+    ] {
+        let mut changed = with_retention.clone();
+        *changed.pointer_mut(pointer).unwrap() = invalid;
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
+    }
+    let mut unknown_retention = with_retention;
+    unknown_retention["retention"]["retention"]["providerAuthenticated"] = json!(true);
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&unknown_retention).unwrap()),
+        ArchiveError::NativeReceipt,
+    );
     let duplicate_retention = serde_json::to_string(&retention).unwrap().replacen(
         "\"persistence\":\"full_capture\"",
         "\"persistence\":\"full_capture\",\"persistence\":\"full_capture\"",
@@ -1288,5 +1834,19 @@ fn ci_admission_archive_duplicate_json_missing_records_and_producer_reuse_remain
     archive2a_reject(
         &archive2a_bundle(serde_json::to_vec(&reused).unwrap()),
         ArchiveError::NativeReceipt,
+    );
+
+    let deep = format!("{}0{}", "[".repeat(65), "]".repeat(65));
+    let deep = original.replacen('{', &format!("{{\"retention\":{deep},"), 1);
+    archive2a_reject(
+        &archive2a_bundle(deep.into_bytes()),
+        ArchiveError::NodeLimit,
+    );
+    let probe = json!(vec![vec![0; 64]; 4096]);
+    let mut many: Value = serde_json::from_str(&original).unwrap();
+    many["untrustedBudgetProbe"] = probe;
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&many).unwrap()),
+        ArchiveError::NodeLimit,
     );
 }

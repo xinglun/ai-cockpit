@@ -407,6 +407,7 @@ dependencies = [
  "cockpit-knowledge",
  "cockpit-protocol",
  "cockpit-verification",
+ "flate2",
  "hex",
  "libc",
  "proc-macro2",
