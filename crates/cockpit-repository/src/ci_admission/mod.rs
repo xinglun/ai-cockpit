@@ -1,5 +1,6 @@
 //! Current-authority read-only plans. No acceptance or receipt-writing API.
 
+pub(super) mod archive;
 mod github;
 #[cfg(test)]
 mod tests;

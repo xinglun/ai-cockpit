@@ -73,6 +73,12 @@ mod task_authorization;
 mod usage;
 mod usage_import;
 
+pub use ci_admission::archive::{
+    GithubArchiveError, UntrustedGithubArchiveInspection, UntrustedGithubArchiveMember,
+    MAX_GITHUB_ARCHIVE_BYTES, MAX_GITHUB_EXPANDED_BYTES, MAX_GITHUB_ARCHIVE_ENTRIES,
+    MAX_GITHUB_ARCHIVE_ENTRY_BYTES, MAX_GITHUB_EXPANSION_RATIO, MAX_GITHUB_NODE_CLAIMS,
+    inspect_untrusted_github_archive,
+};
 pub use ci_admission::plan_github_verification_admission;
 
 pub use material_review::{

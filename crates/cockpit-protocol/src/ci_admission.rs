@@ -104,3 +104,59 @@ mod tests {
         }
     }
 }
+
+
+/// Untrusted archive inventory. Parsing this wire type proves no provider,
+/// workflow, Runtime, uploader, consumer, or execution authority.
+pub const GITHUB_ARCHIVE_MANIFEST_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct UntrustedGithubArchiveManifest {
+    pub schema_version: u32,
+    pub entries: Vec<UntrustedGithubArchiveEntry>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct UntrustedGithubArchiveEntry {
+    pub path: String,
+    pub role: UntrustedGithubArchiveRole,
+    pub bytes: u64,
+    pub digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum UntrustedGithubArchiveRole {
+    NativeVerificationEvidence,
+}
+
+/// Strict *raw* schema2 native envelope. T is the existing typed native
+/// VerificationReceipt at the repository boundary, never an authenticated
+/// provider capability. Semantic validation remains mandatory after decoding.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct UntrustedGithubNativeEnvelope<T> {
+    pub protocol_version: u32,
+    pub evidence_schema_version: u32,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub contract_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub passed: bool,
+    pub receipt_digest: Digest,
+    pub capture_mode: UntrustedGithubCaptureMode,
+    pub created_at: String,
+    pub receipt: T,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub retention: Option<serde_json::Value>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum UntrustedGithubCaptureMode {
+    FullCapture,
+}
