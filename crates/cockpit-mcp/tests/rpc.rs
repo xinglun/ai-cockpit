@@ -2475,6 +2475,88 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+fn single_terminal_with_execution_checkpoints(
+    root: &Path,
+    work_item_id: &str,
+) -> serde_json::Value {
+    let values = fs::read_dir(root.join(".ai/evidence"))
+        .expect("evidence directory")
+        .map(|entry| entry.expect("evidence entry"))
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with(&format!("{work_item_id}.verification-attempt."))
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("native observation bytes"),
+            )
+            .expect("native observation JSON")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        values.len(),
+        3,
+        "two execution checkpoints and one terminal"
+    );
+    for value in &values {
+        assert_eq!(value["workItemId"], work_item_id);
+        assert_eq!(
+            value["runtimeDigest"],
+            test_runtime_context().runtime_digest.to_string()
+        );
+        let id_key = match value["kind"].as_str() {
+            Some("verification_execution_checkpoint") => "checkpointId",
+            Some("verification_attempt") => "attemptId",
+            other => panic!("unexpected native observation kind: {other:?}"),
+        };
+        let mut unsigned = value.clone();
+        unsigned
+            .as_object_mut()
+            .expect("observation object")
+            .remove(id_key);
+        assert_eq!(
+            value[id_key],
+            serde_json::json!(
+                cockpit_protocol::digest_json(&unsigned).expect("native observation digest")
+            )
+        );
+    }
+    let checkpoints = values
+        .iter()
+        .filter(|v| v["kind"] == "verification_execution_checkpoint")
+        .collect::<Vec<_>>();
+    assert_eq!(checkpoints.len(), 2);
+    let prepared = checkpoints
+        .iter()
+        .find(|v| v["state"] == "execution_prepared")
+        .expect("durable pre-spawn checkpoint");
+    let completed = checkpoints
+        .iter()
+        .find(|v| v["state"] == "node_execution_completed")
+        .expect("durable actual execution result");
+    assert!(prepared["executionId"].is_string());
+    assert_eq!(prepared["executionId"], completed["executionId"]);
+    assert_eq!(prepared["commands"], completed["commands"]);
+    for checkpoint in &checkpoints {
+        assert_eq!(checkpoint["passed"], false);
+        assert_eq!(checkpoint["postExecutionIdentityValidated"], false);
+    }
+    let terminals = values
+        .iter()
+        .filter(|v| v["kind"] == "verification_attempt")
+        .collect::<Vec<_>>();
+    assert_eq!(terminals.len(), 1, "exactly one final attempt");
+    let terminal = terminals[0];
+    assert_eq!(completed["executionRecords"], terminal["executionRecords"]);
+    assert_eq!(
+        completed["commands"][0]["commandDigest"],
+        terminal["executionRecords"][0]["commandDigest"]
+    );
+    terminal.clone()
+}
+
 #[test]
 fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails() {
     let directory = TestTempDir::new("cockpit-mcp-receipt-rejection");
@@ -2547,20 +2629,7 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
             .exists()
     );
 
-    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
-        .expect("evidence directory")
-        .filter_map(Result::ok)
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .contains(&format!("{work_item_id}.verification-attempt."))
-        })
-        .collect::<Vec<_>>();
-    assert_eq!(attempts.len(), 1);
-    let attempt: serde_json::Value =
-        serde_json::from_slice(&fs::read(attempts[0].path()).expect("rejected attempt"))
-            .expect("rejected attempt JSON");
+    let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
     assert_eq!(attempt["state"], "formal_receipt_rejected");
     assert_eq!(attempt["passed"], true);
     assert_eq!(attempt["processesSpawned"], 1);
@@ -2679,20 +2748,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
         serde_json::json!(["project-command-0"])
     );
 
-    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
-        .expect("evidence directory")
-        .filter_map(Result::ok)
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .contains(&format!("{work_item_id}.verification-attempt."))
-        })
-        .collect::<Vec<_>>();
-    assert_eq!(attempts.len(), 1);
-    let attempt: serde_json::Value =
-        serde_json::from_slice(&fs::read(attempts[0].path()).expect("failed attempt"))
-            .expect("failed attempt JSON");
+    let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
     assert_eq!(attempt["state"], "execution_failed");
     assert_eq!(attempt["passed"], false);
     assert_eq!(attempt["processesSpawned"], 1);
