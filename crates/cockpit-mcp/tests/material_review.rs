@@ -85,7 +85,14 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 44);
+    assert_eq!(tools.len(), 46);
+    for name in ["evidence_bundle_plan", "evidence_bundle_accept"] {
+        assert_eq!(
+            tools.iter().filter(|tool| tool["name"] == name).count(),
+            1,
+            "exact portable evidence tool {name}"
+        );
+    }
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (

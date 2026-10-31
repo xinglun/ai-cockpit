@@ -22,7 +22,14 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 44);
+    assert_eq!(tools.len(), 46);
+    for name in ["evidence_bundle_plan", "evidence_bundle_accept"] {
+        assert_eq!(
+            tools.iter().filter(|tool| tool["name"] == name).count(),
+            1,
+            "exact portable evidence tool {name}"
+        );
+    }
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (
