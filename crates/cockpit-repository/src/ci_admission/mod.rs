@@ -391,6 +391,13 @@ pub(super) fn persist_portable_native_observation(
     input: &[u8],
     marker: &[u8],
 ) -> Result<String, ObserverError> {
-    store::publish_portable_record(root, wi, record_id, input, marker)
-        .map(|record| record.record_ref)
+    let published = store::publish_portable_record(root, wi, record_id, input, marker)?;
+    // Read through the cold boundary after the publishing lock is released.
+    // This checks the installed record; it never reconstructs a source witness.
+    let loaded = store::load_portable_record(root, wi, record_id)?
+        .ok_or_else(|| plan_error(root, "portable_publication_readback_missing"))?;
+    if loaded != published {
+        return Err(plan_error(root, "portable_publication_readback_changed"));
+    }
+    Ok(loaded.record_ref)
 }
