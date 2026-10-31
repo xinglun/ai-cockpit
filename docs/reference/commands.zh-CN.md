@@ -634,7 +634,6 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `repo` | `string` | `yes` | `—` | `—` | `—` |
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `no` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 
@@ -661,7 +660,6 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `yes` | `—` | `—` | `—` |
 | `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 

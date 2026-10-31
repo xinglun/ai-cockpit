@@ -526,7 +526,6 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `repo` | `string` | `yes` | `—` | `—` | `—` |
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `no` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 
@@ -553,7 +552,6 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `yes` | `—` | `—` | `—` |
 | `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 

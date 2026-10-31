@@ -1114,12 +1114,6 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
             "Exact plan digest, not a credential.",
         ));
     }
-    cli.push(parameter(
-        "task-caller",
-        "string",
-        false,
-        "Explicit caller metadata file; grants no authority.",
-    ));
     mcp.push(parameter(
         "taskCaller",
         "object",

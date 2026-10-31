@@ -671,7 +671,6 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `repo` | `string` | `yes` | `—` | `—` | `—` |
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `no` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 
@@ -698,7 +697,6 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `yes` | `—` | `—` | `—` |
 | `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
-| `task-caller` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 

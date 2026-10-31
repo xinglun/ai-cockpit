@@ -64,8 +64,10 @@ pub(crate) fn run(
 pub(crate) enum PortableEvidenceCommand {
     /// Inspect a local portable bundle without execution or writes; source claims remain unverified.
     Plan {
+        /// Repository checkout whose protocol compatibility is checked.
         #[arg(long)]
         repo: PathBuf,
+        /// Local portable evidence JSON file; contents never authenticate their author.
         #[arg(long)]
         input: PathBuf,
         /// Optional consumer Work Item; not required merely to inspect evidence.
@@ -74,21 +76,26 @@ pub(crate) enum PortableEvidenceCommand {
     },
     /// Request admission under current authority and independent source proof; a file cannot authenticate itself.
     Accept {
+        /// Repository checkout bound to the consumer Work Item.
         #[arg(long)]
         repo: PathBuf,
+        /// Consumer Work Item; current caller and native action admission are rechecked.
         #[arg(long)]
         work_item: String,
+        /// Local portable evidence JSON file inspected by the shared service.
         #[arg(long)]
         input: PathBuf,
+        /// Exact sha256 plan digest returned by evidence bundle plan; not a source credential.
         #[arg(long, value_parser = parse_plan_digest)]
-        expected_plan_digest: cockpit_core::Digest,
+        expected_plan_digest: String,
     },
 }
 
-fn parse_plan_digest(value: &str) -> Result<cockpit_core::Digest, String> {
+fn parse_plan_digest(value: &str) -> Result<String, String> {
     value
         .parse::<cockpit_core::Digest>()
-        .map_err(|error| error.to_string())
+        .map_err(|error| error.to_string())?;
+    Ok(value.to_owned())
 }
 
 pub(crate) fn run_portable(
@@ -119,6 +126,9 @@ pub(crate) fn run_portable(
             input,
             expected_plan_digest,
         } => {
+            let expected_plan_digest = expected_plan_digest
+                .parse::<cockpit_core::Digest>()
+                .context("validate exact portable evidence plan digest")?;
             super::require_compatible(&repo, runtime)?;
             let acceptance = cockpit_repository::accept_portable_evidence(
                 &repo,
