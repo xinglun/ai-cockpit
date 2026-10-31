@@ -79,7 +79,9 @@ pub use ci_admission::archive::{
     MAX_GITHUB_NODE_CLAIMS, UntrustedGithubArchiveInspection, UntrustedGithubArchiveMember,
     inspect_untrusted_github_archive,
 };
-pub use ci_admission::plan_github_verification_admission;
+pub use ci_admission::{
+    accept_portable_evidence, plan_github_verification_admission, plan_portable_evidence,
+};
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
@@ -371,6 +373,86 @@ pub struct RepositoryVerificationRequest {
 pub struct RepositoryVerificationRun {
     pub receipt: cockpit_verification::VerificationReceipt,
     pub final_snapshot: RepositorySnapshot,
+}
+
+/// One live repository-service invocation. This identity is neither serialized
+/// nor recoverable from a receipt, pathname, marker, or content digest.
+pub(crate) struct CurrentNativeInvocation {
+    seal: Arc<()>,
+}
+
+impl CurrentNativeInvocation {
+    pub(crate) fn new() -> Self {
+        Self { seal: Arc::new(()) }
+    }
+}
+
+/// A move-only current-process observation. No deserializer or public factory
+/// accepts caller evidence as a source. The RED scaffold does not mint one.
+pub(crate) struct NativeExecutionWitness {
+    invocation: Arc<()>,
+    native_input: serde_json::Value,
+    receipt: cockpit_verification::VerificationReceipt,
+    observed_at: String,
+}
+
+impl NativeExecutionWitness {
+    pub(crate) fn native_input(&self) -> &serde_json::Value {
+        &self.native_input
+    }
+
+    pub(crate) fn receipt(&self) -> &cockpit_verification::VerificationReceipt {
+        &self.receipt
+    }
+
+    pub(crate) fn observed_at(&self) -> &str {
+        &self.observed_at
+    }
+}
+
+pub(crate) struct WitnessedRepositoryVerificationRun {
+    pub run: RepositoryVerificationRun,
+    pub witness: Option<NativeExecutionWitness>,
+}
+
+/// RED interface for current-invocation native publication. GREEN must obtain
+/// its result through the existing bounded native run and admission gates.
+pub(crate) fn run_repository_verification_with_native_witness(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    invocation: &CurrentNativeInvocation,
+    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+) -> Result<WitnessedRepositoryVerificationRun, ObserverError> {
+    let _ = (request, runtime, caller, &invocation.seal, supervisor);
+    Err(ObserverError::State {
+        path: root.to_path_buf(),
+        message: "portable_native_invocation_not_implemented (RED scaffold)".into(),
+    })
+}
+
+/// RED interface for consuming a live witness once. GREEN must recheck the
+/// same invocation, current caller authority, profile/policy and full inputs.
+pub(crate) fn consume_native_execution_witness(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    invocation: &CurrentNativeInvocation,
+    witness: NativeExecutionWitness,
+) -> Result<RepositoryVerificationRun, ObserverError> {
+    let _ = (
+        request,
+        runtime,
+        caller,
+        Arc::ptr_eq(&invocation.seal, &witness.invocation),
+        witness,
+    );
+    Err(ObserverError::State {
+        path: root.to_path_buf(),
+        message: "portable_native_invocation_not_implemented (RED scaffold)".into(),
+    })
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

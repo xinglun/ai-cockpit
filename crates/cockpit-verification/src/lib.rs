@@ -1469,6 +1469,12 @@ impl PlannedReason {
 pub enum PlannedSatisfaction {
     Execution,
     ReusedReceipt,
+    /// Presentation of a live same-invocation substitution. Deserializing this
+    /// projection never creates its required opaque execution witness.
+    PortableNativeInvocation {
+        #[serde(rename = "publicationDigest")]
+        publication_digest: String,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

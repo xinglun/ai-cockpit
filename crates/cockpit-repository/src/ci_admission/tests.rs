@@ -1850,3 +1850,959 @@ fn ci_admission_archive_duplicate_json_missing_records_and_producer_reuse_remain
         ArchiveError::NodeLimit,
     );
 }
+
+// Append inside the existing ci_admission/tests.rs module. Only the parent
+// heavy worker may compile/run these tests. No test or formatter was run here.
+// The actual current native full-environment identity is proven only on Unix;
+// these positive-witness cases do not manufacture support on other platforms.
+
+#[cfg(unix)]
+fn c16_native_fixture(
+    argument: &str,
+) -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    cockpit_protocol::TaskAuthorizationCaller,
+    crate::RepositoryVerificationRequest,
+) {
+    use crate::*;
+    let root = tempfile::Builder::new()
+        .prefix("c16 native witness ")
+        .tempdir()
+        .unwrap();
+    std::fs::write(root.path().join("tracked.txt"), "before\n").unwrap();
+    for args in [
+        vec!["init", "-q", "--initial-branch=main"],
+        vec!["config", "core.autocrlf", "false"],
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        assert!(
+            std::process::Command::new("git")
+                .args(args)
+                .current_dir(root.path())
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+    attach(root.path()).unwrap();
+    confirm_profile_update(root.path(), "git", &[argument.to_owned()]).unwrap();
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(
+            b"c16-native-fixture-runtime-not-provider-proof",
+        ),
+    };
+    let caller = cockpit_protocol::TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: "agent:c16-native-fixture".into(),
+        authority_source: "fixture:synthetic-owner-not-provider-authentication".into(),
+        assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+    };
+    let wi = "WI-C16-NATIVE-WITNESS";
+    start_work_item_with_options_and_runtime(
+        root.path(),
+        wi,
+        "observe an actual current native child",
+        "do not substitute cold evidence",
+        &["tracked.txt".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec![
+                "only this invocation's actual bounded child can supply its witness".into(),
+            ],
+            verification_commands: vec![format!("git {argument}")],
+            task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
+                schema_version: 1,
+                agent_actor: caller.actor.clone(),
+                authority_source: caller.authority_source.clone(),
+                allowed_actions: vec![
+                    "run_preflight".into(),
+                    "checkpoint".into(),
+                    "run_verification".into(),
+                ],
+                closeout_actions: vec![],
+                expires_at: Some("2099-01-01T00:00:00Z".into()),
+                public_target: None,
+            }),
+            ..Default::default()
+        },
+        &runtime,
+    )
+    .unwrap();
+    let contract_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{wi}.contract.json"));
+    preflight_work_item_with_runtime_report(root.path(), &contract_path, &runtime).unwrap();
+    let contract: Value = crate::read_json(&contract_path).unwrap();
+    let summary: Value = crate::read_json(
+        &root
+            .path()
+            .join(format!(".ai/work-items/active/{wi}.summary.json")),
+    )
+    .unwrap();
+    record_work_item_governance_controls_with_runtime(root.path(), wi, &json!({
+        "decisionEvidence": {
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":wi,"repositoryId":crate::repository_id(root.path()),
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
+            "reason":"Synthetic local fixture, not external human or provider authentication."
+        }
+    }), &runtime).unwrap();
+    checkpoint_work_item_with_caller(root.path(), wi, &runtime, Some(&caller)).unwrap();
+    let request = RepositoryVerificationRequest {
+        node_id: "project-command-0".into(),
+        program: "git".into(),
+        args: vec![argument.into()],
+        scope: vec!["tracked.txt".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: runtime.runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        work_item_id: Some(wi.into()),
+        timeout_seconds: None,
+        policy: RepositoryVerificationPolicy::ProfileAuthorized,
+    };
+    (root, runtime, caller, request)
+}
+
+#[cfg(unix)]
+#[test]
+fn ci_admission_c16_native_real_execution_can_substitute_only_with_its_live_witness() {
+    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let invocation = crate::CurrentNativeInvocation::new();
+    let observed = crate::run_repository_verification_with_native_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        None,
+    )
+    .expect("RED: the actual bounded native runner must produce a real result");
+    assert!(observed.run.receipt.passed);
+    assert_eq!(observed.run.receipt.processes_spawned, 1);
+    assert_eq!(observed.run.receipt.nodes_executed, 1);
+    assert_eq!(observed.run.receipt.nodes_reused, 0);
+    assert_eq!(observed.run.receipt.execution_records.len(), 1);
+    let physical = &observed.run.receipt.execution_records[0];
+    assert!(physical.spawned && physical.passed);
+    assert_eq!(physical.exit_code, Some(0));
+    assert_eq!(physical.termination_signal, None);
+    assert!(!physical.stdout_hex.is_empty());
+    assert!(!physical.stdout_truncated && !physical.stderr_truncated && !physical.timed_out);
+    let witness = observed
+        .witness
+        .expect("an actual stable native child must have its live witness");
+    assert_eq!(witness.receipt(), &observed.run.receipt);
+    assert_eq!(witness.native_input()["nodeId"], request.node_id);
+    assert_eq!(
+        witness.native_input()["requestPolicy"],
+        "profile_authorized"
+    );
+    let substituted = crate::consume_native_execution_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        witness,
+    )
+    .expect("the same current invocation must consume its exact unchanged witness");
+    assert!(substituted.receipt.passed);
+    assert_eq!(substituted.receipt.nodes_planned, 1);
+    assert_eq!(substituted.receipt.nodes_executed, 0);
+    assert_eq!(substituted.receipt.nodes_reused, 1);
+    assert_eq!(substituted.receipt.processes_spawned, 0);
+    assert!(substituted.receipt.execution_records.is_empty());
+    assert!(substituted.receipt.receipt_candidates.is_empty());
+    assert_eq!(substituted.receipt.results.len(), 1);
+    assert!(substituted.receipt.results[0].reused);
+    match &substituted.receipt.results[0].satisfied_by {
+        cockpit_verification::PlannedSatisfaction::PortableNativeInvocation {
+            publication_digest,
+        } => {
+            assert!(publication_digest.parse::<cockpit_core::Digest>().is_ok());
+        }
+        other => panic!("expected native invocation projection, got {other:?}"),
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn ci_admission_c16_native_identical_wire_and_preseeded_objects_do_not_transfer_invocations() {
+    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let invocation = crate::CurrentNativeInvocation::new();
+    let observed = crate::run_repository_verification_with_native_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        None,
+    )
+    .expect("RED: obtain the witness through a real native child");
+    assert_eq!(observed.run.receipt.processes_spawned, 1);
+    let witness = observed.witness.expect("live native witness");
+    let wire = json!({"schemaVersion":1,"nativeInput":witness.native_input(),"nativeEvidence":witness.receipt()});
+    let bytes = serde_json::to_vec(&wire).unwrap();
+    let digest = cockpit_core::Digest::sha256_bytes(&bytes);
+    let directory = root.path().join(".ai/evidence/c16-caller-prefilled");
+    std::fs::create_dir_all(&directory).unwrap();
+    std::fs::write(directory.join("objects.json"), &bytes).unwrap();
+    std::fs::write(
+        directory.join("marker.json"),
+        serde_json::to_vec(&json!({"committed":true,"objectDigest":digest})).unwrap(),
+    )
+    .unwrap();
+    let foreign = crate::CurrentNativeInvocation::new();
+    assert!(
+        crate::consume_native_execution_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &foreign,
+            witness,
+        )
+        .is_err(),
+        "identical bytes and all caller-created hashes cannot transfer the live invocation"
+    );
+    // The parent's external import plan must additionally exercise the same
+    // bytes with no witness at all and retain its source-unverified gap.
+}
+
+#[cfg(unix)]
+#[test]
+fn ci_admission_c16_native_witness_rechecks_source_and_current_caller() {
+    for drift in ["source", "caller"] {
+        let (root, runtime, caller, request) = c16_native_fixture("--version");
+        let invocation = crate::CurrentNativeInvocation::new();
+        let observed = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("RED: obtain the witness through a real native child");
+        assert_eq!(observed.run.receipt.processes_spawned, 1);
+        let witness = observed.witness.expect("live native witness");
+        let mut current_caller = caller.clone();
+        if drift == "source" {
+            std::fs::write(root.path().join("tracked.txt"), "after\n").unwrap();
+        } else {
+            current_caller.authority_source.push_str("-foreign");
+        }
+        assert!(
+            crate::consume_native_execution_witness(
+                root.path(),
+                &request,
+                &runtime,
+                Some(&current_caller),
+                &invocation,
+                witness,
+            )
+            .is_err(),
+            "current {drift} drift must refuse zero-spawn substitution"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn ci_admission_c16_native_witness_cannot_override_never_reuse_or_protected_policy() {
+    for policy in [
+        crate::RepositoryVerificationPolicy::NeverReuse,
+        crate::RepositoryVerificationPolicy::Protected(
+            cockpit_verification::ProtectedGateClass::Security,
+        ),
+    ] {
+        let (root, runtime, caller, mut request) = c16_native_fixture("--version");
+        let invocation = crate::CurrentNativeInvocation::new();
+        let observed = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("RED: obtain the witness through a real profile-authorized child");
+        assert_eq!(observed.run.receipt.processes_spawned, 1);
+        let witness = observed.witness.expect("live native witness");
+        request.policy = policy;
+        assert!(
+            crate::consume_native_execution_witness(
+                root.path(),
+                &request,
+                &runtime,
+                Some(&caller),
+                &invocation,
+                witness,
+            )
+            .is_err(),
+            "a witness must not override current restrictive policy"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn ci_admission_c16_native_actual_failed_child_is_preserved_without_a_witness() {
+    let (root, runtime, caller, request) = c16_native_fixture("--definitely-invalid-c16-option");
+    let invocation = crate::CurrentNativeInvocation::new();
+    let observed = crate::run_repository_verification_with_native_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        None,
+    )
+    .expect("RED: preserve the actual native failure result");
+    assert!(!observed.run.receipt.passed);
+    assert_eq!(observed.run.receipt.processes_spawned, 1);
+    assert_eq!(observed.run.receipt.execution_records.len(), 1);
+    assert!(observed.run.receipt.execution_records[0].spawned);
+    assert_ne!(observed.run.receipt.execution_records[0].exit_code, Some(0));
+    assert!(
+        !observed.run.receipt.execution_records[0]
+            .stderr_hex
+            .is_empty()
+    );
+    assert!(
+        observed.witness.is_none(),
+        "failure cannot produce a usable source witness"
+    );
+}
+
+// Append directly to ci_admission/tests.rs. These tests call the pure I/O store,
+// not acceptance or source-authentication. All paths belong to each TempDir.
+const PORTABLE_STORE_TEST_WI: &str = "WI-PORTABLE-STORE";
+
+fn portable_store_test_digest(bytes: &[u8]) -> String {
+    cockpit_core::Digest::sha256_bytes(bytes).to_string()
+}
+
+fn portable_store_test_marker(id: &str, input: &[u8]) -> Vec<u8> {
+    serde_json::to_vec(&serde_json::json!({
+        "schemaVersion": 1,
+        "recordId": id,
+        "inputDigest": portable_store_test_digest(input),
+    }))
+    .expect("portable marker fixture")
+}
+
+fn portable_store_test_directory(root: &std::path::Path) -> std::path::PathBuf {
+    root.join(format!(
+        ".ai/evidence/{PORTABLE_STORE_TEST_WI}.verification-admissions/portable"
+    ))
+}
+
+fn portable_store_test_fixture() -> (tempfile::TempDir, std::path::PathBuf) {
+    let owner = tempfile::tempdir().expect("own portable store fixture");
+    let root = std::fs::canonicalize(owner.path()).expect("canonical fixture root");
+    (owner, root)
+}
+
+#[test]
+fn portable_store_missing_record_does_not_create_a_store() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"missing binding");
+    assert!(
+        super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+            .expect("missing store is a read-only absence")
+            .is_none()
+    );
+    assert!(
+        !root.join(".ai").exists(),
+        "read-only miss must not create directories"
+    );
+}
+
+#[test]
+fn portable_store_publish_roundtrip_preserves_exact_untrusted_bytes() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"roundtrip binding");
+    let input = b"untrusted portable execution bytes";
+    let marker = portable_store_test_marker(&id, input);
+    let published =
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .expect("publish complete immutable record");
+    assert_eq!(published.input, input);
+    assert_eq!(published.marker, marker);
+    assert_eq!(
+        published.record_ref,
+        format!(
+            ".ai/evidence/{PORTABLE_STORE_TEST_WI}.verification-admissions/portable/records/{}.json",
+            &id[7..]
+        )
+    );
+    let loaded = super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+        .expect("read committed record")
+        .expect("final marker exists");
+    assert_eq!(loaded, published);
+    let object = portable_store_test_directory(&root)
+        .join("objects")
+        .join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    assert_eq!(std::fs::read(object).expect("immutable object"), input);
+}
+
+#[test]
+fn portable_store_exact_repeat_is_idempotent_without_replacing_marker() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"idempotent binding");
+    let input = b"same bytes";
+    let marker = portable_store_test_marker(&id, input);
+    let first =
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .expect("first publication");
+    let marker_path = root.join(&first.record_ref);
+    let before = std::fs::metadata(&marker_path).expect("first marker metadata");
+    let second =
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .expect("exact idempotent repeat");
+    assert_eq!(second, first);
+    assert_eq!(
+        std::fs::read(&marker_path).expect("unchanged marker bytes"),
+        marker
+    );
+    let after = std::fs::metadata(&marker_path).expect("repeated marker metadata");
+    assert_eq!(
+        before.modified().expect("first time"),
+        after.modified().expect("second time")
+    );
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        assert_eq!((before.dev(), before.ino()), (after.dev(), after.ino()));
+    }
+}
+
+#[test]
+fn portable_store_binding_conflict_is_refused_before_new_object_payload() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"one stable record id");
+    let original = b"original object";
+    let first_marker = portable_store_test_marker(&id, original);
+    let first = super::store::publish_portable_record(
+        &root,
+        PORTABLE_STORE_TEST_WI,
+        &id,
+        original,
+        &first_marker,
+    )
+    .expect("original committed record");
+    let changed = b"different input under same record id";
+    let changed_marker = portable_store_test_marker(&id, changed);
+    assert!(
+        super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            changed,
+            &changed_marker,
+        )
+        .is_err()
+    );
+    let changed_object = portable_store_test_directory(&root)
+        .join("objects")
+        .join(format!("{}.bin", &portable_store_test_digest(changed)[7..]));
+    assert!(
+        !changed_object.exists(),
+        "known conflict must reject before new payload write"
+    );
+    assert_eq!(
+        std::fs::read(root.join(&first.record_ref)).expect("original marker"),
+        first_marker
+    );
+    assert_eq!(
+        super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+            .expect("old record remains readable")
+            .expect("old record remains present"),
+        first
+    );
+}
+
+#[test]
+fn portable_store_invalid_marker_or_identifier_is_refused_without_payload() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"valid record binding");
+    let input = b"valid bytes";
+    let wrong_marker = portable_store_test_marker(&id, b"different bytes");
+    assert!(
+        super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            input,
+            &wrong_marker,
+        )
+        .is_err()
+    );
+    assert!(!root.join(".ai").exists());
+    for bad in ["", "sha256:../escape", "SHA256:123", "sha256:ABCDEF"] {
+        assert!(
+            super::store::publish_portable_record(
+                &root,
+                PORTABLE_STORE_TEST_WI,
+                bad,
+                input,
+                &portable_store_test_marker(bad, input),
+            )
+            .is_err()
+        );
+        assert!(!root.join(".ai").exists());
+    }
+    let duplicate = format!(
+        "{{\"schemaVersion\":1,\"recordId\":\"{id}\",\"inputDigest\":\"{}\",\"inputDigest\":\"{}\"}}",
+        portable_store_test_digest(input),
+        portable_store_test_digest(input)
+    );
+    assert!(
+        super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            input,
+            duplicate.as_bytes(),
+        )
+        .is_err()
+    );
+    let mut authority_flag: serde_json::Value =
+        serde_json::from_slice(&portable_store_test_marker(&id, input)).unwrap();
+    authority_flag["sourceVerified"] = true.into();
+    assert!(
+        super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            input,
+            &serde_json::to_vec(&authority_flag).unwrap()
+        )
+        .is_err()
+    );
+    assert!(
+        !root.join(".ai").exists(),
+        "invalid marker must not create any store"
+    );
+}
+
+#[test]
+fn portable_store_orphan_object_without_final_marker_is_not_a_record() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"orphan binding");
+    let input = b"orphan bytes";
+    let objects = portable_store_test_directory(&root).join("objects");
+    std::fs::create_dir_all(&objects).expect("own orphan fixture");
+    let path = objects.join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    std::fs::write(&path, input).expect("partial object");
+    assert!(
+        super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+            .expect("orphan does not create a marker")
+            .is_none()
+    );
+    assert_eq!(
+        std::fs::read(path).expect("partial evidence preserved"),
+        input
+    );
+}
+
+#[test]
+fn portable_store_final_marker_with_missing_or_changed_object_fails_closed() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"damaged record binding");
+    let input = b"original raw input";
+    let dir = portable_store_test_directory(&root);
+    let records = dir.join("records");
+    let objects = dir.join("objects");
+    std::fs::create_dir_all(&records).expect("own records fixture");
+    std::fs::create_dir_all(&objects).expect("own objects fixture");
+    let marker_path = records.join(format!("{}.json", &id[7..]));
+    let marker = portable_store_test_marker(&id, input);
+    std::fs::write(&marker_path, &marker).expect("own final marker fixture");
+    assert!(super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err());
+    let object_path = objects.join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    std::fs::write(&object_path, b"corrupt raw input").expect("own corrupt object");
+    assert!(super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err());
+    assert_eq!(std::fs::read(marker_path).expect("marker retained"), marker);
+}
+
+#[test]
+fn portable_store_oversized_object_metadata_is_refused_before_read_allocation() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"oversized fixture binding");
+    let input = b"expected small bytes";
+    let dir = portable_store_test_directory(&root);
+    std::fs::create_dir_all(dir.join("records")).unwrap();
+    std::fs::create_dir_all(dir.join("objects")).unwrap();
+    std::fs::write(
+        dir.join("records").join(format!("{}.json", &id[7..])),
+        portable_store_test_marker(&id, input),
+    )
+    .unwrap();
+    let object_path = dir
+        .join("objects")
+        .join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    let object = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&object_path)
+        .unwrap();
+    object
+        .set_len(super::store::MAX_PORTABLE_INPUT_BYTES + 1)
+        .unwrap();
+    assert!(super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err());
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_symlink_parent_or_payload_is_rejected_without_touching_target() {
+    use std::os::unix::fs::symlink;
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"symlink binding");
+    let input = b"outside sentinel";
+    let outside = root.join("outside");
+    std::fs::create_dir(&outside).unwrap();
+    std::fs::write(outside.join("sentinel"), input).unwrap();
+    symlink(&outside, root.join(".ai")).unwrap();
+    assert!(
+        super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            input,
+            &portable_store_test_marker(&id, input)
+        )
+        .is_err()
+    );
+    assert!(!outside.join("evidence").exists());
+    assert_eq!(std::fs::read(outside.join("sentinel")).unwrap(), input);
+    std::fs::remove_file(root.join(".ai")).unwrap();
+    let dir = portable_store_test_directory(&root);
+    std::fs::create_dir_all(dir.join("records")).unwrap();
+    std::fs::create_dir_all(dir.join("objects")).unwrap();
+    std::fs::write(
+        dir.join("records").join(format!("{}.json", &id[7..])),
+        portable_store_test_marker(&id, input),
+    )
+    .unwrap();
+    symlink(
+        outside.join("sentinel"),
+        dir.join("objects")
+            .join(format!("{}.bin", &portable_store_test_digest(input)[7..])),
+    )
+    .unwrap();
+    assert!(super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err());
+    assert_eq!(std::fs::read(outside.join("sentinel")).unwrap(), input);
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_fifo_subprocess_helper() {
+    if std::env::var_os("AI_COCKPIT_PORTABLE_STORE_HELPER_MODE").as_deref()
+        != Some(std::ffi::OsStr::new("fifo_probe"))
+    {
+        return;
+    }
+    let root = std::path::PathBuf::from(
+        std::env::var_os("AI_COCKPIT_PORTABLE_STORE_HELPER_ROOT").expect("owned helper root"),
+    );
+    let id = portable_store_test_digest(b"fifo binding");
+    assert!(super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err());
+    use std::io::Write;
+    let mut ack = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(root.join("fifo-probe.completed"))
+        .expect("own FIFO probe acknowledgment");
+    ack.write_all(b"rejected_fifo\n")
+        .expect("FIFO probe acknowledgment bytes");
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_fifo_payload_without_peer_is_rejected_with_bounded_probe() {
+    use std::os::unix::ffi::OsStrExt;
+    use std::process::{Command, Stdio};
+    use std::time::{Duration, Instant};
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"fifo binding");
+    let input = b"FIFO never supplies these expected bytes";
+    let dir = portable_store_test_directory(&root);
+    std::fs::create_dir_all(dir.join("records")).unwrap();
+    std::fs::create_dir_all(dir.join("objects")).unwrap();
+    std::fs::write(
+        dir.join("records").join(format!("{}.json", &id[7..])),
+        portable_store_test_marker(&id, input),
+    )
+    .unwrap();
+    let fifo_path = dir
+        .join("objects")
+        .join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    let cpath = std::ffi::CString::new(fifo_path.as_os_str().as_bytes()).unwrap();
+    // SAFETY: the owned CString is a live NUL-terminated fixture path.
+    assert_eq!(unsafe { libc::mkfifo(cpath.as_ptr(), 0o600) }, 0);
+    let mut child = Command::new(std::env::current_exe().expect("test binary"))
+        .args([
+            "--exact",
+            "ci_admission::tests::portable_store_fifo_subprocess_helper",
+            "--test-threads=1",
+        ])
+        .env("AI_COCKPIT_PORTABLE_STORE_HELPER_MODE", "fifo_probe")
+        .env("AI_COCKPIT_PORTABLE_STORE_HELPER_ROOT", &root)
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .expect("owned FIFO probe");
+    let deadline = Instant::now() + Duration::from_secs(2);
+    let outcome = loop {
+        match child.try_wait() {
+            Ok(Some(status)) => break Some(status),
+            Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(5)),
+            _ => break None,
+        }
+    };
+    if let Some(status) = outcome {
+        assert!(
+            status.success(),
+            "owned FIFO probe rejected incorrectly: {status}"
+        );
+        assert_eq!(
+            std::fs::read(root.join("fifo-probe.completed")).expect("exact helper actually ran"),
+            b"rejected_fifo\n"
+        );
+    } else {
+        let _ = child.kill();
+        let reap_deadline = Instant::now() + Duration::from_secs(2);
+        let reaped = loop {
+            match child.try_wait() {
+                Ok(Some(_)) => break true,
+                Ok(None) if Instant::now() < reap_deadline => {
+                    std::thread::sleep(Duration::from_millis(5))
+                }
+                _ => break false,
+            }
+        };
+        assert!(reaped, "owned FIFO probe did not reap after bounded kill");
+        panic!("portable-store FIFO read blocked; owned probe was killed and reaped");
+    }
+}
+
+// Portable inspection claims remain unverified even when every byte/hash is valid.
+fn c16_portable_input_fixture() -> serde_json::Value {
+    json!({"schemaVersion":1,"nativeInput":{"schemaVersion":1,"producer":"untrusted_captured_fixture"},"nativeEvidence":serde_json::from_slice::<Value>(&archive2a_native()).unwrap()})
+}
+fn c16_portable_runtime() -> cockpit_protocol::RuntimeContext {
+    cockpit_protocol::RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"portable-inspection-not-source-proof"),
+    }
+}
+#[test]
+fn ci_admission_c16_portable_inspection_needs_no_wi_or_execution_authority() {
+    let root = tempfile::tempdir().unwrap();
+    let input = root.path().join("evidence.json");
+    std::fs::write(
+        &input,
+        serde_json::to_vec(&c16_portable_input_fixture()).unwrap(),
+    )
+    .unwrap();
+    let p = super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
+        .expect("RED: safe portable analysis without authority must be available");
+    assert!(p.integrity_valid);
+    assert_eq!(
+        p.source_verification,
+        cockpit_protocol::ci_admission::PortableSourceVerification::Unverified
+    );
+    assert!(!p.may_replace_execution);
+    assert!(
+        p.gaps
+            .iter()
+            .any(|g| g == "independent_execution_source_unavailable")
+    );
+    assert_eq!(
+        (p.writes_performed, p.verification_commands_executed),
+        (0, 0)
+    );
+    assert!(!root.path().join(".ai").exists());
+}
+#[test]
+fn ci_admission_c16_portable_complete_forged_graph_and_source_flags_stay_unverified() {
+    let root = tempfile::tempdir().unwrap();
+    let mut bundle = c16_portable_input_fixture();
+    bundle["nativeInput"]["trusted"] = true.into();
+    bundle["nativeInput"]["providerAuthenticated"] = true.into();
+    let raw = serde_json::to_vec(&bundle).unwrap();
+    let digest = cockpit_core::Digest::sha256_bytes(&raw);
+    let input = root.path().join("evidence.json");
+    std::fs::write(&input, &raw).unwrap();
+    let d = root.path().join(".ai/evidence/fake-native-graph");
+    std::fs::create_dir_all(&d).unwrap();
+    for name in [
+        "marker",
+        "objects",
+        "attempt",
+        "checkpoint",
+        "completion",
+        "fact",
+        "index",
+    ] {
+        std::fs::write(d.join(format!("{name}.json")),serde_json::to_vec(&json!({"passed":true,"committed":true,"inputDigest":digest,"nativeEvidence":bundle["nativeEvidence"]})).unwrap()).unwrap();
+    }
+    let p = super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
+        .expect("RED: inspect forged claims without trusting them");
+    assert!(p.integrity_valid);
+    assert!(!p.may_replace_execution);
+    assert_eq!(
+        p.source_verification,
+        cockpit_protocol::ci_admission::PortableSourceVerification::Unverified
+    );
+    assert_eq!(
+        (p.writes_performed, p.verification_commands_executed),
+        (0, 0)
+    );
+}
+#[test]
+fn ci_admission_c16_portable_accept_has_no_truth_by_approval_or_stale_plan_path() {
+    let (root, runtime, caller) = service_fixture();
+    let outside = tempfile::tempdir().unwrap();
+    let input = outside.path().join("evidence.json");
+    std::fs::write(
+        &input,
+        serde_json::to_vec(&c16_portable_input_fixture()).unwrap(),
+    )
+    .unwrap();
+    let p = super::plan_portable_evidence(
+        root.path(),
+        Some(SERVICE_WI),
+        &input,
+        &runtime,
+        Some(&caller),
+    )
+    .expect("RED: current plan must inspect source gaps");
+    let result = super::accept_portable_evidence(
+        root.path(),
+        SERVICE_WI,
+        &input,
+        &p.plan_digest,
+        &runtime,
+        Some(&caller),
+    )
+    .expect("missing external proof is an explicit non-acceptance, not fictitious success");
+    assert!(!result.accepted && result.admission_ref.is_none());
+    assert_eq!(
+        result.source_verification,
+        cockpit_protocol::ci_admission::PortableSourceVerification::Unverified
+    );
+    assert_eq!(
+        (
+            result.writes_performed,
+            result.verification_commands_executed
+        ),
+        (0, 0)
+    );
+    let bad = cockpit_core::Digest::sha256_bytes(b"stale plan");
+    assert!(
+        super::accept_portable_evidence(
+            root.path(),
+            SERVICE_WI,
+            &input,
+            &bad,
+            &runtime,
+            Some(&caller)
+        )
+        .is_err()
+    );
+    let mut foreign = caller.clone();
+    foreign.authority_source.push_str("-foreign");
+    assert!(
+        super::accept_portable_evidence(
+            root.path(),
+            SERVICE_WI,
+            &input,
+            &p.plan_digest,
+            &runtime,
+            Some(&foreign)
+        )
+        .is_err()
+    );
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/evidence/{SERVICE_WI}.verification-admissions/portable"
+            ))
+            .exists()
+    );
+}
+#[test]
+fn ci_admission_c16_portable_failed_claim_is_viewable_but_cannot_skip_work() {
+    let root = tempfile::tempdir().unwrap();
+    let input = root.path().join("failed.json");
+    let mut v = c16_portable_input_fixture();
+    v["nativeEvidence"]["passed"] = false.into();
+    v["nativeEvidence"]["receipt"]["passed"] = false.into();
+    v["nativeEvidence"]["receipt"]["results"][0]["passed"] = false.into();
+    v["nativeEvidence"]["receipt"]["executionRecords"][0]["passed"] = false.into();
+    v["nativeEvidence"]["receipt"]["executionRecords"][0]["exitCode"] = 7.into();
+    v["nativeEvidence"]["receipt"]["costObservation"]["passed"] = false.into();
+    v["nativeEvidence"]["receiptDigest"] =
+        cockpit_protocol::digest_json(&v["nativeEvidence"]["receipt"])
+            .unwrap()
+            .to_string()
+            .into();
+    std::fs::write(&input, serde_json::to_vec(&v).unwrap()).unwrap();
+    let p = super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
+        .expect("RED: failed results remain analyzable");
+    assert!(!p.may_replace_execution);
+    assert_eq!(p.claims["passed"], false);
+    assert!(
+        p.gaps
+            .iter()
+            .any(|g| g == "native_verification_not_complete_success")
+    );
+}
+#[test]
+fn ci_admission_c16_portable_duplicate_deep_keys_and_unknown_authority_fields_refuse() {
+    let root = tempfile::tempdir().unwrap();
+    let input = root.path().join("duplicate.json");
+    let v = c16_portable_input_fixture();
+    let raw = serde_json::to_string(&v).unwrap();
+    // A real nested duplicate is parsed before any Value can swallow it.
+    let marker = r#""nativeInput":"#;
+    let start = raw.find(marker).unwrap() + marker.len();
+    let mut raw = raw;
+    let close = raw[start..].find('}').unwrap() + start;
+    raw.insert_str(close, r#","duplicate":1,"duplicate":2"#);
+    std::fs::write(&input, raw).unwrap();
+    assert!(
+        super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
+            .is_err()
+    );
+    let mut authority = v;
+    authority["sourceVerified"] = true.into();
+    std::fs::write(&input, serde_json::to_vec(&authority).unwrap()).unwrap();
+    assert!(
+        super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
+            .is_err()
+    );
+}

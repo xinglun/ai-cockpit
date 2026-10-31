@@ -47,6 +47,9 @@ Generated from the current Clap command tree, including inherited global argumen
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
 | `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -508,6 +511,61 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `output` | `string` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END audit-export -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-plan -->
+### Interface facts: `evidence-bundle-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `no` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-accept -->
+### Interface facts: `evidence-bundle-accept`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `yes` | `—` | `—` | `—` |
+| `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+| `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->
+
 
 ## Explicit present-day registration of legacy v1 source
 

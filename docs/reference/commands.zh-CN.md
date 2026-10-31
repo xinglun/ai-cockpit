@@ -47,6 +47,9 @@ capabilityClaims:
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
 | `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -616,6 +619,61 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `output` | `string` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END audit-export -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-plan -->
+### 接口事实: `evidence-bundle-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `no` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-accept -->
+### 接口事实: `evidence-bundle-accept`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `yes` | `—` | `—` | `—` |
+| `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+| `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->
+
 - 重复执行 `observe`、`capability show`、顶层 `status` 和单项/全量 Work Item status，不会写入 tracked
   repository bytes 或 observer cache。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。

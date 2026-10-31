@@ -47,6 +47,9 @@ capabilityClaims:
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
 | `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -653,6 +656,61 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `output` | `string` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END audit-export -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-plan -->
+### インターフェース事実: `evidence-bundle-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
+
+#### `cli` · トランスポート: `argv`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `no` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · トランスポート: `json-rpc`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-accept -->
+### インターフェース事実: `evidence-bundle-accept`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
+
+#### `cli` · トランスポート: `argv`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `yes` | `—` | `—` | `—` |
+| `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
+| `task-caller` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · トランスポート: `json-rpc`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+| `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->
+
 - `observe`、`capability show`、top-level `status`、single/all Work Item status を繰り返しても、tracked
   repository bytes や observer cache は書きません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。

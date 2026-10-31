@@ -159,3 +159,69 @@ pub struct UntrustedGithubNativeEnvelope<T> {
 pub enum UntrustedGithubCaptureMode {
     FullCapture,
 }
+
+// Portable execution evidence is data. Deserialization never authenticates an author.
+pub const PORTABLE_EVIDENCE_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableExecutionEvidence<T> {
+    pub schema_version: u32,
+    pub native_input: serde_json::Value,
+    pub native_evidence: T,
+}
+
+/// Generic wire alias. The historic Github name remains source-compatible;
+/// the envelope itself contains only native repository/execution identities.
+pub type NativeExecutionEnvelope<T> = UntrustedGithubNativeEnvelope<T>;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PortableSourceVerification {
+    Unverified,
+    NativeInvocation,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableEvidencePlan {
+    pub schema_version: u32,
+    pub input_digest: Digest,
+    pub plan_digest: Digest,
+    pub work_item_id: Option<String>,
+    pub consumer_contract_digest: Option<Digest>,
+    pub consumer_snapshot_digest: Option<Digest>,
+    pub source_verification: PortableSourceVerification,
+    pub may_replace_execution: bool,
+    pub integrity_valid: bool,
+    /// Explicitly unverified source/result claims, never raw command output or authority.
+    pub claims: serde_json::Value,
+    pub gaps: Vec<String>,
+    pub verification_commands_executed: usize,
+    pub writes_performed: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableEvidenceAcceptance {
+    pub schema_version: u32,
+    pub input_digest: Digest,
+    pub plan_digest: Digest,
+    pub accepted: bool,
+    pub source_verification: PortableSourceVerification,
+    pub admission_ref: Option<String>,
+    pub gaps: Vec<String>,
+    pub verification_commands_executed: usize,
+    pub writes_performed: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableNativePublication {
+    pub schema_version: u32,
+    pub input_digest: Digest,
+    pub record_ref: String,
+    pub source_verification: PortableSourceVerification,
+    /// A persisted publication cannot recreate its process-local witness on import.
+    pub may_replace_execution_after_import: bool,
+}

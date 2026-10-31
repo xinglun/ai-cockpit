@@ -514,6 +514,11 @@ enum CommandKind {
 
 #[derive(Debug, Subcommand)]
 enum EvidenceCommand {
+    /// Inspect portable native execution evidence or request exact admission.
+    Bundle {
+        #[command(subcommand)]
+        command: github_evidence::PortableEvidenceCommand,
+    },
     /// Plan GitHub verification evidence from independent read-only provider metadata.
     Github {
         #[command(subcommand)]
@@ -3517,6 +3522,9 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Evidence { command } => match command {
+            EvidenceCommand::Bundle { command } => {
+                github_evidence::run_portable(command, &runtime_context, task_caller.as_ref())?;
+            }
             EvidenceCommand::Github { command } => {
                 github_evidence::run(command, &runtime_context, task_caller.as_ref())?;
             }

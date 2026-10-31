@@ -2,6 +2,7 @@
 
 pub(super) mod archive;
 mod github;
+mod store;
 #[cfg(test)]
 mod tests;
 
@@ -124,4 +125,35 @@ where
         verification_commands_executed: 0,
         writes_performed: 0,
     })
+}
+
+/// Inspect portable evidence as data. This RED interface never executes or accepts it.
+pub fn plan_portable_evidence(
+    root: &Path,
+    work_item_id: Option<&str>,
+    input: &Path,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<cockpit_protocol::ci_admission::PortableEvidencePlan, ObserverError> {
+    let _ = (work_item_id, input, runtime, caller);
+    Err(plan_error(
+        root,
+        "portable_evidence_not_implemented (RED scaffold)",
+    ))
+}
+
+/// A serialized external bundle never supplies its own origin authority.
+pub fn accept_portable_evidence(
+    root: &Path,
+    work_item_id: &str,
+    input: &Path,
+    expected_plan_digest: &cockpit_core::Digest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<cockpit_protocol::ci_admission::PortableEvidenceAcceptance, ObserverError> {
+    let _ = (work_item_id, input, expected_plan_digest, runtime, caller);
+    Err(plan_error(
+        root,
+        "portable_evidence_not_implemented (RED scaffold)",
+    ))
 }
