@@ -50,6 +50,12 @@ impl Failure {
     fn diagnostic_gaps(&self) -> Vec<String> {
         match self {
             Self::Transport(tags) => tags.clone(),
+            Self::HttpStatus(status) => vec![
+                "provider_diagnostic_stage_response_status".into(),
+                "provider_diagnostic_source_collector_http_status".into(),
+                "provider_diagnostic_kind_http_status".into(),
+                format!("provider_diagnostic_http_status_{status}_observed"),
+            ],
             _ => Vec::new(),
         }
     }
@@ -67,14 +73,135 @@ pub(super) trait MetadataReader {
     fn read(&mut self, path: &str, raw: bool, deadline: Instant) -> Result<Reply, Failure>;
 }
 
-// API-complete conservative scaffold for an assertion-level RED run.
-// No raw error is formatted and no diagnostic tag is emitted by these adapters.
-pub(super) fn request_failure(_error: &ureq::Error) -> Failure {
-    Failure::Transport(Vec::new())
+// Diagnostic tags are an allowlist projection of typed errors, not Display/Debug
+// text, URLs, headers, request queries, response bodies or trust assertions.
+// ureq 3.5.0's Error has no source() implementation; its into_io() wraps a
+// non-Io error as io::ErrorKind::Other, hence the explicit bounded downcast.
+fn diagnostic_tag(tags: &mut Vec<String>, code: &str) {
+    tags.push(format!("provider_diagnostic_{code}"));
 }
 
-pub(super) fn body_failure(_error: &std::io::Error) -> Failure {
-    Failure::Transport(Vec::new())
+pub(super) fn request_failure(error: &ureq::Error) -> Failure {
+    let mut tags = Vec::new();
+    diagnostic_tag(&mut tags, "stage_request_call");
+    describe_ureq_error(&mut tags, error, 4);
+    Failure::Transport(tags)
+}
+
+pub(super) fn body_failure(error: &std::io::Error) -> Failure {
+    let mut tags = Vec::new();
+    diagnostic_tag(&mut tags, "stage_response_body_read");
+    diagnostic_tag(&mut tags, "http_status_200_observed");
+    diagnostic_tag(&mut tags, "source_std_io");
+    describe_io_error(&mut tags, error, 4);
+    Failure::Transport(tags)
+}
+
+fn describe_ureq_error(tags: &mut Vec<String>, error: &ureq::Error, remaining: u8) {
+    if remaining == 0 {
+        for code in ["source_wrapper_limit", "kind_unknown", "phase_unknown"] {
+            diagnostic_tag(tags, code);
+        }
+        return;
+    }
+    let (source, kind, phase) = match error {
+        ureq::Error::Io(error) => {
+            diagnostic_tag(tags, "source_ureq_io");
+            describe_io_error(tags, error, remaining);
+            return;
+        }
+        ureq::Error::Timeout(timeout) => {
+            // Connect includes proxy DNS, negotiation and TLS, not merely TCP.
+            // Global/PerCall identify budget scope, not the failed subphase.
+            let (scope, phase) = match timeout {
+                ureq::Timeout::Global => ("global", "unknown"),
+                ureq::Timeout::PerCall => ("per_call", "unknown"),
+                ureq::Timeout::Resolve => ("resolve", "resolve"),
+                ureq::Timeout::Connect => ("connect", "connect_setup"),
+                ureq::Timeout::SendRequest => ("send_request", "send_request"),
+                ureq::Timeout::SendBody => ("send_body", "send_body"),
+                ureq::Timeout::RecvResponse => ("receive_headers", "receive_headers"),
+                ureq::Timeout::RecvBody => ("receive_body", "receive_body"),
+                ureq::Timeout::PerRead => ("per_read", "transport_read"),
+                ureq::Timeout::PerWrite => ("per_write", "transport_write"),
+                _ => ("unknown", "unknown"),
+            };
+            diagnostic_tag(tags, &format!("timeout_scope_{scope}"));
+            diagnostic_tag(tags, &format!("phase_{phase}"));
+            diagnostic_tag(tags, "source_ureq_timeout");
+            diagnostic_tag(tags, "kind_timeout");
+            return;
+        }
+        ureq::Error::HostNotFound => (
+            "source_ureq_host_not_found",
+            "kind_host_not_found",
+            "phase_resolve",
+        ),
+        ureq::Error::Tls(_) => ("source_ureq_tls", "kind_tls_error", "phase_tls"),
+        ureq::Error::Rustls(_) => ("source_ureq_rustls", "kind_tls_error", "phase_tls"),
+        ureq::Error::Protocol(_) => (
+            "source_ureq_protocol",
+            "kind_http_protocol",
+            "phase_unknown",
+        ),
+        ureq::Error::Http(_) => ("source_ureq_http", "kind_http_error", "phase_unknown"),
+        ureq::Error::StatusCode(status) => {
+            diagnostic_tag(tags, &format!("http_status_{status}_observed"));
+            (
+                "source_ureq_status_code",
+                "kind_http_status",
+                "phase_receive_headers",
+            )
+        }
+        ureq::Error::ConnectionFailed => (
+            "source_ureq_connection_failed",
+            "kind_connection_failed",
+            "phase_unknown",
+        ),
+        ureq::Error::TlsRequired => (
+            "source_ureq_tls_required",
+            "kind_tls_required",
+            "phase_unknown",
+        ),
+        ureq::Error::Other(_) => ("source_ureq_other", "kind_unknown", "phase_unknown"),
+        _ => ("source_ureq_unclassified", "kind_unknown", "phase_unknown"),
+    };
+    for code in [source, kind, phase] {
+        diagnostic_tag(tags, code);
+    }
+}
+
+fn describe_io_error(tags: &mut Vec<String>, error: &std::io::Error, remaining: u8) {
+    let kind = match error.kind() {
+        std::io::ErrorKind::TimedOut => "timed_out",
+        std::io::ErrorKind::ConnectionRefused => "connection_refused",
+        std::io::ErrorKind::ConnectionReset => "connection_reset",
+        std::io::ErrorKind::ConnectionAborted => "connection_aborted",
+        std::io::ErrorKind::NotConnected => "not_connected",
+        std::io::ErrorKind::UnexpectedEof => "unexpected_eof",
+        std::io::ErrorKind::WouldBlock => "would_block",
+        std::io::ErrorKind::Interrupted => "interrupted",
+        std::io::ErrorKind::InvalidData => "invalid_data",
+        std::io::ErrorKind::PermissionDenied => "permission_denied",
+        std::io::ErrorKind::Other => "other",
+        _ => "unknown",
+    };
+    diagnostic_tag(tags, &format!("io_kind_{kind}"));
+    if let Some(code) = error.raw_os_error() {
+        diagnostic_tag(tags, &format!("io_os_error_{code}"));
+    }
+    if let Some(inner) = error
+        .get_ref()
+        .and_then(|e| e.downcast_ref::<ureq::Error>())
+    {
+        diagnostic_tag(tags, "source_std_io_wrapped_ureq");
+        describe_ureq_error(tags, inner, remaining.saturating_sub(1));
+    } else {
+        // Even TimedOut or ConnectionRefused alone does not prove DNS/TCP/TLS
+        // phase; never classify by a message substring or elapsed duration.
+        diagnostic_tag(tags, "kind_io");
+        diagnostic_tag(tags, "phase_unknown");
+    }
 }
 
 struct HttpsReader;
