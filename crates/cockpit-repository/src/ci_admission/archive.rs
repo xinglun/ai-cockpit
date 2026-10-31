@@ -97,7 +97,10 @@ pub(super) fn inspect_with_decoder<F>(
     decoder: F,
 ) -> Result<UntrustedGithubArchiveInspection, GithubArchiveError>
 where
-    F: FnOnce(&[u8], CheckedDirectory) -> Result<UntrustedGithubArchiveInspection, GithubArchiveError>,
+    F: FnOnce(
+        &[u8],
+        CheckedDirectory,
+    ) -> Result<UntrustedGithubArchiveInspection, GithubArchiveError>,
 {
     check_raw_archive_size(raw.len() as u64)?;
     if Digest::sha256_bytes(raw) != *expected_archive_digest {

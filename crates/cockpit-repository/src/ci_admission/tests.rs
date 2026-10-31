@@ -784,7 +784,6 @@ fn ci_admission_collector_deadline_wins_after_reader_returns_typed_transport_err
     }
 }
 
-
 // Batch2A: offline byte/schema fixtures only; no fake provider capability,
 // native action admission, current-WI grant or filesystem extraction.
 use super::archive::{self, GithubArchiveError as ArchiveError};
@@ -811,8 +810,12 @@ fn archive2a_crc(raw: &[u8]) -> u32 {
     !crc
 }
 
-fn archive2a_u16(out: &mut Vec<u8>, value: u16) { out.extend_from_slice(&value.to_le_bytes()); }
-fn archive2a_u32(out: &mut Vec<u8>, value: u32) { out.extend_from_slice(&value.to_le_bytes()); }
+fn archive2a_u16(out: &mut Vec<u8>, value: u16) {
+    out.extend_from_slice(&value.to_le_bytes());
+}
+fn archive2a_u32(out: &mut Vec<u8>, value: u32) {
+    out.extend_from_slice(&value.to_le_bytes());
+}
 
 // Small classic, single-disk, stored ZIP writer for self-owned byte fixtures.
 // No product ZIP crate dependency is needed to compile the conservative RED.
@@ -823,15 +826,26 @@ fn archive2a_zip(entries: &[(&str, Vec<u8>)]) -> Vec<u8> {
         let offset = out.len() as u32;
         let crc = archive2a_crc(raw);
         archive2a_u32(&mut out, 0x04034b50);
-        for value in [20, 0, 0, 0, 0] { archive2a_u16(&mut out, value); }
-        for value in [crc, raw.len() as u32, raw.len() as u32] { archive2a_u32(&mut out, value); }
+        for value in [20, 0, 0, 0, 0] {
+            archive2a_u16(&mut out, value);
+        }
+        for value in [crc, raw.len() as u32, raw.len() as u32] {
+            archive2a_u32(&mut out, value);
+        }
         archive2a_u16(&mut out, name.len() as u16);
         archive2a_u16(&mut out, 0);
-        out.extend_from_slice(name.as_bytes()); out.extend_from_slice(raw);
+        out.extend_from_slice(name.as_bytes());
+        out.extend_from_slice(raw);
         archive2a_u32(&mut directory, 0x02014b50);
-        for value in [0x0314, 20, 0, 0, 0, 0] { archive2a_u16(&mut directory, value); }
-        for value in [crc, raw.len() as u32, raw.len() as u32] { archive2a_u32(&mut directory, value); }
-        for value in [name.len() as u16, 0, 0, 0, 0] { archive2a_u16(&mut directory, value); }
+        for value in [0x0314, 20, 0, 0, 0, 0] {
+            archive2a_u16(&mut directory, value);
+        }
+        for value in [crc, raw.len() as u32, raw.len() as u32] {
+            archive2a_u32(&mut directory, value);
+        }
+        for value in [name.len() as u16, 0, 0, 0, 0] {
+            archive2a_u16(&mut directory, value);
+        }
         archive2a_u32(&mut directory, 0o100600 << 16);
         archive2a_u32(&mut directory, offset);
         directory.extend_from_slice(name.as_bytes());
@@ -839,7 +853,9 @@ fn archive2a_zip(entries: &[(&str, Vec<u8>)]) -> Vec<u8> {
     let directory_start = out.len() as u32;
     out.extend_from_slice(&directory);
     archive2a_u32(&mut out, 0x06054b50);
-    for value in [0, 0, entries.len() as u16, entries.len() as u16] { archive2a_u16(&mut out, value); }
+    for value in [0, 0, entries.len() as u16, entries.len() as u16] {
+        archive2a_u16(&mut out, value);
+    }
     archive2a_u32(&mut out, directory.len() as u32);
     archive2a_u32(&mut out, directory_start);
     archive2a_u16(&mut out, 0);
@@ -851,8 +867,10 @@ fn archive2a_bundle(native: Vec<u8>) -> Vec<u8> {
         "path":"receipts/verification.json","role":"native_verification_evidence",
         "bytes":native.len(),"digest":ArchiveDigest::sha256_bytes(&native)
     }]});
-    archive2a_zip(&[("manifest.json", serde_json::to_vec(&manifest).unwrap()),
-        ("receipts/verification.json", native)])
+    archive2a_zip(&[
+        ("manifest.json", serde_json::to_vec(&manifest).unwrap()),
+        ("receipts/verification.json", native),
+    ])
 }
 
 fn archive2a_reject(raw: &[u8], expected: ArchiveError) {
@@ -868,15 +886,23 @@ fn archive2a_central(raw: &[u8]) -> usize {
 #[test]
 fn ci_admission_archive_raw_limit_boundaries_need_no_large_allocation() {
     assert!(archive::check_raw_archive_size(64 * 1024 * 1024).is_ok());
-    assert_eq!(archive::check_raw_archive_size(64 * 1024 * 1024 + 1), Err(ArchiveError::RawSize));
+    assert_eq!(
+        archive::check_raw_archive_size(64 * 1024 * 1024 + 1),
+        Err(ArchiveError::RawSize)
+    );
 }
 
 #[test]
 fn ci_admission_archive_wrong_digest_never_enters_decoder() {
     let entered = std::cell::Cell::new(false);
-    let actual = archive::inspect_with_decoder(b"not a ZIP", &ArchiveDigest::sha256_bytes(b"different"), |_, _| {
-        entered.set(true); Err(ArchiveError::NotImplemented)
-    });
+    let actual = archive::inspect_with_decoder(
+        b"not a ZIP",
+        &ArchiveDigest::sha256_bytes(b"different"),
+        |_, _| {
+            entered.set(true);
+            Err(ArchiveError::NotImplemented)
+        },
+    );
     assert_eq!(actual.unwrap_err(), ArchiveError::ArchiveDigest);
     assert!(!entered.get());
 }
@@ -886,7 +912,8 @@ fn ci_admission_archive_manifest_dto_is_strict_and_cannot_claim_authentication()
     let valid = json!({"schemaVersion":1,"entries":[]});
     assert!(serde_json::from_value::<UntrustedGithubArchiveManifest>(valid.clone()).is_ok());
     for key in ["trusted", "providerAuthenticated", "command", "endpoint"] {
-        let mut changed = valid.clone(); changed[key] = true.into();
+        let mut changed = valid.clone();
+        changed[key] = true.into();
         assert!(serde_json::from_value::<UntrustedGithubArchiveManifest>(changed).is_err());
     }
     let duplicate = br#"{"schemaVersion":1,"schemaVersion":1,"entries":[]}"#;
@@ -896,34 +923,66 @@ fn ci_admission_archive_manifest_dto_is_strict_and_cannot_claim_authentication()
 #[test]
 fn ci_admission_archive_native_dto_preserves_current_wire_without_authentication() {
     let native = archive2a_native();
-    let parsed: UntrustedGithubNativeEnvelope<ArchiveNativeReceipt> = serde_json::from_slice(&native).unwrap();
+    let parsed: UntrustedGithubNativeEnvelope<ArchiveNativeReceipt> =
+        serde_json::from_slice(&native).unwrap();
     assert_eq!(parsed.evidence_schema_version, 2);
     assert!(parsed.receipt.passed);
     let mut changed: Value = serde_json::from_slice(&native).unwrap();
     changed["providerAuthenticated"] = true.into();
-    assert!(serde_json::from_value::<UntrustedGithubNativeEnvelope<ArchiveNativeReceipt>>(changed).is_err());
+    assert!(
+        serde_json::from_value::<UntrustedGithubNativeEnvelope<ArchiveNativeReceipt>>(changed)
+            .is_err()
+    );
 }
 
 #[test]
 fn ci_admission_archive_valid_stored_native_is_only_untrusted_structure() {
     let raw = archive2a_bundle(archive2a_native());
-    let observed = archive::inspect_untrusted_github_archive(&raw, &ArchiveDigest::sha256_bytes(&raw)).unwrap();
+    let observed =
+        archive::inspect_untrusted_github_archive(&raw, &ArchiveDigest::sha256_bytes(&raw))
+            .unwrap();
     assert_eq!(observed.receipts.len(), 1);
     assert_eq!(observed.members.len(), 2);
-    for gap in ["provider_origin_unverified", "workflow_execution_closure_unverified",
-        "producer_runtime_unverified", "artifact_job_attempt_binding_unavailable",
-        "current_consumer_command_binding_unavailable", "native_coverage_manifest_missing"] {
-        assert!(observed.gaps.iter().any(|value| value == gap), "missing gap: {gap}");
+    for gap in [
+        "provider_origin_unverified",
+        "workflow_execution_closure_unverified",
+        "producer_runtime_unverified",
+        "artifact_job_attempt_binding_unavailable",
+        "current_consumer_command_binding_unavailable",
+        "native_coverage_manifest_missing",
+    ] {
+        assert!(
+            observed.gaps.iter().any(|value| value == gap),
+            "missing gap: {gap}"
+        );
     }
-    assert_eq!(observed.members.iter().find(|member| member.path == "receipts/verification.json").unwrap().raw, archive2a_native());
+    assert_eq!(
+        observed
+            .members
+            .iter()
+            .find(|member| member.path == "receipts/verification.json")
+            .unwrap()
+            .raw,
+        archive2a_native()
+    );
 }
 
 #[test]
 fn ci_admission_archive_valid_deflate_has_the_same_untrusted_semantics() {
     let raw = hex::decode("504b0304140000000800000021002f1252219d000000cb0000000d0000006d616e69666573742e6a736f6e4dcc410e82301484e1bbbc35515afa4ae5206e8c21a51da44681b40d8921dcddba733bf9fed929b9096f7b454c6199a9131561ce31205177db69b579a28e221cc29ad379430c637036177c7aa652541497178a99cbb8a1ff173db6e0313b14357cf2efd328cd15f9f040ca254a9395ac3ba58db88cc2b4239482b18d1d84646506a14766162c94765633d77a80af599a4642b7be6d517b739174dc8f2f504b0304140000000800000021000577229929090000112100001a00000072656365697074732f766572696669636174696f6e2e6a736f6eed59596fdcc811fe2bc43c8f0cb2bbd924b54fbb8a9318c1c686e4244002c3e8a35a62c421273c246b0dfff754159ba3198d6ccbc17a0363fd606bd847d55777b1f87ee5cc769c7af8b9f3b03a5d85a969dec6a5d57ae5ba76ec8d1bff505fc230e2fe706544ae4f550a85b1a9ad9cca95d6ca4993a6ca392bb57095aec0e6655558303658915bed4a6f8bd2facce9d46a3044ba073382ff91a88a54e8932c3d91d9eb343f55e2342bff8947e0a6f6d03ab87057b0317f877ea8bb76752ad6abad1906f0abd3b19f009ffa6eec5cd7ec4e64eb550f0eea2d127f8f420ce34b3b407f6346de7ebf32fea61ebafeee65dbdc2d5450d630f34344aedb6c1b184907d0982d32fb79589d2a959629aebc033711a9e77b5b322fe57ab531efcebad64d7d0fedf8aaef1c20d08111b5a8e1e1395f25e8cbcaabc6b4edfec2394c2c5b7a24269dacdbcb3dae290b3f33b9d89adb851069041cf2f9eb21d39414b3ed867a44e15ff87b8302a4c2a0058d50c297324d4bada4b05e7919ca4ca7224f7359644257652e0a91019412b2ac00997b2384453df5533bd61b78e82a3a14e80aaeb24a83434a260b36ab64d0852e0c522f54ee4a6dc0e442783c0065664a63759aa6129194f79477e65d65cfd267196e0c878e81824fed75dbddb6a89a7fbdf9f085b6db6d9d83eb7a4f34c879361bd3fa8752792f2b5d7a08a9f795b0a5cb9cb136f37956950eaa5c9bbc14ca4a005169b0520655895c48d4685ae93c20780fc637750b84202b2aa984ce2a85121fc29679412befeaf18c43349ddd848d8766fe379af924823c49570f7d66589c223e8e1efa1e6f164a6785d45678fc9be353897642eb1646e75a89342ff8d98a5455b89b6b2fd242eb9cce688dff24de53f83768c01d813b4807efd32f29529dd13afe2e8b543b3e8f7430cebdf07bbc910aee3aa28ba7892efe4e0daf8326fa8af9e48848207d609e9e9e0be68a77887aa14ba28e4fd94c8364280ae2a9cb19c7cc5f66489de491782a630aea9392457ea88d9c3978fc2bf99720143a2324b8cbf2e13fcdab440778859e2ac69d234ae4f29dffef9eff53bc9be288e88a42713ce939b2c89b3f8ad611aa88b35aee711c7b8ab3992adea0384de3293a037846459ec42343d91ca110658c1cc93c401779b8479287437ab857b16e590ee45fe18aa7dbc41fd7087d959a22e616a44a79422ef2ee23c33de227e30e6525c93a54d21c49f5c9bc744075d1ea6c2dd26ec5f639408d2b8aa931dd9df603e5c0233b49ce668af4f634cbe24e883932ea9d7520091963a45c9c7fd672d943af98cfefdd9705a117b36498c725e904910ae217f9027bbf64ef16d1121257b382fe524d50a979ac16a84aedfc87e523c9f53dee7d1ccc27503cccf99ef3b15eb41eb9a6acaff257f18e47383e89aae28c40517a141b1ce774be40693973cc7be8659ed178ae43405afab23af6edf9c3ef58aa0cf7fc2eb7022365248c894f63567cac3381887b39f3919cf5441c484d505f453e5ec4eee900dbe7f8f0794dd419d55e168b56d8e9fc0bea9562fdc25c53630748b54f7397577da2af8cfb473d65ac80df317cc7f0e5187e9368a5ec116b4f7ccfc83927ddc719778ec8258f5d63157163e43e5ebfd4fcd634af2de7e864a055ee082bc6984539e72aeab8af997154cc993a9c7ce9e5f8fd2c70c44bae9273bdcae99d886b66d00e4f78ba2905f77e941bb9d2e189eaebc8aac9479637c46847e6a162c71d8e7b056572a982825869a91eabaf83eed16e6f41f6488d9badb450e12a159e56ebbe7dfcab65baf0ba9f5a6778dc144c33cc53876ea2e1c9a35dd8fccbe2ff45ec1797788b2bdc1bcad9b7492a993dbc45bdf7c337b5d8ad7115a37e3f669107b4b4e018013debcc236dc79aa18c4011e38add2aeb52e8b9ff3b3c7f90d57035a7d507daf7b1aece6f588eee22ea59e31805dc1b09f4f7b983911c8b9ca9948c7d698871ca6f9345b967317c2b7b4c4f14c71c5772d6d1a18f1d79c7c77b85c07d53c9bae4deeac13bd627f5bcf806fac0b16fd060cfbf24efd85bc09317e0ba966670559a7e78b35e85ba81e1cf66b8a2bb797c3e07333f5dd6e399691a3caebffe0cf6fc7eb46c42e031eb2b335ef1cc71bdc2e3536fe629f2fdacf5ed0df475a891d07a65cd00e77053c76126045705995621cbd3149494023586c686dcbb427bab95b136979647865b6869447d77b63fac8e434f9a550fce343ce58e6820caca73605c7a6464f8e69343d150b7a6795d030d0d5fd37cb16eebb13e5cfac860ba6b6a77770e81f9ded6275996a913db4d28813fe9a101d4c3c9ac17c7984f6e3242f3f526d43bc2172d22bdea8ebe6bc810caa2c06e0489d12857e7129b88cc54e8dc50810b681d30d29b5c285b6429fa7a6524802c9dcdd07ecce43f53dd83ff71cf0f0668c25b0fae313d7bc072665f893dbbdc622754c3606ec03f5f2c33ebf478e08da4d19c3cb436c36c76f428f2cafa064e4d8d8676d7db7a3c590c7f939d3ed116a7c9f33674bd8364bc82c46c9102224a30bceacdb449ba90606c26c31ca8c916fac4b871324db24f27898e96dcd6e35532a0973490dc76fd35f4eb24903341324c7819e301893b44d24edb846e9831215c6392257faa7f4a420f90f87ab87e965c8ce69211a187195b37f57897f80e86a4edc6c44ce355d7d7bf40b29d6cb3c0e8fa04f1fb897595a0aa7f48e01de225b0a4cc75823467b618efe390441ba17c5bd363ca4ac2441fc5120c349294b5619a67c95f00106ed324180523aa6bb34e866e42adad93e5fbd54c36de58086f30390d3fb06a6faf3a54ca666ac67a89cb041365726586c4ec0034286374a14571e6f2b2874b0267277f09e3330a1f74e5fed091485be866a319ae578f26d8f58a2cf262840d47dc3f5eccfeb1f845fcfe82d85ad4d625679d0f9ff91ec55fa3fe68ea0675f6bf7da83adcbab8aeb7dbdd272c4ec067a8a7daa3f451ceaf98375003e8730d44f6f8f8b79873e785016d377f2f326e8c697d9665f599cf356889ed749c87c017ca082ca03693ce63393606cb81b6a9a81cf700a5b679ae2dbe08e5c629ab2a8f453a48afb06d57b0237c5c708f3f9db29277fb3de7112e5e18256f31a2def297d1cb69c95dac7c12a89d9a66495cf7cd1ec6db4095eea7bb9d164823ec8723f921915c62b781d5510f40e5fefff031f1578b8ba8a187d85d29ac2a5d1932476f60b2d25965b1f512c61685c1beafa89c95a232a9749935d842e54a638f878b46872056df7c65fced6dfae5e6fb2f504b01021403140000000800000021002f1252219d000000cb0000000d00000000000000000000008081000000006d616e69666573742e6a736f6e504b01021403140000000800000021000577229929090000112100001a00000000000000000000008081c800000072656365697074732f766572696669636174696f6e2e6a736f6e504b0506000000000200020083000000290a00000000").unwrap();
-    let observed = archive::inspect_untrusted_github_archive(&raw, &ArchiveDigest::sha256_bytes(&raw)).unwrap();
+    let observed =
+        archive::inspect_untrusted_github_archive(&raw, &ArchiveDigest::sha256_bytes(&raw))
+            .unwrap();
     assert_eq!(observed.receipts.len(), 1);
-    assert_eq!(observed.members.iter().find(|member| member.path == "receipts/verification.json").unwrap().raw, archive2a_native());
+    assert_eq!(
+        observed
+            .members
+            .iter()
+            .find(|member| member.path == "receipts/verification.json")
+            .unwrap()
+            .raw,
+        archive2a_native()
+    );
 }
 
 #[test]
@@ -932,13 +991,21 @@ fn ci_admission_archive_count_and_offsets_reject_before_decoder() {
     let eocd = valid.len() - 22;
     let mut count = valid.clone();
     count[eocd + 8..eocd + 12].copy_from_slice(&[65, 0, 65, 0]);
-    let mut offset = valid.clone(); offset[eocd + 16..eocd + 20].copy_from_slice(&(u32::MAX - 2).to_le_bytes());
-    let mut length = valid.clone(); length[eocd + 12..eocd + 16].copy_from_slice(&(u32::MAX - 1).to_le_bytes());
-    for (raw, expected) in [(count, ArchiveError::DirectoryLimit), (offset, ArchiveError::DirectoryBounds), (length, ArchiveError::DirectoryBounds)] {
+    let mut offset = valid.clone();
+    offset[eocd + 16..eocd + 20].copy_from_slice(&(u32::MAX - 2).to_le_bytes());
+    let mut length = valid.clone();
+    length[eocd + 12..eocd + 16].copy_from_slice(&(u32::MAX - 1).to_le_bytes());
+    for (raw, expected) in [
+        (count, ArchiveError::DirectoryLimit),
+        (offset, ArchiveError::DirectoryBounds),
+        (length, ArchiveError::DirectoryBounds),
+    ] {
         let entered = std::cell::Cell::new(false);
-        let actual = archive::inspect_with_decoder(&raw, &ArchiveDigest::sha256_bytes(&raw), |_, _| {
-            entered.set(true); Err(ArchiveError::NotImplemented)
-        });
+        let actual =
+            archive::inspect_with_decoder(&raw, &ArchiveDigest::sha256_bytes(&raw), |_, _| {
+                entered.set(true);
+                Err(ArchiveError::NotImplemented)
+            });
         assert_eq!(actual.unwrap_err(), expected);
         assert!(!entered.get());
     }
@@ -949,24 +1016,49 @@ fn ci_admission_archive_zip64_multidisk_encryption_and_method_are_unsupported() 
     let valid = archive2a_bundle(archive2a_native());
     let eocd = valid.len() - 22;
     let central = archive2a_central(&valid);
-    let mut zip64 = valid.clone(); zip64[eocd + 8..eocd + 12].fill(0xff);
-    let mut disk = valid.clone(); disk[eocd + 4] = 1;
-    let mut encrypted = valid.clone(); encrypted[6] = 1; encrypted[central + 8] = 1;
-    let mut method = valid.clone(); method[8] = 12; method[central + 10] = 12;
-    for raw in [zip64, disk, encrypted, method] { archive2a_reject(&raw, ArchiveError::UnsupportedFormat); }
+    let mut zip64 = valid.clone();
+    zip64[eocd + 8..eocd + 12].fill(0xff);
+    let mut disk = valid.clone();
+    disk[eocd + 4] = 1;
+    let mut encrypted = valid.clone();
+    encrypted[6] = 1;
+    encrypted[central + 8] = 1;
+    let mut method = valid.clone();
+    method[8] = 12;
+    method[central + 10] = 12;
+    for raw in [zip64, disk, encrypted, method] {
+        archive2a_reject(&raw, ArchiveError::UnsupportedFormat);
+    }
 }
 
 #[test]
 fn ci_admission_archive_paths_aliases_duplicates_and_special_files_are_rejected() {
-    for name in ["../receipt.json", "/receipt.json", "C:/receipt.json", "receipts\\receipt.json", "receipts//receipt.json", "receipts/./receipt.json", "receipts/../receipt.json", "receipt\0.json"] {
-        archive2a_reject(&archive2a_zip(&[(name, b"{}".to_vec())]), ArchiveError::Path);
+    for name in [
+        "../receipt.json",
+        "/receipt.json",
+        "C:/receipt.json",
+        "receipts\\receipt.json",
+        "receipts//receipt.json",
+        "receipts/./receipt.json",
+        "receipts/../receipt.json",
+        "receipt\0.json",
+    ] {
+        archive2a_reject(
+            &archive2a_zip(&[(name, b"{}".to_vec())]),
+            ArchiveError::Path,
+        );
     }
     for name in ["manifest.json", "MANIFEST.JSON"] {
-        archive2a_reject(&archive2a_zip(&[("manifest.json", b"{}".to_vec()), (name, b"{}".to_vec())]), ArchiveError::DuplicateEntry);
+        archive2a_reject(
+            &archive2a_zip(&[("manifest.json", b"{}".to_vec()), (name, b"{}".to_vec())]),
+            ArchiveError::DuplicateEntry,
+        );
     }
-    let valid = archive2a_bundle(archive2a_native()); let central = archive2a_central(&valid);
+    let valid = archive2a_bundle(archive2a_native());
+    let central = archive2a_central(&valid);
     for mode in [0o120777_u32, 0o010600, 0o020600, 0o140600] {
-        let mut changed = valid.clone(); changed[central + 38..central + 42].copy_from_slice(&(mode << 16).to_le_bytes());
+        let mut changed = valid.clone();
+        changed[central + 38..central + 42].copy_from_slice(&(mode << 16).to_le_bytes());
         archive2a_reject(&changed, ArchiveError::SpecialFile);
     }
 }
@@ -974,22 +1066,36 @@ fn ci_admission_archive_paths_aliases_duplicates_and_special_files_are_rejected(
 #[test]
 fn ci_admission_archive_truncation_crc_and_directory_local_name_conflict_are_rejected() {
     let valid = archive2a_bundle(archive2a_native());
-    for cut in [1, 10, 22] { archive2a_reject(&valid[..valid.len() - cut], ArchiveError::ZipStructure); }
-    let mut crc = valid.clone(); crc[30 + "manifest.json".len()] ^= 1;
+    for cut in [1, 10, 22] {
+        archive2a_reject(&valid[..valid.len() - cut], ArchiveError::ZipStructure);
+    }
+    let mut crc = valid.clone();
+    crc[30 + "manifest.json".len()] ^= 1;
     archive2a_reject(&crc, ArchiveError::Checksum);
-    let mut name = valid.clone(); name[30] = b'X';
+    let mut name = valid.clone();
+    name[30] = b'X';
     archive2a_reject(&name, ArchiveError::ZipStructure);
 }
 
 #[test]
 fn ci_admission_archive_declared_expansion_and_ratio_are_checked_before_decoder() {
-    let valid = archive2a_bundle(archive2a_native()); let central = archive2a_central(&valid);
-    for (size, expected) in [(64 * 1024 * 1024_u32 + 1, ArchiveError::ExpandedSize), (8 * 1024 * 1024, ArchiveError::ExpansionRatio)] {
-        let mut changed = valid.clone(); changed[central + 24..central + 28].copy_from_slice(&size.to_le_bytes());
+    let valid = archive2a_bundle(archive2a_native());
+    let central = archive2a_central(&valid);
+    for (size, expected) in [
+        (64 * 1024 * 1024_u32 + 1, ArchiveError::ExpandedSize),
+        (8 * 1024 * 1024, ArchiveError::ExpansionRatio),
+    ] {
+        let mut changed = valid.clone();
+        changed[central + 24..central + 28].copy_from_slice(&size.to_le_bytes());
         let entered = std::cell::Cell::new(false);
-        let actual = archive::inspect_with_decoder(&changed, &ArchiveDigest::sha256_bytes(&changed), |_, _| {
-            entered.set(true); Err(ArchiveError::NotImplemented)
-        });
+        let actual = archive::inspect_with_decoder(
+            &changed,
+            &ArchiveDigest::sha256_bytes(&changed),
+            |_, _| {
+                entered.set(true);
+                Err(ArchiveError::NotImplemented)
+            },
+        );
         assert_eq!(actual.unwrap_err(), expected);
         assert!(!entered.get());
     }
@@ -999,53 +1105,124 @@ fn ci_admission_archive_declared_expansion_and_ratio_are_checked_before_decoder(
 fn ci_admission_archive_exact_manifest_inventory_and_member_digest_are_mandatory() {
     let native = archive2a_native();
     let valid = json!({"schemaVersion":1,"entries":[{"path":"receipts/verification.json","role":"native_verification_evidence","bytes":native.len(),"digest":ArchiveDigest::sha256_bytes(&native)}]});
-    for (key, value, expected) in [("schemaVersion", json!(2), ArchiveError::Manifest), ("trusted", json!(true), ArchiveError::Manifest)] {
-        let mut m = valid.clone(); m[key] = value;
-        archive2a_reject(&archive2a_zip(&[("manifest.json", serde_json::to_vec(&m).unwrap()), ("receipts/verification.json", native.clone())]), expected);
+    for (key, value, expected) in [
+        ("schemaVersion", json!(2), ArchiveError::Manifest),
+        ("trusted", json!(true), ArchiveError::Manifest),
+    ] {
+        let mut m = valid.clone();
+        m[key] = value;
+        archive2a_reject(
+            &archive2a_zip(&[
+                ("manifest.json", serde_json::to_vec(&m).unwrap()),
+                ("receipts/verification.json", native.clone()),
+            ]),
+            expected,
+        );
     }
     // Equal duplicate values are invalid syntax too. A Value-first parser
     // would silently retain one bytes field and falsely accept this member.
     let duplicate_nested = serde_json::to_string(&valid).unwrap().replacen(
         &format!("\"bytes\":{}", native.len()),
-        &format!("\"bytes\":{},\"bytes\":{}", native.len(), native.len()), 1);
-    archive2a_reject(&archive2a_zip(&[("manifest.json", duplicate_nested.into_bytes()),
-        ("receipts/verification.json", native.clone())]), ArchiveError::Manifest);
-    let mut bad_digest = valid.clone(); bad_digest["entries"][0]["digest"] = json!(ArchiveDigest::sha256_bytes(b"different"));
-    archive2a_reject(&archive2a_zip(&[("manifest.json", serde_json::to_vec(&bad_digest).unwrap()), ("receipts/verification.json", native.clone())]), ArchiveError::EntryDigest);
-    archive2a_reject(&archive2a_zip(&[("manifest.json", serde_json::to_vec(&valid).unwrap()), ("receipts/verification.json", native), ("extra.json", b"{}".to_vec())]), ArchiveError::Manifest);
-    archive2a_reject(&archive2a_zip(&[("other-manifest.json", b"{}".to_vec())]), ArchiveError::Manifest);
+        &format!("\"bytes\":{},\"bytes\":{}", native.len(), native.len()),
+        1,
+    );
+    archive2a_reject(
+        &archive2a_zip(&[
+            ("manifest.json", duplicate_nested.into_bytes()),
+            ("receipts/verification.json", native.clone()),
+        ]),
+        ArchiveError::Manifest,
+    );
+    let mut bad_digest = valid.clone();
+    bad_digest["entries"][0]["digest"] = json!(ArchiveDigest::sha256_bytes(b"different"));
+    archive2a_reject(
+        &archive2a_zip(&[
+            ("manifest.json", serde_json::to_vec(&bad_digest).unwrap()),
+            ("receipts/verification.json", native.clone()),
+        ]),
+        ArchiveError::EntryDigest,
+    );
+    archive2a_reject(
+        &archive2a_zip(&[
+            ("manifest.json", serde_json::to_vec(&valid).unwrap()),
+            ("receipts/verification.json", native),
+            ("extra.json", b"{}".to_vec()),
+        ]),
+        ArchiveError::Manifest,
+    );
+    archive2a_reject(
+        &archive2a_zip(&[("other-manifest.json", b"{}".to_vec())]),
+        ArchiveError::Manifest,
+    );
 }
 
 #[test]
 fn ci_admission_archive_native_failure_timeout_truncation_and_accounting_are_not_success() {
     let original: Value = serde_json::from_slice(&archive2a_native()).unwrap();
-    for pointer in ["/receipt/results/0/passed", "/receipt/executionRecords/0/passed", "/receipt/executionRecords/0/timedOut", "/receipt/results/0/timedOut", "/receipt/results/0/outputTruncated", "/receipt/executionRecords/0/stderrTruncated"] {
+    for pointer in [
+        "/receipt/results/0/passed",
+        "/receipt/executionRecords/0/passed",
+        "/receipt/executionRecords/0/timedOut",
+        "/receipt/results/0/timedOut",
+        "/receipt/results/0/outputTruncated",
+        "/receipt/executionRecords/0/stderrTruncated",
+    ] {
         let mut changed = original.clone();
         *changed.pointer_mut(pointer).unwrap() = json!(!pointer.ends_with("passed"));
-        changed["receiptDigest"] = json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
-        archive2a_reject(&archive2a_bundle(serde_json::to_vec(&changed).unwrap()), ArchiveError::NativeReceipt);
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
     }
-    for pointer in ["/receipt/nodesPlanned", "/receipt/nodesExecuted", "/receipt/processesSpawned"] {
-        let mut changed = original.clone(); *changed.pointer_mut(pointer).unwrap() = json!(2);
-        changed["receiptDigest"] = json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
-        archive2a_reject(&archive2a_bundle(serde_json::to_vec(&changed).unwrap()), ArchiveError::NativeReceipt);
+    for pointer in [
+        "/receipt/nodesPlanned",
+        "/receipt/nodesExecuted",
+        "/receipt/processesSpawned",
+    ] {
+        let mut changed = original.clone();
+        *changed.pointer_mut(pointer).unwrap() = json!(2);
+        changed["receiptDigest"] =
+            json!(cockpit_protocol::digest_json(&changed["receipt"]).unwrap());
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
     }
 }
 
 #[test]
 fn ci_admission_archive_receipt_digest_and_identity_mismatch_are_rejected() {
     let original: Value = serde_json::from_slice(&archive2a_native()).unwrap();
-    for key in ["workItemId", "repositoryId", "runtimeVersion", "runtimeDigest"] {
-        let mut changed = original.clone(); changed[key] = json!("different");
-        archive2a_reject(&archive2a_bundle(serde_json::to_vec(&changed).unwrap()), ArchiveError::NativeReceipt);
+    for key in [
+        "workItemId",
+        "repositoryId",
+        "runtimeVersion",
+        "runtimeDigest",
+    ] {
+        let mut changed = original.clone();
+        changed[key] = json!("different");
+        archive2a_reject(
+            &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+            ArchiveError::NativeReceipt,
+        );
     }
-    let mut changed = original; changed["receiptDigest"] = json!(ArchiveDigest::sha256_bytes(b"different"));
-    archive2a_reject(&archive2a_bundle(serde_json::to_vec(&changed).unwrap()), ArchiveError::NativeReceipt);
+    let mut changed = original;
+    changed["receiptDigest"] = json!(ArchiveDigest::sha256_bytes(b"different"));
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&changed).unwrap()),
+        ArchiveError::NativeReceipt,
+    );
 }
 
 #[test]
 fn ci_admission_archive_aggregate_expansion_and_node_claim_limits_are_not_ignored() {
-    let mut raw = archive2a_zip(&[("a.json", vec![0]), ("b.json", vec![0]), ("c.json", vec![0])]);
+    let mut raw = archive2a_zip(&[
+        ("a.json", vec![0]),
+        ("b.json", vec![0]),
+        ("c.json", vec![0]),
+    ]);
     let central = archive2a_central(&raw);
     for index in 0..3 {
         let start = central + index * (46 + "a.json".len());
@@ -1058,7 +1235,10 @@ fn ci_admission_archive_aggregate_expansion_and_node_claim_limits_are_not_ignore
     let result = envelope["receipt"]["results"][0].clone();
     envelope["receipt"]["results"] = Value::Array(vec![result; 4097]);
     envelope["receiptDigest"] = json!(cockpit_protocol::digest_json(&envelope["receipt"]).unwrap());
-    archive2a_reject(&archive2a_bundle(serde_json::to_vec(&envelope).unwrap()), ArchiveError::NodeLimit);
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&envelope).unwrap()),
+        ArchiveError::NodeLimit,
+    );
 }
 
 #[test]
@@ -1066,7 +1246,10 @@ fn ci_admission_archive_duplicate_json_missing_records_and_producer_reuse_remain
     let original = String::from_utf8(archive2a_native()).unwrap();
     let duplicate = original.replacen("\"passed\":true", "\"passed\":true,\"passed\":true", 1);
     assert_ne!(original, duplicate);
-    archive2a_reject(&archive2a_bundle(duplicate.into_bytes()), ArchiveError::NativeReceipt);
+    archive2a_reject(
+        &archive2a_bundle(duplicate.into_bytes()),
+        ArchiveError::NativeReceipt,
+    );
     // Use a valid real native retention schema, then duplicate an equal
     // persistence key at depth3; outer deny_unknown_fields cannot catch it.
     let parsed: Value = serde_json::from_str(&original).unwrap();
@@ -1074,19 +1257,36 @@ fn ci_admission_archive_duplicate_json_missing_records_and_producer_reuse_remain
         "workItemId":parsed["workItemId"],"createdAt":parsed["createdAt"],
         "retention":{"classification":"internal","persistence":"full_capture",
             "retentionDays":30,"expiresAt":null,"disposalAction":"retain"}});
-    let policy: cockpit_protocol::EvidenceRetentionPolicy = serde_json::from_value(retention.clone()).unwrap();
+    let policy: cockpit_protocol::EvidenceRetentionPolicy =
+        serde_json::from_value(retention.clone()).unwrap();
     assert!(cockpit_protocol::validate_evidence_retention(&policy.retention).is_ok());
     let duplicate_retention = serde_json::to_string(&retention).unwrap().replacen(
-        "\"persistence\":\"full_capture\"", "\"persistence\":\"full_capture\",\"persistence\":\"full_capture\"", 1);
-    let deep_duplicate = original.replacen('{', &format!("{{\"retention\":{duplicate_retention},"), 1);
-    archive2a_reject(&archive2a_bundle(deep_duplicate.into_bytes()), ArchiveError::NativeReceipt);
+        "\"persistence\":\"full_capture\"",
+        "\"persistence\":\"full_capture\",\"persistence\":\"full_capture\"",
+        1,
+    );
+    let deep_duplicate =
+        original.replacen('{', &format!("{{\"retention\":{duplicate_retention},"), 1);
+    archive2a_reject(
+        &archive2a_bundle(deep_duplicate.into_bytes()),
+        ArchiveError::NativeReceipt,
+    );
     let mut missing: Value = serde_json::from_str(&original).unwrap();
-    missing["receipt"].as_object_mut().unwrap().remove("executionRecords");
+    missing["receipt"]
+        .as_object_mut()
+        .unwrap()
+        .remove("executionRecords");
     missing["receiptDigest"] = json!(cockpit_protocol::digest_json(&missing["receipt"]).unwrap());
-    archive2a_reject(&archive2a_bundle(serde_json::to_vec(&missing).unwrap()), ArchiveError::NativeReceipt);
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&missing).unwrap()),
+        ArchiveError::NativeReceipt,
+    );
     let mut reused: Value = serde_json::from_str(&original).unwrap();
     reused["receipt"]["results"][0]["reused"] = json!(true);
     reused["receiptDigest"] = json!(cockpit_protocol::digest_json(&reused["receipt"]).unwrap());
     // No authenticated upstream proof chain is introduced by Batch2A.
-    archive2a_reject(&archive2a_bundle(serde_json::to_vec(&reused).unwrap()), ArchiveError::NativeReceipt);
+    archive2a_reject(
+        &archive2a_bundle(serde_json::to_vec(&reused).unwrap()),
+        ArchiveError::NativeReceipt,
+    );
 }

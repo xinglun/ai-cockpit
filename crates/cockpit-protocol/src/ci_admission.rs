@@ -105,7 +105,6 @@ mod tests {
     }
 }
 
-
 /// Untrusted archive inventory. Parsing this wire type proves no provider,
 /// workflow, Runtime, uploader, consumer, or execution authority.
 pub const GITHUB_ARCHIVE_MANIFEST_SCHEMA_VERSION: u32 = 1;
