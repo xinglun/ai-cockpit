@@ -1385,6 +1385,29 @@ impl VerificationCommand {
         }
     }
 
+    /// Full effective child environment on platforms with exact key identity.
+    /// Values never leave this method; unlike the profile projection, no
+    /// session variables are removed. The explicit vector has its separate
+    /// order-sensitive digest in `input_identity`.
+    pub fn full_effective_environment_digest(&self) -> Option<String> {
+        if !cfg!(unix) {
+            return None;
+        }
+        let mut environment = if self.clear_environment {
+            BTreeMap::new()
+        } else {
+            std::env::vars_os().collect::<BTreeMap<_, _>>()
+        };
+        environment.extend(self.environment.iter().cloned());
+        let identity = environment
+            .iter()
+            .map(|(name, value)| (name.as_encoded_bytes(), value.as_encoded_bytes()))
+            .collect::<Vec<_>>();
+        serde_json::to_vec(&identity)
+            .ok()
+            .map(|bytes| Digest::sha256_bytes(&bytes).to_string())
+    }
+
     pub fn command_digest(&self) -> String {
         let current_dir = self
             .current_dir

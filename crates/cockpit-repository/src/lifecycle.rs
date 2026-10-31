@@ -15038,6 +15038,86 @@ pub(crate) fn local_profile_cache_requires_fresh(
     check().unwrap_or(true)
 }
 
+/// Apply the existing causal barrier to a live physical observation. Only the
+/// exact checkpoint pair/fact belonging to that actual execution is exempted;
+/// its absence, replacement, any later pending/failure or malformed catalog
+/// refuses substitution. This never supplies a whole-WI completion decision.
+pub(crate) fn require_live_native_causal_observations(
+    root: &Path,
+    expected: &serde_json::Value,
+    execution_id: &str,
+    receipt: &cockpit_verification::VerificationReceipt,
+) -> Result<(), ObserverError> {
+    let wi = expected["workItemId"]
+        .as_str()
+        .ok_or_else(|| local_node_error(root, "native witness WI missing"))?;
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+    let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+        &pinned.directory()?,
+        ".ai",
+        &root.join(".ai"),
+    )?;
+    let evidence = super::evidence_store::open_cap_directory_nofollow_strict(
+        &ai,
+        "evidence",
+        &root.join(".ai/evidence"),
+    )?;
+    let catalog =
+        read_local_json_directory(root, &evidence, &format!("{wi}.verification-attempt."))?;
+    let facts = local_facts(root, wi)?;
+    let own = facts
+        .iter()
+        .filter(|fact| fact["executionId"] == execution_id)
+        .collect::<Vec<_>>();
+    let record = receipt
+        .execution_records
+        .first()
+        .ok_or_else(|| local_node_error(root, "native witness physical record missing"))?;
+    let result = receipt
+        .results
+        .first()
+        .ok_or_else(|| local_node_error(root, "native witness result missing"))?;
+    if own.len() != 1
+        || own[0]["identity"] != *expected
+        || own[0]["executionRecord"]
+            != serde_json::to_value(record)
+                .map_err(|_| local_node_error(root, "native witness record serialization"))?
+        || own[0]["result"]
+            != serde_json::to_value(result)
+                .map_err(|_| local_node_error(root, "native witness result serialization"))?
+        || !local_fact_has_execution_pair(&catalog, own[0], expected)
+    {
+        return Err(local_node_error(
+            root,
+            "native witness physical checkpoint association changed",
+        ));
+    }
+    let other_catalog = catalog
+        .into_iter()
+        .filter(|observation| {
+            observation["kind"] != "verification_execution_checkpoint"
+                || observation["executionId"] != execution_id
+        })
+        .collect::<Vec<_>>();
+    let other_facts = facts
+        .into_iter()
+        .filter(|fact| fact["executionId"] != execution_id)
+        .collect::<Vec<_>>();
+    if let Some(reason) = local_causal_gap(root, &other_catalog, &other_facts, expected, None) {
+        return Err(local_node_error(root, reason));
+    }
+    if other_facts.iter().any(|fact| {
+        fact["identity"] == *expected
+            && !local_fact_has_execution_pair(&other_catalog, fact, expected)
+    }) {
+        return Err(local_node_error(
+            root,
+            "native witness unrelated physical fact unresolved",
+        ));
+    }
+    pinned.require_current()
+}
+
 fn local_historical_profile_binding_valid(identity: &serde_json::Value) -> bool {
     let authorization = &identity["profileAuthorization"];
     let Ok(context) = serde_json::from_value::<cockpit_evidence::EvidenceContext>(

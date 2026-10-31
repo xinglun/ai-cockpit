@@ -1896,6 +1896,15 @@ fn c16_native_fixture(
     }
     attach(root.path()).unwrap();
     confirm_profile_update(root.path(), "git", &[argument.to_owned()]).unwrap();
+    if argument != "--definitely-invalid-c16-option" {
+        confirm_profile_update(
+            root.path(),
+            "git",
+            &["--definitely-invalid-c16-option".into()],
+        )
+        .unwrap();
+    }
+
     let runtime = cockpit_protocol::RuntimeContext {
         runtime_version: "1.0.1".into(),
         protocol_version: 1,
@@ -1921,7 +1930,14 @@ fn c16_native_fixture(
             acceptance_criteria: vec![
                 "only this invocation's actual bounded child can supply its witness".into(),
             ],
-            verification_commands: vec![format!("git {argument}")],
+            verification_commands: if argument == "--definitely-invalid-c16-option" {
+                vec![format!("git {argument}")]
+            } else {
+                vec![
+                    format!("git {argument}"),
+                    "git --definitely-invalid-c16-option".into(),
+                ]
+            },
             task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
                 schema_version: 1,
                 agent_actor: caller.actor.clone(),
@@ -2014,6 +2030,86 @@ fn ci_admission_c16_native_real_execution_can_substitute_only_with_its_live_witn
         witness.native_input()["requestPolicy"],
         "profile_authorized"
     );
+    let raw_receipt = witness.receipt().clone();
+    let publication = crate::publish_native_execution_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        &witness,
+    )
+    .expect("publish only this live native observation");
+    assert_eq!(
+        publication.source_verification,
+        cockpit_protocol::ci_admission::PortableSourceVerification::NativeInvocation
+    );
+    assert!(!publication.may_replace_execution_after_import);
+    assert_eq!(
+        &raw_receipt,
+        witness.receipt(),
+        "publication preserves the native result original"
+    );
+    let repeated = crate::publish_native_execution_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        &witness,
+    )
+    .expect("same live observation is an exact idempotent publication");
+    assert_eq!(repeated, publication);
+    let object = root.path().join(format!(
+        ".ai/evidence/{}.verification-admissions/portable/objects/{}.bin",
+        request.work_item_id.as_deref().unwrap(),
+        &publication.input_digest.as_str()[7..],
+    ));
+    let published_bytes = std::fs::read(&object).unwrap();
+    assert_eq!(
+        cockpit_core::Digest::sha256_bytes(&published_bytes),
+        publication.input_digest
+    );
+    let published: Value = serde_json::from_slice(&published_bytes).unwrap();
+    assert_eq!(
+        published["nativeInput"]["rawNativeReceiptDigest"],
+        cockpit_protocol::digest_json(&serde_json::to_value(&raw_receipt).unwrap())
+            .unwrap()
+            .to_string()
+    );
+    let cold = super::plan_portable_evidence(
+        root.path(),
+        request.work_item_id.as_deref(),
+        &object,
+        &runtime,
+        Some(&caller),
+    )
+    .expect("the same bytes are only data through the public import boundary");
+    assert!(
+        cold.integrity_valid,
+        "actual portable producer must publish internally consistent bytes: {:?}",
+        cold.gaps
+    );
+    assert_eq!(
+        cold.source_verification,
+        cockpit_protocol::ci_admission::PortableSourceVerification::Unverified
+    );
+    assert!(!cold.may_replace_execution);
+    assert_eq!(
+        (cold.writes_performed, cold.verification_commands_executed),
+        (0, 0)
+    );
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/evidence/{}.verification.json",
+                request.work_item_id.as_deref().unwrap()
+            ))
+            .exists(),
+        "publishing one node is not a formal full Contract verification"
+    );
+
     let substituted = crate::consume_native_execution_witness(
         root.path(),
         &request,
@@ -2122,6 +2218,95 @@ fn ci_admission_c16_native_witness_rechecks_source_and_current_caller() {
             "current {drift} drift must refuse zero-spawn substitution"
         );
     }
+    // This is a later REAL failed child in the SAME invocation, with a declared,
+    // calibrated command and the same node ID. Every counter below is actual.
+    {
+        let (root, runtime, caller, request) = c16_native_fixture("--version");
+        let invocation = crate::CurrentNativeInvocation::new();
+        let successful = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("actual first successful native execution");
+        assert_eq!(successful.run.receipt.processes_spawned, 1);
+        let old = successful.witness.expect("first live physical witness");
+        let mut later_request = request.clone();
+        later_request.args = vec!["--definitely-invalid-c16-option".into()];
+        let failed = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &later_request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("preserve later actual bounded native failure");
+        assert_eq!(failed.run.receipt.processes_spawned, 1);
+        assert!(!failed.run.receipt.passed);
+        assert_ne!(failed.run.receipt.execution_records[0].exit_code, Some(0));
+        assert!(failed.witness.is_none());
+        assert!(
+            crate::consume_native_execution_witness(
+                root.path(),
+                &request,
+                &runtime,
+                Some(&caller),
+                &invocation,
+                old,
+            )
+            .is_err(),
+            "later failure must revoke the earlier successful capability"
+        );
+    }
+
+    // A genuine pending checkpoint outside this invocation registry must also
+    // activate the OLD causal barrier. This uses native prepare, not fake JSON.
+    {
+        let (root, runtime, caller, request) = c16_native_fixture("--version");
+        let invocation = crate::CurrentNativeInvocation::new();
+        let successful = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("actual successful native execution before pending observation");
+        let old = successful.witness.expect("live physical witness");
+        let canonical = std::fs::canonicalize(root.path()).unwrap();
+        let snapshot = cockpit_git::GitRepository::discover(&canonical)
+            .unwrap()
+            .snapshot()
+            .unwrap();
+        let prepared =
+            crate::prepare_repository_verification_command(&canonical, &request, &snapshot)
+                .unwrap();
+        let _pending = crate::lifecycle::VerificationExecutionCheckpoint::prepare(
+            &canonical,
+            &request,
+            &snapshot,
+            &runtime,
+            prepared.command.command_digest(),
+        )
+        .expect("actual native pending checkpoint");
+        assert!(
+            crate::consume_native_execution_witness(
+                &canonical,
+                &request,
+                &runtime,
+                Some(&caller),
+                &invocation,
+                old,
+            )
+            .is_err(),
+            "a newer unresolved native checkpoint must block old-cap substitution"
+        );
+    }
 }
 
 #[cfg(unix)]
@@ -2158,6 +2343,59 @@ fn ci_admission_c16_native_witness_cannot_override_never_reuse_or_protected_poli
             )
             .is_err(),
             "a witness must not override current restrictive policy"
+        );
+    }
+    // Full environment identity retains keys the old profile projection omits,
+    // without changing the test process environment or adding unsafe test code.
+    {
+        let command = cockpit_verification::VerificationCommand::new(
+            "c16-full-env",
+            "git",
+            vec!["--version".into()],
+            cockpit_verification::VerificationReusePolicy::NeverReuse,
+        )
+        .with_cleared_environment()
+        .with_environment(vec![("CODEX_C16_NATIVE_PROOF".into(), "first".into())]);
+        let changed = command
+            .clone()
+            .with_environment(vec![("CODEX_C16_NATIVE_PROOF".into(), "second".into())]);
+        assert_ne!(
+            command.input_identity().environment_digest,
+            changed.input_identity().environment_digest
+        );
+        assert_ne!(
+            command.full_effective_environment_digest().unwrap(),
+            changed.full_effective_environment_digest().unwrap()
+        );
+    }
+    {
+        let (root, runtime, caller, request) = c16_native_fixture("--version");
+        let invocation = crate::CurrentNativeInvocation::new();
+        let successful = crate::run_repository_verification_with_native_witness(
+            root.path(),
+            &request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("actual successful native execution before profile withdrawal");
+        let old = successful.witness.expect("live physical witness");
+        let profile_path = root.path().join(".ai/project.json");
+        let mut profile = crate::read_json(&profile_path).unwrap();
+        profile["state"] = serde_json::json!("uncalibrated");
+        std::fs::write(&profile_path, serde_json::to_vec(&profile).unwrap()).unwrap();
+        assert!(
+            crate::consume_native_execution_witness(
+                root.path(),
+                &request,
+                &runtime,
+                Some(&caller),
+                &invocation,
+                old,
+            )
+            .is_err(),
+            "profile withdrawal must refuse zero-spawn substitution"
         );
     }
 }
@@ -2804,5 +3042,702 @@ fn ci_admission_c16_portable_duplicate_deep_keys_and_unknown_authority_fields_re
     assert!(
         super::plan_portable_evidence(root.path(), None, &input, &c16_portable_runtime(), None)
             .is_err()
+    );
+}
+
+// Append after the reviewed RED portable-store tests. No source authority is
+// established by these I/O fixtures. This proposal has not been compiled/run.
+
+#[test]
+fn portable_store_exact_marker_bytes_are_part_of_idempotence() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"raw marker identity");
+    let input = b"same raw input";
+    let marker = portable_store_test_marker(&id, input);
+    let original =
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .expect("initial complete record");
+    let mut changed = marker.clone();
+    changed.push(b'\n');
+    assert!(
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &changed,)
+            .is_err(),
+        "semantic JSON equality does not authorize replacing marker bytes"
+    );
+    assert_eq!(
+        super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+            .expect("unchanged record remains readable"),
+        Some(original)
+    );
+}
+
+#[test]
+fn portable_store_publication_failures_keep_pending_and_never_return_complete() {
+    for phase in [
+        "pending_durable",
+        "object_durable",
+        "marker_durable",
+        "pending_release_sync",
+        "replace_pending",
+    ] {
+        let (_owner, root) = portable_store_test_fixture();
+        let id = portable_store_test_digest(phase.as_bytes());
+        let input = b"owned fixture payload";
+        let marker = portable_store_test_marker(&id, input);
+        let injected_path = root.clone();
+        let injected_id = id.clone();
+        let result = super::store::with_portable_store_phase_hook(
+            if phase == "replace_pending" {
+                "marker_durable"
+            } else {
+                phase
+            },
+            move || {
+                if phase == "replace_pending" {
+                    use std::io::Write;
+                    let pending = portable_store_test_directory(&injected_path)
+                        .join("records")
+                        .join(format!("{}.pending", &injected_id[7..]));
+                    std::fs::rename(&pending, pending.with_extension("pending-original"))
+                        .expect("retain original owned reservation");
+                    let mut replacement = std::fs::OpenOptions::new()
+                        .write(true)
+                        .create_new(true)
+                        .open(&pending)
+                        .expect("exclusive different reservation");
+                    replacement
+                        .write_all(b"different reservation bytes")
+                        .expect("replacement bytes");
+                    replacement.sync_all().expect("sync replacement fixture");
+                    Ok(())
+                } else {
+                    Err(crate::ObserverError::State {
+                        path: injected_path,
+                        message: format!("owned_fixture_injected_{phase}"),
+                    })
+                }
+            },
+            || {
+                super::store::publish_portable_record(
+                    &root,
+                    PORTABLE_STORE_TEST_WI,
+                    &id,
+                    input,
+                    &marker,
+                )
+            },
+        );
+        assert!(result.is_err(), "phase {phase} must remain a failure");
+        let base = portable_store_test_directory(&root);
+        assert_eq!(
+            std::fs::read(base.join("records").join(format!("{}.pending", &id[7..])))
+                .expect("uncertainty reservation retained"),
+            if phase == "replace_pending" {
+                b"different reservation bytes".as_slice()
+            } else {
+                marker.as_slice()
+            }
+        );
+        assert!(
+            super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).is_err(),
+            "phase {phase} must not become a cold-read complete record"
+        );
+        assert!(
+            super::store::publish_portable_record(
+                &root,
+                PORTABLE_STORE_TEST_WI,
+                &id,
+                input,
+                &marker,
+            )
+            .is_err(),
+            "incomplete history is retained, not silently repaired"
+        );
+        let expected_final = matches!(
+            phase,
+            "marker_durable" | "pending_release_sync" | "replace_pending"
+        );
+        assert_eq!(
+            base.join("records")
+                .join(format!("{}.json", &id[7..]))
+                .exists(),
+            expected_final
+        );
+        assert_eq!(
+            base.join("objects")
+                .join(format!("{}.bin", &portable_store_test_digest(input)[7..]))
+                .exists(),
+            phase != "pending_durable"
+        );
+    }
+}
+
+#[test]
+fn portable_store_parent_directory_replacement_is_rejected_before_final_marker() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"replace owned evidence parent");
+    let input = b"payload before parent replacement";
+    let marker = portable_store_test_marker(&id, input);
+    let changed_root = root.clone();
+    let result = super::store::with_portable_store_phase_hook(
+        "object_durable",
+        move || {
+            std::fs::rename(
+                changed_root.join(".ai/evidence"),
+                changed_root.join(".ai/evidence-pinned-old"),
+            )
+            .expect("rename owned fixture parent");
+            std::fs::create_dir(changed_root.join(".ai/evidence"))
+                .expect("replacement owned parent");
+            Ok(())
+        },
+        || {
+            super::store::publish_portable_record(
+                &root,
+                PORTABLE_STORE_TEST_WI,
+                &id,
+                input,
+                &marker,
+            )
+        },
+    );
+    assert!(result.is_err());
+    let old = root.join(format!(
+        ".ai/evidence-pinned-old/{PORTABLE_STORE_TEST_WI}.verification-admissions/portable"
+    ));
+    assert!(
+        !old.join("records")
+            .join(format!("{}.json", &id[7..]))
+            .exists()
+    );
+    assert!(
+        old.join("records")
+            .join(format!("{}.pending", &id[7..]))
+            .is_file()
+    );
+    assert!(
+        std::fs::read_dir(root.join(".ai/evidence"))
+            .expect("replacement parent readable")
+            .next()
+            .is_none()
+    );
+}
+
+#[test]
+fn portable_store_lock_replacement_is_rejected_before_final_marker() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"replace owned lock");
+    let input = b"payload before lock replacement";
+    let marker = portable_store_test_marker(&id, input);
+    let changed_root = root.clone();
+    let result = super::store::with_portable_store_phase_hook(
+        "object_durable",
+        move || {
+            let directory = portable_store_test_directory(&changed_root);
+            std::fs::rename(
+                directory.join(".store.lock"),
+                directory.join(".store.lock-original"),
+            )
+            .expect("rename owned lock inode");
+            std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(directory.join(".store.lock"))
+                .expect("new owned replacement lock");
+            Ok(())
+        },
+        || {
+            super::store::publish_portable_record(
+                &root,
+                PORTABLE_STORE_TEST_WI,
+                &id,
+                input,
+                &marker,
+            )
+        },
+    );
+    assert!(result.is_err());
+    assert!(
+        !portable_store_test_directory(&root)
+            .join("records")
+            .join(format!("{}.json", &id[7..]))
+            .exists()
+    );
+}
+
+#[test]
+fn portable_store_replaced_marker_or_object_leaf_is_rejected_at_return_boundary() {
+    for leaf in ["marker", "object"] {
+        let (_owner, root) = portable_store_test_fixture();
+        let id = portable_store_test_digest(leaf.as_bytes());
+        let input = b"read leaf snapshot";
+        let marker = portable_store_test_marker(&id, input);
+        let first = super::store::publish_portable_record(
+            &root,
+            PORTABLE_STORE_TEST_WI,
+            &id,
+            input,
+            &marker,
+        )
+        .expect("owned committed record");
+        let path = if leaf == "marker" {
+            root.join(first.record_ref)
+        } else {
+            portable_store_test_directory(&root)
+                .join("objects")
+                .join(format!("{}.bin", &portable_store_test_digest(input)[7..]))
+        };
+        let result = super::store::with_portable_store_phase_hook(
+            "read_complete",
+            move || {
+                use std::io::Write;
+                let bytes = std::fs::read(&path).expect("old owned leaf bytes");
+                let replacement = path.with_extension("replacement");
+                let mut file = std::fs::OpenOptions::new()
+                    .write(true)
+                    .create_new(true)
+                    .open(&replacement)
+                    .expect("exclusive owned replacement");
+                file.write_all(&bytes)
+                    .expect("same bytes on different inode");
+                file.sync_all().expect("sync owned replacement");
+                drop(file);
+                std::fs::remove_file(&path).expect("unlink owned leaf only");
+                std::fs::rename(replacement, path).expect("replace owned leaf");
+                Ok(())
+            },
+            || super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id),
+        );
+        assert!(
+            result.is_err(),
+            "replacement {leaf} must invalidate returned reference"
+        );
+    }
+}
+
+#[test]
+fn portable_store_same_inode_rewrite_is_rejected_at_return_boundary() {
+    let (_owner, root) = portable_store_test_fixture();
+    let id = portable_store_test_digest(b"same inode rewrite");
+    let input = b"read this snapshot";
+    let marker = portable_store_test_marker(&id, input);
+    super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+        .expect("owned committed record");
+    let object = portable_store_test_directory(&root)
+        .join("objects")
+        .join(format!("{}.bin", &portable_store_test_digest(input)[7..]));
+    let result = super::store::with_portable_store_phase_hook(
+        "read_complete",
+        move || {
+            use std::io::Write;
+            let mut file = std::fs::OpenOptions::new()
+                .write(true)
+                .open(&object)
+                .expect("same owned inode");
+            file.write_all(b"change this bytes!")
+                .expect("same-length fixture rewrite");
+            file.set_times(std::fs::FileTimes::new().set_modified(
+                std::time::SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(1),
+            ))
+            .expect("deterministic different mtime");
+            file.sync_all().expect("sync rewrite");
+            Ok(())
+        },
+        || super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id),
+    );
+    assert!(result.is_err());
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_green_subprocess_helper() {
+    use std::io::Write;
+    let Some(mode) = std::env::var_os("COCKPIT_PORTABLE_GREEN_MODE") else {
+        return;
+    };
+    let root = std::path::PathBuf::from(
+        std::env::var_os("COCKPIT_PORTABLE_GREEN_ROOT").expect("owned child root"),
+    );
+    let id = portable_store_test_digest(b"concurrent stable binding");
+    let input = if mode == "writer_b" {
+        b"concurrent B".as_slice()
+    } else {
+        b"concurrent A".as_slice()
+    };
+    let marker = portable_store_test_marker(&id, input);
+    let result = if mode == "load" {
+        super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id).map(|_| ())
+    } else {
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+        while !root.join("portable-green.go").exists() {
+            assert!(
+                std::time::Instant::now() < deadline,
+                "owned start barrier timed out"
+            );
+            std::thread::sleep(std::time::Duration::from_millis(2));
+        }
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .map(|_| ())
+    };
+    let ack =
+        root.join(std::env::var_os("COCKPIT_PORTABLE_GREEN_ACK").expect("owned unique ack name"));
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(ack)
+        .expect("exclusive owned child acknowledgement");
+    file.write_all(if result.is_ok() { b"ok\n" } else { b"error\n" })
+        .expect("acknowledge actual store call");
+}
+
+#[cfg(unix)]
+fn portable_store_green_spawn(
+    root: &std::path::Path,
+    mode: &str,
+    ack: &str,
+) -> std::process::Child {
+    std::process::Command::new(std::env::current_exe().expect("current fixture executable"))
+        .args([
+            "--exact",
+            "ci_admission::tests::portable_store_green_subprocess_helper",
+            "--test-threads=1",
+        ])
+        .env("COCKPIT_PORTABLE_GREEN_MODE", mode)
+        .env("COCKPIT_PORTABLE_GREEN_ROOT", root)
+        .env("COCKPIT_PORTABLE_GREEN_ACK", ack)
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .spawn()
+        .expect("spawn owned bounded store fixture")
+}
+
+#[cfg(unix)]
+struct PortableStoreOwnedChildren {
+    owner: Option<tempfile::TempDir>,
+    root: std::path::PathBuf,
+    children: Vec<std::process::Child>,
+    reaped: bool,
+}
+
+#[cfg(unix)]
+impl PortableStoreOwnedChildren {
+    fn new(owner: tempfile::TempDir, root: std::path::PathBuf) -> Self {
+        Self {
+            owner: Some(owner),
+            root,
+            children: Vec::new(),
+            reaped: false,
+        }
+    }
+
+    fn spawn(&mut self, mode: &str, ack: &str) {
+        self.children
+            .push(portable_store_green_spawn(&self.root, mode, ack));
+    }
+
+    fn finish(&mut self) {
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+        loop {
+            let mut all_done = true;
+            let mut failed = false;
+            for child in &mut self.children {
+                match child.try_wait() {
+                    Ok(Some(status)) => failed |= !status.success(),
+                    Ok(None) => all_done = false,
+                    Err(error) => {
+                        panic!("owned child observation failed pid={}: {error}", child.id())
+                    }
+                }
+            }
+            if all_done {
+                self.reaped = true;
+                assert!(!failed, "owned store helper failed");
+                return;
+            }
+            assert!(
+                std::time::Instant::now() < deadline,
+                "owned store fixture exceeded 5 second deadline"
+            );
+            std::thread::sleep(std::time::Duration::from_millis(2));
+        }
+    }
+}
+
+#[cfg(unix)]
+impl Drop for PortableStoreOwnedChildren {
+    fn drop(&mut self) {
+        if self.reaped {
+            return;
+        }
+        // Never panic from this guard. Exact Child handles establish ownership;
+        // an observation error is not permission to signal a possibly reused PID.
+        for child in &mut self.children {
+            match child.try_wait() {
+                Ok(None) => {
+                    if let Err(error) = child.kill() {
+                        eprintln!(
+                            "owned portable fixture kill failed pid={}: {error}",
+                            child.id()
+                        );
+                    }
+                }
+                Ok(Some(_)) => {}
+                Err(error) => eprintln!(
+                    "owned portable fixture observation unresolved pid={}: {error}",
+                    child.id()
+                ),
+            }
+        }
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+        loop {
+            let mut unresolved = Vec::new();
+            for child in &mut self.children {
+                if !matches!(child.try_wait(), Ok(Some(_))) {
+                    unresolved.push(child.id());
+                }
+            }
+            if unresolved.is_empty() {
+                self.reaped = true;
+                return;
+            }
+            if std::time::Instant::now() >= deadline {
+                if let Some(owner) = self.owner.take() {
+                    let kept = owner.keep();
+                    eprintln!(
+                        "owned portable fixture retained root={} unresolved_pids={unresolved:?}",
+                        kept.display()
+                    );
+                }
+                return;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(2));
+        }
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_concurrent_equal_and_conflicting_publishers_preserve_one_binding() {
+    for different in [false, true] {
+        let (owner, root) = portable_store_test_fixture();
+        let mut children = PortableStoreOwnedChildren::new(owner, root.clone());
+        children.spawn("writer_a", "writer-one.ack");
+        children.spawn(
+            if different { "writer_b" } else { "writer_a" },
+            "writer-two.ack",
+        );
+        std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(root.join("portable-green.go"))
+            .expect("release owned start barrier");
+        children.finish();
+        let acknowledgements = [
+            std::fs::read(root.join("writer-one.ack")).expect("actual first call acknowledged"),
+            std::fs::read(root.join("writer-two.ack")).expect("actual second call acknowledged"),
+        ];
+        assert_eq!(
+            acknowledgements
+                .iter()
+                .filter(|ack| ack.as_slice() == b"ok\n")
+                .count(),
+            if different { 1 } else { 2 }
+        );
+        if different {
+            assert_eq!(
+                acknowledgements
+                    .iter()
+                    .filter(|ack| ack.as_slice() == b"error\n")
+                    .count(),
+                1
+            );
+        }
+        let id = portable_store_test_digest(b"concurrent stable binding");
+        let record = super::store::load_portable_record(&root, PORTABLE_STORE_TEST_WI, &id)
+            .expect("one complete binding remains")
+            .expect("committed marker");
+        assert!(record.input == b"concurrent A" || record.input == b"concurrent B");
+        assert_eq!(
+            record.marker,
+            portable_store_test_marker(&id, &record.input)
+        );
+        assert_eq!(
+            std::fs::read_dir(portable_store_test_directory(&root).join("objects"))
+                .expect("owned object inventory")
+                .count(),
+            1,
+            "losing conflicting writer must not install payload"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn portable_store_existing_lock_fifo_and_payload_fifo_are_bounded_rejections() {
+    use std::os::unix::ffi::OsStrExt;
+    for leaf in ["payload", "lock"] {
+        let (owner, root) = portable_store_test_fixture();
+        let id = portable_store_test_digest(b"concurrent stable binding");
+        let input = b"concurrent A";
+        let marker = portable_store_test_marker(&id, input);
+        super::store::publish_portable_record(&root, PORTABLE_STORE_TEST_WI, &id, input, &marker)
+            .expect("real store, lock, object and final marker exist before FIFO replacement");
+        let base = portable_store_test_directory(&root);
+        let target = if leaf == "lock" {
+            base.join(".store.lock")
+        } else {
+            base.join("objects")
+                .join(format!("{}.bin", &portable_store_test_digest(input)[7..]))
+        };
+        std::fs::remove_file(&target).expect("unlink own regular fixture leaf");
+        let cpath = std::ffi::CString::new(target.as_os_str().as_bytes()).expect("owned FIFO path");
+        // Only the private TempDir leaf is passed; no external peer is created.
+        assert_eq!(unsafe { libc::mkfifo(cpath.as_ptr(), 0o600) }, 0);
+        let mut children = PortableStoreOwnedChildren::new(owner, root.clone());
+        children.spawn("load", "fifo-load.ack");
+        children.finish();
+        assert_eq!(
+            std::fs::read(root.join("fifo-load.ack")).expect("actual load acknowledged"),
+            b"error\n"
+        );
+    }
+}
+
+#[test]
+fn ci_admission_c16_portable_view_rejects_nonregular_and_oversize_before_read() {
+    let directory = tempfile::tempdir().unwrap();
+    let root = directory.path();
+    let runtime = c16_portable_runtime();
+    assert!(super::plan_portable_evidence(root, None, root, &runtime, None).is_err());
+    let input = root.join("oversize.json");
+    let file = std::fs::File::create(&input).unwrap();
+    file.set_len(super::store::MAX_PORTABLE_INPUT_BYTES + 1)
+        .unwrap();
+    let error = super::plan_portable_evidence(root, None, &input, &runtime, None).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("portable_input_not_bounded_regular_file")
+    );
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let target = root.join("real.json");
+        std::fs::write(
+            &target,
+            serde_json::to_vec(&c16_portable_input_fixture()).unwrap(),
+        )
+        .unwrap();
+        let link = root.join("link.json");
+        symlink(&target, &link).unwrap();
+        let error = super::plan_portable_evidence(root, None, &link, &runtime, None).unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("portable_input_not_bounded_regular_file")
+        );
+        let fifo = root.join("fifo.json");
+        let path = std::ffi::CString::new(fifo.as_os_str().as_encoded_bytes()).unwrap();
+        // No writer or worker thread is needed: metadata must reject this FIFO
+        // before open, and production's raced-open path additionally uses NONBLOCK.
+        assert_eq!(unsafe { libc::mkfifo(path.as_ptr(), 0o600) }, 0);
+        let error = super::plan_portable_evidence(root, None, &fifo, &runtime, None).unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("portable_input_not_bounded_regular_file")
+        );
+    }
+}
+
+#[test]
+fn ci_admission_c16_portable_plan_digest_binds_exact_input_and_runtime() {
+    let root = tempfile::tempdir().unwrap();
+    let input = root.path().join("evidence.json");
+    let raw = serde_json::to_vec(&c16_portable_input_fixture()).unwrap();
+    std::fs::write(&input, &raw).unwrap();
+    let runtime = c16_portable_runtime();
+    let first = super::plan_portable_evidence(root.path(), None, &input, &runtime, None).unwrap();
+    assert_eq!(first.input_digest, cockpit_core::Digest::sha256_bytes(&raw));
+    let same = super::plan_portable_evidence(root.path(), None, &input, &runtime, None).unwrap();
+    assert_eq!(first.plan_digest, same.plan_digest);
+    let mut different_runtime = runtime.clone();
+    different_runtime.runtime_digest =
+        cockpit_core::Digest::sha256_bytes(b"another actual Runtime");
+    let changed =
+        super::plan_portable_evidence(root.path(), None, &input, &different_runtime, None).unwrap();
+    assert_ne!(first.plan_digest, changed.plan_digest);
+    let mut raw_with_space = raw;
+    raw_with_space.push(b'\n');
+    std::fs::write(&input, raw_with_space).unwrap();
+    let changed = super::plan_portable_evidence(root.path(), None, &input, &runtime, None).unwrap();
+    assert_ne!(first.input_digest, changed.input_digest);
+    assert_ne!(first.plan_digest, changed.plan_digest);
+    assert!(changed.integrity_valid);
+    assert!(!root.path().join(".ai").exists());
+}
+
+#[test]
+fn ci_admission_c16_portable_view_needs_no_caller_but_accept_rechecks_file_and_caller() {
+    let (root, runtime, caller) = service_fixture();
+    let outside = tempfile::tempdir().unwrap();
+    let input = outside.path().join("evidence.json");
+    std::fs::write(
+        &input,
+        serde_json::to_vec(&c16_portable_input_fixture()).unwrap(),
+    )
+    .unwrap();
+    let mut foreign = caller.clone();
+    foreign.authority_source.push_str("-foreign");
+    let viewed = super::plan_portable_evidence(
+        root.path(),
+        Some(SERVICE_WI),
+        &input,
+        &runtime,
+        Some(&foreign),
+    )
+    .unwrap();
+    assert!(!viewed.may_replace_execution);
+    let caller_error = super::accept_portable_evidence(
+        root.path(),
+        SERVICE_WI,
+        &input,
+        &viewed.plan_digest,
+        &runtime,
+        Some(&foreign),
+    )
+    .unwrap_err();
+    assert!(
+        caller_error
+            .to_string()
+            .contains("task_authorization_caller_mismatch"),
+        "{caller_error}"
+    );
+    let mut changed = c16_portable_input_fixture();
+    changed["nativeInput"]["additionalClaim"] = true.into();
+    std::fs::write(&input, serde_json::to_vec(&changed).unwrap()).unwrap();
+    let changed_error = super::accept_portable_evidence(
+        root.path(),
+        SERVICE_WI,
+        &input,
+        &viewed.plan_digest,
+        &runtime,
+        Some(&caller),
+    )
+    .unwrap_err();
+    assert!(
+        changed_error
+            .to_string()
+            .contains("portable_evidence_plan_changed"),
+        "{changed_error}"
+    );
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/evidence/{SERVICE_WI}.verification-admissions/portable"
+            ))
+            .exists()
     );
 }

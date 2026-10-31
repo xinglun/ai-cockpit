@@ -1249,3 +1249,87 @@ struct GithubNativeOutputIdentity<'a> {
     stderr_truncated: bool,
     timed_out: bool,
 }
+
+/// A bounded data projection, never an executable receipt or source capability.
+pub(super) struct UntrustedPortableView {
+    pub(super) integrity_valid: bool,
+    pub(super) claims: serde_json::Value,
+    pub(super) gaps: Vec<String>,
+}
+
+/// Parse duplicate-free portable JSON before any Value can swallow a key.
+/// Malformed/unsupported wire formats are rejected; well-shaped failed or
+/// inconsistent native results remain viewable and cannot become complete proof.
+pub(super) fn inspect_untrusted_portable_evidence(
+    raw: &[u8],
+) -> Result<UntrustedPortableView, GithubArchiveError> {
+    check_raw_archive_size(raw.len() as u64)?;
+    let budget = std::cell::RefCell::new(JsonBudget::default());
+    let value = strict_json(
+        raw,
+        &budget,
+        MAX_GITHUB_NODE_CLAIMS,
+        GithubArchiveError::NativeReceipt,
+    )?;
+    let bundle: cockpit_protocol::ci_admission::PortableExecutionEvidence<serde_json::Value> =
+        serde_json::from_value(value).map_err(|_| GithubArchiveError::NativeReceipt)?;
+    if bundle.schema_version != cockpit_protocol::ci_admission::PORTABLE_EVIDENCE_SCHEMA_VERSION {
+        return Err(GithubArchiveError::NativeReceipt);
+    }
+    // This strict shape is not authority. In particular nativeInput can contain
+    // arbitrary supplied source flags, none of which reaches trust decisions.
+    let envelope: UntrustedGithubNativeEnvelope<VerificationReceipt> =
+        serde_json::from_value(bundle.native_evidence.clone())
+            .map_err(|_| GithubArchiveError::NativeReceipt)?;
+    if envelope.protocol_version != 1
+        || envelope.evidence_schema_version != 2
+        || envelope.capture_mode
+            != cockpit_protocol::ci_admission::UntrustedGithubCaptureMode::FullCapture
+    {
+        return Err(GithubArchiveError::NativeReceipt);
+    }
+    // Keep the archive's complete-success validator unchanged. It checks raw
+    // semantic receipt digest, output identity, exact inventories/accounting,
+    // retention and supported execution semantics. Failed claims are data, not
+    // a reason to prevent inspection, and are never normalized into success.
+    let integrity_valid = validate_native_envelope(bundle.native_evidence).is_ok();
+    let mut gaps = Vec::new();
+    if !integrity_valid {
+        gaps.push("native_receipt_integrity_invalid_or_incomplete".into());
+        gaps.push("native_verification_not_complete_success".into());
+    }
+    // Do not echo raw command output, caller authority, arbitrary nativeInput,
+    // or unbounded identity strings into the public report.
+    let mut hidden_identity = false;
+    let mut identity = |text: &str| {
+        if text.len() <= 1024 && !text.chars().any(char::is_control) {
+            serde_json::Value::String(text.into())
+        } else {
+            hidden_identity = true;
+            serde_json::Value::Null
+        }
+    };
+    let claims = serde_json::json!({
+        "passed": envelope.passed,
+        "workItemId": identity(&envelope.work_item_id),
+        "repositoryId": identity(&envelope.repository_id),
+        "runtimeVersion": identity(&envelope.runtime_version),
+        "runtimeDigest": identity(envelope.runtime_digest.as_str()),
+        "contractDigest": identity(envelope.contract_digest.as_str()),
+        "repositorySnapshotDigest": identity(envelope.repository_snapshot_digest.as_str()),
+        "receiptDigest": identity(envelope.receipt_digest.as_str()),
+        "receiptPassed": envelope.receipt.passed,
+        "nodesPlanned": envelope.receipt.nodes_planned,
+        "nodesExecuted": envelope.receipt.nodes_executed,
+        "nodesReused": envelope.receipt.nodes_reused,
+        "processesSpawned": envelope.receipt.processes_spawned,
+    });
+    if hidden_identity {
+        gaps.push("native_claim_identity_not_displayable".into());
+    }
+    Ok(UntrustedPortableView {
+        integrity_valid,
+        claims,
+        gaps,
+    })
+}
