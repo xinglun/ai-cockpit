@@ -326,21 +326,36 @@ jobs:
         run: |
           set -euo pipefail
           caller_args=()
-          if [[ "$(jq -er '.workItemId' "$ROUTE_CONTRACT_PATH")" == WI-1113-delivery-continuity-parallel-authorization ]]; then
-            caller_file="$RUNNER_TEMP/wi1113-task-caller.json"
-            (
-              umask 077
-              cat >"$caller_file" <<'TASK_CALLER_JSON'
-          {
-            "schemaVersion": 1,
-            "actor": "agent:codex",
-            "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved). conversation:Sentinel_a075cc7351108191bde4ab8f7111ced0 (user approval at 2026-10-28 07:24 UTC to raise the total WI-1113 hosted CI cap to fifteen runs, retaining all seven already-used runs and prior attempts, and synchronize the CI caller input; fifteen is the total cap, not additional runs). conversation:Sentinel_ada28e5329d48191ae30cb4f79073a4c (user approval at 2026-10-29 00:36 UTC to raise the total WI-1113 hosted CI cap from fifteen to twenty only if CI12 does not pass; retain all twelve already-used runs and prior attempts without resetting counts; synchronize the current Contract and CI caller, without weakening checks, assertions, authority or retry limits). conversation:Sentinel_2a6ab6cb93908191bb1325608daa4061 (user reminder at 2026-10-29 01:19 UTC that the raised CI budget must also be synchronized into the actual CI scripts).",
-            "assurance": "self_declared"
-          }
-          TASK_CALLER_JSON
-            )
-            caller_args=(--task-caller "$caller_file")
-          fi
+          work_item_id=$(jq -er '.workItemId' "$ROUTE_CONTRACT_PATH")
+          case "$work_item_id" in
+            WI-1113-delivery-continuity-parallel-authorization|WI-1114-release-runtime-convergence)
+              # Only this step's exclusively created private directory is removed.
+              # Python xb uses O_CREAT|O_EXCL: any existing caller path is refused.
+              caller_dir=$(mktemp -d "$RUNNER_TEMP/ai-cockpit-task-caller.XXXXXX")
+              trap 'rm -rf -- "$caller_dir"' EXIT
+              caller_file="$caller_dir/caller.json"
+              (
+                umask 077
+                case "$work_item_id" in
+                  WI-1113-delivery-continuity-parallel-authorization)
+                    python3 - "$caller_file" <<'TASK_CALLER_PY'
+          import sys
+          with open(sys.argv[1], "xb") as stream:
+              stream.write(b'{\n  "schemaVersion": 1,\n  "actor": "agent:codex",\n  "authoritySource": "conversation:Sentinel_536af122cd648191b5c75a93b2e7946e (user approval at 2026-10-26T20:00:00Z of the seven bounded WI-1113 boundaries; exact native confirm_review remains required; no other Work Item inherits this grant); conversation:Sentinel_ed78413b9a2481919b1183f668f93237 (user approval at 2026-10-27 01:43 UTC for WI-1113 main-target delivery and exactly the four-file self-declared caller transport scope, preflight/verify only, no permission increase; existing checks, review, and five-run CI budget remain). conversation:Sentinel_cf58ba2fa5648191a7c3283b391c7460 (user approval at 2026-10-28 03:47 UTC to raise the total WI-1113 hosted CI cap to ten runs as needed, without resetting prior runs); conversation:Sentinel_37dc204102f88191b0995fc665e9dc90 (user approval at 2026-10-28 04:29 UTC for task/pr/merge verification stage binding and synchronization of the previously approved ten-run cap, with checks and approvals preserved). conversation:Sentinel_a075cc7351108191bde4ab8f7111ced0 (user approval at 2026-10-28 07:24 UTC to raise the total WI-1113 hosted CI cap to fifteen runs, retaining all seven already-used runs and prior attempts, and synchronize the CI caller input; fifteen is the total cap, not additional runs). conversation:Sentinel_ada28e5329d48191ae30cb4f79073a4c (user approval at 2026-10-29 00:36 UTC to raise the total WI-1113 hosted CI cap from fifteen to twenty only if CI12 does not pass; retain all twelve already-used runs and prior attempts without resetting counts; synchronize the current Contract and CI caller, without weakening checks, assertions, authority or retry limits). conversation:Sentinel_2a6ab6cb93908191bb1325608daa4061 (user reminder at 2026-10-29 01:19 UTC that the raised CI budget must also be synchronized into the actual CI scripts).",\n  "assurance": "self_declared"\n}\n')
+          TASK_CALLER_PY
+                    ;;
+                  WI-1114-release-runtime-convergence)
+                    python3 - "$caller_file" <<'TASK_CALLER_PY'
+          import sys
+          with open(sys.argv[1], "xb") as stream:
+              stream.write(b'{\n  "schemaVersion": 1,\n  "actor": "agent:codex",\n  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",\n  "assurance": "self_declared"\n}\n')
+          TASK_CALLER_PY
+                    ;;
+                esac
+              )
+              caller_args=(--task-caller "$caller_file")
+              ;;
+          esac
           tests/ci/run_hosted_runtime_verification.sh \
             target/release/ai-cockpit \
             "$GITHUB_WORKSPACE" \
