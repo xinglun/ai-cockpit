@@ -1811,3 +1811,296 @@ mod evidence_stage_admission_tests {
     // The actual predecessor rejection and zero-write assertions are mandatory in
     // conformance_evidence_stage_runtime_compatibility (the repository gate manifest).
 }
+
+// New Linux governing-Runtime regression; no existing test is filtered/ignored.
+// Synthetic fixture authority stays in this self-owned repository only.
+#[cfg(target_os = "linux")]
+mod pending_retry_material_preflight_cycle {
+    use super::*;
+    use cockpit_core::{DecisionState, Digest};
+    use cockpit_git::GitRepository;
+    use cockpit_protocol::{AssuranceLevel, RuntimeContext, TaskAuthorizationCaller,
+        TaskAuthorizationPolicy, VerificationStage};
+    use cockpit_repository::{
+        WorkItemStartOptions, apply_work_item_contract_amendment, attach,
+        checkpoint_work_item_with_caller, confirm_profile_update,
+        finish_work_item_with_caller, plan_work_item_material_review,
+        preflight_work_item_with_runtime_report, preflight_work_item_with_task_authorization,
+        record_recovery_decision, record_verification_with_caller,
+        record_work_item_governance_controls_with_caller,
+        record_work_item_governance_controls_with_runtime,
+        record_work_item_material_review_with_caller, repository_id,
+        resolve_verification_route, run_repository_verification_with_task_authorization,
+        snapshot_digest, start_work_item_with_options_and_runtime,
+        work_item_status_snapshot_with_runtime,
+    };
+    use serde_json::{Value, json};
+    use std::sync::{Arc, atomic::AtomicUsize};
+
+    const WI: &str = "WI-RETRY-MATERIAL-PREFLIGHT";
+
+    struct Case {
+        root: PathBuf,
+        diagnostics: PathBuf,
+        runtime: RuntimeContext,
+        caller: TaskAuthorizationCaller,
+        contract: PathBuf,
+        summary: PathBuf,
+        spawned: Arc<AtomicUsize>,
+    }
+    impl Drop for Case {
+        fn drop(&mut self) {
+            if std::thread::panicking() {
+                eprintln!("retry fixture retained: {}; diagnostics: {}", self.root.display(), self.diagnostics.display());
+                return;
+            }
+            fs::remove_dir_all(&self.root).expect("remove own repository");
+            fs::remove_dir_all(&self.diagnostics).expect("remove own diagnostics");
+        }
+    }
+    fn read(path: &Path) -> Value {
+        serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
+    }
+    fn commit_source(root: &Path, message: &str) {
+        run_git(root, &["add", "src/material.rs"]);
+        run_git(root, &["-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", message]);
+    }
+    fn save(case: &Case, name: &str, value: &impl serde::Serialize) {
+        fs::write(case.diagnostics.join(name), serde_json::to_vec_pretty(value).unwrap()).unwrap();
+    }
+    fn case() -> Case {
+        let root = fs::canonicalize(repository("pending-retry-material")).unwrap();
+        let diagnostics = root.with_extension("diagnostics");
+        fs::create_dir(&diagnostics).expect("exclusive own diagnostics directory");
+        eprintln!("retry fixture paths: {}; diagnostics: {}", root.display(), diagnostics.display());
+        {
+            use std::os::unix::fs::PermissionsExt;
+            fs::set_permissions(&diagnostics, fs::Permissions::from_mode(0o700)).unwrap();
+        }
+        fs::create_dir(root.join("src")).unwrap();
+        fs::write(root.join("src/material.rs"), "pub fn count() -> usize { 1 }\n").unwrap();
+        commit_source(&root, "clean material baseline");
+        attach(&root).unwrap();
+        authorize_timeout(&root, 10);
+        // Native profile confirmation must precede native WI start.
+        confirm_profile_update(&root, "git", &["diff".into(), "--check".into()]).unwrap();
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1".into(), protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"isolated retry/preflight test Runtime"),
+        };
+        let caller = TaskAuthorizationCaller {
+            schema_version: 1, actor: "agent:retry-fixture".into(),
+            authority_source: "fixture:synthetic-owner-and-agent; not real human or provider authentication".into(),
+            assurance: AssuranceLevel::SelfDeclared,
+        };
+        start_work_item_with_options_and_runtime(&root, WI,
+            "restore current preflight before material recording", "keep native evidence gates",
+            &["src/material.rs".into()], &WorkItemStartOptions {
+                authority: "authorized".into(), risk: "low".into(),
+                acceptance_criteria: vec!["source iteration preserves material and final gates".into()],
+                required_evidence_classes: vec!["verification".into(), "adopter".into()],
+                verification_commands: vec!["git diff --check".into()],
+                task_authorization: Some(TaskAuthorizationPolicy {
+                    schema_version: 1, agent_actor: caller.actor.clone(),
+                    authority_source: caller.authority_source.clone(),
+                    allowed_actions: vec!["modify_source".into(), "run_preflight".into(), "checkpoint".into(),
+                        "record_governance_controls".into(), "record_material_review_decision".into(),
+                        "run_verification".into(), "finish".into()],
+                    closeout_actions: vec![], expires_at: Some("2099-01-01T00:00:00Z".into()),
+                    public_target: None,
+                }), ..Default::default()
+            }, &runtime).unwrap();
+        let contract = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+        let summary = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
+        let before = read(&contract);
+        let mut profile = before["governanceProfile"].clone();
+        // Preserve the native task policy; do not replace it with a fake grant.
+        profile["evidenceClassStages"] = json!({"schemaVersion":1,"classes":[{"class":"adopter","requiredFrom":"finish"}]});
+        profile["materialInspectionReview"] = json!({"schemaVersion":1,
+            "permittedUnknown":"repository_material_inspection_unavailable",
+            "permittedCause":"readable_committed_rust_syntax_unknown",
+            "assurance":"self_declared","reviewerActor":caller.actor,
+            "authoritySource":caller.authority_source,"acceptResidualRisk":true});
+        let amendment = serde_json::from_value(json!({"schemaVersion":1,
+            "changeId":"fixture-native-material-profile","expectedContractDigest":cockpit_protocol::digest_json(&before).unwrap(),
+            "reason":"Synthetic fixture setup before checkpoint; preserve task authority and final adopter gate",
+            "changes":[{"path":"/governanceProfile","operation":"set","value":profile}]})).unwrap();
+        apply_work_item_contract_amendment(&root, WI, &amendment, &runtime).unwrap();
+        // Establish the first genuinely reviewable committed source before
+        // the initial preflight/owner review, so its exact material receipt
+        // exists before the first actual verification and later retry.
+        fs::write(root.join("src/material.rs"),
+            "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+        commit_source(&root, "first real reviewable syntax Unknown");
+        // This is only the initial synthetic owner-review bootstrap, before
+        // the fixture grant exists, matching the existing native CI fixture.
+        let initial = preflight_work_item_with_runtime_report(&root, &contract, &runtime).unwrap();
+        assert_ne!(initial.decision.state, DecisionState::Red, "{initial:?}");
+        let c = read(&contract); let s = read(&summary);
+        record_work_item_governance_controls_with_runtime(&root, WI, &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":WI,"repositoryId":repository_id(&root),
+            "contractDigest":cockpit_protocol::digest_json(&c).unwrap(),
+            "preflightDecisionDigest":s["preflightDecisionDigest"],
+            "repositorySnapshotDigest":s["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:synthetic-fixture-recorder",
+            "reason":"Self-owned test bootstrap, not external human/provider authentication"
+        }}), &runtime).unwrap();
+        record_work_item_governance_controls_with_caller(&root, WI,
+            &json!({"intentAlignment":{"state":"resolved","evidence":["src/material.rs"]}}),
+            &runtime, Some(&caller)).unwrap();
+        checkpoint_work_item_with_caller(&root, WI, &runtime, Some(&caller)).unwrap();
+        let case = Case { root, diagnostics, runtime, caller, contract, summary, spawned: Arc::new(AtomicUsize::new(0)) };
+        let initial_material = plan_work_item_material_review(&case.root, WI).unwrap();
+        assert!(initial_material.review_enabled && initial_material.finding_codes.is_empty(), "{initial_material:?}");
+        assert!(initial_material.entries.iter().any(|entry| entry.reviewable),
+            "first source must be a real reviewable Unknown");
+        let initial_review = serde_json::from_value(json!({"schemaVersion":1,"decision":"accept_permitted_unknowns",
+            "requestDigest":initial_material.request_digest,"reviewerActor":case.caller.actor,
+            "authoritySource":case.caller.authority_source,"assurance":"self_declared",
+            "evidenceRefs":initial_material.entries.iter().filter(|entry| entry.reviewable).map(|entry|
+                json!({"path":entry.path,"digest":entry.after_blob_digest})).collect::<Vec<_>>(),
+            "rationale":"Review only this first exact synthetic committed syntax before the baseline verification.",
+            "residualRisk":"Machine syntax Unknown remains; final adopter evidence remains missing."})).unwrap();
+        let initial_receipt = record_work_item_material_review_with_caller(&case.root, WI, &initial_review,
+            &case.runtime, Some(&case.caller)).unwrap();
+        initial_receipt.validate_integrity().unwrap();
+        assert_eq!(initial_receipt.request_digest, initial_material.request_digest);
+        let initial_status = work_item_status_snapshot_with_runtime(&case.root, WI, &case.runtime).unwrap();
+        assert!(initial_status.review_receipt_digest.is_some(), "{initial_status:?}");
+        assert!(!initial_status.effective_unknowns.iter().any(|code| code == "material_review_receipt_stale"));
+        save(&case, "initial-material-request.json", &initial_material);
+        save(&case, "initial-material-receipt.json", &initial_receipt);
+        save(&case, "initial-material-status.json", &initial_status);
+        case
+    }
+    fn execute_and_record(case: &Case) {
+        let snapshot = GitRepository::discover(&case.root).unwrap().snapshot().unwrap();
+        let route = resolve_verification_route(&case.root, WI, VerificationStage::Task, "local", &snapshot).unwrap();
+        let mut command = request("git", vec!["diff".into(), "--check".into()], RepositoryVerificationPolicy::NeverReuse);
+        command.work_item_id = Some(WI.into()); command.scope = vec!["src/material.rs".into()];
+        command.runtime_digest = case.runtime.runtime_digest.to_string(); command.timeout_seconds = Some(10);
+        command.base_commit = route.base_revision.clone();
+        let count = Arc::clone(&case.spawned);
+        let mut result = run_repository_verification_with_task_authorization(&case.root, &command,
+            &case.runtime, Some(&case.caller), move |_, _, started| {
+                if started { count.fetch_add(1, Ordering::SeqCst); }
+                Ok(())
+            }).unwrap();
+        assert!(result.receipt.passed, "{}", verification_receipt_diagnostics(&result.receipt));
+        assert_eq!(result.receipt.nodes_executed, 1);
+        let plan = result.receipt.plan_receipt.as_mut().unwrap();
+        assert_eq!(plan.initial_tier, route.actual_tier); assert_eq!(plan.final_tier, route.actual_tier);
+        // Bind the actual native local route exactly as the existing service
+        // fixtures/CLI do; never alter results, exits, records or counters.
+        plan.assurance = route.actual_assurance; plan.work_item_id = Some(route.work_item_id);
+        plan.repository_id = Some(repository_id(&case.root).to_string());
+        plan.repository_snapshot_digest = Some(snapshot_digest(&result.final_snapshot).unwrap().to_string());
+        plan.base_revision = route.base_revision; plan.affected_paths = route.affected_paths;
+        plan.dependency_confidence = Some(route.dependency_confidence);
+        let policy = route.policy_plan.unwrap(); plan.required_tier = Some(policy.requirement.required_tier);
+        plan.required_assurance = Some(policy.requirement.required_assurance); plan.policy_refs = policy.requirement.policy_refs;
+        record_verification_with_caller(&case.root, WI, &serde_json::to_value(&result.receipt).unwrap(),
+            &case.runtime, &result.final_snapshot, Some(&case.caller)).unwrap();
+    }
+
+    #[test]
+    fn pending_retry_source_change_restores_only_preflight_before_material_recording() {
+        let case = case();
+        execute_and_record(&case);
+        let baseline_material_pointer = read(&case.summary)["materialReviewReceipt"].clone();
+        let baseline_material_path = case.root.join(baseline_material_pointer["path"].as_str().unwrap());
+        let baseline_material_bytes = fs::read(&baseline_material_path).unwrap();
+        assert_eq!(read(&baseline_material_path)["requestDigest"], baseline_material_pointer["requestDigest"]);
+        let formal = case.root.join(format!(".ai/evidence/{WI}.verification.json"));
+        let old_formal = fs::read(&formal).unwrap();
+        fs::write(case.diagnostics.join("original-formal.json"), &old_formal).unwrap();
+        let c = read(&case.contract); let s = read(&case.summary);
+        let mut retry = json!({"schemaVersion":1,"decisionId":"work-item-recovery","decision":"retry",
+            "workItemId":WI,"predecessorWorkItemId":WI,"repositoryId":repository_id(&case.root),
+            "predecessorContractDigest":cockpit_protocol::digest_json(&c).unwrap(),
+            "predecessorSummaryDigest":cockpit_protocol::digest_json(&s).unwrap(),
+            "runtimeVersion":case.runtime.runtime_version,"runtimeDigest":case.runtime.runtime_digest,
+            "actor":case.caller.actor,"authoritySource":"fixture:synthetic-owner-approved-one-retry",
+            "reason":"Exercise a real pending retry after successful native evidence",
+            "resumeCondition":"Current preflight and exact material review precede source revalidation",
+            "evidenceRefs":[],"policyRefs":[],"decidedAt":chrono::Utc::now().to_rfc3339()});
+        for (suffix, field) in [("outcome.json", "predecessorOutcomeDigest"), ("events.jsonl", "predecessorEventsDigest")] {
+            for phase in ["active", "archive"] {
+                let p = case.root.join(format!(".ai/work-items/{phase}/{WI}.{suffix}"));
+                match fs::symlink_metadata(&p) {
+                    Ok(meta) => {
+                        assert!(meta.is_file() && !meta.file_type().is_symlink());
+                        let bytes = fs::read(&p).unwrap();
+                        retry[field] = if suffix == "outcome.json" {
+                            json!(cockpit_protocol::digest_json(&serde_json::from_slice::<Value>(&bytes).unwrap()).unwrap())
+                        } else { json!(Digest::sha256_bytes(&bytes)) };
+                        break;
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                    Err(error) => panic!("read fixture predecessor {p:?}: {error}"),
+                }
+            }
+        }
+        record_recovery_decision(&case.root, WI, &retry, &case.runtime).unwrap();
+        let retry_summary = read(&case.summary);
+        let receipt_path = case.root.join(retry_summary["recoveryRetryDecisionPath"].as_str().unwrap());
+        let immutable_retry = fs::read(&receipt_path).unwrap();
+        assert_eq!(retry_summary["recoveryRetryPending"], true);
+        fs::write(case.root.join("src/material.rs"),
+            "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization-v2\"); label }\n").unwrap();
+        commit_source(&case.root, "real source-only syntax Unknown");
+        let material = plan_work_item_material_review(&case.root, WI).unwrap();
+        assert!(material.review_enabled && material.finding_codes.is_empty(), "{material:?}");
+        assert!(material.entries.iter().any(|entry| entry.reviewable), "fixture must produce a real reviewable Unknown");
+        let status = work_item_status_snapshot_with_runtime(&case.root, WI, &case.runtime).unwrap();
+        assert_ne!(material.request_digest.to_string(), baseline_material_pointer["requestDigest"].as_str().unwrap());
+        assert_eq!(read(&case.summary)["materialReviewReceipt"], baseline_material_pointer);
+        assert_eq!(fs::read(&baseline_material_path).unwrap(), baseline_material_bytes);
+        assert!(status.effective_unknowns.iter().any(|code| code == "material_review_receipt_stale"),
+            "fixture must contain an existing now-stale native material receipt, not a missing receipt: {status:?}");
+        let before_refresh = fs::read(&case.summary).unwrap();
+        save(&case, "pre-refresh-status.json", &status); save(&case, "material-request.json", &material);
+        assert_ne!(retry_summary["preflightRepositorySnapshotDigest"],
+            json!(status.source_digests.get("repositorySnapshot").unwrap()));
+        assert!(status.safe_actions.iter().any(|action| action == "run_preflight"),
+            "TARGET RED: valid retry/current authority must expose stale material preflight refresh: {status:?}");
+        assert!(!status.safe_actions.iter().any(|action| action == "record_material_review_decision"));
+        assert!(!status.safe_actions.iter().any(|action| action == "run_verification"));
+        assert_eq!(case.spawned.load(Ordering::SeqCst), 1, "preparation must not spawn another project command");
+
+        let mut foreign = case.caller.clone(); foreign.actor.push_str("-foreign");
+        let error = preflight_work_item_with_task_authorization(&case.root, &case.contract, &case.runtime, &foreign).unwrap_err();
+        assert!(error.to_string().contains("task_authorization_caller_mismatch"), "{error}");
+        assert_eq!(fs::read(&case.summary).unwrap(), before_refresh);
+        let refreshed = preflight_work_item_with_task_authorization(&case.root, &case.contract,
+            &case.runtime, &case.caller).unwrap();
+        assert_ne!(refreshed.decision.state, DecisionState::Red, "{refreshed:?}");
+        let new_status = work_item_status_snapshot_with_runtime(&case.root, WI, &case.runtime).unwrap();
+        let new_summary = read(&case.summary);
+        assert_eq!(new_summary["preflightRepositorySnapshotDigest"], json!(new_status.source_digests.get("repositorySnapshot").unwrap()));
+        assert_eq!(new_summary["recoveryRetryPending"], true); assert_eq!(new_summary["checkpointCount"], 1);
+        assert_eq!(read(&case.contract), c); assert_eq!(fs::read(&formal).unwrap(), old_formal);
+        assert_eq!(fs::read(&receipt_path).unwrap(), immutable_retry);
+        assert!(new_status.safe_actions.iter().any(|action| action == "record_material_review_decision"));
+        let current = plan_work_item_material_review(&case.root, WI).unwrap();
+        assert_eq!(current.request_digest, material.request_digest);
+        let review = serde_json::from_value(json!({"schemaVersion":1,"decision":"accept_permitted_unknowns",
+            "requestDigest":current.request_digest,"reviewerActor":case.caller.actor,
+            "authoritySource":case.caller.authority_source,"assurance":"self_declared",
+            "evidenceRefs":current.entries.iter().filter(|entry| entry.reviewable).map(|entry|
+                json!({"path":entry.path,"digest":entry.after_blob_digest})).collect::<Vec<_>>(),
+            "rationale":"Review only the exact synthetic committed syntax; this is not provider proof.",
+            "residualRisk":"Machine syntax Unknown remains; final adopter evidence remains missing."})).unwrap();
+        record_work_item_material_review_with_caller(&case.root, WI, &review,
+            &case.runtime, Some(&case.caller)).unwrap();
+        execute_and_record(&case);
+        let final_summary = read(&case.summary);
+        assert_ne!(final_summary.get("recoveryRetryPending"), Some(&json!(true)));
+        assert_eq!(final_summary["checkpointCount"], 1);
+        assert_eq!(fs::read(&receipt_path).unwrap(), immutable_retry);
+        let final_error = finish_work_item_with_caller(&case.root, WI, &case.runtime, Some(&case.caller))
+            .expect_err("final adopter class must remain required");
+        assert!(final_error.to_string().contains("evidence_classes"), "{final_error}");
+    }
+}
