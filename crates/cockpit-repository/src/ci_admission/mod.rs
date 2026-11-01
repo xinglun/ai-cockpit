@@ -198,6 +198,7 @@ impl PortableSourceTool {
         if reply.schema_version != 1
             || reply.nonce != nonce
             || reply.input_digest != plan.input_digest
+            || reply.source_root.as_str().parse::<Digest>().is_err()
         {
             return Err(source_error(&root, "source_tool_response_binding_mismatch"));
         }

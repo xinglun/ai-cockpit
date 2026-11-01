@@ -3044,6 +3044,48 @@ fn logbridge_source_never_overrides_current_never_reuse_or_foreign_caller() {
         );
     }
 }
+
+#[cfg(unix)]
+#[test]
+fn logbridge_controlled_output_still_requires_strict_root_nonce_and_single_record() {
+    let (root, host, runtime, caller, request, input, _original_tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    let script = host.path().join("strict-source.py");
+    let code = "#!/usr/bin/python3\nimport sys,json\nr=json.loads(sys.argv[-1])\np=r['parameters']\no={'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':p['root']}\nif p['case']=='wrong_nonce':o['nonce']='old-session'\nif p['case']=='authority':o['trusted']=True\nprint(json.dumps(o))\nif p['case']=='duplicate_record':print(json.dumps(o))\n";
+    std::fs::write(&script, code).unwrap();
+    use std::os::unix::fs::PermissionsExt;
+    std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let tool =
+        super::PortableSourceTool::new(script, cockpit_core::Digest::sha256_bytes(code.as_bytes()));
+    let valid_root = cockpit_core::Digest::sha256_bytes(b"fixture source root").to_string();
+    for (case, root_text) in [
+        ("invalid_root", "missing"),
+        ("invalid_root", ""),
+        ("wrong_nonce", valid_root.as_str()),
+        ("authority", valid_root.as_str()),
+        ("duplicate_record", valid_root.as_str()),
+    ] {
+        let parameters = json!({"case":case,"root":root_text});
+        assert!(
+            tool.observe(
+                root.path(),
+                wi,
+                super::PortableSourceRequest {
+                    input: &input,
+                    expected_plan_digest: &plan.plan_digest,
+                    parameters: &parameters,
+                },
+                &runtime,
+                Some(&caller)
+            )
+            .is_err(),
+            "{case}: protocol-invalid output must not mint a source session"
+        );
+    }
+}
 fn c16_portable_runtime() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
         runtime_version: "1.0.1".into(),
