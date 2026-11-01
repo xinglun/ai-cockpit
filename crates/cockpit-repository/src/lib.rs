@@ -82,9 +82,10 @@ pub use ci_admission::archive::{
 };
 pub use ci_admission::{
     AcceptedPortableEvidence, FinalizedPortableInventory, PortableInventoryConsumption,
-    PortableSourceAdmissionRequest, PortableSourceRequest, PortableSourceTool,
-    VerifiedPortableSource, accept_portable_evidence, accept_portable_evidence_with_source,
-    acquire_portable_evidence_inventory, consume_portable_evidence_inventory,
+    PortableInventoryRoute, PortableSourceAdmissionRequest, PortableSourceRequest,
+    PortableSourceTool, VerifiedPortableSource, accept_portable_evidence,
+    accept_portable_evidence_with_source, acquire_portable_evidence_inventory,
+    consume_portable_evidence_inventory, current_portable_inventory_requests,
     declared_portable_verification_request, plan_github_verification_admission,
     plan_portable_evidence, publish_declared_native_source,
     publish_declared_native_source_supervised, read_portable_source_parameters,

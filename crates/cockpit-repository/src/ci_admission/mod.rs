@@ -905,6 +905,29 @@ struct PortableInventoryManifestEntry {
     source_parameters: serde_json::Value,
 }
 
+/// Actual options selected by the trusted native route, not a source claim.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct PortableInventoryRoute {
+    pub stage: cockpit_protocol::VerificationStage,
+    pub workers: usize,
+    pub timeout_seconds: Option<u64>,
+}
+
+/// Build the complete current Contract inventory for the actual CLI route.
+/// Absence of a timeout stays absence; no authorization ceiling becomes a request.
+pub fn current_portable_inventory_requests(
+    root: &Path,
+    _wi: &str,
+    _route: &PortableInventoryRoute,
+    _runtime: &RuntimeContext,
+    _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<Vec<RepositoryVerificationRequest>, ObserverError> {
+    Err(source_error(
+        root,
+        "portable_inventory_route_not_implemented",
+    ))
+}
+
 // Both the producer and the complete-inventory consumer use this one native
 // declaration mapping. The actual route owns baseRevision; no packet chooses it.
 fn current_portable_declarations(
