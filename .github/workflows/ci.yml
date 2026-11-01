@@ -362,9 +362,9 @@ jobs:
             "$ROUTE_CONTRACT_PATH" \
             target \
             "${caller_args[@]}"
-      # Explicit opt-in only. Missing native calibration/authority refuses the
-      # private publisher before an extra declared check is executed.
       - name: AI Cockpit native evidence
+        # Explicit opt-in only. Missing native calibration/authority refuses the
+        # private publisher before an extra declared check is executed.
         id: native_evidence
         if: vars.AI_COCKPIT_NATIVE_SOURCE_ENABLED == 'true' && steps.quality_route.outputs.lane == 'active'
         shell: bash
