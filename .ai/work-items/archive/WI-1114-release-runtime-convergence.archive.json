@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-01T18:55:58Z",
+  "files": {
+    "contractDigest": "sha256:f2eda3025cc164ba59b83f6b34b5b2857a786118232284713816fe392a6c46ef",
+    "contractPath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.contract.json",
+    "eventsDigest": "sha256:22cd930751a32498324199490399748d84059309b57a8d7adb0eb52c82d59f40",
+    "eventsPath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.events.jsonl",
+    "outcomeDigest": "sha256:f45b4dacb660fa136ef17035b2161922e48769f8bfde92eb258e1a259c5de145",
+    "outcomePath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.outcome.json",
+    "summaryDigest": "sha256:f6d1851a9ec491cd1fa17d356d2027a9eb35258d765db1549653ed4f90640ecc",
+    "summaryPath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.summary.json",
+    "taskReportDigest": "sha256:7035389d777807f2c46405bceec2e62229a0e9d7da4f6cff1abd74dca1e0b198",
+    "taskReportMarkdownDigest": "sha256:98a00556db9b41da4899dbd8576af30d1c1f8eb5c90df12468d56f7956d99196",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1114-release-runtime-convergence.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-01T18:55:58.592209444Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-01T18:55:58.592209444Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

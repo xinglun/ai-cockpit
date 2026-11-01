@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:f44a7ef402624513354b7a7baaafb28ff76a0bea7e9a1c82aec3768395e2231e",
+  "reason": "Record the actual user exact confirm_review conversation Sentinel_ff584bdddb08819198393372d40f6371 at2026-10-30 05:32UTC: WI-1114 sequence11, all eleven previously enumerated exact provider/Mac paths, scope111 to122 and exactly four verification declarations114 to118, bound to Contract9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581, Preflightf44a7ef402624513354b7a7baaafb28ff76a0bea7e9a1c82aec3768395e2231e, Snapshotedcc85405c4b91946b4ed3778ec95f40cb57cdd8d6d7ebb56bc2020c8480b390, and actual governing Runtime6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838. All four bindings were rechecked unchanged. Preserve final five acceptance requirements, existing stage semantics, original caller/profile, qualityCI8/release2 budgets, historical23maintenance and18normal executions. Optional ci_coverage command was not added. This records the real human scope/binding decision, not test success, material acceptance, provider/workflow/producer trust, credentials, Runtime switching, public push/CI or release. Concrete trust rules still require independently justified normal approval. No source, test or build is executed by this owner-decision record.",
+  "recordedAt": "2026-10-30T05:34:18.670917+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:edcc85405c4b91946b4ed3778ec95f40cb57cdd8d6d7ebb56bc2020c8480b390",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

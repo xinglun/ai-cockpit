@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:995c06b7fdef2c1434a1e94cc47e873a0226ac0c41a60afe76bf6d5a936bcd93",
+  "reason": "Record the actual owner exact confirmation received2026-10-31T13:19:06Z in user message Sentinel_038c3f89d408819183d0e77c302cfe8e: 确认以上 WI-1114 sequence 16 四项绑定，仅新增该路径，其他边界不变，confirm_review。 Displayed requestSentinel_807647dc31e08191ad2b481405b5d905 at2026-10-31T13:18:50Z included exact Contract8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2 / Preflight995c06b7fdef2c1434a1e94cc47e873a0226ac0c41a60afe76bf6d5a936bcd93 / Snapshot8f4172d8c4c0323b1b83bbb63388f7e433796f718bcbf8fb00d2b7f595be34cc / Runtime2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65. Allfour/sequence16 were checked unchanged. Recorderagent:codex records the actualhuman decision, not a new human signature. Only MCP RPC testpath added123to124;119verification/allC15acceptance/budgets/authority/Runtime boundary preserved. No trustroot/key/network/CI/push/merge/release/cleanup/defaultRuntime permission added.",
+  "recordedAt": "2026-10-31T13:23:38.547676+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8f4172d8c4c0323b1b83bbb63388f7e433796f718bcbf8fb00d2b7f595be34cc",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

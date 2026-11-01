@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T23:54:57.538851+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/e8bd07491cdc01d13926849f7b3f88da9771e79fb33770cba1b8e626064afbfc.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:c5e9bec3c08c82c554604f2cd84d471799d38c142a0f1a4ee76651d2de3765c5",
+  "predecessorSummaryDigest": "sha256:0ce5b1687e8287f1fbd435e17ad84f14983db779a3543460c5b0d6cc53ae2dee",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Real sameWI source iteration for independently reviewed HTTPS failure diagnostic proposal packages libfile_c4d1f95ade708191a6a17e59fd39cf10 and libfile_03064bcb1620819193ab9edde8b852c0. Currentd07 threefiles exactbefore matches,ureq3.5.0rustlsfeature intact. Apply only APIcomplete conservative no-tag scaffold and11newdiagnostic tests+2strengthenedexisting tests, fixedRust1.98.1 formatter alreadyisolated. Capture realassertionRED before reviewedGREEN. Preserve current111/108/113passed source/Contract/Runtime andold108failure. No claimofnetworkprobe/rootcause/repair/providerauthentication/acceptance/MCPparity. Sourcepaths onlyrepository ci_admission github.rs/mod.rs/tests.rs; no schema/dep/publicAPI changes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back retry before editing andnormalcommit; no duplicatebeforeeditcheckpoint. Normalnewmaterial/source/native admission. Execute onlycurrentdeclaredindex115 cargo test --locked -p cockpit-repository --lib ci_admission:: -- --test-threads=1, jobs1/900s/1342177280Bfloor. ExpecteddiagnosticassertionRED only allows reviewedGREEN sourceapply withnewidentities,then same115 once. Compiler/fixture/resource/unexpectedassertionfailures stopwithoutblindrerun. No CLI/MCP/strict/other target, no actualnetwork/proxy/security/credential/trust/Runtime/cleanup/CI/push/release.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

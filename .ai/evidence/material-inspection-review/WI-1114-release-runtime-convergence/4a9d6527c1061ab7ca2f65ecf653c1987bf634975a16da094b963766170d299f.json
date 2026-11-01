@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "materialManifestDigest": "sha256:5832d7030ae22a0ef8d4b18a1902f832709b5b54d749cc8fba6bb2df365e52a9",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:4a9d6527c1061ab7ca2f65ecf653c1987bf634975a16da094b963766170d299f",
+  "reviewedSourceHead": "b998b215e5b569cf2b9fe340a0ceb05b102ae67e",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:b74ba1e5112327516249f88f4cb2275a040fb5179564154037f9dd46a2a36f7b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:4e4b8c25f4c9ba79c2ce171503aa0a7833f080561ef40606aa8ee771d5826842"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot made a current technical accept_permitted_unknowns decision for this exact request after official materialization and full independent review of1196792-byte ZIP SHA2569d23ec24b8785ff3b146a915493d5546b6c543252c54914f66bc08362c091a7b, all188manifest payloads,13complete source OID/content bindings and the11path91886-byte cumulative patch. The request algorithm and current Contract9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581 were independently recomputed. All1291lines of the new github.rs Unknown were read; the complete prior main baseline plus3new hunks were mechanically reconstructed and reviewed, and lifecycle/verification_attempts original Unknown entries are byte-identical. All4 are readable committed Rust syntaxUnknown,0Finding, with no observed injection or permission escalation. Fixed-origin bounded HTTPS collection has no redirect/proxy/credential, rejects ambiguous Link/pagination and checks deadlines before/after reads and final projection. Plans remain NotAttempted/NotPerformed, do not accept/write cache or exempt real execution. Genuine RED13pass2assert failures, the first Clippy failure and native retry are preserved. Same final source passed19/19module,2/2CLI,165/165protocol across19root targets, both exact strictClippy groups andfmt; formal receipts/streams/attempts were independently checked. This is agent:codex/self_declared, not human/provider/release or whole-WI acceptance.",
+  "residualRisk": "All4 machine syntaxUnknown remain Unknown, never Clean. Material acceptance is not independent provider authentication, reusable CI evidence, performance achievement, human approval or whole-WI acceptance. Actual HTTPS product probe, Windows dependency-edge behavior, Mac, authenticated provider accept/reuse, MCP and performance remain unproven. Collection120seconds is a return-time deadline check, not a guarantee to interrupt synchronous parsing or every DNS thread. The first Clippy failure terminal attempt was not included in the reviewed ZIP; do not fabricate reviewed persistence proof. Its original native file currently exists separately at7d77e08599095642da7849a8519b9d03cd0608f088acea0d92e7152f607db827, created2026-10-30T07:34:41Z, but that existence is not promoted into the completed independent package review. Preserve every historical failure,97/PID4135169 ambiguous attribution, procfs failures and prior Runtime/receipt identities. Diagnostic bounded strings may include paths/stderr/caller errors; keep private and review before publication. Existing PID1 zombies remain untouched; each actual supervised verification has0zombie delta/ECHILD/no rescue/no uncertainty, but shared baseline increases between boundaries have no attributed source. Controlled fixtures are not production KnownEmpty, host authentication or Mac full-descendant proof. No trust catalog/credential is installed and no live GitHub JSON is replaced with historical connector data. This phase added10normal native executions; historical23maintenance records and CI0/8release0/2 are preserved separately. No extra cleanup, new governing Runtime, CI, push or release occurred. Future source/Finding/cause/identity drift requires a fresh actual review.",
+  "recordedAt": "2026-10-30T08:05:03Z",
+  "receiptDigest": "sha256:3cb61fcc6921a35604371b3bc94a5b77797bef6fd48eed23d20e6b9193459897"
+}

@@ -1,0 +1,23 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T13:59:22.891559+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.fbb2fc7d7e1f4df0cbc0441bae5db09d9d6fdce928c45ce096cd6915f80241d5.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.8592715caeac689334cdea482870067196503a77c424c6853227d9db8cd1f9c1.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:622a110aef98fdaaf70fb7f44a53621483a10fa04eb5a3b81bac9aec4192d389",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Apply only the independently token-verified rustfmt whitespace/optional trailing-comma delta in the history-timeout test diagnostic. Preserve the actual279/279 successful repository attempt at74a3 and the subsequent real fmt exit1; never rebind either receipt to new source. No production logic, assertion, fault injection, permission or timeout changes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back this native retry before the one scoped source edit, commit the exact reviewed format delta, then use existing declared guard/strict/fmt targets under current native admission. Query actual current identity/reuse impact; do not force receipt reuse or automatically rerun the whole repository. Single worker,CargoJobs1,900second command ceiling,1.25GiB conservative disk stop; no cleanup,Runtime switch,push,CI or release.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

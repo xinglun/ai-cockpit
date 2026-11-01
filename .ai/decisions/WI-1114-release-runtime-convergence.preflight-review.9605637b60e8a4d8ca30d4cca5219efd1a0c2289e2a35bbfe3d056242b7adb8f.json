@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fddebbab1895fa1f1f6b00263f795c5faf059c5b5c56010790656ca8cf9b8b07",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b7c41aa0173f1d7d169e97b09e166bd9ac314e716657163e3de7a6f122c32f36",
+  "reason": "Recorder agent:codex records the actual owner exact sequence20 confirm_review in conversation:Sentinel_963d8f8da91c8191aaf59c736a3cc0cf received2026-11-01T13:48:21Z, replying to the four bindings displayed in Sentinel_696e87670da08191a5c79917cdb56c99 at2026-11-01T13:38:46Z. Fresh native status, Contract, observed preflight/snapshot and executing isolated Runtime2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65 exactly match. Only the approved collaboration_admission test path was added, scope131/verification119 and other boundaries unchanged. This records the real human response, not an agent-authored human decision or a new network/CI/push/merge/release/cleanup/profile/defaultRuntime permission.",
+  "recordedAt": "2026-11-01T13:48:21Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:26bc72554a4d2ebf0444d40d1b410c0ff7e26649c99d5dd5409e0eb02fce44e1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

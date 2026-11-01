@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:7c7f87203f0c4b85fd840ddbae20e1269fc773992e3dc1059bdc3ee0f7899011",
+  "materialManifestDigest": "sha256:7513e62d58de71466e26ef61b2e9b197c01b2c89fc645bde63899c2958e0bbe6",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:ddcf1c4e10bcf4e081e444390f9fcd6c1ddaa52833cabc99212c403fe651ccd3",
+  "reviewedSourceHead": "c89f08eeb6893732d109e0ccc44e262fd5f94c40",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:e89cc90bc74929da315a5d412f9d5054bdcf97a0ccf17e752dc59a3dc4ef381e"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:08aeabae502b4e49e49fa3c574920dc5949515a39c19a7aa254edc7929637f63"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:e5ef90199534ce0d6bc583ecb26e943374efe2d4ffdaef28923f604539f47e87"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:3c58e49bb4a5991059d2373081d7e91baef3c3201058ae5d7618f9c019e771c1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:8b6511a52446682aaca7f2a3cb73402e6fd5ba5c72c97da03340a2ca547b7a6d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent:codex self_declared technical review under the current C19 and approved WI-only346 Runtime. Source change is restricted to the owner-approved30path mechanism retirement; root reviewed each exact integrated change against its captured baseline and preserved genuine native execution/local causal/durability controls. All current material entries were rehashed from committed bytes and compared with working bytes. Only readable committed Rust syntax Unknown is accepted under the original profile; Unknown remains Unknown, Findings and other causes are not waived. The exact old portable-wire rejection assertions were observed fail before production retirement; normal-wire roundtrip is retained, historical code/receipts are not rebound or presented as passed. This is author technical review, not independent peer or human approval.",
+  "residualRisk": "This is a partial development stage, not whole119 or WI acceptance. The withdrawn platform/source/recipe surfaces are being removed under C19; old73+3RED remains withdrawn-feature history, not fixed evidence. No cross-machine source trust is created. Targeted results only belong to the exact current HEAD/Runtime; full required verification remains pending. Existing non-Linux supervision boundaries and historical unknowns remain. Native gating still applies; no network, CI, publication, extra cleanup, profile calibration or Runtime-default change.",
+  "recordedAt": "2026-11-01T09:01:59Z",
+  "receiptDigest": "sha256:476ae1a0d2edbd9c46b5c86f0deaac33f41eb3017370f72dd539d9ba5cc8d3c7"
+}

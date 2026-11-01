@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "materialManifestDigest": "sha256:5465095a5e88f1d2674da73a79b718d30144579ac07d0011281be428faeda825",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:e41d7e53430df75eb7fc59b90e54a9ff033c74952a24e2ac4a723f853cd6d6a4",
+  "reviewedSourceHead": "df73975287c44bb725a435624681997255b04320",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/github_evidence.rs",
+      "digest": "sha256:ab8911b03c02805a5366e70321c3f8e14b6b83158879703d9de1af3a9c225b3c"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:12f06219551ddfbfdfb0cdad89ca20fe80181fe9b0273a9f815748a221033d60"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:26277488c8dc6333ff0af3ae8216d3cd652a673df0f542b72930cac3a07801e1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:4807d5fdf387f180feae407ad105ba5fc28246284be31d77d683f20225f56432"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:a77a3f6f36c71daf9a21133da427ee32a91b384b02bfccdf0c74f356d5fd28c5"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent self-declared technical material review within delegated C17 scope. All committed entry blobs were independently rehashed here; the named changed paths are the reviewed source-worker, native publisher, shared service, CLI/MCP adapter and exact schema/help fixtures. The fixed peripheral reader independently checks provider recipe/attempt/job/step/artifact data, while generic core chooses only current declared commands and exact current native bindings. Publisher checks profile before physical execution, retains the actual witness, publishes marker-last and cold-reads; source consumer actually reobserves and stores trace/partial consumption without formal promotion. WNOWAIT keeps helper leader identity until all group signals, and unknown cleanup refuses output. No external JSON, saved marker or worker exit0 alone creates authority. No actor, permission, profile, trust-root or old receipt was changed. This is author technical review, not independent/human approval.",
+  "residualRisk": "Current exact GREEN has not yet passed. Trusted embedding host and pinned worker remain the SDK boundary; malicious same-process hosts are excluded. Helper cleanup covers its fixed Runtime group and delegates project supervision to the existing Runtime, never generic Mac/full-tree certification. No real network or hosted CI was run. Offline fixtures cannot prove real GitHub origin, cross-host identical input/profile compatibility, CI30% performance, Windows/Mac or complete Work Item acceptance. Saved observations remain data and no old test result is rebound.",
+  "recordedAt": "2026-11-01T01:56:31Z",
+  "receiptDigest": "sha256:77dc24db5878a7f8797499818a61c7019d69411b7ea4a6b29c52d98f04f70dc7"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:091734ea76df889b6ac6c7623e1a80e5a0f604d81883a307ba31abeee75abc0f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8b071dad16a2340497e9cff2b8f9a7f94726073b01afd9c7b61e6c8c5c5d4872",
+  "reason": "Record actual user exact confirmation Sentinel_6ddae81c1dcc81918d3a4cdf86a6c012 at2026-10-31T07:36:53Z: 确认以上 WI-1114 sequence 15 四项绑定，仅增加该路径，其他边界不变，confirm_review。 The displayed request Sentinel_8b6f869c66ac81918766976bc403f107 at2026-10-31T07:25:36Z contained all four exact bindings. All four and sequence15 were rechecked unchanged. This adds only crates/cockpit-repository/src/status_projection.rs, scope122 to123, verification119 and other boundaries unchanged. Recorder agent:codex records the real human decision; this is not test acceptance, a maintenance build, Runtime switch, network/proxy/trust change, CI/push or publication authorization.",
+  "recordedAt": "2026-10-31T07:38:03.481461+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:74e642fc509d1494e445aebcea951b1a9b6193fc8c290611b91cdeeb6c1b8f02",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

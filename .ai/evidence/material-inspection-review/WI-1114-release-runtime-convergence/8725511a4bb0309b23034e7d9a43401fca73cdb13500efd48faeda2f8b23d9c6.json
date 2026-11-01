@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:cfbe21bfee5fa4c2610cf1314fedea426aeeabfef9f57c9b3615132ac3216009",
+  "materialManifestDigest": "sha256:a164ff5f30f0baa0b679e99e5be42b9d1c75737b1a07381f805465b20c86c4db",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:8725511a4bb0309b23034e7d9a43401fca73cdb13500efd48faeda2f8b23d9c6",
+  "reviewedSourceHead": "68e176e9ac1431dba044e92aa7f07d7a4386f9d2",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot accepted the exact current8725511a4bb0309b23034e7d9a43401fca73cdb13500efd48faeda2f8b23d9c6 request after an independent reviewer officially materialized Library libfile_3c75d72bb0d88191825c519298ef90f3, verified the403093-byte archive SHA25641fd3699ec69dde0a67b7e753c434e7b0b00d7786408f943eda795909dc3eccd and51 members plus manifest, precisely reconstructed the1189-byte diagnostic delta, verified the complete three committed Unknown blobs and entries are byte-identical to previously substantively reviewed material, and recomputed current Contract and request identities with no Finding. The existing opt-in trace only observes already persisted attempt failure facts; it does not change assertions, result classification, cleanup or reuse. Record the actual agent:codex/self_declared current-request acceptance for only the three permitted committed Rust syntax Unknown entries. Do not inherit an old receipt or assert human/provider approval.",
+  "residualRisk": "Raw syntax Unknowns remain Unknowns. Material acceptance does not prove test correctness, a human/provider decision, complete WI acceptance or release readiness. Run5 remains a real140-pass/one-failure execution with its cause unresolved; run6 fresh209-pass execution did not reproduce it and does not establish a flaky-test fix. Diagnostic bounded(failure) only limits length and is not redaction; Git stderr, paths and caller errors may appear, so diagnostics stay private and controlled and need a separate public-delivery check. PID1 Git zombie4177448 has unknown direct attribution and is not killed or retrospectively assigned. Earlier wrapper97/PID4135169 and environment failures remain preserved. History-timeout, multiworker/restart/provider/Mac acceptance remain incomplete. Unknown lsof records, PID-only output completeness and the actual query timeout are unfinished. New Finding, cause or identity drift requires a new technical decision and fails closed.",
+  "recordedAt": "2026-10-30T01:20:37Z",
+  "receiptDigest": "sha256:9356a4dc3b9f2c82a592c99b5534211717994c2363752b7f052d41d66c34ce39"
+}

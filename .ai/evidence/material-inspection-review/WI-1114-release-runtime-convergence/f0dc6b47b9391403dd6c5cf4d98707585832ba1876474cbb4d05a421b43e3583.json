@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "materialManifestDigest": "sha256:57f9dfe391f6eb6b7a159d6c414713d1922c0b12b821f1a888d77098befbd717",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:f0dc6b47b9391403dd6c5cf4d98707585832ba1876474cbb4d05a421b43e3583",
+  "reviewedSourceHead": "741dd06e28e2d5e34b033eae2304c4cd76dcb940",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/github_evidence.rs",
+      "digest": "sha256:50e76a2f87456889ed056f996035378e0c85aaf37c69f447973e340715bbcf6e"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:12f06219551ddfbfdfb0cdad89ca20fe80181fe9b0273a9f815748a221033d60"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:ebb43a9a9edc018d8dbd6a4eb93eabbeb8e87ff343bc2a859d9163417a7a61d6"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:4807d5fdf387f180feae407ad105ba5fc28246284be31d77d683f20225f56432"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:a77a3f6f36c71daf9a21133da427ee32a91b384b02bfccdf0c74f356d5fd28c5"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual self-declared agent technical review under current C17 and the owner-approved exact346fc6 WI-only Runtime. All50 current committed material blobs were independently rehashed and checked against working bytes; every full entry is identical to the previously reviewed741dd06e material. Only the analysisImplementationDigest of the newly built approved Runtime and derived requestDigest differ. The reviewed peripheral worker, firsthand native publisher, generic immutable store and exact-input consumer, CLI/MCP restrictions and assertions are unchanged. The core never trusts arbitrary agent JSON, saved marker, hash consistency or worker exit0 alone. These12 readable syntax Unknowns remain Unknown. This is author technical review, not independent peer, human or provider approval; no old receipt or test result is migrated.",
+  "residualRisk": "NewRuntime-bound regressions have not yet run. Existing741 source results belong to their original2330 Runtime. The SDK trusts the embedding host and pinned worker, not malicious same-process hosts. Real GitHub origin, remote ZIP bytes/download digest and producer-consumer compatibility remain unproved; this worker compares provider step/API digests rather than downloading and rehashing ZIP bytes. Direct HTTPS and3xx step-log transport are not proved; proxy/auth/redirects remain disabled. Cross-host Runtime/profile/cwd/full env exact equality, full119 coverage, comparableCI>=30percent, Windows and fullMac support remain unverified. Partial declared-node checks cannot promote formal Summary/Outcome; all previous failure evidence remains.",
+  "recordedAt": "2026-11-01T03:28:49Z",
+  "receiptDigest": "sha256:fd73c5745fe40ca12a20d9af008db5cdb2ec4f349ecd8d54d2f14ac592358d99"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c5e9bec3c08c82c554604f2cd84d471799d38c142a0f1a4ee76651d2de3765c5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:cdf0536391ab6c8f2967b372a301ef3d61d8e9e599cff40b1f7f7a842f090672",
+  "reason": "Record the real user exact confirm_review, Sentinel_f32a31cbed4c81919d6f92d89f73e802 at2026-10-30T23:37:38Z: 确认以上 WI-1114 sequence12绑定，confirm_review. The displayed Contract c5e9bec3c08c82c554604f2cd84d471799d38c142a0f1a4ee76651d2de3765c5, Preflight cdf0536391ab6c8f2967b372a301ef3d61d8e9e599cff40b1f7f7a842f090672, Snapshot f52bc98309b6adffc396b2d50bd1bafbc37c78551620b8091c41d8d409af0dc4 and Runtime6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838 were rechecked unchanged. This records actualhuman acceptance of the precise threeMac planfield amendment; scope122/commands118/budgets/permissions/evidence classes remain unchanged. Universal arbitraryescapeddescendant supervision deferred, not implemented or accepted here; boundedMac realusability and adversarial refusal remain required. All failures preserved. No ES/security/credential/trust/Runtime/publication right or testpass is inferred. Recorder is agent preserving the actual user decision, not creating an unsupported human identity.",
+  "recordedAt": "2026-10-30T23:39:29.012268+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f52bc98309b6adffc396b2d50bd1bafbc37c78551620b8091c41d8d409af0dc4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

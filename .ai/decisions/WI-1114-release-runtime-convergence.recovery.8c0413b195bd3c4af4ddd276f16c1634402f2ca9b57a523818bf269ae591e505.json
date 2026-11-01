@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T06:13:27.810765+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.74d4d6116a0b0a97657569822657ad5c8cdb181137cd3ecbf06ef7779a0dc160.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/b01522ba39ab54348d9a2a21b2a2b877725ceef021f7d065035e075e2fa4da2c.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:2e7e43b5079ee38c6c8bec06c39b605dea34599c5ea80122bc93284ce3ac45ce",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual agent technical retry before sequence11-authorized provider-main plan implementation: bounded fixed-origin HTTPS collection of exact main run/attempt/job/artifact metadata and pagination, strict DTO/service/CLI plus deterministic negative tests, reusing the reviewed supplied-snapshot helper only as non-authenticating inspection. Add the explicitly approved Rust HTTP dependency under the scoped repository Cargo manifest and lock. No accept/writer/reuse function, actual trust grant, new credential, Runtime replacement, public action or fabricated provider facts. Preserve completed startup phase and all prior evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only after this native retry persists, edit scoped files and source lock, commit a conservative compilable TDD baseline, obtain real declared-target assertion RED, implement and validate GREEN. Provider missing/foreign/ambiguous/truncated/deadline facts remain Unknown/rejected, never acceptance. Future candidate Runtime use/switch requires the actual approved identity and normal governance; no implicit trust installation.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

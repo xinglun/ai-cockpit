@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2",
+  "materialManifestDigest": "sha256:10f9c432dc3bf74d6b5faa2d8c158c79ccff6ab641495af250fd7f42ba4204e9",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:17ed4a5a96ff168d63f37dc2be8f96f19116f5c46a6949f5c5b4c3c648f795a0",
+  "reviewedSourceHead": "07504d9ec12fa63f812a833c40e58d227abff722",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:994222a179ae9e900db6e79e53ef078672b699267a511ca1858db0ec7958a489"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b2b0d7ce5a203823f7223f94e28df20f57f7babf7b62cd96d6d840d70b85db0f"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent technical review of current C16 RED request sha256:17ed4a5a96ff168d63f37dc2be8f96f19116f5c46a6949f5c5b4c3c648f795a0 HEAD 07504d9ec12fa63f812a833c40e58d227abff722. The committed 16-path delta exactly combines reviewed API-complete RED scaffold f5d4ad096c4b4c12c268d899a247dec59c413b00bb7a38ae778783483300aafe and adapter RED proposal935f2718152b6461b9e2d8d8dcbc31e8baf5e3f939c186358da7d908756e2c01. Five native fixture chains and eleven store roots were independently statically checked; all five core roots also checked. Native input source witness and store production still conservatively NotImplemented. No source authority can be deserialized or minted by marker. Original Github adapter remains. Exact new input digests match committed after bytes. Only main and ci_admission tests of eight original permitted syntax Unknown change, completely reviewed as small append delta against prior fully read bodies. Other six complete Unknown entries identical. No Finding/new cause, profile/policy/candidate2330 embeddedanalysis unchanged; C16 human confirmation already recorded natively. This is self-declared agent technical material review, not human/source authentication and not tests passed.",
+  "residualRisk": "Eight permitted syntaxUnknown retained Unknown. Assertion RED not run yet. APIs are deliberately conservative incomplete stubs, so full WI cannot pass. Serialized input/hash/store never independent source proof; remote origin trust channel still absent. Planned current invocation witness only process-local native observation, not hosted provider proof. No Github real accept, full comparable CI30percent, future Mac local/full descendants or Windows proof. Previous Batch2A parser limits and all historical failures preserved. No new network/CI/push/merge/release/cleanup/defaultRuntime/key/root/authority.",
+  "recordedAt": "2026-10-31T13:43:09Z",
+  "receiptDigest": "sha256:9854de67d933d06b085b6027e1ef0d2ac08aa93ec8a7bd9588069d5eca9e5d22"
+}

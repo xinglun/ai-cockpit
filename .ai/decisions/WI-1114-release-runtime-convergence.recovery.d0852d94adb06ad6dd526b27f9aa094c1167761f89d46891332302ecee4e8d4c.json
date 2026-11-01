@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T19:00:28.009621+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/399491abd44983fe78ea58502f98a046272e725c8cf4fee0feb990bba97ed4e1.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:9559ae4d15afd36b38e3fafce6991bc50a8ab3a3abcbd96fc523e9f985987042",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Execute only the independently reviewed v9 plus v10 conservative causal-owner repair as an explicit assertion-RED checkpoint. Preserve every prior failure, source/profile/Runtime/command identity and Unknown. Use exact RED patch sha256:5847d89e74a230c0eb0f3da5ad2066998a10f5f0e44ee2fd13d93052ef3ea0c1 over current c29, nine scoped paths. Optional local reuse and node filtering remain conservative RED stubs; all approved negative assertions stay present. This decision records a real new source iteration, not passed verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back native retry before source application and ordinary source-only commit. Refresh actual current preflight/material and honor native admission. First execute only declared cargo test --locked -p cockpit-repository --test verification_attempts -- --test-threads=1 through the approved isolated governor; one heavy worker/CargoJobs1, <=900s, protected1.25GiB disk stop, no automatic cleanup. Keep complete actual environment identity, including any resource-preserving CARGO_INCREMENTAL=0 setting. Stop after that one target and classify compilation/fixture/assertion failures accurately. No target1, all118, Runtime switch, push, CI or release.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

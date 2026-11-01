@@ -1,0 +1,399 @@
+{
+  "sequence": 13,
+  "preparedDigest": "sha256:f163bf21303c660f20fff67f9a8ce6efc94efb01e1e3d3c51980b3b08fb6ce19",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1114-release-runtime-convergence",
+    "sequence": 13,
+    "changeId": "WI-1114-ordinary-delivery-complete-Mac-next-WI-no-release-20261031",
+    "requestDigest": "sha256:4d7c2b38b0497193cb7fccf5495a159d7df391768d500eeeb5919dd881321708",
+    "reason": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant. Retain CI>=30percent/full coverage, trusted GitHub accept, current help, durability and issues1004/1041 tool regression. Scope122/verification118 unchanged; release workflow ceiling0; no old state/evidence/counter or human identity is rewritten.",
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "set",
+        "oldValue": "Publish a trustworthy installable Runtime that works on Mac, reduces repeated CI and closure work, exposes complete help and is genuinely accepted by Sentinel.",
+        "newValue": "Deliver ordinary Runtime source and tool improvements under WI-1114 without version publication. After this WI genuinely closes its retained requirements, the immediately following independent WI must implement and accept Mac local governed execution and complete owned-descendant supervision, including arbitrary escaped or detached descendants, before any later formal release and independent Sentinel package acceptance."
+      },
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "Complete the approved five release subtasks without weakening safety or evidence; defer publication until exact version and assets are approved.",
+        "newValue": "Complete WI-1114 as ordinary implementation work: measured complete CI optimization, current public help, issues1004/1041 and amendment_provenance tool regressions, trusted CI evidence acceptance, and durable interrupted execution facts. Do not publish a version here. Transfer Mac local execution and complete descendant supervision to the next independent WI as a mandatory pre-release obligation; transfer actual Sentinel formal-package acceptance to after that later release."
+      },
+      {
+        "path": "/acceptanceCriteria/0",
+        "operation": "set",
+        "oldValue": "Exactly five subtasks: Mac compatibility, measured CI optimization with only justified Rust migration, complete public help, issues1004/1041 with Sentinel formal-package acceptance and related tool regression, and trusted CI-to-native closeout with durable interrupted-attempt results. No sixth task.",
+        "newValue": "Retain traceability of the original five workstreams. This WI delivers ordinary CI, help, tool-regression, trusted-admission and durability work; only Mac delivery and actual Sentinel formal-package acceptance move to the explicitly stated subsequent phases and remain unverified here. Separating the fourth workstream tool regression from its downstream consumer acceptance creates no sixth feature or competing successor."
+      },
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "set",
+        "oldValue": "Mac actual arm64 strict-warnings and fresh governed basic operation must be accepted only within explicit, actually observed platform capability boundaries: ordinary startup, success/nonzero, bounded I/O/protocol, timeout/cancellation, parent disconnect and known-process supervision. Any unprovable observation or cleanup stays unsupported/unknown and fails closed for the requested guarantee; no unsafe cleanup/reuse or hidden guarantee downgrade. Universal supervision/containment of arbitrary escaped or detached descendants is deferred to an independent later task and is not delivered by WI-1114. Keep the explicit unsupported boundary and adversarial refusal tests; do not replace full-tree proof with process-group, EOF, exit, ECHILD or empty-lsof observations. Preserve Linux and Windows guarantees and all historical failures; actual Mac usability still requires real pinned candidate evidence.",
+        "newValue": "The immediately following independent Mac WI must implement and genuinely accept local governed execution and complete owned-descendant supervision, including arbitrary escaped or detached descendants, before version publication. WI-1114 does not claim that Mac capability is delivered. Preserve current unsupported boundaries, all original failures and Linux/Windows guarantees. Apple Endpoint Security is only a candidate mechanism; any entitlement, signing, credential or OS/security change needs its own actual approval. Do not replace full-tree proof with process-group, EOF, exit, ECHILD or empty-lsof observations, or silently postpone the complete guarantee beyond that next Mac WI."
+      },
+      {
+        "path": "/acceptanceCriteria/4",
+        "operation": "set",
+        "oldValue": "After exact formal publication, Sentinel independently pins package/binary/inspect identities in isolated copies, preserves original lockfiles and histories, and judges1004,1041 and amendment_provenance separately. No candidate/plan-only/self-test substitute or early issue close.",
+        "newValue": "Retain actual issues1004/1041 and amendment_provenance tool regression as required WI-1114 acceptance, with real source-bound native fixtures and preserved failure/history evidence. Independent Sentinel formal-package acceptance is transferred to after the next Mac local-execution/full-supervision WI and an exactly approved immutable formal release. Then pin package/source/binary/inspect identities, preserve original lockfiles and history, and judge the issues separately. No candidate, plan-only or AI Cockpit self-test substitutes for that later consumer acceptance; do not close issues early or invent missing historical replay."
+      },
+      {
+        "path": "/acceptanceCriteria/7",
+        "operation": "set",
+        "oldValue": "Quality CI total8 including at least1main; release workflow total2; newWI counters do not inherit WI1113. No blind reruns. Exact version/tag/assets publication, shared/production Runtime replacement and irreversible deletion require later precise approval.",
+        "newValue": "Quality CI total8 including at least1main; preserve all already-used attempts and do not inherit WI1113 counters or blindly rerun. WI-1114 release workflow upper limit is0: no version release workflow is run in this ordinary WI. The former2-run release ceiling and all existing counters remain immutable history, are not reset or transferred as a grant to a subsequent WI, and authorize no publication here. Exact future version/tag/assets publication, shared/production Runtime replacement and irreversible deletion still require their own precise approval."
+      },
+      {
+        "path": "/acceptanceCriteria/9",
+        "operation": "set",
+        "oldValue": "v1.1.0 remains a version proposal. Merge, source verification, public publication and Sentinel acceptance are separate phases. Later facts stay unverified until observed; do not invent a pre-merge archived resourceContext circular dependency.",
+        "newValue": "WI-1114 is an ordinary implementation delivery and publishes no version, tag or assets. After its retained acceptance actually passes and it closes, the immediately following independent WI must complete Mac local governed execution and complete descendant supervision with real pinned Mac acceptance; only then may a separately and exactly approved formal release occur, followed by independent Sentinel package acceptance. The historical v1.1.0 suggestion is not an approved version or tag. Later facts stay unverified until observed; do not create a fake pre-merge archived resourceContext circular dependency."
+      },
+      {
+        "path": "/scenarioCoverage/0/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/0/reason",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant."
+      },
+      {
+        "path": "/scenarioCoverage/0/expected",
+        "operation": "set",
+        "oldValue": "Actual macOS arm64 strict-warnings and real fresh governed operation within a documented capability matrix, with ordinary startup/I/O/timeout/known-process behavior evidenced and unsupported or unknown guarantees explicitly refused. Universal arbitrary detached-descendant supervision is an independent deferred task, not a completed feature.",
+        "newValue": "Not delivered or accepted by WI-1114. The immediately following independent Mac WI must prove real local governed execution and complete owned-descendant supervision including arbitrary escaped or detached descendants before version publication; unsupported or unknown observations cannot be promoted to full-tree cleanup or acceptance."
+      },
+      {
+        "path": "/scenarioCoverage/0/verificationPlan",
+        "operation": "set",
+        "oldValue": "Pin immutable Mac source/lock/toolchain/binary/inspect identities; actual Mac compile/strict checks and ordinary CLI lifecycle success/nonzero; bounded startup/request/response/protocol/timeout/cancellation and parent-disconnect versus normal Release EOF; known-process identity/cleanup and explicit unsupported full-owned-descendant requests; missing/ambiguous observations remain unknown with protected resources retained. Keep malformed/oversize/detached-pipe adversarial cases and Linux/Windows regression standards; a refusal is evidence of a boundary, not proof the requested workload is supported. Current public Mac verification/composition supervision remains unsupported until an explicitly scoped implementation and real Mac runs prove the bounded supported mode. Full arbitrary detached supervision is not claimed or tested as completed here; separate follow-up must resolve OS mechanism, permissions, identity, event loss and terminal cleanup proof.",
+        "newValue": "Transfer the exact Mac implementation and real pinned arm64 acceptance to the immediately following independent WI, with its own Contract, scope and concrete permission approvals. Preserve the original unverified state and evidence. Prove public governed success/nonzero, bounded startup/I/O/timeout/cancellation, parent disconnect versus Release EOF, full lineage across fork/exec/setsid/double-fork/chdir/closed stdio, event loss/observer failure/PID reuse and terminal cleanup. Establish the actual supported OS mechanism and any ES entitlement/signing/OS-security requirements; none is authorized or proved by this amendment. Full guarantee is mandatory before later release, not postponed again. Preserve Linux/Windows regression standards and all historical failures."
+      },
+      {
+        "path": "/scenarioCoverage/3/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/3/reason",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant."
+      },
+      {
+        "path": "/scenarioCoverage/3/expected",
+        "operation": "set",
+        "oldValue": "After immutable formal publication, independent Sentinel1004/1041 and amendment_provenance outcomes preserve old evidence.",
+        "newValue": "Transferred, not completed: after the next independent Mac local-execution/full-supervision WI actually passes and exact immutable version publication is separately approved and performed, Sentinel independently accepts issues1004/1041 and amendment_provenance against those formal package/binary/inspect identities. Internal tool regression remains required in WI-1114."
+      },
+      {
+        "path": "/scenarioCoverage/3/verificationPlan",
+        "operation": "set",
+        "oldValue": "Pin formal archive/binary/inspect; actual review/freshverify/preflight/finish/archive plus registration/tamper/Retained-Deleted. Preserve original Cargo.lock.",
+        "newValue": "Perform only after the next Mac local/full-supervision WI and the later exact formal release. Pin source/tag/package/binary/inspect identities in independent isolated copies, preserve original Cargo.lock and all available history, and judge registration/idempotence/tamper/Retained-Deleted, fresh native lifecycle and amendment_provenance separately. Preserve missing historical Git-object/replay limitations without inventing them. No current candidate, plan-only output or self-test is a substitute; this scenario remains unverified in WI-1114."
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Not delivered or accepted by WI-1114. The immediately following independent Mac WI must prove real local governed execution and complete owned-descendant supervision including arbitrary escaped or detached descendants before version publication; unsupported or unknown observations cannot be promoted to full-tree cleanup or acceptance.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant.",
+            "required": false,
+            "scenario": "mac_real_supervised_lifecycle",
+            "status": "unverified",
+            "verificationPlan": "Transfer the exact Mac implementation and real pinned arm64 acceptance to the immediately following independent WI, with its own Contract, scope and concrete permission approvals. Preserve the original unverified state and evidence. Prove public governed success/nonzero, bounded startup/I/O/timeout/cancellation, parent disconnect versus Release EOF, full lineage across fork/exec/setsid/double-fork/chdir/closed stdio, event loss/observer failure/PID reuse and terminal cleanup. Establish the actual supported OS mechanism and any ES entitlement/signing/OS-security requirements; none is authorized or proved by this amendment. Full guarantee is mandatory before later release, not postponed again. Preserve Linux/Windows regression standards and all historical failures."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Complete metadata target coverage with only proved reuse and actual remaining executions; measured active-PR target<=55min.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "measured_complete_ci_coverage",
+            "status": "unverified",
+            "verificationPlan": "Whole producer/consumer and every direct/indirect caller regression, Windows suites and wall-clock stage/resource report."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "100percent final public command inventory coverage and no exposed internal supervisor.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "complete_public_help",
+            "status": "unverified",
+            "verificationPlan": "Recursive actual Clap inventory, root/nested help, three-language parity and actual final platform outputs including new commands."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Transferred, not completed: after the next independent Mac local-execution/full-supervision WI actually passes and exact immutable version publication is separately approved and performed, Sentinel independently accepts issues1004/1041 and amendment_provenance against those formal package/binary/inspect identities. Internal tool regression remains required in WI-1114.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant.",
+            "required": false,
+            "scenario": "sentinel_formal_release_acceptance",
+            "status": "unverified",
+            "verificationPlan": "Perform only after the next Mac local/full-supervision WI and the later exact formal release. Pin source/tag/package/binary/inspect identities in independent isolated copies, preserve original Cargo.lock and all available history, and judge registration/idempotence/tamper/Retained-Deleted, fresh native lifecycle and amendment_provenance separately. Preserve missing historical Git-object/replay limitations without inventing them. No current candidate, plan-only output or self-test is a substitute; this scenario remains unverified in WI-1114."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Only equivalent complete evidence admitted; completed results survive metadata failure; unsupported nodes remain real gaps.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "trusted_ci_closeout_and_partial_durability",
+            "status": "unverified",
+            "verificationPlan": "Provider/source/runtime/node negative matrix, real small interruption fixture, idempotent accept and canonical lifecycle; progress is never evidence."
+          }
+        ],
+        "newValue": [
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Not delivered or accepted by WI-1114. The immediately following independent Mac WI must prove real local governed execution and complete owned-descendant supervision including arbitrary escaped or detached descendants before version publication; unsupported or unknown observations cannot be promoted to full-tree cleanup or acceptance.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant.",
+            "required": false,
+            "scenario": "mac_real_supervised_lifecycle",
+            "status": "unverified",
+            "verificationPlan": "Transfer the exact Mac implementation and real pinned arm64 acceptance to the immediately following independent WI, with its own Contract, scope and concrete permission approvals. Preserve the original unverified state and evidence. Prove public governed success/nonzero, bounded startup/I/O/timeout/cancellation, parent disconnect versus Release EOF, full lineage across fork/exec/setsid/double-fork/chdir/closed stdio, event loss/observer failure/PID reuse and terminal cleanup. Establish the actual supported OS mechanism and any ES entitlement/signing/OS-security requirements; none is authorized or proved by this amendment. Full guarantee is mandatory before later release, not postponed again. Preserve Linux/Windows regression standards and all historical failures."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Complete metadata target coverage with only proved reuse and actual remaining executions; measured active-PR target<=55min.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "measured_complete_ci_coverage",
+            "status": "unverified",
+            "verificationPlan": "Whole producer/consumer and every direct/indirect caller regression, Windows suites and wall-clock stage/resource report."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "100percent final public command inventory coverage and no exposed internal supervisor.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "complete_public_help",
+            "status": "unverified",
+            "verificationPlan": "Recursive actual Clap inventory, root/nested help, three-language parity and actual final platform outputs including new commands."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Transferred, not completed: after the next independent Mac local-execution/full-supervision WI actually passes and exact immutable version publication is separately approved and performed, Sentinel independently accepts issues1004/1041 and amendment_provenance against those formal package/binary/inspect identities. Internal tool regression remains required in WI-1114.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": "Owner direction Sentinel_cd2d5393998c81918b888b363d289fe7 (2026-10-31T01:46:56Z), clarified by Sentinel_e3cda4e3974c81918af513b6a2542917 (2026-10-31T01:51:20Z): current WI is ordinary work with no version publication; the immediately following independent Mac WI must deliver local execution AND full descendant supervision before release; actual Sentinel package acceptance follows the later formal assets. This is a planned transfer, not acceptance or a new permission grant.",
+            "required": false,
+            "scenario": "sentinel_formal_release_acceptance",
+            "status": "unverified",
+            "verificationPlan": "Perform only after the next Mac local/full-supervision WI and the later exact formal release. Pin source/tag/package/binary/inspect identities in independent isolated copies, preserve original Cargo.lock and all available history, and judge registration/idempotence/tamper/Retained-Deleted, fresh native lifecycle and amendment_provenance separately. Preserve missing historical Git-object/replay limitations without inventing them. No current candidate, plan-only output or self-test is a substitute; this scenario remains unverified in WI-1114."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Only equivalent complete evidence admitted; completed results survive metadata failure; unsupported nodes remain real gaps.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": null,
+            "required": true,
+            "scenario": "trusted_ci_closeout_and_partial_durability",
+            "status": "unverified",
+            "verificationPlan": "Provider/source/runtime/node negative matrix, real small interruption fixture, idempotent accept and canonical lifecycle; progress is never evidence."
+          },
+          {
+            "description": null,
+            "evidence": [],
+            "expected": "Real current-source native regressions prove issues1004/1041 and amendment_provenance behavior with exact identity and negative cases; preserve original histories and missing-replay limitations. This is internal tool evidence, not formal-package consumer acceptance or issue closure.",
+            "expectedOutcome": null,
+            "expectedResult": null,
+            "reason": "Retained internal tool-regression portion of the original fourth workstream; separating it from downstream formal Sentinel package acceptance must not remove the current tool obligations or add a sixth feature.",
+            "required": true,
+            "scenario": "issues_1004_1041_tool_regression",
+            "status": "unverified",
+            "verificationPlan": "Use real controlled source-bound native fixtures for registration/restore idempotence, retained-to-deleted integrity and identity, missing/foreign/tampered inputs, known-receipt conflict refusal before payload mutation, and amendment_provenance/lifecycle ordering where applicable. Preserve caller/policy/Contract/Runtime/receipt bindings, original lockfiles, failure outputs and all available history; distinguish a new real binding from unreproducible original history. Attach actual execution and reviewer evidence; do not mark this scenario passed merely because it was added."
+          }
+        ]
+      },
+      {
+        "path": "/requiredEvidenceClasses",
+        "operation": "remove",
+        "oldValue": [
+          "verification",
+          "delegated:github",
+          "mac_supervisor_acceptance",
+          "measured_ci_coverage",
+          "help_inventory",
+          "sentinel_formal_package_acceptance",
+          "trusted_ci_closeout_admission"
+        ],
+        "newValue": [
+          "verification",
+          "delegated:github",
+          "measured_ci_coverage",
+          "help_inventory",
+          "sentinel_formal_package_acceptance",
+          "trusted_ci_closeout_admission"
+        ]
+      },
+      {
+        "path": "/requiredEvidenceClasses",
+        "operation": "remove",
+        "oldValue": [
+          "verification",
+          "delegated:github",
+          "measured_ci_coverage",
+          "help_inventory",
+          "sentinel_formal_package_acceptance",
+          "trusted_ci_closeout_admission"
+        ],
+        "newValue": [
+          "verification",
+          "delegated:github",
+          "measured_ci_coverage",
+          "help_inventory",
+          "trusted_ci_closeout_admission"
+        ]
+      },
+      {
+        "path": "/governanceProfile/evidenceClassStages/classes",
+        "operation": "remove",
+        "oldValue": [
+          {
+            "class": "mac_supervisor_acceptance",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "measured_ci_coverage",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "help_inventory",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "sentinel_formal_package_acceptance",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "trusted_ci_closeout_admission",
+            "requiredFrom": "finish"
+          }
+        ],
+        "newValue": [
+          {
+            "class": "measured_ci_coverage",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "help_inventory",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "sentinel_formal_package_acceptance",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "trusted_ci_closeout_admission",
+            "requiredFrom": "finish"
+          }
+        ]
+      },
+      {
+        "path": "/governanceProfile/evidenceClassStages/classes",
+        "operation": "remove",
+        "oldValue": [
+          {
+            "class": "measured_ci_coverage",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "help_inventory",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "sentinel_formal_package_acceptance",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "trusted_ci_closeout_admission",
+            "requiredFrom": "finish"
+          }
+        ],
+        "newValue": [
+          {
+            "class": "measured_ci_coverage",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "help_inventory",
+            "requiredFrom": "finish"
+          },
+          {
+            "class": "trusted_ci_closeout_admission",
+            "requiredFrom": "finish"
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c5e9bec3c08c82c554604f2cd84d471799d38c142a0f1a4ee76651d2de3765c5",
+    "newContractDigest": "sha256:831cdf2d1187594fe028b13bb3a428ef737e4b5fcc43469db00f9c4009cd3648",
+    "repositorySnapshotDigest": "sha256:3477a9c1c2ce15b93e12643eebe7b78ffa04ad9d323da383d2f67c4d2107d293",
+    "environmentObservationDigest": "sha256:30890ab8e2130bc87d65e3fee0f76b2ddc8b5a11ed900ae3127a4bcbf29ce603",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1114-release-runtime-convergence.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/0",
+      "/acceptanceCriteria/1",
+      "/acceptanceCriteria/4",
+      "/acceptanceCriteria/7",
+      "/acceptanceCriteria/9",
+      "/governanceProfile/evidenceClassStages/classes",
+      "/requiredEvidenceClasses",
+      "/scenarioCoverage",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/reason",
+      "/scenarioCoverage/0/required",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scenarioCoverage/3/expected",
+      "/scenarioCoverage/3/reason",
+      "/scenarioCoverage/3/required",
+      "/scenarioCoverage/3/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:d4e5c7b2584294f1e64b2f72270ee8f3d96e9f6b8a1a4672dd354391f5e3e2a5",
+    "journalDigest": "sha256:03118dd4af9de9cff4fd6f0a85e9d90c57bd956257a3b3737438a958555e876e",
+    "recordedAt": "2026-10-31T02:33:51Z"
+  }
+}

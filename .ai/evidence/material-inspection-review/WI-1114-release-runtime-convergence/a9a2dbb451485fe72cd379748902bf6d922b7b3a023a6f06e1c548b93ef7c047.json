@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "materialManifestDigest": "sha256:edf667852de86db8eebdfdcf320d9ec04b9bb1eb976f00cbe0b8cdcd21ee6a85",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:a9a2dbb451485fe72cd379748902bf6d922b7b3a023a6f06e1c548b93ef7c047",
+  "reviewedSourceHead": "6a2ce5bdcd0669720a3ce3e271f611654ea4d40f",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:b3582baf2eccabe9da07ea0527c69d33df36c0e81fa63a0236fd8de956ea0302"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:6ea3a5bb4177496206827416dd84e3959b954c6fd5f68e10bf2f59506e5fb48c"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent self-declared technical review under existing delegated source implementation authority. All committed entry blobs were rehashed; only the three named scoped controlled-source scaffold/test/import files differ from the previously reviewed baseline. The complete appended API and three real-native fixture test bodies were read; positive source observation now executes a pinned controlled tool and checks fresh source/input/schema before immutable publication/cold-read and actual guarded consumer; three original assertions are unchanged. No provider calls, source trust installation, command policy changes or assertion weakening. Existing unchanged full syntax Unknown reviews are reused by exact entry/blob equality, never converted to Clean.",
+  "residualRisk": "Controlled-source implementation has real prior assertion RED but has not yet compiled or passed at this exact source. Trust is limited to the trusted embedding host and its pinned controlled tool; it does not resist a malicious same-process SDK host. Real provider recipe/HTTP/source closure, whole CI/performance and platform acceptance remain unproved. Saved graph integrity never reconstructs a source capability. No old result is rebound.",
+  "recordedAt": "2026-11-01T00:30:37Z",
+  "receiptDigest": "sha256:0c8a325157d2db6e9dc3a797e8e7c3800df0cd7e7b4114e5869822c17c6f2ec9"
+}

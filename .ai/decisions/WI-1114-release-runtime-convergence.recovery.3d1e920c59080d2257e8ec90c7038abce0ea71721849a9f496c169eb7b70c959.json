@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T09:04:55.307318+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/224e95344fbbc11a98b14fb95bfe2642908b64b592faf60196755e8b4bd8fa8a.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:bedf5e7dbad572804489dfee25dad9977271c7ea15a6a97a4fd351cdc85e5875",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual next in-scope source iteration for composition supervisor control transport and owned-child finalization, following independently accepted Unix verification finalization. Preserve exact Ready/Release/Abort authority binding and normal parent stdin EOF after Release. Do not promote UnixProcessGroup, lsof empty or EOF into complete descendant proof. Use current scoped verification lib and repository collaboration module only; add bounded protocol and exact-owner cleanup regression inside existing scoped modules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Normal native retry must be read back before source edits. Freeze genuine tests-only failure baseline, use declared native targets with single worker/CargoJobs1, bounded commands and conservative disk floor. Preserve all original failures and perform production fixes only after static review, then genuine GREEN/strict/fmt. Current Mac full-tree OS mechanism remains unresolved; no claim of actual Mac support. No Runtime switch, new dependency, credentials, trust installation, provider network retry, cleanup, push, CI or publication.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

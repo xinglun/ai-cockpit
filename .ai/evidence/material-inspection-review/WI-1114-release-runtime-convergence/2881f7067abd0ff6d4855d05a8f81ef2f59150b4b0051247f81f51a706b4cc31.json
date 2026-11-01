@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:831cdf2d1187594fe028b13bb3a428ef737e4b5fcc43469db00f9c4009cd3648",
+  "materialManifestDigest": "sha256:3f15ef0adb460777cc1004d3522ac81720ac712bd9338a0698270df8d0158134",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:2881f7067abd0ff6d4855d05a8f81ef2f59150b4b0051247f81f51a706b4cc31",
+  "reviewedSourceHead": "ddc8efd53569203bd32aefddeb22f0754d6a9878",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:1219c02119cc117a953664ffce6afe8e0eee3b8020b42efd3551f7daca8f62af"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b2b0d7ce5a203823f7223f94e28df20f57f7babf7b62cd96d6d840d70b85db0f"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Record the actual delegated technical decision from the parent after independent verification of sequence13 real human confirmation and exact current material request2881f7067abd0ff6d4855d05a8f81ef2f59150b4b0051247f81f51a706b4cc31. The raw17988B request SHA2569cc1f3246279a80f93fe813a40ff259a1b5a37b565fc0707f15b47d59efd3f26 was independently checked; against actually reviewed bc1bc45fd087467748409fff74be3c7f6f6f8b5a729d0842109e0e37599e4e0f only ContractDigest/requestDigest change. All39entries33Clean6samepermittedUnknown0Finding and the complete remaining source/profile/policy/analysis identities are identical. Preserve the original independent full-blob reviews and exact subsequent patch reviews rather than claiming a new full source review in this rebind. Manifest3f15ef0adb460777cc1004d3522ac81720ac712bd9338a0698270df8d0158134; material sourceSnapshot1502db59192c854003d7a6c1e800e87905023f5cdb07cd995e1686644f74b777, distinct from native snapshot3477a9c1c2ce15b93e12643eebe7b78ffa04ad9d323da383d2f67c4d2107d293. This is agent:codex/self_declared permittedUnknown technical review with exact original profile authoritySource, not human/provider/release approval. Human sequence13 confirmation was separately recorded natively from actual Sentinel_3bb6d13d6a348191946eb92fe96b009b.",
+  "residualRisk": "All six readable_committed_rust_syntax_unknown remain Unknown and are not converted to Clean. Static material acceptance is not a test result, provider authentication/admission/reuse, a complete118-command result, CI>=30percent measurement or WI acceptance. Preserve all historical failures/unknowns, including original process/cleanup ambiguities. Current WI is ordinary work with no release. The immediately next independent Mac WI must complete real local governed execution and full arbitrary-detached descendant supervision before any later separately approved publication; not delivered here. Sentinel actual formal package acceptance follows that real publication. No proxy enablement, new network, trust/credential/OS-security/Runtime/CI/push/release/cleanup permission is granted by this receipt.",
+  "recordedAt": "2026-10-31T03:35:52Z",
+  "receiptDigest": "sha256:757b710a4ef47d3b6b1eb223e6a3b91a26f1b12c68473d123b5c7f918f3a8b12"
+}

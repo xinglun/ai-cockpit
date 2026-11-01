@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2",
+  "materialManifestDigest": "sha256:0a0f7a5fa0c8d337e7e787a4cc8524e0d599b1d5bca4ad0bdb6381d381c15e7e",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:f6bfec1bf44214593bd8ccfde65a4e05a059bb87b013442323ce27e26e36e360",
+  "reviewedSourceHead": "0538489bd9b70e5c8efee952fc9b3f8e51999e9b",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:b33f6af141ef74d5c724c8e43104bb097cd842c644f3f0809172c746099684b8"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent technical review current request sha256:f6bfec1bf44214593bd8ccfde65a4e05a059bb87b013442323ce27e26e36e360 HEAD 0538489bd9b70e5c8efee952fc9b3f8e51999e9b. Only module bridge changes from approved48dea source: exactly reviewed877B patch807d3b3fb8ab52c5cfd87b876ceeebf009ad5cfc74eb8d0c1111c7af1a91ed8b, afterb3a227a0bab1758da515d81a4bb01a587350ad6d868d68ed39b75feb0a4871a3. Publishing lock released before cold readback; load is real production path and exact input/marker/record_ref equality required. Missing/error/mismatch returnErr, do not authenticate bytes or pretend persisted data rolled back. No lint exemption/assertion/policy/permission/source-proof weakening. Other45 entries including nine complete reviewed syntaxUnknown byte-identical, no Finding, profile/policy/analysis unchanged. True new human-approvedec82 native retry pending, oldC16amend consumed and not reused; checkpoint1/historicalreceipts retained. Actual agent:codex self_declared decision, not owner/provider source verification.",
+  "residualRisk": "Nine syntaxUnknown retained Unknown. Prior79/79 and failedstrict108 belong only930b, new0538 validation pending. Witness guarantee is scoped to trusted service/executionadapter facing untrusted inputs, not malicious same-process SDK host or arbitrarycustomsupervisor attestation. Cold external bytes remainUntrusted/nonaccepted; no independent crossmachine or realGithub provenance channel. Publication/readback errors may leave immutable stored data; no rollback claim. Complete comparableCI>=30percent/Mac fulltree/Windows acceptance incomplete. Existing2Aallocation/descriptor/filesystem I/O limits retained. No network/CI/push/merge/release/extra cleanup/defaultRuntime/signingkey/trustroot/authority.",
+  "recordedAt": "2026-10-31T18:08:39Z",
+  "receiptDigest": "sha256:2aca4951d2eb23255c5f936a9b0016ad41818d2d80b6c7a92a409e2ad3c8d540"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cfbe21bfee5fa4c2610cf1314fedea426aeeabfef9f57c9b3615132ac3216009",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5f960edb780e1a609656565c110adb2fbce54e9f0f603d58f5cdf8b1951965ea",
+  "reason": "Record the actual user confirm_review received as conversation Sentinel_2d70809237d881918664df4d1d7d4486 at 2026-10-30 00:34 UTC for WI-1114 sequence8: add exactly .ai/decisions/WI-1114-release-runtime-convergence.recovery.json, scope108 to109, and all four displayed exact bindings. The current native Contract, preflight, snapshot and actual approved 6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838 Runtime digest were checked unchanged. This records the genuine owner decision only; it does not accept current material Unknowns, make the rejected209-test formal receipt current, or mark any final evidence/scenario passed. The native Contract-amendment revalidation marker already exists, so no redundant recover is executed. Preserve all prior23 maintenance/four normal verification executions, original receipts and failures; qualityCI8 including main and release-workflow2 remain unchanged. No verification, compilation, cleanup, push, CI or Runtime switch occurs in this confirmation.",
+  "recordedAt": "2026-10-30T00:35:50.448639+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bdf861529f32570433d6a52d0b34f7c8bf5ba8c0125f35efec5d5297b9a87c49",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

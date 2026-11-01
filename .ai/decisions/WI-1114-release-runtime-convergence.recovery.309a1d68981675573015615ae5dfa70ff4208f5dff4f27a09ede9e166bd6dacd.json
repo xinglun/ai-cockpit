@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T08:29:42.869825+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/4a9d6527c1061ab7ca2f65ecf653c1987bf634975a16da094b963766170d299f.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:fa65f9b9544fb453f68a04615f80a9eed0a2183126abb93616d3429414ca392f",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual authorized next source iteration for the independently reviewed Unix supervisor finalization proposal, exact225068-byte source base1aa39f57. Replace outer Unix reader/join/wait cleanup as one bounded control-channel slice, retaining existing startup exchange and every assertion. GenericMac backend, complete detached-descendant proof, Windows and composition Release control are not claimed complete. Provider transport failure remains unmodified and is not retried.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After this native retry is read back, apply only reviewed01RED to scoped verification lib, normal local failure-baseline commit and declared cargo test verification alltargets through the existing approved governingRuntime. Preserve compile errors separately from assertionRED; then reviewed02 only with unchanged tests, final strict/fmt and actual fresh evidence. One heavy worker/CargoJobs1,declared<=900seconds,conservative disk stop before1GiB,owned process supervision and resource/RSS/cgroup logging. No dependency,cleanup,Runtime switch,provider request,CI,push or release.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

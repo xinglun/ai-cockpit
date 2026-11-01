@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2",
+  "materialManifestDigest": "sha256:2e91bd9cbc8719b634458698ef05e6712c3e9f01c4d503eecafaab42b9dabd52",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:646d80150acd669476e5f01bd7d1b20991138479d76856693290fca31e1286af",
+  "reviewedSourceHead": "f8b20621610d6008d49170c32aa19144db00f0ca",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:b33f6af141ef74d5c724c8e43104bb097cd842c644f3f0809172c746099684b8"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual current agent technical review sha256:646d80150acd669476e5f01bd7d1b20991138479d76856693290fca31e1286af HEAD f8b20621610d6008d49170c32aa19144db00f0ca. Exactly five permitted CLI/help metadata/docs entries change, all byte-identical to isolated5113B patch49d9f43b221348fab94264e5006b7bd3fa701a341c6e80f87178fedf078ff1e7. Original CLI assertions unchanged; realprevious34/2 failure preserved. Six newargumenthelp descriptions; requestmetadata removes globaltask-caller as main existing verifier requires, actualglobalflag/auth remained. Digest parser still rejects invalid input with sameDigest parse before repositoryIO, stores original validatedString for accuratewire type, then re-parses before servicecall; no weakenedproof/policy. All nine complete Unknown entries and remaining41 entries unchanged. NoFinding/profile/policy/embeddedanalysis/Contract/budget/authority change. Scope-externalMCPmaterial_review/usage untouched and proposed separately; no fakeallMCP pass. Actualec82retrypending unchanged, no extrarecovery/checkpoint. Real agent:selfdeclared technicalreview, not human/provider sourceattestation.",
+  "residualRisk": "NineSyntaxUnknown remainUnknown. Currentf8b CLI fixes not yet executed; prior0538 module79/API34/27/protocoltests and strict/fmt passes retained under originalsource, not transplanted. MCPalltargets failed one strictoldcount44vs46; secondusage44 is staticnotrun and bothfiles outside124scope, no changesapplied. Untrustedcolddata never sourceproof/skip; witness assumestrusted service/executionadapter, not maliciousSDKhost/customsupervisor attestation. No actualGithubaccept/fullcomparableCI30percent/Macfulltree/Windows acceptance. Readbackerror doesnot rollback persistentrecord. No network/CI/push/merge/release/cleanup/defaultRuntime/trustroot/key/permission changes.",
+  "recordedAt": "2026-10-31T18:29:13Z",
+  "receiptDigest": "sha256:10010359fcf503225e78b36e3fb4390b2c29af87d99632f11fb27f8d0b52871a"
+}

@@ -1,0 +1,21 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_a5582362f8c48191acaaa952874e89e8 (actual user approval received2026-10-31T18:04:19Z in response to exact retry requestSentinel_2ea0f7a193648191b1d4816344d51e63 at2026-10-31T14:20:20Z; one native WI1114 retry for reviewed877B production coldreadback correction, current material refresh and remaining existing declared checks. Contract8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2/Summary150828655f8e40efab9c3470b52bb62ce57441568906aa3507968e0118c468b3/repositoryee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b/Runtime1.0.1-2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65 verified unchanged. Not unlimited retries/new scope/network/CI/push/merge/release/cleanup/defaultRuntime/trustroot/key/authority.)",
+  "decidedAt": "2026-10-31T18:04:19Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:8e81616f57da2f16c1ee8382281ed65025d5e89024e72c97f206d1fafdab9ae2",
+  "predecessorSummaryDigest": "sha256:150828655f8e40efab9c3470b52bb62ce57441568906aa3507968e0118c468b3",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "One scoped production readback correction after real79-testGREEN consumed C16 amendment marker; complete existing declared regression/strict/fmt with actual current evidence, preserving all failures and receipts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Apply reviewed877B real coldreadback correction, refresh current source/preflight/material and run remaining existing declared checks under actual admission, fixed2330/realcaller/jobs1/900seconds/disk1342177280B/ownedcleanup. Preserve all old records/checkpoint1 and source trust/CI30percent obligations; no additional retry or permissions.",
+  "runtimeDigest": "sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

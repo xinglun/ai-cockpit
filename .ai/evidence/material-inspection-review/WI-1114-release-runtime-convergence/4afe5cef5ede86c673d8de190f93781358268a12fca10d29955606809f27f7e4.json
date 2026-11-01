@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "materialManifestDigest": "sha256:106e628ca01caf10b4dfbaf760ef80e631cc14306d4c117aa0b8ecb626e8ea5f",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:4afe5cef5ede86c673d8de190f93781358268a12fca10d29955606809f27f7e4",
+  "reviewedSourceHead": "88a6e949b94ad111659b30894f58b2404cec4cea",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:b33f6af141ef74d5c724c8e43104bb097cd842c644f3f0809172c746099684b8"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent technical review of sha256:4afe5cef5ede86c673d8de190f93781358268a12fca10d29955606809f27f7e4 HEAD 88a6e949b94ad111659b30894f58b2404cec4cea. Only scoped rpc.rs changes by exact5173B patch2d5a77237484d7131f518bb04514a2ec2a1a22023bff80043453cc83a69d2c86. Actual MCP first runcompiled then two stale inventoryasserts failed3vs1; all old terminal/exit/receipt/nonreuse assertions preserved. Fixture now strictly demands exactly2 native execution checkpoints+1 terminal, validates every observation digest/workitem/runtime, common executionId/commandbinding, non-finalcheckpointflags and completed output identical to terminal; unknown kinds/readerrors fail. This matches actual repository checkpoint and MCP persistence producers, no production/schema/authority changes. Original46to-inventory tool fixes remain. Remaining47 material entries including9 Unknown identical, C17/profile/policy/embeddedRuntime analysis unchanged. Domain canonical requestdigest recomputed. This is a real self_declared agent technical decision, not human/provider provenance certification.",
+  "residualRisk": "Actual first MCP result preserved: material_review3 passed, rpc42passed2failed, two nested helper summaries not extra roots, usage not reached. No pass for revised88a6 source yet. All9 RustSyntaxUnknown remainUnknown. Subset not all119 or WI acceptance, pendingec82/amend preserved. Cold crossmachine source remainsUntrusted, localwitness trustedservice boundary only; realGithubsource/CI30percent/Macfulltree/Windows remainunproved. No newnetwork/CI/push/merge/release/cleanup/defaultRuntime/key/trustroot/permissions.",
+  "recordedAt": "2026-10-31T21:16:39Z",
+  "receiptDigest": "sha256:5a787a88004028edbe043e2da7e9e6d94fb8457ced7dae038b745c7c23094b6f"
+}

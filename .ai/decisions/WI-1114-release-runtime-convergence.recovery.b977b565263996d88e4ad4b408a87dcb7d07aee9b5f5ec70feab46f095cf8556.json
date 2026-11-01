@@ -1,0 +1,21 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_afa6c646210c8191abb4e30362cfe5a3 (actual user approval at 2026-10-31T06:25:52Z: 批准按以上绑定登记一次 WI-1114 原生 retry，其他边界不变。 Exact Contract40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea / Summary53f25b92661c66b2b7e76a39aed7e445a09a645e012dbc64d22aacf62d851d52 / repositoryee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b / Runtime1.0.1-6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838. One normal retry only; no expanded scope, commands, budget, permissions or release.)",
+  "decidedAt": "2026-10-31T06:27:54.351693+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea",
+  "predecessorSummaryDigest": "sha256:53f25b92661c66b2b7e76a39aed7e445a09a645e012dbc64d22aacf62d851d52",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Record the one explicitly approved current-binding native retry before the reviewed in-scope Batch2A source iteration; preserve declaration119 success and all historical failures and receipts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Retain the original checkpoint; any following source implementation and declared validation must separately satisfy current native material/action admission. This retry registration itself executes no validation and applies no source.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

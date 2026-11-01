@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:75468c0778807ab65fc3819e53b80a881d33fc790c5005ad0601cb3a1bbfd9db",
+  "materialManifestDigest": "sha256:45bc53b76046bf91e6b038fdf1d540aedc01a509ed1ee83f61959b7d62dd7c30",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:ccdc6b4ad404bcfdc5ff84f7e57ff6dcc374382be051cb2a542f582a84d81fa4",
+  "reviewedSourceHead": "ac69022f8e0a7fc84a8de9a399e088275657fcc7",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot completed a substantive current-request technical review and accepted only the three permitted committed Rust syntax Unknown entries. Independent consumers materialized official Library libfile_3342b120e098819197111ebeb38dfc09 and verified the 641245-byte archive SHA256 a34c70a63576bb8199229cd3016a6fa1236698767b1a5119501d82430e065591, all package members, complete current blobs and Git OIDs, canonical Contract/profile/request domain-separated digests, changedHunkDigest identities, cumulative diffs and prior independently reviewed patches. Full main.rs (6882 lines), repository lifecycle.rs (13496 lines) and verification_attempts.rs (1217 lines) were read without truncation. All three are readable committed text with the one permitted syntax cause, no Finding, strong instruction injection, forged authority or review directives. Checkpoint and partial paths preserve failed/unvalidated execution facts and do not promote them to successful reusable evidence. This records the real agent:codex self_declared technical decision under the unchanged approved profile, not human/provider/publication approval.",
+  "residualRisk": "The machine syntax Unknowns remain raw Unknowns. Static material acceptance does not establish test success, provider authentication, human approval or WI acceptance. Actual history-timeout, multiworker, aggregate/restart reuse, provider admission and cross-platform behavior are not all proved and require applicable real validation. The 23 maintenance execution records, historical wrapper97 and proc-environment failures remain preserved; PID4135169 attribution remains unknown and is not retrospectively asserted. Incomplete/unvalidated checkpoint facts are not complete formal attempts. New Finding, cause or identity drift requires a new decision and must fail closed.",
+  "recordedAt": "2026-10-29T23:21:12Z",
+  "receiptDigest": "sha256:f53d804b2ab2227abcf88555b2e75e9616848478dc0b286666b29abbbca31b16"
+}

@@ -1,0 +1,23 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T14:25:35.104978+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.8bd7cd0a4f36580cd7558726bf0de1f86203870d6c2512d83d15a03f9671cc3f.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.571d1467412d92df2d4c2ebca3a3c99ad0ded1c8a7b1fcd55abd678b5b4720a0.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:d6cf7e28db1236259546abf4835aaa03e599305bb8940d1ec5ac5ae49186851e",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Apply independently reviewed4325B lint proposal23 only: three equivalent let-chain conditionals and conditional VecDeque pop preserving Started-before-EOF and terminal-only-after-natural-EOF behavior. Actual27d1 guard258/258 and fmt0 stay at original identities; the real four-lint strict failure stays preserved. No allow, assertion, permission, dependency, Runtime or timeout change.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back native retry before exact two scoped source edits; commit verified after blobs. Run existing strict CLI/MCP/repository, strict verification, fmt and necessary verification guard targets on the new source with one worker/CargoJobs1, per-command900s maximum and1.25GiB stop. Stop on unexpected failure. Generate actual new material request and never rebind old279/279,258/258 or material receipts. No automatic repository full rerun, cleanup, Runtime switch, CI,push or release.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}
