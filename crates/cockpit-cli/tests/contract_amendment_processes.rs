@@ -1851,8 +1851,19 @@ fn assert_retained_fault_attempt_and_retry(mode: &str) {
         })
         .collect::<Vec<_>>();
     assert_eq!(failed_attempts.len(), 1);
+    assert_eq!(
+        receipt["declaredCoverage"],
+        ::serde_json::json!({
+            "complete": true,
+            "inventory": ["project-command-0"],
+            "level": "declared_commands",
+            "omitted": [],
+            "selected": ["project-command-0"]
+        }),
+        "coverage is exact for this one additional negative command, not the four required checks"
+    );
     let mut strict_receipt = receipt.clone();
-    for projection_field in ["plannedNodes", "diagnosticSummary"] {
+    for projection_field in ["plannedNodes", "diagnosticSummary", "declaredCoverage"] {
         strict_receipt
             .as_object_mut()
             .expect("receipt object")
