@@ -1,5 +1,94 @@
 //! Read-only evidence inspection and current-authority admission boundaries.
 
+/// Host-selected source reader; never deserialize a program or trust decision
+/// from imported evidence. The embedding host controls this descriptor.
+pub struct PortableSourceTool {
+    executable: std::path::PathBuf,
+    executable_digest: cockpit_core::Digest,
+}
+
+pub struct PortableSourceRequest<'a> {
+    pub input: &'a std::path::Path,
+    pub expected_plan_digest: &'a cockpit_core::Digest,
+    pub parameters: &'a serde_json::Value,
+}
+
+/// A live controlled invocation, never reconstructed from saved JSON/markers.
+pub struct VerifiedPortableSource {
+    _private: (),
+}
+
+pub struct AcceptedPortableEvidence {
+    report: cockpit_protocol::ci_admission::PortableEvidenceAcceptance,
+    _private: (),
+}
+
+impl PortableSourceTool {
+    pub fn new(executable: std::path::PathBuf, executable_digest: cockpit_core::Digest) -> Self {
+        Self {
+            executable,
+            executable_digest,
+        }
+    }
+
+    pub fn observe(
+        &self,
+        root: &std::path::Path,
+        work_item_id: &str,
+        request: PortableSourceRequest<'_>,
+        runtime: &cockpit_protocol::RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    ) -> Result<VerifiedPortableSource, crate::ObserverError> {
+        let _ = (
+            &self.executable,
+            &self.executable_digest,
+            work_item_id,
+            request.input,
+            request.expected_plan_digest,
+            request.parameters,
+            runtime,
+            caller,
+        );
+        Err(plan_error(
+            root,
+            "independent_source_observation_not_implemented",
+        ))
+    }
+}
+
+impl VerifiedPortableSource {
+    pub fn accept(
+        self,
+        root: &std::path::Path,
+        request: &crate::RepositoryVerificationRequest,
+        runtime: &cockpit_protocol::RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    ) -> Result<AcceptedPortableEvidence, crate::ObserverError> {
+        let _ = (request, runtime, caller);
+        Err(plan_error(
+            root,
+            "verified_source_acceptance_not_implemented",
+        ))
+    }
+}
+
+impl AcceptedPortableEvidence {
+    pub fn report(&self) -> &cockpit_protocol::ci_admission::PortableEvidenceAcceptance {
+        &self.report
+    }
+
+    pub fn consume(
+        self,
+        root: &std::path::Path,
+        request: &crate::RepositoryVerificationRequest,
+        runtime: &cockpit_protocol::RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    ) -> Result<crate::RepositoryVerificationRun, crate::ObserverError> {
+        let _ = (request, runtime, caller);
+        Err(plan_error(root, "verified_source_consumer_not_implemented"))
+    }
+}
+
 pub(super) mod archive;
 mod github;
 mod store;

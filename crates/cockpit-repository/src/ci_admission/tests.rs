@@ -2848,6 +2848,202 @@ fn portable_store_fifo_payload_without_peer_is_rejected_with_bounded_probe() {
 fn c16_portable_input_fixture() -> serde_json::Value {
     json!({"schemaVersion":1,"nativeInput":{"schemaVersion":1,"producer":"untrusted_captured_fixture"},"nativeEvidence":serde_json::from_slice::<Value>(&archive2a_native()).unwrap()})
 }
+
+#[cfg(unix)]
+fn logbridge_source_fixture() -> (
+    tempfile::TempDir,
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    cockpit_protocol::TaskAuthorizationCaller,
+    crate::RepositoryVerificationRequest,
+    std::path::PathBuf,
+    super::PortableSourceTool,
+) {
+    use crate::*;
+    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let invocation = CurrentNativeInvocation::new();
+    let observed = run_repository_verification_with_native_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        None,
+    )
+    .expect("actual native fixture execution");
+    let witness = observed.witness.expect("actual physical observation");
+    let publication = publish_native_execution_witness(
+        root.path(),
+        &request,
+        &runtime,
+        Some(&caller),
+        &invocation,
+        &witness,
+    )
+    .expect("actual native packet publication");
+    persist_verification_attempt(
+        root.path(),
+        request.work_item_id.as_deref().unwrap(),
+        std::slice::from_ref(&request),
+        &observed.run.final_snapshot,
+        &runtime,
+        "execution_completed",
+        None,
+        Some(&serde_json::to_value(&observed.run.receipt).unwrap()),
+    )
+    .expect("preserve the real successful parent, not an invented claim");
+    let input = root.path().join(format!(
+        ".ai/evidence/{}.verification-admissions/portable/objects/{}.bin",
+        request.work_item_id.as_deref().unwrap(),
+        &publication.input_digest.as_str()[7..],
+    ));
+    let host = tempfile::tempdir().unwrap();
+    let script = host.path().join("controlled-source.py");
+    let source_root =
+        cockpit_core::Digest::sha256_bytes(b"offline controlled transport fixture only");
+    let code = format!(
+        "#!/usr/bin/python3\nimport sys,json\nr=json.loads(sys.argv[-1])\nprint(json.dumps({{'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':'{source_root}'}}))\n"
+    );
+    std::fs::write(&script, &code).unwrap();
+    use std::os::unix::fs::PermissionsExt;
+    std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let tool =
+        super::PortableSourceTool::new(script, cockpit_core::Digest::sha256_bytes(code.as_bytes()));
+    (root, host, runtime, caller, request, input, tool)
+}
+
+#[cfg(unix)]
+#[test]
+fn logbridge_actual_controlled_invocation_accepts_cold_read_and_consumes_without_project_spawn() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    assert!(plan.integrity_valid && !plan.may_replace_execution);
+    let parameters = json!({"fixture":"no provider network"});
+    let source = tool
+        .observe(
+            root.path(),
+            wi,
+            super::PortableSourceRequest {
+                input: &input,
+                expected_plan_digest: &plan.plan_digest,
+                parameters: &parameters,
+            },
+            &runtime,
+            Some(&caller),
+        )
+        .expect("TARGET RED: actual controlled source invocation must enable the positive path");
+    let accepted = source
+        .accept(root.path(), &request, &runtime, Some(&caller))
+        .expect("verified current source must persist and cold-read admission");
+    assert!(accepted.report().accepted && accepted.report().admission_ref.is_some());
+    let consumed = accepted
+        .consume(root.path(), &request, &runtime, Some(&caller))
+        .expect("the actual consumer must use the accepted source");
+    assert!(consumed.receipt.passed);
+    assert_eq!(
+        (
+            consumed.receipt.nodes_executed,
+            consumed.receipt.nodes_reused,
+            consumed.receipt.processes_spawned
+        ),
+        (0, 1, 0)
+    );
+    assert!(consumed.receipt.execution_records.is_empty());
+    assert!(consumed.receipt.results[0].reused);
+    let cold = super::accept_portable_evidence(
+        root.path(),
+        wi,
+        &input,
+        &plan.plan_digest,
+        &runtime,
+        Some(&caller),
+    )
+    .unwrap();
+    assert!(
+        !cold.accepted && cold.admission_ref.is_none(),
+        "saving a complete object graph does not recreate the live source capability"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn logbridge_current_change_after_accept_keeps_original_and_refuses_consume() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    let parameters = json!({});
+    let source = tool
+        .observe(
+            root.path(),
+            wi,
+            super::PortableSourceRequest {
+                input: &input,
+                expected_plan_digest: &plan.plan_digest,
+                parameters: &parameters,
+            },
+            &runtime,
+            Some(&caller),
+        )
+        .expect("TARGET RED: source observation baseline");
+    let accepted = source
+        .accept(root.path(), &request, &runtime, Some(&caller))
+        .unwrap();
+    let original = std::fs::read(&input).unwrap();
+    std::fs::write(
+        root.path().join("tracked.txt"),
+        "changed after acceptance\n",
+    )
+    .unwrap();
+    assert!(
+        accepted
+            .consume(root.path(), &request, &runtime, Some(&caller))
+            .is_err()
+    );
+    assert_eq!(std::fs::read(&input).unwrap(), original);
+}
+
+#[cfg(unix)]
+#[test]
+fn logbridge_source_never_overrides_current_never_reuse_or_foreign_caller() {
+    for mutation in ["never_reuse", "foreign_caller"] {
+        let (root, _host, runtime, caller, mut request, input, tool) = logbridge_source_fixture();
+        let wi = request.work_item_id.as_deref().unwrap();
+        let plan =
+            super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+                .unwrap();
+        let parameters = json!({});
+        let source = tool
+            .observe(
+                root.path(),
+                wi,
+                super::PortableSourceRequest {
+                    input: &input,
+                    expected_plan_digest: &plan.plan_digest,
+                    parameters: &parameters,
+                },
+                &runtime,
+                Some(&caller),
+            )
+            .expect("TARGET RED: source observation baseline");
+        let mut current_caller = caller.clone();
+        if mutation == "never_reuse" {
+            request.policy = crate::RepositoryVerificationPolicy::NeverReuse;
+        } else {
+            current_caller.authority_source.push_str("foreign");
+        }
+        assert!(
+            source
+                .accept(root.path(), &request, &runtime, Some(&current_caller))
+                .is_err(),
+            "{mutation}"
+        );
+    }
+}
 fn c16_portable_runtime() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
         runtime_version: "1.0.1".into(),
