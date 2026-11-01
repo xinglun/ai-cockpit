@@ -1013,6 +1013,8 @@ fn runtime_context() -> RuntimeContext {
 #[test]
 fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let root = repository();
+    #[cfg(target_os = "linux")]
+    let root = PreserveTempDirOnPanic::new(root);
     let store = store(root.path());
     let marker = root.path().join("composition-marker");
     declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
@@ -1043,10 +1045,21 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     assert!(first_projection.reusable_checks.is_empty());
     assert!(!first_projection.human_decision_required);
 
-    let second =
-        run_admitted_composition(&store, "WI-CONSUMER", 1, input).expect("second composition");
-    assert!(second.passed);
-    assert_eq!(second.processes_spawned, if cfg!(unix) { 0 } else { 1 });
+    let second = run_admitted_composition(&store, "WI-CONSUMER", 1, input.clone())
+        .expect("second composition");
+    assert!(
+        second.passed,
+        "second composition failed: {second:#?}; first={first:#?}; input={input:#?}; fixture={}; store={}; projection={:#?}",
+        root.path().display(),
+        store.root().display(),
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context()),
+    );
+    assert_eq!(
+        second.processes_spawned,
+        if cfg!(unix) { 0 } else { 1 },
+        "unexpected reuse spawn count: second={second:#?}; first={first:#?}; fixture={}",
+        root.path().display(),
+    );
     let second_projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
     assert_eq!(
