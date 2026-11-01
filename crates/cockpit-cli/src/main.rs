@@ -8233,7 +8233,9 @@ mod source_bundle_canonical_route_tests {
             OsString::from("--source-bundle"),
             manifest.clone().into_os_string(),
         ];
+        eprintln!("cli-source-fixture: before actual Clap parse");
         let cli = Cli::try_parse_from(argv).expect("actual Clap source-bundle route");
+        eprintln!("cli-source-fixture: parsed actual route");
         let explicit_caller: TaskAuthorizationCaller =
             super::read_json_file(cli.task_caller.as_ref().unwrap(), "explicit task caller")
                 .unwrap();
@@ -8280,6 +8282,7 @@ mod source_bundle_canonical_route_tests {
         let canonical = fs::canonicalize(root.path()).unwrap();
         let (repo, wi, stage, workers, timeout, manifest, caller) =
             parsed_source_route(&canonical, &host_path, &fixture_caller, stage_text, 1);
+        eprintln!("cli-source-fixture: native checkpoint complete; build inventory");
         let requests = super::source_bundle_verification_requests(
             &repo,
             &wi,
@@ -8456,14 +8459,29 @@ mod source_bundle_canonical_route_tests {
         );
     }
 
+    // Full native fixture + the real deeply nested Clap tree has more stack
+    // than the small parser-only tests. Bound only this test thread, preserve
+    // its original panic, and leave production/global stack settings unchanged.
+    fn on_cli_fixture_stack(test: impl FnOnce() + Send + 'static) {
+        let result = std::thread::Builder::new()
+            .name("cli-native-source-fixture".into())
+            .stack_size(8 * 1024 * 1024)
+            .spawn(test)
+            .expect("start bounded-stack fixture thread")
+            .join();
+        if let Err(panic) = result {
+            std::panic::resume_unwind(panic);
+        }
+    }
+
     #[test]
     fn source_bundle_pr_default_none_reaches_actual_core_finalization() {
-        actual_source_round_trip("pr");
+        on_cli_fixture_stack(|| actual_source_round_trip("pr"));
     }
 
     #[test]
     fn source_bundle_task_finite_ceiling_preserves_none_through_actual_core_finalization() {
-        actual_source_round_trip("task");
+        on_cli_fixture_stack(|| actual_source_round_trip("task"));
     }
 
     fn evidence_files(root: &Path) -> Vec<(PathBuf, Option<Vec<u8>>)> {
@@ -8493,6 +8511,10 @@ mod source_bundle_canonical_route_tests {
 
     #[test]
     fn source_bundle_workspace_and_parallel_requests_reject_before_native_or_reader_activity() {
+        on_cli_fixture_stack(unsupported_source_bundle_routes);
+    }
+
+    fn unsupported_source_bundle_routes() {
         for (declaration, workers, expected) in [
             (
                 "cargo test --locked --workspace -- --test-threads=1",
