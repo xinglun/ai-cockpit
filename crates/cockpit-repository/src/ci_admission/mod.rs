@@ -849,6 +849,76 @@ pub fn accept_portable_evidence_with_source(
 pub(super) mod archive;
 mod github;
 mod store;
+
+/// A current-process inventory consumption session. Imported JSON and stored
+/// markers cannot construct it. Coverage is diagnostic, never a formal pass.
+/// Keep this value until all fresh executions finish, then call `finalize` so
+/// late native failures or unresolved executions cannot revive an older source.
+pub struct PortableInventoryConsumption {
+    coverage: cockpit_protocol::ci_admission::PortableInventoryCoverage,
+    sources: Vec<AcceptedPortableEvidence>,
+    own_run: Option<crate::LocalVerificationRunIdentity>,
+    requests: Vec<crate::RepositoryVerificationRequest>,
+    runs: Vec<crate::RepositoryVerificationRun>,
+    source_uses: Vec<cockpit_protocol::ci_admission::PortableEvidenceSourceUse>,
+}
+
+pub struct FinalizedPortableInventory {
+    pub coverage: cockpit_protocol::ci_admission::PortableInventoryCoverage,
+    pub runs: Vec<crate::RepositoryVerificationRun>,
+    pub source_uses: Vec<cockpit_protocol::ci_admission::PortableEvidenceSourceUse>,
+}
+
+impl PortableInventoryConsumption {
+    pub fn coverage(&self) -> &cockpit_protocol::ci_admission::PortableInventoryCoverage {
+        &self.coverage
+    }
+
+    /// These are actual per-node outcomes. No aggregate result supplies a
+    /// missing node and no formal verification record is written here.
+    pub fn source_uses(&self) -> &[cockpit_protocol::ci_admission::PortableEvidenceSourceUse] {
+        &self.source_uses
+    }
+
+    pub fn finalize(
+        self,
+        root: &Path,
+        _current_requests: &[crate::RepositoryVerificationRequest],
+        _runtime: &RuntimeContext,
+        _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    ) -> Result<FinalizedPortableInventory, ObserverError> {
+        // RED scaffold: never manufacture current validation from stored data.
+        drop((
+            self.coverage,
+            self.sources,
+            self.own_run,
+            self.requests,
+            self.runs,
+            self.source_uses,
+        ));
+        Err(source_error(root, "portable_inventory_not_implemented"))
+    }
+}
+
+/// `requests` must be the entire current Contract inventory built by the
+/// trusted service, never commands supplied by the imported evidence packet.
+/// Each source is the existing move-only live capability for exactly one node.
+/// Missing, non-equivalent, NeverReuse, Protected or dependency-incomplete nodes
+/// remain explicit fresh-execution gaps; callers retain the existing guarded
+/// executor and dependency scheduler. No API here records whole-WI completion.
+pub fn consume_portable_evidence_inventory(
+    root: &Path,
+    _work_item_id: &str,
+    _requests: &[crate::RepositoryVerificationRequest],
+    _sources: Vec<AcceptedPortableEvidence>,
+    _runtime: &RuntimeContext,
+    _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    _own_run: Option<&crate::LocalVerificationRunIdentity>,
+) -> Result<PortableInventoryConsumption, ObserverError> {
+    // RED scaffold: the API is complete and conservative before assertions run.
+    Err(source_error(root, "portable_inventory_not_implemented"))
+}
+
 #[cfg(test)]
 mod tests;
 

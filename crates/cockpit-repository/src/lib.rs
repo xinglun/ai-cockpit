@@ -139,7 +139,8 @@ pub use execution_context::{
 use execution_context::{
     VerificationIdentityCost, assess_verification_reuse_measured,
     build_repository_verification_command, effective_verification_timeout_seconds,
-    refresh_verification_context, resolved_executable_identity, valid_git_object_id,
+    refresh_verification_context, resolved_executable_identity,
+    resolved_verification_executable_identity, valid_git_object_id,
 };
 #[cfg(test)]
 use execution_context::{
@@ -816,8 +817,9 @@ fn native_current_input(
             "native invocation profile, environment, or dependency identity unavailable",
         ));
     }
-    let current_executable = resolved_executable_identity(root, &request.program)
-        .ok_or_else(|| native_witness_error(root, "native executable identity unavailable"))?;
+    let current_executable =
+        resolved_verification_executable_identity(root, &request.program, &request.args)?
+            .ok_or_else(|| native_witness_error(root, "native executable identity unavailable"))?;
     if executable.path != current_executable.path
         || executable.digest != current_executable.digest
         || executable
@@ -838,7 +840,7 @@ fn native_current_input(
         request,
         Some(executable),
         cockpit_verification::VerificationReusePolicy::Reusable,
-    );
+    )?;
     if current_command.program != command.program
         || current_command.args != command.args
         || current_command.input_identity() != input
@@ -1246,15 +1248,22 @@ pub fn plan_repository_verification(
         command_digests: requests
             .iter()
             .map(|request| {
+                let identity = resolved_verification_executable_identity(
+                    &root,
+                    &request.program,
+                    &request.args,
+                )?;
                 build_repository_verification_command(
                     &root,
                     request,
-                    None,
+                    identity
+                        .as_ref()
+                        .filter(|identity| identity.has_execution_recipe()),
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
                 )
-                .command_digest()
+                .map(|command| command.command_digest())
             })
-            .collect(),
+            .collect::<Result<Vec<_>, ObserverError>>()?,
     };
     coverage_manifest
         .validate()
@@ -1837,7 +1846,8 @@ fn prepare_repository_verification_command(
 ) -> Result<PreparedRepositoryVerificationCommand, ObserverError> {
     let mut store_files_read = 0;
     let mut store_unavailable_reason = None;
-    let execution_identity = resolved_executable_identity(root, &request.program);
+    let execution_identity =
+        resolved_verification_executable_identity(root, &request.program, &request.args)?;
     let mut executable_files_read = execution_identity
         .as_ref()
         .map_or(0, |identity| identity.components.len());
@@ -1845,7 +1855,9 @@ fn prepare_repository_verification_command(
     let base_command = build_repository_verification_command(
         root,
         request,
-        None,
+        execution_identity
+            .as_ref()
+            .filter(|identity| identity.has_execution_recipe()),
         match &request.policy {
             RepositoryVerificationPolicy::ProfileAuthorized => {
                 cockpit_verification::VerificationReusePolicy::Reusable
@@ -1857,7 +1869,7 @@ fn prepare_repository_verification_command(
                 cockpit_verification::VerificationReusePolicy::Protected(class.clone())
             }
         },
-    );
+    )?;
     let context_input = VerificationContextInput {
         program: request.program.clone(),
         args: request.args.clone(),
@@ -1924,7 +1936,7 @@ fn prepare_repository_verification_command(
                     request,
                     execution_identity.as_ref(),
                     cockpit_verification::VerificationReusePolicy::Reusable,
-                )
+                )?
                 .with_reuse_candidate(candidate, context)
             }
             Ok(VerificationReuseAssessment::Denied { reason }) => {
@@ -1932,18 +1944,22 @@ fn prepare_repository_verification_command(
                 build_repository_verification_command(
                     root,
                     request,
-                    None,
+                    execution_identity
+                        .as_ref()
+                        .filter(|identity| identity.has_execution_recipe()),
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )
+                )?
             }
             Err(error) => {
                 reuse_authorization = format!("denied:identity_error:{error}");
                 build_repository_verification_command(
                     root,
                     request,
-                    None,
+                    execution_identity
+                        .as_ref()
+                        .filter(|identity| identity.has_execution_recipe()),
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )
+                )?
             }
         }
     } else {
@@ -2417,9 +2433,15 @@ where
         .files_hashed
         .saturating_add(final_snapshot.files_hashed);
 
+    execution_context::require_execution_recipe_unchanged(
+        &root,
+        request,
+        execution_identity.as_ref(),
+    )?;
     let mut post_execution_identity = None;
     let mut post_context = if let Some((_, authorization)) = &authorized_binding {
-        post_execution_identity = resolved_executable_identity(&root, &request.program);
+        post_execution_identity =
+            resolved_verification_executable_identity(&root, &request.program, &request.args)?;
         if let Some(identity) = &post_execution_identity {
             executable_files_read = executable_files_read.saturating_add(identity.components.len());
             executable_files_hashed =
@@ -2470,16 +2492,18 @@ where
                 request,
                 post_execution_identity.as_ref(),
                 cockpit_verification::VerificationReusePolicy::Reusable,
-            )
+            )?
             .with_reuse_candidate(None, context)
         } else {
             authorized_binding = None;
             build_repository_verification_command(
                 &root,
                 request,
-                None,
+                post_execution_identity
+                    .as_ref()
+                    .filter(|identity| identity.has_execution_recipe()),
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
-            )
+            )?
         };
         let observer = Arc::clone(&process_observer);
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
@@ -2529,8 +2553,13 @@ where
         snapshot_git_calls = snapshot_git_calls.saturating_add(final_snapshot.git_calls);
         snapshot_files_read = snapshot_files_read.saturating_add(final_snapshot.files_read);
         snapshot_files_hashed = snapshot_files_hashed.saturating_add(final_snapshot.files_hashed);
+        execution_context::require_execution_recipe_unchanged(
+            &root,
+            request,
+            execution_identity.as_ref(),
+        )?;
         let final_execution_identity = if authorized_binding.is_some() {
-            resolved_executable_identity(&root, &request.program)
+            resolved_verification_executable_identity(&root, &request.program, &request.args)?
         } else {
             None
         };
@@ -20581,6 +20610,20 @@ pub fn confirm_profile_update(
     program: &str,
     args: &[String],
 ) -> Result<AttachedProfile, ObserverError> {
+    confirm_profile_update_with_execution_recipe(root, program, args, None)
+}
+
+/// Confirm the explicit child environment without inheriting host credentials
+/// or session metadata. The executor validates the same recipe before use.
+pub fn confirm_profile_update_with_execution_recipe(
+    root: &Path,
+    program: &str,
+    args: &[String],
+    recipe: Option<cockpit_protocol::VerificationExecutionRecipe>,
+) -> Result<AttachedProfile, ObserverError> {
+    if let Some(recipe) = recipe.as_ref() {
+        execution_context::validate_execution_recipe(root, recipe)?;
+    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -20593,11 +20636,18 @@ pub fn confirm_profile_update(
         })
     })?;
     let mut tests = current.tests.clone();
+    if recipe.is_some() {
+        // Reconfirmation replaces this command's old recipe, keeping legacy
+        // commands and all unrelated confirmed commands intact.
+        tests.retain(|command| {
+            command.program != program || command.args != args || command.execution_recipe.is_none()
+        });
+    }
     let candidate = QualityCommand {
         program: program.into(),
         args: args.to_vec(),
         state: "verified".into(),
-        execution_recipe: None,
+        execution_recipe: recipe.clone(),
     };
     if !tests.contains(&candidate) {
         tests.push(candidate);
@@ -20631,11 +20681,19 @@ pub fn confirm_profile_update(
         message: error.to_string(),
     })?;
     atomic_json(&project_path, &value)?;
+    let mut candidate = serde_json::json!({"program": program, "args": args});
+    if let Some(recipe) = recipe {
+        candidate["executionRecipe"] =
+            serde_json::to_value(recipe).map_err(|error| ObserverError::State {
+                path: project_path.clone(),
+                message: error.to_string(),
+            })?;
+    }
     let decision = serde_json::json!({
         "kind": "project_profile_confirmation",
         "profileVersion": profile_version,
         "profileDigest": profile_digest,
-        "candidate": {"program": program, "args": args},
+        "candidate": candidate,
         "state": "confirmed",
         "createdAt": now(),
     });
@@ -20646,22 +20704,6 @@ pub fn confirm_profile_update(
         &decision,
     )?;
     Ok(updated)
-}
-
-/// Conservative API scaffold: an unimplemented recipe cannot change a profile.
-pub fn confirm_profile_update_with_execution_recipe(
-    root: &Path,
-    program: &str,
-    args: &[String],
-    recipe: Option<cockpit_protocol::VerificationExecutionRecipe>,
-) -> Result<AttachedProfile, ObserverError> {
-    if recipe.is_some() {
-        return Err(ObserverError::State {
-            path: root.join(".ai/project.json"),
-            message: "execution_recipe_not_implemented".into(),
-        });
-    }
-    confirm_profile_update(root, program, args)
 }
 
 fn collect_files(

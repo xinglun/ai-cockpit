@@ -1877,6 +1877,29 @@ fn c16_native_fixture_with_profile(
     cockpit_protocol::TaskAuthorizationCaller,
     crate::RepositoryVerificationRequest,
 ) {
+    let declarations = if argument == "--definitely-invalid-c16-option" {
+        vec![format!("git {argument}")]
+    } else {
+        vec![
+            format!("git {argument}"),
+            "git --definitely-invalid-c16-option".into(),
+        ]
+    };
+    c18_inventory_native_fixture(argument, profile_verified, declarations)
+}
+
+// Existing fixture behavior is preserved by the wrapper above. The inventory
+// tests additionally need two genuinely successful declared physical nodes.
+fn c18_inventory_native_fixture(
+    argument: &str,
+    profile_verified: bool,
+    declarations: Vec<String>,
+) -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    cockpit_protocol::TaskAuthorizationCaller,
+    crate::RepositoryVerificationRequest,
+) {
     use crate::*;
     let root = tempfile::Builder::new()
         .prefix("c16 native witness ")
@@ -1944,14 +1967,7 @@ fn c16_native_fixture_with_profile(
             acceptance_criteria: vec![
                 "only this invocation's actual bounded child can supply its witness".into(),
             ],
-            verification_commands: if argument == "--definitely-invalid-c16-option" {
-                vec![format!("git {argument}")]
-            } else {
-                vec![
-                    format!("git {argument}"),
-                    "git --definitely-invalid-c16-option".into(),
-                ]
-            },
+            verification_commands: declarations,
             task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
                 schema_version: 1,
                 agent_actor: caller.actor.clone(),
@@ -4488,4 +4504,593 @@ fn ci_admission_c18_portable_archive_retains_raw_expansion_ratio_and_json_budget
         let raw = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
         c18_portable_archive_reject(&raw, &portable, ArchiveError::NodeLimit);
     }
+}
+
+// C18 full-inventory consumer tests use real native children and move-only
+// source sessions. The controlled reader is a trusted SDK-host fixture only;
+// it is not a real provider, arbitrary-worker defense or cross-host proof.
+#[cfg(unix)]
+fn c18_inventory_accepted(
+    root: &std::path::Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+    caller: &cockpit_protocol::TaskAuthorizationCaller,
+    request: &crate::RepositoryVerificationRequest,
+    input: &std::path::Path,
+    tool: &super::PortableSourceTool,
+) -> super::AcceptedPortableEvidence {
+    let wi = request.work_item_id.as_deref().unwrap();
+    let plan = super::plan_portable_evidence(root, Some(wi), input, runtime, Some(caller)).unwrap();
+    let parameters = json!({"fixture":"inventory controlled SDK reader; no provider network"});
+    tool.observe(
+        root,
+        wi,
+        super::PortableSourceRequest {
+            input,
+            expected_plan_digest: &plan.plan_digest,
+            parameters: &parameters,
+        },
+        runtime,
+        Some(caller),
+    )
+    .expect("real controlled observation before inventory API")
+    .accept(root, request, runtime, Some(caller))
+    .expect("real source capability before inventory API")
+}
+
+#[cfg(unix)]
+fn c18_inventory_requests(
+    root: &std::path::Path,
+    wi: &str,
+    runtime: &cockpit_protocol::RuntimeContext,
+    caller: &cockpit_protocol::TaskAuthorizationCaller,
+) -> Vec<crate::RepositoryVerificationRequest> {
+    (0..2)
+        .map(|index| {
+            super::declared_portable_verification_request(
+                root,
+                wi,
+                &format!("project-command-{index}"),
+                runtime,
+                Some(caller),
+            )
+            .expect("current authoritative declaration")
+        })
+        .collect()
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_one_real_source_cannot_complete_two_declarations() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let accepted = c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+    let staged = super::consume_portable_evidence_inventory(
+        root.path(),
+        wi,
+        &requests,
+        vec![accepted],
+        &runtime,
+        Some(&caller),
+        None,
+    )
+    .expect("TARGET RED: consume an actual node while preserving full declared inventory");
+    assert_eq!(
+        staged.coverage().declared_nodes,
+        vec!["project-command-0", "project-command-1"]
+    );
+    assert_eq!(staged.coverage().source_nodes, vec!["project-command-0"]);
+    assert_eq!(
+        staged.coverage().fresh_required_nodes,
+        vec!["project-command-1"]
+    );
+    assert!(!staged.coverage().source_coverage_complete);
+    assert_eq!(staged.coverage().gaps.len(), 1);
+    assert_eq!(staged.coverage().gaps[0].node_id, "project-command-1");
+    assert_eq!(staged.coverage().gaps[0].reason, "source_missing_run_fresh");
+    assert_eq!(staged.source_uses().len(), 1);
+    let result = staged
+        .finalize(root.path(), &requests, &runtime, Some(&caller))
+        .expect("partial valid source data remains usable without formal promotion");
+    assert!(!result.coverage.source_coverage_complete);
+    assert_eq!(result.runs.len(), 1);
+    assert_eq!(
+        (
+            result.runs[0].receipt.nodes_executed,
+            result.runs[0].receipt.nodes_reused,
+            result.runs[0].receipt.processes_spawned
+        ),
+        (0, 1, 0)
+    );
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_two_firsthand_sources_finalize_each_node_and_never_record_formal() {
+    use crate::*;
+    let (root, runtime, caller, _) = c18_inventory_native_fixture(
+        "--version",
+        true,
+        vec!["git --version".into(), "git --version".into()],
+    );
+    let wi = "WI-C16-NATIVE-WITNESS";
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let invocation = CurrentNativeInvocation::new();
+    let host = tempfile::tempdir().unwrap();
+    let script = host.path().join("inventory-source.py");
+    let source_root = cockpit_core::Digest::sha256_bytes(b"trusted offline inventory SDK fixture");
+    let code = format!(
+        "#!/usr/bin/python3\nimport sys,json\nr=json.loads(sys.argv[-1])\nprint(json.dumps({{'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':'{source_root}'}}))\n"
+    );
+    std::fs::write(&script, &code).unwrap();
+    use std::os::unix::fs::PermissionsExt;
+    std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let tool =
+        super::PortableSourceTool::new(script, cockpit_core::Digest::sha256_bytes(code.as_bytes()));
+    let mut inputs = Vec::new();
+    for request in &requests {
+        let observed = run_repository_verification_with_native_witness(
+            root.path(),
+            request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            None,
+        )
+        .expect("actual per-node native execution, never a saved aggregate receipt");
+        assert!(observed.run.receipt.passed);
+        assert_eq!(observed.run.receipt.processes_spawned, 1);
+        let witness = observed
+            .witness
+            .expect("each actual node supplies its own live witness");
+        let published = publish_native_execution_witness(
+            root.path(),
+            request,
+            &runtime,
+            Some(&caller),
+            &invocation,
+            &witness,
+        )
+        .expect("firsthand publication for this precise node");
+        persist_verification_attempt(
+            root.path(),
+            wi,
+            std::slice::from_ref(request),
+            &observed.run.final_snapshot,
+            &runtime,
+            "execution_completed",
+            None,
+            Some(&serde_json::to_value(&observed.run.receipt).unwrap()),
+        )
+        .expect("native successful parent association for this actual child");
+        inputs.push(root.path().join(format!(
+            ".ai/evidence/{wi}.verification-admissions/portable/objects/{}.bin",
+            &published.input_digest.as_str()[7..],
+        )));
+    }
+    let sources = requests
+        .iter()
+        .zip(&inputs)
+        .map(|(request, input)| {
+            c18_inventory_accepted(root.path(), &runtime, &caller, request, input, &tool)
+        })
+        .collect();
+    let staged = super::consume_portable_evidence_inventory(
+        root.path(),
+        wi,
+        &requests,
+        sources,
+        &runtime,
+        Some(&caller),
+        None,
+    )
+    .expect(
+        "TARGET RED: exact complete inventory needs two separate successful source consumptions",
+    );
+    assert!(staged.coverage().source_coverage_complete);
+    assert!(staged.coverage().fresh_required_nodes.is_empty() && staged.coverage().gaps.is_empty());
+    assert_eq!(staged.source_uses().len(), 2);
+    let result = staged
+        .finalize(root.path(), &requests, &runtime, Some(&caller))
+        .expect("final current source/profile/causal recheck for every node");
+    assert_eq!(
+        result.coverage.declared_nodes,
+        vec!["project-command-0", "project-command-1"]
+    );
+    assert_eq!(result.runs.len(), 2);
+    let mut ids = result
+        .runs
+        .iter()
+        .map(|run| {
+            assert!(run.receipt.passed);
+            assert_eq!(run.receipt.results.len(), 1);
+            assert_eq!(
+                (
+                    run.receipt.nodes_planned,
+                    run.receipt.nodes_executed,
+                    run.receipt.nodes_reused,
+                    run.receipt.processes_spawned
+                ),
+                (1, 0, 1, 0)
+            );
+            assert!(run.receipt.execution_records.is_empty());
+            run.receipt.results[0].node_id.clone()
+        })
+        .collect::<Vec<_>>();
+    ids.sort();
+    assert_eq!(ids, vec!["project-command-0", "project-command-1"]);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_rejects_non_authoritative_or_ambiguous_current_requests() {
+    let (root, _host, runtime, caller, request, _input, _tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let authoritative = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    for case in [
+        "empty",
+        "subset",
+        "duplicate",
+        "foreign_id",
+        "different_argv",
+        "foreign_wi",
+        "foreign_runtime",
+    ] {
+        let mut requests = authoritative.clone();
+        match case {
+            "empty" => requests.clear(),
+            "subset" => {
+                requests.pop();
+            }
+            "duplicate" => requests[1] = requests[0].clone(),
+            "foreign_id" => requests[1].node_id = "artifact-chosen-node".into(),
+            "different_argv" => requests[0].args = vec!["status".into()],
+            "foreign_wi" => requests[0].work_item_id = Some("WI-FOREIGN".into()),
+            "foreign_runtime" => {
+                requests[0].runtime_digest =
+                    cockpit_core::Digest::sha256_bytes(b"foreign").to_string()
+            }
+            _ => unreachable!(),
+        }
+        assert!(
+            super::consume_portable_evidence_inventory(
+                root.path(),
+                wi,
+                &requests,
+                Vec::new(),
+                &runtime,
+                Some(&caller),
+                None,
+            )
+            .is_err(),
+            "{case}: artifacts/callers cannot define the inventory or executed command"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_duplicate_live_sources_are_rejected_before_consumption() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let first = c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+    let second = c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+    let count_consumptions = || {
+        std::fs::read_dir(root.path().join(format!(
+            ".ai/evidence/{wi}.verification-admissions/portable/records"
+        )))
+        .expect("actual source records directory remains readable")
+        .count()
+    };
+    let before = count_consumptions();
+    assert!(
+        super::consume_portable_evidence_inventory(
+            root.path(),
+            wi,
+            &requests,
+            vec![first, second],
+            &runtime,
+            Some(&caller),
+            None,
+        )
+        .is_err(),
+        "duplicate source sessions cannot count twice or choose an arbitrary winner"
+    );
+    assert_eq!(
+        count_consumptions(),
+        before,
+        "reject duplicate inventory before any per-node consumption write"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_current_policy_requires_fresh_and_cannot_be_overridden_by_live_source() {
+    for policy in [
+        crate::RepositoryVerificationPolicy::NeverReuse,
+        crate::RepositoryVerificationPolicy::Protected(
+            cockpit_verification::ProtectedGateClass::ProjectCommand,
+        ),
+    ] {
+        let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+        let wi = request.work_item_id.as_deref().unwrap();
+        let mut requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+        let accepted =
+            c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+        requests[0].policy = policy;
+        let staged = super::consume_portable_evidence_inventory(
+            root.path(),
+            wi,
+            &requests,
+            vec![accepted],
+            &runtime,
+            Some(&caller),
+            None,
+        )
+        .expect("TARGET RED: ineligible source is an explicit fresh-execution gap, never a skip");
+        assert!(staged.coverage().source_nodes.is_empty());
+        assert_eq!(
+            staged.coverage().fresh_required_nodes,
+            vec!["project-command-0", "project-command-1"]
+        );
+        assert!(!staged.coverage().source_coverage_complete);
+        assert!(
+            staged
+                .coverage()
+                .gaps
+                .iter()
+                .any(|gap| gap.node_id == "project-command-0"
+                    && gap.reason == "node_policy_requires_fresh")
+        );
+        assert!(staged.source_uses().is_empty());
+        let result = staged
+            .finalize(root.path(), &requests, &runtime, Some(&caller))
+            .expect("fresh-required report remains usable without source substitution");
+        assert!(result.runs.is_empty());
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_finalization_rejects_real_later_pending_or_failed_execution() {
+    for later in ["pending", "failure"] {
+        let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+        let wi = request.work_item_id.as_deref().unwrap();
+        let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+        let accepted =
+            c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+        let original_input = std::fs::read(&input).unwrap();
+        let staged = super::consume_portable_evidence_inventory(
+            root.path(),
+            wi,
+            &requests,
+            vec![accepted],
+            &runtime,
+            Some(&caller),
+            None,
+        )
+        .expect(
+            "TARGET RED: initially valid source consumption before the later native observation",
+        );
+        if later == "pending" {
+            let canonical = std::fs::canonicalize(root.path()).unwrap();
+            let snapshot = cockpit_git::GitRepository::discover(&canonical)
+                .unwrap()
+                .snapshot()
+                .unwrap();
+            let prepared =
+                crate::prepare_repository_verification_command(&canonical, &request, &snapshot)
+                    .unwrap();
+            let _pending = crate::lifecycle::VerificationExecutionCheckpoint::prepare(
+                &canonical,
+                &request,
+                &snapshot,
+                &runtime,
+                prepared.command.command_digest(),
+            )
+            .expect("actual native pending execution, never fabricated checkpoint JSON");
+        } else {
+            let mut failing = request.clone();
+            failing.args = vec!["--definitely-invalid-c16-option".into()];
+            let failed = crate::run_repository_verification_with_native_witness(
+                root.path(),
+                &failing,
+                &runtime,
+                Some(&caller),
+                &crate::CurrentNativeInvocation::new(),
+                None,
+            )
+            .expect("actual later declared bounded child");
+            assert!(!failed.run.receipt.passed);
+            assert_eq!(failed.run.receipt.processes_spawned, 1);
+            assert!(failed.witness.is_none());
+        }
+        assert!(
+            staged
+                .finalize(root.path(), &requests, &runtime, Some(&caller))
+                .is_err(),
+            "{later}: late native observation cannot restore older source success"
+        );
+        assert_eq!(std::fs::read(&input).unwrap(), original_input);
+        assert!(
+            !root
+                .path()
+                .join(format!(".ai/evidence/{wi}.verification.json"))
+                .exists()
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_saved_packets_and_markers_without_live_sessions_remain_fresh_gaps() {
+    let (root, _host, runtime, caller, request, input, _tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let original = std::fs::read(&input).unwrap();
+    let staged = super::consume_portable_evidence_inventory(
+        root.path(),
+        wi,
+        &requests,
+        Vec::new(),
+        &runtime,
+        Some(&caller),
+        None,
+    )
+    .expect("TARGET RED: existing complete object graphs are data, not live source sessions");
+    assert_eq!(
+        staged.coverage().declared_nodes,
+        vec!["project-command-0", "project-command-1"]
+    );
+    assert!(staged.coverage().source_nodes.is_empty());
+    assert_eq!(
+        staged.coverage().fresh_required_nodes,
+        staged.coverage().declared_nodes
+    );
+    assert!(!staged.coverage().source_coverage_complete);
+    assert_eq!(staged.coverage().gaps.len(), 2);
+    assert!(
+        staged
+            .coverage()
+            .gaps
+            .iter()
+            .all(|gap| gap.reason == "source_missing_run_fresh")
+    );
+    let result = staged
+        .finalize(root.path(), &requests, &runtime, Some(&caller))
+        .unwrap();
+    assert!(result.runs.is_empty() && result.source_uses.is_empty());
+    assert_eq!(std::fs::read(&input).unwrap(), original);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_native_dependency_identity_cannot_be_promoted_from_node_label() {
+    let (root, _host, runtime, _caller, request, _input, _tool) = logbridge_source_fixture();
+    let canonical = std::fs::canonicalize(root.path()).unwrap();
+    let snapshot = cockpit_git::GitRepository::discover(&canonical)
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let prepared =
+        crate::prepare_repository_verification_command(&canonical, &request, &snapshot).unwrap();
+    let command = prepared
+        .command
+        .clone()
+        .with_dependencies(vec!["real-upstream-not-proved".into()]);
+    let result = crate::native_current_input(
+        &canonical,
+        &request,
+        &snapshot,
+        &runtime,
+        &command,
+        prepared
+            .execution_identity
+            .as_ref()
+            .expect("actual executable identity"),
+        prepared
+            .authorized_binding
+            .as_ref()
+            .expect("actual current profile authorization"),
+    );
+    assert!(
+        result.is_err(),
+        "nonempty dependency identity needs upstream proof; node IDs cannot supply it"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_own_native_run_does_not_hide_another_unresolved_run() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    // Accept before preparing this consumer run. Importing old bytes cannot
+    // generate either of these move-only sessions or the native run handle.
+    let without_handle =
+        c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+    let for_own_run =
+        c18_inventory_accepted(root.path(), &runtime, &caller, &request, &input, &tool);
+    let snapshot = cockpit_git::GitRepository::discover(root.path())
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    let planned = requests
+        .iter()
+        .map(|request| {
+            crate::plan_repository_verification_action(root.path(), request, &snapshot, now)
+                .unwrap()
+        })
+        .collect::<Vec<_>>();
+    let own = crate::VerificationRunCheckpoint::prepare(
+        root.path(),
+        &requests,
+        &planned,
+        &snapshot,
+        &runtime,
+    )
+    .expect("actual durable current consumer run");
+    let own_identity = own.local_run_identity();
+    assert!(
+        super::consume_portable_evidence_inventory(
+            root.path(),
+            wi,
+            &requests,
+            vec![without_handle],
+            &runtime,
+            Some(&caller),
+            None,
+        )
+        .is_err(),
+        "pending run is not exempt without its opaque native handle"
+    );
+    let staged = super::consume_portable_evidence_inventory(
+        root.path(),
+        wi,
+        &requests,
+        vec![for_own_run],
+        &runtime,
+        Some(&caller),
+        Some(&own_identity),
+    )
+    .expect("TARGET RED: the actual current run may exempt only its own prepared checkpoint");
+    assert_eq!(staged.coverage().source_nodes, vec!["project-command-0"]);
+    assert!(!staged.coverage().source_coverage_complete);
+    let _foreign = crate::VerificationRunCheckpoint::prepare(
+        root.path(),
+        &requests,
+        &planned,
+        &snapshot,
+        &runtime,
+    )
+    .expect("separate real pending run, not a fabricated runId");
+    assert!(
+        staged
+            .finalize(root.path(), &requests, &runtime, Some(&caller))
+            .is_err(),
+        "own-run exemption must not hide a separate native pending run"
+    );
 }

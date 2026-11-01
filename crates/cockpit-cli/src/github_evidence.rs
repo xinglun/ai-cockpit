@@ -215,6 +215,11 @@ enum SourceBridgeError {
     RecipeBytesMismatch,
     UnsupportedEvent,
     PullRequestMergeSourceUnverified,
+    PullRequestBinding,
+    GitMergeParents,
+    NativeInputBinding,
+    ArchiveBinding,
+    ArchiveTransportUnavailable,
     HostHeadUnavailable,
 }
 
@@ -236,6 +241,8 @@ struct ReviewedSourceRecipe {
     workflow_id: u64,
     workflow_path: String,
     reviewed_revision: String,
+    // Host-owned tested tree M; PR H and B are separate provider bindings.
+    pull_request: Option<ReviewedPullRequest>,
     event: String,
     branch: String,
     recipe_digest: cockpit_core::Digest,
@@ -247,6 +254,23 @@ struct ReviewedSourceRecipe {
     native_step_name: String,
     upload_step_name: String,
     binder_step_name: String,
+}
+
+#[derive(Clone, Debug, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ReviewedPullRequest {
+    number: u64,
+    head_revision: String,
+    base_revision: String,
+}
+
+#[derive(Clone, Debug, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+struct VerifiedPullRequestSource {
+    number: u64,
+    head_revision: String,
+    tested_merge_revision: String,
+    base_revision: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, serde::Serialize)]
@@ -278,6 +302,18 @@ enum SourceReadRoute {
         step_number: u32,
     },
     ArtifactMetadata {
+        artifact_id: u64,
+    },
+    PullRequest {
+        number: u64,
+    },
+    GitCommit {
+        revision: String,
+    },
+    // Raw archive bytes, never a caller-supplied sourceHead projection. The
+    // future transport may permit one explicit validated download redirect;
+    // this RED scaffold refuses archive transport rather than following it.
+    ArtifactArchive {
         artifact_id: u64,
     },
 }
@@ -340,6 +376,39 @@ struct SourceRun {
     head_branch: String,
     path: String,
     event: String,
+    #[serde(default)]
+    pull_requests: Vec<SourceRunPullRequest>,
+}
+#[derive(serde::Deserialize)]
+struct SourceRunPullRequest {
+    number: u64,
+    head: SourceRunRef,
+    base: SourceRunRef,
+}
+#[derive(serde::Deserialize)]
+struct SourceRunRef {
+    sha: String,
+}
+#[derive(serde::Deserialize)]
+struct SourcePullRequest {
+    number: u64,
+    // An open PR is valid. This is not a requirement that it has merged.
+    state: String,
+    merge_commit_sha: Option<String>,
+    head: SourcePullRequestRef,
+    base: SourcePullRequestRef,
+}
+#[derive(serde::Deserialize)]
+struct SourcePullRequestRef {
+    sha: String,
+    #[serde(rename = "ref")]
+    branch: String,
+    repo: SourceRepository,
+}
+#[derive(serde::Deserialize)]
+struct SourceGitCommit {
+    sha: String,
+    parents: Vec<SourceRunRef>,
 }
 #[derive(Clone, serde::Deserialize, serde::Serialize)]
 struct SourceStep {
@@ -604,6 +673,55 @@ fn source_machine<T: serde::de::DeserializeOwned>(
     source_json(&bytes).map_err(|_| SourceBridgeError::MachinePayloadInvalid)
 }
 
+fn read_pull_request_source(
+    reader: &mut dyn ControlledSourceReader,
+    recipe: &ReviewedSourceRecipe,
+    pr: &ReviewedPullRequest,
+    audit: &mut Vec<(SourceReadRoute, cockpit_core::Digest)>,
+) -> std::result::Result<VerifiedPullRequestSource, SourceBridgeError> {
+    let observed: SourcePullRequest = source_json(&checked_source_read(
+        reader,
+        SourceReadRoute::PullRequest { number: pr.number },
+        false,
+        audit,
+    )?)?;
+    if observed.number != pr.number
+        || !matches!(observed.state.as_str(), "open" | "closed")
+        || observed.head.repo.id != recipe.repository_id
+        || observed.head.repo.full_name != recipe.repository
+        || observed.base.repo.id != recipe.repository_id
+        || observed.base.repo.full_name != recipe.repository
+        || observed.head.sha != pr.head_revision
+        || observed.base.sha != pr.base_revision
+        || observed.head.branch != recipe.branch
+        || observed.base.branch != "main"
+        || observed.merge_commit_sha.as_deref() != Some(recipe.reviewed_revision.as_str())
+    {
+        return Err(SourceBridgeError::PullRequestBinding);
+    }
+    let commit: SourceGitCommit = source_json(&checked_source_read(
+        reader,
+        SourceReadRoute::GitCommit {
+            revision: recipe.reviewed_revision.clone(),
+        },
+        false,
+        audit,
+    )?)?;
+    if commit.sha != recipe.reviewed_revision
+        || commit.parents.len() != 2
+        || commit.parents[0].sha != pr.base_revision
+        || commit.parents[1].sha != pr.head_revision
+    {
+        return Err(SourceBridgeError::GitMergeParents);
+    }
+    Ok(VerifiedPullRequestSource {
+        number: pr.number,
+        head_revision: pr.head_revision.clone(),
+        tested_merge_revision: recipe.reviewed_revision.clone(),
+        base_revision: pr.base_revision.clone(),
+    })
+}
+
 fn read_source_observation(
     reader: &mut dyn ControlledSourceReader,
     selector: &GithubEvidenceSelector,
@@ -641,7 +759,26 @@ fn read_source_observation(
     {
         return Err(SourceBridgeError::RecipeInvalid);
     }
+    if let Some(pr) = &recipe.pull_request {
+        if recipe.event != "pull_request"
+            || pr.number == 0
+            || !source_revision_valid(&pr.head_revision)
+            || !source_revision_valid(&pr.base_revision)
+            || pr.head_revision == recipe.reviewed_revision
+            || pr.base_revision == recipe.reviewed_revision
+        {
+            return Err(SourceBridgeError::RecipeInvalid);
+        }
+    } else if recipe.event == "pull_request" {
+        return Err(SourceBridgeError::RecipeInvalid);
+    }
     let mut audit = Vec::new();
+    let run_revision = recipe
+        .pull_request
+        .as_ref()
+        .map_or(recipe.reviewed_revision.as_str(), |pr| {
+            pr.head_revision.as_str()
+        });
     let run_matches = |run: &SourceRun| {
         run.id == selector.run_id
             && run.run_attempt == selector.attempt
@@ -651,7 +788,7 @@ fn read_source_observation(
             && run.head_repository.full_name == recipe.repository
             && run.workflow_id == recipe.workflow_id
             && run.path == recipe.workflow_path
-            && run.head_sha == recipe.reviewed_revision
+            && run.head_sha == run_revision
             && run.event == recipe.event
             && run.head_branch == recipe.branch
     };
@@ -681,6 +818,20 @@ fn read_source_observation(
     if !run_matches(&run) {
         return Err(SourceBridgeError::RunBinding);
     }
+    let pr_source = if let Some(pr) = &recipe.pull_request {
+        for observed in [&current, &run] {
+            if observed.pull_requests.len() != 1
+                || observed.pull_requests[0].number != pr.number
+                || observed.pull_requests[0].head.sha != pr.head_revision
+                || observed.pull_requests[0].base.sha != pr.base_revision
+            {
+                return Err(SourceBridgeError::PullRequestBinding);
+            }
+        }
+        Some(read_pull_request_source(reader, &recipe, pr, &mut audit)?)
+    } else {
+        None
+    };
     let mut jobs = std::collections::BTreeMap::new();
     let mut total = None;
     for page in 1..=SOURCE_MAX_PAGES {
@@ -840,6 +991,31 @@ fn read_source_observation(
     {
         return Err(SourceBridgeError::ArtifactBinding);
     }
+    if let Some(pr) = &pr_source {
+        let archive = checked_source_read(
+            reader,
+            SourceReadRoute::ArtifactArchive {
+                artifact_id: selector.artifact_id,
+            },
+            false,
+            &mut audit,
+        )?;
+        let inspected = cockpit_repository::inspect_untrusted_portable_archive(
+            &archive,
+            &binder.archive_digest,
+            expected_input,
+        )
+        .map_err(|_| SourceBridgeError::ArchiveBinding)?;
+        // The archive API checks the real ZIP, exact complete portable bytes
+        // and native integrity. This field alone is never an authentication bit.
+        let packet: serde_json::Value = source_json(&inspected.portable_raw)?;
+        if packet["nativeInput"]["sourceHead"].as_str() != Some(pr.tested_merge_revision.as_str()) {
+            return Err(SourceBridgeError::NativeInputBinding);
+        }
+        // API-complete conservative RED: positive PR support is not published
+        // until these new assertions have actually failed under the real harness.
+        return Err(SourceBridgeError::PullRequestMergeSourceUnverified);
+    }
     // Stable verified subject only. Other jobs' in-progress fields, run timing,
     // response formatting and the new consumer nonce are audit/challenge data.
     let source_root = cockpit_protocol::digest_json(&serde_json::json!({
@@ -937,6 +1113,7 @@ mod source_bridge_tests {
             workflow_id: 8,
             workflow_path: ".github/workflows/ci.yml".into(),
             reviewed_revision: "e".repeat(40),
+            pull_request: None,
             event: "push".into(),
             branch: "main".into(),
             recipe_digest: digest(b"synthetic reviewed recipe: no provider claim"),
@@ -1519,6 +1696,239 @@ mod source_bridge_tests {
         );
         assert!(r.calls.is_empty());
     }
+
+    // Actual complete captured native envelope; parsing data, not provider proof.
+    fn pr_packet(source_head: &str) -> Vec<u8> {
+        let mut packet: Value = serde_json::from_str(r#"{"schemaVersion":1,"nativeInput":{"schemaVersion":1,"nodeId":"project-command-0","producer":"untrusted_captured_fixture","assurance":"self_declared"},"nativeEvidence":{"captureMode":"full_capture","contractDigest":"sha256:40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea","createdAt":"2026-10-31T05:42:18Z","evidenceSchemaVersion":2,"passed":true,"protocolVersion":1,"receipt":{"costObservation":{"advisoryOnly":true,"confidence":"complete","elapsedMs":44080,"executionElapsedMs":43583,"maxConcurrentProcesses":1,"nodesExecuted":1,"nodesPlanned":1,"nodesReused":0,"passed":true,"planningElapsedMs":0,"processesSpawned":1,"protectedNodesExecuted":0,"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","schemaVersion":1,"unknowns":[]},"elapsedMs":44080,"executionElapsedMs":43583,"executionRecords":[{"commandDigest":"sha256:dd3968def0dd92b8c1cabb1d5198ce956a5824b3ee296eb33f492523bd40965f","deadlineMs":1793426194838,"elapsedMs":43578,"exitCode":0,"nodeId":"project-command-0","passed":true,"spawned":true,"stderr":"7461736b2d617574686f72697a656420576f726b204974656d20766572696669636174696f6e20726571756972657320616e206578706c69636974202d2d7461736b2d63616c6c65722066696c650a63616e6469646174652052756e74696d6520707265666c69676874206661696c65642077697468206578697420310a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a63616e6469646174652052756e74696d65207265706f72747320667265736820766572696669636174696f6e2c206275742069747320666f726d616c2072656365697074206973206e6f74207265757361626c6520286578697374696e675f66726573685f726563656970745f6964656e746974795f6d69736d61746368290a776f726b737061636520726563656970742073796e632072656a65637465643a20666f726d616c20766572696669636174696f6e2072656365697074207265706f7369746f7279206964656e7469747920646966666572732066726f6d2052756e74696d65207374617475730a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a576f726b204974656d20494420697320756e7361666520666f72207468652063616e6f6e6963616c2065766964656e636520706174680a776f726b737061636520726563656970742073796e632072656a65637465643a2063616e6f6e6963616c20776f726b7370616365207265636569707420746172676574206973206e6f74206120726567756c6172206e6f6e2d73796d6c696e6b2066696c650a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a63616e6469646174652052756e74696d652061646d697473206e6569746865722072756e5f707265666c69676874206e6f722072756e5f766572696669636174696f6e0a63616e6469646174652052756e74696d65206e6f206c6f6e6765722061646d6974732072756e5f766572696669636174696f6e2061667465722073746174757320726566726573680a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652061646d697473206e6569746865722072756e5f707265666c69676874206e6f722072756e5f766572696669636174696f6e0a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a20457870656374696e672070726f7065727479206e616d6520656e636c6f73656420696e20646f75626c652071756f7465733a206c696e65203120636f6c756d6e20322028636861722031290a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a206475706c6963617465207374646f75742f65766964656e6365204a534f4e206669656c640a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a2052756e74696d65207374646f757420646f6573206e6f742070726f6a65637420746f2074686520666f726d616c20726563656970740a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a2052756e74696d65207374646f757420646f6573206e6f742070726f6a65637420746f2074686520666f726d616c20726563656970740a","stderrTruncated":false,"stdout":"776f726b7370616365207061636b61676520636f766572616765207061737365643a2031207061636b616765730a74696d656f75742072656772657373696f6e207061737365643a20626f756e6465643d312c2064656661756c743d312c20756e72656c617465643d312c20696e76616c69643d352c2052756e74696d652d7265667573616c3d310a70726f64756365722f636f6e73756d657220436172676f20636f6e746578742070726f6f66207061737365643a2031322063617365730a686f737465642052756e74696d6520766572696669636174696f6e206f726368657374726174696f6e2072656772657373696f6e207061737365640a","stdoutTruncated":false,"timedOut":false,"timeoutSeconds":900}],"filesHashed":5,"filesRead":5,"gitCalls":6,"maxConcurrentProcesses":1,"nodesExecuted":1,"nodesPlanned":1,"nodesReused":0,"passed":true,"planReceipt":{"affectedPaths":[],"assurance":"repository_verified","baseRevision":"efc9f309f1500e433240a76fe5dc76db64abb53b","dependencyConfidence":"unknown","escalations":[],"executedNodes":["project-command-0"],"executionElapsedMs":43583,"finalTier":"T0","initialTier":"T0","planningElapsedMs":0,"policyRefs":["wi-1114-bounded-release-verification-v1"],"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","repositorySnapshotDigest":"sha256:3ff877b2050551986531641a9573e9ecf332ea3da524b710f6e9a3ee38cb1150","requiredAssurance":"self_declared","requiredTier":"T0","reusedNodes":[],"savedExecutions":0,"schemaVersion":1,"selectionReasons":["effective:ai-cockpit-project-v1:wi-1114-bounded-release-verification-v1: Enforce the approved maximum of 900 seconds per actual verification command with single worker, finite supervised cleanup and at least 1 GiB free disk. Stage applicability does not authorize publication or production use; exact version, tag and assets require separate future owner approval. Keep all platform, source, evidence and approval requirements; the whole multi-command run has a separately declared finite aggregate budget."],"sharedNodes":[],"stage":"task","timeoutSeconds":900,"workItemId":"WI-1114-release-runtime-convergence"},"planningElapsedMs":0,"processSpawnFailures":0,"processesSpawned":1,"protectedNodesExecuted":0,"protectedNodesSkipped":0,"receiptCandidates":[],"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","rerunStale":0,"rerunUnknown":0,"results":[{"action":"execute","nodeId":"project-command-0","outputDigest":"sha256:3ed74a2373b13cd963aa5dc6b029c636f686b556ba635ac4b49d6f7f3d48634e","outputTruncated":false,"passed":true,"protected":false,"reason":"reuse_not_configured","receiptId":null,"reused":false,"satisfiedBy":"execution","state":"not_applicable","timedOut":false}],"runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","timeoutSeconds":900,"workItemId":"WI-1114-release-runtime-convergence"},"receiptDigest":"sha256:c82b48c8f1c733a39619b96d2ab77af6379cb329a03c1ba070546742cb3a6ff2","repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","repositorySnapshotDigest":"sha256:3ff877b2050551986531641a9573e9ecf332ea3da524b710f6e9a3ee38cb1150","runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","workItemId":"WI-1114-release-runtime-convergence"}}"#).unwrap();
+        packet["nativeInput"]["sourceHead"] = source_head.into();
+        serde_json::to_vec(&packet).unwrap()
+    }
+    fn pr_zip(packet: &[u8]) -> Vec<u8> {
+        // A real single-member stored classic ZIP, with correct CRC and both
+        // directory offsets. No dependency or projected sourceHead transport.
+        let name = b"portable-native-evidence.json";
+        let mut crc = !0_u32;
+        for byte in packet {
+            crc ^= u32::from(*byte);
+            for _ in 0..8 {
+                crc = (crc >> 1) ^ (0xedb88320_u32 & (0_u32.wrapping_sub(crc & 1)));
+            }
+        }
+        crc = !crc;
+        let mut zip = Vec::new();
+        zip.extend_from_slice(&0x04034b50_u32.to_le_bytes());
+        for value in [20_u16, 0, 0, 0, 0] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        for value in [crc, packet.len() as u32, packet.len() as u32] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        for value in [name.len() as u16, 0] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        zip.extend_from_slice(name);
+        zip.extend_from_slice(packet);
+        let offset = zip.len() as u32;
+        zip.extend_from_slice(&0x02014b50_u32.to_le_bytes());
+        for value in [0x0314_u16, 20, 0, 0, 0, 0] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        for value in [crc, packet.len() as u32, packet.len() as u32] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        for value in [name.len() as u16, 0, 0, 0, 0] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        for value in [0o100600_u32 << 16, 0] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        zip.extend_from_slice(name);
+        let directory_size = zip.len() as u32 - offset;
+        zip.extend_from_slice(&0x06054b50_u32.to_le_bytes());
+        for value in [0_u16, 0, 1, 1] {
+            zip.extend_from_slice(&value.to_le_bytes());
+        }
+        zip.extend_from_slice(&directory_size.to_le_bytes());
+        zip.extend_from_slice(&offset.to_le_bytes());
+        zip.extend_from_slice(&0_u16.to_le_bytes());
+        zip
+    }
+    fn pr_fixture_with_native_head(
+        native_head: &str,
+    ) -> (FixtureReader, GithubEvidenceSelector, cockpit_core::Digest) {
+        let (mut r, selector, _) = fixture();
+        let (head, base, merge) = ("a".repeat(40), "b".repeat(40), "c".repeat(40));
+        let packet = pr_packet(native_head);
+        let input = digest(&packet);
+        let archive = pr_zip(&packet);
+        let archive_digest = digest(&archive);
+        let recipe = r.recipe.as_mut().unwrap();
+        recipe.reviewed_revision = merge.clone();
+        recipe.event = "pull_request".into();
+        recipe.branch = "topic".into();
+        recipe.pull_request = Some(ReviewedPullRequest {
+            number: 17,
+            head_revision: head.clone(),
+            base_revision: base.clone(),
+        });
+        for index in [0, 1] {
+            change_json(&mut r, index, |v| {
+                v["head_sha"] = head.clone().into();
+                v["head_branch"] = "topic".into();
+                v["event"] = "pull_request".into();
+                v["pull_requests"] = json!([{"number":17,"head":{"sha":head},"base":{"sha":base}}]);
+            });
+        }
+        change_json(&mut r, 2, |v| {
+            for job in v["jobs"].as_array_mut().unwrap() {
+                job["head_sha"] = head.clone().into();
+            }
+        });
+        let mut n = native();
+        n["inputDigest"] = json!(input);
+        n["nativeRoot"] = json!(input);
+        let mut b = n.clone();
+        b["artifactId"] = 41.into();
+        b["archiveDigest"] = json!(archive_digest);
+        r.replies[3].1.bytes = machine(NATIVE_MACHINE_PREFIX, &n);
+        r.replies[4].1.bytes = machine(BINDER_MACHINE_PREFIX, &b);
+        change_json(&mut r, 5, |v| {
+            v["workflow_run"]["head_sha"] = head.clone().into();
+            v["digest"] = json!(archive_digest);
+            v["size_in_bytes"] = archive.len().into();
+        });
+        let pr = json!({"number":17,"state":"open","merged":false,"merge_commit_sha":merge,
+            "head":{"sha":head,"ref":"topic","repo":{"id":101,"full_name":"owner/project"}},
+            "base":{"sha":base,"ref":"main","repo":{"id":101,"full_name":"owner/project"}}});
+        let commit = json!({"sha":merge,"parents":[{"sha":base},{"sha":head}]});
+        r.replies.insert(
+            2,
+            (
+                SourceReadRoute::PullRequest { number: 17 },
+                SourceRawRead {
+                    bytes: serde_json::to_vec(&pr).unwrap(),
+                    truncated: false,
+                },
+            ),
+        );
+        r.replies.insert(
+            3,
+            (
+                SourceReadRoute::GitCommit { revision: merge },
+                SourceRawRead {
+                    bytes: serde_json::to_vec(&commit).unwrap(),
+                    truncated: false,
+                },
+            ),
+        );
+        r.replies.push_back((
+            SourceReadRoute::ArtifactArchive { artifact_id: 41 },
+            SourceRawRead {
+                bytes: archive,
+                truncated: false,
+            },
+        ));
+        (r, selector, input)
+    }
+    fn pr_fixture() -> (FixtureReader, GithubEvidenceSelector, cockpit_core::Digest) {
+        pr_fixture_with_native_head(&"c".repeat(40))
+    }
+
+    #[test]
+    fn source_bridge_open_pr_proves_distinct_head_merge_base_and_actual_native_packet() {
+        let (mut r, s, input) = pr_fixture();
+        let expected = r
+            .replies
+            .iter()
+            .map(|(route, _)| route.clone())
+            .collect::<Vec<_>>();
+        let result = observe(&mut r, &s, &input)
+            .expect("TARGET RED: same-repository open PR H differs from tested merge M and must not require prior merge");
+        assert_eq!(r.calls, expected);
+        assert!(r.replies.is_empty());
+        assert_eq!(r.calls.len(), 9);
+        assert_eq!(result.input_digest, input);
+        let recipe = r.recipe.as_ref().unwrap();
+        assert_ne!(
+            recipe.pull_request.as_ref().unwrap().head_revision,
+            recipe.reviewed_revision
+        );
+        assert_eq!(result.worker_reply()["inputDigest"], json!(input));
+        assert_eq!(result.worker_reply().as_object().unwrap().len(), 4);
+    }
+
+    #[test]
+    fn source_bridge_pr_rejects_foreign_stale_or_ambiguous_relationships() {
+        for (index, path, replacement) in [
+            (2, "/head/repo/id", json!(999)),
+            (2, "/base/repo/full_name", json!("foreign/project")),
+            (2, "/head/sha", json!("d".repeat(40))),
+            (2, "/base/sha", json!("d".repeat(40))),
+            (2, "/merge_commit_sha", json!("d".repeat(40))),
+            (2, "/number", json!(18)),
+        ] {
+            let (mut r, s, input) = pr_fixture();
+            change_json(&mut r, index, |v| {
+                *v.pointer_mut(path).unwrap() = replacement
+            });
+            assert_eq!(
+                observe(&mut r, &s, &input).unwrap_err(),
+                SourceBridgeError::PullRequestBinding,
+                "{path}"
+            );
+        }
+        for index in [0, 1] {
+            let (mut r, s, input) = pr_fixture();
+            change_json(&mut r, index, |v| {
+                let repeated = v["pull_requests"][0].clone();
+                v["pull_requests"].as_array_mut().unwrap().push(repeated);
+            });
+            assert_eq!(
+                observe(&mut r, &s, &input).unwrap_err(),
+                SourceBridgeError::PullRequestBinding
+            );
+        }
+        for parents in [
+            json!([]),
+            json!([{"sha":"a".repeat(40)},{"sha":"b".repeat(40)}]),
+            json!([{"sha":"b".repeat(40)},{"sha":"d".repeat(40)}]),
+            json!([{"sha":"b".repeat(40)},{"sha":"a".repeat(40)},{"sha":"d".repeat(40)}]),
+        ] {
+            let (mut r, s, input) = pr_fixture();
+            change_json(&mut r, 3, |v| v["parents"] = parents);
+            assert_eq!(
+                observe(&mut r, &s, &input).unwrap_err(),
+                SourceBridgeError::GitMergeParents
+            );
+        }
+    }
+
+    #[test]
+    fn source_bridge_pr_requires_exact_archive_and_native_tested_source_head() {
+        let (mut r, s, input) = pr_fixture_with_native_head(&"a".repeat(40));
+        assert_eq!(
+            observe(&mut r, &s, &input).unwrap_err(),
+            SourceBridgeError::NativeInputBinding,
+            "native input must record M, not the PR head H"
+        );
+        let (mut r, s, input) = pr_fixture();
+        r.replies[8].1.bytes.push(0);
+        assert_eq!(
+            observe(&mut r, &s, &input).unwrap_err(),
+            SourceBridgeError::ArchiveBinding
+        );
+        let (mut r, s, _) = pr_fixture();
+        assert_eq!(
+            observe(&mut r, &s, &digest(b"another packet")).unwrap_err(),
+            SourceBridgeError::NativeBinderMismatch
+        );
+        let (mut r, s, input) = pr_fixture();
+        change_json(&mut r, 0, |v| v["run_attempt"] = 3.into());
+        assert_eq!(
+            observe(&mut r, &s, &input).unwrap_err(),
+            SourceBridgeError::RunBinding
+        );
+    }
 }
 
 const SOURCE_ORIGIN: &str = "https://api.github.com";
@@ -1792,20 +2202,42 @@ impl SourceHttpsReader {
         reader
             .bootstrap_audit
             .push((route, cockpit_core::Digest::sha256_bytes(&current.bytes)));
-        if matches!(run.event.as_str(), "pull_request" | "pull_request_target") {
-            return Err(SourceBridgeError::PullRequestMergeSourceUnverified);
-        }
-        if !matches!(run.event.as_str(), "push" | "workflow_dispatch") {
-            return Err(SourceBridgeError::UnsupportedEvent);
-        }
+        let pull_request = if run.event == "pull_request" {
+            if run.pull_requests.len() != 1 {
+                return Err(SourceBridgeError::PullRequestBinding);
+            }
+            let pr = &run.pull_requests[0];
+            if pr.number == 0
+                || !source_revision_valid(&pr.head.sha)
+                || !source_revision_valid(&pr.base.sha)
+                || pr.head.sha == revision
+                || pr.base.sha == revision
+                || !source_plain_text(&run.head_branch)
+            {
+                return Err(SourceBridgeError::PullRequestBinding);
+            }
+            Some(ReviewedPullRequest {
+                number: pr.number,
+                head_revision: pr.head.sha.clone(),
+                base_revision: pr.base.sha.clone(),
+            })
+        } else {
+            if !matches!(run.event.as_str(), "push" | "workflow_dispatch") {
+                return Err(SourceBridgeError::UnsupportedEvent);
+            }
+            None
+        };
+        let expected_run_head = pull_request
+            .as_ref()
+            .map_or(revision, |pr| pr.head_revision.as_str());
         if run.repository.id != SOURCE_REPOSITORY_ID
             || run.repository.full_name != SOURCE_REPOSITORY
             || run.head_repository.id != SOURCE_REPOSITORY_ID
             || run.head_repository.full_name != SOURCE_REPOSITORY
             || run.id != selector.run_id
             || run.run_attempt != selector.attempt
-            || run.head_sha != revision
-            || run.head_branch != "main"
+            || run.head_sha != expected_run_head
+            || (pull_request.is_none() && run.head_branch != "main")
             || run.workflow_id != SOURCE_WORKFLOW_ID
             || run.path != SOURCE_WORKFLOW_PATH
         {
@@ -1826,8 +2258,9 @@ impl SourceHttpsReader {
             workflow_id: SOURCE_WORKFLOW_ID,
             workflow_path: SOURCE_WORKFLOW_PATH.into(),
             reviewed_revision: revision.into(),
+            pull_request,
             event: run.event,
-            branch: "main".into(),
+            branch: run.head_branch,
             recipe_digest,
             publisher_code_digest: helper_digest.clone(),
             binder_code_digest: helper_digest,
@@ -1851,6 +2284,24 @@ impl ControlledSourceReader for SourceHttpsReader {
         route: &SourceReadRoute,
     ) -> std::result::Result<SourceRawRead, SourceBridgeError> {
         let (path, raw, limit) = match route {
+            SourceReadRoute::PullRequest { number } => (
+                format!("/repos/{SOURCE_REPOSITORY}/pulls/{number}"),
+                false,
+                SOURCE_META_LIMIT,
+            ),
+            SourceReadRoute::GitCommit { revision } => {
+                if !source_revision_valid(revision) {
+                    return Err(SourceBridgeError::RecipeInvalid);
+                }
+                (
+                    format!("/repos/{SOURCE_REPOSITORY}/git/commits/{revision}"),
+                    false,
+                    SOURCE_META_LIMIT,
+                )
+            }
+            SourceReadRoute::ArtifactArchive { .. } => {
+                return Err(SourceBridgeError::ArchiveTransportUnavailable);
+            }
             SourceReadRoute::RunCurrent { run_id } => (
                 format!("/repos/{SOURCE_REPOSITORY}/actions/runs/{run_id}"),
                 false,

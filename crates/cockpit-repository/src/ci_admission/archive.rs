@@ -1354,6 +1354,35 @@ pub fn inspect_untrusted_portable_archive(
     expected_archive_digest: &Digest,
     expected_portable_digest: &Digest,
 ) -> Result<UntrustedPortableArchiveInspection, GithubArchiveError> {
-    let _ = (raw, expected_archive_digest, expected_portable_digest);
-    Err(GithubArchiveError::NotImplemented)
+    check_raw_archive_size(raw.len() as u64)?;
+    let archive_digest = Digest::sha256_bytes(raw);
+    if archive_digest != *expected_archive_digest {
+        return Err(GithubArchiveError::ArchiveDigest);
+    }
+    // Reuse the complete classic ZIP preflight before choosing this profile.
+    // This preserves shared limits and structural-error priority over inventory.
+    let checked = preflight_directory(raw)?;
+    let [member] = checked.members.as_slice() else {
+        return Err(GithubArchiveError::Manifest);
+    };
+    if member.name != "portable-native-evidence.json" {
+        return Err(GithubArchiveError::Manifest);
+    }
+    let portable_raw = member_bytes(raw, member, MAX_GITHUB_EXPANDED_BYTES)?;
+    let portable_digest = Digest::sha256_bytes(&portable_raw);
+    if portable_digest != *expected_portable_digest {
+        return Err(GithubArchiveError::EntryDigest);
+    }
+    // The bounded portable parser rejects deep duplicate keys and unsupported
+    // wire shapes; its native validator also requires complete success/accounting.
+    // A hash-consistent failed/incomplete receipt remains non-admitting data.
+    let inspected = inspect_untrusted_portable_evidence(&portable_raw)?;
+    if !inspected.integrity_valid {
+        return Err(GithubArchiveError::NativeReceipt);
+    }
+    Ok(UntrustedPortableArchiveInspection {
+        archive_digest,
+        portable_digest,
+        portable_raw,
+    })
 }

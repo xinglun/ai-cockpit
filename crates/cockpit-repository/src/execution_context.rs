@@ -4,6 +4,305 @@ use super::*;
 const MAX_ENVIRONMENT_INPUT_BYTES: u64 = 16 * 1024 * 1024;
 const DEFAULT_CARGO_PACKAGE_TEST_SECONDS: u64 = 600;
 
+const MAX_EXECUTION_RECIPE_BYTES: usize = 64 * 1024;
+
+type ExecutionEnvironment = Vec<(std::ffi::OsString, std::ffi::OsString)>;
+
+pub(super) fn validate_execution_recipe(
+    root: &Path,
+    recipe: &cockpit_protocol::VerificationExecutionRecipe,
+) -> Result<(), ObserverError> {
+    let invalid = |reason: &str| ObserverError::State {
+        path: root.join(".ai/project.json"),
+        message: reason.into(),
+    };
+    if recipe.schema_version != 1 {
+        return Err(invalid("execution_recipe_schema"));
+    }
+    if !recipe.clear_environment {
+        return Err(invalid("execution_recipe_requires_clear_environment"));
+    }
+    let mut keys = BTreeSet::new();
+    let mut bytes = 0_usize;
+    for variable in &recipe.environment {
+        let mut name = variable.name.bytes();
+        if !name
+            .next()
+            .is_some_and(|byte| byte.is_ascii_alphabetic() || byte == b'_')
+            || !name.all(|byte| byte.is_ascii_alphanumeric() || byte == b'_')
+        {
+            return Err(invalid("execution_recipe_key"));
+        }
+        let key = if cfg!(windows) {
+            variable.name.to_ascii_uppercase()
+        } else {
+            variable.name.clone()
+        };
+        if !keys.insert(key) {
+            return Err(invalid("execution_recipe_duplicate_key"));
+        }
+        if variable.value.contains('\0') {
+            return Err(invalid("execution_recipe_value"));
+        }
+        bytes = bytes
+            .saturating_add(variable.name.len())
+            .saturating_add(variable.value.len())
+            .saturating_add(2); // '=' and the terminating NUL are actual environment bytes.
+        if bytes > MAX_EXECUTION_RECIPE_BYTES {
+            return Err(invalid("execution_recipe_budget"));
+        }
+    }
+    Ok(())
+}
+
+/// Select only an explicitly confirmed recipe. Broken legacy profiles still
+/// deny reuse through the old assessment; they do not create a new bare-run gate.
+pub(super) fn profile_execution_recipe(
+    root: &Path,
+    program: &str,
+    args: &[String],
+) -> Result<Option<cockpit_protocol::VerificationExecutionRecipe>, ObserverError> {
+    let path = root.join(".ai/project.json");
+    let bytes = match read_execution_recipe_profile_bytes(root) {
+        Ok(bytes) => bytes,
+        Err(_) if !path.exists() => return Ok(None),
+        Err(error) => return Err(error),
+    };
+    let invalid = |reason: &str| ObserverError::State {
+        path: path.clone(),
+        message: reason.into(),
+    };
+    let recipe_marker = bytes
+        .windows(b"executionRecipe".len())
+        .any(|part| part == b"executionRecipe");
+    if recipe_marker && reject_duplicate_json_keys(&bytes).is_err() {
+        return Err(invalid("execution_recipe_profile_untrusted"));
+    }
+    let value: serde_json::Value = match serde_json::from_slice(&bytes) {
+        Ok(value) => value,
+        Err(_) if !recipe_marker => {
+            return Ok(None);
+        }
+        Err(_) => return Err(invalid("execution_recipe_profile_untrusted")),
+    };
+    let candidates = value.get("tests").and_then(serde_json::Value::as_array);
+    let has_recipe = candidates.is_some_and(|commands| {
+        commands.iter().any(|command| {
+            command.get("program").and_then(serde_json::Value::as_str) == Some(program)
+                && command.get("executionRecipe").is_some()
+                && (command.get("args") == Some(&serde_json::json!(args))
+                    || !command.get("args").is_some_and(serde_json::Value::is_array))
+        })
+    });
+    if !has_recipe {
+        return Ok(None);
+    }
+    // Value decodes escaped property names and collapses duplicate keys.
+    // Recheck the raw bytes after selection before trusting that projection.
+    reject_duplicate_json_keys(&bytes)
+        .map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    let profile: AttachedProfile =
+        serde_json::from_value(value).map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    let (config_bytes, bounded_profile_bytes) = read_verification_identity_files(root)?;
+    if bytes != bounded_profile_bytes {
+        return Err(invalid("execution_recipe_profile_changed"));
+    }
+    let config_text = std::str::from_utf8(&config_bytes)
+        .map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    let config: RepositoryConfig =
+        toml::from_str(config_text).map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    validate_protocol_version(config.protocol_version)
+        .map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    if profile.repository_id != repository_id(root).to_string()
+        || profile.repository_id != config.repository_id
+        || profile.state != "calibrated"
+    {
+        return Err(invalid("execution_recipe_profile_untrusted"));
+    }
+    let expected = cockpit_protocol::digest_json(&cockpit_protocol::ProjectProfile {
+        profile_version: profile.profile_version,
+        repository_id: profile.repository_id.clone(),
+        tests: profile.tests.clone(),
+        build_systems: profile.build_systems.clone(),
+    })
+    .map_err(|_| invalid("execution_recipe_profile_untrusted"))?;
+    if profile.profile_digest.as_ref() != Some(&expected) {
+        return Err(invalid("execution_recipe_profile_digest_mismatch"));
+    }
+    let commands = profile
+        .tests
+        .iter()
+        .filter(|command| {
+            command.program == program && command.args == args && command.execution_recipe.is_some()
+        })
+        .collect::<Vec<_>>();
+    if commands.len() != 1 || commands[0].state != "verified" {
+        return Err(invalid("execution_recipe_command_ambiguous_or_unconfirmed"));
+    }
+    let recipe = commands[0]
+        .execution_recipe
+        .as_ref()
+        .expect("selected recipe exists");
+    validate_execution_recipe(root, recipe)?;
+    Ok(Some(recipe.clone()))
+}
+
+fn read_execution_recipe_profile_bytes(root: &Path) -> Result<Vec<u8>, ObserverError> {
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.into(),
+            source,
+        }
+    })?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    read_cap_file_nofollow_bounded(
+        &ai,
+        "project.json",
+        &ai_path.join("project.json"),
+        MAX_VERIFICATION_IDENTITY_FILE_BYTES,
+    )
+}
+
+fn recipe_environment(
+    recipe: &cockpit_protocol::VerificationExecutionRecipe,
+) -> ExecutionEnvironment {
+    recipe
+        .environment
+        .iter()
+        .map(|variable| (variable.name.clone().into(), variable.value.clone().into()))
+        .collect()
+}
+
+fn effective_recipe_environment(
+    root: &Path,
+    program: &str,
+    recipe: &cockpit_protocol::VerificationExecutionRecipe,
+    identity: &ResolvedExecutableIdentity,
+) -> ExecutionEnvironment {
+    let environment = recipe_environment(recipe);
+    let overrides = identity.execution_environment_from_values(&environment);
+    effective_verification_environment_with_fallback(
+        root,
+        program,
+        merge_execution_environment(environment, overrides),
+        root.to_path_buf(),
+    )
+}
+
+pub(super) fn resolved_verification_executable_identity(
+    root: &Path,
+    program: &str,
+    args: &[String],
+) -> Result<Option<ResolvedExecutableIdentity>, ObserverError> {
+    let Some(recipe) = profile_execution_recipe(root, program, args)? else {
+        return Ok(resolved_executable_identity(root, program));
+    };
+    let environment = recipe_environment(&recipe);
+    if resolve_executable_with_environment(root, program, Some(&environment))
+        .is_some_and(|executable| recipe_rustup_proxy(&executable))
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/project.json"),
+            message: "execution_recipe_rustup_proxy_unsupported: select a concrete toolchain binary in the recipe PATH or program".into(),
+        });
+    }
+    let mut identity =
+        resolved_executable_identity_with_environment(root, program, Some(&environment))
+            .ok_or_else(|| ObserverError::State {
+                path: root.join(".ai/project.json"),
+                message: "execution_recipe_executable_identity_unknown".into(),
+            })?;
+    identity.execution_recipe = Some(recipe);
+    Ok(Some(identity))
+}
+
+fn recipe_rustup_proxy(executable: &Path) -> bool {
+    let rustup_name = if cfg!(windows) {
+        "rustup.exe"
+    } else {
+        "rustup"
+    };
+    if fs::canonicalize(executable)
+        .ok()
+        .and_then(|path| path.file_name().map(OsStr::to_owned))
+        .is_some_and(|name| name == rustup_name)
+    {
+        return true;
+    }
+    let name = executable
+        .file_stem()
+        .and_then(OsStr::to_str)
+        .unwrap_or_default();
+    matches!(
+        name,
+        "cargo"
+            | "rustc"
+            | "rustdoc"
+            | "rustfmt"
+            | "cargo-fmt"
+            | "clippy-driver"
+            | "cargo-clippy"
+            | "rust-analyzer"
+            | "rustup"
+    ) && executable
+        .parent()
+        .is_some_and(|parent| parent.join(rustup_name).is_file())
+}
+
+pub(super) fn require_execution_recipe_unchanged(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    identity: Option<&ResolvedExecutableIdentity>,
+) -> Result<(), ObserverError> {
+    if let Some(identity) = identity.filter(|identity| identity.has_execution_recipe()) {
+        let current = profile_execution_recipe(root, &request.program, &request.args)?;
+        if current != identity.execution_recipe {
+            return Err(ObserverError::State {
+                path: root.join(".ai/project.json"),
+                message: "execution_recipe_profile_changed".into(),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn verification_execution_environment_digest(
+    root: &Path,
+    program: &str,
+    args: &[String],
+    identity: &ResolvedExecutableIdentity,
+) -> Result<String, ObserverError> {
+    let Some(recipe) = profile_execution_recipe(root, program, args)? else {
+        if identity.execution_recipe.is_some() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/project.json"),
+                message: "execution_recipe_profile_changed".into(),
+            });
+        }
+        return execution_environment_digest(root, program);
+    };
+    if identity.execution_recipe.as_ref() != Some(&recipe) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/project.json"),
+            message: "execution_recipe_profile_changed".into(),
+        });
+    }
+    let mut environment = effective_recipe_environment(root, program, &recipe, identity)
+        .into_iter()
+        .map(|(name, value)| {
+            (
+                name.as_encoded_bytes().to_vec(),
+                value.as_encoded_bytes().to_vec(),
+            )
+        })
+        .collect::<Vec<_>>();
+    environment.sort();
+    // Every actual recipe input participates, including explicit CODEX_* and
+    // other values that the legacy inherited-environment projection filters.
+    digest_value(&("execution-recipe-v1", recipe, environment), root)
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationContextInput {
     pub program: String,
@@ -80,7 +379,9 @@ pub(super) fn assess_verification_reuse_measured(
     let executable_identity = if let Some(identity) = pre_resolved {
         identity
     } else {
-        let Some(identity) = resolved_executable_identity(&root, &input.program) else {
+        let Some(identity) =
+            resolved_verification_executable_identity(&root, &input.program, &input.args)?
+        else {
             return Ok(denied_reuse("toolchain_identity_unknown"));
         };
         owned_executable_identity = identity;
@@ -94,7 +395,12 @@ pub(super) fn assess_verification_reuse_measured(
             .files_hashed
             .saturating_add(executable_identity.components.len());
     }
-    let execution_environment = execution_environment_digest(&snapshot.root, &input.program)?;
+    let execution_environment = verification_execution_environment_digest(
+        &snapshot.root,
+        &input.program,
+        &input.args,
+        executable_identity,
+    )?;
 
     let ai = root.join(".ai");
     let config_path = ai.join("cockpit.toml");
@@ -272,7 +578,12 @@ pub(super) fn refresh_verification_context(
     let Some(executable_identity) = executable_identity else {
         return Ok(None);
     };
-    let execution_environment = execution_environment_digest(&snapshot.root, &input.program)?;
+    let execution_environment = verification_execution_environment_digest(
+        &snapshot.root,
+        &input.program,
+        &input.args,
+        executable_identity,
+    )?;
     let mut changed_paths = snapshot
         .changed_paths
         .iter()
@@ -387,7 +698,21 @@ pub(super) fn resolved_executable_identity(
     root: &Path,
     program: &str,
 ) -> Option<ResolvedExecutableIdentity> {
-    let executable = resolve_executable(root, program)?;
+    resolved_executable_identity_with_environment(root, program, None)
+}
+
+fn resolved_executable_identity_with_environment(
+    root: &Path,
+    program: &str,
+    environment: Option<&ExecutionEnvironment>,
+) -> Option<ResolvedExecutableIdentity> {
+    let executable = match environment {
+        Some(_) => resolve_executable_with_environment(root, program, environment)?,
+        None => resolve_executable(root, program)?,
+    };
+    if environment.is_some() && recipe_rustup_proxy(&executable) {
+        return None;
+    }
     #[cfg(windows)]
     if executable
         .extension()
@@ -410,7 +735,14 @@ pub(super) fn resolved_executable_identity(
     #[cfg(not(unix))]
     let staging_path = None;
     let mut components = Vec::new();
-    collect_executable_identities(root, &executable, &mut components, staging_path, 0)?;
+    collect_executable_identities(
+        root,
+        &executable,
+        &mut components,
+        staging_path,
+        0,
+        environment,
+    )?;
     #[cfg(unix)]
     if !supports_pinned_execution(&components) {
         return None;
@@ -424,6 +756,7 @@ pub(super) fn resolved_executable_identity(
         path: executable.to_string_lossy().into_owned(),
         digest: digest_raw_bytes(&identity_bytes),
         components,
+        execution_recipe: None,
         #[cfg(unix)]
         _staging: staging,
     })
@@ -459,8 +792,19 @@ pub(super) fn supports_pinned_execution(components: &[ExecutableComponent]) -> b
 }
 
 impl ResolvedExecutableIdentity {
+    pub(super) fn has_execution_recipe(&self) -> bool {
+        self.execution_recipe.is_some()
+    }
+
+    pub(super) fn execution_environment(&self) -> ExecutionEnvironment {
+        self.execution_environment_from_values(&std::env::vars_os().collect())
+    }
+
     #[cfg(target_os = "macos")]
-    pub(super) fn execution_environment(&self) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
+    fn execution_environment_from_values(
+        &self,
+        environment: &ExecutionEnvironment,
+    ) -> ExecutionEnvironment {
         let mut library_paths = self
             .components
             .iter()
@@ -475,8 +819,11 @@ impl ResolvedExecutableIdentity {
             })
             .filter(|path| path.is_dir())
             .collect::<Vec<_>>();
-        if let Some(existing) = std::env::var_os("DYLD_LIBRARY_PATH") {
-            library_paths.extend(std::env::split_paths(&existing));
+        if let Some((_, existing)) = environment
+            .iter()
+            .find(|(name, _)| name == "DYLD_LIBRARY_PATH")
+        {
+            library_paths.extend(std::env::split_paths(existing));
         }
         library_paths.sort();
         library_paths.dedup();
@@ -487,7 +834,10 @@ impl ResolvedExecutableIdentity {
     }
 
     #[cfg(not(target_os = "macos"))]
-    pub(super) fn execution_environment(&self) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
+    fn execution_environment_from_values(
+        &self,
+        _environment: &ExecutionEnvironment,
+    ) -> ExecutionEnvironment {
         Vec::new()
     }
 
@@ -528,7 +878,61 @@ impl ResolvedExecutableIdentity {
     }
 }
 
+/// A malformed or changed recipe cannot fall back to ambient execution.
 pub(super) fn build_repository_verification_command(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    execution_identity: Option<&ResolvedExecutableIdentity>,
+    policy: cockpit_verification::VerificationReusePolicy,
+) -> Result<cockpit_verification::VerificationCommand, ObserverError> {
+    let recipe = profile_execution_recipe(root, &request.program, &request.args)?;
+    let Some(recipe) = recipe else {
+        if execution_identity.is_some_and(|identity| identity.execution_recipe.is_some()) {
+            return Err(ObserverError::State {
+                path: root.join(".ai/project.json"),
+                message: "execution_recipe_profile_changed".into(),
+            });
+        }
+        return Ok(build_legacy_verification_command(
+            root,
+            request,
+            execution_identity,
+            policy,
+        ));
+    };
+    let identity = execution_identity
+        .filter(|identity| identity.execution_recipe.as_ref() == Some(&recipe))
+        .ok_or_else(|| ObserverError::State {
+            path: root.join(".ai/project.json"),
+            message: "execution_recipe_executable_binding_changed".into(),
+        })?;
+    let (execution_program, execution_args) =
+        identity
+            .execution(&request.args)
+            .ok_or_else(|| ObserverError::State {
+                path: root.join(".ai/project.json"),
+                message: "execution_recipe_executable_identity_unknown".into(),
+            })?;
+    Ok(cockpit_verification::VerificationCommand::new_pinned(
+        &request.node_id,
+        &execution_program,
+        execution_args,
+        &request.program,
+        request.args.clone(),
+        policy,
+    )
+    .with_current_dir(root)
+    .with_cleared_environment()
+    .with_environment(effective_recipe_environment(
+        root,
+        &request.program,
+        &recipe,
+        identity,
+    ))
+    .with_timeout_seconds(effective_verification_timeout_seconds(request)))
+}
+
+fn build_legacy_verification_command(
     root: &Path,
     request: &RepositoryVerificationRequest,
     execution_identity: Option<&ResolvedExecutableIdentity>,
@@ -611,16 +1015,36 @@ pub(super) fn merge_execution_environment(
 }
 
 pub(super) fn resolve_executable(root: &Path, program: &str) -> Option<PathBuf> {
+    resolve_executable_with_environment(root, program, None)
+}
+
+fn resolve_executable_with_environment(
+    root: &Path,
+    program: &str,
+    environment: Option<&ExecutionEnvironment>,
+) -> Option<PathBuf> {
     let requested = Path::new(program);
+    let resolve = |path: &Path| resolve_platform_executable_with_environment(path, environment);
     let executable = if requested.is_absolute() {
-        resolve_platform_executable(requested)?
+        resolve(requested)?
     } else if requested.components().count() > 1 {
-        resolve_platform_executable(&root.join(requested))?
+        resolve(&root.join(requested))?
     } else {
-        std::env::var_os("PATH")
-            .into_iter()
-            .flat_map(|path| std::env::split_paths(&path).collect::<Vec<_>>())
-            .find_map(|directory| resolve_platform_executable(&directory.join(requested)))?
+        let path = match environment {
+            Some(environment) => environment
+                .iter()
+                .find(|(name, _)| cargo_environment_key_matches(name, "PATH"))
+                .map(|(_, value)| value.clone()),
+            None => std::env::var_os("PATH"),
+        }?;
+        std::env::split_paths(&path).find_map(|directory| {
+            let directory = if environment.is_some() && !directory.is_absolute() {
+                root.join(directory)
+            } else {
+                directory
+            };
+            resolve(&directory.join(requested))
+        })?
     };
     let executable_name = executable.file_name()?.to_owned();
     let executable_parent = fs::canonicalize(executable.parent()?).ok()?;
@@ -632,16 +1056,29 @@ pub(super) fn resolve_executable(root: &Path, program: &str) -> Option<PathBuf> 
 }
 
 #[cfg(not(windows))]
-pub(super) fn resolve_platform_executable(requested: &Path) -> Option<PathBuf> {
+fn resolve_platform_executable_with_environment(
+    requested: &Path,
+    _environment: Option<&ExecutionEnvironment>,
+) -> Option<PathBuf> {
     is_executable_file(requested).then(|| requested.to_path_buf())
 }
 
 #[cfg(windows)]
-pub(super) fn resolve_platform_executable(requested: &Path) -> Option<PathBuf> {
+fn resolve_platform_executable_with_environment(
+    requested: &Path,
+    environment: Option<&ExecutionEnvironment>,
+) -> Option<PathBuf> {
     if requested.extension().is_some() && is_executable_file(requested) {
         return Some(requested.to_path_buf());
     }
-    let path_ext = std::env::var_os("PATHEXT").unwrap_or_else(|| ".COM;.EXE;.BAT;.CMD".into());
+    let path_ext = match environment {
+        Some(environment) => environment
+            .iter()
+            .find(|(name, _)| cargo_environment_key_matches(name, "PATHEXT"))
+            .map(|(_, value)| value.clone()),
+        None => std::env::var_os("PATHEXT"),
+    }
+    .unwrap_or_else(|| ".COM;.EXE;.BAT;.CMD".into());
     path_ext
         .to_string_lossy()
         .split(';')
@@ -660,8 +1097,9 @@ pub(super) fn collect_executable_identities(
     components: &mut Vec<ExecutableComponent>,
     staging: Option<&Path>,
     depth: usize,
+    environment: Option<&ExecutionEnvironment>,
 ) -> Option<()> {
-    if depth > 4 {
+    if depth > 4 || (environment.is_some() && recipe_rustup_proxy(executable)) {
         return None;
     }
     let key = executable.to_string_lossy().into_owned();
@@ -699,15 +1137,37 @@ pub(super) fn collect_executable_identities(
     }
     let words = shebang.split_whitespace().collect::<Vec<_>>();
     let interpreter_program = *words.first()?;
-    let interpreter = resolve_executable(root, interpreter_program)?;
-    collect_executable_identities(root, &interpreter, components, staging, depth + 1)?;
+    if environment.is_some()
+        && Path::new(interpreter_program)
+            .file_name()
+            .is_some_and(|name| name == "env" || name == "env.exe")
+        && words.len() != 2
+    {
+        return None;
+    }
+    let interpreter = resolve_executable_with_environment(root, interpreter_program, environment)?;
+    collect_executable_identities(
+        root,
+        &interpreter,
+        components,
+        staging,
+        depth + 1,
+        environment,
+    )?;
     if interpreter
         .file_name()
         .is_some_and(|name| name == "env" || name == "env.exe")
         && let Some(command) = simple_env_command(&words[1..])
     {
-        let effective = resolve_executable(root, command)?;
-        collect_executable_identities(root, &effective, components, staging, depth + 1)?;
+        let effective = resolve_executable_with_environment(root, command, environment)?;
+        collect_executable_identities(
+            root,
+            &effective,
+            components,
+            staging,
+            depth + 1,
+            environment,
+        )?;
     } else if interpreter
         .file_name()
         .is_some_and(|name| name == "env" || name == "env.exe")
@@ -941,8 +1401,22 @@ pub(super) fn execution_environment_digest(
 pub(super) fn effective_verification_environment(
     root: &Path,
     program: &str,
-    mut environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+    environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
 ) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
+    effective_verification_environment_with_fallback(
+        root,
+        program,
+        environment,
+        std::env::temp_dir(),
+    )
+}
+
+fn effective_verification_environment_with_fallback(
+    root: &Path,
+    program: &str,
+    mut environment: ExecutionEnvironment,
+    fallback_home: PathBuf,
+) -> ExecutionEnvironment {
     let is_cargo = is_cargo_program(program);
     if !is_cargo {
         return environment;
@@ -973,7 +1447,7 @@ pub(super) fn effective_verification_environment(
             })
             .map(|(_, value)| PathBuf::from(value))
             .find(|path| path.is_absolute())
-            .unwrap_or_else(std::env::temp_dir);
+            .unwrap_or(fallback_home);
         let checkout = fs::canonicalize(root).unwrap_or_else(|_| root.to_path_buf());
         let checkout_digest = Digest::sha256_bytes(checkout.as_os_str().as_encoded_bytes());
         environment.push((
@@ -1065,6 +1539,7 @@ pub(super) struct ResolvedExecutableIdentity {
     pub(super) path: String,
     pub(super) digest: String,
     pub(super) components: Vec<ExecutableComponent>,
+    execution_recipe: Option<cockpit_protocol::VerificationExecutionRecipe>,
     #[cfg(unix)]
     pub(super) _staging: tempfile::TempDir,
 }

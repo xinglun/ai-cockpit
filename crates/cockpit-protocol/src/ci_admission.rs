@@ -241,6 +241,27 @@ pub struct PortableEvidenceSourceUse {
     pub operation_elapsed_ms: u128,
 }
 
+/// Descriptive inventory coverage, not an execution/source capability and not
+/// a Work Item acceptance decision. Empty inventories are never complete.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableInventoryCoverage {
+    pub schema_version: u32,
+    pub declared_nodes: Vec<String>,
+    pub source_nodes: Vec<String>,
+    pub fresh_required_nodes: Vec<String>,
+    pub source_coverage_complete: bool,
+    pub gaps: Vec<PortableInventoryGap>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableInventoryGap {
+    pub node_id: String,
+    /// Fixed safe reason code; never raw environment values or command output.
+    pub reason: String,
+}
+
 /// Firsthand native publisher control data. JSON alone cannot authenticate it.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

@@ -9,18 +9,18 @@ use super::{
     WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
     WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
     acquire_lifecycle_lock, apply_preflight_review_evidence, atomic_json, atomic_write, attach,
-    attached_profile_digest, build_repository_verification_command,
-    close_decision_is_valid_for_status, closed_finalization_projection_kind,
-    effective_resource_context, effective_verification_timeout_seconds,
-    ensure_resource_finalization_base_binding, git_text, git_worktree_records,
-    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
-    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
-    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome,
-    prepare_repository_verification_command, read_contract, read_evidence_retention_policy,
-    read_json, read_resource_finalization_receipt, recovery_decision_candidate_paths,
-    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
-    repository_relative_path, require_explicit_resource_finalization_plan,
-    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
+    attached_profile_digest, close_decision_is_valid_for_status,
+    closed_finalization_projection_kind, effective_resource_context,
+    effective_verification_timeout_seconds, ensure_resource_finalization_base_binding, git_text,
+    git_worktree_records, governance_controls_gaps_for_finish,
+    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
+    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
+    persist_blocked_lifecycle_outcome, prepare_repository_verification_command, read_contract,
+    read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
+    recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
+    repository_id, repository_readiness, repository_relative_path,
+    require_explicit_resource_finalization_plan, require_green_governance,
+    require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_report, valid_git_object_id, valid_sha256_digest,
     validate_checkpoint_evidence_bindings, validate_historical_finalization,
@@ -10378,18 +10378,13 @@ fn verification_attempt_command_value(
     snapshot: &RepositorySnapshot,
 ) -> serde_json::Value {
     let timeout_seconds = effective_verification_timeout_seconds(request);
-    let command_digest = prepare_repository_verification_command(root, request, snapshot)
-        .map(|prepared| prepared.command)
-        .unwrap_or_else(|_| {
-            build_repository_verification_command(
-                root,
-                request,
-                None,
-                cockpit_verification::VerificationReusePolicy::NeverReuse,
-            )
-        })
-        .command_digest();
-    serde_json::json!({
+    let (command_digest, preparation_error) =
+        match prepare_repository_verification_command(root, request, snapshot) {
+            Ok(prepared) => (Some(prepared.command.command_digest()), None),
+            Err(error) => (None, Some(error.to_string())),
+        };
+    // Preserve error metadata without manufacturing an ambient command identity.
+    let mut value = serde_json::json!({
         "nodeId": request.node_id,
         "program": request.program,
         "args": request.args,
@@ -10400,7 +10395,11 @@ fn verification_attempt_command_value(
         "baseCommit": request.base_commit,
         "timeoutSeconds": timeout_seconds,
         "commandDigest": command_digest,
-    })
+    });
+    if let Some(error) = preparation_error {
+        value["preparationError"] = serde_json::json!(error);
+    }
+    value
 }
 
 fn bind_verification_attempt_receipt(
@@ -10491,7 +10490,11 @@ fn verification_attempt_matches(
         .iter()
         .map(|request| verification_attempt_command_value(root, request, snapshot))
         .collect::<Vec<_>>();
-    if attempt["commands"] != serde_json::json!(expected_commands) {
+    if expected_commands
+        .iter()
+        .any(|command| command["commandDigest"].as_str().is_none())
+        || attempt["commands"] != serde_json::json!(expected_commands)
+    {
         return false;
     }
     let Some(receipt) = attempt.get("receipt") else {

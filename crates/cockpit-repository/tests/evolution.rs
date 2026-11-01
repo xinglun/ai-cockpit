@@ -301,3 +301,345 @@ fn c18_invalid_recipe_rejection_precedes_profile_or_decision_writes() {
         assert!(!root.path().join(".ai/decisions/profile-v2.json").exists());
     }
 }
+
+#[cfg(unix)]
+fn c18_request(
+    program: String,
+    args: Vec<String>,
+) -> cockpit_repository::RepositoryVerificationRequest {
+    cockpit_repository::RepositoryVerificationRequest {
+        node_id: "recipe-negative-node".into(),
+        program,
+        args,
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: Digest::sha256_bytes(b"fixture-runtime").to_string(),
+        base_commit: None,
+        workers: 1,
+        work_item_id: None,
+        timeout_seconds: Some(5),
+        policy: cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized,
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_recipe_path_and_env_shebang_resolve_only_from_the_child_environment() {
+    use std::os::unix::fs::PermissionsExt;
+    let root = c18_recipe_fixture();
+    let bin = root.path().join("recipe-bin");
+    std::fs::create_dir(&bin).unwrap();
+    std::fs::copy(
+        std::fs::canonicalize("/bin/sh").unwrap(),
+        bin.join("c18-interpreter"),
+    )
+    .unwrap();
+    let tool = bin.join("c18-tool");
+    std::fs::write(&tool, "#!/usr/bin/env c18-interpreter\ntest \"${HOME+x}\" != x && test \"${C18_RECIPE_ONLY-}\" = present && printf recipe-path\n").unwrap();
+    std::fs::set_permissions(&tool, std::fs::Permissions::from_mode(0o755)).unwrap();
+    let mut recipe = c18_recipe("present");
+    recipe.environment[0].value = bin.to_string_lossy().into_owned();
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        "c18-tool",
+        &[],
+        Some(recipe),
+    )
+    .unwrap();
+    let request = c18_request("c18-tool".into(), vec![]);
+    let first = cockpit_repository::run_repository_verification(root.path(), &request).unwrap();
+    assert!(first.receipt.passed);
+    assert_eq!(first.receipt.processes_spawned, 1);
+    assert_eq!(
+        first.receipt.execution_records[0].stdout_hex,
+        "7265636970652d70617468"
+    );
+    let second = cockpit_repository::run_repository_verification(root.path(), &request).unwrap();
+    assert!(second.receipt.passed);
+    assert_eq!(second.receipt.nodes_reused, 1);
+    assert_eq!(second.receipt.processes_spawned, 0);
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_recipe_failure_does_not_reuse_a_previous_success_and_policies_stay_protected() {
+    use cockpit_repository::{RepositoryVerificationPolicy, run_repository_verification};
+    let root = c18_recipe_fixture();
+    let (program, args) = c18_recipe_command();
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        &program,
+        &args,
+        Some(c18_recipe("present")),
+    )
+    .unwrap();
+    let mut request = c18_request(program, args);
+    let first = run_repository_verification(root.path(), &request).unwrap();
+    assert!(first.receipt.passed);
+    assert_eq!(
+        run_repository_verification(root.path(), &request)
+            .unwrap()
+            .receipt
+            .nodes_reused,
+        1
+    );
+    for policy in [
+        RepositoryVerificationPolicy::NeverReuse,
+        RepositoryVerificationPolicy::Protected(cockpit_verification::ProtectedGateClass::Scope),
+    ] {
+        request.policy = policy;
+        for _ in 0..2 {
+            let run = run_repository_verification(root.path(), &request).unwrap();
+            assert!(run.receipt.passed);
+            assert_eq!(run.receipt.nodes_reused, 0);
+            assert_eq!(run.receipt.processes_spawned, 1);
+            assert!(run.receipt.receipt_candidates.is_empty());
+            if matches!(request.policy, RepositoryVerificationPolicy::Protected(_)) {
+                assert_eq!(run.receipt.protected_nodes_executed, 1);
+            }
+        }
+    }
+    request.policy = RepositoryVerificationPolicy::ProfileAuthorized;
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        &request.program,
+        &request.args,
+        Some(c18_recipe("missing")),
+    )
+    .unwrap();
+    for _ in 0..2 {
+        let run = run_repository_verification(root.path(), &request).unwrap();
+        assert!(!run.receipt.passed);
+        assert_eq!(run.receipt.nodes_reused, 0);
+        assert_eq!(run.receipt.processes_spawned, 1);
+        assert_ne!(
+            run.receipt.execution_records[0].command_digest,
+            first.receipt.execution_records[0].command_digest
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_corrupt_recipe_fails_before_spawn_instead_of_falling_back_to_ambient_environment() {
+    let root = c18_recipe_fixture();
+    let program = std::fs::canonicalize("/bin/sh")
+        .unwrap()
+        .to_string_lossy()
+        .into_owned();
+    let args = vec![
+        "-c".into(),
+        "printf x >> .ai/c18-child-runs; test \"${C18_RECIPE_ONLY-}\" = present".into(),
+    ];
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        &program,
+        &args,
+        Some(c18_recipe("present")),
+    )
+    .unwrap();
+    let request = c18_request(program, args);
+    assert!(
+        cockpit_repository::run_repository_verification(root.path(), &request)
+            .unwrap()
+            .receipt
+            .passed
+    );
+    let marker = root.path().join(".ai/c18-child-runs");
+    assert_eq!(std::fs::read(&marker).unwrap(), b"x");
+    let path = root.path().join(".ai/project.json");
+    let original: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+    for (mutation, reason) in [
+        ("digest", "execution_recipe_profile_digest_mismatch"),
+        ("schema", "execution_recipe_schema"),
+        ("clear", "execution_recipe_requires_clear_environment"),
+        ("duplicate", "execution_recipe_duplicate_key"),
+        ("null", "execution_recipe_command_ambiguous_or_unconfirmed"),
+    ] {
+        let mut value = original.clone();
+        let command = value["tests"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|command| {
+                command["program"] == request.program
+                    && command["args"] == serde_json::json!(request.args)
+            })
+            .unwrap();
+        match mutation {
+            "digest" => {
+                command["executionRecipe"]["environment"][1]["value"] =
+                    serde_json::json!("tampered")
+            }
+            "schema" => command["executionRecipe"]["schemaVersion"] = serde_json::json!(2),
+            "clear" => command["executionRecipe"]["clearEnvironment"] = serde_json::json!(false),
+            "duplicate" => {
+                let env = command["executionRecipe"]["environment"]
+                    .as_array_mut()
+                    .unwrap();
+                env.push(env[0].clone());
+            }
+            "null" => command["executionRecipe"] = serde_json::Value::Null,
+            _ => unreachable!(),
+        }
+        if mutation != "digest" {
+            let profile: cockpit_repository::AttachedProfile =
+                serde_json::from_value(value.clone()).unwrap();
+            value["profileDigest"] = serde_json::to_value(
+                cockpit_protocol::digest_json(&ProjectProfile {
+                    profile_version: profile.profile_version,
+                    repository_id: profile.repository_id,
+                    tests: profile.tests,
+                    build_systems: profile.build_systems,
+                })
+                .unwrap(),
+            )
+            .unwrap();
+        }
+        std::fs::write(&path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+        let error = cockpit_repository::run_repository_verification(root.path(), &request)
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains(reason), "expected {reason}, got {error}");
+        assert_eq!(
+            std::fs::read(&marker).unwrap(),
+            b"x",
+            "invalid recipe must not spawn"
+        );
+    }
+
+    // The duplicate is visible only after JSON unescapes the key. A Value
+    // alone silently retains the second (valid) recipe and its original digest.
+    let escaped_duplicate = serde_json::to_string(&original).unwrap().replace(
+        "\"executionRecipe\":",
+        "\"\\u0065xecutionRecipe\":null,\"\\u0065xecutionRecipe\":",
+    );
+    assert!(!escaped_duplicate.contains("executionRecipe"));
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(&escaped_duplicate).unwrap(),
+        original
+    );
+    std::fs::write(&path, escaped_duplicate.as_bytes()).unwrap();
+    let error = cockpit_repository::run_repository_verification(root.path(), &request)
+        .unwrap_err()
+        .to_string();
+    assert!(
+        error.contains("execution_recipe_profile_untrusted"),
+        "{error}"
+    );
+    assert_eq!(std::fs::read(&path).unwrap(), escaped_duplicate.as_bytes());
+    assert_eq!(
+        std::fs::read(&marker).unwrap(),
+        b"x",
+        "escaped duplicate must not spawn"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_legacy_malformed_profile_still_executes_without_reuse() {
+    let root = c18_recipe_fixture();
+    std::fs::write(
+        root.path().join(".ai/project.json"),
+        "legacy malformed profile",
+    )
+    .unwrap();
+    let request = c18_request(
+        std::fs::canonicalize("/bin/sh")
+            .unwrap()
+            .to_string_lossy()
+            .into_owned(),
+        vec!["-c".into(), "printf legacy-compatible".into()],
+    );
+    let run = cockpit_repository::run_repository_verification(root.path(), &request).unwrap();
+    assert!(run.receipt.passed);
+    assert_eq!(run.receipt.nodes_reused, 0);
+    assert_eq!(run.receipt.processes_spawned, 1);
+    assert_eq!(
+        run.receipt.execution_records[0].stdout_hex,
+        "6c65676163792d636f6d70617469626c65"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_recipe_rustup_proxy_is_explicitly_unsupported_without_changing_legacy_execution() {
+    use std::os::unix::fs::symlink;
+    let root = c18_recipe_fixture();
+    let bin = root.path().join("proxy-bin");
+    std::fs::create_dir(&bin).unwrap();
+    std::fs::copy(
+        std::fs::canonicalize("/bin/sh").unwrap(),
+        bin.join("rustup"),
+    )
+    .unwrap();
+    symlink("rustup", bin.join("cargo")).unwrap();
+    let program = bin.join("cargo").to_string_lossy().into_owned();
+    let args = vec!["-c".into(), "printf legacy-proxy".into()];
+    let request = c18_request(program.clone(), args.clone());
+    cockpit_repository::confirm_profile_update(root.path(), &program, &args).unwrap();
+    let legacy = cockpit_repository::run_repository_verification(root.path(), &request).unwrap();
+    assert!(legacy.receipt.passed);
+    assert_eq!(
+        legacy.receipt.execution_records[0].stdout_hex,
+        "6c65676163792d70726f7879"
+    );
+    let mut recipe = c18_recipe("present");
+    recipe.environment[0].value = bin.to_string_lossy().into_owned();
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        &program,
+        &args,
+        Some(recipe),
+    )
+    .unwrap();
+    let error = cockpit_repository::run_repository_verification(root.path(), &request)
+        .unwrap_err()
+        .to_string();
+    assert!(
+        error.contains("execution_recipe_rustup_proxy_unsupported"),
+        "{error}"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_late_recipe_removal_fails_closed_after_actual_execution() {
+    let root = c18_recipe_fixture();
+    let (program, args) = c18_recipe_command();
+    cockpit_repository::confirm_profile_update_with_execution_recipe(
+        root.path(),
+        &program,
+        &args,
+        Some(c18_recipe("present")),
+    )
+    .unwrap();
+    let mut request = c18_request(program, args);
+    assert!(
+        cockpit_repository::run_repository_verification(root.path(), &request)
+            .unwrap()
+            .receipt
+            .passed
+    );
+    request.policy = cockpit_repository::RepositoryVerificationPolicy::NeverReuse;
+    let path = root.path().join(".ai/project.json");
+    let error = cockpit_repository::run_repository_verification_with_process_observer(
+        root.path(),
+        &request,
+        move |_, _, started| {
+            if started {
+                std::fs::write(&path, "legacy-shaped metadata loss")
+                    .map_err(|error| error.to_string())?;
+            }
+            Ok(())
+        },
+    )
+    .unwrap_err()
+    .to_string();
+    assert!(
+        error.contains("execution_recipe_profile_changed"),
+        "{error}"
+    );
+}
