@@ -4781,14 +4781,24 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
 }
 
 /// Keep completion's input change inventory separate from diagnostic writes.
-/// The final source identity and observations are preserved. If source identity
-/// differs or cannot be compared, retain the actual final inventory as well.
+/// The final source identity and observations are preserved. Only captured,
+/// clean-source identities are compared; dirty, changed, or unknown source
+/// retains its actual final inventory instead of rereading an old dirty input.
 pub fn verification_recording_snapshot(
     input: &RepositorySnapshot,
     final_snapshot: &RepositorySnapshot,
 ) -> RepositorySnapshot {
     let mut recording = final_snapshot.clone();
-    if let (Ok(before), Ok(after)) = (snapshot_digest(input), snapshot_digest(final_snapshot))
+    let has_captured_clean_source = |snapshot: &RepositorySnapshot| {
+        snapshot.source_tree_digest.is_some()
+            && snapshot
+                .changed_paths
+                .iter()
+                .all(|path| path == ".ai" || path.starts_with(".ai/"))
+    };
+    if has_captured_clean_source(input)
+        && has_captured_clean_source(final_snapshot)
+        && let (Ok(before), Ok(after)) = (snapshot_digest(input), snapshot_digest(final_snapshot))
         && before == after
     {
         recording.changed_paths = input.changed_paths.clone();
@@ -21286,6 +21296,24 @@ mod verification_input_inventory_tests {
         assert_eq!(
             verification_recording_snapshot(&unknown, &final_snapshot),
             final_snapshot
+        );
+        let mut dirty_input = snapshot();
+        dirty_input.changed_paths.push("src/before.rs".into());
+        let mut dirty_final = dirty_input.clone();
+        dirty_final.changed_paths.push("src/after.rs".into());
+        assert_eq!(
+            verification_recording_snapshot(&dirty_input, &dirty_final),
+            dirty_final
+        );
+        let clean = snapshot();
+        let mut unknown_final = clean.clone();
+        unknown_final.source_tree_digest = None;
+        unknown_final
+            .changed_paths
+            .push(".ai/evidence/new.json".into());
+        assert_eq!(
+            verification_recording_snapshot(&clean, &unknown_final),
+            unknown_final
         );
     }
 }
