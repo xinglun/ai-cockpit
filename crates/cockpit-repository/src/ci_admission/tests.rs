@@ -5104,6 +5104,40 @@ fn c18_inventory_acquire_manifest_observes_and_returns_real_live_capability() {
     let (root, host, runtime, caller, request, input, tool) = logbridge_source_fixture();
     let wi = request.work_item_id.as_deref().unwrap();
     let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    // Match the exact current CLI route, including the immutable Contract
+    // baseRevision. An old None-base packet cannot be relabelled or rehashed
+    // into evidence for the current Some(base) execution input.
+    let snapshot = cockpit_git::GitRepository::discover(root.path())
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let route = crate::resolve_verification_route(
+        root.path(),
+        wi,
+        cockpit_protocol::VerificationStage::Task,
+        "local",
+        &snapshot,
+    )
+    .expect("actual current policy-bound task route, as used by CLI verify");
+    let contract: Value = crate::read_json(
+        &root
+            .path()
+            .join(format!(".ai/work-items/active/{wi}.contract.json",)),
+    )
+    .unwrap();
+    assert!(
+        route.base_revision.is_some(),
+        "owned Git fixture has a valid immutable base"
+    );
+    assert_eq!(
+        route.base_revision.as_deref(),
+        contract["baseRevision"].as_str()
+    );
+    assert_eq!(
+        requests[0].base_commit.as_deref(),
+        route.base_revision.as_deref(),
+        "TARGET RED: source declaration must use the same canonical Contract base as actual CLI requests"
+    );
     let plan =
         super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
             .unwrap();
