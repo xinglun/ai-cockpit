@@ -4125,7 +4125,7 @@ fn native_source_publisher_observes_real_fresh_executions_and_never_promotes_ful
                 .parse::<cockpit_core::Digest>()
                 .is_ok()
         );
-        assert!(execution_ids.insert(publication.execution_id));
+        assert!(execution_ids.insert(publication.execution_id.to_string()));
         let bytes = std::fs::read(&publication.portable_path).unwrap();
         assert_eq!(
             cockpit_core::Digest::sha256_bytes(&bytes),
