@@ -287,3 +287,380 @@ fn portable_bundle_real_cli_inspects_cold_data_without_work_item_or_grant() {
         "inspection must preserve native records"
     );
 }
+
+// This Linux-only fixture exercises the real candidate and native supervisor.
+// Its self-declared owner is local test data, not this WI's grant or provider proof.
+#[cfg(target_os = "linux")]
+#[test]
+fn native_source_helper_real_candidate_publishes_only_its_bounded_native_execution() {
+    use cockpit_protocol::{
+        AssuranceLevel, RuntimeContext, TaskAuthorizationCaller, TaskAuthorizationPolicy,
+    };
+    use cockpit_repository::{
+        WorkItemStartOptions, attach, checkpoint_work_item_with_caller, confirm_profile_update,
+        preflight_work_item_with_runtime_report, record_work_item_governance_controls_with_runtime,
+        start_work_item_with_options_and_runtime,
+    };
+    use cockpit_verification::{
+        VerificationCommand, VerificationReceipt, VerificationReusePolicy, execute_bounded,
+    };
+    use serde_json::{Value, json};
+    use sha2::{Digest as _, Sha256};
+    use std::io::Read;
+    use std::path::{Path, PathBuf};
+
+    fn read_json(path: &Path) -> Value {
+        serde_json::from_slice(&std::fs::read(path).unwrap()).unwrap()
+    }
+    fn bounded_git(root: &Path, args: &[&str]) {
+        let result = execute_bounded(
+            vec![
+                VerificationCommand::new(
+                    "fixture-git",
+                    "git",
+                    args.iter().map(|value| (*value).into()).collect(),
+                    VerificationReusePolicy::NeverReuse,
+                )
+                .with_current_dir(root)
+                .with_timeout_seconds(20),
+            ],
+            1,
+        )
+        .unwrap();
+        assert!(result.passed, "fixture Git failed: {result:?}");
+        assert_eq!(result.processes_spawned, 1);
+        assert_eq!(result.nodes_reused, 0);
+    }
+
+    let directory = tempfile::Builder::new()
+        .prefix("native-real-cli-repo-")
+        .tempdir()
+        .unwrap();
+    let private = tempfile::Builder::new()
+        .prefix("native-real-cli-control-")
+        .tempdir()
+        .unwrap();
+    let root = directory.path().canonicalize().unwrap();
+    let private_root = private.path().canonicalize().unwrap();
+    assert!(!private_root.starts_with(&root));
+    std::fs::write(root.join("tracked.txt"), b"native publisher fixture\n").unwrap();
+    for args in [
+        vec!["init", "-q", "--initial-branch=main"],
+        vec!["config", "core.autocrlf", "false"],
+        vec!["add", "."],
+        vec![
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-qm",
+            "fixture",
+        ],
+    ] {
+        bounded_git(&root, &args);
+    }
+    attach(&root).unwrap();
+    // Profile confirmation must precede start so Contract.profileDigest is current.
+    confirm_profile_update(&root, "git", &["--version".into()]).unwrap();
+    let candidate = PathBuf::from(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .canonicalize()
+        .unwrap();
+    let candidate_info = std::fs::symlink_metadata(&candidate).unwrap();
+    assert!(candidate_info.is_file() && !candidate_info.file_type().is_symlink());
+    let mut binary = std::fs::File::open(&candidate).unwrap();
+    let mut hasher = Sha256::new();
+    let mut buffer = [0_u8; 64 * 1024];
+    loop {
+        let count = binary.read(&mut buffer).unwrap();
+        if count == 0 {
+            break;
+        }
+        hasher.update(&buffer[..count]);
+    }
+    let runtime = RuntimeContext {
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        protocol_version: 1,
+        runtime_digest: format!("sha256:{}", hex::encode(hasher.finalize()))
+            .parse()
+            .unwrap(),
+    };
+    let caller = TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: "agent:real-cli-native-fixture".into(),
+        authority_source: "fixture:synthetic-local-owner-not-this-work-item-grant".into(),
+        assurance: AssuranceLevel::SelfDeclared,
+    };
+    let wi = "WI-REAL-CLI-NATIVE-HELPER";
+    start_work_item_with_options_and_runtime(
+        &root,
+        wi,
+        "exercise actual native source publication",
+        "do not promote one node to full verification",
+        &["tracked.txt".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec![
+                "An actual bounded git child supplies its own native observation".into(),
+            ],
+            verification_commands: vec![
+                "git --version".into(),
+                "git --definitely-invalid-fixture-option".into(),
+            ],
+            task_authorization: Some(TaskAuthorizationPolicy {
+                schema_version: 1,
+                agent_actor: caller.actor.clone(),
+                authority_source: caller.authority_source.clone(),
+                allowed_actions: vec![
+                    "run_preflight".into(),
+                    "checkpoint".into(),
+                    "run_verification".into(),
+                ],
+                closeout_actions: vec![],
+                expires_at: Some("2099-01-01T00:00:00Z".into()),
+                public_target: None,
+            }),
+            ..Default::default()
+        },
+        &runtime,
+    )
+    .unwrap();
+    let contract_path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{wi}.summary.json"));
+    preflight_work_item_with_runtime_report(&root, &contract_path, &runtime).unwrap();
+    let contract = read_json(&contract_path);
+    let summary = read_json(&summary_path);
+    record_work_item_governance_controls_with_runtime(&root, wi, &json!({"decisionEvidence": {
+        "schemaVersion": 1, "decisionId": "contract-preflight-review", "decision": "confirm_review",
+        "workItemId": wi, "repositoryId": cockpit_repository::repository_id(&root),
+        "contractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": summary["updatedAt"], "recordedBy": "agent:test-fixture-recorder",
+        "reason": "Synthetic local test confirmation, not external human or GitHub authentication."
+    }}), &runtime).unwrap();
+    checkpoint_work_item_with_caller(&root, wi, &runtime, Some(&caller)).unwrap();
+    let before_summary = std::fs::read(&summary_path).unwrap();
+    let outcome_path = root.join(format!(".ai/work-items/active/{wi}.outcome.json"));
+    let before_outcome = match std::fs::read(&outcome_path) {
+        Ok(bytes) => Some(bytes),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+        Err(error) => panic!("read fixture Outcome: {error}"),
+    };
+    let formal_path = root.join(format!(".ai/evidence/{wi}.verification.json"));
+    assert!(!formal_path.exists());
+    let caller_path = private_root.join("caller.json");
+    std::fs::write(&caller_path, serde_json::to_vec(&caller).unwrap()).unwrap();
+    let runner = private_root.join("runner");
+    std::fs::create_dir(&runner).unwrap();
+    let output = private_root.join("github-output.txt");
+    std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&output)
+        .unwrap();
+    let helper = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tests/ci/run_hosted_runtime_verification.sh")
+        .canonicalize()
+        .unwrap();
+    let result = execute_bounded(
+        vec![
+            VerificationCommand::new(
+                "actual-native-source-helper",
+                "bash",
+                vec![
+                    helper.to_string_lossy().into_owned(),
+                    "--native-source".into(),
+                    candidate.to_string_lossy().into_owned(),
+                    root.to_string_lossy().into_owned(),
+                    contract_path.to_string_lossy().into_owned(),
+                    runner.to_string_lossy().into_owned(),
+                    "--node-id".into(),
+                    "project-command-0".into(),
+                    "--task-caller".into(),
+                    caller_path.to_string_lossy().into_owned(),
+                ],
+                VerificationReusePolicy::NeverReuse,
+            )
+            .with_current_dir(&root)
+            .with_timeout_seconds(90)
+            .with_environment(vec![
+                ("RUNNER_TEMP".into(), runner.as_os_str().to_owned()),
+                ("GITHUB_OUTPUT".into(), output.as_os_str().to_owned()),
+            ]),
+        ],
+        1,
+    )
+    .unwrap();
+    assert!(result.passed, "real native helper: {result:?}");
+    assert_eq!(
+        (
+            result.processes_spawned,
+            result.nodes_executed,
+            result.nodes_reused
+        ),
+        (1, 1, 0)
+    );
+    assert_eq!(result.execution_records.len(), 1);
+    let execution = &result.execution_records[0];
+    assert!(
+        execution.spawned
+            && execution.passed
+            && !execution.timed_out
+            && !execution.stdout_truncated
+            && !execution.stderr_truncated
+    );
+    assert_eq!(execution.exit_code, Some(0));
+    assert_eq!(execution.termination_signal, None);
+    let stdout = String::from_utf8(hex::decode(&execution.stdout_hex).unwrap()).unwrap();
+    assert!(stdout.ends_with('\n'));
+    let lines = stdout.lines().collect::<Vec<_>>();
+    assert_eq!(
+        lines.len(),
+        1,
+        "exactly one helper machine record: {stdout}"
+    );
+    let encoded = lines[0]
+        .strip_prefix("AI_COCKPIT_NATIVE_SOURCE_V1 ")
+        .expect("native source machine prefix");
+    assert!(!encoded.is_empty() && encoded.len() <= 8192 && encoded.len() % 2 == 0);
+    assert!(
+        encoded
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    );
+    let machine: Value = serde_json::from_slice(&hex::decode(encoded).unwrap()).unwrap();
+    let mut keys = machine
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    keys.sort_unstable();
+    assert_eq!(
+        keys,
+        [
+            "inputDigest",
+            "nativeRoot",
+            "publisherNonce",
+            "runtimeDigest",
+            "schemaVersion"
+        ]
+    );
+    assert_eq!(
+        hex::encode(
+            serde_json::to_vec(
+                &machine
+                    .as_object()
+                    .unwrap()
+                    .iter()
+                    .collect::<std::collections::BTreeMap<_, _>>()
+            )
+            .unwrap()
+        ),
+        encoded,
+        "machine line must be canonical and contain no repeated JSON keys"
+    );
+    assert_eq!(machine["schemaVersion"], 1);
+    let nonce = machine["publisherNonce"].as_str().unwrap();
+    assert_eq!(nonce.len(), 64);
+    assert!(
+        nonce
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    );
+    assert_eq!(machine["nativeRoot"], machine["inputDigest"]);
+    assert_eq!(machine["runtimeDigest"], runtime.runtime_digest.to_string());
+    let github_output = std::fs::read_to_string(&output).unwrap();
+    let outputs = github_output.lines().collect::<Vec<_>>();
+    assert_eq!(outputs.len(), 2);
+    assert_eq!(outputs[0], format!("native_record_hex={encoded}"));
+    let portable_path = PathBuf::from(outputs[1].strip_prefix("native_portable_path=").unwrap());
+    assert_eq!(
+        portable_path.file_name().unwrap(),
+        "portable-native-evidence.json"
+    );
+    assert!(portable_path.starts_with(&runner));
+    let metadata = std::fs::symlink_metadata(&portable_path).unwrap();
+    assert!(metadata.is_file() && !metadata.file_type().is_symlink());
+    let bytes = std::fs::read(&portable_path).unwrap();
+    let input_digest = cockpit_core::Digest::sha256_bytes(&bytes);
+    assert_eq!(machine["inputDigest"], input_digest.to_string());
+    let native_path = root.join(format!(
+        ".ai/evidence/{wi}.verification-admissions/portable/objects/{}.bin",
+        &input_digest.as_str()[7..]
+    ));
+    assert_eq!(std::fs::read(&native_path).unwrap(), bytes);
+    let packet: cockpit_protocol::ci_admission::PortableExecutionEvidence<
+        cockpit_protocol::ci_admission::NativeExecutionEnvelope<VerificationReceipt>,
+    > = serde_json::from_slice(&bytes).unwrap();
+    assert_eq!(
+        packet.native_evidence.runtime_digest,
+        runtime.runtime_digest
+    );
+    assert_eq!(packet.native_evidence.work_item_id, wi);
+    assert_eq!(packet.native_input["program"], "git");
+    assert_eq!(packet.native_input["args"], json!(["--version"]));
+    assert_eq!(packet.native_input["nodeId"], "project-command-0");
+    let receipt = &packet.native_evidence.receipt;
+    assert!(receipt.passed);
+    assert_eq!(
+        (
+            receipt.nodes_executed,
+            receipt.processes_spawned,
+            receipt.nodes_reused
+        ),
+        (1, 1, 0)
+    );
+    assert_eq!(receipt.execution_records.len(), 1);
+    assert_eq!(receipt.results.len(), 1);
+    assert!(!receipt.results[0].reused);
+    let native_execution = &receipt.execution_records[0];
+    assert!(
+        native_execution.spawned
+            && native_execution.passed
+            && !native_execution.timed_out
+            && !native_execution.stdout_truncated
+            && !native_execution.stderr_truncated
+    );
+    assert_eq!(native_execution.exit_code, Some(0));
+    assert_eq!(native_execution.termination_signal, None);
+    assert!(
+        String::from_utf8(hex::decode(&native_execution.stdout_hex).unwrap())
+            .unwrap()
+            .starts_with("git version ")
+    );
+    let execution_id = packet.native_input["producerExecutionId"].as_str().unwrap();
+    execution_id.parse::<cockpit_core::Digest>().unwrap();
+    assert!(
+        std::fs::read_dir(root.join(".ai/evidence"))
+            .unwrap()
+            .filter_map(Result::ok)
+            .any(|entry| {
+                let path = entry.path();
+                path.extension()
+                    .is_some_and(|extension| extension == "json")
+                    && {
+                        let observation = read_json(&path);
+                        observation["kind"] == "verification_execution_checkpoint"
+                            && observation["state"] == "node_execution_completed"
+                            && observation["executionId"] == execution_id
+                            && observation["receipt"]["executionRecords"][0]
+                                == serde_json::to_value(native_execution).unwrap()
+                    }
+            }),
+        "published execution ID must identify the real completed native checkpoint"
+    );
+    assert_eq!(std::fs::read(&summary_path).unwrap(), before_summary);
+    assert!(
+        !formal_path.exists(),
+        "partial native source publication must not record formal verification"
+    );
+    let after_outcome = match std::fs::read(&outcome_path) {
+        Ok(bytes) => Some(bytes),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+        Err(error) => panic!("read final fixture Outcome: {error}"),
+    };
+    assert_eq!(after_outcome, before_outcome);
+    // No artifact or hosted identity is fabricated: this proves only the local native bridge.
+}
