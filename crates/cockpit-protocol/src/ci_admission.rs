@@ -180,6 +180,7 @@ pub type NativeExecutionEnvelope<T> = UntrustedGithubNativeEnvelope<T>;
 pub enum PortableSourceVerification {
     Unverified,
     NativeInvocation,
+    ControlledToolObservation,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

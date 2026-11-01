@@ -1490,6 +1490,13 @@ impl PlannedReason {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlannedSatisfaction {
+    /// A fresh controlled source observation, never reconstructed from wire data.
+    PortableSourceObservation {
+        #[serde(rename = "admissionRef")]
+        admission_ref: String,
+        #[serde(rename = "sourceRoot")]
+        source_root: String,
+    },
     Execution,
     ReusedReceipt,
     /// Presentation of a live same-invocation substitution. Deserializing this
