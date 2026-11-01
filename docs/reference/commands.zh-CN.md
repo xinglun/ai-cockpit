@@ -41,7 +41,7 @@ capabilityClaims:
 | `ai-cockpit archive` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit archive-historical` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit close` | `--actor`, `--authority-source`, `--decided-at`, `--evidence-ref`, `--human-decision`, `--id`, `--json`, `--language`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--task-caller`, `-h / --help` |  |
-| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
+| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--source-bundle`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
 | `ai-cockpit gate` | `--base-revision`, `--contract`, `--repo`, `--report`, `--runner`, `--stage`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-report` | `--repo`, `--report`, `--route-receipt`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
@@ -130,7 +130,7 @@ capabilityClaims:
 | `ai-cockpit knowledge` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit knowledge query` | `--component`, `--repo`, `--state`, `--task-caller`, `--topic`, `--v2`, `--work-item-id`, `-h / --help` |  |
 | `ai-cockpit profile` | `--task-caller`, `-h / --help` |  |
-| `ai-cockpit profile confirm` | `--args`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile confirm` | `--args`, `--execution-recipe`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit profile propose` | `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit mcp` | `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
