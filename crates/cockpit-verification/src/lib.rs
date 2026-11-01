@@ -6223,6 +6223,40 @@ impl RuntimeMetrics {
 mod tests {
     use super::*;
 
+    #[test]
+    fn retired_native_invocation_wire_is_an_unknown_variant() {
+        let wire = serde_json::json!({
+            "portable_native_invocation": {"publicationDigest": digest('a')}
+        });
+        let error = serde_json::from_value::<PlannedSatisfaction>(wire)
+            .expect_err("retired native invocation must not remain a supported wire variant");
+        assert_eq!(error.classify(), serde_json::error::Category::Data);
+        assert!(error.to_string().contains("unknown variant `portable_native_invocation`"));
+    }
+
+    #[test]
+    fn retired_source_observation_wire_is_an_unknown_variant() {
+        let wire = serde_json::json!({
+            "portable_source_observation": {"admissionRef": "historical", "sourceRoot": digest('b')}
+        });
+        let error = serde_json::from_value::<PlannedSatisfaction>(wire)
+            .expect_err("retired source observation must not remain a supported wire variant");
+        assert_eq!(error.classify(), serde_json::error::Category::Data);
+        assert!(error.to_string().contains("unknown variant `portable_source_observation`"));
+    }
+
+    #[test]
+    fn ordinary_execution_and_receipt_reuse_wire_roundtrip() {
+        for (state, wire) in [
+            (PlannedSatisfaction::Execution, "execution"),
+            (PlannedSatisfaction::ReusedReceipt, "reused_receipt"),
+        ] {
+            let encoded = serde_json::to_value(&state).unwrap();
+            assert_eq!(encoded, serde_json::json!(wire));
+            assert_eq!(serde_json::from_value::<PlannedSatisfaction>(encoded).unwrap(), state);
+        }
+    }
+
     fn digest(byte: char) -> String {
         format!("sha256:{}", byte.to_string().repeat(64))
     }
