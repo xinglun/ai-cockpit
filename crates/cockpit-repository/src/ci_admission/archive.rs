@@ -1333,3 +1333,27 @@ pub(super) fn inspect_untrusted_portable_evidence(
         gaps,
     })
 }
+
+/// Bounded archive data only; neither matching digest establishes source trust.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct UntrustedPortableArchiveInspection {
+    pub archive_digest: Digest,
+    pub portable_digest: Digest,
+    /// Exact portable JSON member bytes, never a source capability.
+    pub portable_raw: Vec<u8>,
+}
+
+/// Inspect the exact single-file upload profile without extracting to disk.
+///
+/// The intended member is only `portable-native-evidence.json`. Both expected
+/// digests are untrusted inputs. Successful parsing must retain the existing
+/// ZIP/JSON budgets and require the current portable inspector's native
+/// integrity checks, while conferring no origin or execution authority.
+pub fn inspect_untrusted_portable_archive(
+    raw: &[u8],
+    expected_archive_digest: &Digest,
+    expected_portable_digest: &Digest,
+) -> Result<UntrustedPortableArchiveInspection, GithubArchiveError> {
+    let _ = (raw, expected_archive_digest, expected_portable_digest);
+    Err(GithubArchiveError::NotImplemented)
+}

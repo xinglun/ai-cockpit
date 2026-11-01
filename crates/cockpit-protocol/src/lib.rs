@@ -660,6 +660,25 @@ pub struct QualityCommand {
     pub program: String,
     pub args: Vec<String>,
     pub state: String,
+    /// Confirmed actual child inputs; absence preserves legacy execution.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub execution_recipe: Option<VerificationExecutionRecipe>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationExecutionRecipe {
+    pub schema_version: u32,
+    pub clear_environment: bool,
+    /// Values are explicit execution inputs, never credentials inferred from a packet.
+    pub environment: Vec<VerificationEnvironmentVariable>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationEnvironmentVariable {
+    pub name: String,
+    pub value: String,
 }
 
 /// Repository-owned capability declaration.  This is a human-authored input;

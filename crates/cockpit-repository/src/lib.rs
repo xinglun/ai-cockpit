@@ -77,7 +77,8 @@ pub use ci_admission::archive::{
     GithubArchiveError, MAX_GITHUB_ARCHIVE_BYTES, MAX_GITHUB_ARCHIVE_ENTRIES,
     MAX_GITHUB_ARCHIVE_ENTRY_BYTES, MAX_GITHUB_EXPANDED_BYTES, MAX_GITHUB_EXPANSION_RATIO,
     MAX_GITHUB_NODE_CLAIMS, UntrustedGithubArchiveInspection, UntrustedGithubArchiveMember,
-    inspect_untrusted_github_archive,
+    UntrustedPortableArchiveInspection, inspect_untrusted_github_archive,
+    inspect_untrusted_portable_archive,
 };
 pub use ci_admission::{
     AcceptedPortableEvidence, PortableSourceAdmissionRequest, PortableSourceRequest,
@@ -20417,6 +20418,7 @@ pub fn observe(
                 program: "cargo".into(),
                 args: vec!["test".into(), "--workspace".into()],
                 state: "detected".into(),
+                execution_recipe: None,
             });
         } else if path == "package.json" {
             build_systems.push(BuildSystem::Npm);
@@ -20595,6 +20597,7 @@ pub fn confirm_profile_update(
         program: program.into(),
         args: args.to_vec(),
         state: "verified".into(),
+        execution_recipe: None,
     };
     if !tests.contains(&candidate) {
         tests.push(candidate);
@@ -20643,6 +20646,22 @@ pub fn confirm_profile_update(
         &decision,
     )?;
     Ok(updated)
+}
+
+/// Conservative API scaffold: an unimplemented recipe cannot change a profile.
+pub fn confirm_profile_update_with_execution_recipe(
+    root: &Path,
+    program: &str,
+    args: &[String],
+    recipe: Option<cockpit_protocol::VerificationExecutionRecipe>,
+) -> Result<AttachedProfile, ObserverError> {
+    if recipe.is_some() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/project.json"),
+            message: "execution_recipe_not_implemented".into(),
+        });
+    }
+    confirm_profile_update(root, program, args)
 }
 
 fn collect_files(

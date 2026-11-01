@@ -4179,3 +4179,313 @@ fn native_source_publisher_denies_missing_profile_before_any_project_execution()
         "missing calibration must not run an expensive check merely to fail to mint proof"
     );
 }
+
+// C18: self-owned offline archive bytes only. A successful parse cannot mint
+// a source capability, provider observation, execution witness or acceptance.
+fn c18_portable_archive_fixture() -> Vec<u8> {
+    let mut raw = serde_json::to_vec(&c16_portable_input_fixture()).unwrap();
+    raw.push(b'\n'); // Preserve exact packet bytes, including insignificant space.
+    raw
+}
+
+fn c18_portable_archive_reject(raw: &[u8], portable: &[u8], expected: ArchiveError) {
+    let result = archive::inspect_untrusted_portable_archive(
+        raw,
+        &ArchiveDigest::sha256_bytes(raw),
+        &ArchiveDigest::sha256_bytes(portable),
+    );
+    assert_eq!(result.unwrap_err(), expected);
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_preserves_single_member_for_each_supported_encoding() {
+    let portable = c18_portable_archive_fixture();
+    for deflate in [false, true] {
+        for descriptor in [None, Some(false), Some(true)] {
+            let raw = archive2a_zip_encoded(
+                &[("portable-native-evidence.json", portable.clone())],
+                deflate,
+                descriptor,
+            );
+            let inspected = archive::inspect_untrusted_portable_archive(
+                &raw,
+                &ArchiveDigest::sha256_bytes(&raw),
+                &ArchiveDigest::sha256_bytes(&portable),
+            )
+            .expect("TARGET RED: strict current single-file portable upload is missing");
+            assert_eq!(inspected.archive_digest, ArchiveDigest::sha256_bytes(&raw));
+            assert_eq!(
+                inspected.portable_digest,
+                ArchiveDigest::sha256_bytes(&portable)
+            );
+            assert_eq!(inspected.portable_raw, portable);
+            // The original manifest-based profile remains independently strict.
+            assert_eq!(
+                archive::inspect_untrusted_github_archive(&raw, &ArchiveDigest::sha256_bytes(&raw))
+                    .unwrap_err(),
+                ArchiveError::Manifest
+            );
+        }
+    }
+    let legacy = archive2a_bundle(archive2a_native());
+    assert!(
+        archive::inspect_untrusted_github_archive(&legacy, &ArchiveDigest::sha256_bytes(&legacy))
+            .is_ok()
+    );
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_binds_archive_and_exact_portable_byte_digests() {
+    let portable = c18_portable_archive_fixture();
+    let raw = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+    assert_eq!(
+        archive::inspect_untrusted_portable_archive(
+            &raw,
+            &ArchiveDigest::sha256_bytes(b"another archive"),
+            &ArchiveDigest::sha256_bytes(&portable),
+        )
+        .unwrap_err(),
+        ArchiveError::ArchiveDigest
+    );
+    assert_eq!(
+        archive::inspect_untrusted_portable_archive(
+            &raw,
+            &ArchiveDigest::sha256_bytes(&raw),
+            &ArchiveDigest::sha256_bytes(b"another portable packet"),
+        )
+        .unwrap_err(),
+        ArchiveError::EntryDigest
+    );
+    let mut changed = portable.clone();
+    changed.push(b' ');
+    let changed_archive = archive2a_zip(&[("portable-native-evidence.json", changed)]);
+    // CRC and archive SHA are correct; a semantically equivalent packet still
+    // has to match the independent expected hash of its original raw bytes.
+    c18_portable_archive_reject(&changed_archive, &portable, ArchiveError::EntryDigest);
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_requires_only_the_exact_regular_root_member() {
+    let portable = c18_portable_archive_fixture();
+    for name in [
+        "manifest.json",
+        "PORTABLE-NATIVE-EVIDENCE.JSON",
+        "nested/portable-native-evidence.json",
+    ] {
+        c18_portable_archive_reject(
+            &archive2a_zip(&[(name, portable.clone())]),
+            &portable,
+            ArchiveError::Manifest,
+        );
+    }
+    c18_portable_archive_reject(&archive2a_zip(&[]), &portable, ArchiveError::Manifest);
+    c18_portable_archive_reject(
+        &archive2a_zip(&[
+            ("portable-native-evidence.json", portable.clone()),
+            ("extra.json", b"{}".to_vec()),
+        ]),
+        &portable,
+        ArchiveError::Manifest,
+    );
+    c18_portable_archive_reject(
+        &archive2a_bundle(archive2a_native()),
+        &portable,
+        ArchiveError::Manifest,
+    );
+    c18_portable_archive_reject(
+        &archive2a_zip(&[
+            ("portable-native-evidence.json", portable.clone()),
+            ("PORTABLE-NATIVE-EVIDENCE.JSON", portable.clone()),
+        ]),
+        &portable,
+        ArchiveError::DuplicateEntry,
+    );
+    for name in [
+        "../portable-native-evidence.json",
+        "/portable-native-evidence.json",
+    ] {
+        c18_portable_archive_reject(
+            &archive2a_zip(&[(name, portable.clone())]),
+            &portable,
+            ArchiveError::Path,
+        );
+    }
+    let raw = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+    let central = archive2a_central(&raw);
+    for mode in [0o120777_u32, 0o010600, 0o020600, 0o140600] {
+        let mut changed = raw.clone();
+        changed[central + 38..central + 42].copy_from_slice(&(mode << 16).to_le_bytes());
+        c18_portable_archive_reject(&changed, &portable, ArchiveError::SpecialFile);
+    }
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_rejects_duplicate_json_and_invalid_native_semantics() {
+    let original = c16_portable_input_fixture();
+    let mut failures = Vec::new();
+    let mut changed = original.clone();
+    changed["schemaVersion"] = 2.into();
+    failures.push(serde_json::to_vec(&changed).unwrap());
+    let mut changed = original.clone();
+    changed["sourceVerified"] = true.into();
+    failures.push(serde_json::to_vec(&changed).unwrap());
+    let mut changed = original.clone();
+    changed["nativeEvidence"]["passed"] = false.into();
+    failures.push(serde_json::to_vec(&changed).unwrap());
+    let mut changed = original.clone();
+    changed["nativeEvidence"]["receiptDigest"] = ArchiveDigest::sha256_bytes(b"other receipt")
+        .to_string()
+        .into();
+    failures.push(serde_json::to_vec(&changed).unwrap());
+    let mut changed = original;
+    changed["nativeEvidence"]["receipt"]
+        .as_object_mut()
+        .unwrap()
+        .remove("executionRecords");
+    changed["nativeEvidence"]["receiptDigest"] =
+        json!(cockpit_protocol::digest_json(&changed["nativeEvidence"]["receipt"]).unwrap());
+    failures.push(serde_json::to_vec(&changed).unwrap());
+    let mut duplicate =
+        br#"{"schemaVersion":1,"nativeInput":{"nested":{"nonce":0,"nonce":1}},"nativeEvidence":"#
+            .to_vec();
+    duplicate.extend_from_slice(&archive2a_native());
+    duplicate.push(b'}');
+    failures.push(duplicate);
+    let mut trailing = c18_portable_archive_fixture();
+    trailing.extend_from_slice(b"{}");
+    failures.push(trailing);
+    for portable in failures {
+        let raw = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+        // All ZIP CRCs and both expected byte hashes are internally correct.
+        c18_portable_archive_reject(&raw, &portable, ArchiveError::NativeReceipt);
+    }
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_keeps_checked_zip_crc_offsets_descriptors_and_stream_end() {
+    let portable = c18_portable_archive_fixture();
+    let valid = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+    let central = archive2a_central(&valid);
+    let eocd = valid.len() - 22;
+    let mut failures = Vec::new();
+    let mut count = valid.clone();
+    count[eocd + 8..eocd + 12].copy_from_slice(&[65, 0, 65, 0]);
+    failures.push((count, ArchiveError::DirectoryLimit));
+    let mut offset = valid.clone();
+    offset[eocd + 16..eocd + 20].copy_from_slice(&(u32::MAX - 2).to_le_bytes());
+    failures.push((offset, ArchiveError::DirectoryBounds));
+    let mut encrypted = valid.clone();
+    encrypted[6] = 1;
+    encrypted[central + 8] = 1;
+    failures.push((encrypted, ArchiveError::UnsupportedFormat));
+    let mut method = valid.clone();
+    method[8] = 12;
+    method[central + 10] = 12;
+    failures.push((method, ArchiveError::UnsupportedFormat));
+    let mut crc = valid.clone();
+    crc[30 + "portable-native-evidence.json".len()] ^= 1;
+    failures.push((crc, ArchiveError::Checksum));
+    let mut name = valid.clone();
+    name[30] = b'X';
+    failures.push((name, ArchiveError::ZipStructure));
+    failures.push((
+        valid[..valid.len() - 1].to_vec(),
+        ArchiveError::ZipStructure,
+    ));
+    let mut trailing = valid;
+    trailing.push(0);
+    failures.push((trailing, ArchiveError::ZipStructure));
+    let mut descriptor = archive2a_zip_encoded(
+        &[("portable-native-evidence.json", portable.clone())],
+        false,
+        Some(true),
+    );
+    descriptor[30 + "portable-native-evidence.json".len() + portable.len() + 4] ^= 1;
+    failures.push((descriptor, ArchiveError::ZipStructure));
+    let overlap = archive2a_zip(&[
+        ("portable-native-evidence.json", portable.clone()),
+        ("extra.json", b"{}".to_vec()),
+    ]);
+    let central = archive2a_central(&overlap);
+    let mut overlap = overlap;
+    for offset in [18, 22, central + 20, central + 24] {
+        overlap[offset..offset + 4].copy_from_slice(&((portable.len() + 1) as u32).to_le_bytes());
+    }
+    failures.push((overlap, ArchiveError::ZipStructure));
+    let deflated = archive2a_zip_encoded(
+        &[("portable-native-evidence.json", portable.clone())],
+        true,
+        None,
+    );
+    let central = archive2a_central(&deflated);
+    let compressed = u32::from_le_bytes(deflated[central + 20..central + 24].try_into().unwrap());
+    let end = 30 + "portable-native-evidence.json".len() + compressed as usize;
+    let mut tail = archive2a_insert_first(&deflated, end, &[0]);
+    let central = archive2a_central(&tail);
+    tail[18..22].copy_from_slice(&(compressed + 1).to_le_bytes());
+    tail[central + 20..central + 24].copy_from_slice(&(compressed + 1).to_le_bytes());
+    failures.push((tail, ArchiveError::Checksum));
+    for (raw, expected) in failures {
+        c18_portable_archive_reject(&raw, &portable, expected);
+    }
+}
+
+#[test]
+fn ci_admission_c18_portable_archive_retains_raw_expansion_ratio_and_json_budgets() {
+    let portable = c18_portable_archive_fixture();
+    {
+        let oversized = vec![0_u8; archive::MAX_GITHUB_ARCHIVE_BYTES as usize + 1];
+        assert_eq!(
+            archive::inspect_untrusted_portable_archive(
+                &oversized,
+                &ArchiveDigest::sha256_bytes(b"must reject raw size before hashing"),
+                &ArchiveDigest::sha256_bytes(&portable),
+            )
+            .unwrap_err(),
+            ArchiveError::RawSize
+        );
+    }
+    let valid = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+    let central = archive2a_central(&valid);
+    for (expanded, expected) in [
+        (64 * 1024 * 1024_u32 + 1, ArchiveError::ExpandedSize),
+        (
+            portable.len() as u32 * 100 + 1,
+            ArchiveError::ExpansionRatio,
+        ),
+    ] {
+        let mut changed = valid.clone();
+        changed[central + 24..central + 28].copy_from_slice(&expanded.to_le_bytes());
+        c18_portable_archive_reject(&changed, &portable, expected);
+    }
+    let aggregate = archive2a_zip(&[
+        ("portable-native-evidence.json", portable.clone()),
+        ("extra-a.json", b"{}".to_vec()),
+        ("extra-b.json", b"{}".to_vec()),
+    ]);
+    let mut position = archive2a_central(&aggregate);
+    let mut aggregate = aggregate;
+    for size in [64 * 1024 * 1024_u32, 64 * 1024 * 1024, 1] {
+        aggregate[position + 24..position + 28].copy_from_slice(&size.to_le_bytes());
+        let length = usize::from(u16::from_le_bytes(
+            aggregate[position + 28..position + 30].try_into().unwrap(),
+        ));
+        position += 46 + length;
+    }
+    c18_portable_archive_reject(&aggregate, &portable, ArchiveError::ExpandedSize);
+    let mut deep = json!(null);
+    for _ in 0..66 {
+        deep = json!([deep]);
+    }
+    let mut depth = c16_portable_input_fixture();
+    depth["nativeInput"] = deep;
+    let mut array = c16_portable_input_fixture();
+    array["nativeInput"] = json!({"items":vec![0;4097]});
+    let mut nodes = c16_portable_input_fixture();
+    nodes["nativeInput"] = json!({"rows":vec![vec![0;4096];64]});
+    for packet in [depth, array, nodes] {
+        let portable = serde_json::to_vec(&packet).unwrap();
+        let raw = archive2a_zip(&[("portable-native-evidence.json", portable.clone())]);
+        c18_portable_archive_reject(&raw, &portable, ArchiveError::NodeLimit);
+    }
+}
