@@ -8319,9 +8319,16 @@ mod source_bundle_canonical_route_tests {
         assert_eq!(observed.run.receipt.processes_spawned, 1);
         assert_eq!(
             observed.run.receipt.timeout_seconds,
-            cockpit_verification::DEFAULT_EXECUTION_SECONDS
+            Some(cockpit_verification::DEFAULT_EXECUTION_SECONDS)
         );
-        assert!(observed.run.receipt.timeout_seconds < 900);
+        assert!(
+            observed
+                .run
+                .receipt
+                .timeout_seconds
+                .expect("one physical node has an actual timeout")
+                < 900
+        );
         let witness = observed
             .witness
             .expect("actual successful physical child must supply its live witness");
