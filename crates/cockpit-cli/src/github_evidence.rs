@@ -866,6 +866,11 @@ fn read_source_observation(
     })
 }
 
+fn read_source_selector(path: &std::path::Path) -> Result<serde_json::Value> {
+    cockpit_repository::read_portable_source_parameters(path)
+        .context("read local source selector without executing it")
+}
+
 #[cfg(test)]
 mod source_bridge_tests {
     use super::*;
@@ -2058,9 +2063,4 @@ mod source_worker_boundary_tests {
             Err(SourceBridgeError::Transport)
         ));
     }
-}
-
-fn read_source_selector(path: &std::path::Path) -> Result<serde_json::Value> {
-    cockpit_repository::read_portable_source_parameters(path)
-        .context("read local source selector without executing it")
 }

@@ -3261,11 +3261,16 @@ fn portable_source_request_is_only_a_selector_not_a_worker_or_credential() {
             .as_object_mut()
             .unwrap()
             .extend(extra.as_object().unwrap().clone());
-        let reply = handle_request(
+        let reply = handle_request_for_repo(
             &serde_json::json!({"jsonrpc":"2.0","id":87,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":arguments}}),
+            Path::new("/absent-repository"),
             &test_runtime_context(),
         );
-        assert!(reply.get("error").is_some(), "{reply}");
-        assert!(reply.to_string().contains(reason), "{reply}");
+        assert_eq!(reply["result"]["isError"], true, "{reply}");
+        let message = reply["result"]["content"][0]["text"].as_str().unwrap();
+        assert!(message.contains(reason), "{message}");
+        if extra.get("workerPath").is_some() || extra.get("verified").is_some() {
+            assert!(message.contains("unknown"), "{message}");
+        }
     }
 }
