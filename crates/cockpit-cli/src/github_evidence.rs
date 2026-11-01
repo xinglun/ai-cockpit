@@ -2988,8 +2988,7 @@ mod source_worker_boundary_tests {
         };
         let mut body = std::io::Cursor::new(b"abc");
         let error = bounded_source_body(&mut body, Some(4), 3, &mut budget, deadline)
-            .err()
-            .expect("declared cap refusal");
+            .expect_err("declared cap refusal");
         assert_eq!(error, SourceBridgeError::MetadataLimitOrTruncated);
         assert_eq!(body.position(), 0);
         let got = bounded_source_body(&mut body, Some(3), 3, &mut budget, deadline).unwrap();
