@@ -1355,4 +1355,149 @@ for bad_record in ("not-hex", record_hex.decode().upper(), "7b7d", (record_bytes
 print("native source shell closure regression passed: actual child framing, nonce/runtime/path/hash, private stage, strict binder")
 PY_NATIVE_SOURCE_REGRESSION
 
+
+# Inspect the committed workflow's producer/consumer contract and execute its
+# actual publisher shell body with an owned refusal-only helper. This is not
+# a GitHub scheduler run, native authorization, artifact upload or source proof.
+python3 - "$root/.github/workflows/ci.yml" "$tmp/native-job-dag" <<'PY_NATIVE_JOB_DAG'
+import ast
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+workflow, owned = map(Path, sys.argv[1:])
+raw = workflow.read_bytes()
+assert len(raw) <= 256 * 1024
+text = raw.decode("utf-8")
+job_text = text.split("\njobs:\n", 1)[1]
+headers = list(re.finditer(r"(?m)^  ([A-Za-z0-9_-]+):\s*$", job_text))
+jobs = {match.group(1):job_text[match.start():headers[index+1].start() if index+1 < len(headers) else len(job_text)]
+        for index, match in enumerate(headers)}
+assert "native-source" in jobs, "TARGET RED: the fixed native-source producer job is missing"
+producer, quality = jobs["native-source"], jobs["quality"]
+
+def header_scalar(job, name):
+    header = job.split("    steps:\n", 1)[0]
+    values = re.findall(r"(?m)^    " + re.escape(name) + r": ([^\n]+)$", header)
+    assert len(values) <= 1
+    return values[0].strip() if values else None
+
+def needs(job):
+    value = header_scalar(job, "needs")
+    assert value is not None
+    return [part.strip() for part in value.strip("[]").split(",")]
+
+def steps(job):
+    starts = list(re.finditer(r"(?m)^      - (?:name|uses): [^\n]+\n", job))
+    return [job[match.start():starts[index+1].start() if index+1 < len(starts) else len(job)]
+            for index, match in enumerate(starts)]
+
+def named(job, name):
+    matches = [step for step in steps(job) if step.startswith("      - name: " + name + "\n")]
+    assert len(matches) == 1, (name, len(matches))
+    return matches[0]
+
+assert header_scalar(producer, "name") == "native-source"
+assert needs(producer) == ["route"]
+assert set(needs(quality)) == {"route", "native-source"}
+assert header_scalar(producer, "if") == "vars.AI_COCKPIT_NATIVE_SOURCE_ENABLED == 'true'"
+roles = ["AI Cockpit native evidence", "Upload AI Cockpit native evidence", "Bind AI Cockpit native evidence"]
+role_steps = [named(producer, role) for role in roles]
+assert all(role not in quality for role in roles)
+positions = [producer.index(step) for step in role_steps]
+assert positions == sorted(positions)
+assert len(steps(producer)) == 10, "producer may bootstrap once and execute only its one selected node"
+assert "run_repository_gates.py" not in producer
+assert "run_workspace_package_tests.sh" not in producer
+assert "Run admitted hosted Work Item verification with the candidate Runtime" not in producer
+named(quality, "Run admitted hosted Work Item verification with the candidate Runtime")
+named(quality, "run repository gates exactly once")
+named(quality, "verify workspace package coverage receipt")
+
+# Both jobs use the same already-pinned route Runtime/checkout/toolchain recipe.
+for action in ("actions/checkout@", "dtolnay/rust-toolchain@"):
+    left = [step for step in steps(producer) if step.startswith("      - uses: " + action)]
+    right = [step for step in steps(quality) if step.startswith("      - uses: " + action)]
+    assert len(left) == len(right) == 1 and left[0] == right[0]
+for name in ("Download the shared Rust gate-plan tool",
+             "Extract the exact shared gate-plan files without deprecated dependencies",
+             "Make the shared Rust gate-plan tool executable",
+             "Verify the route plan is stable across jobs"):
+    assert named(producer, name).rstrip() == named(quality, name).rstrip()
+producer_binding = named(producer, "Bind native producer and tested revisions; validate the shared typed quality route")
+quality_binding = named(quality, "Bind source and tested revisions; validate the shared typed quality route")
+assert producer_binding.split("\n", 1)[1].rstrip() == quality_binding.split("\n", 1)[1].rstrip()
+
+# Evaluate only this committed predicate's boolean syntax against local outcome
+# fixtures, without eval or claiming that GitHub's scheduler ran here.
+condition = header_scalar(quality, "if")
+assert condition is not None and ("always()" in condition or "cancelled()" in condition)
+def admitted(route_result, producer_result, cancelled):
+    expression = condition
+    if expression.startswith("${{"):
+        assert expression.endswith("}}")
+        expression = expression[3:-2].strip()
+    for token, value in (("needs.route.result", repr(route_result)),
+                         ("needs.native-source.result", repr(producer_result)),
+                         ("always()", "True"), ("cancelled()", repr(cancelled))):
+        expression = expression.replace(token, value)
+    expression = expression.replace("&&", " and ").replace("||", " or ")
+    expression = re.sub(r"!(?!=)", " not ", expression).strip()
+    def interpret(node):
+        if isinstance(node, ast.Expression): return interpret(node.body)
+        if isinstance(node, ast.Constant) and type(node.value) in (bool, str): return node.value
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not): return not interpret(node.operand)
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.And): return all(map(interpret, node.values))
+        if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or): return any(map(interpret, node.values))
+        if isinstance(node, ast.Compare) and len(node.ops) == len(node.comparators) == 1:
+            if isinstance(node.ops[0], ast.Eq): return interpret(node.left) == interpret(node.comparators[0])
+            if isinstance(node.ops[0], ast.NotEq): return interpret(node.left) != interpret(node.comparators[0])
+        raise AssertionError("unsupported committed quality predicate syntax")
+    return interpret(ast.parse(expression, mode="eval"))
+for producer_result in ("skipped", "success", "failure"):
+    assert admitted("success", producer_result, False), producer_result
+assert not admitted("failure", "skipped", False)
+assert not admitted("success", "skipped", True)
+
+assert "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" in role_steps[1]
+assert "compression-level: 0" in role_steps[1]
+assert "steps.native_evidence.outputs.native_portable_path" in role_steps[1]
+assert "steps.native_evidence_upload.outputs.artifact-id" in role_steps[2]
+assert "steps.native_evidence_upload.outputs.artifact-digest" in role_steps[2]
+
+body = role_steps[0].split("        run: |\n", 1)[1]
+assert all(not line or line.startswith("          ") for line in body.splitlines())
+body = "\n".join(line[10:] if line else "" for line in body.splitlines()) + "\n"
+owned.mkdir(mode=0o700)
+workspace = owned / "repository"
+helper = workspace / "tests/ci/run_hosted_runtime_verification.sh"
+helper.parent.mkdir(parents=True)
+helper.write_text("#!/usr/bin/env python3\nimport json,os,sys\nfrom pathlib import Path\n"
+                  "Path(os.environ['NATIVE_JOB_CAPTURE']).write_text(json.dumps(sys.argv[1:]))\n"
+                  "raise SystemExit(37)\n")
+helper.chmod(0o700)
+contract = workspace / "fixture.contract.json"
+contract.write_text(json.dumps({"workItemId":"WI-NATIVE-JOB-UNREVIEWED"}))
+runner = owned / "runner-temp"
+runner.mkdir(mode=0o700)
+capture = owned / "arguments.json"
+script = owned / "actual-native-publisher-step.sh"
+script.write_text(body)
+environment = dict(os.environ, RUNNER_TEMP=str(runner), ROUTE_CONTRACT_PATH=str(contract),
+                   GITHUB_WORKSPACE=str(workspace), NATIVE_JOB_CAPTURE=str(capture))
+result = subprocess.run(["bash", str(script)], cwd=workspace, env=environment,
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
+assert result.returncode == 37, (result.returncode, result.stdout, result.stderr)
+assert json.loads(capture.read_bytes()) == [
+    "--native-source", "target/release/ai-cockpit", str(workspace), str(contract),
+    "target", "--node-id", "project-command-51",
+]
+assert not result.stdout, "a refused publisher must not produce a success/source carrier"
+assert not list(runner.iterdir()), "unreviewed fixture must not inherit a caller grant"
+print("native producer DAG contract: isolated role, skip-safe quality predicate and real refusal propagation")
+PY_NATIVE_JOB_DAG
+
 printf 'hosted Runtime verification orchestration regression passed\n'
