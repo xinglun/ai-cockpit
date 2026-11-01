@@ -4780,6 +4780,22 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     })
 }
 
+/// Keep completion's input change inventory separate from diagnostic writes.
+/// The final source identity and observations are preserved. If source identity
+/// differs or cannot be compared, retain the actual final inventory as well.
+pub fn verification_recording_snapshot(
+    input: &RepositorySnapshot,
+    final_snapshot: &RepositorySnapshot,
+) -> RepositorySnapshot {
+    let mut recording = final_snapshot.clone();
+    if let (Ok(before), Ok(after)) = (snapshot_digest(input), snapshot_digest(final_snapshot))
+        && before == after
+    {
+        recording.changed_paths = input.changed_paths.clone();
+    }
+    recording
+}
+
 fn policy_document(root: &Path) -> Result<Option<GovernancePolicyDocument>, ObserverError> {
     let path = root.join(".ai/policy.json");
     if !path.is_file() {
@@ -21194,6 +21210,82 @@ mod evidence_class_stage_projection_tests {
             )
             .unwrap(),
             EvidenceState::Contradictory
+        );
+    }
+}
+
+#[cfg(test)]
+mod verification_input_inventory_tests {
+    use super::*;
+
+    fn snapshot() -> RepositorySnapshot {
+        RepositorySnapshot {
+            root: PathBuf::from("/isolated-inventory-fixture"),
+            git_root: PathBuf::from("/isolated-inventory-fixture"),
+            head: Some("a".repeat(40)),
+            changed_paths: vec![".ai/project.json".into()],
+            change_evidence: vec![],
+            git_calls: 2,
+            tree_digest: Digest::sha256_bytes(b"tree").to_string(),
+            diff_digest: Digest::sha256_bytes(b"diff").to_string(),
+            dependency_fingerprint: Digest::sha256_bytes(b"dependencies").to_string(),
+            files_read: 3,
+            files_hashed: 4,
+            bytes_read: 5,
+            bytes_hashed: 6,
+            source_tree_digest: Some(Digest::sha256_bytes(b"source").to_string()),
+        }
+    }
+
+    #[test]
+    fn recording_inventory_excludes_own_later_writes_without_changing_final_identity() {
+        let input = snapshot();
+        let mut final_snapshot = input.clone();
+        final_snapshot
+            .changed_paths
+            .push(".ai/evidence/fixture.verification-attempt.json".into());
+        final_snapshot.git_calls = 9;
+        final_snapshot.files_read = 10;
+        let mut expected = final_snapshot.clone();
+        expected.changed_paths = input.changed_paths.clone();
+        assert_eq!(
+            verification_recording_snapshot(&input, &final_snapshot),
+            expected
+        );
+        assert_eq!(
+            final_snapshot.changed_paths.len(),
+            2,
+            "actual final snapshot is untouched"
+        );
+        assert_eq!(
+            snapshot_digest(&input).unwrap(),
+            snapshot_digest(&final_snapshot).unwrap()
+        );
+    }
+
+    #[test]
+    fn recording_inventory_never_masks_source_drift_or_unknown_identity() {
+        let input = snapshot();
+        let mut final_snapshot = input.clone();
+        final_snapshot
+            .changed_paths
+            .push(".ai/evidence/fixture.verification-attempt.json".into());
+        final_snapshot.source_tree_digest =
+            Some(Digest::sha256_bytes(b"changed source").to_string());
+        assert_ne!(
+            snapshot_digest(&input).unwrap(),
+            snapshot_digest(&final_snapshot).unwrap()
+        );
+        assert_eq!(
+            verification_recording_snapshot(&input, &final_snapshot),
+            final_snapshot
+        );
+        let mut unknown = input;
+        unknown.source_tree_digest = Some("invalid".into());
+        assert!(snapshot_digest(&unknown).is_err());
+        assert_eq!(
+            verification_recording_snapshot(&unknown, &final_snapshot),
+            final_snapshot
         );
     }
 }

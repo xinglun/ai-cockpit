@@ -4833,6 +4833,10 @@ fn run_verification_command(
             println!("{}", serde_json::to_string_pretty(&output)?);
             return Ok(());
         }
+        let recording_snapshot = cockpit_repository::verification_recording_snapshot(
+            &initial_snapshot,
+            &run.final_snapshot,
+        );
         if archived_recovery {
             if let Err(error) = cockpit_repository::record_archived_verification_recovery_with_runtime(
                         &root,
@@ -4852,7 +4856,7 @@ fn run_verification_command(
                             verification_receipt: verification_receipt.clone(),
                         },
                         &runtime_context,
-                        &run.final_snapshot,
+                        &recording_snapshot,
                     ) {
                         let recovery_attempt = persist_for_run(&initial_snapshot,"formal_receipt_rejected",Some(("formal_receipt", &error.to_string())),Some(&verification_receipt),Some(&execution_attempt_id));
                         if let Err(persist_error) = recovery_attempt {
@@ -4866,7 +4870,7 @@ fn run_verification_command(
                 &work_item,
                 &verification_receipt,
                 &runtime_context,
-                &run.final_snapshot,
+                &recording_snapshot,
                 task_caller.as_ref(),
             ) {
                 let recovery_attempt = persist_for_run(

@@ -3355,13 +3355,17 @@ fn verify_for_repo(
         }
         receipt
     };
+    let recording_snapshot = initial_snapshot.as_ref().map_or_else(
+        || run.final_snapshot.clone(),
+        |input| cockpit_repository::verification_recording_snapshot(input, &run.final_snapshot),
+    );
     if let Some(work_item_id) = work_item_id
         && let Err(error) = cockpit_repository::record_verification_with_caller(
             &root,
             work_item_id,
             &verification_receipt,
             runtime,
-            &run.final_snapshot,
+            &recording_snapshot,
             caller.as_ref(),
         )
     {
