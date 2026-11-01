@@ -2114,6 +2114,23 @@ fn run() -> Result<()> {
     {
         return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
     }
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__portable-source-observe"))
+    {
+        let arguments = std::env::args_os().collect::<Vec<_>>();
+        anyhow::ensure!(
+            arguments.len() == 3,
+            "private source observer requires exactly one JSON argument"
+        );
+        let request = arguments[2]
+            .to_str()
+            .context("private source request must be UTF-8")?;
+        let runtime =
+            runtime_identity::load_current().context("load private source observer identity")?;
+        let reply = github_evidence::source_worker(request, &runtime)?;
+        println!("{}", serde_json::to_string(&reply)?);
+        return Ok(());
+    }
     let cli = Cli::parse();
     let task_caller: Option<cockpit_protocol::TaskAuthorizationCaller> = cli
         .task_caller

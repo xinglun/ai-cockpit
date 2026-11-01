@@ -126,6 +126,8 @@ impl PortableSourceTool {
         let wire = serde_json::to_string(&serde_json::json!({
             "schemaVersion":1, "nonce":nonce, "inputDigest":plan.input_digest,
             "parameters":request.parameters,
+            "repositoryRoot":root,"workItemId":work_item_id,
+            "taskCaller":caller,"observerToolDigest":self.executable_digest,
         }))
         .map_err(|_| source_error(&root, "source_request_serialization"))?;
         if wire.len() > 16 * 1024 {
@@ -392,6 +394,7 @@ impl VerifiedPortableSource {
                 input_digest:self.plan.input_digest.clone(), plan_digest:self.plan.plan_digest.clone(),
                 accepted:true, source_verification:cockpit_protocol::ci_admission::PortableSourceVerification::ControlledToolObservation,
                 admission_ref:Some(record_ref), gaps:Vec::new(), verification_commands_executed:0, writes_performed:1,
+                source_use:None,guidance:None,
             }, source:self, request:request.clone(), record_id,
         })
     }
@@ -469,6 +472,67 @@ impl AcceptedPortableEvidence {
             final_snapshot,
         })
     }
+}
+
+pub struct PortableSourceAdmissionRequest<'a> {
+    pub work_item_id: &'a str,
+    pub input: &'a Path,
+    pub expected_plan_digest: &'a Digest,
+    pub parameters: &'a serde_json::Value,
+    pub node_id: Option<&'a str>,
+}
+
+/// Current gate of the actual controlled Runtime, not a copied old projection.
+pub fn require_portable_source_observation_admission(
+    root: &Path,
+    wi: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<RepositorySnapshot, ObserverError> {
+    validate_work_item_id(wi)?;
+    require_current_action_admission_with_caller(root, wi, "run_verification", runtime, caller)?;
+    let snapshot = cockpit_git::GitRepository::discover(root)
+        .and_then(|g| g.snapshot())
+        .map_err(|_| source_error(root, "source_observer_snapshot_unavailable"))?;
+    require_verification_preconditions_with_caller(root, wi, runtime, &snapshot, caller)?;
+    Ok(snapshot)
+}
+
+pub fn declared_portable_verification_request(
+    root: &Path,
+    wi: &str,
+    node: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<RepositoryVerificationRequest, ObserverError> {
+    let _ = (wi, node, runtime, caller);
+    Err(source_error(root, "declared_portable_node_not_implemented"))
+}
+
+pub fn publish_declared_native_source(
+    root: &Path,
+    wi: &str,
+    node: &str,
+    nonce: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<cockpit_protocol::ci_admission::PortableNativeSourceMetadata, ObserverError> {
+    let _ = (wi, node, nonce, runtime, caller);
+    Err(source_error(
+        root,
+        "native_source_publisher_not_implemented",
+    ))
+}
+
+pub fn accept_portable_evidence_with_source(
+    root: &Path,
+    request: PortableSourceAdmissionRequest<'_>,
+    tool: &PortableSourceTool,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<cockpit_protocol::ci_admission::PortableEvidenceAcceptance, ObserverError> {
+    let _ = (request, tool, runtime, caller);
+    Err(source_error(root, "shared_source_consumer_not_implemented"))
 }
 
 pub(super) mod archive;
@@ -850,6 +914,8 @@ pub fn accept_portable_evidence(
         gaps: current.gaps,
         verification_commands_executed: 0,
         writes_performed: 0,
+        source_use: None,
+        guidance: None,
     })
 }
 

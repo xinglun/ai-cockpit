@@ -1177,4 +1177,182 @@ assert before is not None and context(execution, runner, host) is None
 config.unlink(); config.symlink_to("missing.toml"); assert context(execution, runner, host) is None
 print("producer/consumer Cargo context proof passed: 12 cases")
 PY_CARGO_CONTEXT_TEST
+# Exercise the REAL helper process boundary with an owned substitute Runtime.
+# This proves shell supervision/framing only, never an actual native witness.
+python3 - "$root/tests/ci/run_hosted_runtime_verification.sh" "$tmp/native-source" <<'PY_NATIVE_SOURCE_REGRESSION'
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import signal
+import stat
+import subprocess
+import sys
+
+helper = Path(sys.argv[1])
+owned = Path(sys.argv[2])
+owned.mkdir(mode=0o700)
+payload = b'{"schemaVersion":1,"fixture":"owned shell-only portable bytes"}\n'
+payload_digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+caller = {"schemaVersion":1,"actor":"agent:fixture","authoritySource":"fixture:explicit-owner","assurance":"self_declared"}
+runtime_source = r'''#!/usr/bin/env python3
+import hashlib, json, os, re, stat, sys
+from pathlib import Path
+args = sys.argv[1:]
+assert len(args) == 2 and args[0] == "__portable-native-publish"
+request = json.loads(args[1])
+assert set(request) == {"schemaVersion","repositoryRoot","workItemId","nodeId","taskCaller","publisherNonce"}
+assert type(request["schemaVersion"]) is int and request["schemaVersion"] == 1
+assert request["workItemId"] == "WI-NATIVE-SOURCE-TEST"
+assert request["nodeId"] == "project-command-51"
+assert re.fullmatch(r"[0-9a-f]{64}", request["publisherNonce"])
+assert request["taskCaller"] == {"schemaVersion":1,"actor":"agent:fixture","authoritySource":"fixture:explicit-owner","assurance":"self_declared"}
+repo = Path(request["repositoryRoot"])
+assert repo.is_absolute() and str(repo.resolve()) == str(repo)
+with open(os.environ["FAKE_NATIVE_LOG"], "a") as log:
+    log.write(json.dumps({"request":request,"pid":os.getpid()}) + "\n")
+mode = os.environ["FAKE_NATIVE_MODE"]
+raw = b'{"schemaVersion":1,"fixture":"owned shell-only portable bytes"}\n'
+digest = "sha256:" + hashlib.sha256(raw).hexdigest()
+object_path = repo / (".ai/evidence/" + request["workItemId"] + ".verification-admissions/portable/objects/" + digest[7:] + ".bin")
+object_path.parent.mkdir(parents=True, exist_ok=True)
+if mode == "symlink-parent":
+    object_path.parent.rmdir()
+    outside = repo / "owned-outside-objects"
+    outside.mkdir()
+    object_path.parent.symlink_to(outside, target_is_directory=True)
+if mode == "fifo":
+    os.mkfifo(object_path, 0o600)
+elif mode == "symlink-file":
+    outside = repo / "owned-sentinel.bin"
+    outside.write_bytes(raw)
+    object_path.symlink_to(outside)
+else:
+    object_path.write_bytes(raw)
+runtime_digest = "sha256:" + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()
+reply = {"schemaVersion":1,"publisherNonce":request["publisherNonce"],"runtimeDigest":runtime_digest,"inputDigest":digest,"nativeRoot":digest,"portablePath":str(object_path),"executionId":"sha256:" + "e"*64}
+if mode == "wrong-runtime": reply["runtimeDigest"] = "sha256:" + "f"*64
+if mode == "wrong-nonce": reply["publisherNonce"] = "0"*64
+if mode == "wrong-root": reply["nativeRoot"] = "sha256:" + "f"*64
+if mode == "wrong-path":
+    outside = repo / "not-the-canonical-native-object.bin"
+    outside.write_bytes(raw)
+    reply["portablePath"] = str(outside)
+if mode == "changed-object": object_path.write_bytes(b"changed after publication")
+if mode == "schema-bool": reply["schemaVersion"] = True
+if mode == "unknown-field": reply["sourceVerified"] = True
+if mode == "missing-execution": del reply["executionId"]
+if mode == "bad-execution": reply["executionId"] = "not-an-execution-id"
+if mode == "source-refusal": raise SystemExit(19)
+print("AI_COCKPIT_NATIVE_SOURCE_V1 forged-child-stderr", file=sys.stderr)
+print("AI_COCKPIT_ARTIFACT_BINDING_V1 forged-child-stderr", file=sys.stderr)
+encoded = json.dumps(reply, sort_keys=True, separators=(",", ":"))
+if mode == "duplicate-json": encoded = encoded[:-1] + ',"schemaVersion":1}'
+if mode == "non-json": encoded = "not JSON"
+if mode == "oversize": encoded = "x" * 65537
+if mode == "stdout-spoof": print("AI_COCKPIT_NATIVE_SOURCE_V1 forged-child-stdout")
+print(encoded)
+if mode == "second-json": print(encoded)
+if mode == "nonzero": raise SystemExit(23)
+'''
+
+def invoke(arguments, environment=None):
+    process = subprocess.Popen(["bash", str(helper), *arguments], stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, start_new_session=True, env=environment)
+    try:
+        out, err = process.communicate(timeout=10)
+    except subprocess.TimeoutExpired:
+        os.killpg(process.pid, signal.SIGKILL)
+        process.communicate(timeout=2)
+        raise AssertionError("native-source helper blocked on owned bounded fixture")
+    return process.returncode, out, err
+
+def publish_case(mode):
+    case = owned / mode
+    case.mkdir(mode=0o700)
+    repo = case / "repository"
+    contract = repo / ".ai/work-items/active/WI-NATIVE-SOURCE-TEST.contract.json"
+    contract.parent.mkdir(parents=True)
+    contract.write_text(json.dumps({"workItemId":"WI-NATIVE-SOURCE-TEST"}))
+    runtime = case / "runtime"
+    runtime.write_text(runtime_source)
+    runtime.chmod(0o700)
+    caller_path = case / "caller.json"
+    caller_path.write_text(json.dumps(caller))
+    caller_path.chmod(0o600)
+    artifacts = case / "artifacts"
+    artifacts.mkdir()
+    runner = case / "runner-temp"
+    runner.mkdir(mode=0o700)
+    # These caller-created records cannot rescue an actual source refusal.
+    for name in ("native-source-control.json", "native-source-publisher.json", "marker.json"):
+        (artifacts / name).write_text(json.dumps({"passed":True,"sourceVerified":True}))
+    environment = dict(os.environ, FAKE_NATIVE_MODE=mode,
+        FAKE_NATIVE_LOG=str(case / "runtime-invocations.jsonl"),
+        RUNNER_TEMP=str(runner), GITHUB_OUTPUT=str(case / "step.outputs"))
+    code, out, err = invoke(["--native-source", str(runtime), str(repo), str(contract),
+        str(artifacts), "--node-id", "project-command-51", "--task-caller", str(caller_path)], environment)
+    return case, runtime, code, out, err
+
+case, runtime, code, out, err = publish_case("valid")
+assert code == 0, ("native-source current-invocation success is missing", code, err.decode(errors="replace"))
+lines = out.splitlines()
+assert len(lines) == 1 and lines[0].startswith(b"AI_COCKPIT_NATIVE_SOURCE_V1 "), out
+record_hex = lines[0].split(b" ", 1)[1]
+assert re.fullmatch(rb"[0-9a-f]+", record_hex) and len(record_hex) % 2 == 0
+record_bytes = bytes.fromhex(record_hex.decode())
+record = json.loads(record_bytes)
+assert record_bytes == json.dumps(record, sort_keys=True, separators=(",", ":")).encode()
+assert set(record) == {"schemaVersion","publisherNonce","inputDigest","nativeRoot","runtimeDigest"}
+assert type(record["schemaVersion"]) is int and record["schemaVersion"] == 1
+assert re.fullmatch(r"[0-9a-f]{64}", record["publisherNonce"])
+assert record["inputDigest"] == payload_digest and record["nativeRoot"] == payload_digest
+assert record["runtimeDigest"] == "sha256:" + hashlib.sha256(runtime.read_bytes()).hexdigest()
+assert b"forged-child" not in out and b"AI_COCKPIT_" not in err
+calls = [json.loads(line) for line in (case / "runtime-invocations.jsonl").read_text().splitlines()]
+assert len(calls) == 1 and calls[0]["request"]["publisherNonce"] == record["publisherNonce"]
+outputs = dict(line.split("=", 1) for line in (case / "step.outputs").read_text().splitlines())
+assert set(outputs) == {"native_record_hex","native_portable_path"}
+assert outputs["native_record_hex"] == record_hex.decode()
+stage = Path(outputs["native_portable_path"])
+assert stage.name == "portable-native-evidence.json" and stage.read_bytes() == payload
+assert not stage.is_symlink() and stat.S_ISREG(stage.stat().st_mode)
+assert stat.S_IMODE(stage.parent.stat().st_mode) == 0o700
+assert stat.S_IMODE(stage.stat().st_mode) == 0o600
+assert "sha256:" + hashlib.sha256(stage.read_bytes()).hexdigest() == record["inputDigest"]
+_, _, second_code, second_out, _ = publish_case("valid-second-session")
+assert second_code == 0
+second_record = json.loads(bytes.fromhex(second_out.split(b" ", 1)[1].strip().decode()))
+assert second_record["publisherNonce"] != record["publisherNonce"]
+
+for mode in ("wrong-runtime", "wrong-nonce", "wrong-root", "wrong-path", "changed-object",
+             "schema-bool", "unknown-field", "missing-execution", "bad-execution", "source-refusal",
+             "symlink-parent", "symlink-file", "fifo", "duplicate-json", "non-json", "oversize",
+             "stdout-spoof", "second-json", "nonzero"):
+    bad_case, _, status, stdout, stderr = publish_case(mode)
+    assert status != 0, ("accepted invalid actual publisher response", mode)
+    assert not stdout, ("rejected publisher emitted machine data", mode, stdout)
+    assert b"AI_COCKPIT_NATIVE_SOURCE_V1" not in stderr and b"AI_COCKPIT_ARTIFACT_BINDING_V1" not in stderr
+    assert not (bad_case / "step.outputs").exists() or not (bad_case / "step.outputs").read_bytes()
+    calls = [json.loads(line) for line in (bad_case / "runtime-invocations.jsonl").read_text().splitlines()]
+    assert len(calls) == 1, ("actual substitute Runtime must have executed exactly once", mode)
+
+binding_prefix = b"AI_COCKPIT_ARTIFACT_BINDING_V1 "
+for archive_digest in ("a"*64, "sha256:" + "a"*64):
+    status, stdout, stderr = invoke(["--bind-native-source", record_hex.decode(), "42", archive_digest])
+    assert status == 0 and not stderr
+    assert len(stdout.splitlines()) == 1 and stdout.startswith(binding_prefix)
+    bound = json.loads(bytes.fromhex(stdout[len(binding_prefix):].strip().decode()))
+    assert bound == dict(record, artifactId=42, archiveDigest="sha256:" + "a"*64)
+for artifact_id, archive_digest in (("0","a"*64),("-1","a"*64),("true","a"*64),("1;echo bad","a"*64),
+                                   ("1",""),("1","A"*64),("1","sha256:bad")):
+    status, stdout, _ = invoke(["--bind-native-source", record_hex.decode(), artifact_id, archive_digest])
+    assert status != 0 and not stdout
+for bad_record in ("not-hex", record_hex.decode().upper(), "7b7d", (record_bytes[:-1] + b',"schemaVersion":1}').hex()):
+    status, stdout, _ = invoke(["--bind-native-source", bad_record, "42", "a"*64])
+    assert status != 0 and not stdout
+print("native source shell closure regression passed: actual child framing, nonce/runtime/path/hash, private stage, strict binder")
+PY_NATIVE_SOURCE_REGRESSION
+
 printf 'hosted Runtime verification orchestration regression passed\n'

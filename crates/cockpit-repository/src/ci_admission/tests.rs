@@ -1865,6 +1865,18 @@ fn c16_native_fixture(
     cockpit_protocol::TaskAuthorizationCaller,
     crate::RepositoryVerificationRequest,
 ) {
+    c16_native_fixture_with_profile(argument, true)
+}
+
+fn c16_native_fixture_with_profile(
+    argument: &str,
+    profile_verified: bool,
+) -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    cockpit_protocol::TaskAuthorizationCaller,
+    crate::RepositoryVerificationRequest,
+) {
     use crate::*;
     let root = tempfile::Builder::new()
         .prefix("c16 native witness ")
@@ -1895,8 +1907,10 @@ fn c16_native_fixture(
         );
     }
     attach(root.path()).unwrap();
-    confirm_profile_update(root.path(), "git", &[argument.to_owned()]).unwrap();
-    if argument != "--definitely-invalid-c16-option" {
+    if profile_verified {
+        confirm_profile_update(root.path(), "git", &[argument.to_owned()]).unwrap();
+    }
+    if profile_verified && argument != "--definitely-invalid-c16-option" {
         confirm_profile_update(
             root.path(),
             "git",
@@ -2860,7 +2874,8 @@ fn logbridge_source_fixture() -> (
     super::PortableSourceTool,
 ) {
     use crate::*;
-    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let (root, runtime, caller, mut request) = c16_native_fixture("--version");
+    request.scope = vec!["**".into()];
     let invocation = CurrentNativeInvocation::new();
     let observed = run_repository_verification_with_native_witness(
         root.path(),
@@ -3977,5 +3992,190 @@ fn ci_admission_c16_portable_view_needs_no_caller_but_accept_rechecks_file_and_c
                 ".ai/evidence/{SERVICE_WI}.verification-admissions/portable"
             ))
             .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn source_service_selects_only_the_current_declared_command() {
+    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let current = super::declared_portable_verification_request(
+        root.path(),
+        request.work_item_id.as_deref().unwrap(),
+        &request.node_id,
+        &runtime,
+        Some(&caller),
+    )
+    .expect("TARGET RED: derive current command from Contract, never packet program");
+    assert_eq!(current.program, "git");
+    assert_eq!(current.args, vec!["--version"]);
+    assert_eq!(
+        current.policy,
+        crate::RepositoryVerificationPolicy::ProfileAuthorized
+    );
+    assert!(
+        super::declared_portable_verification_request(
+            root.path(),
+            request.work_item_id.as_deref().unwrap(),
+            "project-command-999",
+            &runtime,
+            Some(&caller)
+        )
+        .is_err()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn source_service_persists_audits_and_partial_consumption_without_formal_promotion() {
+    let (root, _host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let summary = root
+        .path()
+        .join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let before = std::fs::read(&summary).unwrap();
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    let parameters = json!({"synthetic_controlled_transport":true});
+    let result = super::accept_portable_evidence_with_source(
+        root.path(),
+        super::PortableSourceAdmissionRequest {
+            work_item_id: wi,
+            input: &input,
+            expected_plan_digest: &plan.plan_digest,
+            parameters: &parameters,
+            node_id: Some(&request.node_id),
+        },
+        &tool,
+        &runtime,
+        Some(&caller),
+    )
+    .expect("TARGET RED: shared source service must really consume the current node");
+    assert!(result.accepted);
+    let used = result
+        .source_use
+        .expect("source use, not just a constant accepted flag");
+    assert_eq!(used.node_id, request.node_id);
+    assert_eq!(used.source_reader_invocations, 2);
+    assert_eq!(used.receipt["nodesReused"], 1);
+    assert_eq!(used.receipt["processesSpawned"], 0);
+    assert!(used.operation_elapsed_ms > 0);
+    assert_eq!(used.source_record_refs.len(), 2);
+    assert!(!used.consumption_record_ref.is_empty());
+    for reference in used
+        .source_record_refs
+        .iter()
+        .chain(std::iter::once(&used.consumption_record_ref))
+    {
+        let id = format!(
+            "sha256:{}",
+            std::path::Path::new(reference)
+                .file_stem()
+                .unwrap()
+                .to_str()
+                .unwrap()
+        );
+        assert!(
+            super::store::load_portable_record(root.path(), wi, &id)
+                .unwrap()
+                .is_some()
+        );
+    }
+    assert_eq!(std::fs::read(&summary).unwrap(), before);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+    assert!(result.guidance.unwrap().summary.contains("check"));
+    let cold = super::accept_portable_evidence(
+        root.path(),
+        wi,
+        &input,
+        &plan.plan_digest,
+        &runtime,
+        Some(&caller),
+    )
+    .unwrap();
+    assert!(!cold.accepted && cold.source_use.is_none());
+}
+
+#[cfg(unix)]
+#[test]
+fn native_source_publisher_observes_real_fresh_executions_and_never_promotes_full_coverage() {
+    let (root, runtime, caller, request) = c16_native_fixture("--version");
+    let wi = request.work_item_id.as_deref().unwrap();
+    let summary = root
+        .path()
+        .join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let before = std::fs::read(&summary).unwrap();
+    let mut execution_ids = std::collections::BTreeSet::new();
+    for nonce in ["a".repeat(64), "b".repeat(64)] {
+        let publication=super::publish_declared_native_source(root.path(),wi,&request.node_id,&nonce,&runtime,Some(&caller))
+            .expect("TARGET RED: native publisher must hold actual execution before emitting source control");
+        assert_eq!(publication.publisher_nonce, nonce);
+        assert_eq!(publication.runtime_digest, runtime.runtime_digest);
+        assert_eq!(publication.native_root, publication.input_digest);
+        assert!(
+            publication
+                .execution_id
+                .as_str()
+                .parse::<cockpit_core::Digest>()
+                .is_ok()
+        );
+        assert!(execution_ids.insert(publication.execution_id));
+        let bytes = std::fs::read(&publication.portable_path).unwrap();
+        assert_eq!(
+            cockpit_core::Digest::sha256_bytes(&bytes),
+            publication.input_digest
+        );
+        let packet: Value = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(packet["nativeEvidence"]["receipt"]["nodesExecuted"], 1);
+        assert_eq!(packet["nativeEvidence"]["receipt"]["processesSpawned"], 1);
+        assert_eq!(packet["nativeEvidence"]["receipt"]["nodesReused"], 0);
+    }
+    assert_eq!(std::fs::read(&summary).unwrap(), before);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn native_source_publisher_denies_missing_profile_before_any_project_execution() {
+    let (root, runtime, caller, request) = c16_native_fixture_with_profile("--version", false);
+    let wi = request.work_item_id.as_deref().unwrap();
+    let count = || {
+        std::fs::read_dir(root.path().join(".ai/evidence"))
+            .unwrap()
+            .filter_map(Result::ok)
+            .filter(|e| {
+                e.file_name()
+                    .to_string_lossy()
+                    .starts_with(&format!("{wi}.verification-attempt."))
+            })
+            .count()
+    };
+    let before = count();
+    assert!(
+        super::publish_declared_native_source(
+            root.path(),
+            wi,
+            &request.node_id,
+            &"c".repeat(64),
+            &runtime,
+            Some(&caller)
+        )
+        .is_err()
+    );
+    assert_eq!(
+        count(),
+        before,
+        "missing calibration must not run an expensive check merely to fail to mint proof"
     );
 }

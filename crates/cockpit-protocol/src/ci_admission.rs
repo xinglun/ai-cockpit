@@ -214,6 +214,42 @@ pub struct PortableEvidenceAcceptance {
     pub gaps: Vec<String>,
     pub verification_commands_executed: usize,
     pub writes_performed: usize,
+    /// Data describing one consumed node; never full Contract completion.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_use: Option<PortableEvidenceSourceUse>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub guidance: Option<PortableEvidenceGuidance>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableEvidenceGuidance {
+    pub summary: String,
+    pub next_actions: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableEvidenceSourceUse {
+    pub node_id: String,
+    pub source_record_refs: Vec<String>,
+    pub consumption_record_ref: String,
+    pub receipt: serde_json::Value,
+    pub source_reader_invocations: usize,
+    pub operation_elapsed_ms: u128,
+}
+
+/// Firsthand native publisher control data. JSON alone cannot authenticate it.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PortableNativeSourceMetadata {
+    pub schema_version: u32,
+    pub publisher_nonce: String,
+    pub runtime_digest: Digest,
+    pub input_digest: Digest,
+    pub native_root: Digest,
+    pub portable_path: String,
+    pub execution_id: Digest,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

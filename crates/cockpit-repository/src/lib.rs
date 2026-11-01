@@ -80,8 +80,11 @@ pub use ci_admission::archive::{
     inspect_untrusted_github_archive,
 };
 pub use ci_admission::{
-    AcceptedPortableEvidence, PortableSourceRequest, PortableSourceTool, VerifiedPortableSource,
-    accept_portable_evidence, plan_github_verification_admission, plan_portable_evidence,
+    AcceptedPortableEvidence, PortableSourceAdmissionRequest, PortableSourceRequest,
+    PortableSourceTool, VerifiedPortableSource, accept_portable_evidence,
+    accept_portable_evidence_with_source, declared_portable_verification_request,
+    plan_github_verification_admission, plan_portable_evidence, publish_declared_native_source,
+    require_portable_source_observation_admission,
 };
 
 pub use material_review::{
