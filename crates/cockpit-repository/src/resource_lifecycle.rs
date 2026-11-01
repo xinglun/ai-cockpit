@@ -3152,12 +3152,445 @@ fn finish_attempt_bindings(
     })
 }
 
+// Checkpoints share the append-only attempt namespace, but are diagnostic
+// observations. Their native headers never carry success or validated identity.
+fn finish_checkpoint_matches(
+    checkpoint: &serde_json::Value,
+    filename_digest: &str,
+    work_item_id: &str,
+    bindings: &FinishAttemptBindings,
+) -> bool {
+    const COMMON_FIELDS: &[&str] = &[
+        "checkpointId",
+        "protocolVersion",
+        "schemaVersion",
+        "kind",
+        "state",
+        "workItemId",
+        "repositoryId",
+        "runtimeVersion",
+        "runtimeDigest",
+        "contractDigest",
+        "contractExecutionScopeDigest",
+        "repositorySnapshotDigest",
+        "postExecutionIdentityValidated",
+        "commands",
+        "createdAt",
+        "passed",
+    ];
+    let run = checkpoint["kind"] == "verification_run_checkpoint";
+    let state = checkpoint["state"].as_str().unwrap_or_default();
+    let state_fields: &[&str] = match (run, state) {
+        (true, "run_prepared") => &["runId"],
+        (true, "run_completed") => &["runId", "parentAttemptId"],
+        (true, "interrupted") => &[
+            "runId",
+            "completedNodes",
+            "completedReceipts",
+            "unavailableNodes",
+            "unstartedNodes",
+            "diagnostic",
+        ],
+        (false, "execution_prepared" | "node_execution_completed") => &[
+            "executionId",
+            "executionRecords",
+            "processesSpawned",
+            "receipt",
+        ],
+        (false, "execution_outcome_unavailable") => &[
+            "executionId",
+            "executionRecords",
+            "processesSpawned",
+            "receipt",
+            "diagnostic",
+        ],
+        _ => return false,
+    };
+    let Some(object) = checkpoint.as_object() else {
+        return false;
+    };
+    let Some(checkpoint_id) = checkpoint["checkpointId"]
+        .as_str()
+        .and_then(|value| value.parse::<Digest>().ok())
+    else {
+        return false;
+    };
+    let mut unsigned = object.clone();
+    unsigned.remove("checkpointId");
+    if object.len() != COMMON_FIELDS.len() + state_fields.len()
+        || object.keys().any(|key| {
+            !COMMON_FIELDS.contains(&key.as_str()) && !state_fields.contains(&key.as_str())
+        })
+        || filename_digest
+            != checkpoint_id
+                .to_string()
+                .strip_prefix("sha256:")
+                .unwrap_or_default()
+        || cockpit_protocol::digest_json(&serde_json::Value::Object(unsigned)).ok()
+            != Some(checkpoint_id)
+        || checkpoint["protocolVersion"] != 1
+        || checkpoint["schemaVersion"] != 1
+        || (!run && checkpoint["kind"] != "verification_execution_checkpoint")
+        || checkpoint["workItemId"] != work_item_id
+        || checkpoint["repositoryId"] != bindings.repository_id
+        || checkpoint["runtimeVersion"] != bindings.runtime_version
+        || checkpoint["runtimeDigest"] != bindings.runtime_digest.to_string()
+        || checkpoint["contractDigest"] != bindings.contract_digest.to_string()
+        || checkpoint["contractExecutionScopeDigest"] != bindings.scope_digest.to_string()
+        || checkpoint["repositorySnapshotDigest"] != bindings.snapshot_digest.to_string()
+        || checkpoint["passed"] != false
+        || checkpoint["postExecutionIdentityValidated"] != false
+        || !checkpoint["createdAt"]
+            .as_str()
+            .is_some_and(|value| chrono::DateTime::parse_from_rfc3339(value).is_ok())
+        || !finish_checkpoint_digest(&checkpoint[if run { "runId" } else { "executionId" }])
+    {
+        return false;
+    }
+    let Some(commands) = finish_attempt_command_index(checkpoint, bindings)
+        .filter(|commands| !commands.is_empty() && (run || commands.len() == 1))
+    else {
+        return false;
+    };
+    for command in checkpoint["commands"].as_array().into_iter().flatten() {
+        let fields = [
+            "nodeId",
+            "program",
+            "args",
+            "scope",
+            "stage",
+            "runner",
+            "runtimeDigest",
+            "baseCommit",
+            "timeoutSeconds",
+            "commandDigest",
+        ];
+        let Some(object) = command.as_object() else {
+            return false;
+        };
+        if object.len() != fields.len() + usize::from(run)
+            || object
+                .keys()
+                .any(|key| !fields.contains(&key.as_str()) && !(run && key == "plannedNode"))
+        {
+            return false;
+        }
+        if run {
+            let node = &command["plannedNode"];
+            if ["nodeId", "program", "args", "timeoutSeconds"]
+                .iter()
+                .any(|key| node[*key] != command[*key])
+                || node["identityBinding"]["commandDigest"] != command["commandDigest"]
+                || node["identityBinding"]["repositoryId"] != checkpoint["repositoryId"]
+                || node["identityBinding"]["repositorySnapshotDigest"]
+                    != checkpoint["repositorySnapshotDigest"]
+                || node["identityBinding"]["runtimeDigest"] != checkpoint["runtimeDigest"]
+            {
+                return false;
+            }
+        }
+    }
+    match state {
+        "run_prepared" => true,
+        "run_completed" => finish_checkpoint_digest(&checkpoint["parentAttemptId"]),
+        "interrupted" => {
+            finish_interrupted_checkpoint_matches(checkpoint, &commands, work_item_id, bindings)
+        }
+        "execution_prepared" => {
+            checkpoint["receipt"].is_null()
+                && checkpoint["executionRecords"]
+                    .as_array()
+                    .is_some_and(Vec::is_empty)
+                && checkpoint["processesSpawned"].as_u64() == Some(0)
+        }
+        "node_execution_completed" => {
+            finish_checkpoint_receipt_matches(
+                &checkpoint["receipt"],
+                &commands,
+                work_item_id,
+                bindings,
+            ) && checkpoint["executionRecords"] == checkpoint["receipt"]["executionRecords"]
+                && checkpoint["processesSpawned"] == checkpoint["receipt"]["processesSpawned"]
+        }
+        "execution_outcome_unavailable" => {
+            checkpoint["receipt"].is_null()
+                && checkpoint["executionRecords"]
+                    .as_array()
+                    .is_some_and(Vec::is_empty)
+                && checkpoint["processesSpawned"].is_null()
+                && finish_checkpoint_diagnostic(&checkpoint["diagnostic"], "code")
+                && checkpoint["diagnostic"]["code"] == "executor_outcome_unavailable"
+        }
+        _ => false,
+    }
+}
+
+fn finish_checkpoint_digest(value: &serde_json::Value) -> bool {
+    value
+        .as_str()
+        .is_some_and(|value| value.parse::<Digest>().is_ok())
+}
+
+fn finish_checkpoint_diagnostic(value: &serde_json::Value, discriminator: &str) -> bool {
+    value.as_object().is_some_and(|object| {
+        object.len() == 2
+            && value[discriminator]
+                .as_str()
+                .is_some_and(|value| !value.trim().is_empty())
+            && value["message"]
+                .as_str()
+                .is_some_and(|value| !value.trim().is_empty())
+    })
+}
+
+fn finish_checkpoint_receipt_matches(
+    value: &serde_json::Value,
+    commands: &BTreeMap<String, (String, u64)>,
+    work_item_id: &str,
+    bindings: &FinishAttemptBindings,
+) -> bool {
+    use cockpit_verification::{PlannedAction, PlannedSatisfaction, PlannedState};
+    let Ok(receipt) =
+        serde_json::from_value::<cockpit_verification::VerificationReceipt>(value.clone())
+    else {
+        return false;
+    };
+    // Native executor receipts omit these fields. Returned repository receipts
+    // can add identity; any supplied binding must still be exact.
+    if receipt
+        .work_item_id
+        .as_deref()
+        .is_some_and(|id| id != work_item_id)
+        || receipt
+            .repository_id
+            .as_deref()
+            .is_some_and(|id| id != bindings.repository_id)
+        || receipt
+            .runtime_version
+            .as_deref()
+            .is_some_and(|version| version != bindings.runtime_version)
+        || receipt
+            .runtime_digest
+            .as_deref()
+            .is_some_and(|digest| digest != bindings.runtime_digest.to_string())
+        || !finish_attempt_receipt_matches_commands(
+            &receipt,
+            commands,
+            receipt.processes_spawned as u64,
+        )
+    {
+        return false;
+    }
+    let common_timeout = commands
+        .values()
+        .next()
+        .map(|(_, timeout)| *timeout)
+        .filter(|timeout| commands.values().all(|(_, value)| value == timeout));
+    let protected_executed = receipt
+        .execution_records
+        .iter()
+        .filter(|record| {
+            record.spawned
+                && receipt
+                    .results
+                    .iter()
+                    .any(|result| result.node_id == record.node_id && result.protected)
+        })
+        .count();
+    if receipt.timeout_seconds != common_timeout
+        || receipt
+            .nodes_executed
+            .checked_add(receipt.nodes_reused)
+            .is_none_or(|count| count > receipt.nodes_planned)
+        || receipt.max_concurrent_processes > receipt.nodes_executed
+        || (receipt.max_concurrent_processes == 0) != (receipt.nodes_executed == 0)
+        || receipt.rerun_stale
+            != receipt
+                .results
+                .iter()
+                .filter(|result| {
+                    result.action == PlannedAction::Execute && result.state == PlannedState::Stale
+                })
+                .count()
+        || receipt.rerun_unknown
+            != receipt
+                .results
+                .iter()
+                .filter(|result| {
+                    result.action == PlannedAction::Execute && result.state == PlannedState::Unknown
+                })
+                .count()
+        || receipt.protected_nodes_executed != protected_executed
+        || receipt.protected_nodes_skipped
+            != receipt
+                .results
+                .iter()
+                .filter(|result| result.protected && result.reused)
+                .count()
+        || receipt.results.iter().any(|result| {
+            result.reused != (result.action == PlannedAction::Reuse)
+                || result.reused != (result.satisfied_by == PlannedSatisfaction::ReusedReceipt)
+                || (result.reused && (!result.passed || result.timed_out))
+                || result
+                    .output_digest
+                    .as_ref()
+                    .is_some_and(|digest| digest.parse::<Digest>().is_err())
+        })
+    {
+        return false;
+    }
+    receipt.execution_records.iter().all(|record| {
+        let result = receipt
+            .results
+            .iter()
+            .find(|result| result.node_id == record.node_id);
+        record.deadline_ms > 0
+            && (!record.passed || record.termination_signal.is_none())
+            && (record.spawned
+                || (record.exit_code.is_none()
+                    && !record.timed_out
+                    && record.termination_signal.is_none()))
+            && [&record.stdout_hex, &record.stderr_hex]
+                .iter()
+                .all(|output| {
+                    output.len() % 2 == 0
+                        && output
+                            .bytes()
+                            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+                })
+            && result.is_some_and(|result| {
+                result.output_truncated == (record.stdout_truncated || record.stderr_truncated)
+            })
+    })
+}
+
+fn finish_interrupted_checkpoint_matches(
+    checkpoint: &serde_json::Value,
+    commands: &BTreeMap<String, (String, u64)>,
+    work_item_id: &str,
+    bindings: &FinishAttemptBindings,
+) -> bool {
+    let (Some(completed), Some(receipts), Some(unavailable), Some(unstarted)) = (
+        checkpoint["completedNodes"].as_array(),
+        checkpoint["completedReceipts"].as_array(),
+        checkpoint["unavailableNodes"].as_array(),
+        checkpoint["unstartedNodes"].as_array(),
+    ) else {
+        return false;
+    };
+    if !finish_checkpoint_diagnostic(&checkpoint["diagnostic"], "phase") {
+        return false;
+    }
+    let mut observed = BTreeSet::new();
+    let mut completed_nodes = Vec::new();
+    for receipt in receipts {
+        let Some(results) = receipt["results"]
+            .as_array()
+            .filter(|results| !results.is_empty())
+        else {
+            return false;
+        };
+        let mut subset = BTreeMap::new();
+        for result in results {
+            let Some(node) = result["nodeId"].as_str() else {
+                return false;
+            };
+            let Some(command) = commands.get(node) else {
+                return false;
+            };
+            if !observed.insert(node.to_owned()) {
+                return false;
+            }
+            subset.insert(node.to_owned(), command.clone());
+            completed_nodes.push(serde_json::json!(node));
+        }
+        if !finish_checkpoint_receipt_matches(receipt, &subset, work_item_id, bindings) {
+            return false;
+        }
+    }
+    if *completed != completed_nodes {
+        return false;
+    }
+    for unavailable in unavailable {
+        let Some(node) = unavailable["nodeId"].as_str() else {
+            return false;
+        };
+        if unavailable
+            .as_object()
+            .is_none_or(|object| object.len() != 3)
+            || unavailable["executionState"] != "unknown"
+            || !unavailable["diagnostic"].is_string()
+            || !commands.contains_key(node)
+            || !observed.insert(node.to_owned())
+        {
+            return false;
+        }
+    }
+    for node in unstarted {
+        let Some(node) = node.as_str() else {
+            return false;
+        };
+        if !commands.contains_key(node) || !observed.insert(node.to_owned()) {
+            return false;
+        }
+    }
+    observed.len() == commands.len()
+}
+
+// Resolve against the complete finish tree: per-file Git commits can precede
+// the parent artifact even though the native writer published it first.
+fn validate_finish_checkpoint_parent(
+    root: &Path,
+    revision: &str,
+    preserved_revision: &str,
+    checkpoint: &serde_json::Value,
+    work_item_id: &str,
+    bindings: &FinishAttemptBindings,
+) -> Result<(), ObserverError> {
+    if checkpoint["kind"] != "verification_run_checkpoint" || checkpoint["state"] != "run_completed"
+    {
+        return Ok(());
+    }
+    let suffix = checkpoint["parentAttemptId"]
+        .as_str()
+        .and_then(|id| id.strip_prefix("sha256:"))
+        .unwrap_or_default();
+    let path = format!(".ai/evidence/{work_item_id}.verification-attempt.{suffix}.json");
+    let parent = git_json(root, revision, &path)?;
+    let mut commands = checkpoint["commands"].clone();
+    for command in commands.as_array_mut().into_iter().flatten() {
+        if let Some(command) = command.as_object_mut() {
+            command.remove("plannedNode");
+        }
+    }
+    if parent["kind"] != "verification_attempt"
+        || parent["state"] != "execution_completed"
+        || parent["passed"] != true
+        || parent["runId"] != checkpoint["runId"]
+        || parent["commands"] != commands
+        || !finish_attempt_matches(&parent, suffix, work_item_id, bindings)
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "run checkpoint does not link an actual successful attempt",
+        ));
+    }
+    require_same_git_blob(root, revision, preserved_revision, &path)?;
+    Ok(())
+}
+
 fn finish_attempt_matches(
     attempt: &serde_json::Value,
     filename_digest: &str,
     work_item_id: &str,
     bindings: &FinishAttemptBindings,
 ) -> bool {
+    if matches!(
+        attempt["kind"].as_str(),
+        Some("verification_run_checkpoint" | "verification_execution_checkpoint")
+    ) {
+        return finish_checkpoint_matches(attempt, filename_digest, work_item_id, bindings);
+    }
     let Some(attempt_id) = attempt
         .get("attemptId")
         .and_then(serde_json::Value::as_str)
@@ -3476,6 +3909,14 @@ fn validate_finish_attempt_history(
                 "verification attempt content, Runtime receipt, or Contract/snapshot identity binding is invalid",
             ));
         }
+        validate_finish_checkpoint_parent(
+            root,
+            finish_revision,
+            sync_merge,
+            &attempt,
+            work_item_id,
+            &bindings,
+        )?;
         require_same_git_blob(root, commit, sync_merge, path)?;
         predecessor = commit;
     }
@@ -5457,6 +5898,7 @@ fn validate_layout_attempt_history(
                 "new attempt has invalid identity or execution binding",
             ));
         }
+        validate_finish_checkpoint_parent(root, finish, merge, &attempt, id, &bindings)?;
         require_same_git_blob(root, finish, merge, &path)?;
         if attempt["passed"] == true
             && attempt["state"] == "execution_completed"
@@ -10567,6 +11009,538 @@ mod post_merge_sync_tests {
         .unwrap();
         let archive_revision = commit(root, "archive the cutoff-bound report");
         (fixture, finish, archive_revision)
+    }
+
+    // Match the native checkpoint writers, including the raw executor receipt
+    // before repository enrichment and the absent fields on run headers.
+    fn fixture_finish_checkpoint(
+        id: &str,
+        bindings: &super::FinishAttemptBindings,
+        state: &str,
+    ) -> serde_json::Value {
+        let attempt = fixture_attempt_value(id, bindings, "execution_completed", true);
+        let mut value = serde_json::json!({});
+        for key in [
+            "protocolVersion",
+            "schemaVersion",
+            "workItemId",
+            "repositoryId",
+            "runtimeVersion",
+            "runtimeDigest",
+            "contractDigest",
+            "contractExecutionScopeDigest",
+            "repositorySnapshotDigest",
+            "commands",
+            "createdAt",
+        ] {
+            value[key] = attempt[key].clone();
+        }
+        value["state"] = state.into();
+        value["passed"] = false.into();
+        value["postExecutionIdentityValidated"] = false.into();
+        let mut receipt = attempt["receipt"].clone();
+        for key in [
+            "workItemId",
+            "repositoryId",
+            "runtimeVersion",
+            "runtimeDigest",
+        ] {
+            receipt.as_object_mut().unwrap().remove(key);
+        }
+        receipt["timeoutSeconds"] = 10.into();
+        if matches!(state, "run_prepared" | "run_completed" | "interrupted") {
+            value["kind"] = "verification_run_checkpoint".into();
+            value["runId"] = Digest::sha256_bytes(b"native fixture run")
+                .to_string()
+                .into();
+            let command = &mut value["commands"][0];
+            command["plannedNode"] = serde_json::json!({
+                "nodeId": command["nodeId"],
+                "program": command["program"],
+                "args": command["args"],
+                "timeoutSeconds": command["timeoutSeconds"],
+                "identityBinding": {
+                    "commandDigest": command["commandDigest"],
+                    "repositoryId": bindings.repository_id,
+                    "repositorySnapshotDigest": bindings.snapshot_digest.to_string(),
+                    "runtimeDigest": bindings.runtime_digest.to_string(),
+                    "profileDigest": null
+                },
+                "dependencies": [],
+                "action": "execute",
+                "state": "unknown",
+                "reason": "local_store_or_identity_unknown",
+                "receiptId": null,
+                "bindingMismatches": [],
+                "satisfiedBy": "execution",
+                "planningElapsedMs": 0,
+                "localNodeReuseReason": "local_store_or_identity_unknown",
+                "reuseAuthorization": "fresh_required_by_native_observation"
+            });
+            if state == "run_completed" {
+                let mut parent = attempt.clone();
+                parent["runId"] = value["runId"].clone();
+                seal_attempt(&mut parent);
+                value["parentAttemptId"] = parent["attemptId"].clone();
+            } else if state == "interrupted" {
+                value["completedNodes"] = serde_json::json!(["fixture-command"]);
+                value["completedReceipts"] = serde_json::json!([receipt]);
+                value["unavailableNodes"] = serde_json::json!([]);
+                value["unstartedNodes"] = serde_json::json!([]);
+                value["diagnostic"] = serde_json::json!({
+                    "phase": "post_execution", "message": "native observation unavailable"
+                });
+            }
+        } else {
+            value["kind"] = "verification_execution_checkpoint".into();
+            value["executionId"] = Digest::sha256_bytes(b"native fixture execution")
+                .to_string()
+                .into();
+            value["executionRecords"] = serde_json::json!([]);
+            value["processesSpawned"] = 0.into();
+            value["receipt"] = serde_json::Value::Null;
+            if state == "node_execution_completed" {
+                value["executionRecords"] = receipt["executionRecords"].clone();
+                value["processesSpawned"] = receipt["processesSpawned"].clone();
+                value["receipt"] = receipt;
+            } else if state == "execution_outcome_unavailable" {
+                value["processesSpawned"] = serde_json::Value::Null;
+                value["diagnostic"] = serde_json::json!({
+                    "code": "executor_outcome_unavailable", "message": "native worker unavailable"
+                });
+            }
+        }
+        seal_finish_checkpoint(&mut value);
+        value
+    }
+
+    fn seal_finish_checkpoint(value: &mut serde_json::Value) {
+        value.as_object_mut().unwrap().remove("checkpointId");
+        value["checkpointId"] = serde_json::json!(cockpit_protocol::digest_json(value).unwrap());
+    }
+
+    fn finish_checkpoint_filename_digest(value: &serde_json::Value) -> String {
+        value["checkpointId"]
+            .as_str()
+            .unwrap()
+            .strip_prefix("sha256:")
+            .unwrap()
+            .to_owned()
+    }
+
+    #[test]
+    fn post_merge_sync_finish_history_accepts_native_diagnostic_checkpoint_commits() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9970-post-merge-sync-fixture";
+        let (source, bindings) = fixture_finish_bindings(root, id);
+        for state in [
+            "run_prepared",
+            "execution_prepared",
+            "node_execution_completed",
+            "run_completed",
+        ] {
+            let value = fixture_finish_checkpoint(id, &bindings, state);
+            let suffix = finish_checkpoint_filename_digest(&value);
+            let path = root.join(format!(
+                ".ai/evidence/{id}.verification-attempt.{suffix}.json"
+            ));
+            std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+            std::fs::write(path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+            commit(root, state);
+        }
+        // The fixture intentionally commits a checkpoint before its parent
+        // file: native publication order is not Git's per-file commit order.
+        let mut parent = fixture_attempt_value(id, &bindings, "execution_completed", true);
+        parent["runId"] = Digest::sha256_bytes(b"native fixture run")
+            .to_string()
+            .into();
+        seal_attempt(&mut parent);
+        let suffix = attempt_filename_digest(&parent);
+        let path = root.join(format!(
+            ".ai/evidence/{id}.verification-attempt.{suffix}.json"
+        ));
+        std::fs::write(path, serde_json::to_vec_pretty(&parent).unwrap()).unwrap();
+        commit(
+            root,
+            "append the actual successful run parent after its checkpoint",
+        );
+        write_finish_verification(root, id, &bindings);
+        let evidence_path = root.join(format!(".ai/evidence/{id}.verification.json"));
+        let mut formal: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&evidence_path).unwrap()).unwrap();
+        formal["receipt"] = parent["receipt"].clone();
+        std::fs::write(evidence_path, serde_json::to_vec_pretty(&formal).unwrap()).unwrap();
+        let finish = commit(root, "finish after native diagnostic commits");
+        super::validate_finish_attempt_history(root, id, &source, &finish, &finish)
+            .expect("native checkpoint commits remain validated immutable history");
+        let completed = fixture_finish_checkpoint(id, &bindings, "run_completed");
+        for key in ["parentAttemptId", "runId"] {
+            let mut forged = completed.clone();
+            forged[key] = Digest::sha256_bytes(b"unrelated run parent")
+                .to_string()
+                .into();
+            seal_finish_checkpoint(&mut forged);
+            assert!(
+                super::validate_finish_checkpoint_parent(
+                    root, &finish, &finish, &forged, id, &bindings
+                )
+                .is_err(),
+                "a terminal diagnostic must resolve an actual matching successful parent: {key}"
+            );
+        }
+    }
+
+    #[test]
+    fn post_merge_sync_finish_checkpoint_accepts_native_states_without_claiming_success() {
+        let fixture = post_merge_history_fixture();
+        let id = "WI-9971-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(fixture.path(), id);
+        for state in [
+            "run_prepared",
+            "run_completed",
+            "interrupted",
+            "execution_prepared",
+            "node_execution_completed",
+            "execution_outcome_unavailable",
+        ] {
+            let value = fixture_finish_checkpoint(id, &bindings, state);
+            assert_eq!(value["passed"], false);
+            assert_eq!(value["postExecutionIdentityValidated"], false);
+            assert!(
+                super::finish_attempt_matches(
+                    &value,
+                    &finish_checkpoint_filename_digest(&value),
+                    id,
+                    &bindings
+                ),
+                "native {state} checkpoint"
+            );
+        }
+        let mut reused = fixture_finish_checkpoint(id, &bindings, "node_execution_completed");
+        reused["receipt"]
+            .as_object_mut()
+            .unwrap()
+            .remove("executionRecords");
+        reused["executionRecords"] = serde_json::Value::Null;
+        reused["processesSpawned"] = 0.into();
+        for key in [
+            "nodesExecuted",
+            "processesSpawned",
+            "maxConcurrentProcesses",
+            "executionElapsedMs",
+        ] {
+            reused["receipt"][key] = 0.into();
+        }
+        reused["receipt"]["nodesReused"] = 1.into();
+        reused["receipt"]["results"][0]["reused"] = true.into();
+        reused["receipt"]["results"][0]["action"] = "reuse".into();
+        reused["receipt"]["results"][0]["state"] = "fresh".into();
+        reused["receipt"]["results"][0]["satisfiedBy"] = "reused_receipt".into();
+        reused["receipt"]["results"][0]["reason"] = "fresh_exact_binding".into();
+        reused["receipt"]["results"][0]["receiptId"] =
+            Digest::sha256_bytes(b"native fixture reuse")
+                .to_string()
+                .into();
+        seal_finish_checkpoint(&mut reused);
+        assert!(
+            super::finish_attempt_matches(
+                &reused,
+                &finish_checkpoint_filename_digest(&reused),
+                id,
+                &bindings
+            ),
+            "native pure reuse omits receipt records and copies null to its checkpoint"
+        );
+        for spawned in [true, false] {
+            let mut failed = fixture_finish_checkpoint(id, &bindings, "node_execution_completed");
+            failed["receipt"]["passed"] = false.into();
+            failed["receipt"]["results"][0]["passed"] = false.into();
+            failed["receipt"]["executionRecords"][0]["passed"] = false.into();
+            failed["receipt"]["executionRecords"][0]["spawned"] = spawned.into();
+            failed["receipt"]["executionRecords"][0]["exitCode"] = if spawned {
+                1.into()
+            } else {
+                serde_json::Value::Null
+            };
+            failed["receipt"]["processesSpawned"] = u64::from(spawned).into();
+            failed["receipt"]["processSpawnFailures"] = u64::from(!spawned).into();
+            failed["executionRecords"] = failed["receipt"]["executionRecords"].clone();
+            failed["processesSpawned"] = failed["receipt"]["processesSpawned"].clone();
+            seal_finish_checkpoint(&mut failed);
+            assert!(
+                super::finish_attempt_matches(
+                    &failed,
+                    &finish_checkpoint_filename_digest(&failed),
+                    id,
+                    &bindings
+                ),
+                "native failed observation with spawned={spawned}"
+            );
+        }
+        for unavailable in [true, false] {
+            let mut interrupted = fixture_finish_checkpoint(id, &bindings, "interrupted");
+            interrupted["completedNodes"] = serde_json::json!([]);
+            interrupted["completedReceipts"] = serde_json::json!([]);
+            if unavailable {
+                interrupted["unavailableNodes"] = serde_json::json!([{
+                    "nodeId": "fixture-command", "executionState": "unknown", "diagnostic": "worker unavailable"
+                }]);
+            } else {
+                interrupted["unstartedNodes"] = serde_json::json!(["fixture-command"]);
+            }
+            seal_finish_checkpoint(&mut interrupted);
+            assert!(
+                super::finish_attempt_matches(
+                    &interrupted,
+                    &finish_checkpoint_filename_digest(&interrupted),
+                    id,
+                    &bindings
+                ),
+                "native interrupted partition with unavailable={unavailable}"
+            );
+        }
+    }
+
+    #[test]
+    fn post_merge_sync_finish_checkpoint_rejects_resealed_identity_and_header_forgery() {
+        let fixture = post_merge_history_fixture();
+        let id = "WI-9972-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(fixture.path(), id);
+        for state in [
+            "run_prepared",
+            "run_completed",
+            "execution_prepared",
+            "node_execution_completed",
+        ] {
+            let valid = fixture_finish_checkpoint(id, &bindings, state);
+            assert!(!super::finish_attempt_matches(
+                &valid,
+                &"0".repeat(64),
+                id,
+                &bindings
+            ));
+            let mut unsealed = valid.clone();
+            unsealed["createdAt"] = "2026-10-13T00:00:00Z".into();
+            assert!(!super::finish_attempt_matches(
+                &unsealed,
+                &finish_checkpoint_filename_digest(&unsealed),
+                id,
+                &bindings
+            ));
+            for (pointer, bad) in [
+                ("/kind", serde_json::json!("unknown_checkpoint")),
+                ("/state", serde_json::json!("execution_completed")),
+                ("/protocolVersion", serde_json::json!(2)),
+                ("/schemaVersion", serde_json::json!(2)),
+                ("/workItemId", serde_json::json!("WI-0000-wrong")),
+                (
+                    "/repositoryId",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                ("/runtimeVersion", serde_json::json!("wrong")),
+                (
+                    "/runtimeDigest",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                (
+                    "/contractDigest",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                (
+                    "/contractExecutionScopeDigest",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                (
+                    "/repositorySnapshotDigest",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                ("/createdAt", serde_json::json!("invalid")),
+                ("/passed", serde_json::json!(true)),
+                ("/postExecutionIdentityValidated", serde_json::json!(true)),
+                ("/commands/0/timeoutSeconds", serde_json::json!(0)),
+                ("/commands/0/commandDigest", serde_json::json!("invalid")),
+                (
+                    "/commands/0/runtimeDigest",
+                    serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+                ),
+                ("/commands/0/args", serde_json::json!([1])),
+            ] {
+                let mut forged = valid.clone();
+                *forged.pointer_mut(pointer).unwrap() = bad;
+                seal_finish_checkpoint(&mut forged);
+                assert!(
+                    !super::finish_attempt_matches(
+                        &forged,
+                        &finish_checkpoint_filename_digest(&forged),
+                        id,
+                        &bindings
+                    ),
+                    "reject {state} mutation {pointer}"
+                );
+            }
+            let mut invalid_id = valid.clone();
+            invalid_id[if state.starts_with("run_") {
+                "runId"
+            } else {
+                "executionId"
+            }] = "invalid".into();
+            seal_finish_checkpoint(&mut invalid_id);
+            assert!(!super::finish_attempt_matches(
+                &invalid_id,
+                &finish_checkpoint_filename_digest(&invalid_id),
+                id,
+                &bindings
+            ));
+            let mut invalid_digest = valid.clone();
+            invalid_digest["checkpointId"] = "invalid".into();
+            assert!(!super::finish_attempt_matches(
+                &invalid_digest,
+                &"0".repeat(64),
+                id,
+                &bindings
+            ));
+            let mut forged = valid.clone();
+            forged["attemptId"] = Digest::sha256_bytes(b"forged attempt").to_string().into();
+            seal_finish_checkpoint(&mut forged);
+            assert!(!super::finish_attempt_matches(
+                &forged,
+                &finish_checkpoint_filename_digest(&forged),
+                id,
+                &bindings
+            ));
+        }
+    }
+
+    #[test]
+    fn post_merge_sync_finish_checkpoint_rejects_resealed_state_and_receipt_forgery() {
+        let fixture = post_merge_history_fixture();
+        let id = "WI-9973-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(fixture.path(), id);
+        let completed = fixture_finish_checkpoint(id, &bindings, "node_execution_completed");
+        for (pointer, bad) in [
+            ("/processesSpawned", serde_json::json!(0)),
+            (
+                "/executionRecords/0/commandDigest",
+                serde_json::json!(Digest::sha256_bytes(b"wrong").to_string()),
+            ),
+            ("/receipt/nodesPlanned", serde_json::json!(2)),
+            ("/receipt/nodesExecuted", serde_json::json!(0)),
+            ("/receipt/nodesReused", serde_json::json!(1)),
+            ("/receipt/processesSpawned", serde_json::json!(0)),
+            ("/receipt/processSpawnFailures", serde_json::json!(1)),
+            ("/receipt/maxConcurrentProcesses", serde_json::json!(2)),
+            ("/receipt/rerunUnknown", serde_json::json!(1)),
+            ("/receipt/protectedNodesExecuted", serde_json::json!(1)),
+            ("/receipt/results/0/nodeId", serde_json::json!("undeclared")),
+            ("/receipt/results/0/passed", serde_json::json!(false)),
+            ("/receipt/timeoutSeconds", serde_json::json!(11)),
+        ] {
+            let mut forged = completed.clone();
+            *forged.pointer_mut(pointer).unwrap() = bad;
+            seal_finish_checkpoint(&mut forged);
+            assert!(
+                !super::finish_attempt_matches(
+                    &forged,
+                    &finish_checkpoint_filename_digest(&forged),
+                    id,
+                    &bindings
+                ),
+                "reject completed mutation {pointer}"
+            );
+        }
+        for (key, bad) in [
+            (
+                "commandDigest",
+                serde_json::json!(Digest::sha256_bytes(b"wrong command").to_string()),
+            ),
+            ("timeoutSeconds", serde_json::json!(11)),
+            ("exitCode", serde_json::json!(1)),
+            ("spawned", serde_json::json!(false)),
+            ("timedOut", serde_json::json!(true)),
+            ("stdout", serde_json::json!("not hex")),
+        ] {
+            let mut forged = completed.clone();
+            forged["executionRecords"][0][key] = bad.clone();
+            forged["receipt"]["executionRecords"][0][key] = bad;
+            seal_finish_checkpoint(&mut forged);
+            assert!(
+                !super::finish_attempt_matches(
+                    &forged,
+                    &finish_checkpoint_filename_digest(&forged),
+                    id,
+                    &bindings
+                ),
+                "matching duplicated records still must be native execution facts: {key}"
+            );
+        }
+        let mut wrong_raw_identity = completed.clone();
+        wrong_raw_identity["receipt"]["repositoryId"] =
+            Digest::sha256_bytes(b"wrong repository").to_string().into();
+        seal_finish_checkpoint(&mut wrong_raw_identity);
+        assert!(!super::finish_attempt_matches(
+            &wrong_raw_identity,
+            &finish_checkpoint_filename_digest(&wrong_raw_identity),
+            id,
+            &bindings
+        ));
+        let mut wrong_plan = fixture_finish_checkpoint(id, &bindings, "run_prepared");
+        wrong_plan["commands"][0]["plannedNode"]["identityBinding"]["commandDigest"] =
+            Digest::sha256_bytes(b"wrong plan").to_string().into();
+        seal_finish_checkpoint(&mut wrong_plan);
+        assert!(!super::finish_attempt_matches(
+            &wrong_plan,
+            &finish_checkpoint_filename_digest(&wrong_plan),
+            id,
+            &bindings
+        ));
+        for state in [
+            "run_prepared",
+            "run_completed",
+            "execution_prepared",
+            "execution_outcome_unavailable",
+        ] {
+            let mut forged = fixture_finish_checkpoint(id, &bindings, state);
+            forged["receipt"] = completed["receipt"].clone();
+            forged["executionRecords"] = completed["executionRecords"].clone();
+            forged["processesSpawned"] = 1.into();
+            seal_finish_checkpoint(&mut forged);
+            assert!(
+                !super::finish_attempt_matches(
+                    &forged,
+                    &finish_checkpoint_filename_digest(&forged),
+                    id,
+                    &bindings
+                ),
+                "reject fabricated records on {state}"
+            );
+        }
+        let interrupted = fixture_finish_checkpoint(id, &bindings, "interrupted");
+        for (key, bad) in [
+            ("completedNodes", serde_json::json!([])),
+            ("unstartedNodes", serde_json::json!(["fixture-command"])),
+            (
+                "unavailableNodes",
+                serde_json::json!([{"nodeId":"undeclared", "executionState":"unknown", "diagnostic":"unavailable"}]),
+            ),
+            (
+                "diagnostic",
+                serde_json::json!({"phase":"", "message":"unavailable"}),
+            ),
+        ] {
+            let mut forged = interrupted.clone();
+            forged[key] = bad;
+            seal_finish_checkpoint(&mut forged);
+            assert!(
+                !super::finish_attempt_matches(
+                    &forged,
+                    &finish_checkpoint_filename_digest(&forged),
+                    id,
+                    &bindings
+                ),
+                "reject interrupted mutation {key}"
+            );
+        }
     }
 
     #[test]

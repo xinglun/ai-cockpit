@@ -647,6 +647,22 @@ fn retained_canonical_fixture_with_fault_budget(
     legacy_descriptor_model: bool,
     fault_budget: bool,
 ) -> RetainedCanonicalFixture {
+    retained_canonical_fixture_with_profile_reuse(
+        change_source,
+        checks,
+        legacy_descriptor_model,
+        fault_budget,
+        false,
+    )
+}
+
+fn retained_canonical_fixture_with_profile_reuse(
+    change_source: bool,
+    checks: [&str; 4],
+    legacy_descriptor_model: bool,
+    fault_budget: bool,
+    authorize_profile_reuse: bool,
+) -> RetainedCanonicalFixture {
     let directory = tempfile::tempdir().expect("retained fixture");
     let root: &::std::path::Path = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -707,7 +723,7 @@ fn retained_canonical_fixture_with_fault_budget(
         )
         .expect("isolated finite budget before all fixture bindings");
     }
-    if legacy_descriptor_model {
+    if legacy_descriptor_model || authorize_profile_reuse {
         for command in RETAINED_FIXTURE_CHECKS {
             let mut words = command.split_whitespace();
             let program = words.next().expect("profile program");
@@ -1019,9 +1035,6 @@ fn legacy_descriptor_fixture_child() {
             assert!(root.join(".ai/evidence/reuse/index.json").is_file());
             let cached = run_repository_verification(&root, request)
                 .expect("same old-context profile cache must actually be reusable");
-            assert!(cached.receipt.passed);
-            assert_eq!(cached.receipt.processes_spawned, 0);
-            assert_eq!(cached.receipt.nodes_reused, 1);
             let now = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .expect("fixture clock")
@@ -1030,6 +1043,19 @@ fn legacy_descriptor_fixture_child() {
                 &root, request, &snapshot, now,
             )
             .expect("actual old-runtime cache lookup");
+            let cached_wire = serde_json::to_value(&cached.receipt).expect("actual cached receipt");
+            assert!(
+                cached.receipt.passed,
+                "receipt={cached_wire}; plan={old_plan}"
+            );
+            assert_eq!(
+                cached.receipt.processes_spawned, 0,
+                "receipt={cached_wire}; plan={old_plan}"
+            );
+            assert_eq!(
+                cached.receipt.nodes_reused, 1,
+                "receipt={cached_wire}; plan={old_plan}"
+            );
             assert_eq!(old_plan["action"], "reuse");
             let mut current_request = request.clone();
             current_request.runtime_digest = candidate_runtime().runtime_digest.to_string();
@@ -1661,7 +1687,13 @@ fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archive
 
 #[test]
 fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
-    let fixture = retained_canonical_amendment_fixture();
+    let fixture = retained_canonical_fixture_with_profile_reuse(
+        false,
+        RETAINED_FIXTURE_CHECKS,
+        false,
+        false,
+        true,
+    );
     let root = fixture.directory.path();
     let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
     let recorded = mcp_call(
@@ -1690,8 +1722,8 @@ fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
     let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
     assert_eq!(plan["processesSpawned"], 0);
     assert_eq!(plan["nodesPlanned"], 4);
-    assert_eq!(plan["nodesToExecute"], 0);
-    assert_eq!(plan["nodesReused"], 4);
+    assert_eq!(plan["nodesToExecute"], 0, "full actual plan: {plan}");
+    assert_eq!(plan["nodesReused"], 4, "full actual plan: {plan}");
     assert_eq!(
         old["repositorySnapshotDigest"],
         retained_document(root, "summary")["preflightRepositorySnapshotDigest"]
@@ -5383,18 +5415,130 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         })
         .map(|p| serde_json::from_slice(&fs::read(p).expect("attempt")).expect("attempt JSON"))
         .collect();
-    assert_eq!(attempts.len(), 1);
-    assert_eq!(attempts[0]["state"], "execution_completed");
     assert_eq!(
-        attempts[0]["commands"]
+        attempts.len(),
+        7,
+        "complete native observation inventory: {attempts:?}"
+    );
+    let parents = attempts
+        .iter()
+        .filter(|value| value["kind"] == "verification_attempt")
+        .collect::<Vec<_>>();
+    assert_eq!(parents.len(), 1, "exactly one native terminal parent");
+    let parent = parents[0];
+    assert_eq!(parent["state"], "execution_completed");
+    assert_eq!(
+        parent["commands"]
             .as_array()
             .expect("actual commands")
             .len(),
         2
     );
-    assert_eq!(attempts[0]["receipt"]["nodesExecuted"], 2);
-    assert_eq!(attempts[0]["receipt"]["nodesReused"], 0);
-    assert_eq!(attempts[0]["receipt"]["processesSpawned"], 2);
+    assert_eq!(parent["receipt"]["nodesExecuted"], 2);
+    assert_eq!(parent["receipt"]["nodesReused"], 0);
+    assert_eq!(parent["receipt"]["processesSpawned"], 2);
+    let run_checkpoints = attempts
+        .iter()
+        .filter(|value| value["kind"] == "verification_run_checkpoint")
+        .collect::<Vec<_>>();
+    assert_eq!(run_checkpoints.len(), 2);
+    assert_eq!(
+        run_checkpoints
+            .iter()
+            .filter(|v| v["state"] == "run_prepared")
+            .count(),
+        1
+    );
+    assert_eq!(
+        run_checkpoints
+            .iter()
+            .filter(|v| v["state"] == "run_completed")
+            .count(),
+        1
+    );
+    for checkpoint in &run_checkpoints {
+        assert_eq!(checkpoint["runId"], parent["runId"]);
+        let mut commands = checkpoint["commands"]
+            .as_array()
+            .expect("run commands")
+            .clone();
+        for command in &mut commands {
+            command
+                .as_object_mut()
+                .expect("command object")
+                .remove("plannedNode");
+        }
+        assert_eq!(Value::Array(commands), parent["commands"]);
+        if checkpoint["state"] == "run_completed" {
+            assert_eq!(checkpoint["parentAttemptId"], parent["attemptId"]);
+        }
+    }
+    let node_checkpoints = attempts
+        .iter()
+        .filter(|value| value["kind"] == "verification_execution_checkpoint")
+        .collect::<Vec<_>>();
+    assert_eq!(node_checkpoints.len(), 4);
+    let mut execution_ids = std::collections::BTreeSet::new();
+    for command in parent["commands"].as_array().expect("parent commands") {
+        let observations = node_checkpoints
+            .iter()
+            .filter(|v| v["commands"][0]["nodeId"] == command["nodeId"])
+            .collect::<Vec<_>>();
+        assert_eq!(observations.len(), 2);
+        let prepared = observations
+            .iter()
+            .find(|v| v["state"] == "execution_prepared")
+            .expect("exact native prepared node");
+        let completed = observations
+            .iter()
+            .find(|v| v["state"] == "node_execution_completed")
+            .expect("exact native completed node");
+        assert_eq!(prepared["executionId"], completed["executionId"]);
+        assert!(
+            execution_ids.insert(
+                prepared["executionId"]
+                    .as_str()
+                    .expect("execution ID")
+                    .to_owned()
+            )
+        );
+        assert_eq!(prepared["commands"][0], *command);
+        assert_eq!(completed["commands"][0], *command);
+        let parent_record = parent["executionRecords"]
+            .as_array()
+            .expect("parent execution records")
+            .iter()
+            .find(|record| record["nodeId"] == command["nodeId"])
+            .expect("actual parent node record");
+        assert_eq!(completed["executionRecords"][0], *parent_record);
+    }
+    for checkpoint in run_checkpoints.iter().chain(node_checkpoints.iter()) {
+        for key in [
+            "workItemId",
+            "repositoryId",
+            "runtimeVersion",
+            "runtimeDigest",
+            "contractDigest",
+            "contractExecutionScopeDigest",
+            "repositorySnapshotDigest",
+        ] {
+            assert_eq!(checkpoint[key], parent[key], "checkpoint binding {key}");
+        }
+        assert_eq!(checkpoint["passed"], false);
+        assert_eq!(checkpoint["postExecutionIdentityValidated"], false);
+        let mut unsigned = (**checkpoint).clone();
+        unsigned
+            .as_object_mut()
+            .expect("checkpoint object")
+            .remove("checkpointId");
+        assert_eq!(
+            checkpoint["checkpointId"],
+            serde_json::to_value(
+                cockpit_protocol::digest_json(&unsigned).expect("checkpoint digest")
+            )
+            .expect("digest wire")
+        );
+    }
     let contract: Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("Contract")).expect("JSON");
     let extra = mcp_call(

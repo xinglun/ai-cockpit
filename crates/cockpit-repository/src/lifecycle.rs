@@ -13751,15 +13751,41 @@ fn read_local_json_directory(
 }
 
 fn local_facts(root: &Path, wi: &str) -> Result<Vec<serde_json::Value>, ObserverError> {
-    match local_fact_directory(root, wi, false) {
-        Ok(directory) => read_local_json_directory(root, &directory, ""),
-        Err(ObserverError::Read { source, .. })
-            if source.kind() == std::io::ErrorKind::NotFound =>
-        {
-            Ok(Vec::new())
-        }
-        Err(error) => Err(error),
-    }
+    validate_work_item_id(wi)?;
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+    let ai = super::evidence_store::open_cap_directory_nofollow_strict(
+        &pinned.directory()?,
+        ".ai",
+        &root.join(".ai"),
+    )?;
+    let evidence = super::evidence_store::open_cap_directory_nofollow_strict(
+        &ai,
+        "evidence",
+        &root.join(".ai/evidence"),
+    )?;
+    let admission_name = format!("{wi}.verification-admissions");
+    let admission_path = root.join(".ai/evidence").join(&admission_name);
+    let Some(admissions) = super::evidence_store::open_optional_cap_directory_nofollow(
+        &evidence,
+        &admission_name,
+        &admission_path,
+    )?
+    else {
+        pinned.require_current()?;
+        return Ok(Vec::new());
+    };
+    let Some(directory) = super::evidence_store::open_optional_cap_directory_nofollow(
+        &admissions,
+        "local-node-facts",
+        &admission_path.join("local-node-facts"),
+    )?
+    else {
+        pinned.require_current()?;
+        return Ok(Vec::new());
+    };
+    let facts = read_local_json_directory(root, &directory, "")?;
+    pinned.require_current()?;
+    Ok(facts)
 }
 
 pub(crate) fn capture_local_node_input(

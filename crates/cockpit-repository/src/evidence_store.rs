@@ -426,6 +426,21 @@ pub(super) fn open_cap_directory_nofollow_strict(
     })
 }
 
+pub(super) fn open_optional_cap_directory_nofollow(
+    parent: &Dir,
+    name: &str,
+    display_path: &Path,
+) -> Result<Option<Dir>, ObserverError> {
+    match open_cap_directory_nofollow(parent, name, display_path) {
+        Ok(directory) => Ok(Some(directory)),
+        Err("evidence_missing") => Ok(None),
+        Err(reason) => Err(ObserverError::State {
+            path: display_path.to_path_buf(),
+            message: format!("receipt store directory rejected: {reason}"),
+        }),
+    }
+}
+
 pub(super) fn create_and_open_cap_directory(
     parent: &Dir,
     name: &str,
@@ -907,6 +922,62 @@ fn replace_cap_entry(
         Err(std::io::Error::last_os_error())
     } else {
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod optional_directory_tests {
+    use super::*;
+
+    #[test]
+    fn only_optional_directory_absence_is_empty() {
+        let root = tempfile::tempdir().expect("store fixture");
+        let parent = Dir::open_ambient_dir(root.path(), cap_std::ambient_authority())
+            .expect("fixture directory");
+        let missing = root.path().join("missing");
+        assert!(
+            open_optional_cap_directory_nofollow(&parent, "missing", &missing)
+                .expect("actual missing optional directory")
+                .is_none()
+        );
+        assert!(matches!(
+            open_cap_directory_nofollow_strict(&parent, "missing", &missing),
+            Err(ObserverError::State { message, .. }) if message.contains("evidence_missing")
+        ));
+        std::fs::create_dir(root.path().join("present")).expect("present directory");
+        assert!(
+            open_optional_cap_directory_nofollow(&parent, "present", &root.path().join("present"))
+                .expect("actual directory")
+                .is_some()
+        );
+        std::fs::write(root.path().join("file"), b"not a directory").expect("fixture file");
+        assert!(matches!(
+            open_optional_cap_directory_nofollow(&parent, "file", &root.path().join("file")),
+            Err(ObserverError::State { message, .. }) if message.contains("store_path_invalid")
+        ));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn optional_directory_rejects_symlink_and_fifo_without_opening_them() {
+        use std::os::unix::{ffi::OsStrExt, fs::symlink};
+
+        let root = tempfile::tempdir().expect("store fixture");
+        let parent = Dir::open_ambient_dir(root.path(), cap_std::ambient_authority())
+            .expect("fixture directory");
+        std::fs::create_dir(root.path().join("target")).expect("target");
+        symlink(root.path().join("target"), root.path().join("link")).expect("fixture symlink");
+        assert!(matches!(
+            open_optional_cap_directory_nofollow(&parent, "link", &root.path().join("link")),
+            Err(ObserverError::State { message, .. }) if message.contains("symlink_rejected")
+        ));
+        let fifo = root.path().join("fifo");
+        let name = std::ffi::CString::new(fifo.as_os_str().as_bytes()).expect("FIFO name");
+        assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);
+        assert!(matches!(
+            open_optional_cap_directory_nofollow(&parent, "fifo", &fifo),
+            Err(ObserverError::State { message, .. }) if message.contains("store_path_invalid")
+        ));
     }
 }
 

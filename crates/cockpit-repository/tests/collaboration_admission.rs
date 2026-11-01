@@ -646,6 +646,34 @@ fn composition_supervisor_test_helper_entry() {
         return;
     };
     if mode == "exit-before-ready" {
+        // Consume the complete Launch before exiting so the parent observes
+        // Ready EOF, rather than racing Launch against a closed stdin pipe.
+        const MAX_LAUNCH_BYTES: u64 = 8 * 1024 * 1024;
+        let (sender, receiver) = std::sync::mpsc::sync_channel(1);
+        let reader = std::thread::spawn(move || {
+            let stdin = std::io::stdin();
+            let mut bounded = std::io::Read::take(stdin.lock(), MAX_LAUNCH_BYTES + 1);
+            let mut frame = Vec::new();
+            let result =
+                std::io::BufRead::read_until(&mut bounded, b'\n', &mut frame).map(|_| frame);
+            let _ = sender.send(result);
+        });
+        let mut frame = receiver
+            .recv_timeout(std::time::Duration::from_secs(10))
+            .expect("bounded before-Ready Launch read")
+            .expect("read before-Ready Launch");
+        reader.join().expect("Launch reader exited");
+        assert!(frame.len() <= MAX_LAUNCH_BYTES as usize);
+        assert_eq!(frame.pop(), Some(b'\n'), "complete Launch frame");
+        let launch: cockpit_verification::CompositionSupervisorLaunch =
+            serde_json::from_slice(&frame).expect("typed before-Ready Launch");
+        fs::write(
+            launch
+                .repository_root
+                .join("target/before-ready-launch.json"),
+            serde_json::to_vec(&(std::process::id(), &launch)).expect("serialize consumed Launch"),
+        )
+        .expect("record consumed Launch and actual helper PID");
         return;
     }
     if mode == "revoke-generation-before-ready" {
@@ -1032,6 +1060,283 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     assert!(!second_projection.human_decision_required);
 }
 
+// Read only native records created by these two fixtures. Projection below
+// separately exercises the repository's pinned native catalog reader.
+fn assert_unreleased_parent_failure(
+    store: &CoordinationStore,
+    input: &CompositionInput,
+    owner: &cockpit_verification::CompositionProcessIdentity,
+    child_pid: u32,
+    phase: &str,
+    diagnostic: &str,
+    error: &cockpit_repository::CollaborationExecutionError,
+) -> cockpit_verification::CompositionParentView {
+    use cockpit_verification::{
+        CompositionAttempt, CompositionParentCatalog, CompositionParentEvent,
+        CompositionParentObservation, CompositionSupervisorReceipt,
+    };
+
+    let read_records = |directory: &Path| {
+        let entries = match fs::read_dir(directory) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Vec::new(),
+            Err(error) => panic!("read native fixture {}: {error}", directory.display()),
+        };
+        let mut records = entries
+            .map(|entry| entry.expect("native fixture directory entry").path())
+            .filter(|path| {
+                path.extension()
+                    .is_some_and(|extension| extension == "json")
+            })
+            .map(|path| {
+                let bytes = fs::read(&path).expect("native fixture record bytes");
+                (path, bytes)
+            })
+            .collect::<Vec<_>>();
+        records.sort_by(|left, right| left.0.cmp(&right.0));
+        records
+    };
+    let compositions = store.root().join("compositions");
+    let child_records = read_records(&compositions);
+    let parent_records = read_records(&compositions.join("parent-observations"));
+    let registration_records = read_records(&compositions.join("supervisors"));
+    assert!(
+        child_records.len() <= 1,
+        "at most one immutable child attempt"
+    );
+    assert_eq!(
+        parent_records.len(),
+        2,
+        "exactly one Failure and one Cleanup"
+    );
+    assert!(
+        registration_records.is_empty(),
+        "failure precedes registration"
+    );
+    let observations = parent_records
+        .iter()
+        .map(|(path, bytes)| {
+            let observation: CompositionParentObservation =
+                serde_json::from_slice(bytes).expect("typed native parent observation");
+            observation
+                .validate()
+                .expect("native observation identity and content digest");
+            let digest = observation.observation_id.to_string();
+            let filename = format!(
+                "{}.json",
+                digest.strip_prefix("sha256:").expect("SHA-256 ID")
+            );
+            assert_eq!(
+                path.file_name().and_then(|name| name.to_str()),
+                Some(filename.as_str())
+            );
+            let identity = &observation.facts.identity;
+            assert_eq!(identity.binding, input.binding);
+            assert_eq!(identity.launch_input_identity, input.identity);
+            assert_eq!(identity.generation, 1);
+            assert_eq!(&identity.owner, owner);
+            assert_eq!(identity.child_pid, child_pid);
+            assert!(identity.observed_supervisor.is_none());
+            assert!(identity.registered_receipt.is_none());
+            assert!(!identity.run_nonce.is_empty());
+            assert_eq!(
+                identity.attempt_id,
+                cockpit_verification::new_supervised_composition_attempt_id(
+                    input,
+                    &identity.run_nonce,
+                )
+            );
+            assert_eq!(
+                identity.command_plan_digest,
+                composition_commands_digest(&input.commands)
+            );
+            let environments = input
+                .commands
+                .iter()
+                .map(|command| (&command.node_id, &command.environment))
+                .collect::<Vec<_>>();
+            assert_eq!(
+                identity.input_environment_digest,
+                Digest::sha256_bytes(
+                    &serde_json::to_vec(&environments).expect("command environments")
+                )
+            );
+            observation
+        })
+        .collect::<Vec<_>>();
+    let failure = observations
+        .iter()
+        .find(|observation| {
+            matches!(
+                observation.facts.event,
+                CompositionParentEvent::Failure { .. }
+            )
+        })
+        .expect("one native Failure");
+    let cleanup = observations
+        .iter()
+        .find(|observation| {
+            matches!(
+                observation.facts.event,
+                CompositionParentEvent::Cleanup { .. }
+            )
+        })
+        .expect("one native Cleanup");
+    assert_eq!(failure.facts.identity, cleanup.facts.identity);
+    assert_eq!(
+        failure.facts.event,
+        CompositionParentEvent::Failure {
+            phase: phase.into(),
+            diagnostic: diagnostic.into(),
+            release_may_have_been_delivered: false,
+        }
+    );
+    let CompositionParentEvent::Cleanup {
+        failure_observation_id,
+        facts,
+    } = &cleanup.facts.event
+    else {
+        unreachable!("selected Cleanup")
+    };
+    assert_eq!(failure_observation_id, &failure.observation_id);
+    assert_eq!(facts.child_reaped, Some(true));
+    assert!(
+        facts.diagnostic.is_none(),
+        "cleanup must retain no diagnostic: {facts:?}"
+    );
+    assert!(
+        failure.facts.observed_at_unix_nanos
+            >= failure.facts.identity.attempt_started_at_unix_nanos
+    );
+    assert!(cleanup.facts.observed_at_unix_nanos >= failure.facts.observed_at_unix_nanos);
+    let cockpit_repository::CollaborationExecutionError::Coordination(
+        CoordinationError::RecoveryRequired(detail),
+    ) = error
+    else {
+        panic!("native observations must publish successfully: {error:?}");
+    };
+    assert_eq!(
+        detail,
+        &format!(
+            "{diagnostic}; cleanup pid={child_pid} reaped={:?} exit={:?} signal={:?} actions={:?} diagnostic={:?}",
+            facts.child_reaped,
+            facts.exit_code,
+            facts.termination_signal,
+            facts.actions,
+            facts.diagnostic
+        )
+    );
+
+    let attempts = child_records
+        .iter()
+        .map(|(path, bytes)| {
+            let attempt: CompositionAttempt =
+                serde_json::from_slice(bytes).expect("native child attempt");
+            assert!(
+                cockpit_verification::composition_attempt_record_name_matches(
+                    path,
+                    &attempt.attempt_id,
+                )
+            );
+            assert_eq!(attempt.attempt_id, failure.facts.identity.attempt_id);
+            assert_eq!(attempt.binding, input.binding);
+            assert_eq!(attempt.owner_pid, Some(child_pid));
+            assert!(!attempt.passed);
+            assert_eq!(attempt.processes_spawned, 0);
+            assert!(attempt.execution_records.is_empty());
+            assert_eq!(
+                attempt.execution_outcome,
+                cockpit_verification::CompositionExecutionOutcome::Unknown
+            );
+            assert!(!attempt.execution_evidence_complete);
+            assert!(!attempt.is_coherent_successful_terminal());
+            attempt
+        })
+        .collect::<Vec<_>>();
+    let registrations = registration_records
+        .iter()
+        .map(|(_, bytes)| {
+            serde_json::from_slice::<CompositionSupervisorReceipt>(bytes)
+                .expect("native registration")
+        })
+        .collect();
+    let catalog =
+        CompositionParentCatalog::from_native_observations(attempts.clone(), observations.clone())
+            .expect("full native fixture catalog")
+            .with_native_registrations(registrations)
+            .expect("full native fixture registration catalog");
+    let attempt_id = &failure.facts.identity.attempt_id;
+    let view = catalog
+        .view_for_attempt(attempt_id)
+        .expect("exact parent view");
+    for readback in [
+        catalog
+            .view_for_attempt(attempt_id)
+            .expect("exact readback"),
+        catalog
+            .latest_for_work_item("WI-CONSUMER")
+            .expect("latest Work Item readback"),
+        catalog
+            .latest_for_binding(&input.binding)
+            .expect("latest binding readback"),
+    ] {
+        assert_eq!(&readback.attempt_id, attempt_id);
+        assert_eq!(readback.binding, input.binding);
+        assert!(readback.has_parent_failure());
+        assert!(
+            !readback.parent_context_valid,
+            "full catalog must deny predecessor reuse"
+        );
+        assert_eq!(readback.parent_failures, vec![failure.clone()]);
+        assert_eq!(readback.parent_cleanup, vec![cleanup.clone()]);
+        assert_eq!(readback.child_attempt, attempts.first().cloned());
+    }
+    let projection =
+        collaboration_outcome_projection(&input.repository_root, "WI-CONSUMER", &runtime_context());
+    assert_eq!(projection.composition_state, "unknown");
+    assert_eq!(
+        projection.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Unknown
+    );
+    assert!(!projection.execution_evidence_complete);
+    assert!(projection.reusable_checks.is_empty());
+    let expected_unknown = if view.child_attempt.is_some() {
+        format!("composition_parent_observation:{attempt_id}")
+    } else {
+        format!("composition_parent_observation_without_child:{attempt_id}")
+    };
+    assert!(
+        projection.unknowns.contains(&expected_unknown),
+        "{projection:?}"
+    );
+    assert!(
+        !projection
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.starts_with("composition_projection:"))
+    );
+    for (path, bytes) in child_records
+        .iter()
+        .chain(&parent_records)
+        .chain(&registration_records)
+    {
+        assert_eq!(
+            &fs::read(path).expect("readback preserves original native bytes"),
+            bytes
+        );
+    }
+    assert_eq!(read_records(&compositions), child_records);
+    assert_eq!(
+        read_records(&compositions.join("parent-observations")),
+        parent_records
+    );
+    assert_eq!(
+        read_records(&compositions.join("supervisors")),
+        registration_records
+    );
+    view
+}
+
 #[test]
 fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     let root = repository();
@@ -1055,48 +1360,75 @@ fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
+    let owner = cockpit_verification::current_composition_process_identity().expect("actual owner");
     let error = run_admitted_composition_with_supervisor_mode(
         &store,
         "WI-CONSUMER",
         1,
-        input,
+        input.clone(),
         "exit-before-ready",
     )
     .expect_err("a supervisor that exits before Ready must block verifier execution");
-    assert!(error.to_string().contains("supervisor"), "{error:?}");
     assert!(
         !marker.exists(),
         "verifier command ran before supervisor release"
     );
-
-    let attempts = fs::read_dir(store.root().join("compositions"))
-        .expect("composition attempts")
-        .flatten()
-        .map(|entry| entry.path())
-        .filter(|path| {
-            path.extension()
-                .is_some_and(|extension| extension == "json")
-        })
-        .collect::<Vec<_>>();
-    assert_eq!(attempts.len(), 1);
-    let attempt: cockpit_verification::CompositionAttempt =
-        serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt evidence"))
-            .expect("attempt JSON");
-    assert!(!attempt.passed);
-    assert_eq!(attempt.processes_spawned, 0);
-    assert!(attempt.execution_records.is_empty());
+    let launch_bytes = fs::read(root.path().join("target/before-ready-launch.json"))
+        .expect("consumed native Launch snapshot");
+    let (supervisor_pid, launch): (u32, cockpit_verification::CompositionSupervisorLaunch) =
+        serde_json::from_slice(&launch_bytes).expect("typed consumed Launch and helper PID");
+    assert_eq!(launch.work_item_id, "WI-CONSUMER");
+    assert_eq!(launch.generation, 1);
+    assert_eq!(launch.owner, owner);
+    assert_eq!(launch.repository_root, input.repository_root);
     assert_eq!(
-        attempt.execution_outcome,
-        cockpit_verification::CompositionExecutionOutcome::Unknown
+        launch.runtime_version,
+        input.binding.verifier.runtime_version
     );
-    let projection =
-        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
-    assert_eq!(projection.composition_state, "unknown");
+    assert_eq!(launch.runtime_digest, input.binding.verifier.runtime_digest);
+    assert_eq!(launch.input.binding, input.binding);
+    assert_eq!(launch.input.identity, input.identity);
+    assert_eq!(launch.input.commands, input.commands);
+    assert_eq!(launch.input.state_dir, store.root().join("compositions"));
+    let diagnostic = CoordinationError::RecoveryRequired(
+        "composition protocol closed before a complete message".into(),
+    )
+    .to_string();
+    let view = assert_unreleased_parent_failure(
+        &store,
+        &input,
+        &owner,
+        supervisor_pid,
+        "ready_read",
+        &diagnostic,
+        &error,
+    );
+    assert_eq!(view.attempt_id, launch.attempt_id);
     assert_eq!(
-        projection.execution_outcome,
-        cockpit_verification::CompositionExecutionOutcome::Unknown
+        view.parent_failures[0].facts.identity.run_nonce,
+        launch.run_nonce
     );
-    assert!(!projection.execution_evidence_complete);
+    assert!(
+        view.child_attempt.is_none(),
+        "helper exited before recording a child attempt"
+    );
+    let cockpit_verification::CompositionParentEvent::Cleanup { facts, .. } =
+        &view.parent_cleanup[0].facts.event
+    else {
+        unreachable!("typed Cleanup")
+    };
+    assert_eq!(facts.exit_code, Some(0));
+    assert!(facts.termination_signal.is_none());
+    assert!(facts.actions.is_empty());
+    #[cfg(unix)]
+    {
+        let mut status = 0;
+        let waited =
+            unsafe { libc::waitpid(supervisor_pid as libc::pid_t, &mut status, libc::WNOHANG) };
+        let wait_error = std::io::Error::last_os_error().raw_os_error();
+        assert_eq!(waited, -1, "before-Ready supervisor must already be reaped");
+        assert_eq!(wait_error, Some(libc::ECHILD));
+    }
 }
 
 #[cfg(target_os = "linux")]
@@ -1125,11 +1457,13 @@ fn supervisor_identity_observation_error_reaps_before_return() {
         input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
         input.identity.command_digest = composition_commands_digest(&input.commands);
 
+        let owner =
+            cockpit_verification::current_composition_process_identity().expect("actual owner");
         let result = run_admitted_composition_with_supervisor_mode(
             &store,
             "WI-CONSUMER",
             1,
-            input,
+            input.clone(),
             "identity-observation-error",
         );
         let pid_file = std::env::var_os("AI_COCKPIT_SUPERVISOR_IDENTITY_PID_FILE")
@@ -1161,28 +1495,48 @@ fn supervisor_identity_observation_error_reaps_before_return() {
             "verifier command ran after supervisor identity observation failed"
         );
 
-        let attempts = fs::read_dir(store.root().join("compositions"))
-            .expect("composition attempts")
-            .flatten()
-            .map(|entry| entry.path())
-            .filter(|path| {
-                path.extension()
-                    .is_some_and(|extension| extension == "json")
-            })
-            .collect::<Vec<_>>();
-        assert_eq!(attempts.len(), 1);
-        let attempt: cockpit_verification::CompositionAttempt =
-            serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt evidence"))
-                .expect("attempt JSON");
-        assert!(!attempt.passed);
-        assert_eq!(attempt.processes_spawned, 0);
-        assert!(
-            attempt
-                .failure
-                .as_deref()
-                .is_some_and(|failure| failure.contains("Permission denied")),
-            "observer error must remain in durable attempt: {attempt:?}"
+        let diagnostic = CoordinationError::RecoveryRequired(format!(
+            "read Linux process identity for {supervisor_pid}: {}",
+            std::io::Error::from_raw_os_error(libc::EACCES),
+        ))
+        .to_string();
+        let view = assert_unreleased_parent_failure(
+            &store,
+            &input,
+            &owner,
+            supervisor_pid as u32,
+            "ready_identity",
+            &diagnostic,
+            &error,
         );
+        let cockpit_verification::CompositionParentEvent::Cleanup { facts, .. } =
+            &view.parent_cleanup[0].facts.event
+        else {
+            unreachable!("typed Cleanup")
+        };
+        let sigint = format!("SIGINT(pid={supervisor_pid})");
+        match (facts.exit_code, facts.termination_signal) {
+            (Some(101), None) => assert!(
+                facts.actions.is_empty() || facts.actions == vec![sigint],
+                "normal helper failure must retain its actual cleanup actions: {facts:?}"
+            ),
+            (None, Some(libc::SIGINT)) => assert_eq!(facts.actions, vec![sigint]),
+            _ => panic!("unexpected identity-observer helper cleanup: {facts:?}"),
+        }
+        // SIGINT can win the race with the helper's independent EOF write.
+        // The parent's two observations remain mandatory in either case.
+        if let Some(attempt) = view.child_attempt {
+            assert_eq!(
+                attempt.failure.as_deref(),
+                Some("composition supervisor control channel closed before release"),
+                "the child's original cause must remain independent of the parent observer error"
+            );
+            assert!(attempt.supervisor_receipt.is_none());
+            assert_eq!(
+                attempt.reuse_decision.kind,
+                cockpit_verification::ReuseDecisionKind::Unknown
+            );
+        }
         return;
     }
 
