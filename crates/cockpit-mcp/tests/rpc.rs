@@ -399,7 +399,6 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "knowledge_query",
             "evidence_get",
             "evidence_bundle_plan",
-            "evidence_bundle_accept",
             "delegated_evidence_list",
             "repository_observe",
             "capability_show",
@@ -445,7 +444,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 46);
+    assert_eq!(listed.len(), 45);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -3077,96 +3076,94 @@ fn mcp_non_boolean_prepare_is_rejected_before_any_work_item_write() {
 }
 
 #[test]
-fn portable_bundle_mcp_schemas_have_exact_inputs_and_write_metadata() {
+fn portable_bundle_mcp_plan_schema_has_exact_inputs_and_read_only_metadata() {
     let tools = handle_request(
         &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}),
         &test_runtime_context(),
     );
     let tools = tools["result"]["tools"].as_array().expect("tool inventory");
-    for (name, required, keys, read_only) in [
-        (
-            "evidence_bundle_plan",
-            vec!["input"],
-            vec!["input", "taskCaller", "workItemId"],
-            true,
-        ),
-        (
-            "evidence_bundle_accept",
-            vec!["workItemId", "input", "expectedPlanDigest"],
-            vec![
-                "expectedPlanDigest",
-                "input",
-                "nodeId",
-                "sourceRequest",
-                "taskCaller",
-                "workItemId",
-            ],
-            false,
-        ),
+    assert_eq!(tools.len(), 45);
+    let names = tools
+        .iter()
+        .map(|tool| tool["name"].as_str().expect("tool name"))
+        .collect::<BTreeSet<_>>();
+    assert_eq!(names.len(), 45);
+    assert!(!names.contains("evidence_bundle_accept"));
+    let matches = tools
+        .iter()
+        .filter(|tool| tool["name"] == "evidence_bundle_plan")
+        .collect::<Vec<_>>();
+    assert_eq!(matches.len(), 1);
+    let tool = matches[0];
+    assert_eq!(tool["annotations"]["readOnlyHint"], true);
+    assert_eq!(tool["annotations"]["destructiveHint"], false);
+    assert_eq!(tool["annotations"]["openWorldHint"], false);
+    assert_eq!(tool["inputSchema"]["additionalProperties"], false);
+    assert_eq!(
+        tool["inputSchema"]["required"],
+        serde_json::json!(["input"])
+    );
+    let actual = tool["inputSchema"]["properties"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<BTreeSet<_>>();
+    assert_eq!(
+        actual,
+        ["input", "taskCaller", "workItemId"].into_iter().collect()
+    );
+    let caller = &tool["inputSchema"]["properties"]["taskCaller"];
+    assert_eq!(caller["additionalProperties"], false);
+    assert_eq!(caller["properties"]["assurance"]["const"], "self_declared");
+}
+
+#[test]
+fn portable_bundle_mcp_plan_rejects_fake_authority_before_io() {
+    for field in [
+        "trusted",
+        "authenticated",
+        "sourceVerifier",
+        "url",
+        "command",
+        "sourceRequest",
+        "nodeId",
+        "expectedPlanDigest",
     ] {
-        let tool = tools
-            .iter()
-            .find(|tool| tool["name"] == name)
-            .expect("portable tool");
-        assert_eq!(tool["annotations"]["readOnlyHint"], read_only);
-        assert_eq!(tool["annotations"]["openWorldHint"], !read_only);
-        assert_eq!(tool["inputSchema"]["additionalProperties"], false);
-        assert_eq!(tool["inputSchema"]["required"], serde_json::json!(required));
-        let actual = tool["inputSchema"]["properties"]
-            .as_object()
-            .unwrap()
-            .keys()
-            .map(String::as_str)
-            .collect::<BTreeSet<_>>();
-        assert_eq!(actual, keys.into_iter().collect());
-        let caller = &tool["inputSchema"]["properties"]["taskCaller"];
-        assert_eq!(caller["additionalProperties"], false);
-        assert_eq!(caller["properties"]["assurance"]["const"], "self_declared");
+        let mut arguments = serde_json::json!({"input":"/absent-input", "workItemId":"WI-TEST"});
+        arguments[field] = serde_json::json!("forged");
+        let result = handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"evidence_bundle_plan","arguments":arguments}}),
+            Path::new("/absent-repository"),
+            &test_runtime_context(),
+        );
+        assert_eq!(result["result"]["isError"], true);
+        let message = result["result"]["content"][0]["text"].as_str().unwrap();
+        assert!(
+            message.contains(field) && message.contains("unknown"),
+            "{message}"
+        );
     }
 }
 
 #[test]
-fn portable_bundle_mcp_rejects_fake_authority_and_malformed_digest_before_io() {
-    for name in ["evidence_bundle_plan", "evidence_bundle_accept"] {
-        for field in [
-            "trusted",
-            "authenticated",
-            "sourceVerifier",
-            "url",
-            "command",
+fn retired_portable_bundle_accept_is_unknown_with_and_without_repository_binding() {
+    let runtime = test_runtime_context();
+    for arguments in [
+        serde_json::json!({}),
+        serde_json::json!({"input":"/absent-input","workItemId":"WI-TEST","expectedPlanDigest":"sha256:abc","sourceRequest":7,"nodeId":"project-command-0"}),
+    ] {
+        let request = serde_json::json!({"jsonrpc":"2.0","id":87,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":arguments}});
+        for response in [
+            handle_request(&request, &runtime),
+            handle_request_for_repo(&request, Path::new("/absent-repository"), &runtime),
         ] {
-            let mut arguments =
-                serde_json::json!({"input":"/absent-input", "workItemId":"WI-TEST"});
-            if name == "evidence_bundle_accept" {
-                arguments["expectedPlanDigest"] =
-                    serde_json::json!(cockpit_core::Digest::sha256_bytes(b"fixture").to_string());
-            }
-            arguments[field] = serde_json::json!("forged");
-            let result = handle_request_for_repo(
-                &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":name,"arguments":arguments}}),
-                Path::new("/absent-repository"),
-                &test_runtime_context(),
-            );
-            assert_eq!(result["result"]["isError"], true);
-            let message = result["result"]["content"][0]["text"].as_str().unwrap();
-            assert!(
-                message.contains(field) && message.contains("unknown"),
-                "{message}"
-            );
+            assert_eq!(response["id"], 87);
+            assert_eq!(response["error"]["code"], -32602, "{response}");
+            assert_eq!(response["error"]["message"], "unknown tool", "{response}");
+            assert!(response.get("result").is_none(), "{response}");
         }
     }
-    let result = handle_request_for_repo(
-        &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":{"input":"/absent-input","workItemId":"WI-TEST","expectedPlanDigest":"sha256:abc"}}}),
-        Path::new("/absent-repository"),
-        &test_runtime_context(),
-    );
-    assert_eq!(result["result"]["isError"], true);
-    assert!(
-        result["result"]["content"][0]["text"]
-            .as_str()
-            .unwrap()
-            .contains("expectedPlanDigest")
-    );
 }
 
 // A captured receipt is an unverified data fixture, not an authenticated publisher.
@@ -3239,38 +3236,5 @@ fn portable_bundle_mcp_does_not_accept_runtime_or_malformed_caller_from_input() 
                 .unwrap()
                 .contains(key)
         );
-    }
-}
-
-#[test]
-fn portable_source_request_is_only_a_selector_not_a_worker_or_credential() {
-    for (extra, reason) in [
-        (serde_json::json!({"sourceRequest":7}), "sourceRequest"),
-        (
-            serde_json::json!({"nodeId":"project-command-0"}),
-            "nodeId requires sourceRequest",
-        ),
-        (
-            serde_json::json!({"workerPath":"/tmp/untrusted"}),
-            "workerPath",
-        ),
-        (serde_json::json!({"verified":true}), "verified"),
-    ] {
-        let mut arguments = serde_json::json!({"input":"/absent","workItemId":"WI-ABSENT","expectedPlanDigest":format!("sha256:{}","a".repeat(64))});
-        arguments
-            .as_object_mut()
-            .unwrap()
-            .extend(extra.as_object().unwrap().clone());
-        let reply = handle_request_for_repo(
-            &serde_json::json!({"jsonrpc":"2.0","id":87,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":arguments}}),
-            Path::new("/absent-repository"),
-            &test_runtime_context(),
-        );
-        assert_eq!(reply["result"]["isError"], true, "{reply}");
-        let message = reply["result"]["content"][0]["text"].as_str().unwrap();
-        assert!(message.contains(reason), "{message}");
-        if extra.get("workerPath").is_some() || extra.get("verified").is_some() {
-            assert!(message.contains("unknown"), "{message}");
-        }
     }
 }

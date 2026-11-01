@@ -43,8 +43,8 @@ use std::fs;
 use std::io::{Read, Seek, Write};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
@@ -74,23 +74,13 @@ mod usage;
 mod usage_import;
 
 pub use ci_admission::archive::{
-    GithubArchiveError, MAX_GITHUB_ARCHIVE_BYTES, MAX_GITHUB_ARCHIVE_ENTRIES,
-    MAX_GITHUB_ARCHIVE_ENTRY_BYTES, MAX_GITHUB_EXPANDED_BYTES, MAX_GITHUB_EXPANSION_RATIO,
-    MAX_GITHUB_NODE_CLAIMS, UntrustedGithubArchiveInspection, UntrustedGithubArchiveMember,
-    UntrustedPortableArchiveInspection, inspect_untrusted_github_archive,
+    EvidenceArchiveError, MAX_EVIDENCE_ARCHIVE_BYTES, MAX_EVIDENCE_ARCHIVE_ENTRIES,
+    MAX_EVIDENCE_ARCHIVE_ENTRY_BYTES, MAX_EVIDENCE_EXPANDED_BYTES, MAX_EVIDENCE_EXPANSION_RATIO,
+    MAX_EVIDENCE_NODE_CLAIMS, UntrustedEvidenceArchiveInspection, UntrustedEvidenceArchiveMember,
+    UntrustedPortableArchiveInspection, inspect_untrusted_evidence_archive,
     inspect_untrusted_portable_archive,
 };
-pub use ci_admission::{
-    AcceptedPortableEvidence, FinalizedPortableInventory, PortableInventoryConsumption,
-    PortableInventoryRoute, PortableSourceAdmissionRequest, PortableSourceRequest,
-    PortableSourceTool, VerifiedPortableSource, accept_portable_evidence,
-    accept_portable_evidence_with_source, acquire_portable_evidence_inventory,
-    consume_portable_evidence_inventory, current_portable_inventory_requests,
-    declared_portable_verification_request, plan_github_verification_admission,
-    plan_portable_evidence, publish_declared_native_source,
-    publish_declared_native_source_supervised, read_portable_source_parameters,
-    require_portable_source_observation_admission,
-};
+pub use ci_admission::plan_portable_evidence;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
@@ -142,8 +132,7 @@ pub use execution_context::{
 use execution_context::{
     VerificationIdentityCost, assess_verification_reuse_measured,
     build_repository_verification_command, effective_verification_timeout_seconds,
-    refresh_verification_context, resolved_executable_identity,
-    resolved_verification_executable_identity, valid_git_object_id,
+    refresh_verification_context, resolved_executable_identity, valid_git_object_id,
 };
 #[cfg(test)]
 use execution_context::{
@@ -383,579 +372,6 @@ pub struct RepositoryVerificationRequest {
 pub struct RepositoryVerificationRun {
     pub receipt: cockpit_verification::VerificationReceipt,
     pub final_snapshot: RepositorySnapshot,
-}
-
-/// One live repository-service invocation. This identity is neither serialized
-/// nor recoverable from a receipt, pathname, marker, or content digest.
-pub struct CurrentNativeInvocation {
-    state: Arc<NativeInvocationState>,
-}
-
-impl CurrentNativeInvocation {
-    pub fn new() -> Self {
-        Self::default()
-    }
-}
-
-impl Default for CurrentNativeInvocation {
-    fn default() -> Self {
-        Self {
-            state: Arc::new(NativeInvocationState::default()),
-        }
-    }
-}
-
-#[derive(Default)]
-struct NativeInvocationState {
-    generations: Mutex<BTreeMap<NativeInvocationKey, NativeInvocationGeneration>>,
-}
-
-type NativeInvocationKey = (PathBuf, String, String);
-
-#[derive(Default)]
-struct NativeInvocationGeneration {
-    revision: u64,
-    ready: bool,
-}
-
-/// A move-only current-process observation, minted only after the actual
-/// bounded repository executor returns and its original inputs are rechecked.
-/// Neither serialization nor a pathname/content hash can recreate this source.
-pub struct NativeExecutionWitness {
-    invocation: Arc<NativeInvocationState>,
-    key: NativeInvocationKey,
-    generation: u64,
-    native_input: serde_json::Value,
-    local_input: serde_json::Value,
-    receipt: cockpit_verification::VerificationReceipt,
-    observed_at: String,
-    execution_id: String,
-    request: RepositoryVerificationRequest,
-    command: cockpit_verification::VerificationCommand,
-    execution_identity: execution_context::ResolvedExecutableIdentity,
-    authorization: (ReceiptStoreBinding, VerificationReuseAuthorization),
-}
-
-impl NativeExecutionWitness {
-    pub fn native_input(&self) -> &serde_json::Value {
-        &self.native_input
-    }
-
-    pub fn receipt(&self) -> &cockpit_verification::VerificationReceipt {
-        &self.receipt
-    }
-
-    pub fn execution_id(&self) -> &str {
-        &self.execution_id
-    }
-
-    pub fn observed_at(&self) -> &str {
-        &self.observed_at
-    }
-}
-
-pub struct WitnessedRepositoryVerificationRun {
-    pub run: RepositoryVerificationRun,
-    pub witness: Option<NativeExecutionWitness>,
-}
-
-#[derive(Default)]
-struct NativeRunCapture {
-    input: Option<serde_json::Value>,
-    local_input: Option<serde_json::Value>,
-    command: Option<cockpit_verification::VerificationCommand>,
-    execution_identity: Option<execution_context::ResolvedExecutableIdentity>,
-    authorization: Option<(ReceiptStoreBinding, VerificationReuseAuthorization)>,
-    execution_id: Option<String>,
-    fallback: bool,
-}
-
-struct NativeRunObservation<'local, 'capture> {
-    local_context: Option<LocalNodeExecutionContext<'local>>,
-    capture: Option<&'capture mut NativeRunCapture>,
-}
-
-fn native_witness_error(root: &Path, message: &str) -> ObserverError {
-    ObserverError::State {
-        path: root.to_path_buf(),
-        message: message.into(),
-    }
-}
-
-/// Execute the existing native path and optionally retain its actual physical
-/// observation. Every attempted new run revokes older witnesses for this node,
-/// including a run which later fails or remains pending.
-pub fn run_repository_verification_with_native_witness(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
-) -> Result<WitnessedRepositoryVerificationRun, ObserverError> {
-    run_native_witness_inner(
-        root, request, runtime, caller, invocation, supervisor, false,
-    )
-}
-
-fn run_native_witness_inner(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
-    force_fresh: bool,
-) -> Result<WitnessedRepositoryVerificationRun, ObserverError> {
-    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.into(),
-        source,
-    })?;
-    let key = (
-        root.clone(),
-        request.work_item_id.clone().unwrap_or_default(),
-        request.node_id.clone(),
-    );
-    let generation =
-        {
-            let mut entries = invocation.state.generations.lock().map_err(|_| {
-                native_witness_error(&root, "native invocation registry unavailable")
-            })?;
-            let entry = entries.entry(key.clone()).or_default();
-            entry.ready = false;
-            entry.revision = entry.revision.checked_add(1).ok_or_else(|| {
-                native_witness_error(&root, "native invocation generation exhausted")
-            })?;
-            entry.revision
-        };
-    let mut capture = NativeRunCapture::default();
-    let run = run_repository_verification_inner_observed(
-        &root,
-        request,
-        |_, _, _| Ok(()),
-        |_| {},
-        Some((runtime, caller)),
-        supervisor,
-        NativeRunObservation {
-            local_context: force_fresh.then_some(LocalNodeExecutionContext {
-                own_run: None,
-                force_fresh: true,
-            }),
-            capture: Some(&mut capture),
-        },
-    )?;
-    let witness = if native_physical_receipt_complete(&run.receipt, request) && !capture.fallback {
-        match (
-            capture.input,
-            capture.local_input,
-            capture.command,
-            capture.execution_identity,
-            capture.authorization,
-            capture.execution_id,
-        ) {
-            (
-                Some(input),
-                Some(local_input),
-                Some(command),
-                Some(execution_identity),
-                Some(authorization),
-                Some(execution_id),
-            ) => {
-                let candidate = NativeExecutionWitness {
-                    invocation: Arc::clone(&invocation.state),
-                    key: key.clone(),
-                    generation,
-                    native_input: input,
-                    local_input,
-                    receipt: run.receipt.clone(),
-                    observed_at: now(),
-                    execution_id,
-                    request: request.clone(),
-                    command,
-                    execution_identity,
-                    authorization,
-                };
-                {
-                    let mut entries = invocation.state.generations.lock().map_err(|_| {
-                        native_witness_error(&root, "native invocation registry unavailable")
-                    })?;
-                    if let Some(entry) = entries.get_mut(&key)
-                        && entry.revision == generation
-                    {
-                        entry.ready = true;
-                    }
-                }
-                if validate_native_execution_witness(
-                    &root, request, runtime, caller, invocation, &candidate,
-                )
-                .is_ok()
-                {
-                    Some(candidate)
-                } else {
-                    let mut entries = invocation.state.generations.lock().map_err(|_| {
-                        native_witness_error(&root, "native invocation registry unavailable")
-                    })?;
-                    if let Some(entry) = entries.get_mut(&key)
-                        && entry.revision == generation
-                    {
-                        entry.ready = false;
-                    }
-                    None
-                }
-            }
-            _ => None,
-        }
-    } else {
-        None
-    };
-    Ok(WitnessedRepositoryVerificationRun { run, witness })
-}
-
-/// Publish callers borrow the same live observation and revalidate before and
-/// after their write. Passing this check supplies no persistent import token.
-pub(crate) fn validate_native_execution_witness(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    witness: &NativeExecutionWitness,
-) -> Result<(), ObserverError> {
-    let entries = invocation
-        .state
-        .generations
-        .lock()
-        .map_err(|_| native_witness_error(root, "native invocation registry unavailable"))?;
-    validate_native_witness_current(
-        root, request, runtime, caller, invocation, witness, &entries,
-    )
-    .map(|_| ())
-}
-
-/// Consume exactly one live witness after current admission, policy, source,
-/// executable, environment and causal rechecks. No new process is represented.
-pub fn consume_native_execution_witness(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    witness: NativeExecutionWitness,
-) -> Result<RepositoryVerificationRun, ObserverError> {
-    let entries = invocation
-        .state
-        .generations
-        .lock()
-        .map_err(|_| native_witness_error(root, "native invocation registry unavailable"))?;
-    let final_snapshot = validate_native_witness_current(
-        root, request, runtime, caller, invocation, &witness, &entries,
-    )?;
-    let publication_digest = cockpit_protocol::digest_json(&(
-        witness.native_input(),
-        witness.receipt(),
-        witness.observed_at(),
-    ))
-    .map_err(|_| native_witness_error(root, "native publication identity serialization failed"))?
-    .to_string();
-    let mut receipt = witness.receipt.clone();
-    let result = &mut receipt.results[0];
-    result.reused = true;
-    result.action = cockpit_verification::PlannedAction::Reuse;
-    result.state = cockpit_verification::PlannedState::Fresh;
-    result.reason = "fresh_native_invocation_exact_binding".into();
-    result.receipt_id = Some(publication_digest.clone());
-    result.satisfied_by =
-        cockpit_verification::PlannedSatisfaction::PortableNativeInvocation { publication_digest };
-    receipt.execution_records.clear();
-    receipt.receipt_candidates.clear();
-    receipt.nodes_planned = 1;
-    receipt.nodes_executed = 0;
-    receipt.nodes_reused = 1;
-    receipt.processes_spawned = 0;
-    receipt.max_concurrent_processes = 0;
-    receipt.process_spawn_failures = 0;
-    receipt.rerun_stale = 0;
-    receipt.rerun_unknown = 0;
-    receipt.protected_nodes_executed = 0;
-    receipt.protected_nodes_skipped = 0;
-    receipt.planning_elapsed_ms = 0;
-    receipt.execution_elapsed_ms = 0;
-    receipt.elapsed_ms = 0;
-    receipt.plan_receipt = None;
-    receipt.cost_observation = None;
-    drop(entries);
-    Ok(RepositoryVerificationRun {
-        receipt,
-        final_snapshot,
-    })
-}
-
-fn native_physical_receipt_complete(
-    receipt: &cockpit_verification::VerificationReceipt,
-    request: &RepositoryVerificationRequest,
-) -> bool {
-    if !receipt.passed
-        || receipt.nodes_planned != 1
-        || receipt.nodes_executed != 1
-        || receipt.nodes_reused != 0
-        || receipt.processes_spawned != 1
-        || receipt.process_spawn_failures != 0
-        || receipt.protected_nodes_skipped != 0
-        || receipt.execution_records.len() != 1
-        || receipt.results.len() != 1
-    {
-        return false;
-    }
-    let record = &receipt.execution_records[0];
-    let result = &receipt.results[0];
-    record.node_id == request.node_id
-        && result.node_id == request.node_id
-        && record.spawned
-        && record.passed
-        && record.exit_code == Some(0)
-        && record.termination_signal.is_none()
-        && !record.timed_out
-        && !record.stdout_truncated
-        && !record.stderr_truncated
-        && result.passed
-        && !result.reused
-        && !result.protected
-        && !result.timed_out
-        && !result.output_truncated
-        && result.action == cockpit_verification::PlannedAction::Execute
-        && result.satisfied_by == cockpit_verification::PlannedSatisfaction::Execution
-}
-
-fn validate_native_witness_current(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    witness: &NativeExecutionWitness,
-    entries: &BTreeMap<NativeInvocationKey, NativeInvocationGeneration>,
-) -> Result<RepositorySnapshot, ObserverError> {
-    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.into(),
-        source,
-    })?;
-    let expected_key = (
-        root.clone(),
-        request.work_item_id.clone().unwrap_or_default(),
-        request.node_id.clone(),
-    );
-    if !Arc::ptr_eq(&invocation.state, &witness.invocation)
-        || witness.key != expected_key
-        || witness.request != *request
-        || !entries
-            .get(&expected_key)
-            .is_some_and(|entry| entry.ready && entry.revision == witness.generation)
-        || !native_physical_receipt_complete(&witness.receipt, request)
-    {
-        return Err(native_witness_error(
-            &root,
-            "native invocation witness is foreign, changed, or superseded",
-        ));
-    }
-    let wi = request
-        .work_item_id
-        .as_deref()
-        .ok_or_else(|| native_witness_error(&root, "native invocation Work Item missing"))?;
-    let lock = acquire_lifecycle_lock(&root, wi)?;
-    task_authorization::require_declared_task_command(&root, request, runtime, caller)?;
-    validate_verification_request(&root, request)?;
-    let snapshot = cockpit_git::GitRepository::discover(&root)
-        .and_then(|git| git.snapshot())
-        .map_err(|error| native_witness_error(&root, &error.to_string()))?;
-    require_verification_preconditions_with_caller(&root, wi, runtime, &snapshot, caller)?;
-    let current = native_current_input(
-        &root,
-        request,
-        &snapshot,
-        runtime,
-        &witness.command,
-        &witness.execution_identity,
-        &witness.authorization,
-    )?;
-    if current != witness.native_input
-        || witness.receipt.execution_records[0].command_digest != witness.command.command_digest()
-    {
-        return Err(native_witness_error(
-            &root,
-            "native invocation source or execution inputs changed",
-        ));
-    }
-    lifecycle::require_live_native_causal_observations(
-        &root,
-        &witness.local_input,
-        &witness.execution_id,
-        &witness.receipt,
-    )?;
-    lock.require_subject(&root, wi)?;
-    Ok(snapshot)
-}
-
-fn native_current_input(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    snapshot: &RepositorySnapshot,
-    runtime: &RuntimeContext,
-    command: &cockpit_verification::VerificationCommand,
-    executable: &execution_context::ResolvedExecutableIdentity,
-    authorization: &(ReceiptStoreBinding, VerificationReuseAuthorization),
-) -> Result<serde_json::Value, ObserverError> {
-    let input = command.input_identity();
-    if request.policy != RepositoryVerificationPolicy::ProfileAuthorized
-        || command.reuse_policy() != &cockpit_verification::VerificationReusePolicy::Reusable
-        || !input.environment_complete
-        || !input.dependencies.is_empty()
-        || request.runtime_digest != runtime.runtime_digest.to_string()
-        || snapshot
-            .head
-            .as_deref()
-            .is_none_or(|head| !valid_git_object_id(head))
-    {
-        return Err(native_witness_error(
-            root,
-            "native invocation profile, environment, or dependency identity unavailable",
-        ));
-    }
-    let current_executable =
-        resolved_verification_executable_identity(root, &request.program, &request.args)?
-            .ok_or_else(|| native_witness_error(root, "native executable identity unavailable"))?;
-    if executable.path != current_executable.path
-        || executable.digest != current_executable.digest
-        || executable
-            .execution(&request.args)
-            .is_none_or(|(program, args)| program != command.program || args != command.args)
-    {
-        return Err(native_witness_error(
-            root,
-            "native executable original or physical command changed",
-        ));
-    }
-    // Rebuild the current expected environment with the ORIGINAL held pin.
-    // Resolving a second pin here would create a different staging pathname;
-    // reusing only the held command's old env would hide changed inherited
-    // values. This builder neither loads a candidate nor executes a command.
-    let current_command = build_repository_verification_command(
-        root,
-        request,
-        Some(executable),
-        cockpit_verification::VerificationReusePolicy::Reusable,
-    )?;
-    if current_command.program != command.program
-        || current_command.args != command.args
-        || current_command.input_identity() != input
-        || current_command.full_effective_environment_digest()
-            != command.full_effective_environment_digest()
-    {
-        return Err(native_witness_error(
-            root,
-            "native invocation full command or environment changed",
-        ));
-    }
-    for component in &executable.components {
-        let mut file = component
-            ._file
-            .try_clone()
-            .map_err(|source| ObserverError::Read {
-                path: root.into(),
-                source,
-            })?;
-        file.seek(std::io::SeekFrom::Start(0))
-            .map_err(|source| ObserverError::Read {
-                path: root.into(),
-                source,
-            })?;
-        if execution_context::hash_executable_and_first_line(&mut file)
-            .is_none_or(|(digest, _)| digest != component.digest)
-        {
-            return Err(native_witness_error(
-                root,
-                "native pinned executable bytes changed",
-            ));
-        }
-    }
-    let context = VerificationContextInput {
-        program: request.program.clone(),
-        args: request.args.clone(),
-        command_digest: command.command_digest(),
-        scope: request.scope.clone(),
-        stage: request.stage.clone(),
-        runner: request.runner.clone(),
-        runtime_digest: request.runtime_digest.clone(),
-        base_commit: request.base_commit.clone(),
-    };
-    let assessed = assess_verification_reuse_measured(
-        root,
-        snapshot,
-        &context,
-        Some(executable),
-        &mut VerificationIdentityCost::default(),
-    )?;
-    let VerificationReuseAssessment::Authorized(current) = assessed else {
-        return Err(native_witness_error(
-            root,
-            "native invocation profile is no longer authorized",
-        ));
-    };
-    if current.context != authorization.1.context
-        || current.config_file_digest != authorization.1.config_file_digest
-        || current.profile_file_digest != authorization.1.profile_file_digest
-    {
-        return Err(native_witness_error(
-            root,
-            "native invocation profile or source binding changed",
-        ));
-    }
-    let mut value = lifecycle::capture_local_node_input(
-        root,
-        request,
-        snapshot,
-        runtime,
-        command,
-        Some(executable),
-        Some(authorization),
-    )?;
-    let effective = command
-        .full_effective_environment_digest()
-        .ok_or_else(|| native_witness_error(root, "native effective child environment unproven"))?;
-    let pinned = legacy_closeout_source::PinnedRoot::open(root)?;
-    let lock_digest = match legacy_closeout_source::read_regular_cap_bounded(
-        &pinned.directory()?,
-        "Cargo.lock",
-        &root.join("Cargo.lock"),
-        16 * 1024 * 1024,
-    ) {
-        Ok(bytes) => Some(Digest::sha256_bytes(&bytes)),
-        Err(ObserverError::Read { source, .. })
-            if source.kind() == std::io::ErrorKind::NotFound =>
-        {
-            None
-        }
-        Err(error) => return Err(error),
-    };
-    pinned.require_current()?;
-    value["physicalProgram"] = serde_json::json!(command.program);
-    value["physicalArgs"] = serde_json::json!(command.args);
-    value["explicitEnvironmentDigest"] = serde_json::json!(input.environment_digest);
-    value["effectiveEnvironmentDigest"] = serde_json::json!(effective);
-    value["sourceHead"] = serde_json::json!(snapshot.head);
-    value["cargoLockDigest"] = serde_json::json!(lock_digest);
-    value["producerRuntimeVersion"] = serde_json::json!(runtime.runtime_version);
-    value["producerRuntimeDigest"] = serde_json::json!(runtime.runtime_digest);
-    if serde_json::to_vec(&value)
-        .map_err(|_| native_witness_error(root, "native input serialization failed"))?
-        .len()
-        > 1024 * 1024
-    {
-        return Err(native_witness_error(
-            root,
-            "native input byte limit exceeded",
-        ));
-    }
-    Ok(value)
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -1251,22 +667,15 @@ pub fn plan_repository_verification(
         command_digests: requests
             .iter()
             .map(|request| {
-                let identity = resolved_verification_executable_identity(
-                    &root,
-                    &request.program,
-                    &request.args,
-                )?;
                 build_repository_verification_command(
                     &root,
                     request,
-                    identity
-                        .as_ref()
-                        .filter(|identity| identity.has_execution_recipe()),
+                    None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
                 )
-                .map(|command| command.command_digest())
+                .command_digest()
             })
-            .collect::<Result<Vec<_>, ObserverError>>()?,
+            .collect(),
     };
     coverage_manifest
         .validate()
@@ -1849,8 +1258,7 @@ fn prepare_repository_verification_command(
 ) -> Result<PreparedRepositoryVerificationCommand, ObserverError> {
     let mut store_files_read = 0;
     let mut store_unavailable_reason = None;
-    let execution_identity =
-        resolved_verification_executable_identity(root, &request.program, &request.args)?;
+    let execution_identity = resolved_executable_identity(root, &request.program);
     let mut executable_files_read = execution_identity
         .as_ref()
         .map_or(0, |identity| identity.components.len());
@@ -1858,9 +1266,7 @@ fn prepare_repository_verification_command(
     let base_command = build_repository_verification_command(
         root,
         request,
-        execution_identity
-            .as_ref()
-            .filter(|identity| identity.has_execution_recipe()),
+        None,
         match &request.policy {
             RepositoryVerificationPolicy::ProfileAuthorized => {
                 cockpit_verification::VerificationReusePolicy::Reusable
@@ -1872,7 +1278,7 @@ fn prepare_repository_verification_command(
                 cockpit_verification::VerificationReusePolicy::Protected(class.clone())
             }
         },
-    )?;
+    );
     let context_input = VerificationContextInput {
         program: request.program.clone(),
         args: request.args.clone(),
@@ -1939,7 +1345,7 @@ fn prepare_repository_verification_command(
                     request,
                     execution_identity.as_ref(),
                     cockpit_verification::VerificationReusePolicy::Reusable,
-                )?
+                )
                 .with_reuse_candidate(candidate, context)
             }
             Ok(VerificationReuseAssessment::Denied { reason }) => {
@@ -1947,22 +1353,18 @@ fn prepare_repository_verification_command(
                 build_repository_verification_command(
                     root,
                     request,
-                    execution_identity
-                        .as_ref()
-                        .filter(|identity| identity.has_execution_recipe()),
+                    None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )?
+                )
             }
             Err(error) => {
                 reuse_authorization = format!("denied:identity_error:{error}");
                 build_repository_verification_command(
                     root,
                     request,
-                    execution_identity
-                        .as_ref()
-                        .filter(|identity| identity.has_execution_recipe()),
+                    None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )?
+                )
             }
         }
     } else {
@@ -2247,40 +1649,6 @@ where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
     H: FnOnce(&PreparedRepositoryVerificationCommand),
 {
-    run_repository_verification_inner_observed(
-        root,
-        request,
-        process_observer,
-        post_prepare,
-        task_context,
-        process_supervisor,
-        NativeRunObservation {
-            local_context,
-            capture: None,
-        },
-    )
-}
-
-fn run_repository_verification_inner_observed<F, H>(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    process_observer: F,
-    post_prepare: H,
-    task_context: Option<(
-        &RuntimeContext,
-        Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    )>,
-    process_supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
-    observation: NativeRunObservation<'_, '_>,
-) -> Result<RepositoryVerificationRun, ObserverError>
-where
-    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
-    H: FnOnce(&PreparedRepositoryVerificationCommand),
-{
-    let NativeRunObservation {
-        local_context,
-        mut capture,
-    } = observation;
     let service_started = Instant::now();
     let process_observer = Arc::new(process_observer);
     let stage = validate_verification_request(root, request)?;
@@ -2348,29 +1716,9 @@ where
     let mut executable_files_hashed = prepared.executable_files_hashed;
     let mut authorized_binding = prepared.authorized_binding;
 
-    let mut execution_identity = prepared.execution_identity;
+    let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
-    if let (Some(capture), Some((runtime, _)), Some(executable), Some(authorization)) = (
-        capture.as_deref_mut(),
-        task_context,
-        execution_identity.as_ref(),
-        authorized_binding.as_ref(),
-    ) {
-        capture.input = native_current_input(
-            &root,
-            request,
-            &snapshot,
-            runtime,
-            &command,
-            executable,
-            authorization,
-        )
-        .ok();
-        capture.local_input = local_node_input.clone();
-        capture.command = Some(command.clone());
-        capture.authorization = Some(authorization.clone());
-    }
     let execution_checkpoint = match (request.work_item_id.as_ref(), task_context) {
         (Some(_), Some((runtime, _))) => Some(lifecycle::VerificationExecutionCheckpoint::prepare(
             &root,
@@ -2381,12 +1729,6 @@ where
         )?),
         _ => None,
     };
-    if let Some(capture) = capture.as_deref_mut() {
-        capture.execution_id = execution_checkpoint
-            .as_ref()
-            .and_then(|checkpoint| checkpoint.local_execution_id())
-            .map(str::to_owned);
-    }
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
@@ -2436,15 +1778,9 @@ where
         .files_hashed
         .saturating_add(final_snapshot.files_hashed);
 
-    execution_context::require_execution_recipe_unchanged(
-        &root,
-        request,
-        execution_identity.as_ref(),
-    )?;
     let mut post_execution_identity = None;
     let mut post_context = if let Some((_, authorization)) = &authorized_binding {
-        post_execution_identity =
-            resolved_verification_executable_identity(&root, &request.program, &request.args)?;
+        post_execution_identity = resolved_executable_identity(&root, &request.program);
         if let Some(identity) = &post_execution_identity {
             executable_files_read = executable_files_read.saturating_add(identity.components.len());
             executable_files_hashed =
@@ -2470,11 +1806,6 @@ where
         .zip(post_context.as_ref())
         .is_some_and(|((_, before), after)| before.context == *after);
     if receipt.nodes_reused > 0 && !post_stable {
-        if let Some(capture) = capture.as_deref_mut() {
-            // Preserve the native fallback, but this first observation must
-            // never stand in for the distinct retry's physical executable.
-            capture.fallback = true;
-        }
         let command = if let Some(context) = post_context.clone() {
             let mut authorization = authorized_binding
                 .as_ref()
@@ -2495,18 +1826,16 @@ where
                 request,
                 post_execution_identity.as_ref(),
                 cockpit_verification::VerificationReusePolicy::Reusable,
-            )?
+            )
             .with_reuse_candidate(None, context)
         } else {
             authorized_binding = None;
             build_repository_verification_command(
                 &root,
                 request,
-                post_execution_identity
-                    .as_ref()
-                    .filter(|identity| identity.has_execution_recipe()),
+                None,
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
-            )?
+            )
         };
         let observer = Arc::clone(&process_observer);
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
@@ -2556,13 +1885,8 @@ where
         snapshot_git_calls = snapshot_git_calls.saturating_add(final_snapshot.git_calls);
         snapshot_files_read = snapshot_files_read.saturating_add(final_snapshot.files_read);
         snapshot_files_hashed = snapshot_files_hashed.saturating_add(final_snapshot.files_hashed);
-        execution_context::require_execution_recipe_unchanged(
-            &root,
-            request,
-            execution_identity.as_ref(),
-        )?;
         let final_execution_identity = if authorized_binding.is_some() {
-            resolved_verification_executable_identity(&root, &request.program, &request.args)?
+            resolved_executable_identity(&root, &request.program)
         } else {
             None
         };
@@ -2668,9 +1992,6 @@ where
             &receipt,
             execution_id,
         )?;
-    }
-    if let Some(capture) = capture {
-        capture.execution_identity = execution_identity.take();
     }
     Ok(RepositoryVerificationRun {
         receipt,
@@ -20450,7 +19771,6 @@ pub fn observe(
                 program: "cargo".into(),
                 args: vec!["test".into(), "--workspace".into()],
                 state: "detected".into(),
-                execution_recipe: None,
             });
         } else if path == "package.json" {
             build_systems.push(BuildSystem::Npm);
@@ -20608,75 +19928,11 @@ pub fn profile_update_proposal(
     })
 }
 
-/// Read caller-selected recipe JSON from a regular file, bounded to 64 KiB.
-/// The returned inputs can subsequently be supplied to native confirmation.
-pub fn read_execution_recipe_file(
-    input: &Path,
-) -> Result<cockpit_protocol::VerificationExecutionRecipe, ObserverError> {
-    let invalid = |code: &str| ObserverError::State {
-        path: input.into(),
-        message: code.into(),
-    };
-    let absolute =
-        std::path::absolute(input).map_err(|_| invalid("execution_recipe_file_path_invalid"))?;
-    let mut path = PathBuf::new();
-    for component in absolute.components() {
-        if component == std::path::Component::ParentDir {
-            // Validate a cancelled component before lexical normalization so
-            // a path such as link/../recipe.json cannot bypass no-follow checks.
-            legacy_closeout_source::PinnedRoot::open(&path)
-                .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
-            path.pop();
-        } else {
-            path.push(component.as_os_str());
-        }
-    }
-    let parent = path
-        .parent()
-        .ok_or_else(|| invalid("execution_recipe_file_path_invalid"))?;
-    let name = path
-        .file_name()
-        .and_then(std::ffi::OsStr::to_str)
-        .ok_or_else(|| invalid("execution_recipe_file_path_invalid"))?;
-    let pinned = legacy_closeout_source::PinnedRoot::open(parent)
-        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
-    let directory = pinned
-        .directory()
-        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
-    let bytes =
-        legacy_closeout_source::read_regular_cap_bounded(&directory, name, input, 64 * 1024)
-            .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
-    pinned
-        .require_current()
-        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
-    reject_duplicate_json_keys(&bytes)
-        .map_err(|_| invalid("execution_recipe_file_duplicate_or_invalid_json"))?;
-    let recipe = serde_json::from_slice(&bytes)
-        .map_err(|_| invalid("execution_recipe_file_invalid_recipe"))?;
-    execution_context::validate_execution_recipe(input, &recipe)
-        .map_err(|_| invalid("execution_recipe_file_invalid_recipe"))?;
-    Ok(recipe)
-}
-
 pub fn confirm_profile_update(
     root: &Path,
     program: &str,
     args: &[String],
 ) -> Result<AttachedProfile, ObserverError> {
-    confirm_profile_update_with_execution_recipe(root, program, args, None)
-}
-
-/// Confirm the explicit child environment without inheriting host credentials
-/// or session metadata. The executor validates the same recipe before use.
-pub fn confirm_profile_update_with_execution_recipe(
-    root: &Path,
-    program: &str,
-    args: &[String],
-    recipe: Option<cockpit_protocol::VerificationExecutionRecipe>,
-) -> Result<AttachedProfile, ObserverError> {
-    if let Some(recipe) = recipe.as_ref() {
-        execution_context::validate_execution_recipe(root, recipe)?;
-    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -20689,18 +19945,10 @@ pub fn confirm_profile_update_with_execution_recipe(
         })
     })?;
     let mut tests = current.tests.clone();
-    if recipe.is_some() {
-        // Reconfirmation replaces this command's old recipe, keeping legacy
-        // commands and all unrelated confirmed commands intact.
-        tests.retain(|command| {
-            command.program != program || command.args != args || command.execution_recipe.is_none()
-        });
-    }
     let candidate = QualityCommand {
         program: program.into(),
         args: args.to_vec(),
         state: "verified".into(),
-        execution_recipe: recipe.clone(),
     };
     if !tests.contains(&candidate) {
         tests.push(candidate);
@@ -20734,19 +19982,11 @@ pub fn confirm_profile_update_with_execution_recipe(
         message: error.to_string(),
     })?;
     atomic_json(&project_path, &value)?;
-    let mut candidate = serde_json::json!({"program": program, "args": args});
-    if let Some(recipe) = recipe {
-        candidate["executionRecipe"] =
-            serde_json::to_value(recipe).map_err(|error| ObserverError::State {
-                path: project_path.clone(),
-                message: error.to_string(),
-            })?;
-    }
     let decision = serde_json::json!({
         "kind": "project_profile_confirmation",
         "profileVersion": profile_version,
         "profileDigest": profile_digest,
-        "candidate": candidate,
+        "candidate": {"program": program, "args": args},
         "state": "confirmed",
         "createdAt": now(),
     });
@@ -21956,167 +21196,4 @@ mod evidence_class_stage_projection_tests {
             EvidenceState::Contradictory
         );
     }
-}
-
-/// Persist bytes observed by this live native invocation. A later importer
-/// receives data, never the process-local witness that authenticated this call.
-pub fn publish_native_execution_witness(
-    root: &Path,
-    request: &RepositoryVerificationRequest,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    invocation: &CurrentNativeInvocation,
-    witness: &NativeExecutionWitness,
-) -> Result<cockpit_protocol::ci_admission::PortableNativePublication, ObserverError> {
-    use cockpit_protocol::ci_admission::{
-        NativeExecutionEnvelope, PortableExecutionEvidence, PortableNativePublication,
-        PortableSourceVerification, UntrustedGithubCaptureMode,
-    };
-    validate_native_execution_witness(root, request, runtime, caller, invocation, witness)?;
-    let wi = request
-        .work_item_id
-        .as_deref()
-        .ok_or_else(|| ObserverError::State {
-            path: root.into(),
-            message: "portable native publication requires its current Work Item".into(),
-        })?;
-    let status = work_item_status_snapshot_with_runtime(root, wi, runtime)?;
-    let binding = |key: &str| {
-        status
-            .source_digests
-            .get(key)
-            .cloned()
-            .ok_or_else(|| ObserverError::State {
-                path: root.into(),
-                message: format!("native publication is missing current {key} binding"),
-            })
-    };
-    let contract = binding("contract")?;
-    let snapshot = binding("repositorySnapshot")?;
-    let captured = witness.native_input();
-    if captured["contractDigest"] != contract.to_string()
-        || captured["repositorySnapshotDigest"] != snapshot.to_string()
-        || captured["repositoryId"] != status.repository_id
-        || captured["workItemId"] != wi
-    {
-        return Err(ObserverError::State {
-            path: root.into(),
-            message: "native publication binding changed".into(),
-        });
-    }
-    let serialize_error = |_: serde_json::Error| ObserverError::State {
-        path: root.into(),
-        message: "portable native observation serialization failed".into(),
-    };
-    // Preserve the original native result in the witness. This publication
-    // adds only current bindings observed by this same live producer; it does
-    // not record a formal Work Item result or assert full Contract coverage.
-    let mut native_input = captured.clone();
-    native_input["producerExecutionId"] = serde_json::json!(witness.execution_id());
-    native_input["rawNativeReceiptDigest"] = serde_json::to_value(
-        cockpit_protocol::digest_json(
-            &serde_json::to_value(witness.receipt()).map_err(serialize_error)?,
-        )
-        .map_err(serialize_error)?,
-    )
-    .map_err(serialize_error)?;
-    let mut receipt = witness.receipt().clone();
-    if receipt
-        .work_item_id
-        .as_deref()
-        .is_some_and(|value| value != wi)
-        || receipt
-            .repository_id
-            .as_deref()
-            .is_some_and(|value| value != status.repository_id)
-        || receipt
-            .runtime_version
-            .as_deref()
-            .is_some_and(|value| value != runtime.runtime_version)
-        || receipt
-            .runtime_digest
-            .as_deref()
-            .is_some_and(|value| value != runtime.runtime_digest.as_str())
-        || receipt.plan_receipt.as_ref().is_some_and(|plan| {
-            plan.work_item_id
-                .as_deref()
-                .is_some_and(|value| value != wi)
-                || plan
-                    .repository_id
-                    .as_deref()
-                    .is_some_and(|value| value != status.repository_id)
-                || plan
-                    .repository_snapshot_digest
-                    .as_deref()
-                    .is_some_and(|value| value != snapshot.as_str())
-        })
-    {
-        return Err(ObserverError::State {
-            path: root.into(),
-            message: "native publication conflicts with observed receipt bindings".into(),
-        });
-    }
-    receipt.work_item_id = Some(wi.into());
-    receipt.repository_id = Some(status.repository_id.clone());
-    receipt.runtime_version = Some(runtime.runtime_version.clone());
-    receipt.runtime_digest = Some(runtime.runtime_digest.to_string());
-    if let Some(plan) = receipt.plan_receipt.as_mut() {
-        plan.work_item_id = Some(wi.into());
-        plan.repository_id = Some(status.repository_id.clone());
-        plan.repository_snapshot_digest = Some(snapshot.to_string());
-    }
-    let receipt_digest =
-        cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(serialize_error)?)
-            .map_err(serialize_error)?;
-    let envelope = NativeExecutionEnvelope {
-        protocol_version: runtime.protocol_version,
-        evidence_schema_version: 2,
-        work_item_id: wi.into(),
-        repository_id: status.repository_id,
-        runtime_version: runtime.runtime_version.clone(),
-        runtime_digest: runtime.runtime_digest.clone(),
-        contract_digest: contract,
-        repository_snapshot_digest: snapshot,
-        passed: witness.receipt().passed,
-        receipt_digest,
-        capture_mode: UntrustedGithubCaptureMode::FullCapture,
-        created_at: witness.observed_at().into(),
-        receipt,
-        retention: None,
-    };
-    let portable = PortableExecutionEvidence {
-        schema_version: cockpit_protocol::ci_admission::PORTABLE_EVIDENCE_SCHEMA_VERSION,
-        native_input,
-        native_evidence: envelope,
-    };
-    let bytes = serde_json::to_vec(&portable).map_err(serialize_error)?;
-    let input_digest = cockpit_core::Digest::sha256_bytes(&bytes);
-    let record_id = cockpit_protocol::digest_json(&serde_json::json!([
-        "ai-cockpit:portable-native-publication:v1",
-        wi,
-        input_digest
-    ]))
-    .map_err(serialize_error)?;
-    let marker = serde_json::to_vec(&serde_json::json!({
-        "schemaVersion":1,"recordId":record_id,"inputDigest":input_digest
-    }))
-    .map_err(serialize_error)?;
-    // Recheck before the marker-last write and after it. If the final check
-    // fails the preserved object remains untrusted data, never an admission.
-    validate_native_execution_witness(root, request, runtime, caller, invocation, witness)?;
-    let record_ref = ci_admission::persist_portable_native_observation(
-        root,
-        wi,
-        record_id.as_str(),
-        &bytes,
-        &marker,
-    )?;
-    validate_native_execution_witness(root, request, runtime, caller, invocation, witness)?;
-    Ok(PortableNativePublication {
-        schema_version: cockpit_protocol::ci_admission::PORTABLE_EVIDENCE_SCHEMA_VERSION,
-        input_digest,
-        record_ref,
-        source_verification: PortableSourceVerification::NativeInvocation,
-        may_replace_execution_after_import: false,
-    })
 }

@@ -22,14 +22,20 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 46);
-    for name in ["evidence_bundle_plan", "evidence_bundle_accept"] {
-        assert_eq!(
-            tools.iter().filter(|tool| tool["name"] == name).count(),
-            1,
-            "exact portable evidence tool {name}"
-        );
-    }
+    assert_eq!(tools.len(), 45);
+    let names = tools
+        .iter()
+        .map(|tool| tool["name"].as_str().expect("tool name"))
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(names.len(), 45);
+    assert!(!names.contains("evidence_bundle_accept"));
+    assert_eq!(
+        tools
+            .iter()
+            .filter(|tool| tool["name"] == "evidence_bundle_plan")
+            .count(),
+        1
+    );
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (

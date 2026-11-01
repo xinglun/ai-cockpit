@@ -25,7 +25,6 @@ proc-macro2 = { version = "1.0", features = ["span-locations"] }
 syn = { version = "2.0.119", features = ["full", "visit", "parsing"] }
 toml.workspace = true
 thiserror.workspace = true
-ureq = { version = "=3.5.0", default-features = false, features = ["rustls"] }
 
 [dev-dependencies]
 tempfile.workspace = true

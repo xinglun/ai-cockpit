@@ -41,7 +41,7 @@ capabilityClaims:
 | `ai-cockpit archive` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit archive-historical` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit close` | `--actor`, `--authority-source`, `--decided-at`, `--evidence-ref`, `--human-decision`, `--id`, `--json`, `--language`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--task-caller`, `-h / --help` |  |
-| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--source-bundle`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
+| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
 | `ai-cockpit gate` | `--base-revision`, `--contract`, `--repo`, `--report`, `--runner`, `--stage`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-report` | `--repo`, `--report`, `--route-receipt`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
@@ -49,9 +49,6 @@ capabilityClaims:
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
-| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--node`, `--repo`, `--source-request`, `--task-caller`, `--work-item`, `-h / --help` |  |
-| `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
-| `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence observe` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence list` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -130,7 +127,7 @@ capabilityClaims:
 | `ai-cockpit knowledge` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit knowledge query` | `--component`, `--repo`, `--state`, `--task-caller`, `--topic`, `--v2`, `--work-item-id`, `-h / --help` |  |
 | `ai-cockpit profile` | `--task-caller`, `-h / --help` |  |
-| `ai-cockpit profile confirm` | `--args`, `--execution-recipe`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile confirm` | `--args`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit profile propose` | `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit mcp` | `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
@@ -681,37 +678,6 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `taskCaller` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
-
-<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-accept -->
-### インターフェース事実: `evidence-bundle-accept`
-
-- Schema: `v1`
-- Runtime: `1.0.1`
-- パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
-
-#### `cli` · トランスポート: `argv`
-
-| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
-| --- | --- | --- | --- | --- | --- |
-| `repo` | `string` | `yes` | `—` | `—` | `—` |
-| `input` | `string` | `yes` | `—` | `—` | `—` |
-| `work-item` | `string` | `yes` | `—` | `—` | `—` |
-| `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
-| `source-request` | `string` | `no` | `—` | `—` | `—` |
-| `node` | `string` | `no` | `—` | `—` | `—` |
-
-#### `mcp` · トランスポート: `json-rpc`
-
-| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
-| --- | --- | --- | --- | --- | --- |
-| `input` | `string` | `yes` | `—` | `—` | `—` |
-| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
-| `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
-| `sourceRequest` | `object` | `no` | `—` | `—` | `—` |
-| `nodeId` | `string` | `no` | `—` | `—` | `—` |
-| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
-
-<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->
 
 - `observe`、`capability show`、top-level `status`、single/all Work Item status を繰り返しても、tracked
   repository bytes や observer cache は書きません。

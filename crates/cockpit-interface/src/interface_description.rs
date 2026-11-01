@@ -16,7 +16,6 @@ pub const WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION: &str = "Strict UsageImport
 pub const WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE: &str = "work-item-material-review-plan";
 pub const WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE: &str = "work-item-material-review-record";
 pub const PORTABLE_EVIDENCE_PLAN_SURFACE: &str = "evidence-bundle-plan";
-pub const PORTABLE_EVIDENCE_ACCEPT_SURFACE: &str = "evidence-bundle-accept";
 pub const AUDIT_QUERY_SURFACE: &str = "audit-query";
 pub const AUDIT_EXPORT_SURFACE: &str = "audit-export";
 pub const WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION: &str =
@@ -172,7 +171,6 @@ pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] = &[
     WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE,
     WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE,
     PORTABLE_EVIDENCE_PLAN_SURFACE,
-    PORTABLE_EVIDENCE_ACCEPT_SURFACE,
     AUDIT_QUERY_SURFACE,
     AUDIT_EXPORT_SURFACE,
 ];
@@ -1059,8 +1057,8 @@ fn audit_interface_description(surface: &str, export: bool) -> InterfaceDescript
     }
 }
 
-/// Transport facts for offline portable evidence inspection and explicit admission requests.
-fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription {
+/// Transport facts for read-only inspection of untrusted portable evidence.
+fn portable_evidence_interface_description() -> InterfaceDescription {
     let parameter =
         |name: &str, wire_type: &str, required: bool, description: &str| InterfaceParameter {
             name: name.into(),
@@ -1071,7 +1069,7 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
             aliases: Vec::new(),
             description: description.into(),
         };
-    let mut cli = vec![
+    let cli = vec![
         parameter("repo", "string", true, "Repository path."),
         parameter(
             "input",
@@ -1082,7 +1080,7 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
         parameter(
             "work-item",
             "string",
-            accept,
+            false,
             "Consumer Work Item; optional for inspection.",
         ),
     ];
@@ -1096,48 +1094,10 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
         parameter(
             "workItemId",
             "string",
-            accept,
+            false,
             "Consumer Work Item; optional for inspection.",
         ),
     ];
-    if accept {
-        cli.push(parameter(
-            "expected-plan-digest",
-            "string",
-            true,
-            "Exact plan digest, not a credential.",
-        ));
-        mcp.push(parameter(
-            "expectedPlanDigest",
-            "string",
-            true,
-            "Exact plan digest, not a credential.",
-        ));
-        cli.push(parameter(
-            "source-request",
-            "string",
-            false,
-            "Optional selector JSON for the fixed controlled reader, never source authority.",
-        ));
-        cli.push(parameter(
-            "node",
-            "string",
-            false,
-            "Existing declared node selector; never an imported command.",
-        ));
-        mcp.push(parameter(
-            "sourceRequest",
-            "object",
-            false,
-            "Optional selector for the fixed controlled reader, never source authority.",
-        ));
-        mcp.push(parameter(
-            "nodeId",
-            "string",
-            false,
-            "Existing declared node selector; never an imported command.",
-        ));
-    }
     mcp.push(parameter(
         "taskCaller",
         "object",
@@ -1146,12 +1106,7 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
     ));
     InterfaceDescription {
         schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
-        name: if accept {
-            PORTABLE_EVIDENCE_ACCEPT_SURFACE
-        } else {
-            PORTABLE_EVIDENCE_PLAN_SURFACE
-        }
-        .into(),
+        name: PORTABLE_EVIDENCE_PLAN_SURFACE.into(),
         runtime_version: env!("CARGO_PKG_VERSION").into(),
         surfaces: vec![
             InterfaceSurface {
@@ -1179,8 +1134,7 @@ pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescr
         WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE => {
             Some(work_item_material_review_record_interface_description())
         }
-        PORTABLE_EVIDENCE_PLAN_SURFACE => Some(portable_evidence_interface_description(false)),
-        PORTABLE_EVIDENCE_ACCEPT_SURFACE => Some(portable_evidence_interface_description(true)),
+        PORTABLE_EVIDENCE_PLAN_SURFACE => Some(portable_evidence_interface_description()),
         AUDIT_QUERY_SURFACE => Some(audit_interface_description(surface, false)),
         AUDIT_EXPORT_SURFACE => Some(audit_interface_description(surface, true)),
         _ => None,

@@ -26,7 +26,6 @@ serde.workspace = true
 sha2.workspace = true
 toml.workspace = true
 hex.workspace = true
-ureq = { version = "=3.5.0", default-features = false, features = ["rustls"] }
 
 [dev-dependencies]
 tempfile.workspace = true

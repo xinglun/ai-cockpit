@@ -37,7 +37,6 @@ use std::{
 };
 
 mod cognitive_benefit;
-mod github_evidence;
 mod runtime_identity;
 
 /// Inspect, verify and govern repository work with explicit authority and evidence.
@@ -342,10 +341,6 @@ enum CommandKind {
         /// Comma-separated program arguments, preserving their declared order.
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
-        /// Bounded untrusted source manifest for the full current Work Item inventory.
-        /// Every source is checked live; remaining declarations run natively.
-        #[arg(long, requires = "work_item", conflicts_with_all = ["command", "args", "node", "plan_only", "archived_recovery"])]
-        source_bundle: Option<PathBuf>,
         /// Maximum worker count. Work Item verification defaults to serial and
         /// rejects parallel requests until per-node dependencies and outputs
         /// can be verified by the Runtime.
@@ -517,16 +512,27 @@ enum CommandKind {
 }
 
 #[derive(Debug, Subcommand)]
+enum PortableEvidenceCommand {
+    /// Inspect a local portable bundle without execution or writes; source claims remain unverified.
+    Plan {
+        /// Repository checkout whose protocol compatibility is checked.
+        #[arg(long)]
+        repo: PathBuf,
+        /// Local portable evidence JSON file; contents never authenticate their author.
+        #[arg(long)]
+        input: PathBuf,
+        /// Optional consumer Work Item; not required merely to inspect evidence.
+        #[arg(long)]
+        work_item: Option<String>,
+    },
+}
+
+#[derive(Debug, Subcommand)]
 enum EvidenceCommand {
-    /// Inspect portable native execution evidence or request exact admission.
+    /// Inspect portable evidence as untrusted reference data without execution or writes.
     Bundle {
         #[command(subcommand)]
-        command: github_evidence::PortableEvidenceCommand,
-    },
-    /// Plan GitHub verification evidence from independent read-only provider metadata.
-    Github {
-        #[command(subcommand)]
-        command: github_evidence::GithubEvidenceCommand,
+        command: PortableEvidenceCommand,
     },
     /// Import delegated evidence metadata and raw bytes under repository policy.
     Import {
@@ -1534,9 +1540,6 @@ enum ProfileCommand {
         /// Comma-separated program arguments, preserving their declared order.
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
-        /// Explicit child execution recipe JSON file, limited to 64 KiB.
-        #[arg(long, value_name = "FILE")]
-        execution_recipe: Option<PathBuf>,
     },
     /// Generate a repository quality-profile proposal without confirming it.
     Propose {
@@ -2121,68 +2124,6 @@ fn run() -> Result<()> {
     {
         return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
     }
-    if std::env::args_os().nth(1).as_deref()
-        == Some(std::ffi::OsStr::new("__portable-source-observe"))
-    {
-        let arguments = std::env::args_os().collect::<Vec<_>>();
-        anyhow::ensure!(
-            arguments.len() == 3,
-            "private source observer requires exactly one JSON argument"
-        );
-        let request = arguments[2]
-            .to_str()
-            .context("private source request must be UTF-8")?;
-        let runtime =
-            runtime_identity::load_current().context("load private source observer identity")?;
-        let reply = github_evidence::source_worker(request, &runtime)?;
-        println!("{}", serde_json::to_string(&reply)?);
-        return Ok(());
-    }
-    if std::env::args_os().nth(1).as_deref()
-        == Some(std::ffi::OsStr::new("__portable-native-publish"))
-    {
-        #[derive(serde::Deserialize)]
-        #[serde(rename_all = "camelCase", deny_unknown_fields)]
-        struct NativeRequest {
-            schema_version: u32,
-            repository_root: PathBuf,
-            work_item_id: String,
-            node_id: String,
-            task_caller: Option<cockpit_protocol::TaskAuthorizationCaller>,
-            publisher_nonce: String,
-        }
-        let args = std::env::args_os().collect::<Vec<_>>();
-        anyhow::ensure!(
-            args.len() == 3,
-            "private native publisher requires one JSON argument"
-        );
-        let raw = args[2]
-            .to_str()
-            .context("native publisher request must be UTF-8")?;
-        anyhow::ensure!(raw.len() <= 16 * 1024, "native publisher request too large");
-        let request: NativeRequest =
-            serde_json::from_str(raw).context("strict native publisher request")?;
-        anyhow::ensure!(
-            request.schema_version == 1,
-            "unsupported native publisher request"
-        );
-        let runtime = runtime_identity::load_current()?;
-        require_compatible(&request.repository_root, &runtime)?;
-        let result = cockpit_repository::publish_declared_native_source_supervised(
-            &request.repository_root,
-            &request.work_item_id,
-            &request.node_id,
-            &request.publisher_nonce,
-            &runtime,
-            request.task_caller.as_ref(),
-            Some(cockpit_verification::VerificationSupervisorLaunch::new(
-                std::env::current_exe()?,
-                vec!["__verification-supervisor".into()],
-            )),
-        )?;
-        println!("{}", serde_json::to_string(&result)?);
-        return Ok(());
-    }
     let cli = Cli::parse();
     let task_caller: Option<cockpit_protocol::TaskAuthorizationCaller> = cli
         .task_caller
@@ -2654,11 +2595,24 @@ fn run() -> Result<()> {
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Evidence { command } => match command {
-            EvidenceCommand::Bundle { command } => {
-                github_evidence::run_portable(command, &runtime_context, task_caller.as_ref())?;
-            }
-            EvidenceCommand::Github { command } => {
-                github_evidence::run(command, &runtime_context, task_caller.as_ref())?;
+            EvidenceCommand::Bundle {
+                command:
+                    PortableEvidenceCommand::Plan {
+                        repo,
+                        input,
+                        work_item,
+                    },
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let plan = cockpit_repository::plan_portable_evidence(
+                    &repo,
+                    work_item.as_deref(),
+                    &input,
+                    &runtime_context,
+                    task_caller.as_ref(),
+                )
+                .context("inspect portable evidence without execution or writes")?;
+                println!("{}", serde_json::to_string_pretty(&plan)?);
             }
             EvidenceCommand::Import {
                 repo,
@@ -3827,23 +3781,10 @@ fn run() -> Result<()> {
                 repo,
                 program,
                 args,
-                execution_recipe,
             } => {
                 require_compatible(&repo, &runtime_context)?;
-                let profile = if let Some(path) = execution_recipe {
-                    let recipe = cockpit_repository::read_execution_recipe_file(&path)
-                        .context("read execution recipe file")?;
-                    cockpit_repository::confirm_profile_update_with_execution_recipe(
-                        &repo,
-                        &program,
-                        &args,
-                        Some(recipe),
-                    )
-                    .context("confirm project profile update")?
-                } else {
-                    cockpit_repository::confirm_profile_update(&repo, &program, &args)
-                        .context("confirm project profile update")?
-                };
+                let profile = cockpit_repository::confirm_profile_update(&repo, &program, &args)
+                    .context("confirm project profile update")?;
                 println!("{}", serde_json::to_string_pretty(&profile)?);
             }
             ProfileCommand::Propose { repo } => {
@@ -4035,7 +3976,6 @@ fn run_verification_command(
         command,
         node,
         args,
-        source_bundle,
         workers,
         stage,
         timeout_seconds,
@@ -4104,11 +4044,6 @@ fn run_verification_command(
     } else if let Some(work_item_id) = work_item.as_deref() {
         let declared = declared_verification_commands(&root, work_item_id, archived_recovery)?;
         if declared.is_empty() {
-            if source_bundle.is_some() {
-                anyhow::bail!(
-                    "--source-bundle requires a nonempty current Contract declaration inventory"
-                );
-            }
             if !node.is_empty() {
                 anyhow::bail!("--node requires an explicit current Contract declaration inventory");
             }
@@ -4133,59 +4068,37 @@ fn run_verification_command(
             })
             .collect()
     };
-    let requests = if source_bundle.is_some() {
-        if base_revision.is_some()
-            && base_revision.as_deref()
-                != route
-                    .as_ref()
-                    .and_then(|route| route.base_revision.as_deref())
-        {
-            anyhow::bail!(
-                "source_bundle_base_revision_override_unsupported: omit --base-revision and use the current Contract route, or run verify without --source-bundle"
-            );
-        }
-        source_bundle_verification_requests(
-            &root,
-            work_item.as_deref().expect("source bundle requires WI"),
-            stage,
+    let requests = commands
+        .into_iter()
+        .enumerate()
+        .map(|(index, command)| RepositoryVerificationRequest {
+            node_id: command
+                .node_id
+                .unwrap_or_else(|| format!("project-command-{index}")),
+            program: command.program,
+            args: command.args,
+            scope: vec!["**".into()],
+            stage: stage.as_str().into(),
+            runner: "local".into(),
+            runtime_digest: runtime_context.runtime_digest.to_string(),
+            base_commit: route
+                .as_ref()
+                .and_then(|route| route.base_revision.clone())
+                .or_else(|| base_revision.clone()),
             workers,
+            work_item_id: work_item.clone(),
             timeout_seconds,
-            &runtime_context,
-            task_caller.as_ref(),
-        )?
-    } else {
-        commands
-            .into_iter()
-            .enumerate()
-            .map(|(index, command)| RepositoryVerificationRequest {
-                node_id: command
-                    .node_id
-                    .unwrap_or_else(|| format!("project-command-{index}")),
-                program: command.program,
-                args: command.args,
-                scope: vec!["**".into()],
-                stage: stage.as_str().into(),
-                runner: "local".into(),
-                runtime_digest: runtime_context.runtime_digest.to_string(),
-                base_commit: route
-                    .as_ref()
-                    .and_then(|route| route.base_revision.clone())
-                    .or_else(|| base_revision.clone()),
-                workers,
-                work_item_id: work_item.clone(),
-                timeout_seconds,
-                // Detected Work Item commands use the same exact,
-                // identity-bound profile authorization as bare `verify`.
-                // Explicit custom commands remain fresh unless a future
-                // explicit reuse contract is added.
-                policy: if explicit {
-                    RepositoryVerificationPolicy::NeverReuse
-                } else {
-                    RepositoryVerificationPolicy::ProfileAuthorized
-                },
-            })
-            .collect::<Vec<_>>()
-    };
+            // Detected Work Item commands use the same exact,
+            // identity-bound profile authorization as bare `verify`.
+            // Explicit custom commands remain fresh unless a future
+            // explicit reuse contract is added.
+            policy: if explicit {
+                RepositoryVerificationPolicy::NeverReuse
+            } else {
+                RepositoryVerificationPolicy::ProfileAuthorized
+            },
+        })
+        .collect::<Vec<_>>();
     let declared_inventory = requests
         .iter()
         .map(|r| r.node_id.clone())
@@ -4469,29 +4382,6 @@ fn run_verification_command(
         println!("{}", serde_json::to_string_pretty(&plan)?);
         return Ok(());
     }
-    // Acquire live sources before creating this run's pending checkpoint.
-    // The absent option preserves the ordinary provider-independent route.
-    let source_service_started = source_bundle.as_ref().map(|_| std::time::Instant::now());
-    let accepted_sources = if let Some(manifest) = source_bundle.as_deref() {
-        let wi = work_item.as_deref().expect("source bundle requires WI");
-        let tool =
-            cockpit_repository::PortableSourceTool::for_current_runtime(&root, &runtime_context)
-                .map_err(source_bundle_error)?;
-        Some(
-            cockpit_repository::acquire_portable_evidence_inventory(
-                &root,
-                wi,
-                &requests,
-                manifest,
-                &tool,
-                &runtime_context,
-                task_caller.as_ref(),
-            )
-            .map_err(source_bundle_error)?,
-        )
-    } else {
-        None
-    };
     let interruption_checkpoint = if work_item.is_some() {
         Some(
             cockpit_repository::VerificationRunCheckpoint::prepare(
@@ -4509,88 +4399,6 @@ fn run_verification_command(
     let local_run_identity = interruption_checkpoint
         .as_ref()
         .map(|checkpoint| checkpoint.local_run_identity());
-    let mut source_runs = Vec::new();
-    let mut source_inventory = if let Some(sources) = accepted_sources {
-        match cockpit_repository::consume_portable_evidence_inventory(
-            &root,
-            work_item.as_deref().expect("source bundle requires WI"),
-            &requests,
-            sources,
-            &runtime_context,
-            task_caller.as_ref(),
-            local_run_identity.as_ref(),
-        ) {
-            Ok(inventory) => Some(inventory),
-            Err(error) => {
-                let unstarted = requests
-                    .iter()
-                    .map(|r| r.node_id.clone())
-                    .collect::<Vec<_>>();
-                return Err(interrupted_verification_error(
-                    interruption_checkpoint.as_ref(),
-                    source_runs.iter(),
-                    &[],
-                    &unstarted,
-                    &[],
-                    "source_inventory_consume",
-                    &source_bundle_error(error).to_string(),
-                ));
-            }
-        }
-    } else {
-        None
-    };
-    // Clone only already observed native data for error preservation.
-    // Success merges only the actual runs released by finalize below.
-    source_runs = source_inventory
-        .as_ref()
-        .map(|inventory| inventory.observed_runs().to_vec())
-        .unwrap_or_default();
-    let mut source_coverage = source_inventory
-        .as_ref()
-        .map(|inventory| inventory.coverage().clone());
-    let mut source_uses = source_inventory
-        .as_ref()
-        .map(|inventory| inventory.source_uses().to_vec())
-        .unwrap_or_default();
-    // Keep actual source receipts available even if finalize consumes the
-    // opaque session and then refuses a late failed/pending observation.
-    let source_observations = source_uses
-        .iter()
-        .map(|used| used.receipt.clone())
-        .collect::<Vec<_>>();
-    let actual_source_nodes = source_uses
-        .iter()
-        .map(|used| used.node_id.clone())
-        .collect::<Vec<_>>();
-    let source_dispatch = match verification_source_dispatch(
-        &requests,
-        source_coverage.as_ref(),
-        &actual_source_nodes,
-    ) {
-        Ok(dispatch) => dispatch,
-        Err(error) => {
-            let unstarted = requests
-                .iter()
-                .filter(|r| !actual_source_nodes.contains(&r.node_id))
-                .map(|r| r.node_id.clone())
-                .collect::<Vec<_>>();
-            return Err(interrupted_verification_error(
-                interruption_checkpoint.as_ref(),
-                source_runs.iter(),
-                &[],
-                &unstarted,
-                &source_observations,
-                "source_inventory_dispatch",
-                &source_bundle_error(error).to_string(),
-            ));
-        }
-    };
-    let execution_requests = source_dispatch
-        .fresh_indices
-        .iter()
-        .map(|index| &requests[*index])
-        .collect::<Vec<_>>();
     let attempt_work_item = work_item.clone();
     let persist_for_run = |snapshot: &cockpit_git::RepositorySnapshot,
                            state: &str,
@@ -4638,35 +4446,17 @@ fn run_verification_command(
         }
     };
     let requires_aggregate_snapshot = requests.len() > 1;
-    let service_started = source_service_started.unwrap_or_else(std::time::Instant::now);
-    let supervisor_executable = match std::env::current_exe() {
-        Ok(executable) => executable,
-        Err(error) if source_bundle.is_some() => {
-            let unstarted = execution_requests
-                .iter()
-                .map(|r| r.node_id.clone())
-                .collect::<Vec<_>>();
-            return Err(interrupted_verification_error(
-                interruption_checkpoint.as_ref(),
-                source_runs.iter(),
-                &[],
-                &unstarted,
-                &source_observations,
-                "supervisor_executable",
-                &error.to_string(),
-            ));
-        }
-        Err(error) => {
-            return Err(anyhow::Error::from(error).context("resolve governing Runtime executable"));
-        }
-    };
+    let service_started = std::time::Instant::now();
+    let supervisor_executable =
+        std::env::current_exe().context("resolve governing Runtime executable")?;
+    let execution_requests = requests.iter().collect::<Vec<_>>();
     let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
     let mut runs = Vec::with_capacity(requests.len());
     let mut planning_elapsed_ms = 0_u128;
     let mut execution_elapsed_ms = 0_u128;
     {
         let total_requests = requests.len();
-        let mut completed_requests = source_dispatch.source_count;
+        let mut completed_requests = 0_usize;
         for (batch_index, batch) in execution_requests.chunks(workers.max(1)).enumerate() {
             let batch_runs = std::thread::scope(|scope| {
                 let (progress_sender, progress_receiver) =
@@ -4681,16 +4471,14 @@ fn run_verification_command(
                                 let runtime = &runtime_context;
                                 let supervisor_executable = supervisor_executable.clone();
                                 let local_node_plan = &local_node_plan;
-                                let source_fresh_required = source_dispatch.force_fresh.contains(&request.node_id);
                                 let local_run_identity=local_run_identity.as_ref();
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
                                     let decision=local_node_plan.iter().find(|d|d.node_id==request.node_id);
-                                    let (candidate, force_fresh) = verification_local_reuse_inputs(
-                                        decision.and_then(|d|d.candidate.as_ref()),
-                                        decision.is_some_and(|d|d.fresh_required), source_fresh_required,
-                                    );
+                                    let candidate = decision.and_then(|d|d.candidate.as_ref());
+                                    let force_fresh = candidate.is_some()
+                                        || decision.is_some_and(|d|d.fresh_required);
                                     let reused=match candidate {
                                         Some(candidate)=>cockpit_repository::reuse_local_node_in_run_with_task_authorization(repository_root,request,runtime,caller,candidate,local_run_identity),
                                         None=>Ok(None),
@@ -4785,13 +4573,10 @@ fn run_verification_command(
                     .join("; ");
                 return Err(interrupted_verification_error(
                     interruption_checkpoint.as_ref(),
-                    runs.iter().chain(&source_runs),
+                    runs.iter(),
                     &unavailable,
                     &unstarted,
-                    &verification_interruption_observations(
-                        &source_observations,
-                        &unvalidated_observations,
-                    ),
+                    &unvalidated_observations,
                     "worker",
                     &message,
                 )
@@ -4807,10 +4592,10 @@ fn run_verification_command(
             Err(error) => {
                 return Err(interrupted_verification_error(
                     interruption_checkpoint.as_ref(),
-                    runs.iter().chain(&source_runs),
+                    runs.iter(),
                     &[],
                     &[],
-                    &source_observations,
+                    &[],
                     "aggregate_snapshot",
                     &error.to_string(),
                 )
@@ -4820,37 +4605,15 @@ fn run_verification_command(
     } else {
         None
     };
-    // Recheck every held source after fresh execution and before the
-    // existing merger/formal path. Never reconstruct runs from JSON.
-    if let Some(inventory) = source_inventory.take() {
-        match inventory.finalize(&root, &requests, &runtime_context, task_caller.as_ref()) {
-            Ok(finalized) => {
-                source_coverage = Some(finalized.coverage);
-                source_uses = finalized.source_uses;
-                runs.extend(finalized.runs);
-            }
-            Err(error) => {
-                return Err(interrupted_verification_error(
-                    interruption_checkpoint.as_ref(),
-                    runs.iter().chain(&source_runs),
-                    &[],
-                    &[],
-                    &source_observations,
-                    "source_inventory_finalize",
-                    &source_bundle_error(error).to_string(),
-                ));
-            }
-        }
-    }
     let mut run = match merge_verification_runs(runs) {
         Some(run) => run,
         None => {
             return Err(interrupted_verification_error(
                 interruption_checkpoint.as_ref(),
-                source_runs.iter(),
+                std::iter::empty(),
                 &[],
                 &[],
-                &source_observations,
+                &[],
                 "aggregate_merge",
                 "no verification runs available to merge",
             )
@@ -4909,31 +4672,12 @@ fn run_verification_command(
         selection_reasons,
         escalations,
     )
-    .map_err(|error| {
-        verification_error_after_source(
-            source_bundle.is_some(),
-            interruption_checkpoint.as_ref(),
-            &run,
-            "aggregate_plan_receipt",
-            anyhow::anyhow!(error),
-        )
-    })?;
+    .map_err(|error| anyhow::anyhow!(error))?;
     if let Some(route) = &route {
         plan_receipt.work_item_id = Some(route.work_item_id.clone());
         plan_receipt.repository_id = Some(cockpit_repository::repository_id(&root).to_string());
-        plan_receipt.repository_snapshot_digest = Some(
-            cockpit_repository::snapshot_digest(&run.final_snapshot)
-                .map_err(|error| {
-                    verification_error_after_source(
-                        source_bundle.is_some(),
-                        interruption_checkpoint.as_ref(),
-                        &run,
-                        "aggregate_snapshot_digest",
-                        error.into(),
-                    )
-                })?
-                .to_string(),
-        );
+        plan_receipt.repository_snapshot_digest =
+            Some(cockpit_repository::snapshot_digest(&run.final_snapshot)?.to_string());
         plan_receipt.base_revision = route.base_revision.clone();
         plan_receipt.affected_paths = route.affected_paths.clone();
         plan_receipt.dependency_confidence = Some(route.dependency_confidence);
@@ -5015,42 +4759,18 @@ fn run_verification_command(
             ));
         }
     }
-    reconcile_actual_local_node_projection(&mut planned_nodes, &run.receipt.results).map_err(
-        |error| {
-            verification_error_after_source(
-                source_bundle.is_some(),
-                interruption_checkpoint.as_ref(),
-                &run,
-                "aggregate_result_projection",
-                error,
-            )
-        },
-    )?;
+    reconcile_actual_local_node_projection(&mut planned_nodes, &run.receipt.results)?;
     let cost_observation = run.receipt.cost_observation();
     run.receipt.cost_observation = Some(cost_observation);
     // Keep the strict protocol receipt separate from CLI-only planning
     // projections. Persisted Work Item evidence is deserialized with
     // deny_unknown_fields and must remain reusable as a typed receipt.
-    let verification_receipt = serde_json::to_value(&run.receipt).map_err(|error| {
-        verification_error_after_source(
-            source_bundle.is_some(),
-            interruption_checkpoint.as_ref(),
-            &run,
-            "aggregate_receipt_serialization",
-            error.into(),
-        )
-    })?;
+    let verification_receipt = serde_json::to_value(&run.receipt)?;
     let mut output = verification_receipt.clone();
     output["runtimeVersion"] = serde_json::Value::String(runtime_context.runtime_version.clone());
     output["runtimeDigest"] = serde_json::Value::String(runtime_context.runtime_digest.to_string());
     output["plannedNodes"] = json!(planned_nodes);
     output["declaredCoverage"] = declared_coverage;
-    if let Some(coverage) = &source_coverage {
-        output["sourceInventoryCoverage"] = json!(coverage);
-        // Use the finalizer's actual invocation/cost observations. No
-        // fixed reader count or provider-specific field enters Verify.
-        output["sourceUses"] = json!(source_uses);
-    }
     output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
         &run.receipt.execution_records
     ));
@@ -5077,18 +4797,7 @@ fn run_verification_command(
                 eprintln!("could not persist failed verification attempt: {error}");
             }
         }
-        println!(
-            "{}",
-            serde_json::to_string_pretty(&output).map_err(|error| {
-                verification_error_after_source(
-                    source_bundle.is_some(),
-                    interruption_checkpoint.as_ref(),
-                    &run,
-                    "verification_output",
-                    error.into(),
-                )
-            })?
-        );
+        println!("{}", serde_json::to_string_pretty(&output)?);
         anyhow::bail!(
             "verification command failed for {}; structured failure receipt emitted",
             if failed_nodes.is_empty() {
@@ -5104,23 +4813,10 @@ fn run_verification_command(
         // rejection must therefore retain the child results for a
         // safe reclassification or reuse decision.
         let execution_attempt = persist_for_run(&initial_snapshot,"execution_completed",if partial_declaration_selection {Some(("partial_declaration_coverage","Selected declarations completed; omitted declarations remain unverified; no formal evidence promotion."))} else {None},Some(&verification_receipt),None)
-                .context("persist verification attempt")
-                .map_err(|error| verification_error_after_source(
-                    source_bundle.is_some(), interruption_checkpoint.as_ref(), &run,
-                    "execution_attempt_publication", error,
-                ))?;
+                .context("persist verification attempt")?;
         let execution_attempt_id = execution_attempt["attemptId"]
             .as_str()
-            .context("persisted verification attempt has no identity")
-            .map_err(|error| {
-                verification_error_after_source(
-                    source_bundle.is_some(),
-                    interruption_checkpoint.as_ref(),
-                    &run,
-                    "execution_attempt_identity",
-                    error,
-                )
-            })?
+            .context("persisted verification attempt has no identity")?
             .to_owned();
         if partial_declaration_selection {
             // Keep this exact execution attempt, but retain all prior formal
@@ -5134,18 +4830,7 @@ fn run_verification_command(
                         Err(_) => json!({"state":"unavailable","reusePermitted":false}),
                     };
             }
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&output).map_err(|error| {
-                    verification_error_after_source(
-                        source_bundle.is_some(),
-                        interruption_checkpoint.as_ref(),
-                        &run,
-                        "verification_output",
-                        error.into(),
-                    )
-                })?
-            );
+            println!("{}", serde_json::to_string_pretty(&output)?);
             return Ok(());
         }
         if archived_recovery {
@@ -5194,13 +4879,7 @@ fn run_verification_command(
                 if let Err(persist_error) = recovery_attempt {
                     eprintln!("could not persist receipt rejection attempt: {persist_error}");
                 }
-                return Err(verification_error_after_source(
-                    source_bundle.is_some(),
-                    interruption_checkpoint.as_ref(),
-                    &run,
-                    "formal_receipt",
-                    anyhow::anyhow!("record verification evidence: {error}"),
-                ));
+                return Err(anyhow::anyhow!("record verification evidence: {error}"));
             }
         }
         if let Some(checkpoint) = interruption_checkpoint.as_ref() {
@@ -5213,18 +4892,7 @@ fn run_verification_command(
                 };
         }
     }
-    println!(
-        "{}",
-        serde_json::to_string_pretty(&output).map_err(|error| {
-            verification_error_after_source(
-                source_bundle.is_some(),
-                interruption_checkpoint.as_ref(),
-                &run,
-                "verification_output",
-                error.into(),
-            )
-        })?
-    );
+    println!("{}", serde_json::to_string_pretty(&output)?);
     Ok(())
 }
 
@@ -7556,93 +7224,13 @@ mod local_projection_regression_tests {
 }
 
 #[cfg(test)]
-mod verify_source_bundle_tests {
-    use super::{Cli, CommandKind};
-    use clap::{CommandFactory, Parser, error::ErrorKind};
+mod ordinary_cli_routes_tests {
+    use super::{Cli, CommandKind, ProfileCommand};
+    use clap::Parser;
     use std::path::PathBuf;
 
-    // These tests exercise the actual CLI grammar only. They perform no source
-    // observation, command execution, source acceptance or formal promotion.
     #[test]
-    fn source_bundle_selects_the_full_current_wi_inventory_without_command_overrides() {
-        let argv = [
-            "ai-cockpit",
-            "verify",
-            "--repo",
-            ".",
-            "--work-item",
-            "WI-X",
-            "--source-bundle",
-            "provided-manifest.json",
-        ];
-        let parsed = Cli::try_parse_from(argv)
-            .expect("TARGET RED: generic verify source-bundle route is missing");
-        match parsed.command {
-            CommandKind::Verify {
-                work_item,
-                command,
-                node,
-                args,
-                plan_only,
-                archived_recovery,
-                ..
-            } => {
-                assert_eq!(work_item.as_deref(), Some("WI-X"));
-                assert!(command.is_empty() && node.is_empty() && args.is_empty());
-                assert!(!plan_only && !archived_recovery);
-            }
-            _ => panic!("expected ordinary verify command"),
-        }
-        let matches = Cli::command().try_get_matches_from(argv).unwrap();
-        let verify = matches.subcommand_matches("verify").unwrap();
-        assert_eq!(
-            verify.get_one::<PathBuf>("source_bundle"),
-            Some(&PathBuf::from("provided-manifest.json")),
-        );
-    }
-
-    #[test]
-    fn source_bundle_requires_an_explicit_work_item_before_repository_actions() {
-        let error = Cli::try_parse_from([
-            "ai-cockpit",
-            "verify",
-            "--repo",
-            ".",
-            "--source-bundle",
-            "provided-manifest.json",
-        ])
-        .expect_err("source bundle without a Work Item must not resolve a route");
-        assert_eq!(error.kind(), ErrorKind::MissingRequiredArgument);
-    }
-
-    #[test]
-    fn source_bundle_conflicts_with_every_partial_or_recovery_execution_selector() {
-        for conflict in [
-            vec!["--command", "git"],
-            vec!["--args=--version"],
-            vec!["--node", "project-command-0"],
-            vec!["--plan-only"],
-            vec!["--archived-recovery"],
-        ] {
-            let mut argv = vec![
-                "ai-cockpit",
-                "verify",
-                "--repo",
-                ".",
-                "--work-item",
-                "WI-X",
-                "--source-bundle",
-                "provided-manifest.json",
-            ];
-            argv.extend(conflict);
-            let error = Cli::try_parse_from(argv)
-                .expect_err("source inventory must not mix with partial or recovery execution");
-            assert_eq!(error.kind(), ErrorKind::ArgumentConflict);
-        }
-    }
-
-    #[test]
-    fn source_bundle_parser_preserves_ordinary_verify_routes() {
+    fn ordinary_verify_routes_preserve_default_execution_selectors() {
         for argv in [
             vec!["ai-cockpit", "verify", "--repo", "."],
             vec!["ai-cockpit", "verify", "--repo", ".", "--work-item", "WI-X"],
@@ -7671,62 +7259,9 @@ mod verify_source_bundle_tests {
             }
         }
     }
-}
-
-#[cfg(test)]
-mod profile_execution_recipe_tests {
-    use super::{Cli, CommandKind, ProfileCommand};
-    use clap::{CommandFactory, Parser};
-    use std::path::PathBuf;
-
-    // Parser-only coverage: no recipe file or project/profile is opened and
-    // no executable is invoked or profile confirmation performed.
-    #[test]
-    fn profile_confirm_accepts_an_explicit_execution_recipe_path() {
-        let argv = [
-            "ai-cockpit",
-            "profile",
-            "confirm",
-            "--repo",
-            "provided-repository",
-            "--program",
-            "/concrete/cargo",
-            "--args=check,--locked",
-            "--execution-recipe",
-            "provided-recipe.json",
-        ];
-        let parsed = Cli::try_parse_from(argv)
-            .expect("TARGET RED: explicit typed profile execution-recipe CLI input is missing");
-        match parsed.command {
-            CommandKind::Profile {
-                command:
-                    ProfileCommand::Confirm {
-                        repo,
-                        program,
-                        args,
-                        ..
-                    },
-            } => {
-                assert_eq!(repo, PathBuf::from("provided-repository"));
-                assert_eq!(program, "/concrete/cargo");
-                assert_eq!(args, vec!["check", "--locked"]);
-            }
-            _ => panic!("expected profile confirm command"),
-        }
-        let matches = Cli::command().try_get_matches_from(argv).unwrap();
-        let confirm = matches
-            .subcommand_matches("profile")
-            .unwrap()
-            .subcommand_matches("confirm")
-            .unwrap();
-        assert_eq!(
-            confirm.get_one::<PathBuf>("execution_recipe"),
-            Some(&PathBuf::from("provided-recipe.json")),
-        );
-    }
 
     #[test]
-    fn profile_confirm_keeps_the_existing_no_recipe_cli_form() {
+    fn profile_confirm_keeps_the_existing_cli_form() {
         let parsed = Cli::try_parse_from([
             "ai-cockpit",
             "profile",
@@ -7753,834 +7288,6 @@ mod profile_execution_recipe_tests {
                 assert_eq!(args, vec!["check", "--locked"]);
             }
             _ => panic!("expected profile confirm command"),
-        }
-    }
-}
-
-/// Dispatch data derived only from the live inventory session at the call site.
-/// This private projection never creates an execution or source capability.
-struct VerificationSourceDispatch {
-    fresh_indices: Vec<usize>,
-    force_fresh: std::collections::BTreeSet<String>,
-    source_count: usize,
-}
-
-fn verification_source_dispatch(
-    requests: &[RepositoryVerificationRequest],
-    coverage: Option<&cockpit_protocol::ci_admission::PortableInventoryCoverage>,
-    actual_source_nodes: &[String],
-) -> Result<VerificationSourceDispatch> {
-    let Some(coverage) = coverage else {
-        if !actual_source_nodes.is_empty() {
-            anyhow::bail!("source results without a live inventory session");
-        }
-        return Ok(VerificationSourceDispatch {
-            fresh_indices: (0..requests.len()).collect(),
-            force_fresh: Default::default(),
-            source_count: 0,
-        });
-    };
-    let declared = requests
-        .iter()
-        .map(|r| r.node_id.clone())
-        .collect::<Vec<_>>();
-    let inventory = declared
-        .iter()
-        .cloned()
-        .collect::<std::collections::BTreeSet<_>>();
-    if coverage.schema_version != 1
-        || declared.is_empty()
-        || inventory.len() != declared.len()
-        || coverage.declared_nodes != declared
-    {
-        anyhow::bail!("source inventory differs from complete current declarations");
-    }
-    let unique_current = |nodes: &[String]| -> Result<std::collections::BTreeSet<String>> {
-        let unique = nodes
-            .iter()
-            .cloned()
-            .collect::<std::collections::BTreeSet<_>>();
-        if unique.len() != nodes.len() || !unique.is_subset(&inventory) {
-            anyhow::bail!("duplicate or unknown node in source inventory");
-        }
-        Ok(unique)
-    };
-    let sourced = unique_current(&coverage.source_nodes)?;
-    let fresh = unique_current(&coverage.fresh_required_nodes)?;
-    let observed = unique_current(actual_source_nodes)?;
-    if sourced != observed
-        || !sourced.is_disjoint(&fresh)
-        || sourced.len() + fresh.len() != declared.len()
-        || coverage.source_coverage_complete != (sourced.len() == declared.len())
-    {
-        anyhow::bail!("source inventory is not an exact observed/fresh partition");
-    }
-    Ok(VerificationSourceDispatch {
-        fresh_indices: requests
-            .iter()
-            .enumerate()
-            .filter_map(|(index, request)| fresh.contains(&request.node_id).then_some(index))
-            .collect(),
-        force_fresh: fresh,
-        source_count: sourced.len(),
-    })
-}
-
-fn verification_local_reuse_inputs<T>(
-    candidate: Option<&T>,
-    local_fresh_required: bool,
-    source_fresh_required: bool,
-) -> (Option<&T>, bool) {
-    if source_fresh_required {
-        (None, true)
-    } else {
-        (candidate, candidate.is_some() || local_fresh_required)
-    }
-}
-
-fn verification_interruption_observations(
-    source_receipts: &[serde_json::Value],
-    existing_observations: &[serde_json::Value],
-) -> Vec<serde_json::Value> {
-    source_receipts
-        .iter()
-        .chain(existing_observations)
-        .cloned()
-        .collect()
-}
-
-fn source_bundle_verification_requests(
-    root: &Path,
-    wi: &str,
-    stage: VerificationStage,
-    workers: usize,
-    timeout_seconds: Option<u64>,
-    runtime: &RuntimeContext,
-    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-) -> Result<Vec<RepositoryVerificationRequest>> {
-    cockpit_repository::current_portable_inventory_requests(
-        root,
-        wi,
-        &cockpit_repository::PortableInventoryRoute {
-            stage,
-            workers,
-            timeout_seconds,
-        },
-        runtime,
-        caller,
-    )
-    .map_err(source_bundle_error)
-}
-
-fn source_bundle_error(error: impl std::fmt::Display) -> anyhow::Error {
-    anyhow::anyhow!(
-        "{error}; check the bundle source or run verify without --source-bundle for native verification"
-    )
-}
-
-fn verification_error_after_source(
-    source_enabled: bool,
-    checkpoint: Option<&cockpit_repository::VerificationRunCheckpoint>,
-    run: &cockpit_repository::RepositoryVerificationRun,
-    phase: &str,
-    error: anyhow::Error,
-) -> anyhow::Error {
-    if source_enabled {
-        interrupted_verification_error(
-            checkpoint,
-            std::slice::from_ref(run),
-            &[],
-            &[],
-            &[],
-            phase,
-            &error.to_string(),
-        )
-    } else {
-        error
-    }
-}
-
-#[cfg(test)]
-mod verify_source_dispatch_tests {
-    use super::*;
-
-    fn requests() -> Vec<RepositoryVerificationRequest> {
-        [
-            "project-command-0",
-            "project-command-51",
-            "project-command-2",
-        ]
-        .into_iter()
-        .map(|id| RepositoryVerificationRequest {
-            node_id: id.into(),
-            program: "git".into(),
-            args: vec!["--version".into()],
-            scope: vec!["**".into()],
-            stage: "task".into(),
-            runner: "local".into(),
-            runtime_digest: "fixture-runtime".into(),
-            base_commit: None,
-            workers: 1,
-            work_item_id: Some("WI-X".into()),
-            timeout_seconds: Some(30),
-            policy: RepositoryVerificationPolicy::ProfileAuthorized,
-        })
-        .collect()
-    }
-
-    fn coverage() -> cockpit_protocol::ci_admission::PortableInventoryCoverage {
-        cockpit_protocol::ci_admission::PortableInventoryCoverage {
-            schema_version: 1,
-            declared_nodes: vec![
-                "project-command-0".into(),
-                "project-command-51".into(),
-                "project-command-2".into(),
-            ],
-            source_nodes: vec!["project-command-51".into()],
-            fresh_required_nodes: vec!["project-command-2".into(), "project-command-0".into()],
-            source_coverage_complete: false,
-            gaps: vec![],
-        }
-    }
-
-    // Pure dispatch-data tests only. These values do not represent source
-    // capabilities and no mock receipt becomes an executable run.
-    #[test]
-    fn source_dispatch_retains_full_inventory_and_native_fresh_execution_order() {
-        let requests = requests();
-        let original = requests.clone();
-        let partition = verification_source_dispatch(
-            &requests,
-            Some(&coverage()),
-            &["project-command-51".into()],
-        )
-        .unwrap();
-        assert_eq!(partition.fresh_indices, vec![0, 2]);
-        assert_eq!(partition.source_count, 1);
-        assert_eq!(
-            partition.force_fresh.into_iter().collect::<Vec<_>>(),
-            vec!["project-command-0", "project-command-2"]
-        );
-        assert_eq!(requests, original);
-        let ordinary = verification_source_dispatch(&requests, None, &[]).unwrap();
-        assert_eq!(ordinary.fresh_indices, vec![0, 1, 2]);
-        assert_eq!(ordinary.source_count, 0);
-        assert!(ordinary.force_fresh.is_empty());
-        let mut all_sources = coverage();
-        all_sources.source_nodes = all_sources.declared_nodes.clone();
-        all_sources.fresh_required_nodes.clear();
-        all_sources.source_coverage_complete = true;
-        let all =
-            verification_source_dispatch(&requests, Some(&all_sources), &all_sources.source_nodes)
-                .unwrap();
-        assert!(all.fresh_indices.is_empty() && all.force_fresh.is_empty());
-        assert_eq!(all.source_count, 3);
-        let mut no_sources = coverage();
-        no_sources.source_nodes.clear();
-        no_sources.fresh_required_nodes = no_sources.declared_nodes.clone();
-        let none = verification_source_dispatch(&requests, Some(&no_sources), &[]).unwrap();
-        assert_eq!(none.fresh_indices, vec![0, 1, 2]);
-        assert_eq!(none.force_fresh.len(), 3);
-        assert_eq!(none.source_count, 0);
-    }
-
-    #[test]
-    fn source_dispatch_rejects_incomplete_ambiguous_or_unobserved_partitions() {
-        let requests = requests();
-        let mut cases = Vec::new();
-        let mut changed = coverage();
-        changed.declared_nodes.pop();
-        cases.push(changed);
-        let mut changed = coverage();
-        changed.source_nodes.push("unknown".into());
-        cases.push(changed);
-        let mut changed = coverage();
-        changed.source_nodes.push("project-command-51".into());
-        cases.push(changed);
-        let mut changed = coverage();
-        changed
-            .fresh_required_nodes
-            .push("project-command-51".into());
-        cases.push(changed);
-        let mut changed = coverage();
-        changed.fresh_required_nodes.pop();
-        cases.push(changed);
-        let mut changed = coverage();
-        changed.source_coverage_complete = true;
-        cases.push(changed);
-        for coverage in cases {
-            assert!(
-                verification_source_dispatch(
-                    &requests,
-                    Some(&coverage),
-                    &["project-command-51".into()],
-                )
-                .is_err()
-            );
-        }
-        assert!(verification_source_dispatch(&requests, Some(&coverage()), &[]).is_err());
-        assert!(
-            verification_source_dispatch(&requests, None, &["project-command-51".into()]).is_err()
-        );
-    }
-
-    #[test]
-    fn source_required_fresh_removes_the_local_candidate_before_reuse() {
-        let candidate = 17;
-        let (selected, force_fresh) =
-            verification_local_reuse_inputs(Some(&candidate), false, true);
-        assert!(selected.is_none() && force_fresh);
-        let (selected, force_fresh) =
-            verification_local_reuse_inputs(Some(&candidate), false, false);
-        assert_eq!(selected, Some(&17));
-        assert!(force_fresh);
-        let (selected, force_fresh) = verification_local_reuse_inputs::<i32>(None, false, false);
-        assert!(selected.is_none() && !force_fresh);
-        let (selected, force_fresh) = verification_local_reuse_inputs::<i32>(None, true, false);
-        assert!(selected.is_none() && force_fresh);
-    }
-
-    #[test]
-    fn interruption_retains_each_source_receipt_and_existing_worker_observation() {
-        let first = json!({"nodeId":"project-command-51","rawReceipt":"source-a"});
-        let second = json!({"nodeId":"project-command-51","rawReceipt":"source-b"});
-        let worker =
-            json!({"nodeId":"project-command-0","observation":"checkpoint publication failed"});
-        let sources = vec![first.clone(), second.clone()];
-        let existing = vec![worker.clone()];
-        assert_eq!(
-            verification_interruption_observations(&sources, &existing),
-            vec![first, second, worker]
-        );
-        assert_eq!(sources.len(), 2);
-        assert_eq!(existing.len(), 1);
-    }
-}
-
-#[cfg(all(test, unix))]
-mod source_bundle_canonical_route_tests {
-    use super::{Cli, CommandKind};
-    use clap::Parser;
-    use cockpit_protocol::{RuntimeContext, TaskAuthorizationCaller, VerificationStage};
-    use cockpit_repository as repository;
-    use serde_json::{Value, json};
-    use std::{
-        ffi::OsString,
-        fs,
-        path::{Path, PathBuf},
-        process::Command,
-    };
-
-    const WI: &str = "WI-CLI-SOURCE-INVENTORY";
-
-    // The following tests exercise Clap -> the actual production request
-    // helper -> real native/source SDK consumption. They do not invoke the
-    // complete run_verification_command or an external CLI end-to-end, and the
-    // trusted SDK worker is not real provider/cross-host authentication.
-    fn owned_repository(
-        declarations: &[&str],
-    ) -> (tempfile::TempDir, RuntimeContext, TaskAuthorizationCaller) {
-        let root = tempfile::Builder::new()
-            .prefix("cli source route ")
-            .tempdir()
-            .unwrap();
-        fs::write(root.path().join("tracked.txt"), "before\n").unwrap();
-        if declarations.iter().any(|text| text.contains("--workspace")) {
-            fs::write(
-                root.path().join("Cargo.toml"),
-                "[workspace]\nmembers = []\nresolver = \"3\"\n",
-            )
-            .unwrap();
-        }
-        for args in [
-            vec!["init", "-q", "--initial-branch=main"],
-            vec!["config", "core.autocrlf", "false"],
-            vec!["add", "."],
-            vec![
-                "-c",
-                "user.name=Fixture",
-                "-c",
-                "user.email=fixture@example.invalid",
-                "commit",
-                "-qm",
-                "fixture",
-            ],
-        ] {
-            assert!(
-                Command::new("git")
-                    .args(args)
-                    .current_dir(root.path())
-                    .status()
-                    .unwrap()
-                    .success()
-            );
-        }
-        repository::attach(root.path()).unwrap();
-        // Finite AUTHORIZATION ceiling, not a default; installed only in the
-        // disposable fixture before native profile/WI creation.
-        fs::write(root.path().join(".ai/policy.json"), serde_json::to_vec_pretty(&json!({
-            "schemaVersion":1,"project":{"policyId":"cli-source-route-fixture-v1","layer":"project","rules":[{
-                "operation":"modify_source","approvalMode":"single_authorized_human","requiredEvidence":[],
-                "verificationRequirement":{"schemaVersion":1,"requiredTier":"T0","requiredAssurance":"self_declared",
-                    "policyRefs":["cli-source-route-fixture-v1"],"stageRefs":["task","pr"],"gateRefs":[],
-                    "maxTimeoutSeconds":900,"reason":"Finite fixture ceiling; default CLI timeout stays None"}
-            }]}
-        })).unwrap()).unwrap();
-        repository::confirm_profile_update(root.path(), "git", &["--version".into()]).unwrap();
-        let runtime = RuntimeContext {
-            runtime_version: "1.0.1".into(),
-            protocol_version: 1,
-            runtime_digest: cockpit_core::Digest::sha256_bytes(
-                b"cli canonical route fixture; not provider proof",
-            ),
-        };
-        let caller = TaskAuthorizationCaller {
-            schema_version: 1,
-            actor: "agent:cli-source-route-fixture".into(),
-            authority_source: "fixture:synthetic-owner-not-human-or-provider-authentication".into(),
-            assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
-        };
-        repository::start_work_item_with_options_and_runtime(
-            root.path(),
-            WI,
-            "exercise exact source-bundle CLI inputs",
-            "preserve native input and source boundaries",
-            &["tracked.txt".into()],
-            &repository::WorkItemStartOptions {
-                authority: "authorized".into(),
-                acceptance_criteria: vec![
-                    "only actual native/source facts may replace this exact declared check".into(),
-                ],
-                verification_commands: declarations.iter().map(|text| (*text).into()).collect(),
-                task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
-                    schema_version: 1,
-                    agent_actor: caller.actor.clone(),
-                    authority_source: caller.authority_source.clone(),
-                    allowed_actions: vec![
-                        "run_preflight".into(),
-                        "checkpoint".into(),
-                        "run_verification".into(),
-                    ],
-                    closeout_actions: vec![],
-                    expires_at: Some("2099-01-01T00:00:00Z".into()),
-                    public_target: None,
-                }),
-                ..Default::default()
-            },
-            &runtime,
-        )
-        .unwrap();
-        let contract_path = root
-            .path()
-            .join(format!(".ai/work-items/active/{WI}.contract.json"));
-        repository::preflight_work_item_with_runtime_report(root.path(), &contract_path, &runtime)
-            .unwrap();
-        let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
-        let summary: Value = serde_json::from_slice(
-            &fs::read(
-                root.path()
-                    .join(format!(".ai/work-items/active/{WI}.summary.json")),
-            )
-            .unwrap(),
-        )
-        .unwrap();
-        let recorded_at = summary["updatedAt"]
-            .as_str()
-            .expect("actual native Summary timestamp");
-        repository::record_work_item_governance_controls_with_runtime(root.path(), WI, &json!({"decisionEvidence":{
-            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review","workItemId":WI,
-            "repositoryId":repository::repository_id(root.path()),"contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
-            "preflightDecisionDigest":summary["preflightDecisionDigest"],"repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
-            "recordedAt":recorded_at,"recordedBy":"agent:cli-source-route-test-recorder",
-            "reason":"Synthetic disposable fixture; not a real user confirmation or provider authentication."
-        }}), &runtime).unwrap();
-        repository::checkpoint_work_item_with_caller(root.path(), WI, &runtime, Some(&caller))
-            .unwrap();
-        (root, runtime, caller)
-    }
-
-    fn parsed_source_route(
-        root: &Path,
-        host: &Path,
-        caller: &TaskAuthorizationCaller,
-        stage: &str,
-        workers: usize,
-    ) -> (
-        PathBuf,
-        String,
-        VerificationStage,
-        usize,
-        Option<u64>,
-        PathBuf,
-        TaskAuthorizationCaller,
-    ) {
-        let caller_path = host.join("caller.json");
-        fs::write(&caller_path, serde_json::to_vec(caller).unwrap()).unwrap();
-        let manifest = host.join("source-bundle.json");
-        let argv = vec![
-            OsString::from("ai-cockpit"),
-            OsString::from("--task-caller"),
-            caller_path.into_os_string(),
-            OsString::from("verify"),
-            OsString::from("--repo"),
-            root.as_os_str().to_owned(),
-            OsString::from("--work-item"),
-            OsString::from(WI),
-            OsString::from("--stage"),
-            OsString::from(stage),
-            OsString::from("--workers"),
-            OsString::from(workers.to_string()),
-            OsString::from("--source-bundle"),
-            manifest.clone().into_os_string(),
-        ];
-        eprintln!("cli-source-fixture: before actual Clap parse");
-        let cli = Cli::try_parse_from(argv).expect("actual Clap source-bundle route");
-        eprintln!("cli-source-fixture: parsed actual route");
-        let explicit_caller: TaskAuthorizationCaller =
-            super::read_json_file(cli.task_caller.as_ref().unwrap(), "explicit task caller")
-                .unwrap();
-        assert_eq!(
-            serde_json::to_value(&explicit_caller).unwrap(),
-            serde_json::to_value(caller).unwrap()
-        );
-        match cli.command {
-            CommandKind::Verify {
-                repo,
-                work_item,
-                stage,
-                workers,
-                timeout_seconds,
-                source_bundle,
-                command,
-                args,
-                node,
-                plan_only,
-                archived_recovery,
-                ..
-            } => {
-                assert!(command.is_empty() && args.is_empty() && node.is_empty());
-                assert!(!plan_only && !archived_recovery);
-                assert_eq!(timeout_seconds, None, "Clap omission must stay None");
-                (
-                    repo,
-                    work_item.unwrap(),
-                    VerificationStage::parse(&stage).unwrap(),
-                    workers,
-                    timeout_seconds,
-                    source_bundle.unwrap(),
-                    explicit_caller,
-                )
-            }
-            _ => panic!("expected verify"),
-        }
-    }
-
-    fn actual_source_round_trip(stage_text: &str) {
-        let (root, runtime, fixture_caller) = owned_repository(&["git --version"]);
-        let host = tempfile::tempdir().unwrap();
-        let host_path = fs::canonicalize(host.path()).unwrap();
-        let canonical = fs::canonicalize(root.path()).unwrap();
-        let (repo, wi, stage, workers, timeout, manifest, caller) =
-            parsed_source_route(&canonical, &host_path, &fixture_caller, stage_text, 1);
-        eprintln!("cli-source-fixture: native checkpoint complete; build inventory");
-        let requests = super::source_bundle_verification_requests(
-            &repo,
-            &wi,
-            stage,
-            workers,
-            timeout,
-            &runtime,
-            Some(&caller),
-        )
-        .expect("TARGET RED: parsed CLI route must build the same exact native source inventory");
-        assert_eq!(requests.len(), 1);
-        assert_eq!(requests[0].stage, stage.as_str());
-        assert_eq!(requests[0].workers, 1);
-        assert_eq!(
-            requests[0].timeout_seconds, None,
-            "finite ceiling is never an implicit request timeout"
-        );
-        let snapshot = cockpit_git::GitRepository::discover(&repo)
-            .unwrap()
-            .snapshot()
-            .unwrap();
-        let route =
-            repository::resolve_verification_route(&repo, &wi, stage, "local", &snapshot).unwrap();
-        assert_eq!(requests[0].base_commit, route.base_revision);
-        assert!(requests[0].base_commit.is_some());
-        let invocation = repository::CurrentNativeInvocation::new();
-        let observed = repository::run_repository_verification_with_native_witness(
-            &repo,
-            &requests[0],
-            &runtime,
-            Some(&caller),
-            &invocation,
-            None,
-        )
-        .expect("actual bounded native git child under the parsed route");
-        assert!(observed.run.receipt.passed);
-        assert_eq!(observed.run.receipt.processes_spawned, 1);
-        assert_eq!(
-            observed.run.receipt.timeout_seconds,
-            Some(cockpit_verification::DEFAULT_EXECUTION_SECONDS)
-        );
-        assert!(
-            observed
-                .run
-                .receipt
-                .timeout_seconds
-                .expect("one physical node has an actual timeout")
-                < 900
-        );
-        let witness = observed
-            .witness
-            .expect("actual successful physical child must supply its live witness");
-        let published = repository::publish_native_execution_witness(
-            &repo,
-            &requests[0],
-            &runtime,
-            Some(&caller),
-            &invocation,
-            &witness,
-        )
-        .unwrap();
-        repository::persist_verification_attempt(
-            &repo,
-            &wi,
-            &requests,
-            &observed.run.final_snapshot,
-            &runtime,
-            "execution_completed",
-            None,
-            Some(&serde_json::to_value(&observed.run.receipt).unwrap()),
-        )
-        .unwrap();
-        let input = repo.join(format!(
-            ".ai/evidence/{wi}.verification-admissions/portable/objects/{}.bin",
-            &published.input_digest.as_str()[7..]
-        ));
-        let plan =
-            repository::plan_portable_evidence(&repo, Some(&wi), &input, &runtime, Some(&caller))
-                .unwrap();
-        assert!(plan.integrity_valid && !plan.may_replace_execution);
-        fs::write(&manifest, serde_json::to_vec(&json!({"schemaVersion":1,"entries":[{
-            "nodeId":requests[0].node_id,"input":input,"expectedPlanDigest":plan.plan_digest,"sourceParameters":{}
-        }]})).unwrap()).unwrap();
-        let counter = host_path.join("reader-count");
-        let counter_literal = serde_json::to_string(&counter).unwrap();
-        let origin =
-            cockpit_core::Digest::sha256_bytes(b"trusted offline CLI SDK host/worker fixture only");
-        let code = format!(
-            "#!/usr/bin/python3\nimport sys,json\np={counter_literal}\ntry:\n n=int(open(p).read())\nexcept FileNotFoundError:\n n=0\nwith open(p,'w') as f:f.write(str(n+1))\nr=json.loads(sys.argv[-1])\nprint(json.dumps({{'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':'{origin}'}}))\n"
-        );
-        let script = host_path.join("controlled-source.py");
-        fs::write(&script, &code).unwrap();
-        use std::os::unix::fs::PermissionsExt;
-        fs::set_permissions(&script, fs::Permissions::from_mode(0o700)).unwrap();
-        // The test SDK host fixes these bytes; no parsed caller flag or packet
-        // chooses a tool, and no JSON claim constructs the returned live cap.
-        let tool = repository::PortableSourceTool::new(
-            script,
-            cockpit_core::Digest::sha256_bytes(code.as_bytes()),
-        );
-        let accepted = repository::acquire_portable_evidence_inventory(
-            &repo,
-            &wi,
-            &requests,
-            &manifest,
-            &tool,
-            &runtime,
-            Some(&caller),
-        )
-        .expect(
-            "TARGET RED: actual parsed PR/None or Task/None request must survive core acquisition",
-        );
-        assert_eq!(accepted.len(), 1);
-        assert_eq!(fs::read_to_string(&counter).unwrap(), "1");
-        let snapshot = cockpit_git::GitRepository::discover(&repo)
-            .unwrap()
-            .snapshot()
-            .unwrap();
-        let now = i64::try_from(
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_secs(),
-        )
-        .unwrap_or(i64::MAX);
-        let planned = requests
-            .iter()
-            .map(|request| {
-                repository::plan_repository_verification_action(&repo, request, &snapshot, now)
-                    .unwrap()
-            })
-            .collect::<Vec<_>>();
-        let checkpoint = repository::VerificationRunCheckpoint::prepare(
-            &repo, &requests, &planned, &snapshot, &runtime,
-        )
-        .unwrap();
-        let own_run = checkpoint.local_run_identity();
-        let staged = repository::consume_portable_evidence_inventory(
-            &repo,
-            &wi,
-            &requests,
-            accepted,
-            &runtime,
-            Some(&caller),
-            Some(&own_run),
-        )
-        .expect("TARGET RED: actual CLI-built request must consume its exact live source");
-        assert!(staged.coverage().source_coverage_complete);
-        assert!(staged.coverage().fresh_required_nodes.is_empty());
-        assert_eq!(staged.observed_runs().len(), 1);
-        let finalized = staged.finalize(&repo, &requests, &runtime, Some(&caller))
-            .expect("TARGET RED: final current/own-run checks must preserve parsed route and None timeout");
-        assert_eq!(finalized.runs.len(), 1);
-        assert!(finalized.runs[0].receipt.passed);
-        assert_eq!(
-            (
-                finalized.runs[0].receipt.nodes_executed,
-                finalized.runs[0].receipt.nodes_reused,
-                finalized.runs[0].receipt.processes_spawned
-            ),
-            (0, 1, 0)
-        );
-        assert_eq!(
-            finalized.runs[0].receipt.timeout_seconds,
-            observed.run.receipt.timeout_seconds
-        );
-        assert_eq!(finalized.source_uses[0].source_reader_invocations, 3);
-        assert_eq!(fs::read_to_string(&counter).unwrap(), "3");
-        assert!(
-            !repo
-                .join(format!(".ai/evidence/{wi}.verification.json"))
-                .exists(),
-            "source-only fixture is not formal lifecycle acceptance"
-        );
-    }
-
-    // Full native fixture + the real deeply nested Clap tree has more stack
-    // than the small parser-only tests. Bound only this test thread, preserve
-    // its original panic, and leave production/global stack settings unchanged.
-    fn on_cli_fixture_stack(test: impl FnOnce() + Send + 'static) {
-        let result = std::thread::Builder::new()
-            .name("cli-native-source-fixture".into())
-            .stack_size(8 * 1024 * 1024)
-            .spawn(test)
-            .expect("start bounded-stack fixture thread")
-            .join();
-        if let Err(panic) = result {
-            std::panic::resume_unwind(panic);
-        }
-    }
-
-    #[test]
-    fn source_bundle_pr_default_none_reaches_actual_core_finalization() {
-        on_cli_fixture_stack(|| actual_source_round_trip("pr"));
-    }
-
-    #[test]
-    fn source_bundle_task_finite_ceiling_preserves_none_through_actual_core_finalization() {
-        on_cli_fixture_stack(|| actual_source_round_trip("task"));
-    }
-
-    fn evidence_files(root: &Path) -> Vec<(PathBuf, Option<Vec<u8>>)> {
-        let directory = root.join(".ai/evidence");
-        let entries = match fs::read_dir(&directory) {
-            Ok(entries) => entries,
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Vec::new(),
-            Err(error) => panic!("read native observation catalog: {error}"),
-        };
-        let mut files = entries
-            .map(|entry| {
-                let path = entry.unwrap().path();
-                let metadata = fs::symlink_metadata(&path).unwrap();
-                assert!(!metadata.file_type().is_symlink());
-                let bytes = if metadata.is_file() {
-                    Some(fs::read(&path).unwrap())
-                } else {
-                    assert!(metadata.is_dir());
-                    None
-                };
-                (path, bytes)
-            })
-            .collect::<Vec<_>>();
-        files.sort_by(|left, right| left.0.cmp(&right.0));
-        files
-    }
-
-    #[test]
-    fn source_bundle_workspace_and_parallel_requests_reject_before_native_or_reader_activity() {
-        on_cli_fixture_stack(unsupported_source_bundle_routes);
-    }
-
-    fn unsupported_source_bundle_routes() {
-        for (declaration, workers, expected) in [
-            (
-                "cargo test --locked --workspace -- --test-threads=1",
-                1,
-                "portable_source_bundle_workspace_unsupported",
-            ),
-            (
-                "git --version",
-                2,
-                "portable_source_bundle_workers_unsupported",
-            ),
-        ] {
-            let declarations = if expected == "portable_source_bundle_workspace_unsupported" {
-                vec!["git --version", declaration]
-            } else {
-                vec![declaration]
-            };
-            let (root, runtime, fixture_caller) = owned_repository(&declarations);
-            let host = tempfile::tempdir().unwrap();
-            let host_path = fs::canonicalize(host.path()).unwrap();
-            let canonical = fs::canonicalize(root.path()).unwrap();
-            let (repo, wi, stage, workers, timeout, _manifest, caller) =
-                parsed_source_route(&canonical, &host_path, &fixture_caller, "pr", workers);
-            let before = evidence_files(&repo);
-            if expected == "portable_source_bundle_workspace_unsupported" {
-                let legacy = repository::declared_portable_verification_request(
-                    &repo, &wi, "project-command-0", &runtime, Some(&caller),
-                ).expect("old single-node selection may choose git beside an unrelated workspace declaration");
-                assert_eq!(
-                    (legacy.program.as_str(), legacy.args.as_slice()),
-                    ("git", ["--version".to_owned()].as_slice())
-                );
-                assert_eq!(legacy.stage, "task");
-                assert_eq!(
-                    evidence_files(&repo),
-                    before,
-                    "legacy declaration lookup is read-only"
-                );
-            }
-            let error = super::source_bundle_verification_requests(
-                &repo,
-                &wi,
-                stage,
-                workers,
-                timeout,
-                &runtime,
-                Some(&caller),
-            )
-            .expect_err(
-                "unsupported source-bundle route must stop before observation or execution",
-            );
-            assert!(
-                error.to_string().contains(expected),
-                "{expected}: {error:#}"
-            );
-            assert_eq!(
-                evidence_files(&repo),
-                before,
-                "request rejection must not append any native execution/reader observation"
-            );
-            assert!(
-                !repo
-                    .join(format!(".ai/evidence/{wi}.verification.json"))
-                    .exists()
-            );
-            assert!(!host_path.join("reader-count").exists());
         }
     }
 }

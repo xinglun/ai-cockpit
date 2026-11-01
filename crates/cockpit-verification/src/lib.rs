@@ -1490,21 +1490,8 @@ impl PlannedReason {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlannedSatisfaction {
-    /// A fresh controlled source observation, never reconstructed from wire data.
-    PortableSourceObservation {
-        #[serde(rename = "admissionRef")]
-        admission_ref: String,
-        #[serde(rename = "sourceRoot")]
-        source_root: String,
-    },
     Execution,
     ReusedReceipt,
-    /// Presentation of a live same-invocation substitution. Deserializing this
-    /// projection never creates its required opaque execution witness.
-    PortableNativeInvocation {
-        #[serde(rename = "publicationDigest")]
-        publication_digest: String,
-    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -6231,7 +6218,11 @@ mod tests {
         let error = serde_json::from_value::<PlannedSatisfaction>(wire)
             .expect_err("retired native invocation must not remain a supported wire variant");
         assert_eq!(error.classify(), serde_json::error::Category::Data);
-        assert!(error.to_string().contains("unknown variant `portable_native_invocation`"));
+        assert!(
+            error
+                .to_string()
+                .contains("unknown variant `portable_native_invocation`")
+        );
     }
 
     #[test]
@@ -6242,7 +6233,11 @@ mod tests {
         let error = serde_json::from_value::<PlannedSatisfaction>(wire)
             .expect_err("retired source observation must not remain a supported wire variant");
         assert_eq!(error.classify(), serde_json::error::Category::Data);
-        assert!(error.to_string().contains("unknown variant `portable_source_observation`"));
+        assert!(
+            error
+                .to_string()
+                .contains("unknown variant `portable_source_observation`")
+        );
     }
 
     #[test]
@@ -6253,7 +6248,10 @@ mod tests {
         ] {
             let encoded = serde_json::to_value(&state).unwrap();
             assert_eq!(encoded, serde_json::json!(wire));
-            assert_eq!(serde_json::from_value::<PlannedSatisfaction>(encoded).unwrap(), state);
+            assert_eq!(
+                serde_json::from_value::<PlannedSatisfaction>(encoded).unwrap(),
+                state
+            );
         }
     }
 

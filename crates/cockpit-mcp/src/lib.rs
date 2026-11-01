@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 
 mod ci_admission;
 
-const TOOL_NAMES: [&str; 46] = [
+const TOOL_NAMES: [&str; 45] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -19,7 +19,6 @@ const TOOL_NAMES: [&str; 46] = [
     "knowledge_query",
     "evidence_get",
     "evidence_bundle_plan",
-    "evidence_bundle_accept",
     "delegated_evidence_list",
     "repository_observe",
     "capability_show",
@@ -889,16 +888,6 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["input"],
         ),
-        "evidence_bundle_accept" => object_schema(
-            json!({
-                "workItemId": string_property("Consumer Work Item admitted under the current caller and Runtime."),
-                "input": string_property("Local portable execution evidence file."),
-                "expectedPlanDigest": string_property("Exact sha256 plan digest from inspection; not a source credential."),
-                "sourceRequest": {"type":"object","description":"Optional source selector for this Runtime's fixed controlled reader; not proof or a worker path."},
-                "nodeId": string_property("Optional existing declared node selector; never a command."),
-            }),
-            &["workItemId", "input", "expectedPlanDigest"],
-        ),
         "delegated_evidence_list" => object_schema(
             json!({
                 "workItemId": string_property("Work Item whose provider evidence is listed."),
@@ -1139,7 +1128,6 @@ fn mcp_tool_schema(name: &str) -> Value {
 fn task_caller_tool(name: &str) -> bool {
     [
         "evidence_bundle_plan",
-        "evidence_bundle_accept",
         "preflight",
         "verify",
         "work_item_controls",
@@ -1228,10 +1216,6 @@ fn mcp_tool_definitions() -> Vec<Value> {
         (
             "evidence_bundle_plan",
             "Inspect portable execution evidence without execution, writes, or network; unverified source claims remain visible.",
-        ),
-        (
-            "evidence_bundle_accept",
-            "Request exact portable evidence admission under current authority. Optional sourceRequest reads an external source twice and writes node observations; it never records full Work Item verification.",
         ),
         (
             "delegated_evidence_list",
@@ -1374,11 +1358,11 @@ fn mcp_tool_definitions() -> Vec<Value> {
                 "description": description,
                 "inputSchema": mcp_tool_schema(name),
             });
-            if name == "evidence_bundle_plan" || name == "evidence_bundle_accept" {
+            if name == "evidence_bundle_plan" {
                 tool["annotations"] = json!({
-                    "readOnlyHint": name == "evidence_bundle_plan",
+                    "readOnlyHint": true,
                     "destructiveHint": false,
-                    "openWorldHint": name == "evidence_bundle_accept",
+                    "openWorldHint": false,
                 });
             }
             tool
@@ -1421,15 +1405,6 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
         "evidence_bundle_plan" => Some(&["input", "workItemId"][..]),
-        "evidence_bundle_accept" => Some(
-            &[
-                "input",
-                "workItemId",
-                "expectedPlanDigest",
-                "sourceRequest",
-                "nodeId",
-            ][..],
-        ),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
@@ -1679,26 +1654,6 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "evidence_bundle_plan" => {
             require_string(object, "input", name)?;
             optional_string(object, "workItemId", name)?;
-        }
-        "evidence_bundle_accept" => {
-            for field in ["input", "workItemId", "expectedPlanDigest"] {
-                require_string(object, field, name)?;
-            }
-            optional_string(object, "nodeId", name)?;
-            if let Some(source) = object.get("sourceRequest") {
-                if !source.is_object()
-                    || serde_json::to_vec(source).map_err(|e| e.to_string())?.len() > 16 * 1024
-                {
-                    return Err("sourceRequest must be an object of at most 16 KiB".into());
-                }
-            } else if object.get("nodeId").is_some() {
-                return Err("nodeId requires sourceRequest".into());
-            }
-            object["expectedPlanDigest"]
-                .as_str()
-                .expect("validated digest string")
-                .parse::<cockpit_core::Digest>()
-                .map_err(|error| format!("invalid expectedPlanDigest: {error}"))?;
         }
         "delegated_evidence_list" => require_string(object, "workItemId", name)?,
         "preflight" => require_string(object, "contract", name)?,
@@ -2627,8 +2582,6 @@ pub fn handle_request_for_repo(
         "evidence_get" => evidence_get(repo, &arguments),
         "evidence_bundle_plan" => require_compatible(repo, runtime)
             .and_then(|_| ci_admission::plan(repo, &arguments, runtime)),
-        "evidence_bundle_accept" => require_compatible(repo, runtime)
-            .and_then(|_| ci_admission::accept(repo, &arguments, runtime)),
         "delegated_evidence_list" => require_compatible(repo, runtime).and_then(|_| {
             let work_item_id = arguments
                 .get("workItemId")
