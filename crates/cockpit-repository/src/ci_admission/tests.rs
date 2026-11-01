@@ -2892,6 +2892,20 @@ fn logbridge_source_fixture() -> (
     use crate::*;
     let (root, runtime, caller, mut request) = c16_native_fixture("--version");
     request.scope = vec!["**".into()];
+    let snapshot = cockpit_git::GitRepository::discover(root.path())
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    request.base_commit = crate::resolve_verification_route(
+        root.path(),
+        request.work_item_id.as_deref().unwrap(),
+        cockpit_protocol::VerificationStage::Task,
+        "local",
+        &snapshot,
+    )
+    .expect("owned fixture must execute the real current Task/local route input")
+    .base_revision;
+
     let invocation = CurrentNativeInvocation::new();
     let observed = run_repository_verification_with_native_witness(
         root.path(),
@@ -4589,10 +4603,29 @@ fn c18_inventory_one_real_source_cannot_complete_two_declarations() {
     assert_eq!(staged.coverage().gaps[0].node_id, "project-command-1");
     assert_eq!(staged.coverage().gaps[0].reason, "source_missing_run_fresh");
     assert_eq!(staged.source_uses().len(), 1);
+    assert_eq!(staged.observed_runs().len(), 1);
+    assert!(staged.observed_runs()[0].receipt.passed);
+    let prior_use = staged.source_uses()[0].clone();
+    let prior_record = std::fs::read(root.path().join(&prior_use.consumption_record_ref)).unwrap();
     let result = staged
         .finalize(root.path(), &requests, &runtime, Some(&caller))
         .expect("partial valid source data remains usable without formal promotion");
     assert!(!result.coverage.source_coverage_complete);
+    assert_eq!(result.source_uses[0].source_reader_invocations, 3);
+    assert_eq!(result.source_uses[0].source_record_refs.len(), 3);
+    assert_eq!(
+        &result.source_uses[0].source_record_refs[..2],
+        prior_use.source_record_refs.as_slice()
+    );
+    assert!(result.source_uses[0].operation_elapsed_ms >= prior_use.operation_elapsed_ms);
+    assert_ne!(
+        result.source_uses[0].consumption_record_ref,
+        prior_use.consumption_record_ref
+    );
+    assert_eq!(
+        std::fs::read(root.path().join(&prior_use.consumption_record_ref)).unwrap(),
+        prior_record
+    );
     assert_eq!(result.runs.len(), 1);
     assert_eq!(
         (
@@ -5142,10 +5175,16 @@ fn c18_inventory_acquire_manifest_observes_and_returns_real_live_capability() {
         super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
             .unwrap();
     let manifest = host.path().join("source-manifest.json");
+    let relative_data = "portable-source-data.bin";
+    std::fs::write(
+        host.path().join(relative_data),
+        std::fs::read(&input).unwrap(),
+    )
+    .unwrap();
     std::fs::write(
         &manifest,
         serde_json::to_vec(&json!({
-            "schemaVersion":1,"entries":[{"nodeId":request.node_id,"input":input,
+            "schemaVersion":1,"entries":[{"nodeId":request.node_id,"input":relative_data,
                 "expectedPlanDigest":plan.plan_digest,"sourceParameters":{}}]
         }))
         .unwrap(),
@@ -5264,7 +5303,7 @@ fn c18_inventory_acquire_rejects_entire_invalid_table_before_any_reader_call() {
         );
     }
     let target = host.path().join("valid-target.json");
-    std::fs::write(&target, valid_raw).unwrap();
+    std::fs::write(&target, &valid_raw).unwrap();
     let symlink = host.path().join("manifest-symlink.json");
     std::os::unix::fs::symlink(&target, &symlink).unwrap();
     assert!(
@@ -5281,4 +5320,262 @@ fn c18_inventory_acquire_rejects_entire_invalid_table_before_any_reader_call() {
         "a source manifest must itself be a bounded non-symlink regular file"
     );
     assert!(!counter.exists());
+    let real_parent = host.path().join("real-manifest-parent");
+    std::fs::create_dir(&real_parent).unwrap();
+    std::fs::write(real_parent.join("source.json"), &valid_raw).unwrap();
+    let linked_parent = host.path().join("linked-manifest-parent");
+    std::os::unix::fs::symlink(&real_parent, &linked_parent).unwrap();
+    for linked_path in [
+        linked_parent.join("source.json"),
+        linked_parent.join("..").join("valid-target.json"),
+    ] {
+        assert!(
+            super::acquire_portable_evidence_inventory(
+                root.path(),
+                wi,
+                &requests,
+                &linked_path,
+                &tool,
+                &runtime,
+                Some(&caller),
+            )
+            .is_err(),
+            "ancestor links must be rejected before following or cancelling a component"
+        );
+        assert!(
+            !counter.exists(),
+            "an ancestor link must not launch a source reader"
+        );
+    }
+
+    // Distinct, genuinely successful native packets keep the second row valid
+    // in every respect except the ACTUAL 16KiB reader wire budget. A bad second
+    // node/receipt would mask an early invocation of the valid first row.
+    let (wire_root, wire_runtime, wire_caller, _) = c18_inventory_native_fixture(
+        "--version",
+        true,
+        vec!["git --version".into(), "git --version".into()],
+    );
+    let wire_requests = c18_inventory_requests(wire_root.path(), wi, &wire_runtime, &wire_caller);
+    let invocation = crate::CurrentNativeInvocation::new();
+    let mut wire_entries = Vec::new();
+    for request in &wire_requests {
+        let observed = crate::run_repository_verification_with_native_witness(
+            wire_root.path(),
+            request,
+            &wire_runtime,
+            Some(&wire_caller),
+            &invocation,
+            None,
+        )
+        .expect("actual successful native packet for each distinct wire-budget row");
+        assert!(observed.run.receipt.passed);
+        assert_eq!(observed.run.receipt.processes_spawned, 1);
+        let witness = observed
+            .witness
+            .expect("distinct physical child supplies its own live witness");
+        let published = crate::publish_native_execution_witness(
+            wire_root.path(),
+            request,
+            &wire_runtime,
+            Some(&wire_caller),
+            &invocation,
+            &witness,
+        )
+        .unwrap();
+        crate::persist_verification_attempt(
+            wire_root.path(),
+            wi,
+            std::slice::from_ref(request),
+            &observed.run.final_snapshot,
+            &wire_runtime,
+            "execution_completed",
+            None,
+            Some(&serde_json::to_value(&observed.run.receipt).unwrap()),
+        )
+        .unwrap();
+        let input = wire_root.path().join(format!(
+            ".ai/evidence/{wi}.verification-admissions/portable/objects/{}.bin",
+            &published.input_digest.as_str()[7..],
+        ));
+        let plan = super::plan_portable_evidence(
+            wire_root.path(),
+            Some(wi),
+            &input,
+            &wire_runtime,
+            Some(&wire_caller),
+        )
+        .unwrap();
+        assert!(plan.integrity_valid);
+        wire_entries.push(json!({"nodeId":request.node_id,"input":input,
+            "expectedPlanDigest":plan.plan_digest,"sourceParameters":{}}));
+    }
+    assert_eq!(wire_entries.len(), 2);
+    assert_ne!(wire_entries[0]["nodeId"], wire_entries[1]["nodeId"]);
+    assert_ne!(wire_entries[0]["input"], wire_entries[1]["input"]);
+    wire_entries[1]["sourceParameters"] = json!({"padding":"x".repeat(16 * 1024)});
+    let wire_manifest_raw =
+        serde_json::to_vec(&json!({"schemaVersion":1,"entries":wire_entries})).unwrap();
+    assert!(
+        wire_manifest_raw.len() < 65_536,
+        "this is reader-wire overflow, not manifest overflow"
+    );
+    let wire_manifest = host.path().join("second-row-wire-overflow.json");
+    std::fs::write(&wire_manifest, wire_manifest_raw).unwrap();
+    let error = super::acquire_portable_evidence_inventory(
+        wire_root.path(),
+        wi,
+        &wire_requests,
+        &wire_manifest,
+        &tool,
+        &wire_runtime,
+        Some(&wire_caller),
+    )
+    .err()
+    .expect("an oversized second actual reader wire must reject the entire table");
+    assert!(
+        error.to_string().contains("source_request_byte_limit"),
+        "{error}"
+    );
+    assert!(
+        !counter.exists(),
+        "the valid first row must not run before second-row wire preflight"
+    );
+
+    // Reuse the same two real successful native packets. Acquisition is two
+    // reader calls; first consumption is call three, and call four fails while
+    // independently re-reading the second source. No synthetic node records.
+    wire_entries[1]["sourceParameters"] = json!({});
+    let second_read_counter = host.path().join("second-consumption-reader-count");
+    let second_count_literal =
+        serde_json::to_string(&second_read_counter.to_string_lossy()).unwrap();
+    let second_root =
+        cockpit_core::Digest::sha256_bytes(b"offline second-source-reread failure fixture");
+    let failure_code = format!(
+        "#!/usr/bin/python3\nimport sys,json\np={second_count_literal}\ntry:\n n=int(open(p).read())\nexcept FileNotFoundError:\n n=0\nn+=1\nwith open(p,'w') as f:f.write(str(n))\nif n==4:sys.exit(7)\nr=json.loads(sys.argv[-1])\nprint(json.dumps({{'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':'{second_root}'}}))\n"
+    );
+    let failure_script = host.path().join("second-consumption-fails.py");
+    std::fs::write(&failure_script, &failure_code).unwrap();
+    std::fs::set_permissions(&failure_script, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let failure_tool = super::PortableSourceTool::new(
+        failure_script,
+        cockpit_core::Digest::sha256_bytes(failure_code.as_bytes()),
+    );
+    let actual_manifest = host
+        .path()
+        .join("two-real-sources-before-consumption-failure.json");
+    std::fs::write(
+        &actual_manifest,
+        serde_json::to_vec(&json!({"schemaVersion":1,"entries":wire_entries})).unwrap(),
+    )
+    .unwrap();
+    let sources = super::acquire_portable_evidence_inventory(
+        wire_root.path(),
+        wi,
+        &wire_requests,
+        &actual_manifest,
+        &failure_tool,
+        &wire_runtime,
+        Some(&wire_caller),
+    )
+    .expect("both independently observed real source capabilities before dispatch");
+    assert_eq!(sources.len(), 2);
+    assert_eq!(std::fs::read_to_string(&second_read_counter).unwrap(), "2");
+    let formal = wire_root
+        .path()
+        .join(format!(".ai/evidence/{wi}.verification.json"));
+    assert!(!formal.exists());
+    let error = super::consume_portable_evidence_inventory(
+        wire_root.path(),
+        wi,
+        &wire_requests,
+        sources,
+        &wire_runtime,
+        Some(&wire_caller),
+        None,
+    )
+    .err()
+    .expect("actual second source re-read fails after first complete consumption");
+    assert_eq!(std::fs::read_to_string(&second_read_counter).unwrap(), "4");
+    let diagnostic = error.to_string();
+    assert!(
+        diagnostic.contains("source_tool_incomplete_or_failed"),
+        "{diagnostic}"
+    );
+    assert!(!diagnostic.contains("persistence_failed"), "{diagnostic}");
+    let reference = diagnostic
+        .split("source_inventory_interruption_ref=")
+        .nth(1)
+        .expect("failure must provide a safe actual locator for prior observations")
+        .split_whitespace()
+        .next()
+        .unwrap();
+    let load_reference = |reference: &str| {
+        let name = std::path::Path::new(reference)
+            .file_stem()
+            .unwrap()
+            .to_str()
+            .unwrap();
+        let id = format!("sha256:{name}");
+        let record = super::store::load_portable_record(wire_root.path(), wi, &id)
+            .unwrap()
+            .unwrap();
+        assert_eq!(record.record_ref, reference);
+        record
+    };
+    let interruption = load_reference(reference);
+    let interruption: Value = serde_json::from_slice(&interruption.input).unwrap();
+    assert_eq!(
+        interruption["kind"],
+        "portable-source-inventory-interruption"
+    );
+    let observation = &interruption["observation"];
+    assert_eq!(observation["stage"], "consume");
+    assert_eq!(observation["wholeInventoryAccepted"], false);
+    assert_eq!(
+        observation["completedSourceNodeIds"],
+        json!([wire_requests[0].node_id])
+    );
+    assert_eq!(observation["failedNodeId"], wire_requests[1].node_id);
+    assert_eq!(
+        observation["remainingNodeIds"],
+        json!([wire_requests[1].node_id])
+    );
+    assert_eq!(observation["observedReceipts"].as_array().unwrap().len(), 1);
+    assert_eq!(observation["sourceUses"].as_array().unwrap().len(), 1);
+    let prior: cockpit_verification::VerificationReceipt =
+        serde_json::from_value(observation["observedReceipts"][0].clone()).unwrap();
+    let prior_use: cockpit_protocol::ci_admission::PortableEvidenceSourceUse =
+        serde_json::from_value(observation["sourceUses"][0].clone()).unwrap();
+    assert!(prior.passed);
+    assert_eq!(
+        (
+            prior.nodes_planned,
+            prior.nodes_executed,
+            prior.nodes_reused,
+            prior.processes_spawned
+        ),
+        (1, 0, 1, 0)
+    );
+    assert_eq!(prior.results.len(), 1);
+    assert_eq!(prior.results[0].node_id, wire_requests[0].node_id);
+    assert_eq!(prior_use.receipt, observation["observedReceipts"][0]);
+    let prior_record = load_reference(&prior_use.consumption_record_ref);
+    let prior_record: Value = serde_json::from_slice(&prior_record.input).unwrap();
+    assert_eq!(prior_record["kind"], "portable-source-node-consumption");
+    assert_eq!(prior_record["observation"]["receipt"], prior_use.receipt);
+    let admission = match &prior.results[0].satisfied_by {
+        cockpit_verification::PlannedSatisfaction::PortableSourceObservation {
+            admission_ref,
+            ..
+        } => admission_ref,
+        other => panic!("expected actual portable source admission, got {other:?}"),
+    };
+    let original = load_reference(admission);
+    let original_path = wire_entries[0]["input"].as_str().unwrap();
+    assert_eq!(original.input, std::fs::read(original_path).unwrap());
+    assert!(
+        !formal.exists(),
+        "partial source observations never become formal acceptance"
+    );
 }

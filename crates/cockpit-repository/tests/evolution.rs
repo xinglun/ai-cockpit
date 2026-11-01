@@ -676,3 +676,82 @@ fn c18_late_recipe_removal_fails_closed_after_actual_execution() {
         "{error}"
     );
 }
+
+#[cfg(unix)]
+#[test]
+fn c18_recipe_file_reader_bounds_strict_inputs_and_rejects_links_and_fifo() {
+    use std::os::unix::{ffi::OsStrExt, fs::symlink};
+    let root = c18_recipe_fixture();
+    let profile_path = root.path().join(".ai/project.json");
+    let profile_before = std::fs::read(&profile_path).unwrap();
+    let external = tempfile::tempdir().unwrap();
+    let external_path = std::fs::canonicalize(external.path()).unwrap();
+    let path = external_path.join("recipe.json");
+    let recipe = c18_recipe("present");
+    let valid = serde_json::to_vec(&recipe).unwrap();
+    std::fs::write(&path, &valid).unwrap();
+    assert_eq!(
+        cockpit_repository::read_execution_recipe_file(&path).unwrap(),
+        recipe
+    );
+    let mut exact_limit = valid.clone();
+    exact_limit.resize(64 * 1024, b' ');
+    std::fs::write(&path, &exact_limit).unwrap();
+    assert_eq!(
+        cockpit_repository::read_execution_recipe_file(&path).unwrap(),
+        recipe
+    );
+    let secret = "RECIPE_VALUE_MUST_NOT_APPEAR_IN_DIAGNOSTICS";
+    let original: serde_json::Value = serde_json::from_slice(&valid).unwrap();
+    let mut unknown = original.clone();
+    unknown["trusted"] = serde_json::json!(secret);
+    let mut nested_unknown = original.clone();
+    nested_unknown["environment"][0]["trusted"] = serde_json::json!(secret);
+    let mut invalid_type = original.clone();
+    invalid_type["schemaVersion"] = serde_json::json!(secret);
+    let mut invalid_recipe = original.clone();
+    invalid_recipe["clearEnvironment"] = serde_json::json!(false);
+    let escaped_duplicate = serde_json::to_string(&original)
+        .unwrap()
+        .replace("\"name\":", "\"\\u006eame\":\"discarded\",\"name\":");
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(&escaped_duplicate).unwrap(),
+        original
+    );
+    exact_limit.push(b' ');
+    for bytes in [
+        serde_json::to_vec(&unknown).unwrap(),
+        serde_json::to_vec(&nested_unknown).unwrap(),
+        serde_json::to_vec(&invalid_type).unwrap(),
+        serde_json::to_vec(&invalid_recipe).unwrap(),
+        escaped_duplicate.into_bytes(),
+        b"not JSON".to_vec(),
+        exact_limit,
+    ] {
+        std::fs::write(&path, &bytes).unwrap();
+        let error = cockpit_repository::read_execution_recipe_file(&path).unwrap_err();
+        assert!(error.to_string().contains("execution_recipe_file_"));
+        assert!(!format!("{error:?}").contains(secret));
+        assert_eq!(std::fs::read(&path).unwrap(), bytes);
+    }
+    std::fs::write(&path, valid).unwrap();
+    let leaf_link = external_path.join("recipe-link.json");
+    symlink(&path, &leaf_link).unwrap();
+    let parent_link = external_path.join("directory-link");
+    symlink(&external_path, &parent_link).unwrap();
+    let fifo = external_path.join("recipe.fifo");
+    let fifo_name = std::ffi::CString::new(fifo.as_os_str().as_bytes()).unwrap();
+    assert_eq!(unsafe { libc::mkfifo(fifo_name.as_ptr(), 0o600) }, 0);
+    for rejected in [
+        leaf_link,
+        parent_link.join("recipe.json"),
+        parent_link.join("..").join("recipe.json"),
+        fifo,
+        external_path,
+    ] {
+        let error = cockpit_repository::read_execution_recipe_file(&rejected).unwrap_err();
+        assert!(error.to_string().contains("execution_recipe_file_"));
+    }
+    assert_eq!(std::fs::read(&profile_path).unwrap(), profile_before);
+    assert!(!root.path().join(".ai/decisions/profile-v2.json").exists());
+}

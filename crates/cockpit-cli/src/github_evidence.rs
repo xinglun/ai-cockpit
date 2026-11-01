@@ -214,12 +214,10 @@ enum SourceBridgeError {
     HttpStatus(u16),
     RecipeBytesMismatch,
     UnsupportedEvent,
-    PullRequestMergeSourceUnverified,
     PullRequestBinding,
     GitMergeParents,
     NativeInputBinding,
     ArchiveBinding,
-    ArchiveTransportUnavailable,
     RedirectLocationInvalid,
     StorageHostUnreviewed,
     SourceHeaderInvalid,
@@ -313,9 +311,8 @@ enum SourceReadRoute {
     GitCommit {
         revision: String,
     },
-    // Raw archive bytes, never a caller-supplied sourceHead projection. The
-    // future transport may permit one explicit validated download redirect;
-    // this RED scaffold refuses archive transport rather than following it.
+    // Raw archive bytes, never a caller-supplied sourceHead projection. Only
+    // the fixed numeric endpoint may use one explicitly reviewed storage hop.
     ArtifactArchive {
         artifact_id: u64,
     },
@@ -591,15 +588,15 @@ fn checked_source_read(
     log: bool,
     audit: &mut Vec<(SourceReadRoute, cockpit_core::Digest)>,
 ) -> std::result::Result<Vec<u8>, SourceBridgeError> {
+    let limit = if matches!(&route, SourceReadRoute::ArtifactArchive { .. }) {
+        SOURCE_ARCHIVE_LIMIT
+    } else if log {
+        SOURCE_LOG_LIMIT
+    } else {
+        SOURCE_META_LIMIT
+    };
     let raw = reader.read(&route)?;
-    if raw.truncated
-        || raw.bytes.len()
-            > if log {
-                SOURCE_LOG_LIMIT
-            } else {
-                SOURCE_META_LIMIT
-            }
-    {
+    if raw.truncated || raw.bytes.len() > limit {
         return Err(if log {
             SourceBridgeError::LogLimitOrTruncated
         } else {
@@ -880,6 +877,16 @@ fn read_source_observation(
             return Err(SourceBridgeError::JobsIncomplete);
         }
     }
+    // The reviewed producer is a single non-matrix job role. A selector
+    // cannot choose one of two distinct IDs carrying that same role name.
+    if jobs
+        .values()
+        .filter(|job| job.name == recipe.producer_job_name)
+        .count()
+        != 1
+    {
+        return Err(SourceBridgeError::JobMissingOrBinding);
+    }
     let job = jobs
         .remove(&selector.job_id)
         .ok_or(SourceBridgeError::JobMissingOrBinding)?;
@@ -995,34 +1002,44 @@ fn read_source_observation(
     {
         return Err(SourceBridgeError::ArtifactBinding);
     }
-    if let Some(pr) = &pr_source {
-        let archive = checked_source_read(
-            reader,
-            SourceReadRoute::ArtifactArchive {
-                artifact_id: selector.artifact_id,
-            },
-            false,
-            &mut audit,
-        )?;
-        let inspected = cockpit_repository::inspect_untrusted_portable_archive(
-            &archive,
-            &binder.archive_digest,
-            expected_input,
-        )
-        .map_err(|_| SourceBridgeError::ArchiveBinding)?;
-        // The archive API checks the real ZIP, exact complete portable bytes
-        // and native integrity. This field alone is never an authentication bit.
-        let packet: serde_json::Value = source_json(&inspected.portable_raw)?;
-        if packet["nativeInput"]["sourceHead"].as_str() != Some(pr.tested_merge_revision.as_str()) {
-            return Err(SourceBridgeError::NativeInputBinding);
-        }
-        // API-complete conservative RED: positive PR support is not published
-        // until these new assertions have actually failed under the real harness.
-        return Err(SourceBridgeError::PullRequestMergeSourceUnverified);
+    let archive = checked_source_read(
+        reader,
+        SourceReadRoute::ArtifactArchive {
+            artifact_id: selector.artifact_id,
+        },
+        false,
+        &mut audit,
+    )?;
+    let inspected = cockpit_repository::inspect_untrusted_portable_archive(
+        &archive,
+        &binder.archive_digest,
+        expected_input,
+    )
+    .map_err(|_| SourceBridgeError::ArchiveBinding)?;
+    // Metadata size, independently read ZIP and exact inner portable B
+    // must all agree. The worker receives B's exact expected digest from
+    // the live core invocation, never from this artifact or the selector.
+    if archive.len() as u64 != artifact.size_in_bytes
+        || inspected.archive_digest != binder.archive_digest
+        || &inspected.portable_digest != expected_input
+        || &cockpit_core::Digest::sha256_bytes(&inspected.portable_raw) != expected_input
+    {
+        return Err(SourceBridgeError::ArchiveBinding);
+    }
+    // The archive API checks native integrity; this field is only the
+    // claimed tested tree, bound to independent PR/Git evidence above.
+    let packet: serde_json::Value = source_json(&inspected.portable_raw)?;
+    let expected_source_head = pr_source
+        .as_ref()
+        .map_or(recipe.reviewed_revision.as_str(), |pr| {
+            pr.tested_merge_revision.as_str()
+        });
+    if packet["nativeInput"]["sourceHead"].as_str() != Some(expected_source_head) {
+        return Err(SourceBridgeError::NativeInputBinding);
     }
     // Stable verified subject only. Other jobs' in-progress fields, run timing,
     // response formatting and the new consumer nonce are audit/challenge data.
-    let source_root = cockpit_protocol::digest_json(&serde_json::json!({
+    let mut subject = serde_json::json!({
         "domain":"ai-cockpit:github-source-subject:v1", "recipe":recipe,
         "run":{"id":run.id,"attempt":run.run_attempt,"repositoryId":run.repository.id,
             "repository":run.repository.full_name,"headRepositoryId":run.head_repository.id,
@@ -1033,7 +1050,13 @@ fn read_source_observation(
         "nativeStep":native_step,"uploadStep":upload_step,"binderStep":binder_step,
         "publisherNonce":native.publisher_nonce,"inputDigest":native.input_digest,"nativeRoot":native.native_root,"runtimeDigest":native.runtime_digest,
         "artifact":{"id":artifact.id,"name":artifact.name,"archiveDigest":binder.archive_digest,"size":artifact.size_in_bytes}
-    })).map_err(|_| SourceBridgeError::SourceRootEncoding)?;
+    });
+    if let Some(pr) = &pr_source {
+        subject["pullRequestSource"] =
+            serde_json::to_value(pr).map_err(|_| SourceBridgeError::SourceRootEncoding)?;
+    }
+    let source_root = cockpit_protocol::digest_json(&subject)
+        .map_err(|_| SourceBridgeError::SourceRootEncoding)?;
     Ok(PrivateSourceObservation {
         consumer_nonce: consumer_nonce.into(),
         input_digest: native.input_digest,
@@ -1085,14 +1108,29 @@ mod source_bridge_tests {
     fn digest(bytes: &[u8]) -> cockpit_core::Digest {
         cockpit_core::Digest::sha256_bytes(bytes)
     }
+    fn fixture_packet() -> Vec<u8> {
+        pr_packet(&"e".repeat(40))
+    }
+    fn fixture_archive() -> Vec<u8> {
+        pr_zip(&fixture_packet())
+    }
+    fn fixture_runtime_digest() -> cockpit_core::Digest {
+        let packet: Value = serde_json::from_slice(&fixture_packet()).unwrap();
+        packet["nativeEvidence"]["runtimeDigest"]
+            .as_str()
+            .unwrap()
+            .parse()
+            .unwrap()
+    }
     fn native() -> Value {
+        let input = digest(&fixture_packet());
         json!({"schemaVersion":1,"publisherNonce":"historical-producer-nonce",
-        "inputDigest":digest(b"exact portable JSON bytes"),"nativeRoot":digest(b"exact portable JSON bytes"),"runtimeDigest":digest(b"actual fixture Runtime")})
+        "inputDigest":input,"nativeRoot":input,"runtimeDigest":fixture_runtime_digest()})
     }
     fn binder() -> Value {
         let mut v = native();
         v["artifactId"] = 41.into();
-        v["archiveDigest"] = json!(digest(b"ZIP bytes"));
+        v["archiveDigest"] = json!(digest(&fixture_archive()));
         v
     }
     fn machine(prefix: &str, v: &Value) -> Vec<u8> {
@@ -1123,7 +1161,7 @@ mod source_bridge_tests {
             recipe_digest: digest(b"synthetic reviewed recipe: no provider claim"),
             publisher_code_digest: digest(b"synthetic publisher"),
             binder_code_digest: digest(b"synthetic binder"),
-            expected_runtime_digest: digest(b"actual fixture Runtime"),
+            expected_runtime_digest: fixture_runtime_digest(),
             artifact_name: "ai-cockpit-native-evidence".into(),
             producer_job_name: "native producer".into(),
             native_step_name: "native publish".into(),
@@ -1143,8 +1181,9 @@ mod source_bridge_tests {
             (SourceReadRoute::AttemptJobs {run_id:11,attempt:2,page:1,per_page:100},serde_json::to_vec(&json!({"total_count":2,"jobs":[job(21,true),job(22,false)]})).unwrap()),
             (SourceReadRoute::JobStepLog {job_id:21,step_number:7},machine(NATIVE_MACHINE_PREFIX,&native())),
             (SourceReadRoute::JobStepLog {job_id:21,step_number:9},machine(BINDER_MACHINE_PREFIX,&binder())),
-            (SourceReadRoute::ArtifactMetadata {artifact_id:41},serde_json::to_vec(&json!({"id":41,"name":"ai-cockpit-native-evidence","digest":digest(b"ZIP bytes"),
-                "expired":false,"size_in_bytes":4096,"workflow_run":{"id":11,"repository_id":101,"head_repository_id":101,"head_sha":"e".repeat(40)}})).unwrap()),
+            (SourceReadRoute::ArtifactMetadata {artifact_id:41},serde_json::to_vec(&json!({"id":41,"name":"ai-cockpit-native-evidence","digest":digest(&fixture_archive()),
+                "expired":false,"size_in_bytes":fixture_archive().len(),"workflow_run":{"id":11,"repository_id":101,"head_repository_id":101,"head_sha":"e".repeat(40)}})).unwrap()),
+            (SourceReadRoute::ArtifactArchive {artifact_id:41}, fixture_archive()),
         ];
         let current_run_bytes = rows[0].1.clone();
         rows.insert(
@@ -1172,7 +1211,7 @@ mod source_bridge_tests {
                 calls: Vec::new(),
             },
             selector,
-            digest(b"exact portable JSON bytes"),
+            digest(&fixture_packet()),
         )
     }
     fn change_json(reader: &mut FixtureReader, index: usize, change: impl FnOnce(&mut Value)) {
@@ -1201,14 +1240,11 @@ mod source_bridge_tests {
         assert_eq!(reader.calls, expected);
         assert!(reader.replies.is_empty());
         assert_eq!(observation.input_digest, input);
-        assert_eq!(
-            observation.native_root,
-            digest(b"exact portable JSON bytes")
-        );
+        assert_eq!(observation.native_root, digest(&fixture_packet()));
         assert_eq!(observation.publisher_nonce, "historical-producer-nonce");
         assert_eq!(observation.artifact_id, 41);
-        assert_eq!(observation.archive_digest, digest(b"ZIP bytes"));
-        assert_eq!(observation.audit_reads.len(), 6);
+        assert_eq!(observation.archive_digest, digest(&fixture_archive()));
+        assert_eq!(observation.audit_reads.len(), 7);
         assert_ne!(observation.source_root, observation.native_root);
         let reply = observation.worker_reply();
         assert_eq!(
@@ -1264,8 +1300,8 @@ mod source_bridge_tests {
             v["jobs"][1]["conclusion"] = "failure".into();
         });
         let b = read_source_observation(&mut second, &s, &input, "another-fresh-consumer-nonce")
-            .expect("TARGET new invocation revalidates all six reads");
-        assert_eq!(second.calls.len(), 6);
+            .expect("TARGET new invocation revalidates all seven reads");
+        assert_eq!(second.calls.len(), 7);
         assert_eq!(a.source_root, b.source_root);
         assert_ne!(a.audit_reads, b.audit_reads);
         assert_ne!(a.consumer_nonce, b.consumer_nonce);
@@ -1326,7 +1362,7 @@ mod source_bridge_tests {
             .collect::<Vec<_>>();
         observe(&mut reader, &s, &input).expect("TARGET exact complete paginated attempt");
         assert_eq!(reader.calls, expected);
-        assert_eq!(reader.calls.len(), 7);
+        assert_eq!(reader.calls.len(), 8);
     }
     #[test]
     fn source_bridge_rejects_wrong_attempt_repository_revision_and_job() {
@@ -1576,8 +1612,8 @@ mod source_bridge_tests {
     fn source_bridge_rejects_machine_unknown_authority_fields_duplicate_keys_and_multiple_json() {
         let duplicate = format!(
             "{{\"schemaVersion\":1,\"schemaVersion\":1,\"publisherNonce\":\"p\",\"inputDigest\":\"{}\",\"nativeRoot\":\"{}\"}}",
-            digest(b"exact portable JSON bytes"),
-            digest(b"exact portable JSON bytes")
+            digest(&fixture_packet()),
+            digest(&fixture_packet())
         );
         let mut authority = native();
         authority["sourceVerified"] = true.into();
@@ -1618,6 +1654,48 @@ mod source_bridge_tests {
             observe(&mut r, &s, &input).unwrap_err(),
             SourceBridgeError::JobsIncomplete
         );
+        for (status, conclusion) in [
+            ("completed", Some("success")),
+            ("in_progress", None),
+            ("completed", Some("failure")),
+        ] {
+            let (mut r, s, input) = fixture();
+            let role = r.recipe.as_ref().unwrap().producer_job_name.clone();
+            change_json(&mut r, 2, |page| {
+                assert_ne!(page["jobs"][0]["id"], page["jobs"][1]["id"]);
+                page["jobs"][1]["name"] = role.into();
+                page["jobs"][1]["status"] = status.into();
+                page["jobs"][1]["conclusion"] = json!(conclusion);
+            });
+            assert_eq!(
+                observe(&mut r, &s, &input).unwrap_err(),
+                SourceBridgeError::JobMissingOrBinding,
+                "duplicate reviewed producer role must reject even when the selected job succeeded: {status}/{conclusion:?}"
+            );
+            assert_eq!(
+                r.calls,
+                vec![
+                    SourceReadRoute::RunCurrent { run_id: s.run_id },
+                    SourceReadRoute::RunAttempt {
+                        run_id: s.run_id,
+                        attempt: s.attempt
+                    },
+                    SourceReadRoute::AttemptJobs {
+                        run_id: s.run_id,
+                        attempt: s.attempt,
+                        page: 1,
+                        per_page: SOURCE_JOBS_PER_PAGE
+                    },
+                ]
+            );
+            assert!(
+                matches!(
+                    &r.replies.front().unwrap().0,
+                    SourceReadRoute::JobStepLog { .. }
+                ),
+                "reject duplicate producer roles before any step-log read"
+            );
+        }
     }
     #[test]
     fn source_bridge_requires_real_host_recipe_context_before_any_read() {
@@ -1825,13 +1903,13 @@ mod source_bridge_tests {
                 },
             ),
         );
-        r.replies.push_back((
+        r.replies[8] = (
             SourceReadRoute::ArtifactArchive { artifact_id: 41 },
             SourceRawRead {
                 bytes: archive,
                 truncated: false,
             },
-        ));
+        );
         (r, selector, input)
     }
     fn pr_fixture() -> (FixtureReader, GithubEvidenceSelector, cockpit_core::Digest) {
@@ -1905,6 +1983,79 @@ mod source_bridge_tests {
                 SourceBridgeError::GitMergeParents
             );
         }
+    }
+
+    #[test]
+    fn source_bridge_main_also_requires_real_zip_exact_inner_bytes_and_source_head() {
+        let (mut r, selector, input) = fixture();
+        let expected = r
+            .replies
+            .iter()
+            .map(|(route, _)| route.clone())
+            .collect::<Vec<_>>();
+        let observed = observe(&mut r, &selector, &input)
+            .expect("main source must inspect its real archive too");
+        assert_eq!(r.calls, expected);
+        assert_eq!(r.calls.len(), 7);
+        assert!(r.replies.is_empty());
+        assert_eq!(observed.input_digest, digest(&fixture_packet()));
+        assert_eq!(observed.archive_digest, digest(&fixture_archive()));
+        let (mut r, selector, input) = fixture();
+        r.replies[6].1.bytes.push(0);
+        assert_eq!(
+            observe(&mut r, &selector, &input).unwrap_err(),
+            SourceBridgeError::ArchiveBinding
+        );
+        let (mut r, selector, input) = fixture();
+        change_json(&mut r, 5, |value| {
+            value["size_in_bytes"] = (fixture_archive().len() + 1).into();
+        });
+        assert_eq!(
+            observe(&mut r, &selector, &input).unwrap_err(),
+            SourceBridgeError::ArchiveBinding
+        );
+        let (mut r, selector, _) = fixture();
+        let wrong_packet = pr_packet(&"a".repeat(40));
+        let wrong_input = digest(&wrong_packet);
+        let wrong_archive = pr_zip(&wrong_packet);
+        let wrong_archive_digest = digest(&wrong_archive);
+        let mut n = native();
+        n["inputDigest"] = json!(wrong_input);
+        n["nativeRoot"] = json!(wrong_input);
+        let mut b = n.clone();
+        b["artifactId"] = 41.into();
+        b["archiveDigest"] = json!(wrong_archive_digest);
+        r.replies[3].1.bytes = machine(NATIVE_MACHINE_PREFIX, &n);
+        r.replies[4].1.bytes = machine(BINDER_MACHINE_PREFIX, &b);
+        change_json(&mut r, 5, |value| {
+            value["digest"] = json!(wrong_archive_digest);
+            value["size_in_bytes"] = wrong_archive.len().into();
+        });
+        r.replies[6].1.bytes = wrong_archive;
+        assert_eq!(
+            observe(&mut r, &selector, &wrong_input).unwrap_err(),
+            SourceBridgeError::NativeInputBinding,
+            "even a valid full native envelope and all matching hashes cannot rename main E as another source tree"
+        );
+        let (mut r, selector, input) = fixture();
+        let mut other: Value = serde_json::from_slice(&fixture_packet()).unwrap();
+        other["nativeInput"]["extraUntrustedClaim"] = "different exact portable bytes".into();
+        let other_packet = serde_json::to_vec(&other).unwrap();
+        let other_archive = pr_zip(&other_packet);
+        let other_digest = digest(&other_archive);
+        let mut b = binder();
+        b["archiveDigest"] = json!(other_digest);
+        r.replies[4].1.bytes = machine(BINDER_MACHINE_PREFIX, &b);
+        change_json(&mut r, 5, |value| {
+            value["digest"] = json!(other_digest);
+            value["size_in_bytes"] = other_archive.len().into();
+        });
+        r.replies[6].1.bytes = other_archive;
+        assert_eq!(
+            observe(&mut r, &selector, &input).unwrap_err(),
+            SourceBridgeError::ArchiveBinding,
+            "a valid self-consistent outer ZIP cannot substitute different inner B bytes"
+        );
     }
 
     #[test]
@@ -2366,85 +2517,96 @@ fn source_wire_fetch<T: SourceWireTransport, C: SourceWireClock>(
     }) {
         return Err(SourceBridgeError::WorkerRequestInvalid);
     }
+    // One route-level absolute deadline covers BOTH GETs and all body reads.
+    // A storage redirect consumes the original remaining time, never +20s.
     let read_deadline = (clock.now() + std::time::Duration::from_secs(20)).min(budget.deadline);
-    let remaining = source_wire_remaining(clock, budget, read_deadline)?;
-    let timeout = budget.begin_read()?.min(remaining);
-    let request = SourceWireRequest {
-        url: format!("{SOURCE_ORIGIN}{}", read.path),
-        timeout,
-        authorization: read.authorization.map(|token| format!("Bearer {token}")),
-        raw: read.raw,
-    };
-    let outcome = transport.get(&request);
-    source_wire_remaining(clock, budget, read_deadline)?;
-    let mut response = outcome?;
-    let mut header_bytes = 0usize;
-    for (name, value) in &response.headers {
-        header_bytes = header_bytes
-            .checked_add(name.len())
-            .and_then(|v| v.checked_add(value.len()))
-            .and_then(|v| v.checked_add(4))
-            .filter(|v| *v <= SOURCE_HEADER_LIMIT)
-            .ok_or(SourceBridgeError::SourceHeaderInvalid)?;
-        if name
-            .bytes()
-            .chain(value.bytes())
-            .any(|byte| byte.is_ascii_control())
+    let mut url = format!("{SOURCE_ORIGIN}{}", read.path);
+    let mut authorization = read.authorization.map(|token| format!("Bearer {token}"));
+    let mut redirected = false;
+    loop {
+        let remaining = source_wire_remaining(clock, budget, read_deadline)?;
+        let timeout = budget.begin_read()?.min(remaining);
+        let request = SourceWireRequest {
+            url: url.clone(),
+            timeout,
+            authorization: authorization.clone(),
+            raw: read.raw,
+        };
+        let outcome = transport.get(&request);
+        source_wire_remaining(clock, budget, read_deadline)?;
+        let mut response = outcome?;
+        let mut header_bytes = 0usize;
+        for (name, value) in &response.headers {
+            header_bytes = header_bytes
+                .checked_add(name.len())
+                .and_then(|v| v.checked_add(value.len()))
+                .and_then(|v| v.checked_add(4))
+                .filter(|v| *v <= SOURCE_HEADER_LIMIT)
+                .ok_or(SourceBridgeError::SourceHeaderInvalid)?;
+            if name
+                .bytes()
+                .chain(value.bytes())
+                .any(|byte| byte.is_ascii_control())
+            {
+                return Err(SourceBridgeError::SourceHeaderInvalid);
+            }
+        }
+        if response.status == 302 {
+            if redirected || !read.payload.redirect_allowed() {
+                return Err(SourceBridgeError::RedirectUnsupported);
+            }
+            let location = source_wire_header(&response.headers, "location")?
+                .ok_or(SourceBridgeError::RedirectLocationInvalid)?;
+            url = source_storage_location(location, read.storage_hosts)?;
+            // No API credential survives the origin transition. Neither a
+            // Location nor a second response may install any credential.
+            authorization = None;
+            redirected = true;
+            source_wire_remaining(clock, budget, read_deadline)?;
+            // Drop/close the original owned response before the storage GET.
+            // A fresh sender/Agent has no connection/cookie/auth reuse state.
+            drop(response);
+            continue;
+        }
+        if (300..400).contains(&response.status) {
+            return Err(SourceBridgeError::RedirectUnsupported);
+        }
+        if response.status != 200 {
+            return Err(SourceBridgeError::HttpStatus(response.status));
+        }
+        let length = source_wire_header(&response.headers, "content-length")?
+            .map(|value| {
+                value
+                    .parse::<usize>()
+                    .map_err(|_| SourceBridgeError::SourceHeaderInvalid)
+            })
+            .transpose()?;
+        if source_wire_header(&response.headers, "content-encoding")?
+            .is_some_and(|value| value != "identity")
         {
             return Err(SourceBridgeError::SourceHeaderInvalid);
         }
-    }
-    if response.status == 302 {
-        if !read.payload.redirect_allowed() {
-            return Err(SourceBridgeError::RedirectUnsupported);
+        if length.is_some_and(|length| length > read.payload.limit()) {
+            return Err(SourceBridgeError::MetadataLimitOrTruncated);
         }
-        let location = source_wire_header(&response.headers, "location")?
-            .ok_or(SourceBridgeError::RedirectLocationInvalid)?;
-        let _validated = source_storage_location(location, read.storage_hosts)?;
-        // Conservative assertion RED: no storage GET or credential forwarding
-        // until the exact one-hop/remaining-budget tests have genuinely failed.
-        return Err(SourceBridgeError::RedirectUnsupported);
+        if length.is_some_and(|length| length > SOURCE_TOTAL_BYTES.saturating_sub(budget.bytes)) {
+            return Err(SourceBridgeError::TotalByteLimit);
+        }
+        let mut body = ClockGuardedSourceBody {
+            body: response.body.as_mut(),
+            clock,
+            deadline: read_deadline,
+        };
+        let outcome = bounded_source_body(
+            &mut body,
+            length,
+            read.payload.limit(),
+            budget,
+            read_deadline,
+        );
+        source_wire_remaining(clock, budget, read_deadline)?;
+        return outcome;
     }
-    if (300..400).contains(&response.status) {
-        return Err(SourceBridgeError::RedirectUnsupported);
-    }
-    if response.status != 200 {
-        return Err(SourceBridgeError::HttpStatus(response.status));
-    }
-    let length = source_wire_header(&response.headers, "content-length")?
-        .map(|value| {
-            value
-                .parse::<usize>()
-                .map_err(|_| SourceBridgeError::SourceHeaderInvalid)
-        })
-        .transpose()?;
-    if source_wire_header(&response.headers, "content-encoding")?
-        .is_some_and(|value| value != "identity")
-    {
-        return Err(SourceBridgeError::SourceHeaderInvalid);
-    }
-    if length.is_some_and(|length| length > read.payload.limit()) {
-        return Err(SourceBridgeError::MetadataLimitOrTruncated);
-    }
-    if length.is_some_and(|length| length > SOURCE_TOTAL_BYTES.saturating_sub(budget.bytes)) {
-        return Err(SourceBridgeError::TotalByteLimit);
-    }
-    let mut body = ClockGuardedSourceBody {
-        body: response.body.as_mut(),
-        clock,
-        deadline: read_deadline,
-    };
-    let outcome = bounded_source_body(
-        &mut body,
-        length,
-        read.payload.limit(),
-        budget,
-        read_deadline,
-    );
-    // Preserve the true deadline error even if a blocking reader returned an
-    // I/O error after its budget expired. This never resets a relative timeout.
-    source_wire_remaining(clock, budget, read_deadline)?;
-    outcome
 }
 
 struct SourceHttpsReader {
@@ -2588,7 +2750,7 @@ impl SourceHttpsReader {
             binder_code_digest: helper_digest,
             expected_runtime_digest: runtime.runtime_digest.clone(),
             artifact_name: "ai-cockpit-native-evidence".into(),
-            producer_job_name: "quality".into(),
+            producer_job_name: "native-source".into(),
             native_step_name: "AI Cockpit native evidence".into(),
             upload_step_name: "Upload AI Cockpit native evidence".into(),
             binder_step_name: "Bind AI Cockpit native evidence".into(),
@@ -2621,9 +2783,11 @@ impl ControlledSourceReader for SourceHttpsReader {
                     SOURCE_META_LIMIT,
                 )
             }
-            SourceReadRoute::ArtifactArchive { .. } => {
-                return Err(SourceBridgeError::ArchiveTransportUnavailable);
-            }
+            SourceReadRoute::ArtifactArchive { artifact_id } => (
+                format!("/repos/{SOURCE_REPOSITORY}/actions/artifacts/{artifact_id}/zip"),
+                false,
+                SOURCE_ARCHIVE_LIMIT,
+            ),
             SourceReadRoute::RunCurrent { run_id } => (
                 format!("/repos/{SOURCE_REPOSITORY}/actions/runs/{run_id}"),
                 false,
@@ -2795,12 +2959,18 @@ mod source_worker_boundary_tests {
             requests: 0,
             bytes: 0,
         };
-        for _ in 0..16 {
+        assert_eq!(SOURCE_MAX_REQUESTS, 20);
+        assert_eq!(SOURCE_TOTAL_BYTES, 68 * 1024 * 1024);
+        for expected_count in 1..=20 {
             assert!(b.begin_read().unwrap() <= std::time::Duration::from_secs(20));
+            assert_eq!(b.requests, expected_count);
         }
         assert_eq!(b.begin_read().unwrap_err(), SourceBridgeError::RequestLimit);
-        assert_eq!(b.requests, 16);
-        b.bytes = SOURCE_TOTAL_BYTES;
+        assert_eq!(b.requests, 20);
+        b.bytes = SOURCE_TOTAL_BYTES - 1;
+        b.add_bytes(1)
+            .expect("the final permitted body byte must fit");
+        assert_eq!(b.bytes, 68 * 1024 * 1024);
         assert_eq!(
             b.add_bytes(1).unwrap_err(),
             SourceBridgeError::TotalByteLimit

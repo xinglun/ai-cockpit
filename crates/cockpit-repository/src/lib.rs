@@ -81,10 +81,12 @@ pub use ci_admission::archive::{
     inspect_untrusted_portable_archive,
 };
 pub use ci_admission::{
-    AcceptedPortableEvidence, PortableSourceAdmissionRequest, PortableSourceRequest,
-    PortableSourceTool, VerifiedPortableSource, accept_portable_evidence,
-    accept_portable_evidence_with_source, declared_portable_verification_request,
-    plan_github_verification_admission, plan_portable_evidence, publish_declared_native_source,
+    AcceptedPortableEvidence, FinalizedPortableInventory, PortableInventoryConsumption,
+    PortableSourceAdmissionRequest, PortableSourceRequest, PortableSourceTool,
+    VerifiedPortableSource, accept_portable_evidence, accept_portable_evidence_with_source,
+    acquire_portable_evidence_inventory, consume_portable_evidence_inventory,
+    declared_portable_verification_request, plan_github_verification_admission,
+    plan_portable_evidence, publish_declared_native_source,
     publish_declared_native_source_supervised, read_portable_source_parameters,
     require_portable_source_observation_admission,
 };
@@ -20603,6 +20605,56 @@ pub fn profile_update_proposal(
         reason: candidate.event_type.clone(),
         requires_human_confirmation: true,
     })
+}
+
+/// Read caller-selected recipe JSON from a regular file, bounded to 64 KiB.
+/// The returned inputs can subsequently be supplied to native confirmation.
+pub fn read_execution_recipe_file(
+    input: &Path,
+) -> Result<cockpit_protocol::VerificationExecutionRecipe, ObserverError> {
+    let invalid = |code: &str| ObserverError::State {
+        path: input.into(),
+        message: code.into(),
+    };
+    let absolute =
+        std::path::absolute(input).map_err(|_| invalid("execution_recipe_file_path_invalid"))?;
+    let mut path = PathBuf::new();
+    for component in absolute.components() {
+        if component == std::path::Component::ParentDir {
+            // Validate a cancelled component before lexical normalization so
+            // a path such as link/../recipe.json cannot bypass no-follow checks.
+            legacy_closeout_source::PinnedRoot::open(&path)
+                .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
+            path.pop();
+        } else {
+            path.push(component.as_os_str());
+        }
+    }
+    let parent = path
+        .parent()
+        .ok_or_else(|| invalid("execution_recipe_file_path_invalid"))?;
+    let name = path
+        .file_name()
+        .and_then(std::ffi::OsStr::to_str)
+        .ok_or_else(|| invalid("execution_recipe_file_path_invalid"))?;
+    let pinned = legacy_closeout_source::PinnedRoot::open(parent)
+        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
+    let directory = pinned
+        .directory()
+        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
+    let bytes =
+        legacy_closeout_source::read_regular_cap_bounded(&directory, name, input, 64 * 1024)
+            .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
+    pinned
+        .require_current()
+        .map_err(|_| invalid("execution_recipe_file_unreadable"))?;
+    reject_duplicate_json_keys(&bytes)
+        .map_err(|_| invalid("execution_recipe_file_duplicate_or_invalid_json"))?;
+    let recipe = serde_json::from_slice(&bytes)
+        .map_err(|_| invalid("execution_recipe_file_invalid_recipe"))?;
+    execution_context::validate_execution_recipe(input, &recipe)
+        .map_err(|_| invalid("execution_recipe_file_invalid_recipe"))?;
+    Ok(recipe)
 }
 
 pub fn confirm_profile_update(

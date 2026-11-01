@@ -56,6 +56,33 @@ fn source_error(root: &Path, code: &str) -> ObserverError {
     )
 }
 
+const PORTABLE_SOURCE_WIRE_LIMIT: usize = 16 * 1024;
+const PORTABLE_SOURCE_WIRE_NONCE: &str =
+    "sha256:0000000000000000000000000000000000000000000000000000000000000000";
+
+// Used by the actual invocation AND whole-table preflight. Digest nonces have
+// exactly the same 71-byte JSON representation as the fixed preflight nonce.
+fn source_request_wire(
+    root: &Path,
+    work_item_id: &str,
+    input_digest: &cockpit_core::Digest,
+    parameters: &serde_json::Value,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    tool_digest: &cockpit_core::Digest,
+    nonce: &str,
+) -> Result<String, ObserverError> {
+    let wire = serde_json::to_string(&serde_json::json!({
+        "schemaVersion":1, "nonce":nonce, "inputDigest":input_digest,
+        "parameters":parameters, "repositoryRoot":root, "workItemId":work_item_id,
+        "taskCaller":caller, "observerToolDigest":tool_digest,
+    }))
+    .map_err(|_| source_error(root, "source_request_serialization"))?;
+    if wire.len() > PORTABLE_SOURCE_WIRE_LIMIT {
+        return Err(source_error(root, "source_request_byte_limit"));
+    }
+    Ok(wire)
+}
+
 impl PortableSourceTool {
     /// A production adapter may select only this held, current Runtime.
     /// No imported packet or public request chooses executable bytes.
@@ -146,16 +173,15 @@ impl PortableSourceTool {
         ]))
         .map_err(|_| source_error(&root, "source_session_serialization"))?
         .to_string();
-        let wire = serde_json::to_string(&serde_json::json!({
-            "schemaVersion":1, "nonce":nonce, "inputDigest":plan.input_digest,
-            "parameters":request.parameters,
-            "repositoryRoot":root,"workItemId":work_item_id,
-            "taskCaller":caller,"observerToolDigest":self.executable_digest,
-        }))
-        .map_err(|_| source_error(&root, "source_request_serialization"))?;
-        if wire.len() > 16 * 1024 {
-            return Err(source_error(&root, "source_request_byte_limit"));
-        }
+        let wire = source_request_wire(
+            &root,
+            work_item_id,
+            &plan.input_digest,
+            request.parameters,
+            caller,
+            &self.executable_digest,
+            &nonce,
+        )?;
         let arguments = vec!["__portable-source-observe".into(), wire];
         let (program, args) = pin
             .execution(&arguments)
@@ -282,6 +308,23 @@ impl VerifiedPortableSource {
         ),
         ObserverError,
     > {
+        self.validate_in_run(root, request, runtime, caller, None)
+    }
+
+    fn validate_in_run(
+        &self,
+        root: &Path,
+        request: &RepositoryVerificationRequest,
+        runtime: &RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+        own_run: Option<&crate::LocalVerificationRunIdentity>,
+    ) -> Result<
+        (
+            RepositorySnapshot,
+            cockpit_verification::VerificationReceipt,
+        ),
+        ObserverError,
+    > {
         if fs::canonicalize(root).ok().as_ref() != Some(&self.root)
             || request.work_item_id.as_deref() != Some(self.work_item_id.as_str())
             || runtime.runtime_digest != self.runtime.runtime_digest
@@ -387,7 +430,7 @@ impl VerifiedPortableSource {
             Some(pin),
             Some(authorization),
         )?;
-        if lifecycle::local_profile_cache_requires_fresh(root, &local, None) {
+        if lifecycle::local_profile_cache_requires_fresh(root, &local, own_run) {
             return Err(source_error(
                 root,
                 "newer_failed_pending_or_unproved_execution",
@@ -464,10 +507,28 @@ impl AcceptedPortableEvidence {
         ),
         ObserverError,
     > {
+        self.consume_with_source_report_in_run(root, request, runtime, caller, None)
+    }
+
+    fn consume_with_source_report_in_run(
+        &self,
+        root: &Path,
+        request: &RepositoryVerificationRequest,
+        runtime: &RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+        own_run: Option<&crate::LocalVerificationRunIdentity>,
+    ) -> Result<
+        (
+            RepositoryVerificationRun,
+            cockpit_protocol::ci_admission::PortableEvidenceSourceUse,
+        ),
+        ObserverError,
+    > {
         if *request != self.request {
             return Err(source_error(root, "accepted_node_request_changed"));
         }
-        self.source.validate(root, request, runtime, caller)?;
+        self.source
+            .validate_in_run(root, request, runtime, caller, own_run)?;
         // Independently re-read at the consumption boundary. A retained file
         // or an old live session is not a current-origin observation.
         let fresh = self.source.tool.observe(
@@ -491,7 +552,8 @@ impl AcceptedPortableEvidence {
         {
             return Err(source_error(root, "accepted_record_changed"));
         }
-        let (final_snapshot, mut receipt) = fresh.validate(root, request, runtime, caller)?;
+        let (final_snapshot, mut receipt) =
+            fresh.validate_in_run(root, request, runtime, caller, own_run)?;
         receipt.results[0].reused = true;
         receipt.results[0].action = cockpit_verification::PlannedAction::Reuse;
         receipt.results[0].state = cockpit_verification::PlannedState::Fresh;
@@ -533,7 +595,7 @@ impl AcceptedPortableEvidence {
             }),
         )?;
         // A late failure leaves immutable observations, never an approved result.
-        fresh.validate(root, request, runtime, caller)?;
+        fresh.validate_in_run(root, request, runtime, caller, own_run)?;
         let source_use = cockpit_protocol::ci_admission::PortableEvidenceSourceUse {
             node_id: request.node_id.clone(),
             source_record_refs: trace_refs,
@@ -622,63 +684,12 @@ pub fn declared_portable_verification_request(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<RepositoryVerificationRequest, ObserverError> {
-    require_portable_source_observation_admission(root, wi, runtime, caller)?;
-    let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.into(),
-        source,
-    })?;
-    let root = canonical.as_path();
-    let path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
-    let raw = portable_input_bytes(&path)?;
-    reject_duplicate_json_keys(&raw)
-        .map_err(|_| source_error(root, "current_contract_invalid_json"))?;
-    let contract: cockpit_protocol::Contract =
-        serde_json::from_slice(&raw).map_err(|_| source_error(root, "current_contract_schema"))?;
-    let mut selected = None;
-    for (index, declaration) in contract.verification.iter().enumerate() {
-        let (id, text) = match declaration {
-            cockpit_protocol::VerificationDeclaration::Legacy(text) => {
-                (format!("project-command-{index}"), text)
-            }
-            cockpit_protocol::VerificationDeclaration::Check(check) => {
-                (check.check.clone(), &check.check)
-            }
-        };
-        if id != node {
-            continue;
-        }
-        if selected.is_some() {
-            return Err(source_error(root, "declared_node_ambiguous"));
-        }
-        let (program, args) = cockpit_protocol::parse_verification_argv(text)
-            .map_err(|_| source_error(root, "declared_node_argv_invalid"))?;
-        let replace = |s: String| {
-            if s == "<repo>" {
-                root.to_string_lossy().into_owned()
-            } else {
-                s
-            }
-        };
-        selected = Some(RepositoryVerificationRequest {
-            node_id: id,
-            program: replace(program),
-            args: args.into_iter().map(replace).collect(),
-            scope: vec!["**".into()],
-            stage: "task".into(),
-            runner: "local".into(),
-            runtime_digest: runtime.runtime_digest.to_string(),
-            base_commit: None,
-            workers: 1,
-            work_item_id: Some(wi.into()),
-            // New explicit source operations use the current approved finite
-            // ceiling; no caller/packet can enlarge it or silently use default300.
-            timeout_seconds: authorized_timeout_ceiling(root, Some(wi), "task")?
-                .map(|v| v.min(cockpit_verification::MAX_ALLOWED_EXECUTION_SECONDS)),
-            policy: RepositoryVerificationPolicy::ProfileAuthorized,
-        });
-    }
-    let request = selected.ok_or_else(|| source_error(root, "declared_node_missing"))?;
-    task_authorization::require_declared_task_command(root, &request, runtime, caller)?;
+    let (canonical, declarations, _) = current_portable_declarations(root, wi, runtime, caller)?;
+    let request = declarations
+        .into_iter()
+        .find(|r| r.node_id == node)
+        .ok_or_else(|| source_error(&canonical, "declared_node_missing"))?;
+    task_authorization::require_declared_task_command(&canonical, &request, runtime, caller)?;
     Ok(request)
 }
 
@@ -688,6 +699,15 @@ fn require_current_source_profile(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<(), ObserverError> {
+    current_source_input(root, request, runtime, caller).map(|_| ())
+}
+
+fn current_source_input(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
     let wi = request
         .work_item_id
         .as_deref()
@@ -708,8 +728,7 @@ fn require_current_source_profile(
             .authorized_binding
             .as_ref()
             .ok_or_else(|| source_error(root, "current_profile_not_authorized"))?,
-    )?;
-    Ok(())
+    )
 }
 
 pub fn publish_declared_native_source(
@@ -850,11 +869,12 @@ pub(super) mod archive;
 mod github;
 mod store;
 
-/// A current-process inventory consumption session. Imported JSON and stored
-/// markers cannot construct it. Coverage is diagnostic, never a formal pass.
-/// Keep this value until all fresh executions finish, then call `finalize` so
-/// late native failures or unresolved executions cannot revive an older source.
+/// A current-process inventory consumption session. Imported data cannot
+/// construct this value. Its provisional outcomes still need `finalize`.
 pub struct PortableInventoryConsumption {
+    root: std::path::PathBuf,
+    work_item_id: String,
+    binding: Digest,
     coverage: cockpit_protocol::ci_admission::PortableInventoryCoverage,
     sources: Vec<AcceptedPortableEvidence>,
     own_run: Option<crate::LocalVerificationRunIdentity>,
@@ -869,78 +889,606 @@ pub struct FinalizedPortableInventory {
     pub source_uses: Vec<cockpit_protocol::ci_admission::PortableEvidenceSourceUse>,
 }
 
+/// A bounded descriptor for data locations, never a source or worker capability.
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PortableInventoryManifest {
+    schema_version: u32,
+    entries: Vec<PortableInventoryManifestEntry>,
+}
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PortableInventoryManifestEntry {
+    node_id: String,
+    input: std::path::PathBuf,
+    expected_plan_digest: Digest,
+    source_parameters: serde_json::Value,
+}
+
+// Both the producer and the complete-inventory consumer use this one native
+// declaration mapping. The actual route owns baseRevision; no packet chooses it.
+fn current_portable_declarations(
+    root: &Path,
+    wi: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<
+    (
+        std::path::PathBuf,
+        Vec<RepositoryVerificationRequest>,
+        Digest,
+    ),
+    ObserverError,
+> {
+    let snapshot = require_portable_source_observation_admission(root, wi, runtime, caller)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+    let raw = portable_input_bytes(&path)?;
+    reject_duplicate_json_keys(&raw)
+        .map_err(|_| source_error(&root, "current_contract_invalid_json"))?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&raw).map_err(|_| source_error(&root, "current_contract_schema"))?;
+    let contract: cockpit_protocol::Contract = serde_json::from_value(value.clone())
+        .map_err(|_| source_error(&root, "current_contract_schema"))?;
+    if contract.work_item_id != wi || contract.verification.is_empty() {
+        return Err(source_error(&root, "current_inventory_empty_or_foreign"));
+    }
+    let route = resolve_verification_route(
+        &root,
+        wi,
+        cockpit_protocol::VerificationStage::Task,
+        "local",
+        &snapshot,
+    )?;
+    let timeout = authorized_timeout_ceiling(&root, Some(wi), "task")?
+        .map(|v| v.min(cockpit_verification::MAX_ALLOWED_EXECUTION_SECONDS));
+    let mut seen = std::collections::BTreeSet::new();
+    let mut requests = Vec::with_capacity(contract.verification.len());
+    for (index, declaration) in contract.verification.iter().enumerate() {
+        let (id, text) = match declaration {
+            cockpit_protocol::VerificationDeclaration::Legacy(text) => {
+                (format!("project-command-{index}"), text)
+            }
+            cockpit_protocol::VerificationDeclaration::Check(check) => {
+                (check.check.clone(), &check.check)
+            }
+        };
+        if id.is_empty() || !seen.insert(id.clone()) {
+            return Err(source_error(&root, "declared_node_ambiguous"));
+        }
+        let (program, args) = cockpit_protocol::parse_verification_argv(text)
+            .map_err(|_| source_error(&root, "declared_node_argv_invalid"))?;
+        let replace = |s: String| {
+            if s == "<repo>" {
+                root.to_string_lossy().into_owned()
+            } else {
+                s
+            }
+        };
+        requests.push(RepositoryVerificationRequest {
+            node_id: id,
+            program: replace(program),
+            args: args.into_iter().map(replace).collect(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: route.base_revision.clone(),
+            workers: 1,
+            work_item_id: Some(wi.into()),
+            timeout_seconds: timeout,
+            policy: RepositoryVerificationPolicy::ProfileAuthorized,
+        });
+    }
+    if portable_input_bytes(&path)? != raw {
+        return Err(source_error(
+            &root,
+            "current_contract_changed_during_inventory_read",
+        ));
+    }
+    let binding = cockpit_protocol::digest_json(&serde_json::json!({
+        "domain":"portable-current-inventory-v1", "repositoryRoot":root, "workItemId":wi,
+        "contract":cockpit_protocol::digest_json(&value).map_err(|_|source_error(&root,"current_contract_digest"))?,
+        "snapshot":snapshot_digest(&snapshot)?, "runtime":runtime, "caller":caller,
+    })).map_err(|_|source_error(&root,"current_inventory_digest"))?;
+    Ok((root, requests, binding))
+}
+
+fn validate_portable_inventory(
+    root: &Path,
+    wi: &str,
+    requests: &[RepositoryVerificationRequest],
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<
+    (
+        std::path::PathBuf,
+        Vec<RepositoryVerificationRequest>,
+        Digest,
+    ),
+    ObserverError,
+> {
+    let (root, declared, binding) = current_portable_declarations(root, wi, runtime, caller)?;
+    if requests.len() != declared.len() {
+        return Err(source_error(&root, "current_inventory_coverage_mismatch"));
+    }
+    let mut seen = std::collections::BTreeSet::new();
+    for request in requests {
+        if !seen.insert(&request.node_id) {
+            return Err(source_error(&root, "current_inventory_duplicate_node"));
+        }
+        let mut expected = declared
+            .iter()
+            .find(|d| d.node_id == request.node_id)
+            .ok_or_else(|| source_error(&root, "current_inventory_foreign_node"))?
+            .clone();
+        // Restrictive policy is preserved and can only force an actual run.
+        // It never changes declared argv or grants source substitution.
+        expected.policy = request.policy.clone();
+        if expected != *request {
+            return Err(source_error(
+                &root,
+                "current_inventory_request_input_mismatch",
+            ));
+        }
+        validate_verification_request(&root, request)?;
+    }
+    Ok((root, declared, binding))
+}
+
 impl PortableInventoryConsumption {
     pub fn coverage(&self) -> &cockpit_protocol::ci_admission::PortableInventoryCoverage {
         &self.coverage
     }
-
-    /// These are actual per-node outcomes. No aggregate result supplies a
-    /// missing node and no formal verification record is written here.
     pub fn source_uses(&self) -> &[cockpit_protocol::ci_admission::PortableEvidenceSourceUse] {
         &self.source_uses
     }
+    /// Provisional actual observations for native interruption persistence.
+    /// These do not authorize formal acceptance before finalize succeeds.
+    pub fn observed_runs(&self) -> &[RepositoryVerificationRun] {
+        &self.runs
+    }
 
     pub fn finalize(
-        self,
+        mut self,
         root: &Path,
-        _current_requests: &[crate::RepositoryVerificationRequest],
-        _runtime: &RuntimeContext,
-        _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+        current_requests: &[RepositoryVerificationRequest],
+        runtime: &RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
     ) -> Result<FinalizedPortableInventory, ObserverError> {
-        // RED scaffold: never manufacture current validation from stored data.
-        drop((
-            self.coverage,
-            self.sources,
-            self.own_run,
-            self.requests,
-            self.runs,
-            self.source_uses,
-        ));
-        Err(source_error(root, "portable_inventory_not_implemented"))
+        let (canonical, _, binding) = validate_portable_inventory(
+            root,
+            &self.work_item_id,
+            current_requests,
+            runtime,
+            caller,
+        )?;
+        if canonical != self.root || binding != self.binding || current_requests != self.requests {
+            return Err(source_error(root, "inventory_changed_before_finalization"));
+        }
+        let mut fresh_sources = Vec::with_capacity(self.sources.len());
+        for (index, accepted) in self.sources.iter().enumerate() {
+            let request = &accepted.request;
+            // A full quality run may exceed 120s. Obtain a real third current
+            // observation rather than extending or relabelling the old session.
+            let fresh = accepted.source.tool.observe(
+                &canonical,
+                &self.work_item_id,
+                PortableSourceRequest {
+                    input: &accepted.source.input,
+                    expected_plan_digest: &accepted.source.plan.plan_digest,
+                    parameters: &accepted.source.parameters,
+                },
+                runtime,
+                caller,
+            )?;
+            if fresh.source_root != accepted.source.source_root || fresh.raw != accepted.source.raw
+            {
+                return Err(source_error(
+                    root,
+                    "origin_changed_before_inventory_finalization",
+                ));
+            }
+            let stored =
+                store::load_portable_record(root, &self.work_item_id, &accepted.record_id)?
+                    .ok_or_else(|| source_error(root, "accepted_record_missing"))?;
+            if stored.input != accepted.source.raw
+                || Some(&stored.record_ref) != accepted.report.admission_ref.as_ref()
+            {
+                return Err(source_error(root, "accepted_record_changed"));
+            }
+            let (snapshot, _) =
+                fresh.validate_in_run(root, request, runtime, caller, self.own_run.as_ref())?;
+            self.runs[index].final_snapshot = snapshot;
+            let source_use = &mut self.source_uses[index];
+            source_use.source_record_refs.push(fresh.trace_ref.clone());
+            source_use.source_reader_invocations = source_use.source_record_refs.len();
+            source_use.operation_elapsed_ms = accepted.source.started.elapsed().as_millis();
+            let reference = persist_source_data(
+                root,
+                &self.work_item_id,
+                "portable-source-inventory-finalization",
+                &serde_json::json!({
+                    "nodeId":request.node_id, "priorConsumptionRecordRef":source_use.consumption_record_ref,
+                    "sourceRecordRefs":source_use.source_record_refs, "sourceReaderInvocations":source_use.source_reader_invocations,
+                    "operationElapsedMs":source_use.operation_elapsed_ms,
+                    "receipt":source_use.receipt, "declaredCoverage":self.coverage,
+                }),
+            )?;
+            source_use.consumption_record_ref = reference;
+            fresh_sources.push(fresh);
+        }
+        // Recheck all nodes after the final append. An error preserves the
+        // real immutable observations; it is never described as a rollback.
+        let (_, _, current_binding) = validate_portable_inventory(
+            root,
+            &self.work_item_id,
+            current_requests,
+            runtime,
+            caller,
+        )?;
+        if current_binding != self.binding {
+            return Err(source_error(root, "inventory_changed_during_finalization"));
+        }
+        for (accepted, fresh) in self.sources.iter().zip(&fresh_sources) {
+            fresh.validate_in_run(
+                root,
+                &accepted.request,
+                runtime,
+                caller,
+                self.own_run.as_ref(),
+            )?;
+        }
+        Ok(FinalizedPortableInventory {
+            coverage: self.coverage,
+            runs: self.runs,
+            source_uses: self.source_uses,
+        })
     }
 }
 
-/// Acquire only move-only live source sessions for the current declaration
-/// inventory, before the native consumer checkpoint is prepared. The manifest
-/// is bounded local data (64 KiB), never a source capability or tool selector.
-/// Schema 1 is exact: {schemaVersion,entries:[{nodeId,input,
-/// expectedPlanDigest,sourceParameters}]}. Reject deep duplicate keys, special
-/// files, unknown fields/URLs/tool paths/trusted claims and ambiguous entries.
-/// Validate the whole table/current inventory before the first observe/accept.
-/// A missing bundle does not call this API and creates no provider dependency.
-pub fn acquire_portable_evidence_inventory(
-    root: &Path,
-    _work_item_id: &str,
-    _complete_requests: &[crate::RepositoryVerificationRequest],
-    _manifest: &Path,
-    _tool: &PortableSourceTool,
-    _runtime: &RuntimeContext,
-    _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-) -> Result<Vec<AcceptedPortableEvidence>, ObserverError> {
-    // RED scaffold: data alone cannot create AcceptedPortableEvidence.
-    Err(source_error(
-        root,
-        "portable_inventory_acquire_not_implemented",
-    ))
+// Validate every ancestor before cancelling a ParentDir. No canonicalize is
+// allowed here: it would silently follow a link or erase link/../ components.
+fn source_manifest_parent(path: &Path) -> Result<std::path::PathBuf, ObserverError> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| source_error(path, "source_manifest_parent_missing"))?;
+    let mut resolved = std::path::PathBuf::new();
+    // Same traversal policy as the reviewed read_execution_recipe_file:
+    // validate the accumulated no-follow path BEFORE cancelling ParentDir,
+    // then let PinnedRoot validate every remaining ancestor component.
+    for component in parent.components() {
+        if component == std::path::Component::ParentDir {
+            legacy_closeout_source::PinnedRoot::open(&resolved)?;
+            resolved.pop();
+        } else {
+            resolved.push(component.as_os_str());
+        }
+    }
+    legacy_closeout_source::PinnedRoot::open(&resolved)?;
+    Ok(resolved)
 }
 
-/// `requests` must be the entire current Contract inventory built by the
-/// trusted service, never commands supplied by the imported evidence packet.
-/// Each source is the existing move-only live capability for exactly one node.
-/// Missing, non-equivalent, NeverReuse, Protected or dependency-incomplete nodes
-/// remain explicit fresh-execution gaps; callers retain the existing guarded
-/// executor and dependency scheduler. No API here records whole-WI completion.
+/// Read manifest once through a pinned directory. Relative input data paths
+/// resolve against that manifest's canonical parent, never ambient child cwd.
+/// Relative manifest paths resolve against the explicit canonical repository.
+pub fn acquire_portable_evidence_inventory(
+    root: &Path,
+    work_item_id: &str,
+    complete_requests: &[RepositoryVerificationRequest],
+    manifest: &Path,
+    tool: &PortableSourceTool,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<Vec<AcceptedPortableEvidence>, ObserverError> {
+    let (canonical, _, binding) =
+        validate_portable_inventory(root, work_item_id, complete_requests, runtime, caller)?;
+    let path = if manifest.is_absolute() {
+        manifest.to_path_buf()
+    } else {
+        canonical.join(manifest)
+    };
+    let parent = source_manifest_parent(&path)?;
+    let pinned = legacy_closeout_source::PinnedRoot::open(&parent)?;
+    let directory = pinned.directory()?;
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or_else(|| source_error(root, "source_manifest_name_invalid"))?;
+    let raw = legacy_closeout_source::read_regular_cap_bounded(&directory, name, &path, 65_536)?;
+    reject_duplicate_json_keys(&raw)
+        .map_err(|_| source_error(root, "source_manifest_duplicate_json"))?;
+    let manifest: PortableInventoryManifest =
+        serde_json::from_slice(&raw).map_err(|_| source_error(root, "source_manifest_schema"))?;
+    if manifest.schema_version != 1 || manifest.entries.len() > complete_requests.len() {
+        return Err(source_error(root, "source_manifest_inventory_limit"));
+    }
+    let mut seen = std::collections::BTreeSet::new();
+    let mut pending = Vec::with_capacity(manifest.entries.len());
+    // Complete prevalidation precedes every independently controlled reader.
+    for entry in manifest.entries {
+        if !seen.insert(entry.node_id.clone()) {
+            return Err(source_error(root, "source_manifest_duplicate_node"));
+        }
+        let request = complete_requests
+            .iter()
+            .find(|r| r.node_id == entry.node_id)
+            .ok_or_else(|| source_error(root, "source_manifest_foreign_node"))?;
+        if request.policy != RepositoryVerificationPolicy::ProfileAuthorized {
+            return Err(source_error(root, "source_manifest_node_requires_fresh"));
+        }
+        if !entry.source_parameters.is_object() {
+            return Err(source_error(root, "source_manifest_parameters_schema"));
+        }
+        let input_text = entry.input.to_string_lossy();
+        if input_text.is_empty() || input_text.contains("://") {
+            return Err(source_error(root, "source_manifest_input_not_local"));
+        }
+        let input = if entry.input.is_absolute() {
+            entry.input.clone()
+        } else {
+            parent.join(&entry.input)
+        };
+        let expected_input = current_source_input(&canonical, request, runtime, caller)?;
+        let plan = plan_portable_evidence(&canonical, Some(work_item_id), &input, runtime, caller)?;
+        if plan.plan_digest != entry.expected_plan_digest
+            || !plan.integrity_valid
+            || plan
+                .gaps
+                .iter()
+                .any(|g| g != "independent_execution_source_unavailable")
+        {
+            return Err(source_error(root, "source_manifest_plan_mismatch"));
+        }
+        let packet: cockpit_protocol::ci_admission::PortableExecutionEvidence<
+            cockpit_protocol::ci_admission::NativeExecutionEnvelope<
+                cockpit_verification::VerificationReceipt,
+            >,
+        > = serde_json::from_slice(&portable_input_bytes(&input)?)
+            .map_err(|_| source_error(root, "source_manifest_packet_schema"))?;
+        if packet.native_input["nodeId"] != entry.node_id
+            || !native_physical_receipt_complete(&packet.native_evidence.receipt, request)
+        {
+            return Err(source_error(root, "source_manifest_packet_node_mismatch"));
+        }
+        for (key, value) in expected_input
+            .as_object()
+            .ok_or_else(|| source_error(root, "current_input_schema"))?
+        {
+            if key != "physicalProgram"
+                && key != "physicalArgs"
+                && packet.native_input.get(key) != Some(value)
+            {
+                return Err(source_error(
+                    root,
+                    "source_manifest_execution_input_mismatch",
+                ));
+            }
+        }
+        source_request_wire(
+            &canonical,
+            work_item_id,
+            &plan.input_digest,
+            &entry.source_parameters,
+            caller,
+            &tool.executable_digest,
+            PORTABLE_SOURCE_WIRE_NONCE,
+        )?;
+        pending.push((entry, input));
+    }
+    pinned.require_current()?;
+    if legacy_closeout_source::read_regular_cap_bounded(&directory, name, &path, 65_536)? != raw {
+        return Err(source_error(root, "source_manifest_changed"));
+    }
+    let (_, _, current_binding) =
+        validate_portable_inventory(&canonical, work_item_id, complete_requests, runtime, caller)?;
+    if current_binding != binding {
+        return Err(source_error(root, "inventory_changed_before_acquisition"));
+    }
+    let mut sources = Vec::with_capacity(pending.len());
+    for (entry, input) in pending {
+        pinned.require_current()?;
+        if legacy_closeout_source::read_regular_cap_bounded(&directory, name, &path, 65_536)? != raw
+        {
+            return Err(source_error(root, "source_manifest_changed"));
+        }
+        let request = complete_requests
+            .iter()
+            .find(|r| r.node_id == entry.node_id)
+            .ok_or_else(|| source_error(root, "source_manifest_foreign_node"))?;
+        let source = tool.observe(
+            &canonical,
+            work_item_id,
+            PortableSourceRequest {
+                input: &input,
+                expected_plan_digest: &entry.expected_plan_digest,
+                parameters: &entry.source_parameters,
+            },
+            runtime,
+            caller,
+        )?;
+        sources.push(source.accept(&canonical, request, runtime, caller)?);
+    }
+    pinned.require_current()?;
+    if legacy_closeout_source::read_regular_cap_bounded(&directory, name, &path, 65_536)? != raw {
+        return Err(source_error(
+            root,
+            "source_manifest_changed_after_acquisition",
+        ));
+    }
+    let (_, _, current_binding) =
+        validate_portable_inventory(&canonical, work_item_id, complete_requests, runtime, caller)?;
+    if current_binding != binding {
+        return Err(source_error(root, "inventory_changed_during_acquisition"));
+    }
+    Ok(sources)
+}
+
+fn source_inventory_fresh_reason(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> Result<Option<&'static str>, ObserverError> {
+    if request.policy != RepositoryVerificationPolicy::ProfileAuthorized {
+        return Ok(Some("node_policy_requires_fresh"));
+    }
+    let snapshot = cockpit_git::GitRepository::discover(root)
+        .and_then(|git| git.snapshot())
+        .map_err(|_| source_error(root, "current_source_unavailable"))?;
+    let prepared = prepare_repository_verification_command(root, request, &snapshot)?;
+    let input = prepared.command.input_identity();
+    if !input.environment_complete {
+        return Ok(Some("environment_identity_requires_fresh"));
+    }
+    if !input.dependencies.is_empty() {
+        return Ok(Some("dependency_identity_requires_fresh"));
+    }
+    if prepared.authorized_binding.is_none()
+        || prepared.command.reuse_policy()
+            != &cockpit_verification::VerificationReusePolicy::Reusable
+    {
+        return Ok(Some("current_profile_requires_fresh"));
+    }
+    Ok(None)
+}
+
+/// Consume each eligible source independently. Missing/ineligible declarations
+/// stay fresh-required and never load a profile fallback through this service.
 pub fn consume_portable_evidence_inventory(
     root: &Path,
-    _work_item_id: &str,
-    _requests: &[crate::RepositoryVerificationRequest],
-    _sources: Vec<AcceptedPortableEvidence>,
-    _runtime: &RuntimeContext,
-    _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
-    _own_run: Option<&crate::LocalVerificationRunIdentity>,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    sources: Vec<AcceptedPortableEvidence>,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    own_run: Option<&crate::LocalVerificationRunIdentity>,
 ) -> Result<PortableInventoryConsumption, ObserverError> {
-    // RED scaffold: the API is complete and conservative before assertions run.
-    Err(source_error(root, "portable_inventory_not_implemented"))
+    let (root, declared, binding) =
+        validate_portable_inventory(root, work_item_id, requests, runtime, caller)?;
+    let mut candidates = std::collections::BTreeMap::new();
+    let mut eligibility = std::collections::BTreeMap::new();
+    for source in sources {
+        let node = source.request.node_id.clone();
+        let request = requests
+            .iter()
+            .find(|r| r.node_id == node)
+            .ok_or_else(|| source_error(&root, "source_inventory_foreign_node"))?;
+        if candidates.contains_key(&node) {
+            return Err(source_error(&root, "source_inventory_duplicate_node"));
+        }
+        let fresh_reason = source_inventory_fresh_reason(&root, request)?;
+        if request.policy == RepositoryVerificationPolicy::ProfileAuthorized
+            && *request != source.request
+        {
+            return Err(source_error(&root, "source_inventory_request_changed"));
+        }
+        if fresh_reason.is_none() {
+            source
+                .source
+                .validate_in_run(&root, request, runtime, caller, own_run)?;
+        }
+        eligibility.insert(node.clone(), fresh_reason);
+        candidates.insert(node, source);
+    }
+    let mut coverage = cockpit_protocol::ci_admission::PortableInventoryCoverage {
+        schema_version: 1,
+        declared_nodes: declared.iter().map(|r| r.node_id.clone()).collect(),
+        source_nodes: Vec::new(),
+        fresh_required_nodes: Vec::new(),
+        source_coverage_complete: false,
+        gaps: Vec::new(),
+    };
+    let mut used_sources = Vec::new();
+    let mut runs = Vec::new();
+    let mut uses = Vec::new();
+    for declaration in declared {
+        let request = requests
+            .iter()
+            .find(|r| r.node_id == declaration.node_id)
+            .ok_or_else(|| source_error(&root, "source_inventory_foreign_node"))?;
+        let source = candidates.remove(&request.node_id);
+        let reason = if request.policy != RepositoryVerificationPolicy::ProfileAuthorized {
+            Some("node_policy_requires_fresh")
+        } else if source.is_none() {
+            Some("source_missing_run_fresh")
+        } else {
+            eligibility.remove(&request.node_id).flatten()
+        };
+        if let Some(reason) = reason {
+            coverage.fresh_required_nodes.push(request.node_id.clone());
+            coverage
+                .gaps
+                .push(cockpit_protocol::ci_admission::PortableInventoryGap {
+                    node_id: request.node_id.clone(),
+                    reason: reason.into(),
+                });
+            continue;
+        }
+        let source = source.ok_or_else(|| source_error(&root, "source_inventory_missing_node"))?;
+        let (run, source_use) = match source
+            .consume_with_source_report_in_run(&root, request, runtime, caller, own_run)
+        {
+            Ok(observed) => observed,
+            Err(error) => {
+                let remaining = coverage
+                    .declared_nodes
+                    .iter()
+                    .filter(|id| !coverage.source_nodes.contains(id))
+                    .cloned()
+                    .collect::<Vec<_>>();
+                // Only actual completed prior observations are recorded. The
+                // failed/current node is explicitly unconsumed; no aggregate
+                // success or imported JSON supplies a missing node outcome.
+                let receipts = runs
+                    .iter()
+                    .map(|run: &RepositoryVerificationRun| &run.receipt)
+                    .collect::<Vec<_>>();
+                let interruption = persist_source_data(
+                    &root,
+                    work_item_id,
+                    "portable-source-inventory-interruption",
+                    &serde_json::json!({
+                        "stage":"consume", "wholeInventoryAccepted":false,
+                        "inventoryBinding":binding, "declaredNodes":coverage.declared_nodes,
+                        "completedSourceNodeIds":coverage.source_nodes, "failedNodeId":request.node_id,
+                        "remainingNodeIds":remaining, "observedReceipts":receipts,
+                        "sourceUses":uses, "originalDiagnostic":error.to_string(),
+                    }),
+                );
+                return Err(match interruption {
+                    Ok(reference) => plan_error(
+                        &root,
+                        format!("{error}; source_inventory_interruption_ref={reference}"),
+                    ),
+                    Err(persist_error) => plan_error(
+                        &root,
+                        format!(
+                            "{error}; source_inventory_interruption_persistence_failed: {persist_error}"
+                        ),
+                    ),
+                });
+            }
+        };
+        coverage.source_nodes.push(request.node_id.clone());
+        runs.push(run);
+        uses.push(source_use);
+        used_sources.push(source);
+    }
+    coverage.source_coverage_complete =
+        !coverage.declared_nodes.is_empty() && coverage.fresh_required_nodes.is_empty();
+    Ok(PortableInventoryConsumption {
+        root,
+        work_item_id: work_item_id.into(),
+        binding,
+        coverage,
+        sources: used_sources,
+        own_run: own_run.cloned(),
+        requests: requests.to_vec(),
+        runs,
+        source_uses: uses,
+    })
 }
 
 #[cfg(test)]
