@@ -900,6 +900,30 @@ impl PortableInventoryConsumption {
     }
 }
 
+/// Acquire only move-only live source sessions for the current declaration
+/// inventory, before the native consumer checkpoint is prepared. The manifest
+/// is bounded local data (64 KiB), never a source capability or tool selector.
+/// Schema 1 is exact: {schemaVersion,entries:[{nodeId,input,
+/// expectedPlanDigest,sourceParameters}]}. Reject deep duplicate keys, special
+/// files, unknown fields/URLs/tool paths/trusted claims and ambiguous entries.
+/// Validate the whole table/current inventory before the first observe/accept.
+/// A missing bundle does not call this API and creates no provider dependency.
+pub fn acquire_portable_evidence_inventory(
+    root: &Path,
+    _work_item_id: &str,
+    _complete_requests: &[crate::RepositoryVerificationRequest],
+    _manifest: &Path,
+    _tool: &PortableSourceTool,
+    _runtime: &RuntimeContext,
+    _caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<Vec<AcceptedPortableEvidence>, ObserverError> {
+    // RED scaffold: data alone cannot create AcceptedPortableEvidence.
+    Err(source_error(
+        root,
+        "portable_inventory_acquire_not_implemented",
+    ))
+}
+
 /// `requests` must be the entire current Contract inventory built by the
 /// trusted service, never commands supplied by the imported evidence packet.
 /// Each source is the existing move-only live capability for exactly one node.

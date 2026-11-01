@@ -220,6 +220,9 @@ enum SourceBridgeError {
     NativeInputBinding,
     ArchiveBinding,
     ArchiveTransportUnavailable,
+    RedirectLocationInvalid,
+    StorageHostUnreviewed,
+    SourceHeaderInvalid,
     HostHeadUnavailable,
 }
 
@@ -318,6 +321,7 @@ enum SourceReadRoute {
     },
 }
 
+#[derive(Debug)]
 struct SourceRawRead {
     bytes: Vec<u8>,
     truncated: bool,
@@ -1929,6 +1933,60 @@ mod source_bridge_tests {
             SourceBridgeError::RunBinding
         );
     }
+
+    #[test]
+    fn source_bridge_completed_pr_producer_does_not_wait_for_its_consumer_or_whole_run() {
+        let (mut reader, selector, input) = pr_fixture();
+        reader.recipe.as_mut().unwrap().producer_job_name = "source bundle".into();
+        for index in [0, 1] {
+            change_json(&mut reader, index, |run| {
+                run["status"] = "in_progress".into();
+                run["conclusion"] = Value::Null;
+            });
+        }
+        // PR fixture routes: current, exact attempt, PR, Git M, complete jobs,
+        // native log, binder log, artifact metadata, actual archive bytes.
+        change_json(&mut reader, 4, |page| {
+            page["jobs"][0]["name"] = "source bundle".into();
+            page["jobs"][1]["name"] = "quality".into();
+            page["jobs"][1]["status"] = "in_progress".into();
+            page["jobs"][1]["conclusion"] = Value::Null;
+        });
+        for index in [0, 1] {
+            let run: Value = serde_json::from_slice(&reader.replies[index].1.bytes).unwrap();
+            assert_eq!(run["status"], "in_progress");
+            assert_eq!(run["conclusion"], Value::Null);
+            assert_eq!(run["run_attempt"], selector.attempt);
+        }
+        let page: Value = serde_json::from_slice(&reader.replies[4].1.bytes).unwrap();
+        assert_eq!(page["total_count"], 2);
+        assert_eq!(page["jobs"][0]["id"], selector.job_id);
+        assert_eq!(page["jobs"][0]["status"], "completed");
+        assert_eq!(page["jobs"][0]["conclusion"], "success");
+        let steps = page["jobs"][0]["steps"].as_array().unwrap();
+        assert_eq!(steps.len(), 3);
+        for step in steps {
+            assert_eq!(step["status"], "completed");
+            assert_eq!(step["conclusion"], "success");
+        }
+        assert_eq!(page["jobs"][1]["name"], "quality");
+        assert_eq!(page["jobs"][1]["status"], "in_progress");
+        assert_eq!(page["jobs"][1]["conclusion"], Value::Null);
+        let expected_routes = reader
+            .replies
+            .iter()
+            .map(|(route, _)| route.clone())
+            .collect::<Vec<_>>();
+        let observation = observe(&mut reader, &selector, &input).expect(
+            "TARGET RED: a completed exact producer must remain usable while the same run's consumer is still running",
+        );
+        assert_eq!(reader.calls, expected_routes);
+        assert_eq!(reader.calls.len(), 9);
+        assert!(reader.replies.is_empty());
+        assert_eq!(observation.input_digest, input);
+        assert_eq!(observation.worker_reply()["inputDigest"], json!(input));
+        assert_eq!(observation.worker_reply().as_object().unwrap().len(), 4);
+    }
 }
 
 const SOURCE_ORIGIN: &str = "https://api.github.com";
@@ -1940,8 +1998,8 @@ const SOURCE_HELPER_PATH: &str = "tests/ci/run_hosted_runtime_verification.sh";
 const SOURCE_WORKFLOW_BYTES: &[u8] = include_bytes!("../../../.github/workflows/ci.yml");
 const SOURCE_HELPER_BYTES: &[u8] =
     include_bytes!("../../../tests/ci/run_hosted_runtime_verification.sh");
-const SOURCE_MAX_REQUESTS: usize = 16;
-const SOURCE_TOTAL_BYTES: usize = 32 * 1024 * 1024;
+const SOURCE_MAX_REQUESTS: usize = 20;
+const SOURCE_TOTAL_BYTES: usize = 68 * 1024 * 1024;
 const SOURCE_AUDIT_BYTES: usize = 8192;
 
 #[derive(serde::Deserialize)]
@@ -2058,6 +2116,337 @@ fn bounded_source_body<R: std::io::Read>(
     })
 }
 
+// Empty until an actual storage origin is reviewed. Neither caller JSON nor
+// provider Location adds a trusted destination; unknown compatibility is a gap.
+const SOURCE_STORAGE_HOSTS: &[&str] = &[];
+const SOURCE_ARCHIVE_LIMIT: usize = 64 * 1024 * 1024;
+const SOURCE_HEADER_LIMIT: usize = 16 * 1024;
+
+trait SourceWireClock {
+    fn now(&self) -> std::time::Instant;
+}
+struct SourceSystemClock;
+impl SourceWireClock for SourceSystemClock {
+    fn now(&self) -> std::time::Instant {
+        std::time::Instant::now()
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SourceWirePayload {
+    Metadata,
+    NumericStepLog,
+    ArtifactZip,
+}
+impl SourceWirePayload {
+    fn limit(self) -> usize {
+        match self {
+            Self::Metadata => SOURCE_META_LIMIT,
+            Self::NumericStepLog => SOURCE_LOG_LIMIT,
+            Self::ArtifactZip => SOURCE_ARCHIVE_LIMIT,
+        }
+    }
+    fn redirect_allowed(self) -> bool {
+        self != Self::Metadata
+    }
+}
+fn source_wire_payload(path: &str) -> std::result::Result<SourceWirePayload, SourceBridgeError> {
+    if !path.starts_with("/repos/xinglun/ai-cockpit/")
+        || path.contains("..")
+        || path
+            .bytes()
+            .any(|b| b.is_ascii_control() || matches!(b, b' ' | b'\\' | b'#'))
+    {
+        return Err(SourceBridgeError::Transport);
+    }
+    if let Some(tail) = path.strip_prefix("/repos/xinglun/ai-cockpit/actions/jobs/") {
+        let parts = tail.split('/').collect::<Vec<_>>();
+        if parts.len() == 4
+            && parts[1] == "steps"
+            && parts[3] == "logs"
+            && parts[0].parse::<u64>().is_ok_and(|v| v > 0)
+            && parts[2].parse::<u32>().is_ok_and(|v| v > 0)
+        {
+            return Ok(SourceWirePayload::NumericStepLog);
+        }
+        if path.ends_with("/logs") {
+            return Err(SourceBridgeError::Transport);
+        }
+    }
+    if let Some(tail) = path.strip_prefix("/repos/xinglun/ai-cockpit/actions/artifacts/") {
+        let parts = tail.split('/').collect::<Vec<_>>();
+        if parts.len() == 2 && parts[1] == "zip" && parts[0].parse::<u64>().is_ok_and(|v| v > 0) {
+            return Ok(SourceWirePayload::ArtifactZip);
+        }
+        if path.ends_with("/zip") {
+            return Err(SourceBridgeError::Transport);
+        }
+    }
+    Ok(SourceWirePayload::Metadata)
+}
+struct SourceWireRead<'a> {
+    path: &'a str,
+    raw: bool,
+    payload: SourceWirePayload,
+    // Explicit trusted CI opt-in may pass a token in a future integration.
+    // This reader never discovers credentials or takes token/config from JSON.
+    authorization: Option<&'a str>,
+    storage_hosts: &'a [&'a str],
+}
+#[derive(Clone, Debug)]
+struct SourceWireRequest {
+    url: String,
+    timeout: std::time::Duration,
+    authorization: Option<String>,
+    raw: bool,
+}
+struct SourceWireResponse {
+    status: u16,
+    headers: Vec<(String, String)>,
+    body: Box<dyn std::io::Read>,
+}
+trait SourceWireTransport {
+    fn get(
+        &mut self,
+        request: &SourceWireRequest,
+    ) -> std::result::Result<SourceWireResponse, SourceBridgeError>;
+}
+struct UreqSourceWireTransport;
+impl SourceWireTransport for UreqSourceWireTransport {
+    fn get(
+        &mut self,
+        request: &SourceWireRequest,
+    ) -> std::result::Result<SourceWireResponse, SourceBridgeError> {
+        let timeout = request.timeout;
+        let config = ureq::Agent::config_builder()
+            .https_only(true)
+            .proxy(None)
+            .max_redirects(0)
+            .http_status_as_error(false)
+            .max_response_header_size(SOURCE_HEADER_LIMIT)
+            .timeout_global(Some(timeout))
+            .timeout_per_call(Some(timeout))
+            .timeout_resolve(Some(timeout))
+            .timeout_connect(Some(timeout))
+            .timeout_recv_response(Some(timeout))
+            .timeout_recv_body(Some(timeout))
+            .timeout_per_read(Some(timeout))
+            .build();
+        let agent = ureq::Agent::new_with_config(config);
+        let mut operation = agent
+            .get(&request.url)
+            .header(
+                "Accept",
+                if request.raw {
+                    "application/vnd.github.raw+json"
+                } else {
+                    "application/vnd.github+json"
+                },
+            )
+            .header("Accept-Encoding", "identity")
+            .header("Cache-Control", "no-cache")
+            .header("User-Agent", "ai-cockpit-controlled-source-observer");
+        if let Some(authorization) = &request.authorization {
+            operation = operation.header("Authorization", authorization);
+        }
+        let response = operation.call().map_err(|_| SourceBridgeError::Transport)?;
+        let status = response.status().as_u16();
+        let mut headers = Vec::new();
+        for (name, value) in response.headers() {
+            headers.push((
+                name.as_str().to_owned(),
+                value
+                    .to_str()
+                    .map_err(|_| SourceBridgeError::SourceHeaderInvalid)?
+                    .to_owned(),
+            ));
+        }
+        // Verified against installed ureq3.5: owned Body::into_reader returns
+        // BodyReader<'static>; no borrowed response escapes this function.
+        let body = Box::new(response.into_body().into_reader());
+        Ok(SourceWireResponse {
+            status,
+            headers,
+            body,
+        })
+    }
+}
+fn source_wire_header<'a>(
+    headers: &'a [(String, String)],
+    key: &str,
+) -> std::result::Result<Option<&'a str>, SourceBridgeError> {
+    let mut matches = headers
+        .iter()
+        .filter(|(name, _)| name.eq_ignore_ascii_case(key));
+    let value = matches.next().map(|(_, value)| value.as_str());
+    if matches.next().is_some() {
+        return Err(SourceBridgeError::SourceHeaderInvalid);
+    }
+    Ok(value)
+}
+fn source_storage_location(
+    location: &str,
+    hosts: &[&str],
+) -> std::result::Result<String, SourceBridgeError> {
+    if location.len() > 8192
+        || !location.starts_with("https://")
+        || location
+            .bytes()
+            .any(|b| b.is_ascii_control() || matches!(b, b' ' | b'\\' | b'#'))
+    {
+        return Err(SourceBridgeError::RedirectLocationInvalid);
+    }
+    let uri: ureq::http::Uri = location
+        .parse()
+        .map_err(|_| SourceBridgeError::RedirectLocationInvalid)?;
+    let authority = uri
+        .authority()
+        .ok_or(SourceBridgeError::RedirectLocationInvalid)?;
+    let host = authority.host();
+    if uri.scheme_str() != Some("https")
+        || authority
+            .as_str()
+            .bytes()
+            .any(|byte| matches!(byte, b'@' | b'%' | b'[' | b']'))
+        || host.parse::<std::net::IpAddr>().is_ok()
+        || host == "api.github.com"
+        || host.ends_with('.')
+        || host.is_empty()
+        || !host
+            .bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-' || b == b'.')
+        || (authority.as_str() != host && authority.as_str() != format!("{host}:443"))
+        || !uri.path().starts_with('/')
+        || uri.path() == "/"
+    {
+        return Err(SourceBridgeError::RedirectLocationInvalid);
+    }
+    if !hosts.contains(&host) {
+        return Err(SourceBridgeError::StorageHostUnreviewed);
+    }
+    Ok(location.to_owned())
+}
+fn source_wire_remaining<C: SourceWireClock>(
+    clock: &C,
+    budget: &SourceHttpBudget,
+    read_deadline: std::time::Instant,
+) -> std::result::Result<std::time::Duration, SourceBridgeError> {
+    read_deadline
+        .min(budget.deadline)
+        .checked_duration_since(clock.now())
+        .filter(|remaining| !remaining.is_zero())
+        .ok_or(SourceBridgeError::Deadline)
+}
+struct ClockGuardedSourceBody<'a, C> {
+    body: &'a mut dyn std::io::Read,
+    clock: &'a C,
+    deadline: std::time::Instant,
+}
+impl<C: SourceWireClock> std::io::Read for ClockGuardedSourceBody<'_, C> {
+    fn read(&mut self, into: &mut [u8]) -> std::io::Result<usize> {
+        if self.clock.now() >= self.deadline {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::TimedOut,
+                "source absolute deadline",
+            ));
+        }
+        self.body.read(into)
+    }
+}
+fn source_wire_fetch<T: SourceWireTransport, C: SourceWireClock>(
+    transport: &mut T,
+    clock: &C,
+    budget: &mut SourceHttpBudget,
+    read: SourceWireRead<'_>,
+) -> std::result::Result<SourceRawRead, SourceBridgeError> {
+    if source_wire_payload(read.path)? != read.payload {
+        return Err(SourceBridgeError::Transport);
+    }
+    if read.authorization.is_some_and(|token| {
+        token.is_empty() || token.len() > 4096 || !token.bytes().all(|byte| byte.is_ascii_graphic())
+    }) {
+        return Err(SourceBridgeError::WorkerRequestInvalid);
+    }
+    let read_deadline = (clock.now() + std::time::Duration::from_secs(20)).min(budget.deadline);
+    let remaining = source_wire_remaining(clock, budget, read_deadline)?;
+    let timeout = budget.begin_read()?.min(remaining);
+    let request = SourceWireRequest {
+        url: format!("{SOURCE_ORIGIN}{}", read.path),
+        timeout,
+        authorization: read.authorization.map(|token| format!("Bearer {token}")),
+        raw: read.raw,
+    };
+    let outcome = transport.get(&request);
+    source_wire_remaining(clock, budget, read_deadline)?;
+    let mut response = outcome?;
+    let mut header_bytes = 0usize;
+    for (name, value) in &response.headers {
+        header_bytes = header_bytes
+            .checked_add(name.len())
+            .and_then(|v| v.checked_add(value.len()))
+            .and_then(|v| v.checked_add(4))
+            .filter(|v| *v <= SOURCE_HEADER_LIMIT)
+            .ok_or(SourceBridgeError::SourceHeaderInvalid)?;
+        if name
+            .bytes()
+            .chain(value.bytes())
+            .any(|byte| byte.is_ascii_control())
+        {
+            return Err(SourceBridgeError::SourceHeaderInvalid);
+        }
+    }
+    if response.status == 302 {
+        if !read.payload.redirect_allowed() {
+            return Err(SourceBridgeError::RedirectUnsupported);
+        }
+        let location = source_wire_header(&response.headers, "location")?
+            .ok_or(SourceBridgeError::RedirectLocationInvalid)?;
+        let _validated = source_storage_location(location, read.storage_hosts)?;
+        // Conservative assertion RED: no storage GET or credential forwarding
+        // until the exact one-hop/remaining-budget tests have genuinely failed.
+        return Err(SourceBridgeError::RedirectUnsupported);
+    }
+    if (300..400).contains(&response.status) {
+        return Err(SourceBridgeError::RedirectUnsupported);
+    }
+    if response.status != 200 {
+        return Err(SourceBridgeError::HttpStatus(response.status));
+    }
+    let length = source_wire_header(&response.headers, "content-length")?
+        .map(|value| {
+            value
+                .parse::<usize>()
+                .map_err(|_| SourceBridgeError::SourceHeaderInvalid)
+        })
+        .transpose()?;
+    if source_wire_header(&response.headers, "content-encoding")?
+        .is_some_and(|value| value != "identity")
+    {
+        return Err(SourceBridgeError::SourceHeaderInvalid);
+    }
+    if length.is_some_and(|length| length > read.payload.limit()) {
+        return Err(SourceBridgeError::MetadataLimitOrTruncated);
+    }
+    if length.is_some_and(|length| length > SOURCE_TOTAL_BYTES.saturating_sub(budget.bytes)) {
+        return Err(SourceBridgeError::TotalByteLimit);
+    }
+    let mut body = ClockGuardedSourceBody {
+        body: response.body.as_mut(),
+        clock,
+        deadline: read_deadline,
+    };
+    let outcome = bounded_source_body(
+        &mut body,
+        length,
+        read.payload.limit(),
+        budget,
+        read_deadline,
+    );
+    // Preserve the true deadline error even if a blocking reader returned an
+    // I/O error after its budget expired. This never resets a relative timeout.
+    source_wire_remaining(clock, budget, read_deadline)?;
+    outcome
+}
+
 struct SourceHttpsReader {
     budget: SourceHttpBudget,
     recipe: Option<ReviewedSourceRecipe>,
@@ -2070,88 +2459,21 @@ impl SourceHttpsReader {
         raw: bool,
         limit: usize,
     ) -> std::result::Result<SourceRawRead, SourceBridgeError> {
-        // Paths are assembled only by read() from fixed host strings and typed
-        // numbers/revision OIDs. No provider URL/header or agent endpoint is used.
-        if !path.starts_with("/repos/xinglun/ai-cockpit/")
-            || path.contains("..")
-            || path
-                .bytes()
-                .any(|b| b.is_ascii_control() || b == b' ' || b == b'\\' || b == b'#')
-        {
+        let payload = source_wire_payload(path)?;
+        if limit != payload.limit() {
             return Err(SourceBridgeError::Transport);
         }
-        let timeout = self.budget.begin_read()?;
-        let read_deadline = std::time::Instant::now() + timeout;
-        let config = ureq::Agent::config_builder()
-            .https_only(true)
-            .proxy(None)
-            .max_redirects(0)
-            .http_status_as_error(false)
-            .max_response_header_size(16 * 1024)
-            .timeout_global(Some(timeout))
-            .timeout_per_call(Some(timeout))
-            .timeout_resolve(Some(timeout))
-            .timeout_connect(Some(timeout))
-            .timeout_recv_response(Some(timeout))
-            .timeout_recv_body(Some(timeout))
-            .timeout_per_read(Some(timeout))
-            .build();
-        // A fresh agent per exact GET has no shared cookies/auth or stale
-        // pooled connection. No application retry or redirect branch exists.
-        let agent = ureq::Agent::new_with_config(config);
-        let mut response = agent
-            .get(&format!("{SOURCE_ORIGIN}{path}"))
-            .header(
-                "Accept",
-                if raw {
-                    "application/vnd.github.raw+json"
-                } else {
-                    "application/vnd.github+json"
-                },
-            )
-            .header("Accept-Encoding", "identity")
-            .header("Cache-Control", "no-cache")
-            .header("User-Agent", "ai-cockpit-controlled-source-observer")
-            .call()
-            .map_err(|_| SourceBridgeError::Transport)?;
-        let status = response.status().as_u16();
-        if (300..400).contains(&status) {
-            return Err(SourceBridgeError::RedirectUnsupported);
-        }
-        if status != 200 {
-            return Err(SourceBridgeError::HttpStatus(status));
-        }
-        let mut lengths = response.headers().get_all("content-length").iter();
-        let content_length = match lengths.next() {
-            Some(value) => Some(
-                value
-                    .to_str()
-                    .map_err(|_| SourceBridgeError::Transport)?
-                    .parse::<usize>()
-                    .map_err(|_| SourceBridgeError::Transport)?,
-            ),
-            None => None,
-        };
-        if lengths.next().is_some()
-            || content_length
-                .is_some_and(|v| v > limit || v > SOURCE_TOTAL_BYTES - self.budget.bytes)
-        {
-            return Err(SourceBridgeError::MetadataLimitOrTruncated);
-        }
-        if response
-            .headers()
-            .get("content-encoding")
-            .is_some_and(|v| v.as_bytes() != b"identity")
-        {
-            return Err(SourceBridgeError::Transport);
-        }
-        let mut reader = response.body_mut().as_reader();
-        bounded_source_body(
-            &mut reader,
-            content_length,
-            limit,
+        source_wire_fetch(
+            &mut UreqSourceWireTransport,
+            &SourceSystemClock,
             &mut self.budget,
-            read_deadline,
+            SourceWireRead {
+                path,
+                raw,
+                payload,
+                authorization: None,
+                storage_hosts: SOURCE_STORAGE_HOSTS,
+            },
         )
     }
     fn bootstrap(
@@ -2513,5 +2835,380 @@ mod source_worker_boundary_tests {
             bounded_source_body(&mut short, Some(3), 3, &mut budget, deadline),
             Err(SourceBridgeError::Transport)
         ));
+    }
+}
+
+#[cfg(test)]
+mod source_wire_transport_tests {
+    use super::*;
+    use std::cell::Cell;
+    use std::collections::VecDeque;
+    use std::io::{Cursor, Read};
+    use std::rc::Rc;
+    use std::time::{Duration, Instant};
+    const HOST: &str = "fixture-storage.actions.githubusercontent.com";
+    const LOG: &str = "/repos/xinglun/ai-cockpit/actions/jobs/21/steps/7/logs";
+    const ZIP: &str = "/repos/xinglun/ai-cockpit/actions/artifacts/41/zip";
+    #[derive(Clone)]
+    struct Clock(Rc<Cell<Instant>>);
+    impl Clock {
+        fn advance(&self, duration: Duration) {
+            self.0.set(self.0.get() + duration);
+        }
+    }
+    impl SourceWireClock for Clock {
+        fn now(&self) -> Instant {
+            self.0.get()
+        }
+    }
+    struct Body {
+        bytes: Cursor<Vec<u8>>,
+        clock: Clock,
+        step: Duration,
+        reads: Rc<Cell<usize>>,
+    }
+    impl Read for Body {
+        fn read(&mut self, buffer: &mut [u8]) -> std::io::Result<usize> {
+            self.reads.set(self.reads.get() + 1);
+            self.clock.advance(self.step);
+            self.bytes.read(buffer)
+        }
+    }
+    struct Transport {
+        clock: Clock,
+        delay: Duration,
+        replies: VecDeque<SourceWireResponse>,
+        calls: Vec<SourceWireRequest>,
+    }
+    impl SourceWireTransport for Transport {
+        fn get(
+            &mut self,
+            request: &SourceWireRequest,
+        ) -> std::result::Result<SourceWireResponse, SourceBridgeError> {
+            self.calls.push(request.clone());
+            self.clock.advance(self.delay);
+            Ok(self.replies.pop_front().expect("unexpected extra wire GET"))
+        }
+    }
+    fn fixture() -> (Clock, Transport, SourceHttpBudget) {
+        let clock = Clock(Rc::new(Cell::new(Instant::now())));
+        let transport = Transport {
+            clock: clock.clone(),
+            delay: Duration::ZERO,
+            replies: VecDeque::new(),
+            calls: Vec::new(),
+        };
+        let budget = SourceHttpBudget {
+            deadline: clock.now() + Duration::from_secs(120),
+            requests: 0,
+            bytes: 0,
+        };
+        (clock, transport, budget)
+    }
+    fn reply(
+        clock: &Clock,
+        status: u16,
+        headers: &[(&str, &str)],
+        bytes: &[u8],
+        step: Duration,
+    ) -> (SourceWireResponse, Rc<Cell<usize>>) {
+        let reads = Rc::new(Cell::new(0));
+        (
+            SourceWireResponse {
+                status,
+                headers: headers
+                    .iter()
+                    .map(|(k, v)| ((*k).into(), (*v).into()))
+                    .collect(),
+                body: Box::new(Body {
+                    bytes: Cursor::new(bytes.to_vec()),
+                    clock: clock.clone(),
+                    step,
+                    reads: reads.clone(),
+                }),
+            },
+            reads,
+        )
+    }
+    fn fetch(
+        t: &mut Transport,
+        c: &Clock,
+        b: &mut SourceHttpBudget,
+        path: &str,
+        token: Option<&str>,
+    ) -> std::result::Result<SourceRawRead, SourceBridgeError> {
+        source_wire_fetch(
+            t,
+            c,
+            b,
+            SourceWireRead {
+                path,
+                raw: true,
+                payload: source_wire_payload(path).unwrap(),
+                authorization: token,
+                storage_hosts: &[HOST],
+            },
+        )
+    }
+    #[test]
+    fn source_wire_numeric_step_redirect_strips_api_auth_and_counts_both_gets() {
+        let (clock, mut t, mut b) = fixture();
+        t.delay = Duration::from_secs(2);
+        let location = format!("https://{HOST}/signed/log?opaque=fixture");
+        t.replies
+            .push_back(reply(&clock, 302, &[("Location", &location)], b"", Duration::ZERO).0);
+        t.replies.push_back(
+            reply(
+                &clock,
+                200,
+                &[("Content-Length", "4")],
+                b"log\n",
+                Duration::ZERO,
+            )
+            .0,
+        );
+        let result=fetch(&mut t,&clock,&mut b,LOG,Some("fixture-literal-not-a-credential"))
+            .expect("TARGET RED: exact numeric step log permits one reviewed storage302 under the original deadline");
+        assert_eq!(result.bytes, b"log\n");
+        assert!(!result.truncated);
+        assert_eq!((t.calls.len(), b.requests, b.bytes), (2, 2, 4));
+        assert_eq!(t.calls[0].url, format!("{SOURCE_ORIGIN}{LOG}"));
+        assert_eq!(
+            t.calls[0].authorization.as_deref(),
+            Some("Bearer fixture-literal-not-a-credential")
+        );
+        assert_eq!(t.calls[1].url, location);
+        assert_eq!(t.calls[1].authorization, None);
+        assert_eq!(t.calls[0].timeout, Duration::from_secs(20));
+        assert_eq!(t.calls[1].timeout, Duration::from_secs(18));
+    }
+    #[test]
+    fn source_wire_artifact_redirect_keeps_binary_bytes_and_forbids_a_second_redirect() {
+        let (clock, mut t, mut b) = fixture();
+        let location = format!("https://{HOST}:443/signed/artifact.zip?fixture=1");
+        t.replies
+            .push_back(reply(&clock, 302, &[("location", &location)], b"", Duration::ZERO).0);
+        t.replies.push_back(
+            reply(
+                &clock,
+                200,
+                &[("content-length", "4")],
+                &[0, 255, 80, 75],
+                Duration::ZERO,
+            )
+            .0,
+        );
+        let result=fetch(&mut t,&clock,&mut b,ZIP,None)
+            .expect("TARGET RED: artifact transport permits exactly one validated storage hop without text conversion");
+        assert_eq!(result.bytes, [0, 255, 80, 75]);
+        assert_eq!(b.requests, 2);
+        assert!(
+            t.calls
+                .iter()
+                .all(|request| request.authorization.is_none())
+        );
+        let (clock, mut t, mut b) = fixture();
+        t.replies
+            .push_back(reply(&clock, 302, &[("location", &location)], b"", Duration::ZERO).0);
+        t.replies
+            .push_back(reply(&clock, 302, &[("location", &location)], b"", Duration::ZERO).0);
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, ZIP, None).unwrap_err(),
+            SourceBridgeError::RedirectUnsupported
+        );
+        assert_eq!(
+            t.calls.len(),
+            2,
+            "second302 must be seen once and never followed"
+        );
+    }
+    #[test]
+    fn source_wire_rejects_unsafe_locations_duplicate_headers_and_metadata_redirects() {
+        for value in [
+            "http://fixture-storage.actions.githubusercontent.com/x",
+            "https://u:p@fixture-storage.actions.githubusercontent.com/x",
+            "https://fixture-storage.actions.githubusercontent.com:444/x",
+            "https://127.0.0.1/x",
+            "https://[::1]/x",
+            "https://fixture-storage.actions.githubusercontent.com/x#fragment",
+            "https://api.github.com/repos/xinglun/ai-cockpit/x",
+            "https://fixture-storage.actions.githubusercontent.com./x",
+            "https://fixture-storage.actions.githubusercontent.com/x\nInjected:yes",
+        ] {
+            assert_eq!(
+                source_storage_location(value, &[HOST]).unwrap_err(),
+                SourceBridgeError::RedirectLocationInvalid,
+                "{value:?}"
+            );
+        }
+        assert_eq!(
+            source_storage_location("https://other.actions.githubusercontent.com/x", &[HOST])
+                .unwrap_err(),
+            SourceBridgeError::StorageHostUnreviewed
+        );
+        assert_eq!(
+            source_storage_location(&format!("https://{HOST}/x"), SOURCE_STORAGE_HOSTS)
+                .unwrap_err(),
+            SourceBridgeError::StorageHostUnreviewed
+        );
+        let (clock, mut t, mut b) = fixture();
+        let location = format!("https://{HOST}/x");
+        t.replies.push_back(
+            reply(
+                &clock,
+                302,
+                &[("Location", &location), ("location", &location)],
+                b"",
+                Duration::ZERO,
+            )
+            .0,
+        );
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::SourceHeaderInvalid
+        );
+        assert_eq!(t.calls.len(), 1);
+        let (clock, mut t, mut b) = fixture();
+        t.replies
+            .push_back(reply(&clock, 302, &[("Location", &location)], b"", Duration::ZERO).0);
+        assert_eq!(
+            fetch(
+                &mut t,
+                &clock,
+                &mut b,
+                "/repos/xinglun/ai-cockpit/actions/runs/11",
+                None
+            )
+            .unwrap_err(),
+            SourceBridgeError::RedirectUnsupported
+        );
+        assert_eq!(t.calls.len(), 1);
+    }
+    #[test]
+    fn source_wire_absolute_deadline_covers_headers_and_each_body_read_without_reset() {
+        let (clock, mut t, mut b) = fixture();
+        t.delay = Duration::from_secs(20);
+        let (response, reads) = reply(&clock, 200, &[], b"late", Duration::ZERO);
+        t.replies.push_back(response);
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::Deadline
+        );
+        assert_eq!(reads.get(), 0);
+        let (clock, mut t, mut b) = fixture();
+        let (response, reads) = reply(&clock, 200, &[], b"slow", Duration::from_secs(21));
+        t.replies.push_back(response);
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::Deadline
+        );
+        assert_eq!(reads.get(), 1);
+        assert_eq!(
+            b.bytes, 4,
+            "actual bytes already read remain counted on expiry"
+        );
+        let (clock, mut t, mut b) = fixture();
+        clock.advance(Duration::from_secs(119));
+        t.delay = Duration::from_secs(1);
+        t.replies
+            .push_back(reply(&clock, 200, &[], b"", Duration::ZERO).0);
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::Deadline
+        );
+        assert_eq!(t.calls[0].timeout, Duration::from_secs(1));
+    }
+    #[test]
+    fn source_wire_caps_allocation_headers_request_count_and_collection_bytes() {
+        assert_eq!(
+            (SOURCE_MAX_REQUESTS, SOURCE_TOTAL_BYTES),
+            (20, 68 * 1024 * 1024)
+        );
+        for (path, limit) in [
+            (
+                "/repos/xinglun/ai-cockpit/actions/runs/11",
+                SOURCE_META_LIMIT,
+            ),
+            (LOG, SOURCE_LOG_LIMIT),
+            (ZIP, SOURCE_ARCHIVE_LIMIT),
+        ] {
+            let (clock, mut t, mut b) = fixture();
+            let length = (limit + 1).to_string();
+            let (response, reads) = reply(
+                &clock,
+                200,
+                &[("content-length", &length)],
+                b"",
+                Duration::ZERO,
+            );
+            t.replies.push_back(response);
+            assert_eq!(
+                fetch(&mut t, &clock, &mut b, path, None).unwrap_err(),
+                SourceBridgeError::MetadataLimitOrTruncated
+            );
+            assert_eq!(reads.get(), 0);
+        }
+        let (clock, mut t, mut b) = fixture();
+        b.bytes = SOURCE_TOTAL_BYTES;
+        t.replies.push_back(
+            reply(
+                &clock,
+                200,
+                &[("content-length", "1")],
+                b"a",
+                Duration::ZERO,
+            )
+            .0,
+        );
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::TotalByteLimit
+        );
+        let (clock, mut t, mut b) = fixture();
+        for _ in 0..20 {
+            t.replies
+                .push_back(reply(&clock, 200, &[("content-length", "0")], b"", Duration::ZERO).0);
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap();
+        }
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::RequestLimit
+        );
+        assert_eq!(t.calls.len(), 20);
+        let (clock, mut t, mut b) = fixture();
+        let big = "x".repeat(SOURCE_HEADER_LIMIT);
+        let (response, reads) = reply(&clock, 200, &[("oversized", &big)], b"", Duration::ZERO);
+        t.replies.push_back(response);
+        assert_eq!(
+            fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+            SourceBridgeError::SourceHeaderInvalid
+        );
+        assert_eq!(reads.get(), 0);
+    }
+    #[test]
+    fn source_wire_auth_is_explicit_api_only_and_error_responses_never_retry() {
+        let (clock, mut t, mut b) = fixture();
+        t.replies
+            .push_back(reply(&clock, 200, &[("content-length", "0")], b"", Duration::ZERO).0);
+        fetch(&mut t, &clock, &mut b, LOG, None).unwrap();
+        assert_eq!(t.calls[0].authorization, None);
+        for token in ["", "embedded token space", "token\r\nHeader:injection"] {
+            let (clock, mut t, mut b) = fixture();
+            assert_eq!(
+                fetch(&mut t, &clock, &mut b, LOG, Some(token)).unwrap_err(),
+                SourceBridgeError::WorkerRequestInvalid
+            );
+            assert!(t.calls.is_empty());
+        }
+        for status in [401, 403, 429, 500] {
+            let (clock, mut t, mut b) = fixture();
+            t.replies
+                .push_back(reply(&clock, status, &[], b"", Duration::ZERO).0);
+            assert_eq!(
+                fetch(&mut t, &clock, &mut b, LOG, None).unwrap_err(),
+                SourceBridgeError::HttpStatus(status)
+            );
+            assert_eq!(t.calls.len(), 1);
+        }
     }
 }

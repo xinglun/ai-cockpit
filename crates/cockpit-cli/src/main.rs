@@ -7267,3 +7267,205 @@ mod local_projection_regression_tests {
         assert_ne!(planned[0]["satisfiedBy"], "reused_receipt");
     }
 }
+
+#[cfg(test)]
+mod verify_source_bundle_tests {
+    use super::{Cli, CommandKind};
+    use clap::{CommandFactory, Parser, error::ErrorKind};
+    use std::path::PathBuf;
+
+    // These tests exercise the actual CLI grammar only. They perform no source
+    // observation, command execution, source acceptance or formal promotion.
+    #[test]
+    fn source_bundle_selects_the_full_current_wi_inventory_without_command_overrides() {
+        let argv = [
+            "ai-cockpit",
+            "verify",
+            "--repo",
+            ".",
+            "--work-item",
+            "WI-X",
+            "--source-bundle",
+            "provided-manifest.json",
+        ];
+        let parsed = Cli::try_parse_from(argv)
+            .expect("TARGET RED: generic verify source-bundle route is missing");
+        match parsed.command {
+            CommandKind::Verify {
+                work_item,
+                command,
+                node,
+                args,
+                plan_only,
+                archived_recovery,
+                ..
+            } => {
+                assert_eq!(work_item.as_deref(), Some("WI-X"));
+                assert!(command.is_empty() && node.is_empty() && args.is_empty());
+                assert!(!plan_only && !archived_recovery);
+            }
+            _ => panic!("expected ordinary verify command"),
+        }
+        let matches = Cli::command().try_get_matches_from(argv).unwrap();
+        let verify = matches.subcommand_matches("verify").unwrap();
+        assert_eq!(
+            verify.get_one::<PathBuf>("source_bundle"),
+            Some(&PathBuf::from("provided-manifest.json")),
+        );
+    }
+
+    #[test]
+    fn source_bundle_requires_an_explicit_work_item_before_repository_actions() {
+        let error = Cli::try_parse_from([
+            "ai-cockpit",
+            "verify",
+            "--repo",
+            ".",
+            "--source-bundle",
+            "provided-manifest.json",
+        ])
+        .expect_err("source bundle without a Work Item must not resolve a route");
+        assert_eq!(error.kind(), ErrorKind::MissingRequiredArgument);
+    }
+
+    #[test]
+    fn source_bundle_conflicts_with_every_partial_or_recovery_execution_selector() {
+        for conflict in [
+            vec!["--command", "git"],
+            vec!["--args=--version"],
+            vec!["--node", "project-command-0"],
+            vec!["--plan-only"],
+            vec!["--archived-recovery"],
+        ] {
+            let mut argv = vec![
+                "ai-cockpit",
+                "verify",
+                "--repo",
+                ".",
+                "--work-item",
+                "WI-X",
+                "--source-bundle",
+                "provided-manifest.json",
+            ];
+            argv.extend(conflict);
+            let error = Cli::try_parse_from(argv)
+                .expect_err("source inventory must not mix with partial or recovery execution");
+            assert_eq!(error.kind(), ErrorKind::ArgumentConflict);
+        }
+    }
+
+    #[test]
+    fn source_bundle_parser_preserves_ordinary_verify_routes() {
+        for argv in [
+            vec!["ai-cockpit", "verify", "--repo", "."],
+            vec!["ai-cockpit", "verify", "--repo", ".", "--work-item", "WI-X"],
+            vec![
+                "ai-cockpit",
+                "verify",
+                "--repo",
+                ".",
+                "--command",
+                "git",
+                "--args=--version",
+            ],
+        ] {
+            let parsed = Cli::try_parse_from(argv).unwrap();
+            match parsed.command {
+                CommandKind::Verify {
+                    node,
+                    plan_only,
+                    archived_recovery,
+                    ..
+                } => {
+                    assert!(node.is_empty());
+                    assert!(!plan_only && !archived_recovery);
+                }
+                _ => panic!("expected ordinary verify command"),
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod profile_execution_recipe_tests {
+    use super::{Cli, CommandKind, ProfileCommand};
+    use clap::{CommandFactory, Parser};
+    use std::path::PathBuf;
+
+    // Parser-only coverage: no recipe file or project/profile is opened and
+    // no executable is invoked or profile confirmation performed.
+    #[test]
+    fn profile_confirm_accepts_an_explicit_execution_recipe_path() {
+        let argv = [
+            "ai-cockpit",
+            "profile",
+            "confirm",
+            "--repo",
+            "provided-repository",
+            "--program",
+            "/concrete/cargo",
+            "--args=check,--locked",
+            "--execution-recipe",
+            "provided-recipe.json",
+        ];
+        let parsed = Cli::try_parse_from(argv)
+            .expect("TARGET RED: explicit typed profile execution-recipe CLI input is missing");
+        match parsed.command {
+            CommandKind::Profile {
+                command:
+                    ProfileCommand::Confirm {
+                        repo,
+                        program,
+                        args,
+                        ..
+                    },
+            } => {
+                assert_eq!(repo, PathBuf::from("provided-repository"));
+                assert_eq!(program, "/concrete/cargo");
+                assert_eq!(args, vec!["check", "--locked"]);
+            }
+            _ => panic!("expected profile confirm command"),
+        }
+        let matches = Cli::command().try_get_matches_from(argv).unwrap();
+        let confirm = matches
+            .subcommand_matches("profile")
+            .unwrap()
+            .subcommand_matches("confirm")
+            .unwrap();
+        assert_eq!(
+            confirm.get_one::<PathBuf>("execution_recipe"),
+            Some(&PathBuf::from("provided-recipe.json")),
+        );
+    }
+
+    #[test]
+    fn profile_confirm_keeps_the_existing_no_recipe_cli_form() {
+        let parsed = Cli::try_parse_from([
+            "ai-cockpit",
+            "profile",
+            "confirm",
+            "--repo",
+            "provided-repository",
+            "--program",
+            "/concrete/cargo",
+            "--args=check,--locked",
+        ])
+        .unwrap();
+        match parsed.command {
+            CommandKind::Profile {
+                command:
+                    ProfileCommand::Confirm {
+                        repo,
+                        program,
+                        args,
+                        ..
+                    },
+            } => {
+                assert_eq!(repo, PathBuf::from("provided-repository"));
+                assert_eq!(program, "/concrete/cargo");
+                assert_eq!(args, vec!["check", "--locked"]);
+            }
+            _ => panic!("expected profile confirm command"),
+        }
+    }
+}

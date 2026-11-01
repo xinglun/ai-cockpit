@@ -5034,10 +5034,13 @@ fn c18_inventory_own_native_run_does_not_hide_another_unresolved_run() {
         .unwrap()
         .snapshot()
         .unwrap();
-    let now = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap()
-        .as_secs();
+    let now = i64::try_from(
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs(),
+    )
+    .unwrap_or(i64::MAX);
     let planned = requests
         .iter()
         .map(|request| {
@@ -5093,4 +5096,155 @@ fn c18_inventory_own_native_run_does_not_hide_another_unresolved_run() {
             .is_err(),
         "own-run exemption must not hide a separate native pending run"
     );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_acquire_manifest_observes_and_returns_real_live_capability() {
+    let (root, host, runtime, caller, request, input, tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    let manifest = host.path().join("source-manifest.json");
+    std::fs::write(
+        &manifest,
+        serde_json::to_vec(&json!({
+            "schemaVersion":1,"entries":[{"nodeId":request.node_id,"input":input,
+                "expectedPlanDigest":plan.plan_digest,"sourceParameters":{}}]
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let mut acquired = super::acquire_portable_evidence_inventory(
+        root.path(), wi, &requests, &manifest, &tool, &runtime, Some(&caller),
+    ).expect("TARGET RED: manifest data must trigger independent live observe/accept, not saved-marker trust");
+    assert_eq!(acquired.len(), 1);
+    let consumed = acquired
+        .pop()
+        .unwrap()
+        .consume(root.path(), &requests[0], &runtime, Some(&caller))
+        .expect("acquisition returns the existing real live source capability");
+    assert!(consumed.receipt.passed);
+    assert_eq!(
+        (
+            consumed.receipt.nodes_planned,
+            consumed.receipt.nodes_executed,
+            consumed.receipt.nodes_reused,
+            consumed.receipt.processes_spawned
+        ),
+        (1, 0, 1, 0)
+    );
+    assert_eq!(consumed.receipt.results.len(), 1);
+    assert_eq!(consumed.receipt.results[0].node_id, requests[0].node_id);
+    assert!(
+        !root
+            .path()
+            .join(format!(".ai/evidence/{wi}.verification.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn c18_inventory_acquire_rejects_entire_invalid_table_before_any_reader_call() {
+    let (root, host, runtime, caller, request, input, _tool) = logbridge_source_fixture();
+    let wi = request.work_item_id.as_deref().unwrap();
+    let requests = c18_inventory_requests(root.path(), wi, &runtime, &caller);
+    let plan =
+        super::plan_portable_evidence(root.path(), Some(wi), &input, &runtime, Some(&caller))
+            .unwrap();
+    let counter = host.path().join("reader-called");
+    let count_literal = serde_json::to_string(&counter.to_string_lossy()).unwrap();
+    let source_root = cockpit_core::Digest::sha256_bytes(b"offline acquisition SDK fixture");
+    let code = format!(
+        "#!/usr/bin/python3\nimport sys,json\nr=json.loads(sys.argv[-1])\nwith open({count_literal},'a') as f: f.write('observed\\n')\nprint(json.dumps({{'schemaVersion':1,'nonce':r['nonce'],'inputDigest':r['inputDigest'],'sourceRoot':'{source_root}'}}))\n"
+    );
+    let script = host.path().join("acquire-source.py");
+    std::fs::write(&script, &code).unwrap();
+    use std::os::unix::fs::PermissionsExt;
+    std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let tool =
+        super::PortableSourceTool::new(script, cockpit_core::Digest::sha256_bytes(code.as_bytes()));
+    let entry = json!({"nodeId":request.node_id,"input":input,
+        "expectedPlanDigest":plan.plan_digest,"sourceParameters":{}});
+    let valid = json!({"schemaVersion":1,"entries":[entry.clone()]});
+    let mut invalid = Vec::new();
+    // The first entry is valid: every rejection below must precede ALL readers.
+    invalid.push(json!({"schemaVersion":1,"entries":[entry.clone(),entry.clone()]}));
+    let mut unknown_node = entry.clone();
+    unknown_node["nodeId"] = json!("artifact-chosen-node");
+    invalid.push(json!({"schemaVersion":1,"entries":[entry.clone(),unknown_node]}));
+    let mut stale_plan = entry.clone();
+    stale_plan["expectedPlanDigest"] = json!(cockpit_core::Digest::sha256_bytes(b"foreign-plan"));
+    invalid.push(json!({"schemaVersion":1,"entries":[entry.clone(),stale_plan]}));
+    for (key, value) in [
+        ("worker", json!("/tmp/caller-selected-tool")),
+        ("url", json!("https://caller.example.invalid/source")),
+        ("trusted", json!(true)),
+    ] {
+        let mut extra = entry.clone();
+        extra[key] = value;
+        invalid.push(json!({"schemaVersion":1,"entries":[entry.clone(),extra]}));
+    }
+    let mut extra_top = valid.clone();
+    extra_top["verified"] = json!(true);
+    invalid.push(extra_top);
+    let mut wrong_version = valid.clone();
+    wrong_version["schemaVersion"] = json!(2);
+    invalid.push(wrong_version);
+    let valid_raw = serde_json::to_string(&valid).unwrap();
+    let mut raw_cases = invalid
+        .iter()
+        .map(|v| serde_json::to_vec(v).unwrap())
+        .collect::<Vec<_>>();
+    let duplicate_nested = valid_raw.replace(
+        "\"sourceParameters\":{}",
+        "\"sourceParameters\":{\"nested\":{\"key\":1,\"key\":2}}",
+    );
+    assert_ne!(duplicate_nested, valid_raw);
+    raw_cases.push(duplicate_nested.into_bytes());
+    let mut oversized = valid_raw.as_bytes().to_vec();
+    oversized.resize(65_537, b' ');
+    raw_cases.push(oversized);
+    let manifest = host.path().join("invalid-manifest.json");
+    for (case, raw) in raw_cases.iter().enumerate() {
+        std::fs::write(&manifest, raw).unwrap();
+        assert!(
+            super::acquire_portable_evidence_inventory(
+                root.path(),
+                wi,
+                &requests,
+                &manifest,
+                &tool,
+                &runtime,
+                Some(&caller),
+            )
+            .is_err(),
+            "invalid manifest case {case}"
+        );
+        assert!(
+            !counter.exists(),
+            "case {case}: validate the entire table before the first live reader"
+        );
+    }
+    let target = host.path().join("valid-target.json");
+    std::fs::write(&target, valid_raw).unwrap();
+    let symlink = host.path().join("manifest-symlink.json");
+    std::os::unix::fs::symlink(&target, &symlink).unwrap();
+    assert!(
+        super::acquire_portable_evidence_inventory(
+            root.path(),
+            wi,
+            &requests,
+            &symlink,
+            &tool,
+            &runtime,
+            Some(&caller),
+        )
+        .is_err(),
+        "a source manifest must itself be a bounded non-symlink regular file"
+    );
+    assert!(!counter.exists());
 }

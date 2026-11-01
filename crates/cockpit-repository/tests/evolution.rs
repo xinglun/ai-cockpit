@@ -85,6 +85,10 @@ fn new_framework_is_l2_and_needs_confirmation() {
 
 #[cfg(unix)]
 fn c18_recipe_fixture() -> tempfile::TempDir {
+    use cockpit_protocol::{
+        ApprovalMode, EvidenceAssurance, GovernancePolicy, GovernancePolicyDocument, PolicyLayer,
+        PolicyRule, VerificationRequirement, VerificationTier,
+    };
     use std::{fs, process::Command};
     let root = tempfile::tempdir().unwrap();
     fs::write(root.path().join("README.md"), "owned recipe fixture\n").unwrap();
@@ -112,6 +116,35 @@ fn c18_recipe_fixture() -> tempfile::TempDir {
         );
     }
     cockpit_repository::attach(root.path()).unwrap();
+    let policy = GovernancePolicyDocument {
+        schema_version: 1,
+        organization: None,
+        project: Some(GovernancePolicy {
+            policy_id: "c18-fixture-five-second-verification".into(),
+            layer: PolicyLayer::Project,
+            rules: vec![PolicyRule {
+                operation: "modify_source".into(),
+                approval_mode: ApprovalMode::NoHumanApprovalForLowRisk,
+                required_evidence: Vec::new(),
+                verification_requirement: Some(VerificationRequirement {
+                    schema_version: 1,
+                    required_tier: VerificationTier::T0,
+                    required_assurance: EvidenceAssurance::SelfDeclared,
+                    policy_refs: vec!["c18-fixture-five-second-verification".into()],
+                    stage_refs: vec!["task".into()],
+                    gate_refs: Vec::new(),
+                    reason: "authorize only the owned C18 fixture's five-second verification"
+                        .into(),
+                    max_timeout_seconds: Some(5),
+                }),
+            }],
+        }),
+    };
+    fs::write(
+        root.path().join(".ai/policy.json"),
+        serde_json::to_vec_pretty(&policy).unwrap(),
+    )
+    .unwrap();
     root
 }
 
