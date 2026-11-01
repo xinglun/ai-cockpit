@@ -2131,6 +2131,51 @@ fn run() -> Result<()> {
         println!("{}", serde_json::to_string(&reply)?);
         return Ok(());
     }
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__portable-native-publish"))
+    {
+        #[derive(serde::Deserialize)]
+        #[serde(rename_all = "camelCase", deny_unknown_fields)]
+        struct NativeRequest {
+            schema_version: u32,
+            repository_root: PathBuf,
+            work_item_id: String,
+            node_id: String,
+            task_caller: Option<cockpit_protocol::TaskAuthorizationCaller>,
+            publisher_nonce: String,
+        }
+        let args = std::env::args_os().collect::<Vec<_>>();
+        anyhow::ensure!(
+            args.len() == 3,
+            "private native publisher requires one JSON argument"
+        );
+        let raw = args[2]
+            .to_str()
+            .context("native publisher request must be UTF-8")?;
+        anyhow::ensure!(raw.len() <= 16 * 1024, "native publisher request too large");
+        let request: NativeRequest =
+            serde_json::from_str(raw).context("strict native publisher request")?;
+        anyhow::ensure!(
+            request.schema_version == 1,
+            "unsupported native publisher request"
+        );
+        let runtime = runtime_identity::load_current()?;
+        require_compatible(&request.repository_root, &runtime)?;
+        let result = cockpit_repository::publish_declared_native_source_supervised(
+            &request.repository_root,
+            &request.work_item_id,
+            &request.node_id,
+            &request.publisher_nonce,
+            &runtime,
+            request.task_caller.as_ref(),
+            Some(cockpit_verification::VerificationSupervisorLaunch::new(
+                std::env::current_exe()?,
+                vec!["__verification-supervisor".into()],
+            )),
+        )?;
+        println!("{}", serde_json::to_string(&result)?);
+        return Ok(());
+    }
     let cli = Cli::parse();
     let task_caller: Option<cockpit_protocol::TaskAuthorizationCaller> = cli
         .task_caller
@@ -5699,7 +5744,12 @@ mod tests {
                                 }
                             }
                         }
-                        for private in ["__verification-supervisor", "__composition-supervisor"] {
+                        for private in [
+                            "__verification-supervisor",
+                            "__composition-supervisor",
+                            "__portable-source-observe",
+                            "__portable-native-publish",
+                        ] {
                             if text.contains(private) {
                                 issues.push(format!(
                                     "{}: leaked private helper {private}",
@@ -6533,7 +6583,12 @@ mod tests {
                 if unique_document_region(&document, begin, end) != Some(region.trim_end()) {
                     missing.push(format!("{file}: missing, stale or ambiguous {begin}"));
                 }
-                for private in ["__verification-supervisor", "__composition-supervisor"] {
+                for private in [
+                    "__verification-supervisor",
+                    "__composition-supervisor",
+                    "__portable-source-observe",
+                    "__portable-native-publish",
+                ] {
                     assert!(!region.contains(private));
                 }
             }

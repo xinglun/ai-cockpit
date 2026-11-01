@@ -3093,7 +3093,14 @@ fn portable_bundle_mcp_schemas_have_exact_inputs_and_write_metadata() {
         (
             "evidence_bundle_accept",
             vec!["workItemId", "input", "expectedPlanDigest"],
-            vec!["expectedPlanDigest", "input", "taskCaller", "workItemId"],
+            vec![
+                "expectedPlanDigest",
+                "input",
+                "nodeId",
+                "sourceRequest",
+                "taskCaller",
+                "workItemId",
+            ],
             false,
         ),
     ] {
@@ -3102,7 +3109,7 @@ fn portable_bundle_mcp_schemas_have_exact_inputs_and_write_metadata() {
             .find(|tool| tool["name"] == name)
             .expect("portable tool");
         assert_eq!(tool["annotations"]["readOnlyHint"], read_only);
-        assert_eq!(tool["annotations"]["openWorldHint"], false);
+        assert_eq!(tool["annotations"]["openWorldHint"], !read_only);
         assert_eq!(tool["inputSchema"]["additionalProperties"], false);
         assert_eq!(tool["inputSchema"]["required"], serde_json::json!(required));
         let actual = tool["inputSchema"]["properties"]
@@ -3232,5 +3239,33 @@ fn portable_bundle_mcp_does_not_accept_runtime_or_malformed_caller_from_input() 
                 .unwrap()
                 .contains(key)
         );
+    }
+}
+
+#[test]
+fn portable_source_request_is_only_a_selector_not_a_worker_or_credential() {
+    for (extra, reason) in [
+        (serde_json::json!({"sourceRequest":7}), "sourceRequest"),
+        (
+            serde_json::json!({"nodeId":"project-command-0"}),
+            "nodeId requires sourceRequest",
+        ),
+        (
+            serde_json::json!({"workerPath":"/tmp/untrusted"}),
+            "workerPath",
+        ),
+        (serde_json::json!({"verified":true}), "verified"),
+    ] {
+        let mut arguments = serde_json::json!({"input":"/absent","workItemId":"WI-ABSENT","expectedPlanDigest":format!("sha256:{}","a".repeat(64))});
+        arguments
+            .as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        let reply = handle_request(
+            &serde_json::json!({"jsonrpc":"2.0","id":87,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":arguments}}),
+            &test_runtime_context(),
+        );
+        assert!(reply.get("error").is_some(), "{reply}");
+        assert!(reply.to_string().contains(reason), "{reply}");
     }
 }

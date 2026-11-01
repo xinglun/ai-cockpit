@@ -21,7 +21,12 @@ fn github_plan_help_explains_exact_attempt_and_non_admission() {
     ] {
         assert!(help.contains(text), "missing public help {text}: {help}");
     }
-    for private in ["__verification-supervisor", "__composition-supervisor"] {
+    for private in [
+        "__verification-supervisor",
+        "__composition-supervisor",
+        "__portable-source-observe",
+        "__portable-native-publish",
+    ] {
         assert!(!help.contains(private));
     }
 }
@@ -80,7 +85,14 @@ fn portable_bundle_help_separates_inspection_from_admission() {
         ),
         (
             "accept",
-            vec!["--repo", "--input", "--work-item", "--expected-plan-digest"],
+            vec![
+                "--repo",
+                "--input",
+                "--work-item",
+                "--expected-plan-digest",
+                "--source-request",
+                "--node",
+            ],
             "independent source proof",
         ),
     ] {
@@ -102,7 +114,12 @@ fn portable_bundle_help_separates_inspection_from_admission() {
             assert!(help.contains(flag), "missing {flag}: {help}");
         }
         assert!(help.contains(description), "missing purpose: {help}");
-        for private in ["__verification-supervisor", "__composition-supervisor"] {
+        for private in [
+            "__verification-supervisor",
+            "__composition-supervisor",
+            "__portable-source-observe",
+            "__portable-native-publish",
+        ] {
             assert!(!help.contains(private));
         }
     }
@@ -115,6 +132,8 @@ fn portable_bundle_rejects_authority_and_command_injection_before_repository_io(
             "--trusted",
             "--authenticated",
             "--source-verifier",
+            "--worker-path",
+            "--tool-digest",
             "--url",
             "--command",
         ] {

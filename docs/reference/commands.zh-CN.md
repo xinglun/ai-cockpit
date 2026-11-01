@@ -49,7 +49,7 @@ capabilityClaims:
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
-| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--node`, `--repo`, `--source-request`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -660,6 +660,8 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `yes` | `—` | `—` | `—` |
 | `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
+| `source-request` | `string` | `no` | `—` | `—` | `—` |
+| `node` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 
@@ -668,6 +670,8 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `workItemId` | `string` | `yes` | `—` | `—` | `—` |
 | `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
+| `sourceRequest` | `object` | `no` | `—` | `—` | `—` |
+| `nodeId` | `string` | `no` | `—` | `—` | `—` |
 | `taskCaller` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->

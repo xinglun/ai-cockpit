@@ -27,6 +27,8 @@ pub struct VerifiedPortableSource {
     runtime: cockpit_protocol::RuntimeContext,
     caller: Option<cockpit_protocol::TaskAuthorizationCaller>,
     observed: std::time::Instant,
+    started: std::time::Instant,
+    trace_ref: String,
 }
 
 pub struct AcceptedPortableEvidence {
@@ -55,6 +57,26 @@ fn source_error(root: &Path, code: &str) -> ObserverError {
 }
 
 impl PortableSourceTool {
+    /// A production adapter may select only this held, current Runtime.
+    /// No imported packet or public request chooses executable bytes.
+    pub fn for_current_runtime(
+        root: &Path,
+        runtime: &RuntimeContext,
+    ) -> Result<Self, ObserverError> {
+        let executable = std::env::current_exe()
+            .map_err(|_| source_error(root, "current_source_tool_unavailable"))?;
+        let mut held = fs::File::open(&executable).map_err(|source| ObserverError::Read {
+            path: executable.clone(),
+            source,
+        })?;
+        if execution_context::hash_executable_and_first_line(&mut held)
+            .is_none_or(|(digest, _)| digest != runtime.runtime_digest.as_str())
+        {
+            return Err(source_error(root, "current_source_tool_runtime_mismatch"));
+        }
+        Ok(Self::new(executable, runtime.runtime_digest.clone()))
+    }
+
     pub fn new(executable: std::path::PathBuf, executable_digest: cockpit_core::Digest) -> Self {
         Self {
             executable,
@@ -70,6 +92,7 @@ impl PortableSourceTool {
         runtime: &RuntimeContext,
         caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
     ) -> Result<VerifiedPortableSource, ObserverError> {
+        let started = std::time::Instant::now();
         use cockpit_verification::{VerificationCommand, VerificationReusePolicy};
         use std::sync::atomic::{AtomicU64, Ordering};
         static SESSION: AtomicU64 = AtomicU64::new(1);
@@ -149,6 +172,16 @@ impl PortableSourceTool {
         .with_timeout_seconds(120);
         let result = cockpit_verification::execute_bounded(vec![command], 1)
             .map_err(|_| source_error(&root, "source_tool_execution_failed"))?;
+        let trace_ref = persist_source_data(
+            &root,
+            work_item_id,
+            "portable-source-reader-observation",
+            &serde_json::json!({
+                "inputDigest":plan.input_digest,"toolDigest":self.executable_digest,
+                "parametersDigest":cockpit_protocol::digest_json(request.parameters).map_err(|_|source_error(&root,"source_parameters_serialization"))?,
+                "receipt":result,
+            }),
+        )?;
         if !result.passed
             || result.processes_spawned != 1
             || result.nodes_executed != 1
@@ -229,6 +262,8 @@ impl PortableSourceTool {
             runtime: runtime.clone(),
             caller: caller.cloned(),
             observed: std::time::Instant::now(),
+            started,
+            trace_ref,
         })
     }
 }
@@ -372,7 +407,7 @@ impl VerifiedPortableSource {
         let record_id = cockpit_protocol::digest_json(&serde_json::json!({
             "domain":"portable-source-admission-v1", "inputDigest":self.plan.input_digest,
             "planDigest":self.plan.plan_digest, "sourceRoot":self.source_root,
-            "toolDigest":self.tool.executable_digest, "nodeId":request.node_id,
+            "toolDigest":self.tool.executable_digest, "nodeId":request.node_id, "sourceTrace":self.trace_ref,
         }))
         .map_err(|_| source_error(root, "source_admission_identity"))?
         .to_string();
@@ -412,6 +447,23 @@ impl AcceptedPortableEvidence {
         runtime: &RuntimeContext,
         caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
     ) -> Result<RepositoryVerificationRun, ObserverError> {
+        self.consume_with_source_report(root, request, runtime, caller)
+            .map(|(run, _)| run)
+    }
+
+    pub fn consume_with_source_report(
+        self,
+        root: &Path,
+        request: &RepositoryVerificationRequest,
+        runtime: &RuntimeContext,
+        caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    ) -> Result<
+        (
+            RepositoryVerificationRun,
+            cockpit_protocol::ci_admission::PortableEvidenceSourceUse,
+        ),
+        ObserverError,
+    > {
         if *request != self.request {
             return Err(source_error(root, "accepted_node_request_changed"));
         }
@@ -467,10 +519,36 @@ impl AcceptedPortableEvidence {
         receipt.elapsed_ms = 0;
         receipt.plan_receipt = None;
         receipt.cost_observation = None;
-        Ok(RepositoryVerificationRun {
-            receipt,
-            final_snapshot,
-        })
+        let trace_refs = vec![self.source.trace_ref.clone(), fresh.trace_ref.clone()];
+        let receipt_value = serde_json::to_value(&receipt)
+            .map_err(|_| source_error(root, "source_consumption_serialization"))?;
+        let consumption_record_ref = persist_source_data(
+            root,
+            &self.source.work_item_id,
+            "portable-source-node-consumption",
+            &serde_json::json!({
+                "nodeId":request.node_id,"inputDigest":self.source.plan.input_digest,
+                "planDigest":self.source.plan.plan_digest,"sourceRoot":fresh.source_root,
+                "sourceRecordRefs":trace_refs,"receipt":receipt_value,
+            }),
+        )?;
+        // A late failure leaves immutable observations, never an approved result.
+        fresh.validate(root, request, runtime, caller)?;
+        let source_use = cockpit_protocol::ci_admission::PortableEvidenceSourceUse {
+            node_id: request.node_id.clone(),
+            source_record_refs: trace_refs,
+            consumption_record_ref,
+            receipt: receipt_value,
+            source_reader_invocations: 2,
+            operation_elapsed_ms: self.source.started.elapsed().as_millis(),
+        };
+        Ok((
+            RepositoryVerificationRun {
+                receipt,
+                final_snapshot,
+            },
+            source_use,
+        ))
     }
 }
 
@@ -498,6 +576,45 @@ pub fn require_portable_source_observation_admission(
     Ok(snapshot)
 }
 
+fn persist_source_data(
+    root: &Path,
+    wi: &str,
+    kind: &str,
+    value: &serde_json::Value,
+) -> Result<String, ObserverError> {
+    let bytes =
+        serde_json::to_vec(&serde_json::json!({"schemaVersion":1,"kind":kind,"observation":value}))
+            .map_err(|_| source_error(root, "source_observation_serialization"))?;
+    let input_digest = Digest::sha256_bytes(&bytes);
+    let id = cockpit_protocol::digest_json(&serde_json::json!([
+        "portable-observation-data-v1",
+        wi,
+        kind,
+        input_digest
+    ]))
+    .map_err(|_| source_error(root, "source_observation_identity"))?;
+    let marker = serde_json::to_vec(
+        &serde_json::json!({"schemaVersion":1,"recordId":id,"inputDigest":input_digest}),
+    )
+    .map_err(|_| source_error(root, "source_observation_serialization"))?;
+    persist_portable_native_observation(root, wi, id.as_str(), &bytes, &marker)
+}
+
+pub fn read_portable_source_parameters(path: &Path) -> Result<serde_json::Value, ObserverError> {
+    let raw = portable_input_bytes(path)?;
+    if raw.len() > 16 * 1024 {
+        return Err(source_error(path, "source_selector_byte_limit"));
+    }
+    reject_duplicate_json_keys(&raw)
+        .map_err(|_| source_error(path, "source_selector_duplicate_or_invalid"))?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&raw).map_err(|_| source_error(path, "source_selector_invalid"))?;
+    if !value.is_object() {
+        return Err(source_error(path, "source_selector_must_be_object"));
+    }
+    Ok(value)
+}
+
 pub fn declared_portable_verification_request(
     root: &Path,
     wi: &str,
@@ -505,8 +622,94 @@ pub fn declared_portable_verification_request(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<RepositoryVerificationRequest, ObserverError> {
-    let _ = (wi, node, runtime, caller);
-    Err(source_error(root, "declared_portable_node_not_implemented"))
+    require_portable_source_observation_admission(root, wi, runtime, caller)?;
+    let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let root = canonical.as_path();
+    let path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+    let raw = portable_input_bytes(&path)?;
+    reject_duplicate_json_keys(&raw)
+        .map_err(|_| source_error(root, "current_contract_invalid_json"))?;
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_slice(&raw).map_err(|_| source_error(root, "current_contract_schema"))?;
+    let mut selected = None;
+    for (index, declaration) in contract.verification.iter().enumerate() {
+        let (id, text) = match declaration {
+            cockpit_protocol::VerificationDeclaration::Legacy(text) => {
+                (format!("project-command-{index}"), text)
+            }
+            cockpit_protocol::VerificationDeclaration::Check(check) => {
+                (check.check.clone(), &check.check)
+            }
+        };
+        if id != node {
+            continue;
+        }
+        if selected.is_some() {
+            return Err(source_error(root, "declared_node_ambiguous"));
+        }
+        let (program, args) = cockpit_protocol::parse_verification_argv(text)
+            .map_err(|_| source_error(root, "declared_node_argv_invalid"))?;
+        let replace = |s: String| {
+            if s == "<repo>" {
+                root.to_string_lossy().into_owned()
+            } else {
+                s
+            }
+        };
+        selected = Some(RepositoryVerificationRequest {
+            node_id: id,
+            program: replace(program),
+            args: args.into_iter().map(replace).collect(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some(wi.into()),
+            // New explicit source operations use the current approved finite
+            // ceiling; no caller/packet can enlarge it or silently use default300.
+            timeout_seconds: authorized_timeout_ceiling(root, Some(wi), "task")?
+                .map(|v| v.min(cockpit_verification::MAX_ALLOWED_EXECUTION_SECONDS)),
+            policy: RepositoryVerificationPolicy::ProfileAuthorized,
+        });
+    }
+    let request = selected.ok_or_else(|| source_error(root, "declared_node_missing"))?;
+    task_authorization::require_declared_task_command(root, &request, runtime, caller)?;
+    Ok(request)
+}
+
+fn require_current_source_profile(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<(), ObserverError> {
+    let wi = request
+        .work_item_id
+        .as_deref()
+        .ok_or_else(|| source_error(root, "source_requires_work_item"))?;
+    let snapshot = require_portable_source_observation_admission(root, wi, runtime, caller)?;
+    let prepared = prepare_repository_verification_command(root, request, &snapshot)?;
+    native_current_input(
+        root,
+        request,
+        &snapshot,
+        runtime,
+        &prepared.command,
+        prepared
+            .execution_identity
+            .as_ref()
+            .ok_or_else(|| source_error(root, "source_executable_unavailable"))?,
+        prepared
+            .authorized_binding
+            .as_ref()
+            .ok_or_else(|| source_error(root, "current_profile_not_authorized"))?,
+    )?;
+    Ok(())
 }
 
 pub fn publish_declared_native_source(
@@ -517,11 +720,88 @@ pub fn publish_declared_native_source(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<cockpit_protocol::ci_admission::PortableNativeSourceMetadata, ObserverError> {
-    let _ = (wi, node, nonce, runtime, caller);
-    Err(source_error(
+    publish_declared_native_source_supervised(root, wi, node, nonce, runtime, caller, None)
+}
+
+pub fn publish_declared_native_source_supervised(
+    root: &Path,
+    wi: &str,
+    node: &str,
+    nonce: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+) -> Result<cockpit_protocol::ci_admission::PortableNativeSourceMetadata, ObserverError> {
+    let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let root = canonical.as_path();
+    if !(32..=128).contains(&nonce.len())
+        || !nonce
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-')
+    {
+        return Err(source_error(root, "publisher_nonce_invalid"));
+    }
+    let request = declared_portable_verification_request(root, wi, node, runtime, caller)?;
+    // Reject missing calibration before starting any project command.
+    require_current_source_profile(root, &request, runtime, caller)?;
+    let invocation = CurrentNativeInvocation::new();
+    let executed = run_native_witness_inner(
         root,
-        "native_source_publisher_not_implemented",
-    ))
+        &request,
+        runtime,
+        caller,
+        &invocation,
+        supervisor,
+        true,
+    )?;
+    let receipt = serde_json::to_value(&executed.run.receipt)
+        .map_err(|_| source_error(root, "publisher_receipt_serialization"))?;
+    lifecycle::persist_verification_attempt(
+        root,
+        wi,
+        std::slice::from_ref(&request),
+        &executed.run.final_snapshot,
+        runtime,
+        "execution_completed",
+        Some((
+            "partial_native_source_publication",
+            "One declared node only; not full Contract verification.",
+        )),
+        Some(&receipt),
+    )?;
+    let witness = executed
+        .witness
+        .ok_or_else(|| source_error(root, "publisher_requires_fresh_physical_success"))?;
+    let publication =
+        publish_native_execution_witness(root, &request, runtime, caller, &invocation, &witness)?;
+    let relative = format!(
+        ".ai/evidence/{wi}.verification-admissions/portable/objects/{}.bin",
+        &publication.input_digest.as_str()[7..]
+    );
+    // Store object filenames use the complete digest representation.
+    let path = root.join(&relative);
+    let bytes = portable_input_bytes(&path)?;
+    if Digest::sha256_bytes(&bytes) != publication.input_digest {
+        return Err(source_error(root, "publisher_object_readback_changed"));
+    }
+    validate_native_execution_witness(root, &request, runtime, caller, &invocation, &witness)?;
+    Ok(
+        cockpit_protocol::ci_admission::PortableNativeSourceMetadata {
+            schema_version: 1,
+            publisher_nonce: nonce.into(),
+            runtime_digest: runtime.runtime_digest.clone(),
+            input_digest: publication.input_digest.clone(),
+            native_root: publication.input_digest,
+            portable_path: path.to_string_lossy().into_owned(),
+            execution_id: witness
+                .execution_id()
+                .parse()
+                .map_err(|_| source_error(root, "publisher_execution_id_invalid"))?,
+        },
+    )
 }
 
 pub fn accept_portable_evidence_with_source(
@@ -531,8 +811,39 @@ pub fn accept_portable_evidence_with_source(
     runtime: &RuntimeContext,
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<cockpit_protocol::ci_admission::PortableEvidenceAcceptance, ObserverError> {
-    let _ = (request, tool, runtime, caller);
-    Err(source_error(root, "shared_source_consumer_not_implemented"))
+    let raw = portable_input_bytes(request.input)?;
+    reject_duplicate_json_keys(&raw)
+        .map_err(|_| source_error(root, "portable_packet_invalid_json"))?;
+    let packet: serde_json::Value = serde_json::from_slice(&raw)
+        .map_err(|_| source_error(root, "portable_packet_invalid_json"))?;
+    let node = request
+        .node_id
+        .or_else(|| packet["nativeInput"]["nodeId"].as_str())
+        .ok_or_else(|| source_error(root, "portable_node_missing"))?;
+    let current =
+        declared_portable_verification_request(root, request.work_item_id, node, runtime, caller)?;
+    require_current_source_profile(root, &current, runtime, caller)?;
+    let source = tool.observe(
+        root,
+        request.work_item_id,
+        PortableSourceRequest {
+            input: request.input,
+            expected_plan_digest: request.expected_plan_digest,
+            parameters: request.parameters,
+        },
+        runtime,
+        caller,
+    )?;
+    let accepted = source.accept(root, &current, runtime, caller)?;
+    let mut report = accepted.report().clone();
+    let (_, source_use) = accepted.consume_with_source_report(root, &current, runtime, caller)?;
+    report.source_use = Some(source_use);
+    report.writes_performed = 4;
+    report.guidance=Some(cockpit_protocol::ci_admission::PortableEvidenceGuidance {
+        summary:"The source was checked twice and one current declared check was satisfied. Full Work Item verification is unchanged.".into(),
+        next_actions:vec!["Inspect the source checks and this node result; run all remaining declared checks before finishing.".into()],
+    });
+    Ok(report)
 }
 
 pub(super) mod archive;
@@ -915,7 +1226,10 @@ pub fn accept_portable_evidence(
         verification_commands_executed: 0,
         writes_performed: 0,
         source_use: None,
-        guidance: None,
+        guidance: Some(cockpit_protocol::ci_admission::PortableEvidenceGuidance {
+            summary:"The file is available to inspect; its execution source has not been independently checked.".into(),
+            next_actions:vec!["Check the source using a controlled reader, or execute the declared check fresh.".into()],
+        }),
     })
 }
 

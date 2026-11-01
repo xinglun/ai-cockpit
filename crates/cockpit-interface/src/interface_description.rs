@@ -1113,6 +1113,30 @@ fn portable_evidence_interface_description(accept: bool) -> InterfaceDescription
             true,
             "Exact plan digest, not a credential.",
         ));
+        cli.push(parameter(
+            "source-request",
+            "string",
+            false,
+            "Optional selector JSON for the fixed controlled reader, never source authority.",
+        ));
+        cli.push(parameter(
+            "node",
+            "string",
+            false,
+            "Existing declared node selector; never an imported command.",
+        ));
+        mcp.push(parameter(
+            "sourceRequest",
+            "object",
+            false,
+            "Optional selector for the fixed controlled reader, never source authority.",
+        ));
+        mcp.push(parameter(
+            "nodeId",
+            "string",
+            false,
+            "Existing declared node selector; never an imported command.",
+        ));
     }
     mcp.push(parameter(
         "taskCaller",

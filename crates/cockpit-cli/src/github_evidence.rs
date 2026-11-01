@@ -88,6 +88,12 @@ pub(crate) enum PortableEvidenceCommand {
         /// Exact sha256 plan digest returned by evidence bundle plan; not a source credential.
         #[arg(long, value_parser = parse_plan_digest)]
         expected_plan_digest: String,
+        /// Optional local selector JSON; independently reads an external source through this Runtime's fixed reader.
+        #[arg(long)]
+        source_request: Option<PathBuf>,
+        /// Select an existing declared check; never accepts a supplied command.
+        #[arg(long)]
+        node: Option<String>,
     },
 }
 
@@ -125,19 +131,41 @@ pub(crate) fn run_portable(
             work_item,
             input,
             expected_plan_digest,
+            source_request,
+            node,
         } => {
             let expected_plan_digest = expected_plan_digest
                 .parse::<cockpit_core::Digest>()
                 .context("validate exact portable evidence plan digest")?;
             super::require_compatible(&repo, runtime)?;
-            let acceptance = cockpit_repository::accept_portable_evidence(
-                &repo,
-                &work_item,
-                &input,
-                &expected_plan_digest,
-                runtime,
-                caller,
-            )
+            let acceptance = if let Some(source_path) = source_request {
+                let parameters = read_source_selector(&source_path)?;
+                let tool =
+                    cockpit_repository::PortableSourceTool::for_current_runtime(&repo, runtime)?;
+                cockpit_repository::accept_portable_evidence_with_source(
+                    &repo,
+                    cockpit_repository::PortableSourceAdmissionRequest {
+                        work_item_id: &work_item,
+                        input: &input,
+                        expected_plan_digest: &expected_plan_digest,
+                        parameters: &parameters,
+                        node_id: node.as_deref(),
+                    },
+                    &tool,
+                    runtime,
+                    caller,
+                )
+            } else {
+                anyhow::ensure!(node.is_none(), "--node requires --source-request");
+                cockpit_repository::accept_portable_evidence(
+                    &repo,
+                    &work_item,
+                    &input,
+                    &expected_plan_digest,
+                    runtime,
+                    caller,
+                )
+            }
             .context("request portable evidence admission under current authority")?;
             println!("{}", serde_json::to_string_pretty(&acceptance)?);
         }
@@ -159,7 +187,6 @@ const BINDER_MACHINE_PREFIX: &str = "AI_COCKPIT_ARTIFACT_BINDING_V1 ";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum SourceBridgeError {
-    NotImplemented,
     RecipeUnavailable,
     RecipeInvalid,
     SelectorInvalid,
@@ -583,8 +610,260 @@ fn read_source_observation(
     expected_input: &cockpit_core::Digest,
     consumer_nonce: &str,
 ) -> std::result::Result<PrivateSourceObservation, SourceBridgeError> {
-    let _ = (reader, selector, expected_input, consumer_nonce);
-    Err(SourceBridgeError::NotImplemented)
+    selector
+        .validate()
+        .map_err(|_| SourceBridgeError::SelectorInvalid)?;
+    if !source_plain_text(consumer_nonce) || !source_digest_valid(expected_input) {
+        return Err(SourceBridgeError::ConsumerNonceInvalid);
+    }
+    let recipe = reader
+        .reviewed_recipe()
+        .ok_or(SourceBridgeError::RecipeUnavailable)?;
+    if recipe.repository_id == 0
+        || recipe.workflow_id == 0
+        || !source_plain_text(&recipe.repository)
+        || !source_plain_text(&recipe.workflow_path)
+        || !source_plain_text(&recipe.event)
+        || !source_plain_text(&recipe.branch)
+        || !source_revision_valid(&recipe.reviewed_revision)
+        || !source_digest_valid(&recipe.recipe_digest)
+        || !source_digest_valid(&recipe.publisher_code_digest)
+        || !source_digest_valid(&recipe.binder_code_digest)
+        || !source_digest_valid(&recipe.expected_runtime_digest)
+        || !source_plain_text(&recipe.artifact_name)
+        || !source_plain_text(&recipe.producer_job_name)
+        || !source_plain_text(&recipe.native_step_name)
+        || !source_plain_text(&recipe.upload_step_name)
+        || !source_plain_text(&recipe.binder_step_name)
+        || recipe.native_step_name == recipe.upload_step_name
+        || recipe.native_step_name == recipe.binder_step_name
+        || recipe.upload_step_name == recipe.binder_step_name
+    {
+        return Err(SourceBridgeError::RecipeInvalid);
+    }
+    let mut audit = Vec::new();
+    let run_matches = |run: &SourceRun| {
+        run.id == selector.run_id
+            && run.run_attempt == selector.attempt
+            && run.repository.id == recipe.repository_id
+            && run.repository.full_name == recipe.repository
+            && run.head_repository.id == recipe.repository_id
+            && run.head_repository.full_name == recipe.repository
+            && run.workflow_id == recipe.workflow_id
+            && run.path == recipe.workflow_path
+            && run.head_sha == recipe.reviewed_revision
+            && run.event == recipe.event
+            && run.head_branch == recipe.branch
+    };
+    // Every observation, including the core's final re-observation, checks the
+    // current run before consulting exact history. A new failed/in-progress
+    // attempt must not leave an old successful attempt usable as a substitute.
+    let current: SourceRun = source_json(&checked_source_read(
+        reader,
+        SourceReadRoute::RunCurrent {
+            run_id: selector.run_id,
+        },
+        false,
+        &mut audit,
+    )?)?;
+    if !run_matches(&current) {
+        return Err(SourceBridgeError::RunBinding);
+    }
+    let run: SourceRun = source_json(&checked_source_read(
+        reader,
+        SourceReadRoute::RunAttempt {
+            run_id: selector.run_id,
+            attempt: selector.attempt,
+        },
+        false,
+        &mut audit,
+    )?)?;
+    if !run_matches(&run) {
+        return Err(SourceBridgeError::RunBinding);
+    }
+    let mut jobs = std::collections::BTreeMap::new();
+    let mut total = None;
+    for page in 1..=SOURCE_MAX_PAGES {
+        let observed: SourceJobsPage = source_json(&checked_source_read(
+            reader,
+            SourceReadRoute::AttemptJobs {
+                run_id: selector.run_id,
+                attempt: selector.attempt,
+                page,
+                per_page: SOURCE_JOBS_PER_PAGE,
+            },
+            false,
+            &mut audit,
+        )?)?;
+        if observed.total_count > SOURCE_MAX_JOBS
+            || observed.jobs.len() > SOURCE_JOBS_PER_PAGE
+            || total.is_some_and(|t| t != observed.total_count)
+        {
+            return Err(SourceBridgeError::JobsIncomplete);
+        }
+        total = Some(observed.total_count);
+        let count = observed.jobs.len();
+        for job in observed.jobs {
+            if job.id == 0
+                || job.run_id != selector.run_id
+                || job.run_attempt != selector.attempt
+                || job.head_sha != run.head_sha
+            {
+                return Err(SourceBridgeError::JobMissingOrBinding);
+            }
+            if jobs.insert(job.id, job).is_some() {
+                return Err(SourceBridgeError::DuplicateJob);
+            }
+        }
+        if jobs.len() == observed.total_count {
+            break;
+        }
+        if jobs.len() > observed.total_count
+            || count != SOURCE_JOBS_PER_PAGE
+            || page == SOURCE_MAX_PAGES
+        {
+            return Err(SourceBridgeError::JobsIncomplete);
+        }
+    }
+    let job = jobs
+        .remove(&selector.job_id)
+        .ok_or(SourceBridgeError::JobMissingOrBinding)?;
+    if job.name != recipe.producer_job_name
+        || job.status != "completed"
+        || job.conclusion.as_deref() != Some("success")
+    {
+        return Err(SourceBridgeError::JobMissingOrBinding);
+    }
+    let mut steps = std::collections::BTreeMap::new();
+    for step in job.steps {
+        if step.number == 0 || steps.insert(step.number, step).is_some() {
+            return Err(SourceBridgeError::StepBinding);
+        }
+    }
+    let mut native_roles = steps
+        .values()
+        .filter(|step| step.name == recipe.native_step_name);
+    let native_step = native_roles.next().ok_or(SourceBridgeError::StepBinding)?;
+    let mut upload_roles = steps
+        .values()
+        .filter(|step| step.name == recipe.upload_step_name);
+    let upload_step = upload_roles.next().ok_or(SourceBridgeError::StepBinding)?;
+    let mut binder_roles = steps
+        .values()
+        .filter(|step| step.name == recipe.binder_step_name);
+    let binder_step = binder_roles.next().ok_or(SourceBridgeError::StepBinding)?;
+    if native_roles.next().is_some()
+        || upload_roles.next().is_some()
+        || binder_roles.next().is_some()
+        || native_step.number >= upload_step.number
+        || upload_step.number >= binder_step.number
+    {
+        return Err(SourceBridgeError::StepBinding);
+    }
+    for (step, expected_name) in [
+        (native_step, &recipe.native_step_name),
+        (upload_step, &recipe.upload_step_name),
+        (binder_step, &recipe.binder_step_name),
+    ] {
+        if &step.name != expected_name
+            || step.status != "completed"
+            || step.conclusion.as_deref() != Some("success")
+        {
+            return Err(SourceBridgeError::StepBinding);
+        }
+    }
+    let native: NativeSourceMachine = source_machine(
+        &checked_source_read(
+            reader,
+            SourceReadRoute::JobStepLog {
+                job_id: selector.job_id,
+                step_number: native_step.number,
+            },
+            true,
+            &mut audit,
+        )?,
+        NATIVE_MACHINE_PREFIX,
+    )?;
+    let binder: BinderSourceMachine = source_machine(
+        &checked_source_read(
+            reader,
+            SourceReadRoute::JobStepLog {
+                job_id: selector.job_id,
+                step_number: binder_step.number,
+            },
+            true,
+            &mut audit,
+        )?,
+        BINDER_MACHINE_PREFIX,
+    )?;
+    if native.schema_version != 1
+        || binder.schema_version != 1
+        || !source_plain_text(&native.publisher_nonce)
+        || native.publisher_nonce.len() > 128
+        || !source_digest_valid(&native.input_digest)
+        || !source_digest_valid(&native.native_root)
+        || !source_digest_valid(&binder.archive_digest)
+        || &native.input_digest != expected_input
+        || binder.input_digest != native.input_digest
+        || native.native_root != native.input_digest
+        || native.runtime_digest != recipe.expected_runtime_digest
+        || binder.runtime_digest != recipe.expected_runtime_digest
+        || binder.native_root != native.native_root
+        || binder.publisher_nonce != native.publisher_nonce
+        || binder.artifact_id != selector.artifact_id
+    {
+        return Err(SourceBridgeError::NativeBinderMismatch);
+    }
+    let artifact: SourceArtifact = source_json(&checked_source_read(
+        reader,
+        SourceReadRoute::ArtifactMetadata {
+            artifact_id: selector.artifact_id,
+        },
+        false,
+        &mut audit,
+    )?)?;
+    if artifact.id != selector.artifact_id
+        || artifact.name != recipe.artifact_name
+        || artifact.expired
+        || artifact.size_in_bytes == 0
+        || artifact.size_in_bytes > 64 * 1024 * 1024
+        || artifact
+            .digest
+            .parse::<cockpit_core::Digest>()
+            .ok()
+            .as_ref()
+            != Some(&binder.archive_digest)
+        || artifact.workflow_run.id != run.id
+        || artifact.workflow_run.repository_id != recipe.repository_id
+        || artifact.workflow_run.head_repository_id != recipe.repository_id
+        || artifact.workflow_run.head_sha != run.head_sha
+    {
+        return Err(SourceBridgeError::ArtifactBinding);
+    }
+    // Stable verified subject only. Other jobs' in-progress fields, run timing,
+    // response formatting and the new consumer nonce are audit/challenge data.
+    let source_root = cockpit_protocol::digest_json(&serde_json::json!({
+        "domain":"ai-cockpit:github-source-subject:v1", "recipe":recipe,
+        "run":{"id":run.id,"attempt":run.run_attempt,"repositoryId":run.repository.id,
+            "repository":run.repository.full_name,"headRepositoryId":run.head_repository.id,
+            "headRepository":run.head_repository.full_name,"workflowId":run.workflow_id,"path":run.path,
+            "headSha":run.head_sha,"event":run.event,"branch":run.head_branch},
+        "producerJob":{"id":job.id,"runId":job.run_id,"attempt":job.run_attempt,
+            "headSha":job.head_sha,"name":job.name,"status":job.status,"conclusion":job.conclusion},
+        "nativeStep":native_step,"uploadStep":upload_step,"binderStep":binder_step,
+        "publisherNonce":native.publisher_nonce,"inputDigest":native.input_digest,"nativeRoot":native.native_root,"runtimeDigest":native.runtime_digest,
+        "artifact":{"id":artifact.id,"name":artifact.name,"archiveDigest":binder.archive_digest,"size":artifact.size_in_bytes}
+    })).map_err(|_| SourceBridgeError::SourceRootEncoding)?;
+    Ok(PrivateSourceObservation {
+        consumer_nonce: consumer_nonce.into(),
+        input_digest: native.input_digest,
+        source_root,
+        native_root: native.native_root,
+        publisher_nonce: native.publisher_nonce,
+        artifact_id: artifact.id,
+        archive_digest: binder.archive_digest,
+        audit_reads: audit,
+    })
 }
 
 #[cfg(test)]
@@ -1779,4 +2058,9 @@ mod source_worker_boundary_tests {
             Err(SourceBridgeError::Transport)
         ));
     }
+}
+
+fn read_source_selector(path: &std::path::Path) -> Result<serde_json::Value> {
+    cockpit_repository::read_portable_source_parameters(path)
+        .context("read local source selector without executing it")
 }

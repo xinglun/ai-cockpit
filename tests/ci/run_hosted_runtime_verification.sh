@@ -1,6 +1,418 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
+# The optional publisher/binder lanes are independent of the legacy helper.
+# Only the live Runtime child's bounded stdout can supply publisher metadata.
+if [[ ${1:-} == --native-source || ${1:-} == --bind-native-source ]]; then
+  python3 - "$@" <<'PY_NATIVE_SOURCE_MODE'
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import secrets
+import selectors
+import shutil
+import signal
+import stat
+import subprocess
+import sys
+import tempfile
+import time
+
+MAX_OBJECT = 64 * 1024 * 1024
+MAX_RUNTIME = 512 * 1024 * 1024
+MAX_STREAM = 64 * 1024
+TOTAL_SECONDS = 900
+CLEANUP_SECONDS = 10
+MAX_PROC_ENTRIES = 32768
+MAX_PROC_BYTES = 16 * 1024 * 1024
+READ_FLAGS = os.O_RDONLY | os.O_NONBLOCK | os.O_NOFOLLOW
+DIRECTORY_FLAGS = READ_FLAGS | os.O_DIRECTORY
+NATIVE_KEYS = {"schemaVersion", "publisherNonce", "inputDigest", "nativeRoot", "runtimeDigest"}
+REPLY_KEYS = NATIVE_KEYS | {"portablePath", "executionId"}
+
+class Refusal(Exception):
+    pass
+
+class CleanupUnknown(Refusal):
+    pass
+
+def require(condition):
+    if not condition:
+        raise Refusal()
+
+def unique(pairs):
+    result = {}
+    for key, value in pairs:
+        require(key not in result)
+        result[key] = value
+    return result
+
+def parse_json(raw):
+    return json.loads(raw, object_pairs_hook=unique,
+                      parse_constant=lambda _: (_ for _ in ()).throw(Refusal()))
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+
+def digest(value):
+    return type(value) is str and re.fullmatch(r"sha256:[0-9a-f]{64}", value) is not None
+
+def native_record(value):
+    require(type(value) is dict and set(value) == NATIVE_KEYS)
+    require(type(value["schemaVersion"]) is int and value["schemaVersion"] == 1)
+    require(type(value["publisherNonce"]) is str and re.fullmatch(r"[0-9a-f]{64}", value["publisherNonce"]))
+    require(all(digest(value[key]) for key in ("inputDigest", "nativeRoot", "runtimeDigest")))
+    require(value["nativeRoot"] == value["inputDigest"])
+
+def file_token(info):
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+def open_regular(path, maximum, directory=None):
+    fd = os.open(path, READ_FLAGS, dir_fd=directory)
+    try:
+        info = os.fstat(fd)
+        require(stat.S_ISREG(info.st_mode) and 0 <= info.st_size <= maximum)
+        return os.fdopen(fd, "rb"), info
+    except BaseException:
+        os.close(fd)
+        raise
+
+def hash_stream(stream, maximum, destination=None):
+    hashed = hashlib.sha256()
+    total = 0
+    while True:
+        block = stream.read(min(64 * 1024, maximum - total + 1))
+        if not block:
+            break
+        total += len(block)
+        require(total <= maximum)
+        hashed.update(block)
+        if destination is not None:
+            destination.write(block)
+    return "sha256:" + hashed.hexdigest()
+
+def bounded_json_file(path, maximum, directory=None):
+    stream, info = open_regular(path, maximum, directory)
+    with stream:
+        raw = stream.read(maximum + 1)
+        require(len(raw) <= maximum and file_token(info) == file_token(os.fstat(stream.fileno())))
+    return parse_json(raw)
+
+def owned_child_status(process):
+    # WNOWAIT keeps this exact child PID (and its session/group ID) reserved.
+    # Popen.poll()/wait() must not run until all group signals are finished.
+    if process.returncode is not None:
+        raise CleanupUnknown()
+    try:
+        result = os.waitid(os.P_PID, process.pid,
+                           os.WEXITED | os.WNOHANG | os.WNOWAIT)
+    except ChildProcessError:
+        raise CleanupUnknown() from None
+    if result is not None and result.si_pid != process.pid:
+        raise CleanupUnknown()
+    return result
+
+def owned_group_has_members(process, deadline):
+    owned_child_status(process)
+    entries = 0
+    read_bytes = 0
+    leader_seen = False
+    others = False
+    try:
+        with os.scandir("/proc") as listing:
+            for entry in listing:
+                if not entry.name.isascii() or not entry.name.isdecimal():
+                    continue
+                entries += 1
+                if entries > MAX_PROC_ENTRIES or time.monotonic() >= deadline:
+                    raise CleanupUnknown()
+                try:
+                    fd = os.open("/proc/" + entry.name + "/stat", READ_FLAGS)
+                except (FileNotFoundError, ProcessLookupError):
+                    continue
+                try:
+                    with os.fdopen(fd, "rb") as source:
+                        raw = source.read(4097)
+                except (FileNotFoundError, ProcessLookupError):
+                    continue
+                read_bytes += len(raw)
+                if len(raw) > 4096 or read_bytes > MAX_PROC_BYTES:
+                    raise CleanupUnknown()
+                boundary = raw.rfind(b") ")
+                fields = raw[boundary + 2:].split() if boundary >= 0 else []
+                if len(fields) < 4:
+                    raise CleanupUnknown()
+                pid = int(entry.name)
+                group, session = int(fields[2]), int(fields[3])
+                if pid == process.pid:
+                    if group != process.pid or session != process.pid:
+                        raise CleanupUnknown()
+                    leader_seen = True
+                elif group == process.pid:
+                    if session != process.pid:
+                        raise CleanupUnknown()
+                    others = True
+    except (OSError, ValueError):
+        raise CleanupUnknown() from None
+    if not leader_seen:
+        raise CleanupUnknown()
+    owned_child_status(process)
+    return others
+
+def signal_owned_group(process, number):
+    owned_child_status(process)
+    try:
+        os.killpg(process.pid, number)
+    except ProcessLookupError:
+        # A group containing only the held zombie may have no signal target.
+        # Membership is still checked before the final reap.
+        pass
+
+def stop_owned_child(process, deadline):
+    clean = False
+    # This covers only the fixed Runtime process group. Runtime supervision
+    # remains responsible for the project tree, including separate sessions.
+    end = min(deadline, time.monotonic() + 8)
+    try:
+        if owned_child_status(process) is None:
+            signal_owned_group(process, signal.SIGTERM)
+            grace = min(end, time.monotonic() + 2)
+            while time.monotonic() < grace and owned_child_status(process) is None:
+                time.sleep(0.01)
+        # Close the anchored group before checking membership. This also stops
+        # a same-group member racing the observation by forking new members.
+        signal_owned_group(process, signal.SIGKILL)
+        while time.monotonic() < end:
+            if owned_child_status(process) is not None and not owned_group_has_members(process, end):
+                clean = True
+                break
+            time.sleep(0.01)
+    except (OSError, CleanupUnknown):
+        clean = False
+    # No negative-PGID signal or group observation is permitted after this
+    # final reap, even when cleanup could not be proved within the deadline.
+    try:
+        process.wait(timeout=max(0.0, min(1.0, deadline - time.monotonic())))
+    except (subprocess.TimeoutExpired, ChildProcessError):
+        return False
+    return clean
+
+def actual_publisher(runtime, repository, request, deadline):
+    require(time.monotonic() < deadline - CLEANUP_SECONDS)
+    require(all(hasattr(os, name) for name in ("waitid", "WNOWAIT", "P_PID", "WEXITED", "WNOHANG", "CLD_EXITED")))
+    require(Path("/proc/self/stat").is_file())
+    process = subprocess.Popen([str(runtime), "__portable-native-publish", request],
+        cwd=repository, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE, start_new_session=True, close_fds=True)
+    streams = {"stdout":bytearray(), "stderr":bytearray()}
+    selector = None
+    exited_at = None
+    try:
+        selector = selectors.DefaultSelector()
+        for name, stream in (("stdout", process.stdout), ("stderr", process.stderr)):
+            os.set_blocking(stream.fileno(), False)
+            selector.register(stream, selectors.EVENT_READ, name)
+        while True:
+            require(time.monotonic() < deadline - CLEANUP_SECONDS)
+            status = owned_child_status(process)
+            if status is not None:
+                if exited_at is None:
+                    exited_at = time.monotonic()
+                if not selector.get_map():
+                    break
+                if time.monotonic() >= exited_at + 1:
+                    # A pipe held beyond the leader's exit may belong to an
+                    # unobservable separate session. Preserve the stage.
+                    raise CleanupUnknown()
+            for key, _ in selector.select(0.05):
+                chunk = os.read(key.fd, 8192)
+                if not chunk:
+                    selector.unregister(key.fileobj)
+                else:
+                    streams[key.data].extend(chunk)
+                    require(len(streams[key.data]) <= MAX_STREAM)
+        require(status.si_code == os.CLD_EXITED and status.si_status == 0)
+        # Natural EOF and the real exit status are required. Residual original
+        # group members are refused, not credited as a successful native run.
+        require(not owned_group_has_members(process, deadline - CLEANUP_SECONDS))
+        return bytes(streams["stdout"]), bytes(streams["stderr"])
+    finally:
+        if selector is not None:
+            selector.close()
+        clean = stop_owned_child(process, deadline)
+        process.stdout.close()
+        process.stderr.close()
+        if not clean:
+            raise CleanupUnknown()
+
+def safe_text_path(value):
+    require(type(value) is str and value and not any(ord(char) < 32 for char in value))
+    return Path(value)
+
+def bind(arguments):
+    require(len(arguments) == 4)
+    encoded, artifact_id, archive_digest = arguments[1:]
+    require(len(encoded) <= 8192 and len(encoded) % 2 == 0 and re.fullmatch(r"[0-9a-f]+", encoded))
+    value = parse_json(bytes.fromhex(encoded))
+    native_record(value)
+    require(canonical(value).hex() == encoded)
+    require(re.fullmatch(r"[1-9][0-9]{0,19}", artifact_id) and int(artifact_id) <= 2**64 - 1)
+    if re.fullmatch(r"[0-9a-f]{64}", archive_digest):
+        archive_digest = "sha256:" + archive_digest
+    require(digest(archive_digest))
+    value.update(artifactId=int(artifact_id), archiveDigest=archive_digest)
+    print("AI_COCKPIT_ARTIFACT_BINDING_V1 " + canonical(value).hex(), flush=True)
+
+def publish(arguments):
+    deadline = time.monotonic() + TOTAL_SECONDS
+    require(len(arguments) in (7, 9) and arguments[5] == "--node-id")
+    require(len(arguments) != 9 or arguments[7] == "--task-caller")
+    repository = safe_text_path(arguments[2]).resolve(strict=True)
+    require(repository.is_dir())
+    root_fd = os.open(repository, DIRECTORY_FLAGS)
+    try:
+        publish_open_root(arguments, repository, root_fd, deadline)
+    finally:
+        os.close(root_fd)
+
+def publish_open_root(arguments, repository, root_fd, deadline):
+    runtime_arg, _, contract_arg, artifact_arg = arguments[1:5]
+    node = arguments[6]
+    require(re.fullmatch(r"project-command-[0-9]+", node))
+    runtime = safe_text_path(runtime_arg)
+    if not runtime.is_absolute():
+        runtime = repository / runtime
+    contract = safe_text_path(contract_arg)
+    if not contract.is_absolute():
+        contract = repository / contract
+    relative_contract = contract.relative_to(repository)
+    require(all(part not in ("", ".", "..") for part in relative_contract.parts))
+    directory = os.dup(root_fd)
+    try:
+        for part in relative_contract.parts[:-1]:
+            following = os.open(part, DIRECTORY_FLAGS, dir_fd=directory)
+            os.close(directory)
+            directory = following
+        contract_value = bounded_json_file(relative_contract.parts[-1], 1024 * 1024, directory)
+    finally:
+        os.close(directory)
+    require(type(contract_value) is dict and type(contract_value.get("workItemId")) is str)
+    wi = contract_value["workItemId"]
+    require(re.fullmatch(r"[A-Za-z0-9_-]+", wi))
+    task_caller = None
+    if len(arguments) == 9:
+        caller_path = safe_text_path(arguments[8])
+        if not caller_path.is_absolute():
+            caller_path = repository / caller_path
+        task_caller = bounded_json_file(caller_path, 64 * 1024)
+        require(type(task_caller) is dict and set(task_caller) == {"schemaVersion","actor","authoritySource","assurance"})
+        require(type(task_caller["schemaVersion"]) is int and task_caller["schemaVersion"] == 1)
+        require(all(type(task_caller[key]) is str and task_caller[key] for key in ("actor","authoritySource")))
+        require(task_caller["assurance"] == "self_declared")
+    runner = safe_text_path(os.environ.get("RUNNER_TEMP", artifact_arg))
+    if not runner.is_absolute():
+        runner = repository / runner
+    require(stat.S_ISDIR(runner.lstat().st_mode) and not runner.is_symlink())
+    stage = Path(tempfile.mkdtemp(prefix="ai-cockpit-native-source-", dir=runner))
+    os.chmod(stage, 0o700)
+    stage_fd = os.open(stage, DIRECTORY_FLAGS)
+    stage_identity = (os.fstat(stage_fd).st_dev, os.fstat(stage_fd).st_ino)
+    succeeded = False
+    preserve_stage = False
+    try:
+        source, before = open_regular(runtime, MAX_RUNTIME)
+        require(before.st_size > 0 and before.st_mode & 0o111)
+        with source, os.fdopen(os.open("native-runtime", os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                      0o500, dir_fd=stage_fd), "wb") as destination:
+            runtime_digest = hash_stream(source, MAX_RUNTIME, destination)
+            require(file_token(before) == file_token(os.fstat(source.fileno())))
+            destination.flush()
+            os.fsync(destination.fileno())
+        pinned_runtime = stage / "native-runtime"
+        nonce = secrets.token_hex(32)  # Fresh non-secret session identity, before spawn.
+        wire = canonical({"schemaVersion":1,"repositoryRoot":str(repository),"workItemId":wi,
+                          "nodeId":node,"taskCaller":task_caller,"publisherNonce":nonce}).decode("ascii")
+        require(len(wire) <= 16 * 1024)
+        raw_stdout, raw_stderr = actual_publisher(pinned_runtime, repository, wire, deadline)
+        for name, raw in (("publisher.stdout", raw_stdout), ("publisher.stderr", raw_stderr)):
+            with os.fdopen(os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                  0o600, dir_fd=stage_fd), "wb") as stream:
+                stream.write(raw)
+        reply = parse_json(raw_stdout)
+        require(type(reply) is dict and set(reply) == REPLY_KEYS)
+        value = {key:reply[key] for key in NATIVE_KEYS}
+        native_record(value)
+        require(reply["publisherNonce"] == nonce and reply["runtimeDigest"] == runtime_digest)
+        require(digest(reply["executionId"]))
+        expected_relative = Path(".ai/evidence") / (wi + ".verification-admissions/portable/objects") / (reply["inputDigest"][7:] + ".bin")
+        require(type(reply["portablePath"]) is str and reply["portablePath"] == str(repository / expected_relative))
+        directory = os.dup(root_fd)
+        try:
+            for part in expected_relative.parts[:-1]:
+                following = os.open(part, DIRECTORY_FLAGS, dir_fd=directory)
+                os.close(directory)
+                directory = following
+            original, object_before = open_regular(expected_relative.parts[-1], MAX_OBJECT, directory)
+            with original, os.fdopen(os.open("portable-native-evidence.json", os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                            0o600, dir_fd=stage_fd), "wb") as target:
+                observed_digest = hash_stream(original, MAX_OBJECT, target)
+                require(file_token(object_before) == file_token(os.fstat(original.fileno())))
+                target.flush()
+                os.fsync(target.fileno())
+            require(observed_digest == reply["inputDigest"])
+        finally:
+            os.close(directory)
+        copied, _ = open_regular("portable-native-evidence.json", MAX_OBJECT, stage_fd)
+        with copied:
+            require(hash_stream(copied, MAX_OBJECT) == reply["inputDigest"])
+        current_runtime, current_info = open_regular(runtime, MAX_RUNTIME)
+        with current_runtime:
+            require(file_token(current_info) == file_token(before) and hash_stream(current_runtime, MAX_RUNTIME) == runtime_digest)
+        executed, _ = open_regular("native-runtime", MAX_RUNTIME, stage_fd)
+        with executed:
+            require(hash_stream(executed, MAX_RUNTIME) == runtime_digest)
+        current_stage = stage.lstat()
+        require(stat.S_ISDIR(current_stage.st_mode) and (current_stage.st_dev, current_stage.st_ino) == stage_identity)
+        require(time.monotonic() < deadline)
+        record_hex = canonical(value).hex()
+        output_path = os.environ.get("GITHUB_OUTPUT")
+        if output_path:
+            fd = os.open(safe_text_path(output_path), os.O_WRONLY | os.O_APPEND | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+            with os.fdopen(fd, "ab") as output:
+                require(stat.S_ISREG(os.fstat(output.fileno()).st_mode))
+                output.write(("native_record_hex=" + record_hex + "\nnative_portable_path=" + str(stage / "portable-native-evidence.json") + "\n").encode("utf-8"))
+        print("AI_COCKPIT_NATIVE_SOURCE_V1 " + record_hex, flush=True)
+        succeeded = True
+    except CleanupUnknown:
+        preserve_stage = True
+        raise
+    finally:
+        os.close(stage_fd)
+        if not succeeded and not preserve_stage:
+            try:
+                current = stage.lstat()
+                if stat.S_ISDIR(current.st_mode) and (current.st_dev, current.st_ino) == stage_identity:
+                    shutil.rmtree(stage)
+            except OSError:
+                pass  # Preserve uncertain owned partial data; never follow a replacement.
+
+try:
+    os.umask(0o077)
+    if sys.argv[1] == "--bind-native-source":
+        bind(sys.argv[1:])
+    else:
+        publish(sys.argv[1:])
+except Exception:
+    # Child stdout/stderr and input text are never reflected into job logs.
+    print("native source publication/binding refused", file=sys.stderr)
+    raise SystemExit(1)
+PY_NATIVE_SOURCE_MODE
+  exit "$?"
+fi
+
+
 if [[ $# -ne 4 && $# -ne 6 ]] || { [[ $# -eq 6 ]] && [[ $5 != --task-caller ]]; }; then
   printf 'usage: %s <runtime-bin> <repository> <contract> <artifact-dir> [--task-caller <file>]\n' "$0" >&2
   exit 2

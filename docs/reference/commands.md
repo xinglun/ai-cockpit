@@ -49,7 +49,7 @@ Generated from the current Clap command tree, including inherited global argumen
 | `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
-| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence bundle accept` | `--expected-plan-digest`, `--input`, `--node`, `--repo`, `--source-request`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence github` | `--task-caller`, `-h / --help` |  |
 | `ai-cockpit evidence github plan` | `--artifact-id`, `--attempt`, `--job-id`, `--repo`, `--run-id`, `--task-caller`, `--work-item`, `-h / --help` |  |
 | `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
@@ -552,6 +552,8 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `work-item` | `string` | `yes` | `—` | `—` | `—` |
 | `expected-plan-digest` | `string` | `yes` | `—` | `—` | `—` |
+| `source-request` | `string` | `no` | `—` | `—` | `—` |
+| `node` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 
@@ -560,6 +562,8 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `input` | `string` | `yes` | `—` | `—` | `—` |
 | `workItemId` | `string` | `yes` | `—` | `—` | `—` |
 | `expectedPlanDigest` | `string` | `yes` | `—` | `—` | `—` |
+| `sourceRequest` | `object` | `no` | `—` | `—` | `—` |
+| `nodeId` | `string` | `no` | `—` | `—` | `—` |
 | `taskCaller` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-accept -->

@@ -84,6 +84,7 @@ pub use ci_admission::{
     PortableSourceTool, VerifiedPortableSource, accept_portable_evidence,
     accept_portable_evidence_with_source, declared_portable_verification_request,
     plan_github_verification_admission, plan_portable_evidence, publish_declared_native_source,
+    publish_declared_native_source_supervised, read_portable_source_parameters,
     require_portable_source_observation_admission,
 };
 
@@ -439,6 +440,10 @@ impl NativeExecutionWitness {
         &self.receipt
     }
 
+    pub fn execution_id(&self) -> &str {
+        &self.execution_id
+    }
+
     pub fn observed_at(&self) -> &str {
         &self.observed_at
     }
@@ -483,6 +488,20 @@ pub fn run_repository_verification_with_native_witness(
     invocation: &CurrentNativeInvocation,
     supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
 ) -> Result<WitnessedRepositoryVerificationRun, ObserverError> {
+    run_native_witness_inner(
+        root, request, runtime, caller, invocation, supervisor, false,
+    )
+}
+
+fn run_native_witness_inner(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    invocation: &CurrentNativeInvocation,
+    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+    force_fresh: bool,
+) -> Result<WitnessedRepositoryVerificationRun, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -513,7 +532,10 @@ pub fn run_repository_verification_with_native_witness(
         Some((runtime, caller)),
         supervisor,
         NativeRunObservation {
-            local_context: None,
+            local_context: force_fresh.then_some(LocalNodeExecutionContext {
+                own_run: None,
+                force_fresh: true,
+            }),
             capture: Some(&mut capture),
         },
     )?;
@@ -21876,6 +21898,7 @@ pub fn publish_native_execution_witness(
     // adds only current bindings observed by this same live producer; it does
     // not record a formal Work Item result or assert full Contract coverage.
     let mut native_input = captured.clone();
+    native_input["producerExecutionId"] = serde_json::json!(witness.execution_id());
     native_input["rawNativeReceiptDigest"] = serde_json::to_value(
         cockpit_protocol::digest_json(
             &serde_json::to_value(witness.receipt()).map_err(serialize_error)?,

@@ -212,7 +212,9 @@ pub struct PortableEvidenceAcceptance {
     pub source_verification: PortableSourceVerification,
     pub admission_ref: Option<String>,
     pub gaps: Vec<String>,
+    /// Project checks executed, excluding separately reported source-reader subprocesses.
     pub verification_commands_executed: usize,
+    /// Logical immutable observation publications, not filesystem syscall counts.
     pub writes_performed: usize,
     /// Data describing one consumed node; never full Contract completion.
     #[serde(default, skip_serializing_if = "Option::is_none")]

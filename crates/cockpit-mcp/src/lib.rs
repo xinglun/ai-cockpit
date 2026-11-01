@@ -894,6 +894,8 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "workItemId": string_property("Consumer Work Item admitted under the current caller and Runtime."),
                 "input": string_property("Local portable execution evidence file."),
                 "expectedPlanDigest": string_property("Exact sha256 plan digest from inspection; not a source credential."),
+                "sourceRequest": {"type":"object","description":"Optional source selector for this Runtime's fixed controlled reader; not proof or a worker path."},
+                "nodeId": string_property("Optional existing declared node selector; never a command."),
             }),
             &["workItemId", "input", "expectedPlanDigest"],
         ),
@@ -1229,7 +1231,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "evidence_bundle_accept",
-            "Request exact portable evidence admission under current authority and independent source proof; may write admission evidence only when admitted.",
+            "Request exact portable evidence admission under current authority. Optional sourceRequest reads an external source twice and writes node observations; it never records full Work Item verification.",
         ),
         (
             "delegated_evidence_list",
@@ -1376,7 +1378,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
                 tool["annotations"] = json!({
                     "readOnlyHint": name == "evidence_bundle_plan",
                     "destructiveHint": false,
-                    "openWorldHint": false,
+                    "openWorldHint": name == "evidence_bundle_accept",
                 });
             }
             tool
@@ -1419,7 +1421,15 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
         "evidence_bundle_plan" => Some(&["input", "workItemId"][..]),
-        "evidence_bundle_accept" => Some(&["input", "workItemId", "expectedPlanDigest"][..]),
+        "evidence_bundle_accept" => Some(
+            &[
+                "input",
+                "workItemId",
+                "expectedPlanDigest",
+                "sourceRequest",
+                "nodeId",
+            ][..],
+        ),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
@@ -1673,6 +1683,16 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "evidence_bundle_accept" => {
             for field in ["input", "workItemId", "expectedPlanDigest"] {
                 require_string(object, field, name)?;
+            }
+            optional_string(object, "nodeId", name)?;
+            if let Some(source) = object.get("sourceRequest") {
+                if !source.is_object()
+                    || serde_json::to_vec(source).map_err(|e| e.to_string())?.len() > 16 * 1024
+                {
+                    return Err("sourceRequest must be an object of at most 16 KiB".into());
+                }
+            } else if object.get("nodeId").is_some() {
+                return Err("nodeId requires sourceRequest".into());
             }
             object["expectedPlanDigest"]
                 .as_str()
