@@ -824,6 +824,68 @@ def valid_retirement_receipt(
             return False
     return True
 
+def _native_idempotent_resource_close(
+    repository: Path, work_item_id: str, repository_id: str,
+    contract: dict[str, Any], close: dict[str, Any], root: dict[str, Any],
+) -> bool:
+    """Read the exact schema-v1 already-deleted observation, never delete again.
+
+    The native protocol explicitly permits fully_deleted(before) as well as
+    fresh cleanup (cockpit-protocol validate_resource_finalization_receipt).
+    Reuse the existing concrete identity validator; keep this adapter confined
+    to a terminal root, frozen by its actual close head and without transitions.
+    The caller already checks the complete archive/formal/report/close tuple.
+    """
+    from promote_closed_work_item import PromotionError, receipt_identity
+    context = contract.get("resourceContext")
+    required_context = {"baseBranch", "baseRemote", "branch", "provider", "pullRequest", "worktree"}
+    if (not isinstance(context, dict) or set(context) != required_context
+            or any(not isinstance(value, str) or not value.strip()
+                   or value in {"unknown", "pending"} or value.startswith("pending:")
+                   for value in context.values())):
+        return False
+    root_relative = f".ai/decisions/{work_item_id}.finalize.json"
+    fully_deleted = {"branch": "deleted", "pullRequest": "merged", "worktree": "removed"}
+    pull_request = root.get("pullRequest")
+    if (type(root.get("schemaVersion")) is not int or root.get("schemaVersion") != 1
+            or root.get("postMergeSync") is not None
+            or root.get("before") != fully_deleted or root.get("after") != fully_deleted
+            or root.get("result") != {"disposition": "deleted", "failureCodes": [], "unknownCodes": []}
+            or not isinstance(pull_request, dict)
+            or type(pull_request.get("number")) is not int or pull_request["number"] <= 0
+            or any(not isinstance(root.get(key), str) or not root[key].strip()
+                   for key in ("actor", "authoritySource", "reason", "timestamp", "operationId", "receiptId", "runtimeVersion"))
+            or not isinstance(root.get("runtimeDigest"), str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", root["runtimeDigest"]) is None
+            or type(close.get("resourceFinalizationSequence")) is not int
+            or close["resourceFinalizationSequence"] != 0
+            or close.get("resourceFinalizationHeadPath") != root_relative
+            or close.get("resourceFinalizationHeadDigest") != canonical_json_digest(root)
+            or root_relative not in close["structuredDecision"].get("evidenceRefs", [])
+            or any((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json"))):
+        return False
+    for key in ("baseRevision", "headRevision", "mergeCommit"):
+        value = pull_request.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value) is None:
+            return False
+    if (not isinstance(root.get("branch"), dict) or not isinstance(root.get("worktree"), dict)
+            or root["branch"].get("headRevision") != pull_request["headRevision"]
+            or root["worktree"].get("headRevision") != pull_request["headRevision"]):
+        return False
+    base = contract.get("baseRevision")
+    if not isinstance(base, str) or re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", base) is None:
+        return False
+    try:
+        receipt_identity(
+            root, work_item_id=work_item_id, repository_id=repository_id,
+            contract_digest=raw_file_digest(repository / f".ai/work-items/archive/{work_item_id}.contract.json"),
+            base_revision=base, resource_context=context,
+        )
+    except (PromotionError, KeyError, TypeError, ValueError, OSError):
+        return False
+    return True
+
+
 def ordinary_closed_successor_state(
     repository: Path,
     predecessor: str,
@@ -951,7 +1013,10 @@ def ordinary_closed_successor_state(
         try:
             terminal = validate_terminal_evidence(repository, wi)
         except (PromotionError, OSError, ValueError, KeyError, TypeError):
-            return None
+            root = strict(f".ai/decisions/{wi}.finalize.json")
+            return "resource" if root and _native_idempotent_resource_close(
+                repository, wi, repository_id, archived[1], close, root
+            ) else None
         if (terminal.finalization_path is not None
                 and any(path in references for path in (
                     terminal.finalization_path, f".ai/decisions/{wi}.finalize.json"))):
@@ -1145,6 +1210,8 @@ def ordinary_closed_successor_state(
             expected_id = "sha256:" + attempts[0].rsplit(".", 2)[-2]
             same_native_attempt_bound = bool(
                 attempt and formal
+                and type(attempt.get("schemaVersion")) is int and attempt["schemaVersion"] == 1
+                and type(attempt.get("protocolVersion")) is int and attempt["protocolVersion"] == 1
                 and attempt.get("kind") == "verification_attempt"
                 and attempt.get("attemptId") == expected_id
                 and attempt.get("state") == "execution_completed"

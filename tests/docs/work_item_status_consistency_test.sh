@@ -1056,6 +1056,9 @@ child_close=root/f".ai/decisions/{s}.close.json";child_raw=child_close.read_byte
 assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt) is None
 child_close.write_bytes(child_raw)
 for mutate in (
+ lambda value:value.update(schemaVersion=True),
+ lambda value:value.update(schemaVersion=2),
+ lambda value:value.update(protocolVersion=2),
  lambda value:value.update(workItemId="WI-1299-foreign"),
  lambda value:value.update(repositoryId="sha256:"+"0"*64),
  lambda value:value.update(contractDigest="sha256:"+"0"*64),
@@ -1076,6 +1079,49 @@ finalize_relative=f".ai/decisions/{p}.finalize.json";close["structuredDecision"]
 put(parent_close.relative_to(root),close);finalize=put(finalize_relative,{"workItemId":p,"repositoryId":rid,"result":{"disposition":"deleted"}})
 assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
 parent_close.write_bytes(original_parent_close);finalize.unlink()
+
+# Native schema-v1 idempotent resource observation: no deletion is performed.
+# All bytes below belong to this owned temporary fixture, never actual history.
+saved_resource={candidate:candidate.read_bytes() for candidate in root.rglob("*") if candidate.is_file()}
+context={"baseBranch":"main","baseRemote":"origin","branch":"fixture-resource","provider":"github","pullRequest":"https://example.invalid/pull/1","worktree":"/fixture/resource"}
+resource_contract=copy.deepcopy(sc);resource_contract["resourceContext"]=context
+resource_summary=summary(s,resource_contract);resource_summary.update({key:sc[key] for key in ("predecessorWorkItemId","predecessorContractDigest","recoveryDecisionPath")})
+native_archive(s,resource_contract,resource_summary);_,resource_close=native_verification_close(s,resource_contract)
+resource_close.pop("ordinaryCleanupBinding");resource_close.pop("ordinaryCleanupBindingDigest")
+resource_root_relative=f".ai/decisions/{s}.finalize.json"
+terminal_state={"branch":"deleted","pullRequest":"merged","worktree":"removed"}
+resource_root={"schemaVersion":1,"workItemId":s,"repositoryId":rid,"contractDigest":module.raw_file_digest(root/f".ai/work-items/archive/{s}.contract.json"),"contractBaseRevision":"d"*40,"resourceContext":context,"provider":"github","before":copy.deepcopy(terminal_state),"after":copy.deepcopy(terminal_state),"result":{"disposition":"deleted","failureCodes":[],"unknownCodes":[]},"actor":"agent:fixture","authoritySource":"fixture:accepted-idempotent-observation","reason":"already absent, no new deletion","timestamp":"2026-01-03T00:00:00Z","operationId":"fixture-operation","receiptId":"fixture-idempotent-root","runtimeVersion":"1.0.1","runtimeDigest":runtime,"branch":{"name":context["branch"],"remote":"origin","headRevision":"e"*40},"worktree":{"path":context["worktree"],"branch":context["branch"],"worktreeId":"fixture-worktree","headRevision":"e"*40},"pullRequest":{"number":1,"url":context["pullRequest"],"baseBranch":"main","baseRemote":"origin","baseRevision":"d"*40,"headRevision":"e"*40,"mergeCommit":"f"*40}}
+resource_close["structuredDecision"]["evidenceRefs"]=[resource_root_relative]
+resource_close.update(resourceFinalizationSequence=0,resourceFinalizationHeadPath=resource_root_relative,resourceFinalizationHeadDigest=canonical(resource_root))
+put(resource_root_relative,resource_root);put(f".ai/decisions/{s}.close.json",resource_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+for mutate in (
+ lambda value:value["before"].update(branch="unknown"),
+ lambda value:value["after"].update(branch="present"),
+ lambda value:value["result"].update(unknownCodes=["unknown"]),
+ lambda value:value.update(repositoryId="sha256:"+"0"*64),
+ lambda value:value.update(contractDigest="sha256:"+"0"*64),
+ lambda value:value["resourceContext"].update(branch="foreign"),
+ lambda value:value["pullRequest"].update(mergeCommit=None),
+ lambda value:value["pullRequest"].update(headRevision="0"*40),
+):
+ bad=copy.deepcopy(resource_root);mutate(bad);put(resource_root_relative,bad)
+ # Repair only this owned fixture's head hash to isolate the actual bad field.
+ bound_close=copy.deepcopy(resource_close);bound_close["resourceFinalizationHeadDigest"]=canonical(bad);put(f".ai/decisions/{s}.close.json",bound_close)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(resource_root_relative,resource_root)
+for mutate in (
+ lambda value:value.update(resourceFinalizationHeadDigest="sha256:"+"0"*64),
+ lambda value:value.update(resourceFinalizationSequence=1),
+ lambda value:value["structuredDecision"].update(evidenceRefs=["verified"]),
+):
+ bad=copy.deepcopy(resource_close);mutate(bad);put(f".ai/decisions/{s}.close.json",bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+for candidate in list(root.rglob("*")):
+ if candidate.is_file() and candidate not in saved_resource:candidate.unlink()
+for candidate,raw in saved_resource.items():candidate.write_bytes(raw)
+print("native idempotent resource observation cases passed")
+
 print("exact native close/reference representation cases passed")
 
 for target,mutate in [
