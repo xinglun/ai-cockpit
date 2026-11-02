@@ -378,7 +378,11 @@ for suffix, status in (("", "recovered"), (".zh-CN", "recovered"), (".ja", "reco
     document.write_text(text, encoding="utf-8")
 for suffix, status in (("", "Recovered"), (".zh-CN", "已恢复"), (".ja", "Recovered")):
     parity = root / "docs/reference" / f"reference-parity{suffix}.md"
-    text = parity.read_text(encoding="utf-8").replace("fixture | Implemented", f"fixture | {status}")
+    old_status = "已实现" if suffix == ".zh-CN" else "Implemented"
+    text = parity.read_text(encoding="utf-8")
+    needle = f"fixture | {old_status}"
+    assert text.count(needle) == 1, (suffix, text)
+    text = text.replace(needle, f"fixture | {status}", 1)
     parity.write_text(text, encoding="utf-8")
 PY
 python3 "$checker" --repo "$digest_recovery"
