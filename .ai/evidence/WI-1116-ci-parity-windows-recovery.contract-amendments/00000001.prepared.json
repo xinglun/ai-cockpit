@@ -1,0 +1,284 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1116-ci-parity-windows-recovery",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1116-initialize-bounded-material-review",
+      "expectedContractDigest": "sha256:36affe204ceb0f0093d0e1f444ca35ab51daefc73e575c33a4984818cb4f80e8",
+      "reason": "Complete the approved successor initialization before any source edit, material decision or verification. Fixed346 staged start has no materialInspectionReview field. Preserve exact new TaskAuthorization, seven paths, six declarations, source and authority/resource boundaries; enable only per-request self-declared review of readable committed Rust syntax Unknowns, retaining raw Unknowns and refusing other causes or Findings. Real owner review of the actual amended four bindings is still required.",
+      "changes": [
+        {
+          "path": "/governanceProfile",
+          "operation": "replace",
+          "value": {
+            "materialInspectionReview": {
+              "acceptResidualRisk": true,
+              "assurance": "self_declared",
+              "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this WI1116 initialization with the already described bounded committed-Rust syntax-Unknown review mechanism; remains inactive until actual new Contract owner confirm_review and each fresh request-bound honest agent review; other Unknown causes and Findings remain blocked)",
+              "permittedCause": "readable_committed_rust_syntax_unknown",
+              "permittedUnknown": "repository_material_inspection_unavailable",
+              "reviewerActor": "agent:codex",
+              "schemaVersion": 1
+            },
+            "taskAuthorization": {
+              "agentActor": "agent:codex",
+              "allowedActions": [
+                "modify_source",
+                "checkpoint",
+                "run_preflight",
+                "run_verification",
+                "record_governance_controls",
+                "record_material_review_decision",
+                "finish",
+                "archive_when_reviewed",
+                "publish_branch",
+                "create_pull_request",
+                "ready_pull_request",
+                "merge_pull_request",
+                "publish_native_closeout"
+              ],
+              "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+              "closeoutActions": [
+                "publish_native_closeout"
+              ],
+              "expiresAt": "2026-11-02T22:36:30Z",
+              "publicTarget": {
+                "baseBranch": "main",
+                "provider": "github",
+                "repository": "xinglun/ai-cockpit"
+              },
+              "schemaVersion": 1
+            }
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:9440c43f47b0a99037185cecc1d2dd90950a5945114767417ba298a337c40a87",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Only narrow the finite Unix-test compatibility wrapper to cfg(all(test, unix)); retain both callers, production cleanup, all actual Windows tests and strict -D warnings.",
+        "Correct only WI1114 governance parity rows to real recovered history and existing recovery86dee903 reference; retain119 local evidence, old unknown118/1 risk, cancelled mechanisms and pending Mac/HCI/Sentinel obligations. Register this successor honestly in three language ledgers and three required work-item pages. Do not change HCI North Star.",
+        "Run all six exact local declarations through this WI native verification with fresh material review and immutable history. Local Linux pass is not Windows GREEN; actual hosted quality and both unchanged Windows suites must pass before protected PR merge. This WI does not implement Mac/HCI or publish a version."
+      ],
+      "authority": "authorized",
+      "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "createdAt": "2026-11-02T00:57:22Z",
+      "goal": "Repair the Windows test-only cfg compilation warning and truthful WI1114 recovery parity projections; pass the six declared local checks without claiming Linux proves Windows.",
+      "governanceProfile": {
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "create_pull_request",
+            "ready_pull_request",
+            "merge_pull_request",
+            "publish_native_closeout"
+          ],
+          "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+          "closeoutActions": [
+            "publish_native_closeout"
+          ],
+          "expiresAt": "2026-11-02T22:36:30Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "intent": "Complete the existing PR1077 delivery through a minimal native CI recovery successor while preserving both closed predecessors.",
+      "mode": "implementation",
+      "outOfScope": [],
+      "predecessorContractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+      "predecessorWorkItemId": "WI-1115-ci-precheck-recovery",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1115-ci-precheck-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-repository/src/collaboration.rs",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.zh-CN.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "bash tests/docs/parity_status_check.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "cargo test --locked -p cockpit-repository --lib collaboration:: -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "bash tests/ci/run_repository_prechecks.sh --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "workItemId": "WI-1116-ci-parity-windows-recovery"
+    },
+    "previousContractDigest": "sha256:36affe204ceb0f0093d0e1f444ca35ab51daefc73e575c33a4984818cb4f80e8",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Only narrow the finite Unix-test compatibility wrapper to cfg(all(test, unix)); retain both callers, production cleanup, all actual Windows tests and strict -D warnings.",
+        "Correct only WI1114 governance parity rows to real recovered history and existing recovery86dee903 reference; retain119 local evidence, old unknown118/1 risk, cancelled mechanisms and pending Mac/HCI/Sentinel obligations. Register this successor honestly in three language ledgers and three required work-item pages. Do not change HCI North Star.",
+        "Run all six exact local declarations through this WI native verification with fresh material review and immutable history. Local Linux pass is not Windows GREEN; actual hosted quality and both unchanged Windows suites must pass before protected PR merge. This WI does not implement Mac/HCI or publish a version."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-02T00:57:22Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Repair the Windows test-only cfg compilation warning and truthful WI1114 recovery parity projections; pass the six declared local checks without claiming Linux proves Windows.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this WI1116 initialization with the already described bounded committed-Rust syntax-Unknown review mechanism; remains inactive until actual new Contract owner confirm_review and each fresh request-bound honest agent review; other Unknown causes and Findings remain blocked)",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        },
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "create_pull_request",
+            "ready_pull_request",
+            "merge_pull_request",
+            "publish_native_closeout"
+          ],
+          "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+          "closeoutActions": [
+            "publish_native_closeout"
+          ],
+          "expiresAt": "2026-11-02T22:36:30Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Complete the existing PR1077 delivery through a minimal native CI recovery successor while preserving both closed predecessors.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+      "predecessorWorkItemId": "WI-1115-ci-precheck-recovery",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1115-ci-precheck-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/collaboration.rs",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.zh-CN.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/docs/parity_status_check.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "cargo test --locked -p cockpit-repository --lib collaboration:: -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "bash tests/ci/run_repository_prechecks.sh --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "workItemId": "WI-1116-ci-parity-windows-recovery"
+    },
+    "newContractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+    "previousSummaryDigest": "sha256:60ae9186a72dc9c76b26fd147005f467eada0d67cb9d46f60f170b288527fe00",
+    "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+    "environmentObservationDigest": "sha256:d68cb8515f9534ccba926ef36aae54d2ea9ac504505bcea5f9c6891c1b1b5f7f",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-11-02T00:59:19Z"
+  },
+  "preparedDigest": "sha256:8ddceec3232f88f5f4fe5f7fb9f772048707a8f363c3d05b815dd981ede464e9"
+}

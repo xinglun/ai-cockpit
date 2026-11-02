@@ -1,0 +1,120 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:8ddceec3232f88f5f4fe5f7fb9f772048707a8f363c3d05b815dd981ede464e9",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1116-ci-parity-windows-recovery",
+    "sequence": 1,
+    "changeId": "wi1116-initialize-bounded-material-review",
+    "requestDigest": "sha256:9440c43f47b0a99037185cecc1d2dd90950a5945114767417ba298a337c40a87",
+    "reason": "Complete the approved successor initialization before any source edit, material decision or verification. Fixed346 staged start has no materialInspectionReview field. Preserve exact new TaskAuthorization, seven paths, six declarations, source and authority/resource boundaries; enable only per-request self-declared review of readable committed Rust syntax Unknowns, retaining raw Unknowns and refusing other causes or Findings. Real owner review of the actual amended four bindings is still required.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "create_pull_request",
+              "ready_pull_request",
+              "merge_pull_request",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this WI1116 initialization with the already described bounded committed-Rust syntax-Unknown review mechanism; remains inactive until actual new Contract owner confirm_review and each fresh request-bound honest agent review; other Unknown causes and Findings remain blocked)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "create_pull_request",
+              "ready_pull_request",
+              "merge_pull_request",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:36affe204ceb0f0093d0e1f444ca35ab51daefc73e575c33a4984818cb4f80e8",
+    "newContractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+    "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+    "environmentObservationDigest": "sha256:d68cb8515f9534ccba926ef36aae54d2ea9ac504505bcea5f9c6891c1b1b5f7f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:c55625f91056322f72aebf434e661648f2c5be5bc295a3b185fc6f7b09aafdbd",
+    "recordedAt": "2026-11-02T00:59:19Z"
+  }
+}
