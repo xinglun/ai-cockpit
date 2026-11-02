@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-02T22:15:27Z",
+  "files": {
+    "contractDigest": "sha256:3cb19d10fcb1aa7ac32bec7c8103cabad2e0f1dc4cca3f8d0216f0113ddb02d6",
+    "contractPath": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.contract.json",
+    "outcomeDigest": "sha256:14568e4b8c32c97be99ab8d35e3e492dd9416838dd0e3583a98c89791bd0a4d5",
+    "outcomePath": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.outcome.json",
+    "summaryDigest": "sha256:ba0de45e9c4f25e5d10ec6f03d827bd4a577726dc1f7e11d5f4a2a50374544c2",
+    "summaryPath": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-1113-delivery-continuity-parallel-authorization.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

@@ -1,0 +1,33 @@
+{
+  "actor": "human:Ray",
+  "archiveManifestDigest": "sha256:0535be428c0514f817fe0e0a40b4a4167f01734b082f617d17a55474519305a9",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:3cb19d10fcb1aa7ac32bec7c8103cabad2e0f1dc4cca3f8d0216f0113ddb02d6",
+      "path": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:14568e4b8c32c97be99ab8d35e3e492dd9416838dd0e3583a98c89791bd0a4d5",
+      "path": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ba0de45e9c4f25e5d10ec6f03d827bd4a577726dc1f7e11d5f4a2a50374544c2",
+      "path": ".ai/work-items/archive/WI-1113-delivery-continuity-parallel-authorization.summary.json"
+    }
+  },
+  "authoritySource": "conversation:Sentinel_077cbde6223081918b2f191e9d3c4681; user Ray approved at 2026-11-02T22:10:57Z the WI-1113 integrated retirement with not_verified/original bytes preserved using fixed Runtime 346, and only the exact 2159-file incremental allowlist; no worktree/branch deletion, permission change, or release.",
+  "contractDigest": "sha256:19fc8d9a4a5cfc867a363d1685722df68907090dd13f8b345cb3f08fb7d6f308",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "Retire the unresolved active/checkpointed WI-1113 after its committed delivery history became reachable from the actual merged main commit 80d480b2a88fade7169d093bdd70ce99c63b2657. Preserve all original active bytes, the dirty Summary, failures and historical evidence. This retirement makes no verification or completion claim and does not delete branches, worktrees or caches.",
+  "recordedAt": "2026-11-02T22:15:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:ce8fa2cd494ca1c43a56a2d96260a44e778458579f076c68d1107e5e7459e5fe",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
+}

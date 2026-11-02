@@ -6,10 +6,16 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1113-delivery-continuity-parallel-authorization
-status: in_progress
+status: historical
 authority: native-contract
 lastVerifiedBy: WI-1113-delivery-continuity-parallel-authorization
 ---
+
+## Current native disposition
+
+WI-1113 was retired once by the fixed Runtime at 2026-11-02T22:15:27Z with disposition `integrated`, verification claim `not_verified`, and original bytes preserved. Its committed history is reachable from actual merged main `80d480b2a88fade7169d093bdd70ce99c63b2657`; that reachability does not complete or reverify this historical Work Item. The frozen Contract, Summary and Outcome are under `.ai/work-items/archive/`; the authoritative decision is `.ai/decisions/WI-1113-delivery-continuity-parallel-authorization.retirement.json`. There is no WI-1113 verified close and no newly invented successor relation. Earlier local/hosted failures and the historical plans below remain unchanged. The retirement is a terminal disposition, not a new verification result.
+
+## Preserved historical plan and earlier status
 
 # WI-1113 — Delivery continuity and parallel authorization
 

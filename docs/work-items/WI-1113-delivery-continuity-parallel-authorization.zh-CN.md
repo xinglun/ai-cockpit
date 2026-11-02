@@ -6,10 +6,16 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1113-delivery-continuity-parallel-authorization
-status: in_progress
+status: historical
 authority: native-contract
 lastVerifiedBy: WI-1113-delivery-continuity-parallel-authorization
 ---
+
+## 当前原生处置
+
+固定 Runtime 已于 2026-11-02T22:15:27Z 对 WI-1113 执行一次原生退役：`integrated`、`not_verified`，原始字节保全。其已提交历史可达实际合入 main 的 `80d480b2a88fade7169d093bdd70ce99c63b2657`；提交可达不等于该历史工作项完成验收或重新验证。冻结的 Contract、Summary、Outcome 位于 `.ai/work-items/archive/`，权威决定为 `.ai/decisions/WI-1113-delivery-continuity-parallel-authorization.retirement.json`。不存在 WI-1113 的 verified close，也未新造后继关系。此前本地／托管失败和下列历史计划均保留。退役是终态处置，不是新的验证结果。
+
+## 保留的历史计划与早期状态
 
 # WI-1113 — 交付连续性与并行授权
 
