@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:04e64e6a50a3a84567f3c5a153e2bc6221911a677aff387825180e04e95e9120",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c3126b17c8fd60d44c059126b0f053b6612cc2752d729a318222b88fa507c0b3",
+  "reason": "Recorder agent:codex registers the actual human owner confirm_review in conversation:Sentinel_0579404a7fac8191b9c1033893fa0a85 at 2026-11-01T22:53:58Z, replying to exact four bindings displayed in conversation:Sentinel_08fb6e8d5bd08191b12f4c086e9b0db5 at 2026-11-01T22:47:15Z. Contract, preflight, repository snapshot and executing isolated Runtime346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690 were freshly checked unchanged. Only the approved one-test-file CI recovery and three declared local checks are confirmed; old WI1114 evidence and later Mac/HCI/release obligations remain unchanged. This records the actual human response, not an agent-authored human approval or an additional release/security/credential/cache-deletion permission.",
+  "recordedAt": "2026-11-01T22:53:58Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6e999d5f36653e4d5b30b8b93464bfcd894c3d4d1d6fb411e6015d628f681aa2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1115-ci-precheck-recovery",
+  "contractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+  "materialManifestDigest": "sha256:74aa515caaadb6fea87fae992c049489389295b2a246549e0c7f82ad6db71a88",
+  "profileDigest": "sha256:8d78a45dd659195eb04fd41be0b858c8219bf0f525ba1249dae09b2e6a514010",
+  "requestDigest": "sha256:7896f66036691b006c53dbffa3dfd75c87af1f6a355bc6910f0b88699acdee9e",
+  "reviewedSourceHead": "30cf086f6a14bedcf555c40c19704a5d8e2813ee",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (existing permission for WI1115 native material registration; proposed bounded syntax-Unknown review declaration only, inactive until exact amended Contract confirm_review and actual request-bound technical review; no current material acceptance and no transfer of WI1114 receipts)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "digest": "sha256:20b832dadac769e025050c0086bf350fd70b33f1c0d6679e180bed91789c1d18"
+    },
+    {
+      "path": "Cargo.lock",
+      "digest": "sha256:d7d6a5a6dc2ff13f904182e4bd404a17dd4c30eecbb7ac64293ca71468ba43b7"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:6b4141e26ae37e70405d781f433cace4fbac87fe3da022a9d4e72c97bcb508d9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "digest": "sha256:7394efc36b407a49bbfd88ee9b5a8e9f3f5fd543560c17daccd43715a2fca318"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "digest": "sha256:8a4cc4af674bf25637b99d0564862712a6a0d66634b0127a5f60aaf56c0c74ff"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:08aeabae502b4e49e49fa3c574920dc5949515a39c19a7aa254edc7929637f63"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "digest": "sha256:c9b2e4da076cebad9cac6d5a4e8f1399eea6ff65edd887b5e6bebc87b9ab8f85"
+    },
+    {
+      "path": "crates/cockpit-evidence/src/lib.rs",
+      "digest": "sha256:719dae871131ea0c8d8d45b4b9acbdd2df4c6a9178c9fdf873da7c93da1ffeb7"
+    },
+    {
+      "path": "crates/cockpit-interface/src/interface_description.rs",
+      "digest": "sha256:2f87839e6b656c677ea13063af5204e7016f1e5059d9b1cc0ed5349c84960252"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/ci_admission.rs",
+      "digest": "sha256:17d00aec98f5f4388b561beb2d3b65d0803b2416e1e944a60db6a03e036c34e0"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "digest": "sha256:99936f2c8562d0e7526665a951ee7abd91764cac6143cbf8414494b1ae771d6f"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "digest": "sha256:2f99c4ac6197fe8a913ef2521615b10ea960c052145584a6bc478280c1d1ec45"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "digest": "sha256:cf0e1a8dbe8fe2e6fb7496b786f61e627f3579b8b87519ce720b65097f5a64e1"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "digest": "sha256:641e373d445f8939848fd54da7fb02328eefceac46863889a5db3bfff51cd750"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/ci_admission.rs",
+      "digest": "sha256:64ba06cee741fdbd681afae1e58712b7e472a313a365f1a5c6c4a22979ec7227"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "digest": "sha256:c89a542874b33be5504102dcb2d60d9fdb099ac04420b3161d58a8c930f2eb7e"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "digest": "sha256:f86f51e8a37f48b427851a39ac86fdac7fb45297784b593c870656f6414b7369"
+    },
+    {
+      "path": "crates/cockpit-repository/Cargo.toml",
+      "digest": "sha256:db385531e38c6a6f9a24d0ffc24711c840d597badc76cd36e3fce28f1d099baa"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:e5ef90199534ce0d6bc583ecb26e943374efe2d4ffdaef28923f604539f47e87"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:f5f9b00e45a3eab3a923a559693ebc293073e6336386982382918f795609e0ab"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:3c58e49bb4a5991059d2373081d7e91baef3c3201058ae5d7618f9c019e771c1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:5e886ad41919e47fc4796ee8a4ffc9b4d7d8ebbc6660f224b1c3536320c76e2e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "digest": "sha256:2fc1941366af240d9dedb7eaf49054245c9551ef9cac7913e792d1b9fa06e74d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "digest": "sha256:140bc719774bda234127b59b53d0ac7cc7cfb99be0c0fb612b1812a94288185e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "digest": "sha256:9187549e48a43f0549958e38370aabf1c21e43e4b588dfabb4d0be7d7f64657e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:329027c3bb5d129b10256a0e99ab0e8108b3b53400e86887e1fb20e509092db1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:a1a43e2f973c3ba2fd85fec9c4f4738b34ea791d005cdcda1a17b2219e2b2a8a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "digest": "sha256:8df6fe2d225be5e952e6e1c3ca2a4dc6b5878e0b85c8477b4e3cf17b0de712c9"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "digest": "sha256:b3efe0e591748dd320f9f7a86a55fc314a6494cd4b089b2a58b0076db9eed167"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evolution.rs",
+      "digest": "sha256:7edcba46cbf8029bb32abc4d8fd743146fb55b2f001b8290240f24c0472a0b64"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    },
+    {
+      "path": "crates/cockpit-verification/src/lib.rs",
+      "digest": "sha256:f2403e2a6d958360fa3f00fe9c5550d7a5cf2889ddab6b552d52f655a5c6f468"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:7dbed14c6e3d88486e687684649dcaaaf413f7ac8fcdc8598068c7658b57fbbd"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "digest": "sha256:1e57294b100f725e8c19be986437530241b99a23e8a571ed0f2239a028201ab9"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "digest": "sha256:637619df7537b2867704fcb3736e944a31b6e57983f203f62c3f2796cc11d9cd"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "digest": "sha256:366a29318fc41ddb4a152ffb1c30de5cc2d383b45d430a1abcdd9de88c2c7ef3"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "digest": "sha256:5df1483f8ae4ce868de3461d4e4b279e1c9f334ed9a5d8dde85ac0bcbe0f287e"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "digest": "sha256:404a3b11d7e1c3e9226160be12299ef7c319ca8bb6c6e31203fb1a2ca7cc6ccc"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "digest": "sha256:c545e613287202d7d47d18fe184feeaddfbd62720e477b5c46fd0c7d238daea2"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.ja.md",
+      "digest": "sha256:915274a5b80d1b8b04b869c9f149636698ef0007452d38bd045d1c2c94e243ef"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.md",
+      "digest": "sha256:af3c10f0ba88b0c92b9d2cf7676751d57927fd24469050b4ef3eb6c09d1fc7b6"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.zh-CN.md",
+      "digest": "sha256:887841b76aeb38c79d6f669e765dcf7116b54877cc72ae090baf015e061e91db"
+    },
+    {
+      "path": "tests/acceptance/evidence_stage_runtime_compatibility.py",
+      "digest": "sha256:38e235cf0240bce8259b50d413445ede8799bc6bfc0e6cd6bc2ab08f66430c23"
+    },
+    {
+      "path": "tests/ci/hosted_runtime_verification_test.sh",
+      "digest": "sha256:b21f18f49d36cbd8db9c940f81d5702d6f0ce98fb82e674aaef7169dd1eed07b"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest.json",
+      "digest": "sha256:00a448c2335389a134538ed9903018ce8f292511bf22e30a31e930c2abd7dcc2"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.py",
+      "digest": "sha256:675ca42f1c65ad409e2cc8e048f92793ad033af7d5da0e27a54c3c2decb0ce11"
+    },
+    {
+      "path": "tests/ci/workflow_convergence_test.sh",
+      "digest": "sha256:6426f1cd14273cb33013e172d8ebb17a70bd1829a93e649e12de604d2eac2bf8"
+    }
+  ],
+  "rationale": "Current WI1115-specific technical review of the complete fresh native request:50 committed readable regular source members,40Clean/10Unknown/0Finding. All50 HEAD blob digests and worktree bytes were independently checked against the current request; every material entry and hunk identity matches the displayed request. Only tests/ci/workflow_convergence_test.sh differs from source ae867a986c32ce011b174b5295a1a275b5ec8e1b; its exact reviewed single-file patch preserves both fixed caller identities, exclusive creation, private ownership/cleanup and unknown-WI behavior. The ten Rust members are inherited unchanged committed bytes, all reviewable and exclusively readable_committed_rust_syntax_unknown. This new decision accepts the specified scanner limitation for this request after actual owner confirmation, rather than importing any predecessor material receipt or moving old formal test results. Findings and every other Unknown cause are excluded. The three declarations must still be rerun under the current Contract.",
+  "residualRisk": "The canonical Rust material checker cannot determine these readable committed Rust syntax members. This self_declared agent review and byte-provenance checks are not proof that the inherited code is defect-free, an authenticated outside provenance claim, or a permanent file exemption. Raw10Unknown remains visible; only the exact permitted cause in request7896f66036691b006c53dbffa3dfd75c87af1f6a355bc6910f0b88699acdee9e is accepted. A changed request requires fresh review, and other causes/Findings remain blocked.",
+  "recordedAt": "2026-11-01T23:47:00Z",
+  "receiptDigest": "sha256:eb8f05e9df44233e175f4a794ae7b8317849f6e108d6f093687ef43e26382634"
+}

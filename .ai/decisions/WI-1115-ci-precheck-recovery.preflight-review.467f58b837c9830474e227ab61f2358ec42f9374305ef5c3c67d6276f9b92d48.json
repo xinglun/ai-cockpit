@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b278c9c8367e0d359d63123f64bdcc3aef687548b5c5ac401ec57515a56882c2",
+  "reason": "Recorder agent:codex registers the actual human owner confirm_review in conversation:Sentinel_f12cdebaac708191b01298bc9b2c888c at 2026-11-01T23:43:43Z, replying to the exact WI1115 amendment sequence1 four bindings and bounded material-review mechanism displayed in conversation:Sentinel_828bb03c07c881918bd14367be468abb at 2026-11-01T23:31:40Z. Fresh canonical and native checks match Contract548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a, preflightb278c9c8367e0d359d63123f64bdcc3aef687548b5c5ac401ec57515a56882c2, snapshot98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8 and isolated Runtime346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690. This confirms only the declared self_declared agent review of readable_committed_rust_syntax_unknown residual risk; it is not a permanent ten-file exemption, does not accept a material request by itself, and does not permit Findings/other Unknown causes. Source scope, three commands, security and publication boundaries remain unchanged. No new human close decision or extra retry is represented.",
+  "recordedAt": "2026-11-01T23:43:43Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

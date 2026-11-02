@@ -1,0 +1,108 @@
+{
+  "checkpointId": "sha256:4a9605aa9fd562db88f1826dfefdfd9577ccfd234eca7a4bb68896d36be5680f",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:2c3cc2fb05eafcdca9c35fd4b8af8afb1af7fef1f9abfe9cae56bfdf8a73845a",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:04e64e6a50a3a84567f3c5a153e2bc6221911a677aff387825180e04e95e9120",
+  "contractExecutionScopeDigest": "sha256:e7e6550cda687f4891248ebfa962be47cd7277a8d9d6ce6df563c7634a5cebeb",
+  "createdAt": "2026-11-01T23:05:45.862241026Z",
+  "executionId": "sha256:6a0a8ba5cc8a8d352e86c09112a14c939d056f450299e9706a76cef13f7e48ee",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:2c3cc2fb05eafcdca9c35fd4b8af8afb1af7fef1f9abfe9cae56bfdf8a73845a",
+      "deadlineMs": 1793574636719,
+      "elapsedMs": 9135,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "666978656420636f72707573206279746520636f6e74726163743a206f6c642043524c46206465666563742c2066616c73652f747275652f696e7075742c2065786163742073636f706520616e642074616d7065722072656a656374696f6e207061737365640a776f726b666c6f7720636f6e76657267656e636520706f6c6963792072656772657373696f6e207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 9138,
+    "executionElapsedMs": 9138,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:2c3cc2fb05eafcdca9c35fd4b8af8afb1af7fef1f9abfe9cae56bfdf8a73845a",
+        "deadlineMs": 1793574636719,
+        "elapsedMs": 9135,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "666978656420636f72707573206279746520636f6e74726163743a206f6c642043524c46206465666563742c2066616c73652f747275652f696e7075742c2065786163742073636f706520616e642074616d7065722072656a656374696f6e207061737365640a776f726b666c6f7720636f6e76657267656e636520706f6c6963792072656772657373696f6e207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:b683b0189fb647934511577337f8c988ca2866dd55c520a9b9736ad44b4124fc",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}
