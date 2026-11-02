@@ -1,0 +1,41 @@
+{
+  "checkpointId": "sha256:9532cd1f27f1868d2c8b44b20ac951787eee8951a28212085722cbec7810644a",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency.py",
+        "--repo",
+        "/workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:6cbfb7082705e87ffbb596d57d8ae5fa9ebdd9374cba0349dad0eb2099d7c9de",
+      "nodeId": "project-command-4",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:bc0b3e9f2f968af610d2c53df6370a9e3ccab35c644d17c3f163c8324c326901",
+  "contractExecutionScopeDigest": "sha256:b8b9b6ffd52ffcf42e44cb59056ef643243ba62b486de2ca3f37fbdc26a8e7c2",
+  "createdAt": "2026-11-02T11:44:44.578081813Z",
+  "executionId": "sha256:866c3510bb3bf3a0a932f0cbc4b0398d281cf34b9b380355c64dcf5301f3dad3",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3c12a1423154e6ab76511f9084253ed1ea06f138071d69a6134fe0631211f7a9",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1118-docs-close-projection"
+}

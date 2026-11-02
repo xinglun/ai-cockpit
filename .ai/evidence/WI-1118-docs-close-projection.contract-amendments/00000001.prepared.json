@@ -1,0 +1,295 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1118-docs-close-projection",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1118-initialize-bounded-material-review",
+      "expectedContractDigest": "sha256:6b21f65ea47ebec7ea91497d3307b6c9185bb85057388f746ad1af6cfc5c95d4",
+      "reason": "Complete already approved B12 initialization before any documentation edit or verification. Fixed346 staged start has no direct material review flag. Replace only governanceProfile preserving exact native TaskAuthorization, adding only the approved request-bound readable committed Rust syntax Unknown mechanism. Scope12/seven exact declarations and all authority/quality/budget constraints remain; actual amended four-binding human confirmation is required.",
+      "changes": [
+        {
+          "path": "/governanceProfile",
+          "operation": "replace",
+          "value": {
+            "materialInspectionReview": {
+              "acceptResidualRisk": true,
+              "assurance": "self_declared",
+              "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 and B12 initialization, only real per-request agent review of readable committed Rust syntax Unknown. B actual amended four-binding human confirmation still pending; no other Unknown/Findings or blanket files exemption.)",
+              "permittedCause": "readable_committed_rust_syntax_unknown",
+              "permittedUnknown": "repository_material_inspection_unavailable",
+              "reviewerActor": "agent:codex",
+              "schemaVersion": 1
+            },
+            "taskAuthorization": {
+              "agentActor": "agent:codex",
+              "allowedActions": [
+                "modify_source",
+                "checkpoint",
+                "run_preflight",
+                "run_verification",
+                "record_governance_controls",
+                "record_material_review_decision",
+                "finish",
+                "archive_when_reviewed",
+                "publish_branch",
+                "publish_native_closeout"
+              ],
+              "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 WI1117 and B12 WI1118, exact346 native lifecycle and limited per-request readable committed Rust syntax Unknown review, necessary public governance metadata and same PR1077 nonforce sourceCI; B remains12docs paths/7declarations/one automatic sourceCI maximum, no manual rerun or thirdA. Real four-binding and close decisions remain required; no credentials/security/defaultRuntime/resource deletion/Mac/HCI/merge/release expansion.)",
+              "closeoutActions": [
+                "publish_native_closeout"
+              ],
+              "expiresAt": "2026-11-02T22:36:30Z",
+              "publicTarget": {
+                "baseBranch": "main",
+                "provider": "github",
+                "repository": "xinglun/ai-cockpit"
+              },
+              "schemaVersion": 1
+            }
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:b8c53455b06c1c04def5f2b17df6b6b39da7bf8f32bc10c5046276e231e187c5",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Only the frozen12 Markdown paths: three reference parity ledgers and three-language1116/1117/1118 pages. No Rust/checker/workflow/helper, HCI NorthStar, execution recipe, project profile or permission changes.",
+        "Use actual immutable A1117 close/archive/formal/source and real1116 records for terminal projections. Keep source5e actual execution distinct from governanceG1/G2; preserve retired1112 not_verified and accepted historical1111, all failed runs and cancelled goals. No archive/close record is rewritten.",
+        "Declare own1118 pending state honestly before actual close; use exact three-language and lastVerifiedBy rules. Only actual native closed bindings may satisfy supported docs-only self_terminal; no duplicate rows, forged verifier, broad mixed-scope exemption or another projection WI to evade the check.",
+        "Execute all seven exact declarations through current native admission and own fresh material request. Material policy only permits actual agent review of readable committed Rust syntax Unknown under the exact cause; other Unknown/Findings fail closed. Do not move A formal/material to B.",
+        "Capture genuine A active/finish-ready/archive-unclosed/human-close originals as readonly private corpus; clones alone may be mutated. Actual B lifecycle and final --check-all must be observed; synthetic fixture/hash consistency does not prove a human or issuer. No B close or postclose validation is preclaimed.",
+        "One heavy worker/jobs1; actual native command<=900s, default finite deadlines respected; B aggregate<=2400s, floor1342177280B. At most one new B automatic sourceCI with fresh native/host publication checks, no manual rerun or thirdA. Preserve failed attempts and do not add caches cleanup or credentials/security/defaultRuntime changes.",
+        "Finish/archive/actual human close are separate native steps. Ordinary PR/main postmergeCI, lawful merge/protection and B terminal projection remain real requirements; no component green alone implies release. Follow latest agreed A/B and merge then four-old-WI idle resources/cloud cleanup then independent Mac/full descendant/HCI WI and later Sentinel. No physical deletion or Mac start here."
+      ],
+      "authority": "authorized",
+      "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "createdAt": "2026-11-02T11:02:40Z",
+      "goal": "Truthfully project1116/1117 terminal results and1118 own lifecycle in12 documentation paths; pass the seven exact checks and demonstrate supported self_terminal ends recursion without weakening checkers or claiming future acceptance.",
+      "governanceProfile": {
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "publish_native_closeout"
+          ],
+          "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 WI1117 and B12 WI1118, exact346 native lifecycle and limited per-request readable committed Rust syntax Unknown review, necessary public governance metadata and same PR1077 nonforce sourceCI; B remains12docs paths/7declarations/one automatic sourceCI maximum, no manual rerun or thirdA. Real four-binding and close decisions remain required; no credentials/security/defaultRuntime/resource deletion/Mac/HCI/merge/release expansion.)",
+          "closeoutActions": [
+            "publish_native_closeout"
+          ],
+          "expiresAt": "2026-11-02T22:36:30Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "intent": "Complete only the approved B12 documentation close projection after genuine A1117 close; retain ordinary Git/native evidence boundaries and later merge/cloud cleanup/Mac/HCI sequence.",
+      "mode": "implementation",
+      "outOfScope": [],
+      "predecessorContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+      "predecessorWorkItemId": "WI-1117-ci-evidence-parity-recovery",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1117-ci-evidence-parity-recovery.recovery.108106fb883430a27a4265d8de74ddd0d7ee2604946350053b1d1600d0a7c344.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fff255bc4658bb3db2566bbc1a46c6853ffde8f0620240fb6e5d5e76f04f5971",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization"
+      ],
+      "risk": "normal",
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.zh-CN.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.ja.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.zh-CN.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.ja.md",
+        "docs/work-items/WI-1118-docs-close-projection.md",
+        "docs/work-items/WI-1118-docs-close-projection.zh-CN.md",
+        "docs/work-items/WI-1118-docs-close-projection.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "bash tests/docs/parity_status_check.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/docs/promote_closed_work_item_test.sh",
+        "python3 tests/docs/work_item_status_consistency.py --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence",
+        "python3 tests/docs/promote_closed_work_item.py --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence --check-all",
+        "bash tests/ci/run_repository_prechecks.sh --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "workItemId": "WI-1118-docs-close-projection"
+    },
+    "previousContractDigest": "sha256:6b21f65ea47ebec7ea91497d3307b6c9185bb85057388f746ad1af6cfc5c95d4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Only the frozen12 Markdown paths: three reference parity ledgers and three-language1116/1117/1118 pages. No Rust/checker/workflow/helper, HCI NorthStar, execution recipe, project profile or permission changes.",
+        "Use actual immutable A1117 close/archive/formal/source and real1116 records for terminal projections. Keep source5e actual execution distinct from governanceG1/G2; preserve retired1112 not_verified and accepted historical1111, all failed runs and cancelled goals. No archive/close record is rewritten.",
+        "Declare own1118 pending state honestly before actual close; use exact three-language and lastVerifiedBy rules. Only actual native closed bindings may satisfy supported docs-only self_terminal; no duplicate rows, forged verifier, broad mixed-scope exemption or another projection WI to evade the check.",
+        "Execute all seven exact declarations through current native admission and own fresh material request. Material policy only permits actual agent review of readable committed Rust syntax Unknown under the exact cause; other Unknown/Findings fail closed. Do not move A formal/material to B.",
+        "Capture genuine A active/finish-ready/archive-unclosed/human-close originals as readonly private corpus; clones alone may be mutated. Actual B lifecycle and final --check-all must be observed; synthetic fixture/hash consistency does not prove a human or issuer. No B close or postclose validation is preclaimed.",
+        "One heavy worker/jobs1; actual native command<=900s, default finite deadlines respected; B aggregate<=2400s, floor1342177280B. At most one new B automatic sourceCI with fresh native/host publication checks, no manual rerun or thirdA. Preserve failed attempts and do not add caches cleanup or credentials/security/defaultRuntime changes.",
+        "Finish/archive/actual human close are separate native steps. Ordinary PR/main postmergeCI, lawful merge/protection and B terminal projection remain real requirements; no component green alone implies release. Follow latest agreed A/B and merge then four-old-WI idle resources/cloud cleanup then independent Mac/full descendant/HCI WI and later Sentinel. No physical deletion or Mac start here."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-02T11:02:40Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Truthfully project1116/1117 terminal results and1118 own lifecycle in12 documentation paths; pass the seven exact checks and demonstrate supported self_terminal ends recursion without weakening checkers or claiming future acceptance.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 and B12 initialization, only real per-request agent review of readable committed Rust syntax Unknown. B actual amended four-binding human confirmation still pending; no other Unknown/Findings or blanket files exemption.)",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:codex",
+          "schemaVersion": 1
+        },
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed",
+            "publish_branch",
+            "publish_native_closeout"
+          ],
+          "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 WI1117 and B12 WI1118, exact346 native lifecycle and limited per-request readable committed Rust syntax Unknown review, necessary public governance metadata and same PR1077 nonforce sourceCI; B remains12docs paths/7declarations/one automatic sourceCI maximum, no manual rerun or thirdA. Real four-binding and close decisions remain required; no credentials/security/defaultRuntime/resource deletion/Mac/HCI/merge/release expansion.)",
+          "closeoutActions": [
+            "publish_native_closeout"
+          ],
+          "expiresAt": "2026-11-02T22:36:30Z",
+          "publicTarget": {
+            "baseBranch": "main",
+            "provider": "github",
+            "repository": "xinglun/ai-cockpit"
+          },
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Complete only the approved B12 documentation close projection after genuine A1117 close; retain ordinary Git/native evidence boundaries and later merge/cloud cleanup/Mac/HCI sequence.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+      "predecessorWorkItemId": "WI-1117-ci-evidence-parity-recovery",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1117-ci-evidence-parity-recovery.recovery.108106fb883430a27a4265d8de74ddd0d7ee2604946350053b1d1600d0a7c344.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fff255bc4658bb3db2566bbc1a46c6853ffde8f0620240fb6e5d5e76f04f5971",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.zh-CN.md",
+        "docs/work-items/WI-1116-ci-parity-windows-recovery.ja.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.zh-CN.md",
+        "docs/work-items/WI-1117-ci-evidence-parity-recovery.ja.md",
+        "docs/work-items/WI-1118-docs-close-projection.md",
+        "docs/work-items/WI-1118-docs-close-projection.zh-CN.md",
+        "docs/work-items/WI-1118-docs-close-projection.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/docs/parity_status_check.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/docs/promote_closed_work_item_test.sh",
+        "python3 tests/docs/work_item_status_consistency.py --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence",
+        "python3 tests/docs/promote_closed_work_item.py --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence --check-all",
+        "bash tests/ci/run_repository_prechecks.sh --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "workItemId": "WI-1118-docs-close-projection"
+    },
+    "newContractDigest": "sha256:bc0b3e9f2f968af610d2c53df6370a9e3ccab35c644d17c3f163c8324c326901",
+    "previousSummaryDigest": "sha256:e0ea6c3d81ce7daacee9d9b67487390c00551d6ee5f63de4ca5de3a54ecdce03",
+    "repositorySnapshotDigest": "sha256:fff255bc4658bb3db2566bbc1a46c6853ffde8f0620240fb6e5d5e76f04f5971",
+    "environmentObservationDigest": "sha256:cf74b7b0054400affb87bece13800ac30efa1e8be957992c3e28aade77b719ab",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-11-02T11:06:12Z"
+  },
+  "preparedDigest": "sha256:d808cfcdd02f480b6cb1839732b7bbc36ebc47252791fb033bf223e9777d8b6d"
+}

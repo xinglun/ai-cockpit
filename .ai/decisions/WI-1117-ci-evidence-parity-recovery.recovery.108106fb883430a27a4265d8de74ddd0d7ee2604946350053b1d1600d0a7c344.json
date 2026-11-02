@@ -1,0 +1,27 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "agent:codex actual new technical successor decision at 2026-11-02T11:01:11.513047Z under conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 WI1117 and B12 WI1118, exact346 native lifecycle and limited per-request readable committed Rust syntax Unknown review, necessary public governance metadata and same PR1077 nonforce sourceCI; B remains12docs paths/7declarations/one automatic sourceCI maximum, no manual rerun or thirdA. Real four-binding and close decisions remain required; no credentials/security/defaultRuntime/resource deletion/Mac/HCI/merge/release expansion.)",
+  "decidedAt": "2026-11-02T11:01:11.513047Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.archive.json",
+    ".ai/decisions/WI-1117-ci-evidence-parity-recovery.close.json",
+    ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/41423500056"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "predecessorEventsDigest": "sha256:a1589eda5569f4b2872403136b5802262c7fd3a4da168ada650061996b84bddc",
+  "predecessorOutcomeDigest": "sha256:07e5dc40924779d6e68c3bc9ab83e856ce3be4ee02e9095588b2e9135d5c3df5",
+  "predecessorSummaryDigest": "sha256:cd0ae5c0376d16373b9932e58bfe8bf091386df492b4bfa175151530fa970617",
+  "predecessorWorkItemId": "WI-1117-ci-evidence-parity-recovery",
+  "reason": "A1117 has genuine accepted close after9/9 local and actual CI41423500056 success6jobs/7checks, Windows254/254. Continue only frozen B12 docs-only final projection on same PR1077: three ledgers and1116/1117/1118 three-language pages, seven exact declarations. Use actual native A active/archive/closed records and supported B self_terminal; do not prefill future completion or create another projection generation. Preserve all immutable failures, original consumed retry and genuine human approvals.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only frozen12 documentation paths and7 exact declarations. Staged start then previously approved limited material profile amendment and actual owner four-binding confirm_review before docs edits. B aggregate2400/pernative<=900/worker1/jobs1/floor1342177280. No code/checker/HCI edits, synthetic human evidence, old retry/grant reuse, extraCI, resource deletion or merge/release. A human close does not pre-sign B.",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1118-docs-close-projection",
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}
