@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7a940470084ca19d5dc61959361cb0722dd58166b271c37168a5ed9a73fdce1f",
+  "reason": "Recorder agent:codex registers the actual human confirm_review from conversation:Sentinel_a362734def848191a6423448ed637775 at 2026-11-02T04:31:14Z, replying to exact WI1117 sequence1 four bindings and limited material mechanism displayed in conversation:Sentinel_0c7fbdc1c4d081919d5f4b116a80c0c7 at 2026-11-02T03:47:52Z. Fresh persisted C/P/S and pinned Runtime346 all match. Scope20/9 declarations remain. Material risk acceptance is only real request-bound readable committed Rust syntax Unknown agent review, never blanket files/other causes/Findings. No future close, Windows success, B start, merge/release or first errno is represented.",
+  "recordedAt": "2026-11-02T04:31:14Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:55e8a56fb5386166466bb90fe8e0ec7644a95abc5e08f1f90c0186992cb57286",
+  "schemaVersion": 1,
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

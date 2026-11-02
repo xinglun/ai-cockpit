@@ -1,0 +1,108 @@
+{
+  "checkpointId": "sha256:549182883e699b9e90438ab401b6a2422dffb9bda9079270abdfb2ab0c6d1e34",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:9e73252d83211d61312bdd868764a9454ffd121a3a763507cb9303234ea76834",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "contractExecutionScopeDigest": "sha256:221f9aff3ebb52229b6a5083ddc4979acba62337429362fce29172dba548d29f",
+  "createdAt": "2026-11-02T07:41:50.976437908Z",
+  "executionId": "sha256:9eec4f7782e241164a254e3636efcc84aa62bbd16d27de13925b4ce4d5f67e9b",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:9e73252d83211d61312bdd868764a9454ffd121a3a763507cb9303234ea76834",
+      "deadlineMs": 1793605596407,
+      "elapsedMs": 14559,
+      "exitCode": 0,
+      "nodeId": "project-command-3",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "676f7665726e616e636520696e746567726974792067617465207061737365643a2039333820776f726b206974656d730a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 14564,
+    "executionElapsedMs": 14564,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:9e73252d83211d61312bdd868764a9454ffd121a3a763507cb9303234ea76834",
+        "deadlineMs": 1793605596407,
+        "elapsedMs": 14559,
+        "exitCode": 0,
+        "nodeId": "project-command-3",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "676f7665726e616e636520696e746567726974792067617465207061737365643a2039333820776f726b206974656d730a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-3",
+        "outputDigest": "sha256:0a82c238f8cfa9f4047c541a6af153c3b1997d9af5b7f108cf5b541315df9301",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

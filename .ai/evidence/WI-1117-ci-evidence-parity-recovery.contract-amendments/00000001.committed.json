@@ -1,0 +1,114 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:8c63a3afc6fb75c6b419f9f3f6340de885c00b82ebc94a14fa9a49ea05b5b6d5",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1117-ci-evidence-parity-recovery",
+    "sequence": 1,
+    "changeId": "wi1117-initialize-bounded-material-review",
+    "requestDigest": "sha256:8f20186b5822f66d207180ef9b74c1174d60d96ddb6672671fe3ba741f52114a",
+    "reason": "Complete approved initialization before any source edit or verification. Fixed346 staged start has no direct materialInspectionReview flag. Replace only governanceProfile preserving its exact new TaskAuthorization and every other field; add the specifically approved per-request agent review of readable committed Rust syntax Unknown, not other causes or Findings. Keep20scope9commands and all authority/quality/resource constraints. Actual amended native four-binding human confirmation remains required.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (user approval at 2026-11-02T03:32:48Z of final A20 WI1117 and B12 WI1118 scopes, exact346 native purposes, limited per-request committed-Rust syntax Unknown review, necessary public governance metadata and nonforce PR1077 CI delivery; actual native four-binding and human close decisions remain required; no merge/release, new credentials/security/default Runtime or extra cache deletion)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (user approval at 2026-11-02T03:32:48Z of WI1117 initialization with only the previously explained request-bound readable committed Rust syntax Unknown review; actual amended four-binding owner confirmation and honest per-request review still required; no other Unknown or Finding is admitted)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (user approval at 2026-11-02T03:32:48Z of final A20 WI1117 and B12 WI1118 scopes, exact346 native purposes, limited per-request committed-Rust syntax Unknown review, necessary public governance metadata and nonforce PR1077 CI delivery; actual native four-binding and human close decisions remain required; no merge/release, new credentials/security/default Runtime or extra cache deletion)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5731fa7e7db1165e111e96e88d2280a35022aa0b51b2706702a0b5c0118ac086",
+    "newContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+    "repositorySnapshotDigest": "sha256:55e8a56fb5386166466bb90fe8e0ec7644a95abc5e08f1f90c0186992cb57286",
+    "environmentObservationDigest": "sha256:0a85523704d933eabcf9fdc00496d0f60ea357b0bfaa90bf1a5f6f550df21a4b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:58fc2db9d0ccb6609d55131d70afab03f465953279225b2db3cbd515e6db4505",
+    "recordedAt": "2026-11-02T03:40:26Z"
+  }
+}
