@@ -925,7 +925,7 @@ def projection(phase):
   target=root/f"docs/reference/reference-parity{suffix}.md";target.parent.mkdir(parents=True,exist_ok=True)
   target.write_text("| Work Item | Status | Evidence |\n| --- | --- | --- |\n"+"\n".join(rows)+"\n")
 
-def inventory(expected, invalid=False, retired=False):
+def inventory(expected, invalid=False, retired=False, *, invalid_code="invalid_ordinary_successor_lineage"):
  gate=checker_path.parents[1]/"ci/governance_integrity_gate.py"
  report=root.parent/(root.name+"-inventory.json")
  env={k:v for k,v in os.environ.items() if k not in {"GITHUB_EVENT_NAME","GITHUB_REF","GITHUB_REF_NAME","GITHUB_SHA","GITHUB_EVENT_PATH","GITHUB_BASE_REF"}}
@@ -936,7 +936,7 @@ def inventory(expected, invalid=False, retired=False):
  assert records[p]["lifecycleState"]==expected,(records,document["findings"])
  codes=[v["code"] for v in document["findings"] if v["workItemId"]==p]
  if invalid:
-  assert completed.returncode==1 and "invalid_ordinary_successor_lineage" in codes,(codes,completed)
+  assert completed.returncode==1 and invalid_code in codes,(codes,completed)
  else:
   assert "invalid_ordinary_successor_lineage" not in codes,(codes,completed)
   if expected=="closed":
@@ -1308,7 +1308,8 @@ for target,mutate in (
 ):
  raw=target.read_bytes();value=json.loads(raw);mutate(value);put(target.relative_to(root),value)
  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None,(target,value)
- inventory("closure_invalid",invalid=True)
+ expected_code=("invalid_recovery_successor_binding" if target==root/f".ai/work-items/archive/{s}.contract.json" else "invalid_ordinary_successor_lineage")
+ inventory("closure_invalid",invalid=True,invalid_code=expected_code)
  target.write_bytes(raw)
 raw=retirement_path.read_bytes();retirement_path.unlink()
 assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
