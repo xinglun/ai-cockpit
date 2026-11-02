@@ -1002,6 +1002,31 @@ def ordinary_closed_successor_state(
             if (canonical_json_digest(verification) in references
                     and raw_file_digest(repository / f".ai/work-items/archive/{wi}.archive.json") in references):
                 return "direct"
+            # This is correspondence to an already recorded native human
+            # decision, not authentication or a grant from a citation JSON.
+            for reference in references:
+                if (not isinstance(reference, str)
+                        or not reference.startswith(f".ai/evidence/{wi}.human-close-")
+                        or not reference.endswith(".json")):
+                    continue
+                citation = strict(reference)
+                bindings = citation.get("bindings") if citation else None
+                statement = citation.get("statement") if citation else None
+                if (not citation or type(citation.get("schemaVersion")) is not int
+                        or citation["schemaVersion"] != 1 or not isinstance(bindings, dict)
+                        or not isinstance(statement, str) or not statement.strip()):
+                    continue
+                statement_digest = hashlib.sha256(statement.encode("utf-8")).hexdigest()
+                if (citation.get("actor") == structured["actor"]
+                        and citation.get("authoritySource") == structured["authoritySource"]
+                        and citation.get("statementUtf8Sha256") == statement_digest
+                        and "sha256:" + statement_digest in structured["authoritySource"]
+                        and bindings.get("workItemId") == wi
+                        and bindings.get("repositoryId") == repository_id
+                        and bindings.get("contractDigest") == canonical_json_digest(archived[1])
+                        and "sha256:" + str(bindings.get("archiveRawSha256")) == raw_file_digest(
+                            repository / f".ai/work-items/archive/{wi}.archive.json")):
+                    return "direct"
             if (selected_recovery is not None and selected_successor is not None
                     and selected_recovery in references
                     and f".ai/decisions/{selected_successor}.close.json" in references):
@@ -1017,9 +1042,9 @@ def ordinary_closed_successor_state(
             return "resource" if root and _native_idempotent_resource_close(
                 repository, wi, repository_id, archived[1], close, root
             ) else None
-        if (terminal.finalization_path is not None
-                and any(path in references for path in (
-                    terminal.finalization_path, f".ai/decisions/{wi}.finalize.json"))):
+        if terminal.finalization_path is not None:
+            # The complete native validator already checked the exact close
+            # head path/sequence/digest. Human citations need not repeat it.
             return "resource"
         return None
 

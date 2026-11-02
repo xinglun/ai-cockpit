@@ -902,6 +902,7 @@ def summary(wi,contract):
 put(".ai/project.json",{"repositoryId":rid})
 put("cargo-metadata.json",{"packages":[{"name":"fixture","version":"9.9.9","source":None}]})
 put(".ai/project/documentation-policy.json",{"schemaVersion":1,"repositoryId":rid,"defaultProjection":"required","requiredModes":[],"requiredOperations":[],"preserveExistingRegistrations":True})
+put(".ai/project/capabilities.json",{"repositoryId":rid,"operationMappings":{}})
 put("docs/reference/pending-parity-registry.json",{"schemaVersion":1,"entries":[]})
 
 def projection(phase):
@@ -1031,6 +1032,37 @@ for wi in (p,s):
   put(close_path.relative_to(root),bad)
   assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
  close_path.write_bytes(raw)
+
+# Native human citations may preserve an explicitly unknown authored time.
+# Their contents alone grant nothing; the full actual close tuple is required.
+close_path=root/f".ai/decisions/{p}.close.json";original_close=close_path.read_bytes()
+close=json.loads(original_close);statement="fixture owner accepts this exact historical archive"
+statement_digest=hashlib.sha256(statement.encode()).hexdigest()
+source="conversation:direct-user-message:sha256:"+statement_digest+";authoredAt=unknown"
+close["structuredDecision"]["authoritySource"]=source
+citation_relative=f".ai/evidence/{p}.human-close-fixture/direct-authorization.json"
+close["structuredDecision"]["evidenceRefs"]=[citation_relative]
+citation={"schemaVersion":1,"actor":close["structuredDecision"]["actor"],"authoritySource":source,"statement":statement,"statementUtf8Sha256":statement_digest,"decidedAt":"unknown","bindings":{"workItemId":p,"repositoryId":rid,"contractDigest":canonical(pc),"archiveRawSha256":module.raw_file_digest(root/f".ai/work-items/archive/{p}.archive.json").removeprefix("sha256:")}}
+citation_path=put(citation_relative,citation);put(close_path.relative_to(root),close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+for mutate in (
+ lambda value:value.update(actor="agent:untrusted"),
+ lambda value:value.update(authoritySource="unrelated"),
+ lambda value:value.update(statement="edited without rebinding the real close source"),
+ lambda value:value["bindings"].update(workItemId="WI-1299-foreign"),
+ lambda value:value["bindings"].update(repositoryId="sha256:"+"0"*64),
+ lambda value:value["bindings"].update(contractDigest="sha256:"+"0"*64),
+ lambda value:value["bindings"].update(archiveRawSha256="0"*64),
+):
+ bad=copy.deepcopy(citation);mutate(bad);put(citation_relative,bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+# Rehashing a different statement cannot change the frozen native authoritySource.
+bad=copy.deepcopy(citation);bad["statement"]="different statement";bad["statementUtf8Sha256"]=hashlib.sha256(bad["statement"].encode()).hexdigest();put(citation_relative,bad)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(citation_relative,{"verified":True})
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+close_path.write_bytes(original_close);citation_path.unlink()
+
 # The four exact frozen artifact paths are a native recovery representation.
 original_recovery=recovery_path.read_bytes();native_artifacts=copy.deepcopy(recovery)
 native_artifacts["evidenceRefs"]=[f".ai/work-items/archive/{p}.{ending}" for ending in ("contract.json","summary.json","outcome.json","events.jsonl")]
@@ -1095,6 +1127,17 @@ resource_close["structuredDecision"]["evidenceRefs"]=[resource_root_relative]
 resource_close.update(resourceFinalizationSequence=0,resourceFinalizationHeadPath=resource_root_relative,resourceFinalizationHeadDigest=canonical(resource_root))
 put(resource_root_relative,resource_root);put(f".ai/decisions/{s}.close.json",resource_close)
 assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+
+# A normal resource close binds its native head fields; its human citation can
+# be a source message rather than redundantly repeating the finalization path.
+fresh=copy.deepcopy(resource_root);fresh["before"]={"branch":"present","pullRequest":"merged","worktree":"clean"}
+fresh_close=copy.deepcopy(resource_close);fresh_close["resourceFinalizationHeadDigest"]=canonical(fresh);fresh_close["structuredDecision"]["evidenceRefs"]=["fixture-human-message"]
+put(resource_root_relative,fresh);put(f".ai/decisions/{s}.close.json",fresh_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+bad=copy.deepcopy(fresh_close);bad["resourceFinalizationHeadDigest"]="sha256:"+"0"*64;put(f".ai/decisions/{s}.close.json",bad)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(resource_root_relative,resource_root);put(f".ai/decisions/{s}.close.json",resource_close)
+
 for mutate in (
  lambda value:value["before"].update(branch="unknown"),
  lambda value:value["after"].update(branch="present"),
