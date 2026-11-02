@@ -22,10 +22,6 @@ from work_item_projection_policy import (
     requires_documentation_projection,
 )
 
-from work_item_status_consistency import (
-    ordinary_closed_successor_state,
-    valid_retirement_receipt,
-)
 
 
 PARITY_DOCS = (
@@ -2133,6 +2129,19 @@ def retirement_receipt(repo: Path, work_item: str) -> tuple[Path, dict[str, Any]
 
 
 
+def valid_retirement_receipt(
+    repo: Path,
+    work_item: str,
+    receipt_path: Path,
+    receipt: dict[str, Any],
+) -> bool:
+    # Inactive capabilities do not require loading their implementation.
+    # If retirement is present, the same shared predicate is mandatory;
+    # import failure never becomes an acceptance or a legacy bypass.
+    from work_item_status_consistency import valid_retirement_receipt as validate
+    return validate(repo, work_item, receipt_path, receipt)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", required=True)
@@ -2570,6 +2579,7 @@ def main() -> int:
                             # Ordinary native close has one strict three-state
                             # route. Do not let the old minimal closed helper
                             # bypass child formal/report/cleanup validation.
+                            from work_item_status_consistency import ordinary_closed_successor_state
                             ordinary = ordinary_closed_successor_state(
                                 repo, work_item, str(decision_value.get("repositoryId", "")),
                                 recovery_path, recovery_value,

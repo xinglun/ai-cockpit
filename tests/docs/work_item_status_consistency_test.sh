@@ -858,7 +858,7 @@ python3 "$checker" --repo "$root"
 python3 - "$checker" "$tmp/ordinary-native-shaped-lineage" <<'PYTEST'
 from pathlib import Path
 import copy, hashlib, importlib.util, json, os, subprocess, sys
-path=Path(sys.argv[1]);sys.path.insert(0,str(path.parent))
+checker_path=Path(sys.argv[1]);path=checker_path;sys.path.insert(0,str(checker_path.parent))
 spec=importlib.util.spec_from_file_location("status_checker_under_test",path)
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 root=Path(sys.argv[2]);root.mkdir();rid="sha256:"+"e"*64
@@ -925,7 +925,7 @@ def projection(phase):
   target.write_text("| Work Item | Status | Evidence |\n| --- | --- | --- |\n"+"\n".join(rows)+"\n")
 
 def inventory(expected, invalid=False, retired=False):
- gate=path.parents[1]/"ci/governance_integrity_gate.py"
+ gate=checker_path.parents[1]/"ci/governance_integrity_gate.py"
  report=root.parent/(root.name+"-inventory.json")
  env={k:v for k,v in os.environ.items() if k not in {"GITHUB_EVENT_NAME","GITHUB_REF","GITHUB_REF_NAME","GITHUB_SHA","GITHUB_EVENT_PATH","GITHUB_BASE_REF"}}
  completed=subprocess.run([sys.executable,str(gate),"--repo",str(root),"--report",str(report)],capture_output=True,text=True,env=env)
