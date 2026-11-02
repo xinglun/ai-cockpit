@@ -389,6 +389,9 @@ fn open_cap_directory_nofollow(
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
                 return Err("evidence_missing");
             }
+            Err(error) if error.kind() == std::io::ErrorKind::NotADirectory => {
+                return Err("store_path_invalid");
+            }
             Err(_) => return Err("store_path_unreadable"),
         };
         let metadata = directory
