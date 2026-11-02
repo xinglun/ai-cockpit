@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -270,7 +271,7 @@ def archived_recovery_bundle(
     return manifest, contract, summary, outcome
 
 
-def recovery_binds_archive_bundle(
+def recovery_binds_archive_bundle_digests(
     repository: Path,
     work_item_id: str,
     recovery: dict[str, Any],
@@ -295,13 +296,22 @@ def recovery_binds_archive_bundle(
     manifest_digest = recovery.get("predecessorArchiveManifestDigest")
     if manifest_digest is not None and manifest_digest != raw_file_digest(manifest_path):
         return False
+    return manifest.get("workItemId") == work_item_id
+
+def recovery_binds_archive_bundle(
+    repository: Path,
+    work_item_id: str,
+    recovery: dict[str, Any],
+    bundle: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]],
+) -> bool:
     references = recovery.get("evidenceRefs")
     return (
-        isinstance(references, list)
+        recovery_binds_archive_bundle_digests(repository, work_item_id, recovery, bundle)
+        and isinstance(references, list)
         and all(isinstance(reference, str) for reference in references)
         and f".ai/work-items/archive/{work_item_id}.archive.json" in references
-        and manifest.get("workItemId") == work_item_id
     )
+
 
 
 def ordinary_cleanup_tuple_matches(
@@ -730,6 +740,77 @@ def has_valid_recovery(repository: Path, work_item_id: str, repository_id: str) 
 
 
 
+def valid_retirement_receipt(
+    repo: Path,
+    work_item: str,
+    receipt_path: Path,
+    receipt: dict[str, Any],
+) -> bool:
+    """Validate Runtime retirement as historical cleanup, never verification."""
+
+    try:
+        project = load_regular_json(repo / ".ai/project.json")
+        manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
+        manifest = load_regular_json(manifest_path)
+    except ValueError:
+        return False
+    if project is None or manifest is None:
+        return False
+    digest_pattern = re.compile(r"sha256:[0-9a-f]{64}")
+    nonempty = lambda key: isinstance(receipt.get(key), str) and bool(
+        receipt[key].strip()
+    )
+    disposition = receipt.get("disposition")
+    if disposition not in {"integrated", "replaced"}:
+        return False
+    successor = receipt.get("successorWorkItemId")
+    if disposition == "replaced" and (not isinstance(successor, str) or not successor):
+        return False
+    if disposition == "integrated" and successor is not None:
+        return False
+    if not (
+        receipt.get("schemaVersion") == 1
+        and receipt.get("decisionId") == "work-item-retirement"
+        and receipt.get("workItemId") == work_item
+        and receipt.get("repositoryId") == project.get("repositoryId")
+        and receipt.get("originalBytesPreserved") is True
+        and receipt.get("verificationClaim") == "not_verified"
+        and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "recordedAt"))
+        and digest_pattern.fullmatch(str(receipt.get("runtimeDigest", "")))
+        and nonempty("runtimeVersion")
+        and digest_pattern.fullmatch(str(receipt.get("archiveManifestDigest", "")))
+    ):
+        return False
+    if canonical_json_digest(manifest) != receipt.get("archiveManifestDigest"):
+        return False
+    if not (
+        manifest.get("workItemId") == work_item
+        and manifest.get("state") in {"retired", "replaced"}
+        and manifest.get("retirementDisposition") == disposition
+        and manifest.get("retirementReceiptPath")
+        == str(receipt_path.relative_to(repo))
+        and manifest.get("closeRequired") is False
+        and manifest.get("historicalEvidence") is True
+    ):
+        return False
+    artifacts = receipt.get("artifacts")
+    if not isinstance(artifacts, dict):
+        return False
+    for suffix in ("contract", "summary", "outcome"):
+        artifact = artifacts.get(suffix)
+        relative = f".ai/work-items/archive/{work_item}.{suffix}.json"
+        path = repo / relative
+        if not isinstance(artifact, dict) or artifact.get("path") != relative:
+            return False
+        digest = artifact.get("digest")
+        if not isinstance(digest, str) or not digest_pattern.fullmatch(digest):
+            return False
+        if not path.is_file() or path.is_symlink():
+            return False
+        if "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            return False
+    return True
+
 def ordinary_closed_successor_state(
     repository: Path,
     predecessor: str,
@@ -900,10 +981,14 @@ def ordinary_closed_successor_state(
             or not re.fullmatch(r"sha256:[0-9a-f]{64}", recovery["runtimeDigest"])
             or any(recovery.get(key) is not None for key in
                    ("successorBindingMode", "currentContractDigest", "predecessorVerificationEvidenceDigest"))
-            or not recovery_binds_archive_bundle(repository, predecessor, recovery, predecessor_bundle)):
+            or not recovery_binds_archive_bundle_digests(repository, predecessor, recovery, predecessor_bundle)):
         return None
-    if f".ai/decisions/{predecessor}.close.json" not in recovery.get("evidenceRefs", []):
-        return None
+    recovery_references_parent_close = (
+        f".ai/decisions/{predecessor}.close.json" in recovery["evidenceRefs"]
+    )
+    recovery_references_parent_archive = (
+        f".ai/work-items/archive/{predecessor}.archive.json" in recovery["evidenceRefs"]
+    )
     # No competing selected successor or supersede may be hidden by this path.
     for other_path in recovery_candidates(repository, predecessor):
         if other_path == recovery_path:
@@ -948,6 +1033,63 @@ def ordinary_closed_successor_state(
            for record in (contract, summary)):
         return None
     close_path = repository / f".ai/decisions/{successor}.close.json"
+    retirement_relative = f".ai/decisions/{successor}.retirement.json"
+    retirement_path = repository / retirement_relative
+    manifest_relative = f".ai/work-items/archive/{successor}.archive.json"
+    manifest = strict(manifest_relative) if location == "archive" else None
+    if location == "archive" and (
+        retirement_path.exists() or retirement_path.is_symlink()
+        or (manifest and manifest.get("state") in {"retired", "replaced"})
+    ):
+        # A retired child cannot supply a successful close. Its exact native
+        # retirement permits only the predecessor's already accepted result
+        # to remain closed, with the child reported separately as nonverified.
+        retirement = strict(retirement_relative)
+        if (close_path.exists() or close_path.is_symlink() or not manifest or not retirement
+                or type(retirement.get("schemaVersion")) is not int
+                or retirement.get("disposition") != "replaced"
+                or manifest.get("state") != "replaced"
+                or not valid_retirement_receipt(repository, successor, retirement_path, retirement)
+                or retirement.get("contractDigest") != canonical_json_digest(contract)
+                or retirement.get("summaryDigest") != canonical_json_digest(summary)
+                or manifest.get("successorWorkItemId") != retirement.get("successorWorkItemId")):
+            return None
+        files = manifest.get("files")
+        if not isinstance(files, dict):
+            return None
+        for key in ("contract", "summary", "outcome"):
+            artifact_relative = f".ai/work-items/archive/{successor}.{key}.json"
+            artifact_path = regular(artifact_relative)
+            artifact = strict(artifact_relative)
+            if (artifact_path is None or not artifact or artifact.get("workItemId") != successor
+                    or files.get(key + "Path") != artifact_relative
+                    or files.get(key + "Digest") != raw_file_digest(artifact_path)):
+                return None
+        if not (recovery_references_parent_close and recovery_references_parent_archive):
+            # A historical recovery may cite only external observations and
+            # cannot cite a future close. All four parent digests still match.
+            # This narrow case is only for a complete nonverified retirement
+            # was just checked above, not an ordinary pending/closed child.
+            parent_close = strict(f".ai/decisions/{predecessor}.close.json")
+            if not parent_close:
+                return None
+            try:
+                recovery_at, decision_at, recorded_at = (
+                    datetime.fromisoformat(value.replace("Z", "+00:00"))
+                    for value in (
+                        recovery["decidedAt"],
+                        parent_close["structuredDecision"]["decidedAt"],
+                        parent_close.get("recordedAt"),
+                    )
+                )
+            except (AttributeError, TypeError, ValueError):
+                return None
+            if (any(value.tzinfo is None for value in (recovery_at, decision_at, recorded_at))
+                    or not recovery_at < decision_at <= recorded_at):
+                return None
+        return "retired", successor
+    if not (recovery_references_parent_close and recovery_references_parent_archive):
+        return None  # preserve both original reference gates for pending/closed children
     verification_path = repository / f".ai/evidence/{successor}.verification.json"
     verification_exists = verification_path.exists() or verification_path.is_symlink()
     verification = strict(f".ai/evidence/{successor}.verification.json") if verification_exists else None
@@ -994,8 +1136,8 @@ def ordinary_closed_projection_continuation(
         if not recovery:
             continue
         state = ordinary_closed_successor_state(repository, predecessor, repository_id, recovery_path, recovery)
-        if state is None:
-            continue
+        if state is None or state[0] == "retired":
+            continue  # retirement never grants a docs-only continuation exemption
         _, successor = state
         if not bounded_documentation_projection(repository, successor):
             # This helper requires an archived docs-only Contract; an active

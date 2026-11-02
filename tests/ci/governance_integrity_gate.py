@@ -22,7 +22,10 @@ from work_item_projection_policy import (
     requires_documentation_projection,
 )
 
-from work_item_status_consistency import ordinary_closed_successor_state
+from work_item_status_consistency import (
+    ordinary_closed_successor_state,
+    valid_retirement_receipt,
+)
 
 
 PARITY_DOCS = (
@@ -2129,75 +2132,6 @@ def retirement_receipt(repo: Path, work_item: str) -> tuple[Path, dict[str, Any]
         return path, {}
 
 
-def valid_retirement_receipt(
-    repo: Path,
-    work_item: str,
-    receipt_path: Path,
-    receipt: dict[str, Any],
-) -> bool:
-    """Validate Runtime retirement as historical cleanup, never verification."""
-
-    try:
-        project = load_json(repo / ".ai/project.json")
-        manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
-        manifest = load_json(manifest_path)
-    except ValueError:
-        return False
-    digest_pattern = re.compile(r"sha256:[0-9a-f]{64}")
-    nonempty = lambda key: isinstance(receipt.get(key), str) and bool(
-        receipt[key].strip()
-    )
-    disposition = receipt.get("disposition")
-    if disposition not in {"integrated", "replaced"}:
-        return False
-    successor = receipt.get("successorWorkItemId")
-    if disposition == "replaced" and (not isinstance(successor, str) or not successor):
-        return False
-    if disposition == "integrated" and successor is not None:
-        return False
-    if not (
-        receipt.get("schemaVersion") == 1
-        and receipt.get("decisionId") == "work-item-retirement"
-        and receipt.get("workItemId") == work_item
-        and receipt.get("repositoryId") == project.get("repositoryId")
-        and receipt.get("originalBytesPreserved") is True
-        and receipt.get("verificationClaim") == "not_verified"
-        and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "recordedAt"))
-        and digest_pattern.fullmatch(str(receipt.get("runtimeDigest", "")))
-        and nonempty("runtimeVersion")
-        and digest_pattern.fullmatch(str(receipt.get("archiveManifestDigest", "")))
-    ):
-        return False
-    if _json_digest(manifest) != receipt.get("archiveManifestDigest"):
-        return False
-    if not (
-        manifest.get("workItemId") == work_item
-        and manifest.get("state") in {"retired", "replaced"}
-        and manifest.get("retirementDisposition") == disposition
-        and manifest.get("retirementReceiptPath")
-        == str(receipt_path.relative_to(repo))
-        and manifest.get("closeRequired") is False
-        and manifest.get("historicalEvidence") is True
-    ):
-        return False
-    artifacts = receipt.get("artifacts")
-    if not isinstance(artifacts, dict):
-        return False
-    for suffix in ("contract", "summary", "outcome"):
-        artifact = artifacts.get(suffix)
-        relative = f".ai/work-items/archive/{work_item}.{suffix}.json"
-        path = repo / relative
-        if not isinstance(artifact, dict) or artifact.get("path") != relative:
-            return False
-        digest = artifact.get("digest")
-        if not isinstance(digest, str) or not digest_pattern.fullmatch(digest):
-            return False
-        if not path.is_file() or path.is_symlink():
-            return False
-        if "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest() != digest:
-            return False
-    return True
-
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -2649,6 +2583,10 @@ def main() -> int:
                                 decision = str(recovery_path.relative_to(repo))
                                 record["decisionPath"] = decision
                                 record["lifecycleState"] = "recovered"
+                            elif ordinary[0] == "retired":
+                                record["decisionPath"] = decision
+                                record["lifecycleState"] = "closed"
+                                record["retiredSuccessorWorkItemId"] = ordinary[1]
                             else:
                                 record["decisionPath"] = decision
                                 record["lifecycleState"] = "closed"

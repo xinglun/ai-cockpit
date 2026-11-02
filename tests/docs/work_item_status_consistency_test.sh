@@ -924,7 +924,7 @@ def projection(phase):
   target=root/f"docs/reference/reference-parity{suffix}.md";target.parent.mkdir(parents=True,exist_ok=True)
   target.write_text("| Work Item | Status | Evidence |\n| --- | --- | --- |\n"+"\n".join(rows)+"\n")
 
-def inventory(expected, invalid=False):
+def inventory(expected, invalid=False, retired=False):
  gate=path.parents[1]/"ci/governance_integrity_gate.py"
  report=root.parent/(root.name+"-inventory.json")
  env={k:v for k,v in os.environ.items() if k not in {"GITHUB_EVENT_NAME","GITHUB_REF","GITHUB_REF_NAME","GITHUB_SHA","GITHUB_EVENT_PATH","GITHUB_BASE_REF"}}
@@ -938,7 +938,10 @@ def inventory(expected, invalid=False):
   assert completed.returncode==1 and "invalid_ordinary_successor_lineage" in codes,(codes,completed)
  else:
   assert "invalid_ordinary_successor_lineage" not in codes,(codes,completed)
-  if expected=="closed": assert records[p]["pendingSuccessorWorkItemId"]==s,records[p]
+  if expected=="closed":
+   successor_key="retiredSuccessorWorkItemId" if retired else "pendingSuccessorWorkItemId"
+   assert records[p][successor_key]==s,records[p]
+   if retired: assert "pendingSuccessorWorkItemId" not in records[p],records[p]
  # Other independent fixture-policy findings do not certify a green full gate.
  # This integration assertion specifically exercises the actual inventory route;
  # real native-producer full-gate acceptance is a separately required regression.
@@ -1097,6 +1100,112 @@ ja.write_bytes(raw)
 ja.write_text(ja.read_text().replace("In progress → verified close 後 Implemented","Implemented",1))
 errors=module.check(root);assert any("missing or mixed three-language parity" in error for error in errors),errors
 ja.write_bytes(raw)
+
+# A later accepted parent close and a precisely retired child are independent.
+# Never turn replaced/not_verified into child verified/closed or docs exemption.
+projection("pending")
+(root/f".ai/decisions/{s}.close.json").unlink()
+manifest_path=root/f".ai/work-items/archive/{s}.archive.json"
+archived_child_manifest=manifest_path.read_bytes()
+manifest=json.loads(archived_child_manifest)
+retirement_relative=f".ai/decisions/{s}.retirement.json"
+manifest.update(state="replaced",retirementDisposition="replaced",retirementReceiptPath=retirement_relative,closeRequired=False,historicalEvidence=True,successorWorkItemId="WI-1203-independent-continuation")
+put(manifest_path.relative_to(root),manifest)
+retirement={"schemaVersion":1,"decisionId":"work-item-retirement","workItemId":s,"repositoryId":rid,"disposition":"replaced","successorWorkItemId":manifest["successorWorkItemId"],"originalBytesPreserved":True,"verificationClaim":"not_verified","actor":"agent:fixture","authoritySource":"fixture:explicit-retirement","reason":"preserve nonverified child, not success","recordedAt":"2026-01-04T00:00:00Z","runtimeDigest":runtime,"runtimeVersion":"1.0.1","contractDigest":canonical(sc),"summaryDigest":canonical(ss),"archiveManifestDigest":canonical(manifest),"artifacts":{key:{"path":manifest["files"][key+"Path"],"digest":manifest["files"][key+"Digest"]} for key in ("contract","summary","outcome")}}
+retirement_path=put(retirement_relative,retirement)
+assert module.valid_retirement_receipt(root,s,retirement_path,retirement)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("retired",s)
+assert module.ordinary_closed_projection_continuation(root,p,rid) is None
+for suffix,implemented,replaced in (("","Implemented","Replaced"),(".zh-CN","已实现","已替代"),(".ja","Implemented","Replaced")):
+ target=root/f"docs/work-items/{p}{suffix}.md"
+ target.write_text(target.read_text().replace("status: in_progress","status: implemented").replace(f"lastVerifiedBy: {s}",f"lastVerifiedBy: {p}"))
+ parity=root/f"docs/reference/reference-parity{suffix}.md";lines=parity.read_text().splitlines()
+ for index,line in enumerate(lines):
+  if line.startswith("| "+p+" "):
+   cells=[cell.strip() for cell in line.split("|")[1:-1]];cells[1]=implemented;lines[index]="| "+" | ".join(cells)+" |"
+  elif line.startswith("| "+s+" "):
+   lines[index]=f"| {s} — retired child | {replaced} | `{retirement_relative}`; not_verified |"
+ parity.write_text("\n".join(lines)+"\n")
+assert module.check(root)==[],module.check(root)
+report=inventory("closed",retired=True)
+child=next(item for item in report["inventory"] if item["workItemId"]==s)
+assert child["lifecycleState"]=="replaced",child
+assert not (root/f".ai/decisions/{s}.close.json").exists()
+for target,mutate in (
+ (retirement_path,lambda value:value.update(repositoryId="sha256:"+"0"*64)),
+ (retirement_path,lambda value:value.update(workItemId="WI-1299-foreign")),
+ (retirement_path,lambda value:value.update(archiveManifestDigest="sha256:"+"0"*64)),
+ (retirement_path,lambda value:value.update(verificationClaim="verified")),
+ (root/f".ai/work-items/archive/{s}.contract.json",lambda value:value.update(predecessorWorkItemId="WI-1299-foreign")),
+ (root/f".ai/work-items/archive/{s}.summary.json",lambda value:value.update(recoveryDecisionPath=".ai/decisions/foreign.recovery.json")),
+ (manifest_path,lambda value:value["files"].update(outcomeDigest="sha256:"+"0"*64)),
+):
+ raw=target.read_bytes();value=json.loads(raw);mutate(value);put(target.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None,(target,value)
+ inventory("closure_invalid",invalid=True)
+ target.write_bytes(raw)
+raw=retirement_path.read_bytes();retirement_path.unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+retirement_path.write_bytes(raw)
+child_close=root/f".ai/decisions/{s}.close.json";put(child_close.relative_to(root),sclose)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+inventory("closure_invalid",invalid=True)
+child_close.unlink()
+
+# Native chronology: a recovery can predate the human's accepted parent close,
+# so it cannot contain that future close reference. This exception is retired-only.
+parent_close_path=root/f".ai/decisions/{p}.close.json"
+original_parent_close=parent_close_path.read_bytes();original_recovery=recovery_path.read_bytes()
+prior_recovery=copy.deepcopy(recovery)
+prior_recovery["evidenceRefs"]=["https://example.invalid/historical-pr","https://example.invalid/historical-run"]
+put(recovery_path.relative_to(root),prior_recovery)
+# Isolate chronology: the decision and recorded time both predate recovery.
+early_close=json.loads(original_parent_close);early_close["recordedAt"]="2026-01-02T00:00:01Z"
+put(parent_close_path.relative_to(root),early_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery) is None
+late_close=json.loads(original_parent_close)
+late_close["structuredDecision"]["decidedAt"]="2026-01-05T00:00:00Z"
+late_close["recordedAt"]="2026-01-05T00:00:01Z"
+put(parent_close_path.relative_to(root),late_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery)==("retired",s)
+assert module.ordinary_closed_projection_continuation(root,p,rid) is None
+inventory("closed",retired=True)
+
+# Absence of old path refs never relaxes actual predecessor digest bindings.
+for key in ("predecessorContractDigest","predecessorSummaryDigest","predecessorOutcomeDigest","predecessorEventsDigest","predecessorArchiveManifestDigest"):
+ wrong=copy.deepcopy(prior_recovery);wrong[key]="sha256:"+"0"*64;put(recovery_path.relative_to(root),wrong)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,wrong) is None,key
+put(recovery_path.relative_to(root),prior_recovery)
+
+for decided_at,recorded_at in (
+ ("2026-01-03T00:00:00Z","2026-01-05T00:00:01Z"),
+ ("2026-01-05T00:00:00","2026-01-05T00:00:01Z"),
+ ("2026-01-05T00:00:00Z","2026-01-04T00:00:00Z"),
+ ("2026-01-05T00:00:00Z",None),
+):
+ value=copy.deepcopy(late_close);value["structuredDecision"]["decidedAt"]=decided_at;value["recordedAt"]=recorded_at
+ put(parent_close_path.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery) is None
+put(parent_close_path.relative_to(root),late_close)
+# Missing future reference does not open either original ordinary close or pending route.
+retired_manifest=manifest_path.read_bytes();retirement_bytes=retirement_path.read_bytes()
+retirement_path.unlink();manifest_path.write_bytes(archived_child_manifest)
+for references in (
+ prior_recovery["evidenceRefs"],
+ [f".ai/decisions/{p}.close.json"],
+ [f".ai/work-items/archive/{p}.archive.json"],
+):
+ missing_ref=copy.deepcopy(prior_recovery);missing_ref["evidenceRefs"]=references
+ put(recovery_path.relative_to(root),missing_ref)
+ put(child_close.relative_to(root),sclose)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,missing_ref) is None
+ child_close.unlink()
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,missing_ref) is None
+manifest_path.write_bytes(retired_manifest);retirement_path.write_bytes(retirement_bytes)
+parent_close_path.write_bytes(original_parent_close);recovery_path.write_bytes(original_recovery)
+
+print("ordinary parent close with nonverified retired child cases passed")
+
 print("ordinary canonical three-state lineage draft cases passed")
 PYTEST
 
