@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:a75db31ec6293ed105e2be8b9dcd092245824d0fe14e448584231fe87d2a70ad",
+  "materialManifestDigest": "sha256:01c9c5265a71d64588a68d1cf9c09cbf03f259966e572003a3b40886f5d86d32",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:88cf9cbe8cdcfd9dbeb07b30a20a79715aadc790aca02101a7e7cb785711c5cb",
+  "reviewedSourceHead": "34e6a66b090d7213ac8641f2898969f124cd5955",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/github_evidence.rs",
+      "digest": "sha256:c8bb7ccb211e42b9c0f2f366eb12b750856a0641fb268cf573c9a379498cb1eb"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:fda736bc4818c689a5ffd96813193d6f6716e3fdae428f482fd44e7273595ee6"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:ebb43a9a9edc018d8dbd6a4eb93eabbeb8e87ff343bc2a859d9163417a7a61d6"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:5a49faed061e86762ed0bcaa8cc4e0b6c6f1a1156d9d4c59898cc53d290ad13e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:9e27211e64872033eb58d779699998d23c229b3f1446928a5d0b281af25ba2ad"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:69601efa927458d2b434817492a374014d50a52a4179c7e1aebe806b9d83e87c"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/execution_context.rs",
+      "digest": "sha256:0610a58a128665a6569297460ff408630f60b42dac080003288ff0b0b918b544"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b249d2ae2e3581e7b6e0b8a92163e70453d363982ddd5db19d35d68fe378adf1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evolution.rs",
+      "digest": "sha256:f7bb6fcfec8bdf2e192effda4af8d5b46d036bff3a2f952fed5291cd42a381fd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Real self-declared author technical review of the compiler-directed test-only err_expect correction. Actual108 atb33b4097 failed only at github_evidence.rs2991, no resource/timeout error. Result-producing bounded_source_body call and all arguments, state, error identity, message and exact following assertions remain unchanged. SourceRawRead already derives Debug, so expect_err needs no type/API/behavior addition. Exact one-file596B patch reviewed and recorded; no lint allowance, assertion weakening, production/provider/network/profile/trust or Runtime change. All14 native-readable syntaxUnknown causes remain; complete committed bytes rehashed. Native source edit assessment authorizedtrue. Earlier results retain actualHEAD; this is self-declared technical review, not external-origin or final acceptance.",
+  "residualRisk": "Current-source strict/CLI/fmt and remaining declared regressions still require actual runs. Prior57eb module104/104, evolution13/13 and119 GREEN; b33CLI73/73 andfmt GREEN remain separately bound. Current change is test-only equivalence but does not rebind any old receipt. Real CI profile calibration/numeric job/B data/source-bundle handoff/storage/network compatibility and full comparable CI/realGitHub acceptance remain unfinished. Actual project/profile-v3, ec82 retry, checkpoint1 and oldformal preserved. No whole119 or WI success is claimed.",
+  "recordedAt": "2026-11-01T06:16:12Z",
+  "receiptDigest": "sha256:af9b5fea274bf49a5ad686867b52035fdd9f5370f34c75fcd44b98bf04bb2c6e"
+}

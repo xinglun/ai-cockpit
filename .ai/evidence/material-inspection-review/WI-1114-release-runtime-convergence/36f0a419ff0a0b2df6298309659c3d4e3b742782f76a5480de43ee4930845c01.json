@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:fddebbab1895fa1f1f6b00263f795c5faf059c5b5c56010790656ca8cf9b8b07",
+  "materialManifestDigest": "sha256:97639e2f485a2ff297f9d67bcfba43e8118deed6ec530c187270af8462df48da",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:36f0a419ff0a0b2df6298309659c3d4e3b742782f76a5480de43ee4930845c01",
+  "reviewedSourceHead": "caa974de8cac801205f28f1aac8dc1c7bdff7224",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:e89cc90bc74929da315a5d412f9d5054bdcf97a0ccf17e752dc59a3dc4ef381e"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:08aeabae502b4e49e49fa3c574920dc5949515a39c19a7aa254edc7929637f63"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:e5ef90199534ce0d6bc583ecb26e943374efe2d4ffdaef28923f604539f47e87"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:3c58e49bb4a5991059d2373081d7e91baef3c3201058ae5d7618f9c019e771c1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:329027c3bb5d129b10256a0e99ab0e8108b3b53400e86887e1fb20e509092db1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:a1a43e2f973c3ba2fd85fec9c4f4738b34ea791d005cdcda1a17b2219e2b2a8a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent:codex/self_declared C20 technical review after native target14 returned58pass/2assertionfail with clean supervision. Exact1156B fixture-only delta asserts the entire real declaredCoverage projection for the single controlled negative command, then removes this CLI-only field before strict persisted-receipt equality. All prior timeout/signal, real child spawn, immutable failure, exact retry/four-check/finish/archive assertions retained. No production, assertion expectation, scope, Runtime or authority change. Every committed blob rehashed and working bytes equal; all other entries exactly previous reviewed request. Existing10 readable committed Rust syntax Unknown remain Unknown,0Findings.",
+  "residualRisk": "Target14 needs actual rerun on this HEAD; prior58/2 retained. Targets35/59 and new inline51 tests pending; this is not full119 or WI acceptance. Native partial selection cannot promote formal. No extra retry, permission, network, CI, profile calibration, cleanup or Runtime-default change.",
+  "recordedAt": "2026-11-01T14:21:12Z",
+  "receiptDigest": "sha256:fa8476b7de16b2c8811f3518630cdac4994b5f3ba1d43aa8c8fe92423f6d3d1f"
+}

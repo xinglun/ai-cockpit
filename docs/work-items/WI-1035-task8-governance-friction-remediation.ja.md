@@ -4,10 +4,22 @@ workItemId: WI-1035-task8-governance-friction-remediation
 title: Task 8 ガバナンス摩擦の修正
 description: 単一の直列 Work Item で Task 8 の20項目すべてを是正し、Agent が実際に利用できる協調機能を公開し、リリース審査前に動作を検証する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1035-task8-governance-friction-remediation
 ---
+
+## 現在の受入れ状態
+
+本項自身には実際のconfirmed closeがあり、下記のdigest名付き選択済みsuccessor復旧はTask8系列を同じくconfirmed close済みのWI-1036へ継続します。三言語を復旧済みに統一します。保存された履歴であり、新実行やWI-1117への結果の付け替えではなく、公開成功も主張しません。
+
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json`
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json`
+- `.ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.close.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json`
+
+## 保存した当初計画（現在の受入れ条件ではありません）
 
 [English](WI-1035-task8-governance-friction-remediation.md) · [简体中文](WI-1035-task8-governance-friction-remediation.zh-CN.md)
 

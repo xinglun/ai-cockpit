@@ -1,0 +1,21 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_53590f27d9d88191a1ee21bf60cc4e85 (actual user approval received 2026-10-31T12:17:55Z: 批准. In response to exact WI-1114 retry request Sentinel_0911b4d7f0b081918a97f9998e76c4b5 at2026-10-31T11:58:09Z; binds Contract091734ea76df889b6ac6c7623e1a80e5a0f604d81883a307ba31abeee75abc0f / Summary67681d9b5cc69f19ab3c5817af86c33b6008cd52c4c35a481da794592faee385 / repositoryee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b / Runtime1.0.1-2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65. One native retry for452B equivalent Clippy correction, fresh material review and existing declared verification only; no enlarged scope/network/CI/push/merge/release/cleanup/defaultRuntime or permission.)",
+  "decidedAt": "2026-10-31T12:19:08.990132+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:091734ea76df889b6ac6c7623e1a80e5a0f604d81883a307ba31abeee75abc0f",
+  "predecessorSummaryDigest": "sha256:67681d9b5cc69f19ab3c5817af86c33b6008cd52c4c35a481da794592faee385",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "One new current-binding retry to admit the exactly scoped mechanical Clippy source correction and succeeding declared verification without overwriting historical success/failure or borrowing consumedb977.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Keep the original checkpoint and all original records. Apply only the bounded mechanical lint correction, refresh current source/preflight/material through authorized candidate2330, and run existing declared checks subject to actual admission.",
+  "runtimeDigest": "sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

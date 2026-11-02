@@ -9,6 +9,7 @@ resolver="$root/tests/ci/resolve_work_item.sh"
 
 python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
+import ast
 import hashlib
 import importlib.util
 import json
@@ -16,6 +17,7 @@ import re
 import subprocess
 import tempfile
 import sys
+import textwrap
 
 workflow = Path(sys.argv[1]).read_text(encoding="utf-8")
 route = Path(sys.argv[2]).read_text(encoding="utf-8")
@@ -532,22 +534,61 @@ assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
 assert "target/release/ai-cockpit" in hosted_verification
 assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in hosted_verification
-assert 'caller_file="$RUNNER_TEMP/wi1113-task-caller.json"' in hosted_verification
-assert '"schemaVersion": 1' in hosted_verification and '"actor": "agent:codex"' in hosted_verification
-assert '"assurance": "self_declared"' in hosted_verification
+assert 'caller_args=()' in hosted_verification
+assert 'caller_dir=$(mktemp -d "$RUNNER_TEMP/ai-cockpit-task-caller.XXXXXX")' in hosted_verification
+assert "trap 'rm -rf -- \"$caller_dir\"' EXIT" in hosted_verification
+assert 'caller_file="$caller_dir/caller.json"' in hosted_verification
+assert re.search(r"(?m)^ +umask 077$", hosted_verification)
 assert 'caller_args=(--task-caller "$caller_file")' in hosted_verification
 assert '"${caller_args[@]}"' in hosted_verification
-caller_match = re.search(r"<<'TASK_CALLER_JSON'\n(.*?)\n\s*TASK_CALLER_JSON", hosted_verification, re.S)
-assert caller_match, "WI-1113 caller must be an explicit temporary JSON input"
-caller = json.loads(caller_match.group(1))
-contract_path = Path(sys.argv[1]).parents[2] / ".ai/work-items/active/WI-1113-delivery-continuity-parallel-authorization.contract.json"
-task_authorization = json.loads(contract_path.read_text(encoding="utf-8"))["governanceProfile"]["taskAuthorization"]
-assert caller == {
-    "schemaVersion": 1,
-    "actor": task_authorization["agentActor"],
-    "authoritySource": task_authorization["authoritySource"],
-    "assurance": "self_declared",
+fixed_caller_ids = {
+    "WI-1113-delivery-continuity-parallel-authorization",
+    "WI-1114-release-runtime-convergence",
 }
+assert "WI-1113-delivery-continuity-parallel-authorization|WI-1114-release-runtime-convergence)" in hosted_verification
+caller_scripts = re.findall(
+    r"(?m)^ +(WI-[^|\n)]+)\)\n +python3 - \"\$caller_file\" <<'TASK_CALLER_PY'\n(.*?)^ *TASK_CALLER_PY$",
+    hosted_verification, re.S,
+)
+assert hosted_verification.count("<<'TASK_CALLER_PY'") == len(caller_scripts) == 2
+assert {work_item_id for work_item_id, _ in caller_scripts} == fixed_caller_ids
+expected_import = ast.parse("import sys").body[0]
+expected_open = ast.parse('with open(sys.argv[1], "xb") as stream:\n    pass').body[0].items[0]
+expected_write = ast.parse("stream.write", mode="eval").body
+for work_item_id, python_body in caller_scripts:
+    writer = ast.parse(textwrap.dedent(python_body))
+    assert len(writer.body) == 2
+    assert ast.dump(writer.body[0]) == ast.dump(expected_import)
+    exclusive_write = writer.body[1]
+    assert isinstance(exclusive_write, ast.With) and len(exclusive_write.items) == 1
+    assert ast.dump(exclusive_write.items[0]) == ast.dump(expected_open)
+    assert len(exclusive_write.body) == 1 and isinstance(exclusive_write.body[0], ast.Expr)
+    call = exclusive_write.body[0].value
+    assert isinstance(call, ast.Call) and ast.dump(call.func) == ast.dump(expected_write)
+    assert len(call.args) == 1 and not call.keywords
+    payload = ast.literal_eval(call.args[0])
+    assert isinstance(payload, bytes)
+    repository_root = Path(sys.argv[1]).parents[2]
+    contract_paths = [
+        repository_root / f".ai/work-items/{area}/{work_item_id}.contract.json"
+        for area in ("active", "archive")
+    ]
+    present = [path for path in contract_paths if path.exists() or path.is_symlink()]
+    assert len(present) == 1, (work_item_id, present)
+    contract_path = present[0]
+    assert contract_path.is_file() and not contract_path.is_symlink()
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    assert contract["workItemId"] == work_item_id
+    task_authorization = contract["governanceProfile"]["taskAuthorization"]
+    caller = {
+        "schemaVersion": 1,
+        "actor": task_authorization["agentActor"],
+        "authoritySource": task_authorization["authoritySource"],
+        "assurance": "self_declared",
+    }
+    assert caller["actor"] == "agent:codex"
+    assert json.loads(payload) == caller
+    assert payload == (json.dumps(caller, indent=2) + "\n").encode("utf-8")
 quality_permissions = workflow.split("  quality:", 1)[1].split("  windows-runtime-suites:", 1)[0]
 assert re.search(r"permissions:\s+contents:\s+read", quality_permissions)
 assert "id-token:" not in workflow

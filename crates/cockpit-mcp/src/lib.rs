@@ -4,7 +4,9 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 44] = [
+mod ci_admission;
+
+const TOOL_NAMES: [&str; 45] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -16,6 +18,7 @@ const TOOL_NAMES: [&str; 44] = [
     "safe_actions",
     "knowledge_query",
     "evidence_get",
+    "evidence_bundle_plan",
     "delegated_evidence_list",
     "repository_observe",
     "capability_show",
@@ -878,6 +881,13 @@ fn mcp_tool_schema(name: &str) -> Value {
             schema["oneOf"] = one_of_aliases(&["path", "evidencePath", "id"]);
             schema
         }
+        "evidence_bundle_plan" => object_schema(
+            json!({
+                "input": string_property("Local portable execution evidence file; supplied bytes do not authenticate their author."),
+                "workItemId": string_property("Optional consumer Work Item; inspection does not require execution authority."),
+            }),
+            &["input"],
+        ),
         "delegated_evidence_list" => object_schema(
             json!({
                 "workItemId": string_property("Work Item whose provider evidence is listed."),
@@ -1117,6 +1127,7 @@ fn mcp_tool_schema(name: &str) -> Value {
 
 fn task_caller_tool(name: &str) -> bool {
     [
+        "evidence_bundle_plan",
         "preflight",
         "verify",
         "work_item_controls",
@@ -1201,6 +1212,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
         (
             "evidence_get",
             "Read one repository-bound evidence record and its digest.",
+        ),
+        (
+            "evidence_bundle_plan",
+            "Inspect portable execution evidence without execution, writes, or network; unverified source claims remain visible.",
         ),
         (
             "delegated_evidence_list",
@@ -1338,11 +1353,19 @@ fn mcp_tool_definitions() -> Vec<Value> {
     descriptions
         .into_iter()
         .map(|(name, description)| {
-            json!({
+            let mut tool = json!({
                 "name": name,
                 "description": description,
                 "inputSchema": mcp_tool_schema(name),
-            })
+            });
+            if name == "evidence_bundle_plan" {
+                tool["annotations"] = json!({
+                    "readOnlyHint": true,
+                    "destructiveHint": false,
+                    "openWorldHint": false,
+                });
+            }
+            tool
         })
         .collect()
 }
@@ -1381,6 +1404,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "blockers" | "safe_actions" | "preflight" => Some(&["contract"][..]),
         "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
+        "evidence_bundle_plan" => Some(&["input", "workItemId"][..]),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
@@ -1626,6 +1650,10 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         }
         "evidence_get" => {
             require_exactly_one_string(object, &["path", "evidencePath", "id"], name)?;
+        }
+        "evidence_bundle_plan" => {
+            require_string(object, "input", name)?;
+            optional_string(object, "workItemId", name)?;
         }
         "delegated_evidence_list" => require_string(object, "workItemId", name)?,
         "preflight" => require_string(object, "contract", name)?,
@@ -2552,6 +2580,8 @@ pub fn handle_request_for_repo(
         "work_item_validate" => require_compatible(repo, runtime)
             .and_then(|_| work_item_validate(repo, &arguments, runtime)),
         "evidence_get" => evidence_get(repo, &arguments),
+        "evidence_bundle_plan" => require_compatible(repo, runtime)
+            .and_then(|_| ci_admission::plan(repo, &arguments, runtime)),
         "delegated_evidence_list" => require_compatible(repo, runtime).and_then(|_| {
             let work_item_id = arguments
                 .get("workItemId")
@@ -3325,13 +3355,17 @@ fn verify_for_repo(
         }
         receipt
     };
+    let recording_snapshot = initial_snapshot.as_ref().map_or_else(
+        || run.final_snapshot.clone(),
+        |input| cockpit_repository::verification_recording_snapshot(input, &run.final_snapshot),
+    );
     if let Some(work_item_id) = work_item_id
         && let Err(error) = cockpit_repository::record_verification_with_caller(
             &root,
             work_item_id,
             &verification_receipt,
             runtime,
-            &run.final_snapshot,
+            &recording_snapshot,
             caller.as_ref(),
         )
     {

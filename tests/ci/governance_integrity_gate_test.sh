@@ -3284,6 +3284,38 @@ item = next(
 assert item["lifecycleState"] == "prearchive_parity_registered", item
 PY
 
+
+# One mixed JA canonical status must survive active registration and later
+# docs-only self projection. Native-localized spelling remains an exact legacy alias.
+for ja_variant in canonical legacy invalid; do
+  ja_repo="$tmp/prearchive-ja-$ja_variant"
+  cp -R "$prearchive_repo" "$ja_repo"
+  python3 - "$ja_repo" "$ja_variant" <<'PYJA'
+from pathlib import Path
+import sys
+p=Path(sys.argv[1])/"docs/reference/reference-parity.ja.md"
+s=p.read_text()
+old="進行中 → 検証済みクローズ後に実装済み"
+new={"canonical":"In progress → verified close 後 Implemented","legacy":old,"invalid":"Implemented"}[sys.argv[2]]
+assert old in s;s=s.replace(old,new);p.write_text(s)
+PYJA
+  set +e
+  env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+    python3 "$gate" --repo "$ja_repo" --report "$tmp/ja-$ja_variant-report.json" >/dev/null
+  ja_exit=$?
+  set -e
+  python3 - "$tmp/ja-$ja_variant-report.json" "$ja_variant" "$ja_exit" <<'PYJA'
+import json,sys
+report=json.load(open(sys.argv[1]));variant=sys.argv[2];code=int(sys.argv[3])
+if variant=="invalid":
+ assert code==1
+ assert any(x["code"]=="invalid_prearchive_parity_registration" and x["path"].endswith(".ja.md") for x in report["findings"])
+else:
+ assert code==0,report["findings"]
+ assert any(x["lifecycleState"]=="prearchive_parity_registered" for x in report["inventory"])
+PYJA
+done
+
 run_prearchive_invalid_case() {
   local case_name=$1
   local expected_finding=$2

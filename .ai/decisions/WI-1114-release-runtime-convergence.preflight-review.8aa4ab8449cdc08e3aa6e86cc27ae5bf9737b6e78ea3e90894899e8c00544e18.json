@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d61f745a9789d471575ad7692c19d1e6dddea280fe5441b9e292e1c91f50db93",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:498017d0b76a571cb2598d938b3a1063f4cbbc62f2c469c10f603a2da349c889",
+  "reason": "Record the actual user sequence5 confirm_review, Sentinel_d2c334b90fd8819187f89078f2e92db5, accepting proposal Sentinel_abc0bd31941881918446afbb64153cb9. All four exact bindings were checked before this call. Sole scope addition crates/cockpit-repository/src/governance_controls.rs,105 to106. The linked text names the repository source file, not an external resource. Stage semantics remain unchanged until a reviewed candidate and separately confirmed typed amendment. Keep all final evidence, scope/history, maintenance10 commands/90minutes/900seconds each/singleworker/1GiB free, CI8/release2 and separate Runtime/publication boundaries. This records a received human decision; it does not assert verification or final acceptance success.",
+  "recordedAt": "2026-10-29T15:02:08.150469+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:02b5a3a33e7500f3ef82a972c92091c5779c27408242af8541f9fabde32006a2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

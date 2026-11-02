@@ -1395,6 +1395,43 @@ pub fn record_work_item_governance_controls_with_caller(
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }
 
+fn evidence_class_recording_state(
+    root: &Path,
+    contract: &Contract,
+    summary: &Value,
+) -> Result<EvidenceState, ObserverError> {
+    let declared = contract
+        .evidence_class_stages()
+        .map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message,
+        })?
+        .is_some();
+    // Only known, active pre-finish states may publish execution prerequisites
+    // without final acceptance. Unknown states or any terminal marker retain
+    // the complete requirement; a metadata error is not proof of absence.
+    let no_terminal_marker = [
+        format!(".ai/work-items/archive/{}.archive.json", contract.work_item_id),
+        format!(".ai/decisions/{}.close.json", contract.work_item_id),
+    ]
+    .iter()
+    .all(|path| {
+        matches!(fs::symlink_metadata(root.join(path)), Err(error) if error.kind() == std::io::ErrorKind::NotFound)
+    });
+    let boundary = if declared
+        && matches!(
+            summary["state"].as_str(),
+            Some("implementation_active" | "checkpointed")
+        )
+        && no_terminal_marker
+    {
+        cockpit_protocol::EvidenceClassStage::Verification
+    } else {
+        cockpit_protocol::EvidenceClassStage::Finish
+    };
+    crate::evidence_class_projection_state_at(root, contract, summary, false, boundary)
+}
+
 fn record_work_item_governance_controls_unlocked(
     root: &Path,
     work_item_id: &str,
@@ -1500,7 +1537,7 @@ fn record_work_item_governance_controls_unlocked(
         let contract = crate::read_contract(&contract_path)?;
         let mut errors = Vec::new();
         if object.contains_key("evidenceClasses") {
-            let state = crate::evidence_class_projection_state(root, &contract, &summary, false)?;
+            let state = evidence_class_recording_state(root, &contract, &summary)?;
             if state != EvidenceState::Complete {
                 return Err(ObserverError::State {
                     path: summary_path.clone(),

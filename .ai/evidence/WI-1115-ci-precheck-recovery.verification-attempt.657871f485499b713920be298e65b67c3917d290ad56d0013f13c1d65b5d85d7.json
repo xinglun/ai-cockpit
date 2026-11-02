@@ -1,0 +1,77 @@
+{
+  "attemptId": "sha256:657871f485499b713920be298e65b67c3917d290ad56d0013f13c1d65b5d85d7",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:bfaa0bc95440975796a52cebed1f4e888ccedeac527a5877c5887a057edb65d3",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/hosted_runtime_verification_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:6139b77046af51c4ff252fddfe9bdc96f390245b9a385b48d8ad7f3b5442b4f8",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/run_repository_prechecks.sh",
+        "--repo",
+        "/workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:562f09c52aaa51990ac6ea15a85cbbdc4fed29faf0aecb70406de9fb31bf21dd",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:04e64e6a50a3a84567f3c5a153e2bc6221911a677aff387825180e04e95e9120",
+  "contractExecutionScopeDigest": "sha256:e7e6550cda687f4891248ebfa962be47cd7277a8d9d6ce6df563c7634a5cebeb",
+  "createdAt": "2026-11-01T23:03:12Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1114-release-runtime-convergence/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "localNodeLinkState": "not_applicable",
+  "nodeExecutionFacts": [],
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

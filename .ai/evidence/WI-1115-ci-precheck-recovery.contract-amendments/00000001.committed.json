@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:2343cc8ba8f8f8e98a398195b75a5fa50698bbcc211da6ced5df8859e365644e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1115-ci-precheck-recovery",
+    "sequence": 1,
+    "changeId": "wi1115-enable-existing-bounded-material-review",
+    "requestDigest": "sha256:330ab3e3baae4fa85210f502295665cef0b37231bf8f9363e5a6e104e5781cd7",
+    "reason": "Proposed correction for an initial successor declaration omission: finish rejected canonical material Unknowns after all three local checks passed. Enable only the existing self-declared committed Rust syntax-Unknown review mechanism for the10 unchanged, readable/reviewable predecessor-source members. Keep TaskAuthorization, one-file scope, three exact checks, sourceHEAD, Findings refusal, all other unknown causes, budgets and release/security boundaries unchanged. This proposal is not submitted and accepts no request by itself.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "create_pull_request",
+              "ready_pull_request",
+              "merge_pull_request",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (user permission at 2026-11-01T22:36:30Z for exact346 isolated Runtime CI-recovery lifecycle and necessary public governance metadata); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery approval at 2026-11-01T15:23:28Z; native human review, protected merge and later exact release approval remain required)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (existing permission for WI1115 native material registration; proposed bounded syntax-Unknown review declaration only, inactive until exact amended Contract confirm_review and actual request-bound technical review; no current material acceptance and no transfer of WI1114 receipts)",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "create_pull_request",
+              "ready_pull_request",
+              "merge_pull_request",
+              "publish_native_closeout"
+            ],
+            "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (user permission at 2026-11-01T22:36:30Z for exact346 isolated Runtime CI-recovery lifecycle and necessary public governance metadata); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery approval at 2026-11-01T15:23:28Z; native human review, protected merge and later exact release approval remain required)",
+            "closeoutActions": [
+              "publish_native_closeout"
+            ],
+            "expiresAt": "2026-11-02T22:36:30Z",
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:04e64e6a50a3a84567f3c5a153e2bc6221911a677aff387825180e04e95e9120",
+    "newContractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+    "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+    "environmentObservationDigest": "sha256:91d4cf6df40078d29dabc700676f306e70d1b3ef66550271b689b9aeb986a140",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1115-ci-precheck-recovery.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:6c09b2b362e38b1153a2cead1675e0a73f7caddee4a1f3c0eb85f75e3f0af2f7",
+    "recordedAt": "2026-11-01T23:25:58Z"
+  }
+}

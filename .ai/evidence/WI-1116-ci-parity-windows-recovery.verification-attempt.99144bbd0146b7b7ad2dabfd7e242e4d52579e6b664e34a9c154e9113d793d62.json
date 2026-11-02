@@ -1,0 +1,39 @@
+{
+  "checkpointId": "sha256:99144bbd0146b7b7ad2dabfd7e242e4d52579e6b664e34a9c154e9113d793d62",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:6a4de1869f887e47a71cf485f1a86628eaae210f39cf8781769c26a22286663c",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+  "contractExecutionScopeDigest": "sha256:ed0e30522d2a8c3050c9aeef0ec46243a61e2ee4a022aa06807dcc6404b78900",
+  "createdAt": "2026-11-02T01:16:40.046822165Z",
+  "executionId": "sha256:b81cdbb14ed7ff9dee364a16772e01d61a4bb7815a65e95d8f4c1137a451085e",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:55e8a56fb5386166466bb90fe8e0ec7644a95abc5e08f1f90c0186992cb57286",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1116-ci-parity-windows-recovery"
+}

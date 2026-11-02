@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:091734ea76df889b6ac6c7623e1a80e5a0f604d81883a307ba31abeee75abc0f",
+  "materialManifestDigest": "sha256:f16319bba3b419af5cc5adb53b43c2de7e80f79120bc3d6d054753c4ee570101",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:8294f164eea2fea2c1c570951f77b38a317ae49a2f7ad26b2bc062986bd6d310",
+  "reviewedSourceHead": "2f11adb924e30e953f0817e6f02d95fadc461f87",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:1219c02119cc117a953664ffce6afe8e0eee3b8020b42efd3551f7daca8f62af"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b2b0d7ce5a203823f7223f94e28df20f57f7babf7b62cd96d6d840d70b85db0f"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual delegated agent technical review of exact request sha256:8294f164eea2fea2c1c570951f77b38a317ae49a2f7ad26b2bc062986bd6d310 at source HEAD 2f11adb924e30e953f0817e6f02d95fadc461f87. Current42 entries are35Clean/7 permitted syntaxUnknown/0Finding. Six original complete Unknown entries/blobs equal previous independently reviewed material. The seventh is the independently reviewed complete verification_service regression blob c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1 (reviewed v1 plus exact set-to-replace correction and actual formatting), the same seventh path already present before maintenance. All changed entries are exactly reviewed33535B four-file formatting or1702B status projection repair and regression. Batch2A remains the reviewed five-file conservative NotImplemented scaffold plus reviewed nested-duplicate and valid-retention test deltas. Request and analysis implementation digests were mechanically independently recomputed. The unchanged analysis algorithm embeds current whole sources, so reviewed lib/status changes require a new analysis digest; complete material_review.rs/rust_material.rs size/SHA equal fixed6f frozen source manifest. ContractC15/profile/policy/scanner semantic identity and all other entries are preserved. Candidate2330 true-caller ordinary preflight natively restored material-record admission; no caller omission, migrated confirmation, copied receipt or hand-edited Summary. Agent:codex/self_declared is the actual technical reviewer, not human/provider approval.",
+  "residualRisk": "Seven readable_committed_rust_syntax_unknown remain Unknown. Batch2A positive parser/validation path is still NotImplemented awaiting actual RED and separately reviewed GREEN. This does not authenticate provider/workflow/producer Runtime or consumer, install trust, implement store/accept/MCP, prove real HTTPS/proxy, comparable fullCI30percent, native Mac/full descendants/Windows, or wholeWI acceptance. Prior targetRED/27GREEN/strict remain raw maintenance at their own source identities, not currentWI formal evidence. All historical failures and existing pending b977 retry remain. Candidate2330 is authorized only for this WI native workflow; shared/Mac default Runtime, network, CI/push/release and extra cleanup are unapproved. Disk headroom must be sufficient before any verification spawn.",
+  "recordedAt": "2026-10-31T10:30:45Z",
+  "receiptDigest": "sha256:4e1c9475dd7e9f1f3bea2a23277a292af14ad68147806429cdff92b468d447b4"
+}

@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-02T01:25:07Z",
+  "files": {
+    "contractDigest": "sha256:e949edd44f631bfec802aa10fbcc97a91bfc8882684078f9b7bf84f8434d4f1d",
+    "contractPath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json",
+    "eventsDigest": "sha256:5188d250c221d34840860572bd361212a54046446bc6406afad152f480a08c9c",
+    "eventsPath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.events.jsonl",
+    "outcomeDigest": "sha256:730df079dade6900641b01806efe7915bf3a7ea971fa8ea8e895e6d8e94756b6",
+    "outcomePath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.outcome.json",
+    "summaryDigest": "sha256:f6d19c75ca06f4f176c83c928f00cbdf304a4e3bbdb6f8a8c5e1917b72897bed",
+    "summaryPath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.summary.json",
+    "taskReportDigest": "sha256:fe45c934731f3c4b5b615123e62672962ea4bf4860735d47c02decb31c815706",
+    "taskReportMarkdownDigest": "sha256:4934ddeb8b326e1abae1c6a2b64695cf15e2a2122c2c3946c9169cec4ec9e401",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-02T01:25:07.783898846Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-02T01:25:07.783898846Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1116-ci-parity-windows-recovery"
+}

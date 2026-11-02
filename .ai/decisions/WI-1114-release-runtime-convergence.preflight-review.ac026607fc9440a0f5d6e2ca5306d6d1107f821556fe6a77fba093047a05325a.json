@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:875ca53e019037a7c9cfe87713b03fdd03f51997d37307e9c51bee1db9185942",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:2fa52c84695638dbe3392c77e8de65ede73a8ae7877b8a865d2806bb5e06bb09",
+  "reason": "Record genuine user confirmation conversation Sentinel_168822941e788191851145389df593e4 at 2026-10-30 03:12 UTC: WI-1114 sequence10 adds only .ai/decisions/WI-1114-release-runtime-convergence.recovery.*.json, scope110 to111, and the verification-specific strict Clippy command cargo clippy --locked -p cockpit-verification --all-targets --all-features -- -D warnings, verification113 to114. Rechecked the exact current Contract875ca53e019037a7c9cfe87713b03fdd03f51997d37307e9c51bee1db9185942, Preflight2fa52c84695638dbe3392c77e8de65ede73a8ae7877b8a865d2806bb5e06bb09, Snapshotcb7fa3b947223c217f002a7ddb4eb186e37842ad306b5ac2006b49bf8d7332a9 and actual governing Runtime6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838 unchanged before this record. Preserve every prior recovery, receipt and failure, nine native verification runs and prior23 maintenance commands. Budgets, caller authority, final evidence requirements and Mac/platform acceptance standards are unchanged. This records the actual human scope/binding confirmation, not material acceptance, passed tests, WI acceptance, permission to publish or proof of detached-descendant cleanup. Current material request62f16c6c5376841ce84ffeff7483dbcdea32e3b4ad551f06443a1fc6f2b6643a awaits separate ordinary technical review. No test, build, cleanup, Runtime switch, push or CI is performed by this record.",
+  "recordedAt": "2026-10-30T03:14:07.868054+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cb7fa3b947223c217f002a7ddb4eb186e37842ad306b5ac2006b49bf8d7332a9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

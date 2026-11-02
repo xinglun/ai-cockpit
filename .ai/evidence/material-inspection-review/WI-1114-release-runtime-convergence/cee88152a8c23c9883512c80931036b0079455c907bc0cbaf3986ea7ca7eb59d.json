@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "materialManifestDigest": "sha256:cf482706af5d13d6652f66f1af61cd867a620afc8d8daa9a89f91976f61c612a",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:cee88152a8c23c9883512c80931036b0079455c907bc0cbaf3986ea7ca7eb59d",
+  "reviewedSourceHead": "71411eb1b6fa3e4e59a39fee0a31dc4f83b0a929",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:9550e8ce2937a0e7591047d72a2335999dd48f6a9f37d43ca40aff5054c12000"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:4e4b8c25f4c9ba79c2ce171503aa0a7833f080561ef40606aa8ee771d5826842"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:65da5dfc7e5c1d1cb21df12885f3d6753ebb92553da326dfaf99a076ea61dcf7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:89774ec6c6b5b9949889199e72714197595e85d92182de79ca0c0b0771ce0efb"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Current exact canonical request was rebuilt after native successful101 and is byte-identical to its pre-execution17988B request SHAfb7d4e648069a4edd3819ad9f7d4a5db5d7a2337fcf787fdab74d994c35cff59. Core recomputed the native domain-separated request digest. Parent authorized the independently reviewed v9/v10 GREEN route, supportB807B existing-type import and supportB2951B two private finite30-second fixture repair. Actual4237B delta SHA25c0a278addf10bd01b1106cbbfa21bba5020b4286e7252394744e01841e52f1 changes only the two reviewed scaffold regions and two fixture setup calls/helper, preserving import and v10 causal correction. All9 final source files mechanically equal the reviewed composition. Current39entries33Clean6same-causeUnknown0Finding: three complete blobs(main,lifecycle,attempts) equal that reviewed composition; other36entries are byte-identical to reviewed88fb2c, with original github/collaboration/composition complete Unknown blobs unchanged from prior full review. Native actual101 atHEAD71411eb1 compiled successfully and ran34/34 roots, full streams untruncated, no timeout, exact formalreceipt and4observation digests verified; this technical acceptance does not promote tests or privileges. No injected instructions, invented authority or extra source drift found. Reviewer remains the original profile agent:codex/self_declared; this is not a human decision or provider authorization.",
+  "residualRisk": "All6 readable_committed_rust_syntax_unknown classifications remain Unknown, not Clean. Selected10134/34 and its unconditional50-mutation-loop proof apply to the exact committed source and controlled test fixtures only. The preceding actual10assertionREDs,2finite-timeout fixture precondition failures and the earlier compile0-tests attempt remain immutable; the2fixture roots were never separately RED-proved. No per-iteration telemetry was captured;50completion is proved by the passing root plus its immutable unconditional50-item source loop. This is not all118 inventory, CLI --node integration/bare verify/partial status-finish acceptance, current-head strictClippy/fmt/guard, Mac/Windows support, provider authentication/admission, measuredCI savings, Sentinel formal-package acceptance or overallWI closure. The selected command used explicit NeverReuse under the unchanged approved governing Runtime6f7897, not a switch to the new product implementation. Preserve original full-tree supervision limitations, owner-death-before-first-publication and all-publications-failed durability gaps, nonJSON temporary residue caveats, private raw diagnostic redaction limits, old97/unknownPID4135169 attribution and procfs failures. Do not infer current formal acceptance for earlier bindings, forge native receipts, import human/provider identity, remove failed records or authorize cleanup, credentials/trust installation, Runtime switch, CI/push/release from this material decision.",
+  "recordedAt": "2026-10-30T20:02:10Z",
+  "receiptDigest": "sha256:aa29671b491aae03251bef599710724b7b6f382c9b62ffe679e79c093a3a357d"
+}

@@ -4,10 +4,22 @@ workItemId: WI-1035-task8-governance-friction-remediation
 title: Task 8 治理摩擦修复
 description: 在一个串行 Work Item 中处理完整的 20 项 Task 8 治理摩擦清单，向 Agent 暴露可实际使用的协作能力，并在版本审查边界前验证行为。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1035-task8-governance-friction-remediation
 ---
+
+## 当前已验收状态
+
+本项自身已有真实confirmed关闭；下列带摘要的已选successor恢复记录把Task8后续交给WI-1036，后者同样已有confirmed关闭，因此三语统一为已恢复。这些是保留的历史记录，不是重新执行或移绑到WI-1117的结果；文档修正不表示发布完成。
+
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json`
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json`
+- `.ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.close.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json`
+
+## 历史计划（保留，不代表现行验收）
 
 [English](WI-1035-task8-governance-friction-remediation.md) · [日本語](WI-1035-task8-governance-friction-remediation.ja.md)
 

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3989cb1d18259a69b94237c578ed96d68cedd0396a08556b153433190773e14c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:498017d0b76a571cb2598d938b3a1063f4cbbc62f2c469c10f603a2da349c889",
+  "reason": "Record actual owner sequence4 confirm_review from trusted user Sentinel_119c6cefbca081918be36b791044c504 accepting proposal Sentinel_123d18f2d7bc8191a1b43c35259db321. Exact sole scope addition crates/cockpit-protocol/src/contract_amendment.rs,104 to105. All four bindings rechecked before recording. recordedAt is record time, not an invented message timestamp. Stage semantics remain unchanged. Preserve five final evidence requirements, material_review_projection_unavailable and all unverified results. This records the received human decision only; it is not native verification success, a candidate Runtime switch, publication, or permission to bypass final gates. Separate explicitly approved host-maintenance gate repair diagnostics remain limited to reviewed code,10 commands,90minutes,900seconds each,singleworker and1GiB free. No prior receipt is reused as this decision.",
+  "recordedAt": "2026-10-29T13:56:43.287031+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b9dfd5981727e483baed5c2e2e564e45c18fc5475b9b68cb9f0d3ba8b6f707cf",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

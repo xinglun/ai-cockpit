@@ -1,0 +1,23 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_39fa8eeca1548191ab4037dd030de633 (actual human user approval at 2026-11-02T09:34:40Z replying to exact source/C/S/Runtime request conversation:Sentinel_2b0bfa9860ec8191ac22912bb10c7c80 at 2026-11-02T09:34:22Z, authorizing precisely one WI1117 native retry for approved530B source5e1af996, frozen Outcome policy transition and complete9 revalidation; keep prior formal, rejected9 and CI1; only existing CI2of2 after formal, no new checkpoint/scope/permission/Windows-success claim/close/merge/release. Recorder is actual agent:codex, not a claimed human actor.)",
+  "decidedAt": "2026-11-02T09:34:40Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification-attempt.ae06f24eecb1ebefdb783458c62fcc7b46a7dbb01ba011cf01bf88106781e803.json",
+    ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification-attempt.fdcf258f7ab929d87d794cc615799e7d36baf22063fb6b535965e9b1200ec231.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/41411853133"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "predecessorSummaryDigest": "sha256:97728e5b971bac7e2e2dc07c2ae376ddb11d3b9b48dcac1eb0b872677611dc8c",
+  "predecessorWorkItemId": "WI-1117-ci-evidence-parity-recovery",
+  "reason": "Current approved530B Windows NotADirectory classification source5e1af996 executed all9 declared commands successfully. Fixed346 refused only formal writing because frozen Task Outcome policy snapshotb419 differs from currentfff. A genuine native retry would authorize precisely the pending policy rotation and replacement formal under unchanged C1/A20/9commands, not fabricate previous execution or Windows success.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Same fixed346, realcaller, source5e1af996, existing preflight/material freshness and all9 exact native declarations, existing resource boundaries. Preserve original formal/refused attempts/CI1; no scope/defaultRuntime/permission change, no third CI, no premature finish/close/merge/release.",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

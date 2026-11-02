@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T04:59:28.583072+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.f1ff363e08779902ff6a1417e7cf54a52b79be50e71d539ab7f32161d967e554.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/266bfbcafb88a3235a4dad4bce2dede7ddc9de39c2b62bb9069b8f84997ee868.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:875ca53e019037a7c9cfe87713b03fdd03f51997d37307e9c51bee1db9185942",
+  "predecessorSummaryDigest": "sha256:91e598900a1692e13e987cce7d2d90fa9d6812cc2785832634fd0e2be7161203",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual agent technical retry before the next in-scope source iteration: integrate the independently reviewed GitHub v1 pure typed command/source/coverage equality kernel in cockpit-evidence. The bounded-query P1/P2 fixes have fresh scoped tests, Clippy and fmt evidence; preserve them and all prior failures. This retry is not a human decision, provider authentication, reusable external evidence admission, or final WI acceptance.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After native retry records its pending marker, create an explicitly conservative non-admitting TDD baseline and run only the declared single-worker cockpit-evidence all-targets command. Integrate the reviewed kernel only after real assertion RED, then current committed-source preflight and GREEN. No CI, publication, Runtime switch, cleanup, authority expansion or manufactured provider evidence.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

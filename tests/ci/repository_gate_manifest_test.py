@@ -2,16 +2,114 @@
 from __future__ import annotations
 
 import importlib.util
+import ctypes
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 import signal
+import secrets
+import stat
 import shlex
 import subprocess
 import sys
 import tempfile
 import time
 from pathlib import Path
+
+
+def fixture_owned_children():
+    """Kernel-owned children only; never infer ownership from a numeric PID."""
+    children = set()
+    owner_pid = os.getpid()
+    for process in Path("/proc").iterdir():
+        if not process.name.isdigit():
+            continue
+        try:
+            identity = fixture_process_identity(int(process.name))
+        except FileNotFoundError:
+            # Only an actually disappeared process may be omitted. A present
+            # process with missing/unreadable stat remains an identity failure.
+            try:
+                process.stat()
+            except FileNotFoundError:
+                continue
+            raise
+        if identity["ppid"] == owner_pid:
+            children.add(identity["pid"])
+    return children
+
+
+def fixture_process_identity(pid):
+    raw = Path(f"/proc/{pid}/stat").read_text(encoding="ascii")
+    fields = raw[raw.rfind(")") + 2:].split()
+    return {"pid": pid, "state": fields[0], "ppid": int(fields[1]),
+            "pgid": int(fields[2]), "sid": int(fields[3]), "starttime": fields[19]}
+
+
+@contextmanager
+def timeout_fixture_owner():
+    # Other platforms retain the existing timeout/marker assertions. Linux can
+    # also adopt and wait the killed grandchild before this test owner exits.
+    if sys.platform != "linux":
+        yield False
+        return
+    assert not fixture_owned_children(), "timeout fixture owner already has children"
+    libc = ctypes.CDLL(None, use_errno=True)
+    previous = ctypes.c_int()
+    if libc.prctl(37, ctypes.byref(previous), 0, 0, 0) != 0:
+        raise OSError(ctypes.get_errno(), "read fixture child-subreaper state")
+    if libc.prctl(36, 1, 0, 0, 0) != 0:
+        raise OSError(ctypes.get_errno(), "enable fixture child-subreaper")
+    try:
+        yield True
+    finally:
+        # Never rescue a live child or consume an unidentified wait status.
+        # An unresolved child fails here and remains visible to the outer guard.
+        assert not fixture_owned_children(), "timeout fixture left an unreaped owned child"
+        if libc.prctl(36, previous.value, 0, 0, 0) != 0:
+            raise OSError(ctypes.get_errno(), "restore fixture child-subreaper state")
+
+
+def reap_timeout_fixture_child(path, nonce):
+    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        info = os.fstat(descriptor)
+        assert stat.S_ISREG(info.st_mode) and 0 < info.st_size <= 4096
+        raw = os.read(descriptor, 4097)
+        assert len(raw) == info.st_size
+    finally:
+        os.close(descriptor)
+    identity = json.loads(raw)
+    assert set(identity) == {"schemaVersion", "nonce", "gatePid", "child"}
+    assert type(identity["schemaVersion"]) is int and identity["schemaVersion"] == 1
+    assert identity["nonce"] == nonce, "foreign timeout fixture child identity"
+    child = identity["child"]
+    assert set(child) == {"pid", "ppid", "pgid", "sid", "starttime"}
+    gate_pid = identity["gatePid"]
+    for pid in (gate_pid, child["pid"], child["ppid"], child["pgid"], child["sid"]):
+        assert type(pid) is int and pid > 0, "invalid timeout fixture process identity"
+    assert child["ppid"] == child["pgid"] == child["sid"] == gate_pid
+    assert len({os.getpid(), gate_pid, child["pid"]}) == 3
+    assert isinstance(child["starttime"], str) and child["starttime"].isdigit()
+    deadline = time.monotonic() + 2
+    while time.monotonic() < deadline:
+        owned = fixture_owned_children()
+        assert owned == {child["pid"]}, ("extra or missing timeout fixture child", owned)
+        observed = fixture_process_identity(child["pid"])
+        assert observed["starttime"] == child["starttime"], "timeout fixture PID identity changed"
+        assert observed["ppid"] == os.getpid(), "timeout child was not adopted by its fixture owner"
+        assert observed["pgid"] == child["pgid"] and observed["sid"] == child["sid"]
+        assert observed["state"] == "Z", "timeout fixture child is still alive; no rescue is allowed"
+        waited, status = os.waitpid(child["pid"], os.WNOHANG)
+        if waited == child["pid"]:
+            assert os.WIFSIGNALED(status) and os.WTERMSIG(status) == signal.SIGKILL, status
+            assert not fixture_owned_children(), "unexpected extra fixture descendant"
+            return {"ownerPid": os.getpid(), "identity": identity,
+                    "observedBeforeWait": observed, "waitedPid": waited,
+                    "rawWaitStatus": status, "terminationSignal": os.WTERMSIG(status)}
+        time.sleep(0.01)
+    raise AssertionError("timeout fixture child reap deadline exceeded")
 
 
 root = Path(__file__).resolve().parents[2]
@@ -114,6 +212,105 @@ legacy_build_step = workflow_text.split(
 assert "LEGACY_RUNTIME_SHA: 73f8bd2b86338f8025ef12ba9fff15bf45ef5782" in legacy_build_step
 assert "git worktree add --detach" in legacy_build_step
 assert "target/legacy-runtime" in legacy_build_step
+# This independently required regression prevents the compatibility gate from
+# disappearing when its Rust assertions move out of the ordinary service suite.
+import copy
+
+stage_gate_id = "conformance_evidence_stage_runtime_compatibility"
+stage_command = [
+    "python3", "tests/acceptance/evidence_stage_runtime_compatibility.py",
+    "--binary", "target/release/ai-cockpit",
+    "--legacy-binary", "target/evidence-stage-predecessor/ai-cockpit",
+    "--legacy-provenance", "target/evidence-stage-predecessor/provenance.json",
+]
+stage_build_name = "Build pinned predecessor Runtime for evidence-stage compatibility"
+assert workflow_text.count(f"      - name: {stage_build_name}\n") == 1
+stage_build = workflow_text.split(f"      - name: {stage_build_name}\n", 1)[1].split("\n      - name:", 1)[0]
+assert "if: steps.quality_route.outputs.profile != 'light'" in stage_build
+assert "STAGE_PREDECESSOR_COMMIT: dd2339bee3dc63e5ce7547d2aa950e315088b1fe" in stage_build
+assert "STAGE_PREDECESSOR_TREE: 4c59ecb41933be132cb2c887082d86eb17355169" in stage_build
+assert "STAGE_PREDECESSOR_LOCK: 76b02d3cf1e9d5944c8f62b142b0082f40f7493ce92d527bcee5de7ff66310d7" in stage_build
+assert stage_build.count("cargo +1.98.1 build") == 1
+for required in ("--locked --profile dev --target x86_64-unknown-linux-gnu",
+                 "CARGO_BUILD_JOBS=1", "CARGO_INCREMENTAL=0", "CARGO_PROFILE_DEV_DEBUG=0",
+                 "CARGO_PROFILE_DEV_INCREMENTAL=false", "-p cockpit-cli --bin ai-cockpit -j1",
+                 "timeout --kill-after=5s 895s", "tests/ci/run_no_warnings.py",
+                 'stage_root="$GITHUB_WORKSPACE/target/evidence-stage-predecessor"',
+                 'artifact.open("xb")', '"provenance.json"', "source changed during build"):
+    assert required in stage_build, required
+assert "--release" not in stage_build
+assert workflow_text.index(f"      - name: {stage_build_name}\n") < workflow_text.index(
+    "      - name: run repository gates exactly once\n")
+
+
+def check_stage_gate_routes(manifest_file, output_directory):
+    # Use real list-only runner reports for both profiles, not just JSON membership.
+    reports = []
+    for profile in ("standard", "strict"):
+        report_path = output_directory / f"{profile}.json"
+        result = subprocess.run([
+            sys.executable, str(root / "tests/ci/run_repository_gates.py"),
+            "--repo", str(root), "--manifest", str(manifest_file),
+            "--profile", profile, "--report", str(report_path), "--list-only",
+        ], cwd=root, capture_output=True, text=True, check=False, timeout=20)
+        assert result.returncode == 0, result.stderr
+        reports.append(json.loads(report_path.read_text(encoding="utf-8")))
+    for report in reports:
+        assert report["state"] == "listed"
+        selected = [gate for gate in report["gates"] if gate["id"] == stage_gate_id]
+        assert len(selected) == 1, "mandatory predecessor gate missing from actual route"
+        assert selected[0]["command"] == stage_command, "predecessor gate command or asset path drifted"
+        assert selected[0]["dependsOn"] == ["docs_governance_integrity"]
+    value = json.loads(manifest_file.read_text(encoding="utf-8"))
+    selected = [gate for gate in value["gates"] if gate["id"] == stage_gate_id]
+    assert len(selected) == 1 and selected[0]["minimumProfile"] == "standard"
+    assert selected[0]["category"] == "conformance"
+
+
+with tempfile.TemporaryDirectory(prefix="mandatory predecessor gate wiring ") as directory:
+    directory = Path(directory)
+    valid = directory / "valid"
+    valid.mkdir()
+    check_stage_gate_routes(manifest_path, valid)
+    for name in ("removed", "profile", "command", "binary-path", "provenance-path"):
+        mutated = copy.deepcopy(manifest)
+        if name == "removed":
+            mutated["gates"] = [gate for gate in mutated["gates"] if gate["id"] != stage_gate_id]
+        else:
+            gate = next(gate for gate in mutated["gates"] if gate["id"] == stage_gate_id)
+            if name == "profile":
+                gate["minimumProfile"] = "strict"
+            elif name == "command":
+                gate["command"][1] = "tests/acceptance/wrong-compatibility.py"
+            elif name == "binary-path":
+                gate["command"][5] = "target/wrong-predecessor/ai-cockpit"
+            else:
+                gate["command"][7] = "target/wrong-predecessor/provenance.json"
+        case = directory / name
+        case.mkdir()
+        candidate = case / "manifest.json"
+        candidate.write_text(json.dumps(mutated), encoding="utf-8")
+        try:
+            check_stage_gate_routes(candidate, case)
+        except AssertionError as error:
+            expected_error = ("mandatory predecessor gate missing from actual route"
+                              if name in ("removed", "profile") else
+                              "predecessor gate command or asset path drifted")
+            assert str(error) == expected_error, (name, str(error))
+            continue
+        raise AssertionError(f"{name} mandatory predecessor gate mutation was accepted")
+
+stage_script = root / "tests/acceptance/evidence_stage_runtime_compatibility.py"
+missing_stage_asset = subprocess.run([
+    sys.executable, str(stage_script), "--binary", str(root / "target/absent-candidate"),
+    "--legacy-binary", str(root / "target/absent-predecessor"),
+    "--legacy-provenance", str(root / "target/absent-predecessor-provenance.json"),
+], cwd=root, capture_output=True, text=True, check=False, timeout=20)
+assert missing_stage_asset.returncode != 0
+missing_stage_diagnostic = json.loads(missing_stage_asset.stderr)
+assert missing_stage_diagnostic["state"] == "failed"
+assert missing_stage_diagnostic["diagnostic"]["phase"] == "evidence_stage_runtime_compatibility"
+
 workspace_clippy = next(entry for entry in entries if entry["id"] == "workspace_clippy")
 workspace_format = next(entry for entry in entries if entry["id"] == "workspace_format")
 workspace_tests = next(entry for entry in entries if entry["id"] == "workspace_package_tests")
@@ -1325,6 +1522,26 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         + repr(child_code)
         + "]); time.sleep(10)"
     )
+    timeout_identity = fixture / "timeout-child-identity.json"
+    timeout_nonce = secrets.token_hex(16)
+    if sys.platform == "linux":
+        # The killed gate parent publishes its actual child's kernel identity.
+        # Atomic publication cannot expose a partially written identity as ready.
+        parent_code = (
+            "import json,os,pathlib,subprocess,time\n"
+            + "child=subprocess.Popen([" + repr(sys.executable) + ", '-c', " + repr(child_code) + "])\n"
+            + "raw=pathlib.Path('/proc/'+str(child.pid)+'/stat').read_text()\n"
+            + "fields=raw[raw.rfind(')')+2:].split()\n"
+            + "value={'schemaVersion':1,'nonce':" + repr(timeout_nonce)
+            + ",'gatePid':os.getpid(),'child':{'pid':child.pid,'ppid':int(fields[1]),"
+            + "'pgid':int(fields[2]),'sid':int(fields[3]),'starttime':fields[19]}}\n"
+            + "target=pathlib.Path(" + repr(str(timeout_identity)) + ")\n"
+            + "pending=target.with_suffix('.pending')\n"
+            + "with pending.open('x',encoding='utf-8') as stream:\n"
+            + " json.dump(value,stream); stream.flush(); os.fsync(stream.fileno())\n"
+            + "os.replace(pending,target)\n"
+            + "time.sleep(10)\n"
+        )
     timeout_manifest = json.loads(resume_manifest.read_text(encoding="utf-8"))
     timeout_manifest["gates"] = [
         {
@@ -1354,30 +1571,43 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         json.dumps(timeout_receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     timeout_report_path = fixture / "timeout-report.json"
-    timed_out = subprocess.run(
-        [
-            sys.executable,
-            str(root / "tests/ci/run_repository_gates.py"),
-            "--repo",
-            str(repository),
-            "--manifest",
-            str(timeout_manifest_path),
-            "--route-receipt",
-            str(timeout_receipt_path),
-            "--report",
-            str(timeout_report_path),
-            "--gate-timeout-seconds",
-            "0.2",
-        ],
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    assert timed_out.returncode == 1
-    timeout_report = json.loads(timeout_report_path.read_text(encoding="utf-8"))
-    assert timeout_report["gates"][0]["timedOut"] is True
-    time.sleep(2.2)
-    assert not timeout_marker.exists(), "timed-out gate leaked a child process"
+    timeout_reap_receipt = None
+    with timeout_fixture_owner() as owns_timeout_child:
+        timed_out = subprocess.run(
+            [
+                sys.executable,
+                str(root / "tests/ci/run_repository_gates.py"),
+                "--repo",
+                str(repository),
+                "--manifest",
+                str(timeout_manifest_path),
+                "--route-receipt",
+                str(timeout_receipt_path),
+                "--report",
+                str(timeout_report_path),
+                "--gate-timeout-seconds",
+                "0.2",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert timed_out.returncode == 1
+        timeout_report = json.loads(timeout_report_path.read_text(encoding="utf-8"))
+        assert timeout_report["gates"][0]["timedOut"] is True
+        if owns_timeout_child:
+            timeout_reap_receipt = reap_timeout_fixture_child(timeout_identity, timeout_nonce)
+        time.sleep(2.2)
+        assert not timeout_marker.exists(), "timed-out gate leaked a child process"
+    if timeout_reap_receipt is not None:
+        # Preserve this run's direct fixture/PID proof, not a claim about any
+        # earlier uninstrumented runner97. The previous subreaper state restored.
+        proof_path = root / "target" / f"repository-gate-timeout-child-reap.{timeout_nonce}.json"
+        proof_path.parent.mkdir(parents=True, exist_ok=True)
+        with proof_path.open("x", encoding="utf-8") as stream:
+            json.dump(timeout_reap_receipt, stream, indent=2, sort_keys=True)
+            stream.write("\n")
+        print("timeout fixture child reap evidence: " + str(proof_path))
 
     interrupt_marker = fixture / "interrupt-started.marker"
     interrupt_code = (

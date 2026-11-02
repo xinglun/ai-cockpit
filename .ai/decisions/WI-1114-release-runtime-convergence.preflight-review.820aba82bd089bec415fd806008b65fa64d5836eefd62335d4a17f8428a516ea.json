@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20295d26f43f97ca50e692ae4aea0c9ee5fbe67fed0892c7e15766446965d9ba",
+  "reason": "Record the actual user exact confirmation Sentinel_3048920de4588191b9e91725a1b6f742 at2026-10-31T04:37:34Z: 确认以上 WI-1114 sequence 14 四项绑定，仅新增验证声明 118→119，其他边界不变，confirm_review。 The displayed request Sentinel_23e388b815388191b3d5cfbca32e479e at2026-10-31T04:37:11Z listed the exact current Contract, Preflight, Snapshot and Runtime bindings. All four were rechecked unchanged before this native record. This is only the actual identity-bound human plan review for adding bash tests/ci/hosted_runtime_verification_test.sh, scope122 and all other authority/acceptance/resource/budget boundaries unchanged, CI8 total/release workflow0. It does not approve an unreviewed source patch or test/acceptance success, grant trust, network/proxy/credential/OS changes, CI/push, Runtime switching or publication. Current WI remains ordinary work/no release; subsequent independent Mac work must deliver and actually accept local execution and complete descendants before any separately approved release. Recorder agent:codex preserves this real human decision, not a new invented one.",
+  "recordedAt": "2026-10-31T04:39:38.685365+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3477a9c1c2ce15b93e12643eebe7b78ffa04ad9d323da383d2f67c4d2107d293",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

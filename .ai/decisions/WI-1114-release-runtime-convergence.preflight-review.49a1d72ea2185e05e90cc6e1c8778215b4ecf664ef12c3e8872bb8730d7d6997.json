@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a75db31ec6293ed105e2be8b9dcd092245824d0fe14e448584231fe87d2a70ad",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:97a313fbac323e5f47389c9a75ee64799db63700707ccc3b2a0074fe1887077e",
+  "reason": "Recorder agent:codex records the actual owner sequence18 exact confirm_review in conversation:Sentinel_2e184a5d7d308191a54e71107eb7abf7 received2026-11-01T04:21:53Z, replying to displayed Sentinel_b81c08f279088191a0f202b9050e07fa at2026-11-01T04:21:11Z. Exact Contract/Preflight/Snapshot and executing2330 Runtime digest were freshly checked unchanged. Only the four approved scope paths126to130 and119unchanged; no execution recipe or profile confirmation, network,CI,push,merge,release,cleanup,defaultRuntime,permission or trust-root approval is asserted. This records a real human response, not an agent human impersonation.",
+  "recordedAt": "2026-11-01T04:24:17.344670+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a2284a95e32caa30f2562d1c3f7d08c43aae66886b129a55f41bc648b90122ba",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

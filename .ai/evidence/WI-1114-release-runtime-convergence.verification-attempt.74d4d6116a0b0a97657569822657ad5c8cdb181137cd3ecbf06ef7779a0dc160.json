@@ -1,0 +1,163 @@
+{
+  "attemptId": "sha256:74d4d6116a0b0a97657569822657ad5c8cdb181137cd3ecbf06ef7779a0dc160",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:9f5df8f712d05ee47771ebf8505138c07f2ac9054da7f89b5b9db18c71f79f7d",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "contractExecutionScopeDigest": "sha256:5d6c3408493f1c67204cd2b23b0698dccaa4c3dbd041955896e0465523669cb0",
+  "createdAt": "2026-10-30T05:55:20Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:9f5df8f712d05ee47771ebf8505138c07f2ac9054da7f89b5b9db18c71f79f7d",
+      "deadlineMs": 1793340609505,
+      "elapsedMs": 11115,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 11641,
+      "executionElapsedMs": 11118,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 11641,
+    "executionElapsedMs": 11118,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:9f5df8f712d05ee47771ebf8505138c07f2ac9054da7f89b5b9db18c71f79f7d",
+        "deadlineMs": 1793340609505,
+        "elapsedMs": 11115,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 11118,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [
+        "wi-1114-bounded-release-verification-v1"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:86e546e1d19662ca29696589900a5745083d6e64c7e05f75e700cb979089a895",
+      "requiredAssurance": "self_declared",
+      "requiredTier": "T0",
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "effective:ai-cockpit-project-v1:wi-1114-bounded-release-verification-v1: Enforce the approved maximum of 900 seconds per actual verification command with single worker, finite supervised cleanup and at least 1 GiB free disk. Stage applicability does not authorize publication or production use; exact version, tag and assets require separate future owner approval. Keep all platform, source, evidence and approval requirements; the whole multi-command run has a separately declared finite aggregate budget."
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 900,
+      "workItemId": "WI-1114-release-runtime-convergence"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:563d208468fc0a5368bf3e44894c6e46bd9d074da31e59ad9000c53eda64920a",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+    "runtimeVersion": "1.0.1",
+    "timeoutSeconds": 900,
+    "workItemId": "WI-1114-release-runtime-convergence"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:86e546e1d19662ca29696589900a5745083d6e64c7e05f75e700cb979089a895",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

@@ -1,0 +1,115 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "The canonical CI prechecks recognize the exact WI1113 and WI1114 workflow caller identities and private exclusive creation; keep permissions, symlink/FIFO, owned cleanup, unknown-WI behavior, argv transport and unrelated assertions.",
+    "All three declared local checks pass through actual native verification. Preserve the original hosted failure and closed WI1114 evidence; no production workflow or core change, no Mac/HCI completion or release claim."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-11-01T22:40:59Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Match both actual fixed caller payloads and exclusive-file safety semantics, then pass the three exact local checks.",
+  "governancePolicy": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (existing permission for WI1115 native material registration; proposed bounded syntax-Unknown review declaration only, inactive until exact amended Contract confirm_review and actual request-bound technical review; no current material acceptance and no transfer of WI1114 receipts)",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:codex",
+      "schemaVersion": 1
+    },
+    "taskAuthorization": {
+      "agentActor": "agent:codex",
+      "allowedActions": [
+        "modify_source",
+        "checkpoint",
+        "run_preflight",
+        "run_verification",
+        "record_governance_controls",
+        "record_material_review_decision",
+        "finish",
+        "archive_when_reviewed",
+        "publish_branch",
+        "create_pull_request",
+        "ready_pull_request",
+        "merge_pull_request",
+        "publish_native_closeout"
+      ],
+      "authoritySource": "conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (user permission at 2026-11-01T22:36:30Z for exact346 isolated Runtime CI-recovery lifecycle and necessary public governance metadata); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery approval at 2026-11-01T15:23:28Z; native human review, protected merge and later exact release approval remain required)",
+      "closeoutActions": [
+        "publish_native_closeout"
+      ],
+      "expiresAt": "2026-11-02T22:36:30Z",
+      "publicTarget": {
+        "baseBranch": "main",
+        "provider": "github",
+        "repository": "xinglun/ai-cockpit"
+      },
+      "schemaVersion": 1
+    }
+  },
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Finish the existing PR1077 delivery by repairing obsolete canonical CI-precheck caller assertions without reopening closed WI1114.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "predecessorContractDigest": "sha256:fddebbab1895fa1f1f6b00263f795c5faf059c5b5c56010790656ca8cf9b8b07",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1114-release-runtime-convergence.recovery.86dee903f9a145ba6f265168fbfde9f85a881042117a2800337d88f8ac4ad76b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6e999d5f36653e4d5b30b8b93464bfcd894c3d4d1d6fb411e6015d628f681aa2",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "bounded-task-authorization",
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "tests/ci/workflow_convergence_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "bash tests/ci/workflow_convergence_test.sh",
+    "bash tests/ci/hosted_runtime_verification_test.sh",
+    "bash tests/ci/run_repository_prechecks.sh --repo /workspace/ai-cockpit-wi1114-release-runtime-convergence"
+  ],
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

@@ -15,17 +15,20 @@ use cockpit_verification::{
     CompositionSupervisorReady, CompositionSupervisorReceipt, CompositionSupervisorReply,
     ProcessAdmissionCheck, ProcessStartGate, composition_linux_boot_id,
     current_composition_process_identity, execution_records_digest, new_composition_run_nonce,
-    new_supervised_composition_attempt_id, run_composition_with_supervisor_receipt,
+    new_supervised_composition_attempt_id,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
-use std::io::{self, BufRead, BufReader, Read, Write};
+use std::io::{self, Read, Write};
+#[cfg(not(unix))]
+use std::io::{BufRead, BufReader};
 use std::path::{Component, Path};
 use std::process::{Child, ChildStdout, Command, Stdio};
 use std::sync::Arc;
 use std::sync::mpsc;
 use std::time::Duration;
+use std::time::Instant;
 use thiserror::Error;
 
 #[cfg(test)]
@@ -117,6 +120,11 @@ pub enum CollaborationExecutionError {
     },
     #[error(transparent)]
     Composition(#[from] CompositionError),
+    #[error("composition parent observation publication failed: {message}")]
+    ParentObservationPublication {
+        message: String,
+        observations: Vec<cockpit_verification::CompositionParentObservation>,
+    },
 }
 
 pub fn collaboration_projection(
@@ -1418,10 +1426,34 @@ pub fn collaboration_outcome_projection(
     unknowns.extend(admission_unknowns);
     let (composition, composition_applicability) =
         match latest_composition_attempt(store.root(), work_item_id) {
-            Ok(Some(attempt)) => (
-                composition_facts(store.root(), &attempt),
-                composition_applicability(store.root(), &attempt, &projection),
-            ),
+            Ok(Some(view)) => {
+                match &view.child_attempt {
+                    Some(attempt) => {
+                        let mut facts = composition_facts(store.root(), attempt);
+                        if !view.parent_context_valid {
+                            // Preserve the raw execution and real cleanup/ECHILD
+                            // facts; only parent qualification/reuse is denied.
+                            facts.composition_state = "unknown".into();
+                            facts.reusable_checks.clear();
+                            unknowns.push(format!(
+                                "composition_parent_observation:{}",
+                                view.attempt_id
+                            ));
+                        }
+                        (
+                            facts,
+                            composition_applicability(store.root(), attempt, &projection),
+                        )
+                    }
+                    None => {
+                        unknowns.push(format!(
+                            "composition_parent_observation_without_child:{}",
+                            view.attempt_id
+                        ));
+                        (CompositionProjectionFacts::unknown(), "unknown".into())
+                    }
+                }
+            }
             Ok(None) => (
                 CompositionProjectionFacts::not_observed(),
                 "not_observed".into(),
@@ -1500,45 +1532,9 @@ pub fn collaboration_outcome_projection(
 fn latest_composition_attempt(
     coordination_root: &Path,
     work_item_id: &str,
-) -> Result<Option<CompositionAttempt>, String> {
-    let directory = coordination_root.join("compositions");
-    let entries = match fs::read_dir(&directory) {
-        Ok(entries) => entries,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(error) => return Err(error.to_string()),
-    };
-    let mut latest = None;
-    for entry in entries {
-        let path = entry.map_err(|error| error.to_string())?.path();
-        if path.extension().and_then(|extension| extension.to_str()) != Some("json") {
-            continue;
-        }
-        let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
-        if !metadata.file_type().is_file() {
-            return Err(format!(
-                "composition record is not a regular file: {}",
-                path.display()
-            ));
-        }
-        let attempt: CompositionAttempt =
-            serde_json::from_slice(&fs::read(&path).map_err(|error| error.to_string())?)
-                .map_err(|error| error.to_string())?;
-        if !attempt
-            .binding
-            .participant_work_items
-            .iter()
-            .any(|participant| participant == work_item_id)
-        {
-            continue;
-        }
-        if latest.as_ref().is_none_or(|current: &CompositionAttempt| {
-            (attempt.recorded_at_unix_nanos, &attempt.attempt_id)
-                > (current.recorded_at_unix_nanos, &current.attempt_id)
-        }) {
-            latest = Some(attempt);
-        }
-    }
-    Ok(latest)
+) -> Result<Option<cockpit_verification::CompositionParentView>, String> {
+    Ok(load_native_composition_parent_catalog(coordination_root)?
+        .latest_for_work_item(work_item_id))
 }
 
 struct CompositionProjectionFacts {
@@ -2006,9 +2002,73 @@ pub fn run_admitted_composition_with_supervisor_executable(
 }
 
 pub fn run_composition_supervisor_stdio() -> Result<(), String> {
-    let stdin = io::stdin();
-    let stdout = io::stdout();
-    run_composition_supervisor_protocol(stdin.lock(), stdout.lock())
+    #[cfg(unix)]
+    {
+        use std::os::fd::BorrowedFd;
+        // SAFETY: the process owns these standard handles; cloned Files own
+        // their duplicates. Require pipes before changing shared status flags.
+        let input = unsafe { BorrowedFd::borrow_raw(libc::STDIN_FILENO) };
+        let output = unsafe { BorrowedFd::borrow_raw(libc::STDOUT_FILENO) };
+        let mut reader = cockpit_verification::supervisor_pipe::FrameReader::new(
+            duplicate_composition_pipe(input)?,
+            MAX_COMPOSITION_LAUNCH_BYTES + MAX_COMPOSITION_CONTROL_BYTES,
+            MAX_COMPOSITION_LAUNCH_BYTES,
+        )
+        .map_err(|error| format!("initialize composition input: {error}"))?;
+        let mut writer = duplicate_composition_pipe(output)?;
+        run_composition_supervisor_protocol(
+            |deadline, limit| {
+                reader
+                    .set_frame_limit(limit)
+                    .map_err(|error| error.to_string())?;
+                reader
+                    .receive_until(deadline)
+                    .map_err(|error| error.to_string())
+            },
+            |bytes, deadline| {
+                cockpit_verification::supervisor_pipe::write_until(&mut writer, bytes, deadline)
+                    .map_err(|error| format!("write composition protocol: {error}"))
+            },
+        )
+    }
+    #[cfg(not(unix))]
+    {
+        // Windows handle I/O remains a distinct, unproven bounded-I/O backend.
+        // The protocol FSM and finite byte policy are shared; no Unix FD is used.
+        let stdin = io::stdin();
+        let stdout = io::stdout();
+        let mut reader = stdin.lock();
+        let mut writer = stdout.lock();
+        run_composition_supervisor_protocol(
+            |_deadline, limit| read_legacy_composition_frame(&mut reader, limit),
+            |bytes, _deadline| {
+                writer
+                    .write_all(bytes)
+                    .and_then(|()| writer.flush())
+                    .map_err(|error| format!("write composition protocol: {error}"))
+            },
+        )
+    }
+}
+
+#[cfg(unix)]
+fn duplicate_composition_pipe(fd: std::os::fd::BorrowedFd<'_>) -> Result<fs::File, String> {
+    use std::os::fd::AsRawFd;
+    // SAFETY: fstat only writes this initialized output and observes a live FD.
+    let mut metadata: libc::stat = unsafe { std::mem::zeroed() };
+    if unsafe { libc::fstat(fd.as_raw_fd(), &mut metadata) } != 0 {
+        return Err(format!(
+            "inspect composition pipe: {}",
+            io::Error::last_os_error()
+        ));
+    }
+    let kind = metadata.st_mode & libc::S_IFMT;
+    if kind != libc::S_IFIFO && kind != libc::S_IFSOCK {
+        return Err("composition supervisor requires pipe standard handles".into());
+    }
+    fd.try_clone_to_owned()
+        .map(fs::File::from)
+        .map_err(|error| format!("duplicate composition pipe: {error}"))
 }
 
 pub fn run_admitted_composition_supervisor(
@@ -2018,6 +2078,7 @@ pub fn run_admitted_composition_supervisor(
     input: CompositionInput,
     receipt: CompositionSupervisorReceipt,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    composition_full_tree_backend_available().map_err(recovery_error)?;
     run_admitted_composition_in_process(store, work_item_id, generation, input, receipt)
 }
 
@@ -2132,12 +2193,16 @@ fn run_admitted_composition_in_process(
         },
     );
     let _owner_interruption_guard = cockpit_verification::OwnerInterruptionGuard::install()?;
-    Ok(run_composition_with_supervisor_receipt(
-        input,
-        process_admission_check,
-        process_start_gate,
-        supervisor_receipt,
-    )?)
+    let catalog_loader = || load_native_composition_parent_catalog(store.root());
+    Ok(
+        cockpit_verification::run_composition_with_supervisor_receipt_and_parent_catalog(
+            input,
+            process_admission_check,
+            process_start_gate,
+            supervisor_receipt,
+            &catalog_loader,
+        )?,
+    )
 }
 
 fn launch_composition_supervisor(
@@ -2172,6 +2237,17 @@ fn launch_composition_supervisor(
         runtime_version: input.binding.verifier.runtime_version.clone(),
         runtime_digest: actual_runtime_digest.clone(),
     };
+    let bounds = composition_protocol_bounds(&input).map_err(recovery_error)?;
+    let launch_bytes =
+        encode_composition_frame(&launch, MAX_COMPOSITION_LAUNCH_BYTES).map_err(recovery_error)?;
+    // A group-only backend cannot discharge this admitted full-tree operation.
+    // This safety rejection is NOT a completed Mac support implementation.
+    if let Err(error) = composition_full_tree_backend_available() {
+        persist_supervisor_failure(&input, &attempt_id, None, &error)?;
+        return Err(recovery_error(error));
+    }
+    let startup_deadline =
+        composition_deadline(COMPOSITION_HANDSHAKE_BUDGET).map_err(recovery_error)?;
     let action = composition_action(store, work_item_id)?;
     let spawn_store = store.clone();
     let spawn_work_item_id = work_item_id.to_owned();
@@ -2189,213 +2265,263 @@ fn launch_composition_supervisor(
             .spawn()
             .map_err(|error| format!("spawn exact Runtime composition supervisor: {error}"))
     };
-    let mut child = with_composition_process_start_admission(
-        store,
-        work_item_id,
-        generation,
-        action,
-        || {
-            validate_composition_identity_for_process_start(
-                &spawn_store,
-                &spawn_work_item_id,
-                generation,
-                &spawn_input,
-            )
-        },
-        spawn_helper,
-    )
+    let attempt_started_at_unix_nanos = parent_observation_now();
+    let mut child = with_composition_parent_capacity(&launch, || {
+        with_composition_process_start_admission(
+            store,
+            work_item_id,
+            generation,
+            action,
+            || {
+                validate_composition_identity_for_process_start(
+                    &spawn_store,
+                    &spawn_work_item_id,
+                    generation,
+                    &spawn_input,
+                )
+            },
+            spawn_helper,
+        )
+    })
     .map_err(recovery_error)?;
-    let stdout = child
-        .stdout
-        .take()
-        .ok_or_else(|| recovery_error("composition supervisor stdout is unavailable".into()))?;
-    let stdin = child
-        .stdin
-        .take()
-        .ok_or_else(|| recovery_error("composition supervisor stdin is unavailable".into()))?;
-    let messages = supervisor_output_channel(stdout);
-    let mut stdin = stdin;
-    if let Err(error) = write_supervisor_message(&mut stdin, &launch) {
-        stop_unreleased_supervisor(&mut child);
-        persist_supervisor_failure(&input, &attempt_id, None, &error)?;
-        return Err(recovery_error(error));
-    }
-
-    let ready: CompositionSupervisorReady =
-        match read_supervisor_message(&messages, Some(Duration::from_secs(30))) {
-            Ok(ready) => ready,
+    let mut parent_identity =
+        composition_parent_identity(&launch, child.id(), attempt_started_at_unix_nanos);
+    let mut parent_phase = "take_pipe";
+    let mut release_may_have_been_delivered = false;
+    let mut completed_status = None;
+    let result = (|| -> Result<CompositionAttempt, CollaborationExecutionError> {
+        let stdout = match child.stdout.take() {
+            Some(stdout) => stdout,
+            None => {
+                return Err(recovery_error(
+                    "composition supervisor stdout is unavailable".into(),
+                ));
+            }
+        };
+        let mut stdin = match child.stdin.take() {
+            Some(stdin) => stdin,
+            None => {
+                return Err(recovery_error(
+                    "composition supervisor stdin is unavailable".into(),
+                ));
+            }
+        };
+        let messages = match supervisor_output_channel(stdout, bounds.reply_bytes) {
+            Ok(messages) => messages,
             Err(error) => {
-                stop_unreleased_supervisor(&mut child);
-                persist_supervisor_failure(&input, &attempt_id, None, &error)?;
                 return Err(recovery_error(error));
             }
         };
-    let observed_supervisor =
-        match cockpit_verification::observe_composition_process_identity(child.id()) {
-            Ok(identity) => identity,
-            Err(observer_error) => {
-                let failure = match stop_unreleased_supervisor_bounded(&mut child) {
-                    Ok(()) => observer_error,
-                    Err(cleanup_error) => format!("{observer_error}; {cleanup_error}"),
-                };
-                if let Err(persist_error) =
-                    persist_supervisor_failure(&input, &attempt_id, None, &failure)
-                {
-                    return Err(recovery_error(format!(
-                        "{failure}; persist composition supervisor failure: {persist_error}"
-                    )));
-                }
-                return Err(recovery_error(failure));
-            }
-        };
-    if ready.schema_version != 1
-        || ready.supervisor.process_id != child.id()
-        || ready.supervisor != observed_supervisor
-        || ready.runtime_version != launch.runtime_version
-        || ready.runtime_digest != launch.runtime_digest
-    {
-        let error = "composition supervisor ready identity does not match the spawned Runtime";
-        stop_unreleased_supervisor(&mut child);
-        persist_supervisor_failure(&input, &attempt_id, None, error)?;
-        return Err(recovery_error(error.into()));
-    }
-
-    let receipt = match build_supervisor_receipt(&input, &launch, &ready, extra_environment) {
-        Ok(receipt) => receipt,
-        Err(error) => {
-            stop_unreleased_supervisor(&mut child);
-            persist_supervisor_failure(&input, &attempt_id, None, &error)?;
+        parent_phase = "launch_write";
+        if let Err(error) =
+            write_composition_bytes_until(&mut stdin, &launch_bytes, startup_deadline)
+        {
             return Err(recovery_error(error));
         }
-    };
-    if let Err(error) = persist_supervisor_registration(&input.state_dir, &receipt) {
-        stop_unreleased_supervisor(&mut child);
-        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
-        return Err(recovery_error(error));
-    }
-
-    let prepared_again =
-        prepare_admitted_composition(store, work_item_id, generation, input.clone());
-    if let Err(error) = prepared_again {
-        let detail = error.to_string();
-        let _ = write_supervisor_message(
-            &mut stdin,
-            &CompositionSupervisorControl::Abort {
-                reason: detail.clone(),
-                receipt: receipt.clone(),
-            },
-        );
-        let abort_reply = read_supervisor_message::<CompositionSupervisorReply>(&messages, None);
-        let status = child.wait().map_err(|wait_error| {
-            recovery_error(format!(
-                "wait for aborted composition supervisor: {wait_error}"
-            ))
-        })?;
-        let aborted_attempt = match abort_reply {
-            Ok(reply) if status.success() && reply.error.as_deref() == Some(detail.as_str()) => {
-                reply.attempt
-            }
-            Ok(reply) => {
-                return Err(recovery_error(format!(
-                    "composition supervisor abort reply was inconsistent (status={status}, reply={reply:?})"
-                )));
-            }
-            Err(reply_error) => {
-                return Err(recovery_error(format!(
-                    "composition supervisor did not durably acknowledge abort: {reply_error}"
-                )));
+        parent_phase = "ready_read";
+        let ready: CompositionSupervisorReady = match read_composition_message_until(
+            &messages,
+            startup_deadline,
+            MAX_COMPOSITION_READY_BYTES,
+        ) {
+            Ok(ready) => ready,
+            Err(error) => {
+                return Err(recovery_error(error));
             }
         };
-        let Some(aborted_attempt) = aborted_attempt else {
-            return Err(recovery_error(
-                "composition supervisor abort reply omitted its durable attempt".into(),
-            ));
-        };
-        if aborted_attempt.attempt_id != attempt_id
-            || aborted_attempt.supervisor_receipt.as_ref() != Some(&receipt)
-            || aborted_attempt.execution_outcome
-                != cockpit_verification::CompositionExecutionOutcome::Unknown
-            || aborted_attempt.processes_spawned != 0
-            || !aborted_attempt.execution_records.is_empty()
+        parent_phase = "ready_identity";
+        let observed_supervisor =
+            match cockpit_verification::observe_composition_process_identity(child.id()) {
+                Ok(identity) => identity,
+                Err(error) => {
+                    return Err(recovery_error(error));
+                }
+            };
+        parent_identity.observed_supervisor = Some(observed_supervisor.clone());
+        if ready.schema_version != 1
+            || ready.supervisor.process_id != child.id()
+            || ready.supervisor != observed_supervisor
+            || ready.runtime_version != launch.runtime_version
+            || ready.runtime_digest != launch.runtime_digest
         {
             return Err(recovery_error(
-                "composition supervisor abort attempt did not close the registered receipt without spawning a verifier".into(),
+                "composition supervisor ready identity does not match the spawned Runtime".into(),
             ));
         }
-        return Err(error);
-    }
-
-    if let Err(error) = write_supervisor_message(
-        &mut stdin,
-        &CompositionSupervisorControl::Release {
-            receipt: receipt.clone(),
-        },
-    ) {
-        stop_unreleased_supervisor(&mut child);
-        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
-        return Err(recovery_error(error));
-    }
-    drop(stdin);
-
-    let reply: CompositionSupervisorReply = match read_supervisor_message(&messages, None) {
-        Ok(reply) => reply,
-        Err(error) => {
-            let _ = child.wait();
-            persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
+        parent_phase = "receipt_binding";
+        let receipt = match build_supervisor_receipt(&input, &launch, &ready, extra_environment) {
+            Ok(receipt) => receipt,
+            Err(error) => {
+                return Err(recovery_error(error));
+            }
+        };
+        parent_identity.registered_receipt = Some(receipt.clone());
+        parent_phase = "registration_publication";
+        if let Err(error) = persist_supervisor_registration(&input.state_dir, &receipt) {
             return Err(recovery_error(error));
         }
-    };
-    let status = child
-        .wait()
-        .map_err(|error| recovery_error(format!("wait for composition supervisor: {error}")))?;
-    let Some(attempt) = reply.attempt else {
-        let error = reply
-            .error
-            .unwrap_or_else(|| "composition supervisor returned no attempt".into());
-        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
-        return Err(recovery_error(error));
-    };
-    if attempt.attempt_id != attempt_id
-        || attempt.supervisor_receipt.as_ref().is_none_or(|returned| {
-            returned.attempt_id != receipt.attempt_id
-                || returned.run_nonce != receipt.run_nonce
-                || returned.supervisor != receipt.supervisor
-                || returned.execution_records_digest
-                    != execution_records_digest(&attempt.execution_records)
-        })
-    {
-        return Err(recovery_error(
-            "composition supervisor returned an attempt with mismatched ownership evidence".into(),
-        ));
+        parent_phase = "admission_revalidation";
+        let prepared_again =
+            prepare_admitted_composition(store, work_item_id, generation, input.clone());
+        if let Err(error) = prepared_again {
+            let detail = error.to_string();
+            let abort_deadline =
+                composition_deadline(COMPOSITION_HANDSHAKE_BUDGET).map_err(recovery_error)?;
+            let exchange = (|| {
+                parent_phase = "abort_write";
+                send_composition_control(
+                    &mut stdin,
+                    &CompositionSupervisorControl::Abort {
+                        reason: detail.clone(),
+                        receipt: receipt.clone(),
+                    },
+                    abort_deadline,
+                )?;
+                parent_phase = "abort_reply";
+                let reply = read_terminal_composition_message::<CompositionSupervisorReply>(
+                    &messages,
+                    abort_deadline,
+                    bounds.reply_bytes,
+                )?;
+                parent_phase = "abort_exit";
+                let status = finish_composition_child_until(&mut child, abort_deadline)?;
+                completed_status = Some(status);
+                Ok::<_, String>((reply, status))
+            })();
+            let (reply, status) = match exchange {
+                Ok(result) => result,
+                Err(exchange_error) => {
+                    return Err(recovery_error(format!(
+                        "{detail}; abort acknowledgement: {exchange_error}"
+                    )));
+                }
+            };
+            parent_phase = "abort_validation";
+            if !status.success() || reply.error.as_deref() != Some(detail.as_str()) {
+                return Err(recovery_error(format!(
+                    "composition supervisor abort reply was inconsistent (status={status})"
+                )));
+            }
+            let Some(attempt) = reply.attempt else {
+                return Err(recovery_error(
+                    "composition supervisor abort reply omitted its durable attempt".into(),
+                ));
+            };
+            if attempt.attempt_id != attempt_id
+                || attempt.supervisor_receipt.as_ref() != Some(&receipt)
+                || attempt.execution_outcome != CompositionExecutionOutcome::Unknown
+                || attempt.passed
+                || attempt.processes_spawned != 0
+                || !attempt.execution_records.is_empty()
+            {
+                return Err(recovery_error("composition supervisor abort attempt did not close the registered receipt without spawning a verifier".into()));
+            }
+            parent_phase = "aborted_before_release";
+            return Err(error);
+        }
+        let execution_deadline =
+            composition_deadline(bounds.execution_budget).map_err(recovery_error)?;
+        let control_deadline = composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)
+            .map_err(recovery_error)?
+            .min(execution_deadline);
+        parent_phase = "release_write";
+        release_may_have_been_delivered = true;
+        if let Err(error) = send_composition_control(
+            &mut stdin,
+            &CompositionSupervisorControl::Release {
+                receipt: receipt.clone(),
+            },
+            control_deadline,
+        ) {
+            return Err(recovery_error(error));
+        }
+        // This is the existing normal single-control-frame lifecycle. EOF after
+        // Release is NOT a cancellation or evidence that the parent died.
+        drop(stdin);
+        parent_phase = "reply_read";
+        let reply: CompositionSupervisorReply = match read_terminal_composition_message(
+            &messages,
+            execution_deadline,
+            bounds.reply_bytes,
+        ) {
+            Ok(reply) => reply,
+            Err(error) => {
+                return Err(recovery_error(error));
+            }
+        };
+        parent_phase = "worker_exit";
+        let status = match finish_composition_child_until(&mut child, execution_deadline) {
+            Ok(status) => status,
+            Err(error) => {
+                return Err(recovery_error(error));
+            }
+        };
+        completed_status = Some(status);
+        parent_phase = "reply_validation";
+        let Some(attempt) = reply.attempt else {
+            let error = reply
+                .error
+                .unwrap_or_else(|| "composition supervisor returned no attempt".into());
+            return Err(recovery_error(error));
+        };
+        let returned_receipt_matches =
+            attempt.supervisor_receipt.as_ref().is_some_and(|returned| {
+                let mut expected = receipt.clone();
+                expected.execution_records_digest =
+                    execution_records_digest(&attempt.execution_records);
+                expected.descendants_reaped_to_echild = returned.descendants_reaped_to_echild;
+                &expected == returned
+            });
+        if attempt.attempt_id != attempt_id
+            || attempt.binding != input.binding
+            || attempt.owner_pid != Some(receipt.supervisor.process_id)
+            || !returned_receipt_matches
+        {
+            return Err(recovery_error(
+                "composition supervisor returned an attempt with mismatched ownership evidence"
+                    .into(),
+            ));
+        }
+        if !status.success() || reply.error.is_some() {
+            return Err(recovery_error(reply.error.unwrap_or_else(|| {
+                format!("composition supervisor exited with {status}")
+            })));
+        }
+        Ok(attempt)
+    })();
+    match result {
+        Ok(attempt) => Ok(attempt),
+        Err(error) => Err(record_failed_parent_operation(
+            store.root(),
+            &mut child,
+            parent_identity,
+            parent_phase,
+            release_may_have_been_delivered,
+            completed_status,
+            error,
+        )),
     }
-    if !status.success() || reply.error.is_some() {
-        return Err(recovery_error(reply.error.unwrap_or_else(|| {
-            format!("composition supervisor exited with {status}")
-        })));
-    }
-    Ok(attempt)
 }
-
-fn run_composition_supervisor_protocol<R, W>(mut reader: R, mut writer: W) -> Result<(), String>
+fn run_composition_supervisor_protocol<R, W>(
+    mut read_frame: R,
+    mut write_frame: W,
+) -> Result<(), String>
 where
-    R: BufRead,
-    W: Write,
+    R: FnMut(Instant, usize) -> Result<Option<Vec<u8>>, String>,
+    W: FnMut(&[u8], Instant) -> Result<(), String>,
 {
+    composition_full_tree_backend_available()?;
     let backend = cockpit_verification::initialize_composition_supervisor_backend()?;
     let supervisor = current_composition_process_identity()?;
     let executable = std::env::current_exe()
         .map_err(|error| format!("resolve running Runtime executable: {error}"))?;
     let actual_runtime_digest = executable_digest(&executable)?;
-    let mut line = String::new();
-    if reader
-        .read_line(&mut line)
-        .map_err(|error| format!("read composition supervisor launch: {error}"))?
-        == 0
-    {
-        return Err("composition supervisor launch channel closed before request".into());
-    }
-    let launch: CompositionSupervisorLaunch = serde_json::from_str(&line)
+    let startup_deadline = composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)?;
+    let line = read_frame(startup_deadline, MAX_COMPOSITION_LAUNCH_BYTES)?
+        .ok_or("composition supervisor launch channel closed before request")?;
+    let launch: CompositionSupervisorLaunch = serde_json::from_slice(&line)
         .map_err(|error| format!("decode composition supervisor launch: {error}"))?;
+    let bounds = composition_protocol_bounds(&launch.input)?;
     let runtime_version = env!("CARGO_PKG_VERSION");
     if launch.runtime_version != runtime_version
         || launch.runtime_digest != actual_runtime_digest
@@ -2413,15 +2539,21 @@ where
         runtime_version: runtime_version.into(),
         runtime_digest: actual_runtime_digest.clone(),
     };
-    write_supervisor_message(&mut writer, &ready)?;
+    send_composition_frame(
+        &mut write_frame,
+        &ready,
+        MAX_COMPOSITION_READY_BYTES,
+        startup_deadline,
+    )?;
+    let control_deadline = composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)?;
 
-    line.clear();
-    if reader
-        .read_line(&mut line)
-        .map_err(|error| format!("read composition supervisor release: {error}"))?
-        == 0
-    {
-        let failure = "composition supervisor control channel closed before release".to_owned();
+    let control_frame = read_frame(control_deadline, MAX_COMPOSITION_CONTROL_BYTES);
+    if !matches!(control_frame, Ok(Some(_))) {
+        let failure = match &control_frame {
+            Ok(None) => "composition supervisor control channel closed before release".to_owned(),
+            Err(error) => format!("composition supervisor control failed before release: {error}"),
+            Ok(Some(_)) => unreachable!("checked complete control above"),
+        };
         let receipt = read_supervisor_registration(&launch.input.state_dir, &launch.attempt_id)?;
         let attempt = cockpit_verification::record_composition_supervisor_failure(
             launch.input.clone(),
@@ -2430,17 +2562,23 @@ where
             failure.clone(),
         )
         .map_err(|error| format!("persist closed-channel composition attempt: {error}"))?;
-        write_supervisor_message(
-            &mut writer,
+        send_composition_frame(
+            &mut write_frame,
             &CompositionSupervisorReply {
                 attempt: Some(attempt),
                 error: Some(failure.clone()),
             },
+            bounds.reply_bytes,
+            composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)?,
         )?;
         return Err(failure);
     }
-    let control: CompositionSupervisorControl = serde_json::from_str(&line)
+    let line = control_frame
+        .expect("complete control checked above")
+        .expect("present frame checked above");
+    let control: CompositionSupervisorControl = serde_json::from_slice(&line)
         .map_err(|error| format!("decode composition supervisor control: {error}"))?;
+    let terminal_deadline = composition_deadline(bounds.execution_budget)?;
     let receipt = match control {
         CompositionSupervisorControl::Abort { reason, receipt } => {
             validate_supervisor_registration(&launch.input.state_dir, &receipt)?;
@@ -2451,12 +2589,14 @@ where
                 format!("supervisor_aborted_before_release:{reason}"),
             )
             .map_err(|error| format!("persist aborted composition attempt: {error}"))?;
-            write_supervisor_message(
-                &mut writer,
+            send_composition_frame(
+                &mut write_frame,
                 &CompositionSupervisorReply {
                     attempt: Some(attempt),
                     error: Some(reason),
                 },
+                bounds.reply_bytes,
+                composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)?,
             )?;
             return Ok(());
         }
@@ -2470,12 +2610,14 @@ where
             format!("supervisor_release_invalid:{error}"),
         )
         .ok();
-        write_supervisor_message(
-            &mut writer,
+        send_composition_frame(
+            &mut write_frame,
             &CompositionSupervisorReply {
                 attempt,
                 error: Some(error),
             },
+            bounds.reply_bytes,
+            composition_deadline(COMPOSITION_HANDSHAKE_BUDGET)?,
         )?;
         return Ok(());
     }
@@ -2492,12 +2634,14 @@ where
         receipt.clone(),
     );
     match result {
-        Ok(attempt) => write_supervisor_message(
-            &mut writer,
+        Ok(attempt) => send_composition_frame(
+            &mut write_frame,
             &CompositionSupervisorReply {
                 attempt: Some(attempt),
                 error: None,
             },
+            bounds.reply_bytes,
+            terminal_deadline,
         ),
         Err(error) => {
             let detail = error.to_string();
@@ -2508,12 +2652,14 @@ where
                 detail.clone(),
             )
             .ok();
-            write_supervisor_message(
-                &mut writer,
+            send_composition_frame(
+                &mut write_frame,
                 &CompositionSupervisorReply {
                     attempt,
                     error: Some(detail),
                 },
+                bounds.reply_bytes,
+                terminal_deadline,
             )
         }
     }
@@ -2720,93 +2866,1208 @@ fn supervisor_registration_path(directory: &Path, attempt_id: &str) -> std::path
     directory.join(format!("{stem}.json"))
 }
 
-fn supervisor_output_channel(stdout: ChildStdout) -> mpsc::Receiver<Result<String, String>> {
-    let (sender, receiver) = mpsc::channel();
-    std::thread::spawn(move || {
-        let mut reader = BufReader::new(stdout);
-        loop {
-            let mut line = String::new();
-            match reader.read_line(&mut line) {
-                Ok(0) => break,
-                Ok(_) => {
-                    if sender.send(Ok(line)).is_err() {
-                        break;
-                    }
+fn composition_full_tree_backend_available() -> Result<(), String> {
+    #[cfg(all(unix, not(target_os = "linux")))]
+    {
+        Err(
+            "composition full-owned-descendant supervision is unsupported on this Unix platform"
+                .into(),
+        )
+    }
+    #[cfg(any(not(unix), target_os = "linux"))]
+    {
+        Ok(())
+    }
+}
+
+// The same pinned-root, no-follow bounded reader and immutable publisher used
+// by execution checkpoints. This store only appends parent facts; child
+// composition JSON is never replaced, promoted, tombstoned or deleted here.
+#[cfg(test)]
+type ParentPublicationHook = Box<dyn FnOnce(&Dir, &str)>;
+#[cfg(test)]
+thread_local! {
+    static BEFORE_PARENT_OBSERVATION_PUBLISH: std::cell::RefCell<Option<ParentPublicationHook>> = const { std::cell::RefCell::new(None) };
+}
+
+const MAX_COMPOSITION_PARENT_RECORD_BYTES: u64 = 128 * 1024;
+// Encoded event envelope, including all phase/diagnostic/cleanup/action bytes.
+// Identity admission reserves this space before spawning. Neither limit permits
+// truncation: an oversized actual event returns publication failure with the
+// original typed observation in memory, never a durable-Unknown claim.
+const MAX_COMPOSITION_PARENT_EVENT_BYTES: usize = 64 * 1024;
+const MAX_COMPOSITION_CHILD_RECORD_BYTES: u64 = 128 * 1024 * 1024;
+
+fn composition_parent_identity(
+    launch: &CompositionSupervisorLaunch,
+    child_pid: u32,
+    attempt_started_at_unix_nanos: u128,
+) -> cockpit_verification::CompositionParentIdentity {
+    cockpit_verification::CompositionParentIdentity {
+        attempt_id: launch.attempt_id.clone(),
+        run_nonce: launch.run_nonce.clone(),
+        binding: launch.input.binding.clone(),
+        launch_input_identity: launch.input.identity.clone(),
+        generation: launch.generation,
+        owner: launch.owner.clone(),
+        child_pid,
+        observed_supervisor: None,
+        registered_receipt: None,
+        command_plan_digest: cockpit_verification::composition_commands_digest(
+            &launch.input.commands,
+        ),
+        input_environment_digest: input_environment_digest(&launch.input),
+        attempt_started_at_unix_nanos,
+    }
+}
+
+fn with_composition_parent_capacity<T>(
+    launch: &CompositionSupervisorLaunch,
+    spawn: impl FnOnce() -> Result<T, String>,
+) -> Result<T, String> {
+    use cockpit_verification::{
+        CompositionParentCleanup, CompositionParentEvent, CompositionParentObservation,
+        CompositionParentObservationFacts, CompositionProcessIdentity,
+    };
+    // These are serialization size bounds, not fabricated process evidence.
+    // Ready may add only the observed numeric process identity; the native
+    // receipt adds these bounded fields plus strings already fixed by launch.
+    let supervisor = CompositionProcessIdentity {
+        process_id: i32::MAX as u32,
+        start_time_ticks: Some(u64::MAX),
+        process_group_id: Some(u32::MAX),
+        session_id: Some(u32::MAX),
+    };
+    let digest = Digest::sha256_bytes(b"parent-record-capacity-only");
+    let mut identity = composition_parent_identity(launch, supervisor.process_id, u128::MAX);
+    identity.observed_supervisor = Some(supervisor.clone());
+    identity.registered_receipt = Some(CompositionSupervisorReceipt {
+        schema_version: u32::MAX,
+        // Longest current backend spelling, solely for the encoded bound.
+        backend: CompositionSupervisorBackend::WindowsProcessGroup,
+        attempt_id: launch.attempt_id.clone(),
+        run_nonce: launch.run_nonce.clone(),
+        generation: launch.generation,
+        owner: launch.owner.clone(),
+        supervisor,
+        // Native boot identity is at most 64 input bytes; controls have the
+        // maximum JSON expansion. This value is never used as an identity.
+        linux_boot_id: Some("\0".repeat(64)),
+        environment_digest: digest.clone(),
+        runtime_version: launch.runtime_version.clone(),
+        runtime_digest: launch.runtime_digest.clone(),
+        repository_id: launch.input.binding.repository_id.clone(),
+        target_sha: launch.input.binding.target_sha.clone(),
+        snapshot_digest: digest.clone(),
+        command_plan_digest: identity.command_plan_digest.clone(),
+        input_environment_digest: identity.input_environment_digest.clone(),
+        execution_records_digest: digest.clone(),
+        descendants_reaped_to_echild: false,
+    });
+    for event in [
+        CompositionParentEvent::Failure {
+            phase: String::new(),
+            diagnostic: String::new(),
+            release_may_have_been_delivered: false,
+        },
+        CompositionParentEvent::Cleanup {
+            failure_observation_id: digest.clone(),
+            facts: CompositionParentCleanup {
+                child_reaped: Some(false),
+                exit_code: Some(i32::MIN),
+                termination_signal: Some(i32::MIN),
+                actions: Vec::new(),
+                diagnostic: Some(String::new()),
+            },
+        },
+    ] {
+        let observation = CompositionParentObservation {
+            observation_id: digest.clone(),
+            facts: CompositionParentObservationFacts {
+                schema_version: 1,
+                kind: "composition_parent_observation".into(),
+                identity: identity.clone(),
+                event,
+                observed_at_unix_nanos: u128::MAX,
+                passed: false,
+                post_execution_identity_validated: false,
+            },
+        };
+        let mut writer = LimitedCompositionBuffer {
+            bytes: Vec::new(),
+            limit: MAX_COMPOSITION_PARENT_RECORD_BYTES as usize
+                - MAX_COMPOSITION_PARENT_EVENT_BYTES,
+        };
+        serde_json::to_writer_pretty(&mut writer, &observation).map_err(|_| {
+            "composition parent observation identity cannot reserve the full failure/cleanup event budget before spawn; not truncated".to_owned()
+        })?;
+    }
+    spawn()
+}
+
+fn validate_composition_parent_event_capacity(
+    event: &cockpit_verification::CompositionParentEvent,
+) -> Result<(), String> {
+    // Match the actual observation's facts.event indentation. Counting the
+    // enclosing keys too is conservative, and all diagnostic bytes are kept.
+    #[derive(Serialize)]
+    struct Facts<'a> {
+        event: &'a cockpit_verification::CompositionParentEvent,
+    }
+    #[derive(Serialize)]
+    struct Envelope<'a> {
+        facts: Facts<'a>,
+    }
+    let mut writer = LimitedCompositionBuffer {
+        bytes: Vec::new(),
+        limit: MAX_COMPOSITION_PARENT_EVENT_BYTES,
+    };
+    serde_json::to_writer_pretty(&mut writer, &Envelope { facts: Facts { event } })
+        .map_err(|_| "composition parent event exceeds its encoded byte limit; original observation retained in memory, not truncated or durably published".to_owned())
+}
+const MAX_COMPOSITION_CATALOG_ENTRIES: usize = 4096;
+const MAX_COMPOSITION_CATALOG_BYTES: usize = 256 * 1024 * 1024;
+
+struct NativeCompositionParentStore {
+    path: std::path::PathBuf,
+    pinned_root: crate::legacy_closeout_source::PinnedRoot,
+    compositions: Dir,
+    compositions_identity: [u64; 2],
+    observations: Option<Dir>,
+    observations_identity: Option<[u64; 2]>,
+}
+
+impl NativeCompositionParentStore {
+    fn open(coordination_root: &Path, create: bool) -> Result<Option<Self>, String> {
+        let pinned_root = crate::legacy_closeout_source::PinnedRoot::open(coordination_root)
+            .map_err(|error| error.to_string())?;
+        let root = pinned_root.directory().map_err(|error| error.to_string())?;
+        let path = coordination_root.join("compositions");
+        let compositions = if create {
+            crate::evidence_store::create_and_open_cap_directory(&root, "compositions", &path)
+                .map_err(|error| error.to_string())?
+        } else {
+            match root.symlink_metadata("compositions") {
+                Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(None),
+                Err(error) => return Err(error.to_string()),
+                Ok(_) => crate::evidence_store::open_cap_directory_nofollow_strict(
+                    &root,
+                    "compositions",
+                    &path,
+                )
+                .map_err(|error| error.to_string())?,
+            }
+        };
+        let compositions_identity =
+            crate::legacy_closeout_source::directory_identity(&path, &compositions)
+                .map_err(|error| error.to_string())?;
+        let observations_path = path.join("parent-observations");
+        let observations = if create {
+            Some(
+                crate::evidence_store::create_and_open_cap_directory(
+                    &compositions,
+                    "parent-observations",
+                    &observations_path,
+                )
+                .map_err(|error| error.to_string())?,
+            )
+        } else {
+            match compositions.symlink_metadata("parent-observations") {
+                Err(error) if error.kind() == io::ErrorKind::NotFound => None,
+                Err(error) => return Err(error.to_string()),
+                Ok(_) => Some(
+                    crate::evidence_store::open_cap_directory_nofollow_strict(
+                        &compositions,
+                        "parent-observations",
+                        &observations_path,
+                    )
+                    .map_err(|error| error.to_string())?,
+                ),
+            }
+        };
+        let observations_identity = observations
+            .as_ref()
+            .map(|directory| {
+                crate::legacy_closeout_source::directory_identity(&observations_path, directory)
+                    .map_err(|error| error.to_string())
+            })
+            .transpose()?;
+        let store = Self {
+            path,
+            pinned_root,
+            compositions,
+            compositions_identity,
+            observations,
+            observations_identity,
+        };
+        store.require_current()?;
+        Ok(Some(store))
+    }
+
+    fn require_current(&self) -> Result<(), String> {
+        self.pinned_root
+            .require_current()
+            .map_err(|error| error.to_string())?;
+        let root = self
+            .pinned_root
+            .directory()
+            .map_err(|error| error.to_string())?;
+        let compositions = crate::evidence_store::open_cap_directory_nofollow_strict(
+            &root,
+            "compositions",
+            &self.path,
+        )
+        .map_err(|error| error.to_string())?;
+        if crate::legacy_closeout_source::directory_identity(&self.path, &compositions)
+            .map_err(|error| error.to_string())?
+            != self.compositions_identity
+        {
+            return Err("composition parent store directory changed".into());
+        }
+        let observations_path = self.path.join("parent-observations");
+        match self.observations_identity {
+            Some(identity) => {
+                let current = crate::evidence_store::open_cap_directory_nofollow_strict(
+                    &compositions,
+                    "parent-observations",
+                    &observations_path,
+                )
+                .map_err(|error| error.to_string())?;
+                if crate::legacy_closeout_source::directory_identity(&observations_path, &current)
+                    .map_err(|error| error.to_string())?
+                    != identity
+                {
+                    return Err("composition parent observations directory changed".into());
                 }
-                Err(error) => {
-                    let _ = sender.send(Err(error.to_string()));
-                    break;
+            }
+            None => match compositions.symlink_metadata("parent-observations") {
+                Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+                Err(error) => return Err(error.to_string()),
+                Ok(_) => return Err("composition parent observations appeared during read".into()),
+            },
+        }
+        Ok(())
+    }
+
+    fn publish(
+        &self,
+        observation: &cockpit_verification::CompositionParentObservation,
+    ) -> Result<(), String> {
+        observation.validate().map_err(|error| error.to_string())?;
+        validate_composition_parent_event_capacity(&observation.facts.event)?;
+        self.require_current()?;
+        let directory = self
+            .observations
+            .as_ref()
+            .ok_or("parent observation store is read-only")?;
+        let bytes = serde_json::to_vec_pretty(observation).map_err(|error| error.to_string())?;
+        if bytes.len() as u64 > MAX_COMPOSITION_PARENT_RECORD_BYTES {
+            return Err(
+                "composition parent observation exceeds its byte limit; not truncated".into(),
+            );
+        }
+        let name = format!(
+            "{}.json",
+            observation
+                .observation_id
+                .to_string()
+                .strip_prefix("sha256:")
+                .ok_or("invalid observation digest")?
+        );
+        #[cfg(test)]
+        BEFORE_PARENT_OBSERVATION_PUBLISH.with_borrow_mut(|pending| {
+            if let Some(hook) = pending.take() {
+                hook(directory, &name);
+            }
+        });
+        crate::evidence_store::write_cap_immutable(
+            directory,
+            &name,
+            &self.path.join("parent-observations").join(&name),
+            &bytes,
+        )
+        .map_err(|error| error.to_string())?;
+        self.require_current()?;
+        Ok(())
+    }
+
+    fn catalog(&self) -> Result<cockpit_verification::CompositionParentCatalog, String> {
+        let handle = self
+            .compositions
+            .try_clone()
+            .map_err(|error| error.to_string())?
+            .into_std_file();
+        let before = directory_change_token(&handle).map_err(|error| error.to_string())?;
+        let mut attempts = Vec::new();
+        let mut catalog_bytes = 0_usize;
+        for (index, entry) in self
+            .compositions
+            .entries()
+            .map_err(|error| error.to_string())?
+            .enumerate()
+        {
+            if index >= MAX_COMPOSITION_CATALOG_ENTRIES {
+                return Err("composition catalog entry limit".into());
+            }
+            let name = entry.map_err(|error| error.to_string())?.file_name();
+            if Path::new(&name)
+                .extension()
+                .and_then(|extension| extension.to_str())
+                != Some("json")
+            {
+                continue;
+            }
+            let bytes = crate::legacy_closeout_source::read_regular_cap_bounded(
+                &self.compositions,
+                name.to_str().ok_or("non-UTF8 child record name")?,
+                &self.path.join(&name),
+                MAX_COMPOSITION_CHILD_RECORD_BYTES,
+            )
+            .map_err(|error| error.to_string())?;
+            catalog_bytes = catalog_bytes
+                .checked_add(bytes.len())
+                .ok_or("composition catalog byte overflow")?;
+            if catalog_bytes > MAX_COMPOSITION_CATALOG_BYTES {
+                return Err("composition catalog aggregate byte limit".into());
+            }
+            let attempt: CompositionAttempt =
+                serde_json::from_slice(&bytes).map_err(|error| error.to_string())?;
+            if !cockpit_verification::composition_attempt_record_name_matches(
+                Path::new(&name),
+                &attempt.attempt_id,
+            ) {
+                return Err("child attempt filename/identity mismatch".into());
+            }
+            attempts.push(attempt);
+        }
+        let mut observations = Vec::new();
+        let mut parent_read_token = None;
+        if let Some(directory) = &self.observations {
+            let observation_handle = directory
+                .try_clone()
+                .map_err(|error| error.to_string())?
+                .into_std_file();
+            let observation_before =
+                directory_change_token(&observation_handle).map_err(|error| error.to_string())?;
+            for (index, entry) in directory
+                .entries()
+                .map_err(|error| error.to_string())?
+                .enumerate()
+            {
+                if index >= MAX_COMPOSITION_CATALOG_ENTRIES {
+                    return Err("parent observation catalog entry limit".into());
+                }
+                let name = entry.map_err(|error| error.to_string())?.file_name();
+                if Path::new(&name)
+                    .extension()
+                    .and_then(|extension| extension.to_str())
+                    != Some("json")
+                {
+                    continue;
+                }
+                let bytes = crate::legacy_closeout_source::read_regular_cap_bounded(
+                    directory,
+                    name.to_str().ok_or("non-UTF8 observation name")?,
+                    &self.path.join("parent-observations").join(&name),
+                    MAX_COMPOSITION_PARENT_RECORD_BYTES,
+                )
+                .map_err(|error| error.to_string())?;
+                catalog_bytes = catalog_bytes
+                    .checked_add(bytes.len())
+                    .ok_or("composition catalog byte overflow")?;
+                if catalog_bytes > MAX_COMPOSITION_CATALOG_BYTES {
+                    return Err("composition catalog aggregate byte limit".into());
+                }
+                let observation: cockpit_verification::CompositionParentObservation =
+                    serde_json::from_slice(&bytes)
+                        .map_err(|error| format!("malformed parent observation: {error}"))?;
+                observation.validate().map_err(|error| error.to_string())?;
+                validate_composition_parent_event_capacity(&observation.facts.event)?;
+                let expected = format!(
+                    "{}.json",
+                    observation
+                        .observation_id
+                        .to_string()
+                        .strip_prefix("sha256:")
+                        .ok_or("invalid digest")?
+                );
+                if name.to_str() != Some(expected.as_str()) {
+                    return Err("parent observation filename/digest mismatch".into());
+                }
+                observations.push(observation);
+            }
+            if directory_change_token(&observation_handle).map_err(|error| error.to_string())?
+                != observation_before
+            {
+                return Err("parent observations changed during read".into());
+            }
+            parent_read_token = Some((observation_handle, observation_before));
+        }
+        if directory_change_token(&handle).map_err(|error| error.to_string())? != before {
+            return Err("child attempt catalog changed during read".into());
+        }
+        let mut registrations = Vec::new();
+        match self.compositions.symlink_metadata("supervisors") {
+            Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error.to_string()),
+            Ok(_) => {
+                let path = self.path.join("supervisors");
+                let directory = crate::evidence_store::open_cap_directory_nofollow_strict(
+                    &self.compositions,
+                    "supervisors",
+                    &path,
+                )
+                .map_err(|error| error.to_string())?;
+                let handle = directory
+                    .try_clone()
+                    .map_err(|error| error.to_string())?
+                    .into_std_file();
+                let token = directory_change_token(&handle).map_err(|error| error.to_string())?;
+                for (index, entry) in directory
+                    .entries()
+                    .map_err(|error| error.to_string())?
+                    .enumerate()
+                {
+                    if index >= MAX_COMPOSITION_CATALOG_ENTRIES {
+                        return Err("supervisor registration catalog entry limit".into());
+                    }
+                    let name = entry.map_err(|error| error.to_string())?.file_name();
+                    if Path::new(&name)
+                        .extension()
+                        .and_then(|extension| extension.to_str())
+                        != Some("json")
+                    {
+                        continue;
+                    }
+                    let bytes = crate::legacy_closeout_source::read_regular_cap_bounded(
+                        &directory,
+                        name.to_str().ok_or("non-UTF8 registration name")?,
+                        &path.join(&name),
+                        MAX_COMPOSITION_READY_BYTES as u64,
+                    )
+                    .map_err(|error| error.to_string())?;
+                    catalog_bytes = catalog_bytes
+                        .checked_add(bytes.len())
+                        .ok_or("composition catalog byte overflow")?;
+                    if catalog_bytes > MAX_COMPOSITION_CATALOG_BYTES {
+                        return Err("composition catalog aggregate byte limit".into());
+                    }
+                    let registration: CompositionSupervisorReceipt =
+                        serde_json::from_slice(&bytes).map_err(|error| error.to_string())?;
+                    if supervisor_registration_path(&path, &registration.attempt_id).file_name()
+                        != Some(name.as_os_str())
+                    {
+                        return Err("registration filename/identity mismatch".into());
+                    }
+                    registrations.push(registration);
+                }
+                if directory_change_token(&handle).map_err(|error| error.to_string())? != token {
+                    return Err("supervisor registrations changed during read".into());
                 }
             }
         }
-    });
-    receiver
+        if directory_change_token(&handle).map_err(|error| error.to_string())? != before {
+            return Err("child catalog changed during registration read".into());
+        }
+        if let Some((parent_handle, token)) = parent_read_token
+            && directory_change_token(&parent_handle).map_err(|error| error.to_string())? != token
+        {
+            return Err("parent observations changed during registration read".into());
+        }
+        self.require_current()?;
+        cockpit_verification::CompositionParentCatalog::from_native_observations(
+            attempts,
+            observations,
+        )
+        .and_then(|catalog| catalog.with_native_registrations(registrations))
+        .map_err(|error| error.to_string())
+    }
 }
 
-fn read_supervisor_message<T: DeserializeOwned>(
-    receiver: &mpsc::Receiver<Result<String, String>>,
-    timeout: Option<Duration>,
-) -> Result<T, String> {
-    for _ in 0..64 {
-        let line = match timeout {
-            Some(duration) => receiver
-                .recv_timeout(duration)
-                .map_err(|error| format!("wait for composition supervisor protocol: {error}"))?,
-            None => receiver
-                .recv()
-                .map_err(|error| format!("composition supervisor protocol closed: {error}"))?,
+fn load_native_composition_parent_catalog(
+    coordination_root: &Path,
+) -> Result<cockpit_verification::CompositionParentCatalog, String> {
+    match NativeCompositionParentStore::open(coordination_root, false)? {
+        Some(store) => store.catalog(),
+        None => cockpit_verification::CompositionParentCatalog::from_native_observations(
+            Vec::new(),
+            Vec::new(),
+        )
+        .map_err(|error| error.to_string()),
+    }
+}
+
+fn publish_native_composition_parent_observation(
+    coordination_root: &Path,
+    observation: &cockpit_verification::CompositionParentObservation,
+) -> Result<(), String> {
+    NativeCompositionParentStore::open(coordination_root, true)?
+        .ok_or("parent observation store missing")?
+        .publish(observation)
+}
+
+// These are transport resource limits, not truncated evidence. An oversized
+// input is rejected before spawn; an oversized response is Unknown, never pass.
+const MAX_COMPOSITION_LAUNCH_BYTES: usize = 8 * 1024 * 1024;
+const MAX_COMPOSITION_CONTROL_BYTES: usize = 64 * 1024;
+const MAX_COMPOSITION_READY_BYTES: usize = 64 * 1024;
+const MAX_COMPOSITION_REPLY_BYTES: usize = 128 * 1024 * 1024;
+const MAX_COMPOSITION_DIAGNOSTIC_BYTES: usize = 8192;
+const MAX_COMPOSITION_DIAGNOSTIC_LINES: usize = 64;
+const COMPOSITION_HANDSHAKE_BUDGET: Duration = Duration::from_secs(30);
+const COMPOSITION_CLEANUP_BUDGET: Duration = Duration::from_secs(12);
+
+struct CompositionProtocolBounds {
+    reply_bytes: usize,
+    execution_budget: Duration,
+}
+
+fn composition_deadline(duration: Duration) -> Result<Instant, String> {
+    Instant::now()
+        .checked_add(duration)
+        .ok_or_else(|| "composition protocol deadline overflow".into())
+}
+
+fn composition_protocol_bounds(
+    input: &CompositionInput,
+) -> Result<CompositionProtocolBounds, String> {
+    cockpit_verification::validate_timeout_seconds(input.timeout_seconds, "composition")
+        .map_err(|error| error.to_string())?;
+    let metadata = encode_composition_frame(input, MAX_COMPOSITION_LAUNCH_BYTES)?.len();
+    // A captured stream has at most 64KiB input bytes. JSON's worst expansion
+    // is six bytes per control character. Include two streams per real node,
+    // input-bound metadata and a separate structural/failure allowance.
+    let per_record = cockpit_verification::MAX_CAPTURE_BYTES_PER_STREAM
+        .checked_mul(12)
+        .and_then(|size| size.checked_add(64 * 1024))
+        .ok_or("composition reply byte limit overflow")?;
+    let reply_bytes = input
+        .commands
+        .len()
+        .checked_mul(per_record)
+        .and_then(|size| {
+            metadata
+                .checked_mul(2)
+                .and_then(|meta| size.checked_add(meta))
+        })
+        .and_then(|size| size.checked_add(8 * 1024 * 1024))
+        .ok_or("composition reply byte limit overflow")?;
+    if reply_bytes > MAX_COMPOSITION_REPLY_BYTES {
+        return Err("composition plan exceeds the bounded reply byte limit".into());
+    }
+    // Commands execute serially. Preserve each actual declared timeout and add
+    // finite per-node cleanup/observation allowance (the existing executor has
+    // a 12s supervisor close tail), then preparation/final observation/close.
+    // This is a parent watchdog, not a claim that synchronous Git/FS calls are
+    // individually interruptible. Unknown at this boundary cannot be green.
+    let nodes = u64::try_from(input.commands.len())
+        .map_err(|_| "composition node count overflow")?
+        .max(1);
+    let seconds = input
+        .timeout_seconds
+        .checked_add(30)
+        .and_then(|per_node| per_node.checked_mul(nodes))
+        .and_then(|seconds| seconds.checked_add(30 + 30 + 3 + 5 + 2))
+        .ok_or("composition whole-plan deadline overflow")?;
+    Ok(CompositionProtocolBounds {
+        reply_bytes,
+        execution_budget: Duration::from_secs(seconds),
+    })
+}
+
+struct LimitedCompositionBuffer {
+    bytes: Vec<u8>,
+    limit: usize,
+}
+
+impl Write for LimitedCompositionBuffer {
+    fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
+        if bytes.len() > self.limit.saturating_sub(self.bytes.len()) {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "composition protocol byte limit",
+            ));
         }
-        .map_err(|error| format!("read composition supervisor output: {error}"))?;
-        if let Ok(message) = serde_json::from_str::<T>(&line) {
-            return Ok(message);
+        self.bytes.extend_from_slice(bytes);
+        Ok(bytes.len())
+    }
+    fn flush(&mut self) -> io::Result<()> {
+        Ok(())
+    }
+}
+
+fn encode_composition_frame<T: Serialize>(message: &T, limit: usize) -> Result<Vec<u8>, String> {
+    let mut writer = LimitedCompositionBuffer {
+        bytes: Vec::new(),
+        limit,
+    };
+    serde_json::to_writer(&mut writer, message)
+        .map_err(|error| format!("encode composition protocol: {error}"))?;
+    writer.write_all(b"\n").map_err(|error| error.to_string())?;
+    Ok(writer.bytes)
+}
+
+fn send_composition_frame<T: Serialize, W>(
+    write_frame: &mut W,
+    message: &T,
+    limit: usize,
+    deadline: Instant,
+) -> Result<(), String>
+where
+    W: FnMut(&[u8], Instant) -> Result<(), String>,
+{
+    let bytes = encode_composition_frame(message, limit)?;
+    if Instant::now() >= deadline {
+        return Err("composition protocol encoding exceeded its deadline".into());
+    }
+    write_frame(&bytes, deadline)
+}
+
+fn write_composition_bytes_until(
+    writer: &mut std::process::ChildStdin,
+    bytes: &[u8],
+    deadline: Instant,
+) -> Result<(), String> {
+    #[cfg(unix)]
+    {
+        cockpit_verification::supervisor_pipe::write_until(writer, bytes, deadline)
+            .map_err(|error| format!("write composition protocol: {error}"))
+    }
+    #[cfg(not(unix))]
+    {
+        if Instant::now() >= deadline {
+            return Err("composition protocol write deadline".into());
+        }
+        writer
+            .write_all(bytes)
+            .and_then(|()| writer.flush())
+            .map_err(|error| format!("write composition protocol: {error}"))?;
+        if Instant::now() >= deadline {
+            return Err("composition protocol write exceeded deadline".into());
+        }
+        Ok(())
+    }
+}
+
+fn send_composition_control<T: Serialize>(
+    writer: &mut std::process::ChildStdin,
+    message: &T,
+    deadline: Instant,
+) -> Result<(), String> {
+    let bytes = encode_composition_frame(message, MAX_COMPOSITION_CONTROL_BYTES)?;
+    write_composition_bytes_until(writer, &bytes, deadline)
+}
+
+trait CompositionMessageSource {
+    fn receive_frame_until(
+        &self,
+        deadline: Instant,
+        limit: usize,
+    ) -> Result<Option<Vec<u8>>, String>;
+}
+
+// Kept for the unchanged Windows transport and deterministic codec tests.
+impl CompositionMessageSource for mpsc::Receiver<Result<String, String>> {
+    fn receive_frame_until(
+        &self,
+        deadline: Instant,
+        limit: usize,
+    ) -> Result<Option<Vec<u8>>, String> {
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err("composition protocol deadline".into());
+        }
+        match self.recv_timeout(remaining) {
+            Ok(Ok(line)) => {
+                let mut bytes = line.into_bytes();
+                if bytes.len() > limit {
+                    return Err("composition protocol byte limit".into());
+                }
+                if bytes.pop() != Some(b'\n') {
+                    return Err("unterminated composition protocol frame".into());
+                }
+                Ok(Some(bytes))
+            }
+            Ok(Err(error)) => Err(format!("read composition output: {error}")),
+            Err(mpsc::RecvTimeoutError::Disconnected) => Ok(None),
+            Err(mpsc::RecvTimeoutError::Timeout) => Err("composition protocol deadline".into()),
+        }
+    }
+}
+
+#[cfg(unix)]
+struct CompositionOutputPipe<R = ChildStdout>(
+    std::cell::RefCell<cockpit_verification::supervisor_pipe::FrameReader<R>>,
+);
+
+#[cfg(unix)]
+impl<R: Read + std::os::fd::AsRawFd> CompositionMessageSource for CompositionOutputPipe<R> {
+    fn receive_frame_until(
+        &self,
+        deadline: Instant,
+        limit: usize,
+    ) -> Result<Option<Vec<u8>>, String> {
+        let mut pipe = self.0.borrow_mut();
+        pipe.set_frame_limit(limit)
+            .map_err(|error| format!("composition output byte limit: {error}"))?;
+        pipe.receive_until(deadline)
+            .map_err(|error| format!("read composition output: {error}"))
+    }
+}
+
+#[cfg(unix)]
+fn supervisor_output_channel(
+    stdout: ChildStdout,
+    reply_limit: usize,
+) -> Result<CompositionOutputPipe, String> {
+    let total = reply_limit
+        .checked_add(MAX_COMPOSITION_READY_BYTES)
+        .and_then(|limit| {
+            limit.checked_add(
+                MAX_COMPOSITION_DIAGNOSTIC_BYTES * MAX_COMPOSITION_DIAGNOSTIC_LINES * 3,
+            )
+        })
+        .ok_or("composition output aggregate byte limit overflow")?;
+    cockpit_verification::supervisor_pipe::FrameReader::new(
+        stdout,
+        total,
+        MAX_COMPOSITION_READY_BYTES,
+    )
+    .map(|pipe| CompositionOutputPipe(std::cell::RefCell::new(pipe)))
+    .map_err(|error| format!("initialize composition output pipe: {error}"))
+}
+
+#[cfg(not(unix))]
+fn supervisor_output_channel(
+    stdout: ChildStdout,
+    reply_limit: usize,
+) -> Result<mpsc::Receiver<Result<String, String>>, String> {
+    let (sender, receiver) = mpsc::sync_channel(4);
+    let total = reply_limit
+        .checked_add(MAX_COMPOSITION_READY_BYTES)
+        .and_then(|limit| {
+            limit.checked_add(
+                MAX_COMPOSITION_DIAGNOSTIC_BYTES * MAX_COMPOSITION_DIAGNOSTIC_LINES * 3,
+            )
+        })
+        .ok_or("composition output aggregate byte limit overflow")?;
+    std::thread::Builder::new()
+        .name("composition-supervisor-output".into())
+        .spawn(move || {
+            let mut reader = BufReader::new(stdout).take(total.saturating_add(1) as u64);
+            loop {
+                match read_legacy_composition_frame(&mut reader, total) {
+                    Ok(Some(bytes)) => {
+                        let mut line = match String::from_utf8(bytes) {
+                            Ok(line) => line,
+                            Err(_) => {
+                                let _ = sender.send(Err("composition output is not UTF-8".into()));
+                                break;
+                            }
+                        };
+                        line.push('\n');
+                        if sender.send(Ok(line)).is_err() {
+                            break;
+                        }
+                    }
+                    Ok(None) => break,
+                    Err(error) => {
+                        let _ = sender.send(Err(error));
+                        break;
+                    }
+                }
+            }
+        })
+        .map_err(|error| format!("start composition output reader: {error}"))?;
+    Ok(receiver)
+}
+
+#[cfg(not(unix))]
+fn read_legacy_composition_frame<R: BufRead>(
+    reader: &mut R,
+    limit: usize,
+) -> Result<Option<Vec<u8>>, String> {
+    let mut bytes = Vec::new();
+    let count = Read::by_ref(reader)
+        .take(limit.saturating_add(1) as u64)
+        .read_until(b'\n', &mut bytes)
+        .map_err(|error| format!("read composition protocol: {error}"))?;
+    if count == 0 {
+        return Ok(None);
+    }
+    if bytes.len() > limit {
+        return Err("composition protocol byte limit".into());
+    }
+    if bytes.pop() != Some(b'\n') {
+        return Err("unterminated composition protocol frame".into());
+    }
+    Ok(Some(bytes))
+}
+
+fn composition_diagnostic_frame(bytes: &[u8]) -> Result<(), String> {
+    let line = std::str::from_utf8(bytes).map_err(|_| "composition output is not UTF-8")?;
+    if line.trim_start().starts_with('{') || line.trim_start().starts_with('[') {
+        return Err("composition emitted malformed or unexpected protocol JSON".into());
+    }
+    if bytes.len() > MAX_COMPOSITION_DIAGNOSTIC_BYTES {
+        return Err("composition diagnostic byte limit".into());
+    }
+    Ok(())
+}
+
+fn read_composition_message_until<T: DeserializeOwned>(
+    receiver: &impl CompositionMessageSource,
+    deadline: Instant,
+    limit: usize,
+) -> Result<T, String> {
+    let mut bytes = 0_usize;
+    for _ in 0..MAX_COMPOSITION_DIAGNOSTIC_LINES {
+        if Instant::now() >= deadline {
+            return Err("composition protocol deadline".into());
+        }
+        let frame = receiver
+            .receive_frame_until(deadline, limit)?
+            .ok_or("composition protocol closed before a complete message")?;
+        bytes = bytes.saturating_add(frame.len().saturating_add(1));
+        if bytes > limit {
+            return Err("composition protocol byte limit".into());
+        }
+        match serde_json::from_slice::<T>(&frame) {
+            Ok(message) => return Ok(message),
+            Err(_) => composition_diagnostic_frame(&frame)?,
         }
     }
     Err("composition supervisor emitted too many non-protocol lines".into())
 }
 
-fn write_supervisor_message<W: Write, T: Serialize>(
-    writer: &mut W,
-    message: &T,
-) -> Result<(), String> {
-    serde_json::to_writer(&mut *writer, message)
-        .map_err(|error| format!("encode composition supervisor protocol: {error}"))?;
-    writer
-        .write_all(b"\n")
-        .and_then(|()| writer.flush())
-        .map_err(|error| format!("write composition supervisor protocol: {error}"))
+fn read_terminal_composition_message<T: DeserializeOwned>(
+    receiver: &impl CompositionMessageSource,
+    deadline: Instant,
+    limit: usize,
+) -> Result<T, String> {
+    let message = read_composition_message_until(receiver, deadline, limit)?;
+    for _ in 0..MAX_COMPOSITION_DIAGNOSTIC_LINES {
+        match receiver.receive_frame_until(deadline, MAX_COMPOSITION_DIAGNOSTIC_BYTES)? {
+            None => return Ok(message),
+            Some(frame) => composition_diagnostic_frame(&frame)?,
+        }
+    }
+    Err("composition supervisor emitted too many trailing diagnostic lines".into())
 }
 
-fn stop_unreleased_supervisor(child: &mut Child) {
-    let _ = child.kill();
-    let _ = child.wait();
+#[cfg(test)]
+fn read_supervisor_message<T: DeserializeOwned>(
+    receiver: &impl CompositionMessageSource,
+    timeout: Option<Duration>,
+) -> Result<T, String> {
+    let deadline = composition_deadline(timeout.unwrap_or(COMPOSITION_HANDSHAKE_BUDGET))?;
+    read_composition_message_until(receiver, deadline, MAX_COMPOSITION_READY_BYTES)
 }
 
-fn stop_unreleased_supervisor_bounded(child: &mut Child) -> Result<(), String> {
-    const CLEANUP_TIMEOUT: Duration = Duration::from_secs(2);
-    let kill_error = child.kill().err();
-    let deadline = std::time::Instant::now() + CLEANUP_TIMEOUT;
+#[cfg(test)]
+fn read_composition_terminal_until<T: DeserializeOwned>(
+    receiver: &impl CompositionMessageSource,
+    deadline: Instant,
+) -> Result<T, String> {
+    read_terminal_composition_message(receiver, deadline, MAX_COMPOSITION_READY_BYTES)
+}
+
+fn finish_composition_child_until(
+    child: &mut Child,
+    deadline: Instant,
+) -> Result<std::process::ExitStatus, String> {
     loop {
-        match child.try_wait() {
-            Ok(Some(_)) => return Ok(()),
-            Ok(None) => {
-                let now = std::time::Instant::now();
-                if now >= deadline {
-                    return Err(match kill_error {
-                        Some(error) => format!(
-                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?} after kill failed: {error}"
-                        ),
-                        None => format!(
-                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?}"
-                        ),
-                    });
+        if Instant::now() >= deadline {
+            return Err(format!(
+                "composition supervisor pid={} exit deadline; reaped=false",
+                child.id()
+            ));
+        }
+        #[cfg(unix)]
+        let exited = cockpit_verification::supervisor_pipe::observe_owned_child_exit(child);
+        #[cfg(not(unix))]
+        let exited = child.try_wait().map(|status| status.is_some());
+        match exited {
+            Ok(true) => match child.try_wait() {
+                Ok(Some(status)) => return Ok(status),
+                Ok(None) => {
+                    return Err(format!(
+                        "composition supervisor pid={} exit changed; reaped=false",
+                        child.id()
+                    ));
                 }
-                std::thread::sleep(Duration::from_millis(10).min(deadline - now));
-            }
+                Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
+                Err(error) => {
+                    return Err(format!(
+                        "reap owned composition supervisor pid={}: {error}; reaped=unknown",
+                        child.id()
+                    ));
+                }
+            },
+            Ok(false) => {}
+            Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
             Err(error) => {
                 return Err(format!(
-                    "reap composition supervisor after identity error: {error}"
+                    "composition supervisor pid={} wait ownership unknown: {error}; no signal authorized",
+                    child.id()
                 ));
             }
+        }
+        std::thread::sleep(
+            Duration::from_millis(10).min(deadline.saturating_duration_since(Instant::now())),
+        );
+    }
+}
+
+fn parent_observation_now() -> u128 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or(0)
+}
+
+fn cleanup_facts_from_exit(
+    status: std::process::ExitStatus,
+    actions: Vec<String>,
+) -> cockpit_verification::CompositionParentCleanup {
+    #[cfg(unix)]
+    let signal = {
+        use std::os::unix::process::ExitStatusExt;
+        status.signal()
+    };
+    #[cfg(not(unix))]
+    let signal = None;
+    cockpit_verification::CompositionParentCleanup {
+        child_reaped: Some(true),
+        exit_code: status.code(),
+        termination_signal: signal,
+        actions,
+        diagnostic: None,
+    }
+}
+
+fn cleanup_owned_composition_child(
+    child: &mut Child,
+    deadline: Instant,
+) -> cockpit_verification::CompositionParentCleanup {
+    let pid = child.id();
+    let mut actions = Vec::new();
+    let mut signalled = false;
+    let mut killed = false;
+    let kill_at = deadline
+        .checked_sub(Duration::from_secs(2))
+        .unwrap_or(deadline);
+    let failed = |actions, reaped, diagnostic| cockpit_verification::CompositionParentCleanup {
+        child_reaped: reaped,
+        exit_code: None,
+        termination_signal: None,
+        actions,
+        diagnostic: Some(diagnostic),
+    };
+    loop {
+        if Instant::now() >= deadline {
+            return failed(
+                actions,
+                Some(false),
+                format!("cleanup pid={pid} reaped=false: cleanup deadline"),
+            );
+        }
+        #[cfg(unix)]
+        let exited = cockpit_verification::supervisor_pipe::observe_owned_child_exit(child);
+        #[cfg(not(unix))]
+        let exited = child.try_wait().map(|status| status.is_some());
+        match exited {
+            Ok(true) => match child.try_wait() {
+                Ok(Some(status)) => return cleanup_facts_from_exit(status, actions),
+                Ok(None) => {
+                    return failed(
+                        actions,
+                        None,
+                        format!("cleanup pid={pid}: exit observation changed"),
+                    );
+                }
+                Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
+                Err(error) => {
+                    return failed(
+                        actions,
+                        None,
+                        format!("cleanup pid={pid}: reap ownership unknown: {error}"),
+                    );
+                }
+            },
+            Ok(false) => {
+                // Exclusive WNOWAIT observation pins the exact PID before each
+                // signal. This spawn has no owned helper process group.
+                if !signalled {
+                    #[cfg(unix)]
+                    {
+                        actions.push(format!("SIGINT(pid={pid})"));
+                        // SAFETY: exact unreaped direct child, never a PGID.
+                        if unsafe { libc::kill(pid as libc::pid_t, libc::SIGINT) } != 0 {
+                            return failed(
+                                actions,
+                                Some(false),
+                                format!(
+                                    "cleanup pid={pid}: INT failed: {}",
+                                    io::Error::last_os_error()
+                                ),
+                            );
+                        }
+                    }
+                    #[cfg(not(unix))]
+                    {
+                        actions.push(format!("kill(pid={pid})"));
+                        if let Err(error) = child.kill() {
+                            return failed(
+                                actions,
+                                Some(false),
+                                format!("cleanup pid={pid}: kill failed: {error}"),
+                            );
+                        }
+                    }
+                    signalled = true;
+                } else if !killed && Instant::now() >= kill_at {
+                    actions.push(format!("KILL(pid={pid})"));
+                    if let Err(error) = child.kill() {
+                        return failed(
+                            actions,
+                            Some(false),
+                            format!("cleanup pid={pid}: KILL failed: {error}"),
+                        );
+                    }
+                    killed = true;
+                }
+            }
+            Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
+            Err(error) => {
+                return failed(
+                    actions,
+                    None,
+                    format!("cleanup pid={pid}: wait ownership lost: {error}; no further signal"),
+                );
+            }
+        }
+        std::thread::sleep(
+            Duration::from_millis(10).min(deadline.saturating_duration_since(Instant::now())),
+        );
+    }
+}
+
+fn render_parent_cleanup(
+    pid: u32,
+    facts: &cockpit_verification::CompositionParentCleanup,
+) -> String {
+    format!(
+        "cleanup pid={pid} reaped={:?} exit={:?} signal={:?} actions={:?} diagnostic={:?}",
+        facts.child_reaped,
+        facts.exit_code,
+        facts.termination_signal,
+        facts.actions,
+        facts.diagnostic
+    )
+}
+
+// Compatibility wrapper for the existing finite owned-child test fixtures.
+#[cfg(all(test, unix))]
+fn terminate_composition_child_until(
+    child: &mut Child,
+    deadline: Instant,
+) -> Result<String, String> {
+    let facts = cleanup_owned_composition_child(child, deadline);
+    let report = render_parent_cleanup(child.id(), &facts);
+    if facts.child_reaped == Some(true) && facts.diagnostic.is_none() {
+        Ok(report)
+    } else {
+        Err(report)
+    }
+}
+
+fn record_failed_parent_operation(
+    coordination_root: &Path,
+    child: &mut Child,
+    identity: cockpit_verification::CompositionParentIdentity,
+    phase: &str,
+    release_may_have_been_delivered: bool,
+    completed_status: Option<std::process::ExitStatus>,
+    primary: CollaborationExecutionError,
+) -> CollaborationExecutionError {
+    let diagnostic = primary.to_string();
+    let failure = cockpit_verification::CompositionParentObservation::new(
+        identity.clone(),
+        cockpit_verification::CompositionParentEvent::Failure {
+            phase: phase.into(),
+            diagnostic: diagnostic.clone(),
+            release_may_have_been_delivered,
+        },
+        parent_observation_now(),
+    );
+    let mut publications = Vec::new();
+    let mut publication_errors = Vec::new();
+    let failure_id = match failure {
+        Ok(failure) => {
+            let id = failure.observation_id.clone();
+            // Publish the known failure BEFORE attempting any cleanup. A late
+            // helper write to its own JSON cannot erase this independent fact.
+            if let Err(error) =
+                publish_native_composition_parent_observation(coordination_root, &failure)
+            {
+                publication_errors.push(format!("failure observation publication failed: {error}"));
+            }
+            publications.push(failure);
+            Some(id)
+        }
+        Err(error) => {
+            publication_errors.push(format!("failure observation identity rejected: {error}"));
+            None
+        }
+    };
+    let cleanup = match completed_status {
+        Some(status) => cleanup_facts_from_exit(status, Vec::new()),
+        None => match composition_deadline(COMPOSITION_CLEANUP_BUDGET) {
+            Ok(deadline) => cleanup_owned_composition_child(child, deadline),
+            Err(error) => cockpit_verification::CompositionParentCleanup {
+                child_reaped: None,
+                exit_code: None,
+                termination_signal: None,
+                actions: Vec::new(),
+                diagnostic: Some(error),
+            },
+        },
+    };
+    let cleanup_report = render_parent_cleanup(child.id(), &cleanup);
+    if let Some(failure_observation_id) = failure_id {
+        match cockpit_verification::CompositionParentObservation::new(
+            identity,
+            cockpit_verification::CompositionParentEvent::Cleanup {
+                failure_observation_id,
+                facts: cleanup,
+            },
+            parent_observation_now(),
+        ) {
+            Ok(observation) => {
+                if let Err(error) =
+                    publish_native_composition_parent_observation(coordination_root, &observation)
+                {
+                    publication_errors
+                        .push(format!("cleanup observation publication failed: {error}"));
+                }
+                publications.push(observation);
+            }
+            Err(error) => {
+                publication_errors.push(format!("cleanup observation identity rejected: {error}"))
+            }
+        }
+    }
+    let message = format!("{diagnostic}; {cleanup_report}");
+    if publication_errors.is_empty() {
+        recovery_error(message)
+    } else {
+        // Same boundary as VerificationCheckpointPublication: retain actual
+        // observations in memory without claiming they reached durable storage.
+        // Display does not dump argv/environment/body material into the CLI.
+        CollaborationExecutionError::ParentObservationPublication {
+            message: format!("{message}; {}", publication_errors.join("; ")),
+            observations: publications,
         }
     }
 }
@@ -4446,5 +5707,1139 @@ mod registered_worktree_file_windows_tests {
         );
         assert!(active_path.join(leaf).is_file());
         assert!(!moved_active.exists());
+    }
+}
+
+#[cfg(test)]
+mod composition_channel_deadline_tests {
+    use super::*;
+    use serde::Deserialize;
+    use std::time::Instant;
+
+    #[derive(Debug, Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct TestFrame {
+        value: String,
+    }
+
+    // Producers are ordinary bounded threads: no child processes, detached
+    // workers or rescue cleanup. Every producer is joined before an assertion.
+    #[test]
+    fn ready_diagnostic_lines_cannot_restart_the_absolute_deadline() {
+        let (sender, receiver) = mpsc::channel();
+        let producer = std::thread::spawn(move || {
+            for _ in 0..5 {
+                if sender.send(Ok("diagnostic\n".into())).is_err() {
+                    return;
+                }
+                std::thread::sleep(Duration::from_millis(20));
+            }
+            let _ = sender.send(Ok("{\"value\":\"late\"}\n".into()));
+        });
+        let started = Instant::now();
+        let result =
+            read_supervisor_message::<TestFrame>(&receiver, Some(Duration::from_millis(35)));
+        let elapsed = started.elapsed();
+        producer.join().expect("bounded diagnostic producer");
+        assert!(
+            result.is_err(),
+            "late Ready received a renewed budget: {result:?}"
+        );
+        assert!(elapsed < Duration::from_millis(90), "read took {elapsed:?}");
+    }
+
+    #[test]
+    fn oversized_ready_is_rejected_instead_of_deserialized() {
+        let (sender, receiver) = mpsc::channel();
+        sender
+            .send(Ok(format!("{{\"value\":\"{}\"}}\n", "x".repeat(65_536))))
+            .expect("queue oversized frame");
+        drop(sender);
+        let result = read_supervisor_message::<TestFrame>(&receiver, Some(Duration::from_secs(1)));
+        assert!(result.is_err(), "oversized Ready was accepted");
+        assert!(result.unwrap_err().contains("byte limit"));
+    }
+
+    #[test]
+    fn malformed_json_protocol_is_not_skipped_as_diagnostic_text() {
+        let (sender, receiver) = mpsc::channel();
+        sender
+            .send(Ok("{\"value\":null}\n".into()))
+            .expect("malformed protocol");
+        sender
+            .send(Ok("{\"value\":\"after-invalid\"}\n".into()))
+            .expect("later valid frame");
+        drop(sender);
+        let result = read_supervisor_message::<TestFrame>(&receiver, Some(Duration::from_secs(1)));
+        assert!(
+            result.is_err(),
+            "malformed expected JSON was skipped: {result:?}"
+        );
+    }
+
+    #[test]
+    fn terminal_reply_without_natural_eof_is_not_success() {
+        let (sender, receiver) = mpsc::channel();
+        sender
+            .send(Ok("{\"value\":\"terminal\"}\n".into()))
+            .expect("terminal frame");
+        let producer = std::thread::spawn(move || {
+            std::thread::sleep(Duration::from_millis(150));
+            drop(sender);
+        });
+        let started = Instant::now();
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            started + Duration::from_millis(35),
+        );
+        let elapsed = started.elapsed();
+        producer.join().expect("finite held channel");
+        assert!(
+            result.is_err(),
+            "terminal without natural EOF was accepted: {result:?}"
+        );
+        assert!(
+            elapsed < Duration::from_millis(100),
+            "terminal took {elapsed:?}"
+        );
+    }
+
+    #[test]
+    fn duplicate_terminal_reply_is_not_ignored() {
+        let (sender, receiver) = mpsc::channel();
+        for _ in 0..2 {
+            sender
+                .send(Ok("{\"value\":\"terminal\"}\n".into()))
+                .expect("duplicate terminal");
+        }
+        drop(sender);
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            Instant::now() + Duration::from_secs(1),
+        );
+        assert!(
+            result.is_err(),
+            "a second terminal frame was ignored: {result:?}"
+        );
+    }
+
+    #[test]
+    fn one_terminal_and_natural_eof_preserve_the_original_value() {
+        let (sender, receiver) = mpsc::channel();
+        sender
+            .send(Ok("{\"value\":\"original\"}\n".into()))
+            .expect("terminal frame");
+        drop(sender);
+        let result = read_composition_terminal_until::<TestFrame>(
+            &receiver,
+            Instant::now() + Duration::from_secs(1),
+        )
+        .expect("complete channel");
+        assert_eq!(result.value, "original");
+    }
+}
+
+#[cfg(all(test, unix))]
+mod composition_unix_channel_tests {
+    use super::*;
+    use std::os::unix::net::UnixStream;
+
+    fn pipe() -> (UnixStream, CompositionOutputPipe<UnixStream>) {
+        let (writer, reader) = UnixStream::pair().expect("private owned socket pair");
+        let reader = cockpit_verification::supervisor_pipe::FrameReader::new(
+            reader,
+            MAX_COMPOSITION_READY_BYTES * 2,
+            MAX_COMPOSITION_READY_BYTES,
+        )
+        .expect("nonblocking frame reader");
+        (
+            writer,
+            CompositionOutputPipe(std::cell::RefCell::new(reader)),
+        )
+    }
+
+    #[test]
+    fn unterminated_oversized_frame_fails_without_waiting_for_eof() {
+        let (mut writer, reader) = pipe();
+        let start = Instant::now();
+        let deadline = start + Duration::from_millis(100);
+        let producer = std::thread::spawn(move || {
+            let produced = cockpit_verification::supervisor_pipe::write_until(
+                &mut writer,
+                &vec![b'x'; MAX_COMPOSITION_READY_BYTES + 1],
+                deadline,
+            );
+            // JoinHandle's result owns the endpoint after this thread exits.
+            // EOF therefore cannot explain a rejection before the reader decides.
+            (writer, produced)
+        });
+        let result = read_composition_message_until::<serde_json::Value>(
+            &reader,
+            deadline,
+            MAX_COMPOSITION_READY_BYTES,
+        );
+        // Join only the producer whose every I/O operation uses the same
+        // absolute deadline. Never block-write before starting the reader or
+        // assume a particular Linux/macOS socket buffer capacity.
+        let (_held_writer, produced) = producer.join().expect("bounded oversize producer");
+        assert!(
+            produced.is_ok(),
+            "fault bytes did not complete: {produced:?}"
+        );
+        assert!(
+            result
+                .as_ref()
+                .is_err_and(|error| error.contains("byte limit")),
+            "actual frame result: {result:?}"
+        );
+        assert!(start.elapsed() < Duration::from_millis(400));
+    }
+
+    #[test]
+    fn real_pipe_terminal_requires_natural_eof() {
+        let (mut writer, reader) = pipe();
+        writer
+            .write_all(b"{\"original\":true}\n")
+            .expect("complete terminal");
+        let result = read_terminal_composition_message::<serde_json::Value>(
+            &reader,
+            Instant::now() + Duration::from_millis(35),
+            MAX_COMPOSITION_READY_BYTES,
+        );
+        assert!(
+            result.is_err(),
+            "a held writer cannot certify terminal completion"
+        );
+    }
+
+    #[test]
+    fn real_pipe_terminal_then_eof_keeps_exact_json() {
+        let (mut writer, reader) = pipe();
+        writer
+            .write_all(b"{\"original\":true}\n")
+            .expect("complete terminal");
+        drop(writer);
+        let result = read_terminal_composition_message::<serde_json::Value>(
+            &reader,
+            Instant::now() + Duration::from_secs(1),
+            MAX_COMPOSITION_READY_BYTES,
+        )
+        .expect("natural terminal EOF");
+        assert_eq!(result, serde_json::json!({"original":true}));
+    }
+
+    #[test]
+    fn partial_eof_and_invalid_utf8_are_not_diagnostics_or_empty_success() {
+        for bytes in [&b"{\"partial\":"[..], &b"\xff\n"[..]] {
+            let (mut writer, reader) = pipe();
+            writer.write_all(bytes).expect("bounded fault bytes");
+            drop(writer);
+            let result = read_composition_message_until::<serde_json::Value>(
+                &reader,
+                Instant::now() + Duration::from_secs(1),
+                MAX_COMPOSITION_READY_BYTES,
+            );
+            assert!(result.is_err(), "invalid frame was promoted");
+        }
+    }
+
+    #[test]
+    fn unread_request_expires_in_the_shared_writer_without_a_reader_thread() {
+        let (mut writer, _nonreading_peer) = UnixStream::pair().expect("private pair");
+        let started = Instant::now();
+        let result = cockpit_verification::supervisor_pipe::write_until(
+            &mut writer,
+            &vec![b'x'; 1024 * 1024],
+            started + Duration::from_millis(35),
+        );
+        assert!(result.is_err_and(|error| error.kind() == io::ErrorKind::TimedOut));
+        assert!(started.elapsed() < Duration::from_millis(250));
+    }
+
+    // A separate real child with no descendants and an unconditional hard TTL.
+    // The test's finite fallback owns this exact Child; it never discovers or
+    // kills unrelated PIDs, and its cleanup is not Runtime full-tree proof.
+    const FIXTURE_MODE: &str = "AI_COCKPIT_COMPOSITION_CHANNEL_OWNED_FIXTURE";
+    #[test]
+    fn owned_child_fixture() {
+        let Some(mode) = std::env::var_os(FIXTURE_MODE) else {
+            return;
+        };
+        std::thread::spawn(|| {
+            std::thread::sleep(Duration::from_secs(2));
+            // SAFETY: this isolated fixture only, with no cleanup hooks to wait.
+            unsafe { libc::_exit(97) };
+        });
+        let nonce = std::env::var("AI_COCKPIT_COMPOSITION_CHANNEL_WITNESS").expect("fixture nonce");
+        let mut stdout = io::stdout().lock();
+        stdout.write_all(b"\n").expect("separate libtest prefix");
+        serde_json::to_writer(
+            &mut stdout,
+            &serde_json::json!({"pid":std::process::id(),"nonce":nonce}),
+        )
+        .expect("witness");
+        stdout
+            .write_all(b"\n")
+            .and_then(|()| stdout.flush())
+            .expect("bounded witness line");
+        drop(stdout);
+        if mode == "delay" {
+            std::thread::sleep(Duration::from_millis(500));
+        }
+    }
+
+    pub(super) struct FixtureChild {
+        pub(super) child: Child,
+        pub(super) reaped: bool,
+        _witness_output: Option<CompositionOutputPipe>,
+    }
+    impl FixtureChild {
+        pub(super) fn new(mode: &str) -> Self {
+            #[derive(serde::Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct Witness {
+                pid: u32,
+                nonce: String,
+            }
+            let nonce = new_composition_run_nonce();
+            let mut child =
+                Command::new(std::env::current_exe().expect("absolute test executable"))
+                    .args([
+                        "--exact",
+                        "collaboration::composition_unix_channel_tests::owned_child_fixture",
+                        "--nocapture",
+                    ])
+                    .env(FIXTURE_MODE, mode)
+                    .env("AI_COCKPIT_COMPOSITION_CHANNEL_WITNESS", &nonce)
+                    .stdin(Stdio::null())
+                    .stdout(Stdio::piped())
+                    .stderr(Stdio::null())
+                    .spawn()
+                    .expect("owned TTL fixture");
+            let output = match child
+                .stdout
+                .take()
+                .ok_or("missing fixture witness output")
+                .and_then(|stdout| {
+                    supervisor_output_channel(stdout, MAX_COMPOSITION_READY_BYTES)
+                        .map_err(|_| "fixture output setup")
+                }) {
+                Ok(output) => output,
+                Err(error) => {
+                    let cleanup = cleanup_owned_composition_child(
+                        &mut child,
+                        Instant::now() + Duration::from_secs(2),
+                    );
+                    panic!("{error}; {cleanup:?}");
+                }
+            };
+            let mut fixture = Self {
+                child,
+                reaped: false,
+                _witness_output: Some(output),
+            };
+            let witness = read_composition_message_until::<Witness>(
+                fixture._witness_output.as_ref().expect("output"),
+                Instant::now() + Duration::from_secs(1),
+                MAX_COMPOSITION_READY_BYTES,
+            );
+            if !witness
+                .is_ok_and(|witness| witness.pid == fixture.child.id() && witness.nonce == nonce)
+            {
+                let cleanup = fixture.cleanup();
+                panic!("exact fixture pid/nonce witness missing; {cleanup:?}");
+            }
+            fixture
+        }
+        fn cleanup(&mut self) -> Result<String, String> {
+            let result = terminate_composition_child_until(
+                &mut self.child,
+                Instant::now() + Duration::from_secs(1),
+            );
+            if result.is_ok() {
+                self.reaped = true;
+            }
+            result
+        }
+    }
+    impl Drop for FixtureChild {
+        fn drop(&mut self) {
+            if self.reaped {
+                return;
+            }
+            // Failure-only test rescue: still finite and bound to the owned
+            // child. A test never labels this fallback Runtime cleanup success.
+            if cockpit_verification::supervisor_pipe::observe_owned_child_exit(&self.child).is_ok()
+            {
+                let _ = self.child.kill();
+                let deadline = Instant::now() + Duration::from_secs(2);
+                while Instant::now() < deadline {
+                    match self.child.try_wait() {
+                        Ok(Some(_)) | Err(_) => break,
+                        Ok(None) => std::thread::sleep(Duration::from_millis(10)),
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn eof_cannot_replace_real_worker_exit() {
+        let mut fixture = FixtureChild::new("delay");
+        let result = finish_composition_child_until(
+            &mut fixture.child,
+            Instant::now() + Duration::from_millis(35),
+        );
+        let cleanup = fixture.cleanup();
+        assert!(result.is_err_and(|error| error.contains("reaped=false")));
+        assert!(cleanup.is_ok(), "test-owned final cleanup: {cleanup:?}");
+    }
+
+    #[test]
+    fn natural_worker_exit_is_observed_and_reaped() {
+        let mut fixture = FixtureChild::new("normal");
+        let result = finish_composition_child_until(
+            &mut fixture.child,
+            Instant::now() + Duration::from_secs(1),
+        );
+        fixture.reaped = result.is_ok();
+        assert!(result.is_ok_and(|status| status.success()));
+    }
+
+    #[test]
+    fn reaped_pid_never_authorizes_late_cleanup_signals() {
+        let mut fixture = FixtureChild::new("normal");
+        let status = finish_composition_child_until(
+            &mut fixture.child,
+            Instant::now() + Duration::from_secs(1),
+        );
+        fixture.reaped = status.is_ok();
+        assert!(status.is_ok_and(|status| status.success()));
+        let cleanup = terminate_composition_child_until(
+            &mut fixture.child,
+            Instant::now() + Duration::from_millis(50),
+        );
+        assert!(
+            cleanup.is_err_and(|error| error.contains("wait ownership lost")
+                && error.contains("no further signal"))
+        );
+    }
+
+    #[test]
+    fn bounded_encoder_keeps_exact_limit_and_never_truncates() {
+        let frame =
+            encode_composition_frame(&serde_json::json!({"x":"original"}), 128).expect("frame");
+        assert_eq!(
+            encode_composition_frame(&serde_json::json!({"x":"original"}), frame.len())
+                .expect("exact limit"),
+            frame
+        );
+        assert!(
+            encode_composition_frame(&serde_json::json!({"x":"original"}), frame.len() - 1)
+                .is_err()
+        );
+    }
+}
+
+#[cfg(test)]
+mod composition_parent_observation_tests {
+    use super::*;
+    use cockpit_protocol::CompositionBinding;
+    use cockpit_verification::composition::{
+        CompositionCleanup, CompositionCommand, CompositionExecutionRecord, CompositionIdentity,
+        ReuseDecision, ReuseDecisionKind,
+    };
+    use cockpit_verification::{
+        CompositionParentCatalog, CompositionParentCleanup, CompositionParentEvent,
+        CompositionParentIdentity, CompositionParentObservation,
+    };
+
+    fn digest(text: &str) -> Digest {
+        Digest::sha256_bytes(text.as_bytes())
+    }
+
+    // Synthetic store/reducer fixture only. These passed child fields are NOT
+    // evidence that any command ran. Real subprocess tests remain separate.
+    fn fixture(nonce: &str, timestamp: u128) -> (CompositionParentIdentity, CompositionAttempt) {
+        let binding = CompositionBinding {
+            schema_version: 1,
+            repository_id: digest("fixture-repository"),
+            binding_id: "fixture".into(),
+            target_branch: "main".into(),
+            target_sha: "a".repeat(40),
+            participant_work_items: vec!["WI-PARENT-FIXTURE".into()],
+            participant_heads: vec!["b".repeat(40)],
+            contract_digests: vec![digest("contract")],
+            verifier: RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: env!("CARGO_PKG_VERSION").into(),
+                runtime_digest: digest("synthetic-fixture-runtime"),
+                capability: cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY.into(),
+            },
+        };
+        let command = CompositionCommand {
+            node_id: "node".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            depends_on: Vec::new(),
+            environment: Default::default(),
+            input_paths: Vec::new(),
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
+        };
+        let input = CompositionInput {
+            repository_root: "/synthetic/repository".into(),
+            state_dir: "/synthetic/state".into(),
+            binding: binding.clone(),
+            identity: CompositionIdentity::default(),
+            commands: vec![command],
+            reusable_node_ids: Vec::new(),
+            preconditions: Vec::new(),
+            timeout_seconds: 1,
+        };
+        let attempt_id = new_supervised_composition_attempt_id(&input, nonce);
+        let owner = cockpit_verification::CompositionProcessIdentity {
+            process_id: 100,
+            start_time_ticks: Some(10),
+            process_group_id: Some(100),
+            session_id: Some(100),
+        };
+        let supervisor = cockpit_verification::CompositionProcessIdentity {
+            process_id: 200,
+            start_time_ticks: Some(20),
+            process_group_id: Some(100),
+            session_id: Some(100),
+        };
+        let mut receipt = CompositionSupervisorReceipt {
+            schema_version: 1,
+            backend: CompositionSupervisorBackend::LinuxSubreaper,
+            attempt_id: attempt_id.clone(),
+            run_nonce: nonce.into(),
+            generation: 1,
+            owner: owner.clone(),
+            supervisor: supervisor.clone(),
+            linux_boot_id: Some("fixture-boot".into()),
+            environment_digest: digest("environment"),
+            runtime_version: binding.verifier.runtime_version.clone(),
+            runtime_digest: binding.verifier.runtime_digest.clone(),
+            repository_id: binding.repository_id.clone(),
+            target_sha: binding.target_sha.clone(),
+            snapshot_digest: digest("tree"),
+            command_plan_digest: cockpit_verification::composition_commands_digest(&input.commands),
+            input_environment_digest: input_environment_digest(&input),
+            execution_records_digest: execution_records_digest(&[]),
+            descendants_reaped_to_echild: false,
+        };
+        let identity = CompositionParentIdentity {
+            attempt_id: attempt_id.clone(),
+            run_nonce: nonce.into(),
+            binding: binding.clone(),
+            launch_input_identity: input.identity.clone(),
+            generation: 1,
+            owner,
+            child_pid: supervisor.process_id,
+            observed_supervisor: Some(supervisor),
+            registered_receipt: Some(receipt.clone()),
+            command_plan_digest: receipt.command_plan_digest.clone(),
+            input_environment_digest: receipt.input_environment_digest.clone(),
+            attempt_started_at_unix_nanos: timestamp,
+        };
+        let records = vec![CompositionExecutionRecord {
+            node_id: "node".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            identity_digest: digest("node-identity"),
+            spawned: true,
+            reused: false,
+            passed: true,
+            exit_code: Some(0),
+            termination_signal: None,
+            stdout: "saved-child-output".into(),
+            stderr: "saved-child-stderr".into(),
+            output_digest: digest("output"),
+            timed_out: false,
+            predecessor_attempt_id: None,
+        }];
+        receipt.execution_records_digest = execution_records_digest(&records);
+        receipt.descendants_reaped_to_echild = true;
+        let mut execution_identity = input.identity;
+        execution_identity.command_digest = receipt.command_plan_digest.clone();
+        let child = CompositionAttempt {
+            schema_version: 3,
+            attempt_id,
+            binding,
+            identity: execution_identity,
+            preconditions: Vec::new(),
+            isolated_worktree: "/synthetic/owned-worktree".into(),
+            text_conflicts: Vec::new(),
+            execution_records: records,
+            processes_spawned: 1,
+            reuse_decision: ReuseDecision {
+                kind: ReuseDecisionKind::Execute,
+                reason: "synthetic fixture".into(),
+                predecessor_attempt_id: None,
+            },
+            passed: true,
+            failure: None,
+            execution_outcome: CompositionExecutionOutcome::Passed,
+            execution_evidence_complete: true,
+            supervisor_receipt: Some(receipt),
+            cleanup_disposition: CompositionCleanupDisposition::Cleaned,
+            owner_termination_signal: None,
+            cleanup: Some(CompositionCleanup {
+                attempted: true,
+                removed: true,
+                error: None,
+            }),
+            recorded_at_unix_nanos: timestamp + 1,
+            owner_pid: Some(200),
+            process_observation_schema_version: 1,
+            active_execution_node: None,
+            active_process_group_id: None,
+            active_process_group_identity: None,
+            owned_tree_termination_unknown: false,
+        };
+        (identity, child)
+    }
+
+    fn failure(identity: &CompositionParentIdentity, phase: &str) -> CompositionParentObservation {
+        CompositionParentObservation::new(
+            identity.clone(),
+            CompositionParentEvent::Failure {
+                phase: phase.into(),
+                diagnostic: format!("injected-{phase}"),
+                release_may_have_been_delivered: true,
+            },
+            identity.attempt_started_at_unix_nanos + 2,
+        )
+        .expect("typed synthetic failure")
+    }
+
+    fn cleanup(
+        identity: &CompositionParentIdentity,
+        failure: &CompositionParentObservation,
+    ) -> CompositionParentObservation {
+        CompositionParentObservation::new(
+            identity.clone(),
+            CompositionParentEvent::Cleanup {
+                failure_observation_id: failure.observation_id.clone(),
+                facts: CompositionParentCleanup {
+                    child_reaped: Some(true),
+                    exit_code: Some(0),
+                    termination_signal: None,
+                    actions: Vec::new(),
+                    diagnostic: None,
+                },
+            },
+            identity.attempt_started_at_unix_nanos + 3,
+        )
+        .expect("typed synthetic cleanup")
+    }
+
+    fn write_child(store: &NativeCompositionParentStore, child: &CompositionAttempt) -> Vec<u8> {
+        let stem = format!(
+            "composition-{}",
+            child
+                .attempt_id
+                .bytes()
+                .map(|byte| format!("{byte:02x}"))
+                .collect::<String>()
+        );
+        let bytes = serde_json::to_vec_pretty(child).expect("child bytes");
+        store
+            .compositions
+            .write(format!("{stem}.json"), &bytes)
+            .expect("synthetic child record");
+        bytes
+    }
+
+    fn capacity_launch(binding_id: String) -> CompositionSupervisorLaunch {
+        let (identity, _) = fixture("capacity-nonce", 10);
+        let mut binding = identity.binding;
+        binding.binding_id = binding_id;
+        let input = CompositionInput {
+            repository_root: "/synthetic/repository".into(),
+            state_dir: "/synthetic/state".into(),
+            binding,
+            identity: identity.launch_input_identity,
+            commands: vec![CompositionCommand {
+                node_id: "node".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                depends_on: Vec::new(),
+                environment: Default::default(),
+                input_paths: Vec::new(),
+                covered_scenarios: Vec::new(),
+                covered_constraints: Vec::new(),
+            }],
+            reusable_node_ids: Vec::new(),
+            preconditions: Vec::new(),
+            timeout_seconds: 1,
+        };
+        CompositionSupervisorLaunch {
+            repository_root: input.repository_root.clone(),
+            work_item_id: "WI-PARENT-FIXTURE".into(),
+            generation: 1,
+            attempt_id: new_supervised_composition_attempt_id(&input, "capacity-nonce"),
+            run_nonce: "capacity-nonce".into(),
+            owner: identity.owner,
+            runtime_version: input.binding.verifier.runtime_version.clone(),
+            runtime_digest: input.binding.verifier.runtime_digest.clone(),
+            input,
+        }
+    }
+
+    #[test]
+    fn oversized_parent_identity_is_rejected_before_the_spawn_boundary() {
+        let launch = capacity_launch("b".repeat(150_000));
+        let bytes = encode_composition_frame(&launch, MAX_COMPOSITION_LAUNCH_BYTES)
+            .expect("counterexample fits the independent 8MiB launch limit");
+        assert!(bytes.len() < MAX_COMPOSITION_LAUNCH_BYTES);
+        let identity = composition_parent_identity(&launch, 200, 10);
+        let event = CompositionParentObservation::new(
+            identity,
+            CompositionParentEvent::Failure {
+                phase: "take_pipe".into(),
+                diagnostic: "original".into(),
+                release_may_have_been_delivered: false,
+            },
+            11,
+        )
+        .expect("the original binding shape does not reject this ID");
+        assert!(
+            serde_json::to_vec_pretty(&event)
+                .expect("untruncated record")
+                .len()
+                > MAX_COMPOSITION_PARENT_RECORD_BYTES as usize
+        );
+        let spawned = std::cell::Cell::new(false);
+        let error = with_composition_parent_capacity(&launch, || {
+            spawned.set(true);
+            Ok(())
+        })
+        .expect_err("must reject before the same guard used by the real spawn");
+        assert!(!spawned.get());
+        assert!(error.contains("before spawn"), "{error}");
+        assert_eq!(launch.input.binding.binding_id, "b".repeat(150_000));
+    }
+
+    #[test]
+    fn admitted_parent_identity_keeps_the_original_spawn_and_full_event_budget() {
+        let launch = capacity_launch("normal-binding".into());
+        let before = serde_json::to_vec(&launch).expect("original launch");
+        let calls = std::cell::Cell::new(0);
+        let value = with_composition_parent_capacity(&launch, || {
+            calls.set(calls.get() + 1);
+            Ok(71)
+        })
+        .expect("ordinary identity leaves the reserved failure and cleanup capacity");
+        assert_eq!(value, 71);
+        assert_eq!(calls.get(), 1);
+        assert_eq!(
+            serde_json::to_vec(&launch).expect("unchanged launch"),
+            before
+        );
+        let (identity, _) = fixture("event-capacity", 10);
+        let event = CompositionParentObservation::new(
+            identity,
+            CompositionParentEvent::Failure {
+                phase: "ready_read".into(),
+                diagnostic: "\0".repeat(9_000),
+                release_may_have_been_delivered: true,
+            },
+            11,
+        )
+        .expect("original failure observation");
+        validate_composition_parent_event_capacity(&event.facts.event)
+            .expect("JSON-expanded event is within the 64KiB encoded budget");
+        assert!(
+            serde_json::to_vec_pretty(&event)
+                .expect("full record")
+                .len()
+                <= MAX_COMPOSITION_PARENT_RECORD_BYTES as usize
+        );
+    }
+
+    #[test]
+    fn oversized_diagnostics_are_explicit_publication_failures_without_truncation() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let (identity, _) = fixture("event-capacity", 10);
+        let original = "\0".repeat(12_000);
+        for event in [
+            CompositionParentEvent::Failure {
+                phase: "ready_read".into(),
+                diagnostic: original.clone(),
+                release_may_have_been_delivered: true,
+            },
+            CompositionParentEvent::Cleanup {
+                failure_observation_id: digest("failure"),
+                facts: CompositionParentCleanup {
+                    child_reaped: Some(false),
+                    exit_code: None,
+                    termination_signal: None,
+                    actions: vec!["SIGINT(pid=200)".into()],
+                    diagnostic: Some(original.clone()),
+                },
+            },
+        ] {
+            let observation = CompositionParentObservation::new(identity.clone(), event, 11)
+                .expect("full typed observation is still available in memory");
+            let error = store
+                .publish(&observation)
+                .expect_err("encoded event is too large");
+            assert!(
+                error.contains("event exceeds its encoded byte limit"),
+                "{error}"
+            );
+            match &observation.facts.event {
+                CompositionParentEvent::Failure { diagnostic, .. } => {
+                    assert_eq!(diagnostic, &original)
+                }
+                CompositionParentEvent::Cleanup { facts, .. } => {
+                    assert_eq!(facts.diagnostic.as_ref(), Some(&original))
+                }
+            }
+            assert!(
+                store
+                    .observations
+                    .as_ref()
+                    .expect("directory")
+                    .entries()
+                    .expect("entries")
+                    .next()
+                    .is_none(),
+                "no truncated observation may be published"
+            );
+        }
+    }
+
+    #[test]
+    fn saved_success_then_each_parent_failure_stays_unknown_in_both_consumers() {
+        for phase in [
+            "reply_eof",
+            "reply_partial",
+            "reply_trailing",
+            "worker_nonzero",
+            "abort_mismatch",
+            "missing_attempt",
+            "ownership_mismatch",
+        ] {
+            let root = tempfile::tempdir().expect("native store root");
+            let store = NativeCompositionParentStore::open(root.path(), true)
+                .expect("open")
+                .expect("store");
+            let (identity, child) = fixture("first-nonce", 10);
+            let original = write_child(&store, &child);
+            let observation = failure(&identity, phase);
+            store.publish(&observation).expect("append known failure");
+            store
+                .publish(&cleanup(&identity, &observation))
+                .expect("append real cleanup separately");
+            let catalog =
+                load_native_composition_parent_catalog(root.path()).expect("shared cap reader");
+            let kernel = catalog
+                .latest_for_binding(&child.binding)
+                .expect("kernel latest");
+            let projection = latest_composition_attempt(root.path(), "WI-PARENT-FIXTURE")
+                .expect("projection")
+                .expect("latest");
+            for view in [kernel, projection] {
+                assert!(!view.parent_context_valid, "{phase} became reusable");
+                let raw = view.child_attempt.expect("retained raw execution");
+                assert!(raw.passed);
+                assert_eq!(raw.execution_outcome, CompositionExecutionOutcome::Passed);
+                assert_eq!(raw.execution_records, child.execution_records);
+                assert_eq!(
+                    raw.cleanup_disposition,
+                    CompositionCleanupDisposition::Cleaned
+                );
+                assert!(
+                    raw.supervisor_receipt
+                        .as_ref()
+                        .expect("receipt")
+                        .descendants_reaped_to_echild
+                );
+                assert!(
+                    !raw.owned_tree_termination_unknown,
+                    "do not falsify known tree facts"
+                );
+                assert_eq!(serde_json::to_vec_pretty(&raw).expect("same raw"), original);
+            }
+        }
+    }
+
+    #[test]
+    fn late_child_write_cannot_erase_parent_failure_or_fall_back_to_older_success() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let (_, older) = fixture("older", 1);
+        write_child(&store, &older);
+        let (identity, later) = fixture("later", 10);
+        store
+            .publish(&failure(&identity, "partial"))
+            .expect("failure before child publication");
+        assert_eq!(
+            store
+                .catalog()
+                .expect("view")
+                .latest_for_work_item("WI-PARENT-FIXTURE")
+                .expect("latest")
+                .attempt_id,
+            later.attempt_id
+        );
+        let original = write_child(&store, &later); // real writer may finish late
+        let view = store
+            .catalog()
+            .expect("view")
+            .latest_for_binding(&later.binding)
+            .expect("latest");
+        assert_eq!(view.attempt_id, later.attempt_id);
+        assert!(!view.parent_context_valid);
+        assert_eq!(
+            serde_json::to_vec_pretty(&view.child_attempt.expect("raw")).expect("bytes"),
+            original
+        );
+    }
+
+    #[test]
+    fn exact_observation_is_idempotent_and_new_nonce_supersedes_without_rewriting_old() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let (identity, child) = fixture("first", 10);
+        let original = write_child(&store, &child);
+        let event = failure(&identity, "worker_exit");
+        store.publish(&event).expect("first");
+        store.publish(&event).expect("idempotent");
+        store.publish(&cleanup(&identity, &event)).expect("cleanup");
+        let (_, next) = fixture("fresh-new-nonce", 20);
+        write_child(&store, &next);
+        let catalog = store.catalog().expect("catalog");
+        let selected = catalog.latest_for_binding(&next.binding).expect("latest");
+        assert_eq!(selected.attempt_id, next.attempt_id);
+        assert!(selected.parent_context_valid);
+        let old = catalog.view_for_attempt(&child.attempt_id).expect("old");
+        assert!(!old.parent_context_valid);
+        assert_eq!(
+            serde_json::to_vec_pretty(&old.child_attempt.expect("raw")).expect("bytes"),
+            original
+        );
+    }
+
+    #[test]
+    fn corrupt_conflicting_or_nonregular_observations_never_fall_back_to_success() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let (identity, child) = fixture("first", 10);
+        write_child(&store, &child);
+        let observation = failure(&identity, "eof");
+        let name = format!(
+            "{}.json",
+            observation
+                .observation_id
+                .to_string()
+                .strip_prefix("sha256:")
+                .expect("digest")
+        );
+        let records = store.observations.as_ref().expect("records");
+        records
+            .write(&name, b"malformed")
+            .expect("real conflicting destination");
+        assert!(store.publish(&observation).is_err());
+        assert!(store.catalog().is_err());
+        records
+            .remove_file(&name)
+            .expect("fixture-owned fault file");
+        records.create_dir(&name).expect("nonregular fixture");
+        assert!(store.catalog().is_err());
+    }
+
+    #[test]
+    fn observation_binding_tamper_and_orphan_cleanup_are_rejected() {
+        let (identity, child) = fixture("first", 10);
+        let event = failure(&identity, "partial");
+        let mut tampered = event.clone();
+        tampered.facts.identity.run_nonce = "foreign".into();
+        assert!(
+            CompositionParentCatalog::from_native_observations(vec![child.clone()], vec![tampered])
+                .is_err()
+        );
+        let orphan = cleanup(&identity, &event);
+        assert!(
+            CompositionParentCatalog::from_native_observations(vec![child.clone()], vec![orphan])
+                .is_err()
+        );
+        let mut foreign = identity.clone();
+        foreign.owner.process_id += 1;
+        foreign
+            .registered_receipt
+            .as_mut()
+            .expect("bound receipt")
+            .owner = foreign.owner.clone();
+        // Both observations are valid in isolation; the catalog must still
+        // reject incompatible owners for the same exact attempt identity.
+        let conflict = failure(&foreign, "exit");
+        assert!(
+            CompositionParentCatalog::from_native_observations(vec![child], vec![event, conflict])
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn failed_parent_ancestor_also_blocks_a_reused_descendant_view() {
+        let (identity, first) = fixture("first", 10);
+        let (_, mut next) = fixture("next", 20);
+        next.execution_records[0].spawned = false;
+        next.execution_records[0].reused = true;
+        next.execution_records[0].predecessor_attempt_id = Some(first.attempt_id.clone());
+        next.processes_spawned = 0;
+        next.supervisor_receipt
+            .as_mut()
+            .expect("receipt")
+            .execution_records_digest = execution_records_digest(&next.execution_records);
+        let catalog = CompositionParentCatalog::from_native_observations(
+            vec![first, next.clone()],
+            vec![failure(&identity, "exit")],
+        )
+        .expect("catalog");
+        let view = catalog.latest_for_binding(&next.binding).expect("latest");
+        assert!(!view.parent_context_valid);
+        assert!(
+            view.child_attempt.expect("raw").passed,
+            "do not forge old Unknown"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn publication_failure_retains_in_memory_facts_and_never_claims_durable_unknown() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("store")
+            .expect("present");
+        let (mut identity, mut raw) = fixture("publication-fault", 10);
+        let mut fixture_child = super::composition_unix_channel_tests::FixtureChild::new("normal");
+        let child = &mut fixture_child.child;
+        let pid = child.id();
+        let status =
+            match finish_composition_child_until(child, Instant::now() + Duration::from_secs(1)) {
+                Ok(status) => status,
+                Err(error) => {
+                    let cleanup = cleanup_owned_composition_child(
+                        child,
+                        Instant::now() + Duration::from_secs(2),
+                    );
+                    panic!("fixture did not exit: {error}; {cleanup:?}");
+                }
+            };
+        fixture_child.reaped = true;
+        identity.child_pid = pid;
+        identity
+            .observed_supervisor
+            .as_mut()
+            .expect("synthetic identity")
+            .process_id = pid;
+        identity
+            .registered_receipt
+            .as_mut()
+            .expect("synthetic receipt")
+            .supervisor
+            .process_id = pid;
+        raw.supervisor_receipt
+            .as_mut()
+            .expect("receipt")
+            .supervisor
+            .process_id = pid;
+        raw.owner_pid = Some(pid);
+        let original = write_child(&store, &raw);
+        BEFORE_PARENT_OBSERVATION_PUBLISH.with_borrow_mut(|pending| {
+            *pending = Some(Box::new(|directory, name| {
+                directory
+                    .write(name, b"conflicting fixture-owned bytes")
+                    .expect("publication conflict injection");
+            }));
+        });
+        let error = record_failed_parent_operation(
+            root.path(),
+            &mut fixture_child.child,
+            identity,
+            "worker_nonzero",
+            true,
+            Some(status),
+            recovery_error("injected parent terminal failure".into()),
+        );
+        let CollaborationExecutionError::ParentObservationPublication {
+            observations,
+            message,
+        } = error
+        else {
+            panic!("publication failure was not preserved");
+        };
+        assert!(message.contains("failure observation publication failed"));
+        assert_eq!(observations.len(), 2);
+        assert!(
+            observations
+                .iter()
+                .all(|observation| !observation.facts.passed)
+        );
+        assert!(
+            matches!(&observations[1].facts.event, CompositionParentEvent::Cleanup { facts, .. }
+            if facts.child_reaped == Some(true) && facts.actions.is_empty())
+        );
+        assert!(
+            store.catalog().is_err(),
+            "conflicting/orphan facts cannot expose old success"
+        );
+        let bytes = store
+            .compositions
+            .read(format!(
+                "composition-{}.json",
+                raw.attempt_id
+                    .bytes()
+                    .map(|byte| format!("{byte:02x}"))
+                    .collect::<String>()
+            ))
+            .expect("old raw remains");
+        assert_eq!(bytes, original);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn fifo_observation_is_rejected_without_waiting_for_a_peer() {
+        use std::os::unix::ffi::OsStrExt;
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let path = store.path.join("parent-observations/fifo.json");
+        let cpath = std::ffi::CString::new(path.as_os_str().as_bytes()).expect("path");
+        // SAFETY: fresh fixture-owned pathname, no peer process.
+        assert_eq!(unsafe { libc::mkfifo(cpath.as_ptr(), 0o600) }, 0);
+        let started = Instant::now();
+        assert!(store.catalog().is_err());
+        assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn observation_directory_replacement_is_not_a_successful_publication() {
+        let root = tempfile::tempdir().expect("root");
+        let store = NativeCompositionParentStore::open(root.path(), true)
+            .expect("open")
+            .expect("store");
+        let (identity, _) = fixture("first", 10);
+        let path = store.path.join("parent-observations");
+        fs::rename(&path, store.path.join("retained-original-observations"))
+            .expect("retain fixture original");
+        fs::create_dir(&path).expect("replacement");
+        assert!(store.publish(&failure(&identity, "publication")).is_err());
     }
 }

@@ -458,6 +458,167 @@ for command in sys.argv[2:]:
 PY
 }
 
+
+# Exercise the actual workflow shell body, not a separately copied selector.
+# Ubuntu/POSIX transport fixtures use a substitute helper/Runtime. They do not
+# establish native authorization or Windows compatibility.
+python3 - "$root/.github/workflows/ci.yml" "$tmp/workflow-caller" <<'PY_WORKFLOW_CALLER'
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import stat
+import subprocess
+import sys
+
+workflow, fixtures = map(Path, sys.argv[1:])
+fixtures.mkdir(mode=0o700)
+text = workflow.read_text(encoding="utf-8")
+heading = "      - name: Run admitted hosted Work Item verification with the candidate Runtime\n"
+assert text.count(heading) == 1
+step = text.split(heading, 1)[1].split("\n      - ", 1)[0]
+assert step.count("        run: |\n") == 1
+body = step.split("        run: |\n", 1)[1]
+assert all(not line or line.startswith("          ") for line in body.splitlines())
+body = "\n".join(line[10:] if line else "" for line in body.splitlines()) + "\n"
+script = fixtures / "actual-workflow-step.sh"
+script.write_text(body, encoding="utf-8")
+expected_sources = {'WI-1113-delivery-continuity-parallel-authorization': '9dab9c392734edf3f437bfe6171cbc6afdc157a7defff296dd2a7d5b53ca146e', 'WI-1114-release-runtime-convergence': 'c67f8bca34d20a584c1fb58a62d6441f9b54a14f6afe7e8a0e83e4e1815fb5eb'}
+real_mktemp = shutil.which("mktemp")
+real_rm = shutil.which("rm")
+assert real_mktemp is not None and real_rm is not None
+
+def run_case(name, work_item_id, poison_new_path=None):
+    case = fixtures / name
+    case.mkdir(mode=0o700)
+    workspace = case / "workspace"
+    helper = workspace / "tests/ci/run_hosted_runtime_verification.sh"
+    helper.parent.mkdir(parents=True)
+    helper.write_text(
+        "#!/usr/bin/env python3\n"
+        "import json, os, stat, sys\n"
+        "from pathlib import Path\n"
+        "args = sys.argv[1:]\n"
+        "value = {'args': args}\n"
+        "if '--task-caller' in args:\n"
+        "    path = Path(args[args.index('--task-caller') + 1])\n"
+        "    info = path.lstat()\n"
+        "    value.update(caller=json.loads(path.read_bytes()), path=str(path), "
+        "regular=stat.S_ISREG(info.st_mode), symlink=path.is_symlink(), "
+        "mode=stat.S_IMODE(info.st_mode), links=info.st_nlink, uid=info.st_uid, "
+        "parentMode=stat.S_IMODE(path.parent.stat().st_mode))\n"
+        "Path(os.environ['CALLER_CAPTURE']).write_text(json.dumps(value))\n",
+        encoding="utf-8",
+    )
+    helper.chmod(0o700)
+    runner_temp = case / "runner-temp"
+    runner_temp.mkdir(mode=0o700)
+    sentinel = case / "must-not-be-overwritten"
+    sentinel.write_bytes(b"preserved pre-existing caller target\n")
+    # Old predictable names are intentionally hostile; neither may be used.
+    for old_name in ("wi1113-task-caller.json", "wi1114-task-caller.json"):
+        (runner_temp / old_name).symlink_to(sentinel)
+    contract = case / "contract.json"
+    contract.write_text(json.dumps({"workItemId": work_item_id}), encoding="utf-8")
+    capture = case / "captured.json"
+    env = dict(os.environ, RUNNER_TEMP=str(runner_temp), ROUTE_CONTRACT_PATH=str(contract),
+               GITHUB_WORKSPACE=str(workspace), CALLER_CAPTURE=str(capture))
+    if poison_new_path:
+        assert poison_new_path in ("regular", "symlink", "fifo")
+        bin_dir = case / "bin"
+        bin_dir.mkdir(mode=0o700)
+        creation = case / "creation-proof.json"
+        cleanup = case / "cleanup-proof.json"
+        mock = bin_dir / "mktemp"
+        mock.write_text(
+            "#!/usr/bin/env python3\n"
+            "import hashlib, json, os, subprocess, sys\n"
+            "from pathlib import Path\n"
+            "args = sys.argv[1:]\n"
+            "assert len(args) == 2 and args[0] == '-d'\n"
+            "assert args[1] == str(Path(os.environ['RUNNER_TEMP']) / 'ai-cockpit-task-caller.XXXXXX')\n"
+            "directory = subprocess.check_output([os.environ['REAL_MKTEMP'], *args], text=True, timeout=5).strip()\n"
+            "path = Path(directory, 'caller.json')\n"
+            "kind = os.environ['CALLER_PREEXISTING_KIND']\n"
+            "if kind == 'regular': path.write_bytes(b'pre-existing caller bytes must survive unchanged\\n')\n"
+            "elif kind == 'symlink': path.symlink_to(os.environ['CALLER_SENTINEL'])\n"
+            "elif kind == 'fifo': os.mkfifo(path, 0o600)\n"
+            "else: raise AssertionError(kind)\n"
+            "info = path.lstat()\n"
+            "proof = {'directory': directory, 'kind': kind, 'inode': info.st_ino, 'device': info.st_dev, 'mode': info.st_mode, 'links': info.st_nlink, 'size': info.st_size, 'mtime': info.st_mtime_ns}\n"
+            "if kind == 'regular': proof['sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()\n"
+            "if kind == 'symlink': proof['linkTarget'] = os.readlink(path)\n"
+            "Path(os.environ['CALLER_CREATION_PROOF']).write_text(json.dumps(proof))\n"
+            "print(directory)\n",
+            encoding="utf-8",
+        )
+        mock.chmod(0o700)
+        # Observe exact identity/type/bytes immediately before the real cleanup.
+        # No FIFO open/read occurs, and rm only unlinks the fixture's own path.
+        mock_rm = bin_dir / "rm"
+        mock_rm.write_text(
+            "#!/usr/bin/env python3\n"
+            "import hashlib, json, os, sys\n"
+            "from pathlib import Path\n"
+            "proof = json.loads(Path(os.environ['CALLER_CREATION_PROOF']).read_bytes())\n"
+            "args = sys.argv[1:]\n"
+            "assert args == ['-rf', '--', proof['directory']]\n"
+            "assert Path(proof['directory']).parent == Path(os.environ['RUNNER_TEMP'])\n"
+            "path = Path(proof['directory'], 'caller.json')\n"
+            "info = path.lstat()\n"
+            "observed = {'directory': str(path.parent), 'kind': proof['kind'], 'inode': info.st_ino, 'device': info.st_dev, 'mode': info.st_mode, 'links': info.st_nlink, 'size': info.st_size, 'mtime': info.st_mtime_ns}\n"
+            "if proof['kind'] == 'regular': observed['sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()\n"
+            "if proof['kind'] == 'symlink': observed['linkTarget'] = os.readlink(path)\n"
+            "assert observed == proof, (observed, proof)\n"
+            "Path(os.environ['CALLER_CLEANUP_PROOF']).write_text(json.dumps(observed))\n"
+            "os.execv(os.environ['REAL_RM'], [os.environ['REAL_RM'], *args])\n",
+            encoding="utf-8",
+        )
+        mock_rm.chmod(0o700)
+        env.update(PATH=str(bin_dir) + os.pathsep + env["PATH"],
+                   REAL_MKTEMP=real_mktemp, REAL_RM=real_rm,
+                   CALLER_SENTINEL=str(sentinel), CALLER_PREEXISTING_KIND=poison_new_path,
+                   CALLER_CREATION_PROOF=str(creation), CALLER_CLEANUP_PROOF=str(cleanup))
+    result = subprocess.run(["bash", str(script)], cwd=workspace, env=env,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+    assert sentinel.read_bytes() == b"preserved pre-existing caller target\n"
+    for old_name in ("wi1113-task-caller.json", "wi1114-task-caller.json"):
+        assert (runner_temp / old_name).is_symlink()
+    if poison_new_path:
+        assert result.returncode != 0, (name, result.stdout, result.stderr)
+        assert b"FileExistsError" in result.stderr, (name, result.stderr)
+        assert not capture.exists(), "unsafe caller path reached the hosted helper"
+        assert json.loads(creation.read_bytes()) == json.loads(cleanup.read_bytes())
+    else:
+        assert result.returncode == 0, (name, result.stdout, result.stderr)
+        value = json.loads(capture.read_bytes())
+        assert value["args"][:4] == ["target/release/ai-cockpit", str(workspace), str(contract), "target"]
+        if work_item_id in expected_sources:
+            assert len(value["args"]) == 6 and value["args"][4] == "--task-caller"
+            assert value["args"][5] == value["path"]
+            caller = value["caller"]
+            assert set(caller) == {"schemaVersion", "actor", "authoritySource", "assurance"}
+            assert caller["schemaVersion"] == 1 and caller["actor"] == "agent:codex"
+            assert caller["assurance"] == "self_declared"
+            assert hashlib.sha256(caller["authoritySource"].encode()).hexdigest() == expected_sources[work_item_id]
+            assert value["regular"] and not value["symlink"] and value["links"] == 1
+            assert value["mode"] == 0o600 and value["parentMode"] == 0o700 and value["uid"] == os.getuid()
+            assert Path(value["path"]).parent.parent == runner_temp
+        else:
+            assert len(value["args"]) == 4 and "--task-caller" not in value["args"]
+            assert "caller" not in value, "unknown Work Item inherited a fixed caller"
+    assert not list(runner_temp.glob("ai-cockpit-task-caller.*")), "owned caller temporary directory was not removed"
+
+run_case("wi1114", "WI-1114-release-runtime-convergence")
+run_case("wi1113", "WI-1113-delivery-continuity-parallel-authorization")
+run_case("unknown-wi", "WI-UNREVIEWED-CALLER")
+for work_item_id in expected_sources:
+    for kind in ("regular", "symlink", "fifo"):
+        run_case("pre-existing-" + work_item_id[:7] + "-" + kind,
+                 work_item_id, poison_new_path=kind)
+PY_WORKFLOW_CALLER
+
 run_helper caller-valid true
 python3 - "$tmp/caller-valid/artifacts" <<'PY_REUSE_RED'
 import hashlib
@@ -493,6 +654,36 @@ PY
 
 run_helper caller-missing false
 assert_no_commands "$tmp/caller-missing/commands.jsonl" preflight verify
+
+# Unknown WI is not a blanket rejection: only the task-authorized fresh-run
+# path requires a caller. This fixture is deliberately not a fresh receipt.
+# The real helper still uses a substitute Runtime; it proves no real grant.
+unknown_directory="$tmp/caller-missing"
+mkdir -p "$unknown_directory/repository/target/release"
+cp "$unknown_directory/runtime" "$unknown_directory/repository/target/release/ai-cockpit"
+cp "$root/tests/ci/run_hosted_runtime_verification.sh" \
+  "$unknown_directory/repository/tests/ci/run_hosted_runtime_verification.sh"
+unknown_workflow_exit=0
+(
+  cd "$unknown_directory/repository"
+  export ROUTE_CONTRACT_PATH="$unknown_directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  export RUNNER_TEMP="$unknown_directory/runner-temp" GITHUB_WORKSPACE="$unknown_directory/repository"
+  export AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false FAKE_MODE=caller-missing
+  export FAKE_LOG="$unknown_directory/commands.jsonl" FAKE_STATE="$unknown_directory/status-count"
+  export FAKE_WORKSPACE="$unknown_directory/repository"
+  export GITHUB_ACTIONS=true GITHUB_RUN_ID=123456 GITHUB_RUN_ATTEMPT=1 GITHUB_JOB=fixture_quality
+  export GITHUB_REPOSITORY=example/fixture GITHUB_SHA="$(git rev-parse HEAD)" RUNNER_OS=Linux
+  export CARGO_HOME="$unknown_directory/cargo-home"
+  export "$runner_variable=$unknown_directory/repository/tests/ci/run_process_observer_test_runner.sh"
+  bash "$tmp/workflow-caller/actual-workflow-step.sh"
+) >"$unknown_directory/workflow.stdout" 2>"$unknown_directory/workflow.stderr" || unknown_workflow_exit=$?
+test "$unknown_workflow_exit" -ne 0
+grep -F -q 'task-authorized Work Item verification requires an explicit --task-caller file' \
+  "$unknown_directory/workflow.stderr"
+jq -e '.failureReason == "task_caller_required" and .verificationState == "invalidated"' \
+  "$unknown_directory/repository/target/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$unknown_directory/commands.jsonl" preflight verify
+
 jq -e '.verificationState == "invalidated" and .failureReason == "task_caller_required"' \
   "$tmp/caller-missing/artifacts/hosted-runtime-orchestration.json" >/dev/null
 
@@ -986,4 +1177,42 @@ assert before is not None and context(execution, runner, host) is None
 config.unlink(); config.symlink_to("missing.toml"); assert context(execution, runner, host) is None
 print("producer/consumer Cargo context proof passed: 12 cases")
 PY_CARGO_CONTEXT_TEST
+# Exercise the actual helper and workflow after retiring source publication.
+python3 - "$root/tests/ci/run_hosted_runtime_verification.sh" "$root/.github/workflows/ci.yml" <<'PY_RETIRED_SOURCE_SURFACES'
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+helper, workflow = map(Path, sys.argv[1:])
+for option in ("--native-source", "--bind-native-source"):
+    result = subprocess.run(["bash", str(helper), option], stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, timeout=5)
+    assert result.returncode == 2, (option, result.returncode, result.stderr)
+    assert not result.stdout, (option, result.stdout)
+    expected = (f"usage: {helper} <runtime-bin> <repository> <contract> <artifact-dir> "
+                "[--task-caller <file>]\n").encode()
+    assert result.stderr == expected, (option, result.stderr)
+
+text = workflow.read_text(encoding="utf-8")
+job_text = text.split("\njobs:\n", 1)[1]
+headers = list(re.finditer(r"(?m)^  ([A-Za-z0-9_-]+):\s*$", job_text))
+jobs = {match.group(1): job_text[match.start():headers[index+1].start() if index+1 < len(headers) else len(job_text)]
+        for index, match in enumerate(headers)}
+assert "native-source" not in jobs
+for retired in ("AI_COCKPIT_NATIVE_SOURCE_ENABLED", "--native-source", "--bind-native-source",
+                "native_evidence_upload", "native_portable_path", "native_record_hex"):
+    assert retired not in text, retired
+quality = jobs["quality"]
+header = quality.split("    steps:\n", 1)[0]
+assert re.findall(r"(?m)^    needs: ([^\n]+)$", header) == ["route"]
+assert "    if: always() && !cancelled() && needs.route.result == 'success'\n" in header
+for name in ("Run admitted hosted Work Item verification with the candidate Runtime",
+             "run repository gates exactly once", "verify workspace package coverage receipt"):
+    assert quality.count("      - name: " + name + "\n") == 1, name
+assert "windows-runtime-suites" in jobs
+assert "runs-on: windows-2025" in jobs["windows-runtime-suites"]
+print("retired source helper modes absent; ordinary quality and Windows routes retained")
+PY_RETIRED_SOURCE_SURFACES
+
 printf 'hosted Runtime verification orchestration regression passed\n'

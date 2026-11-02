@@ -6,6 +6,7 @@ use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
 pub mod audit_query;
+pub mod ci_admission;
 mod contract_amendment;
 pub mod release_plan;
 pub mod review_authority;
@@ -253,6 +254,7 @@ pub const DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY: &str = "delegated-development
 
 pub const MATERIAL_INSPECTION_REVIEW_CAPABILITY: &str = "material-inspection-review";
 pub const TASK_AUTHORIZATION_CAPABILITY: &str = "bounded-task-authorization";
+pub const EVIDENCE_CLASS_STAGES_CAPABILITY: &str = "evidence-class-stages";
 
 /// Stable command-level capabilities advertised by a repository's discovery
 /// manifest.  These names describe Runtime surfaces only; they do not claim
@@ -285,6 +287,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     MATERIAL_INSPECTION_REVIEW_CAPABILITY,
     DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY,
     TASK_AUTHORIZATION_CAPABILITY,
+    EVIDENCE_CLASS_STAGES_CAPABILITY,
     "evidence",
     "audit",
     "capability-show",
@@ -4219,6 +4222,29 @@ impl MaterialInspectionReviewDecisionReceipt {
     }
 }
 
+/// The earliest boundary at which a custom evidence class must be complete.
+/// Finish requirements remain mandatory at every later completion boundary.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EvidenceClassStage {
+    Verification,
+    Finish,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EvidenceClassStageRequirement {
+    pub class: String,
+    pub required_from: EvidenceClassStage,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EvidenceClassStages {
+    pub schema_version: u32,
+    pub classes: Vec<EvidenceClassStageRequirement>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Contract {
@@ -4348,6 +4374,88 @@ pub struct Contract {
 }
 
 impl Contract {
+    pub fn custom_required_evidence_classes(&self) -> Vec<String> {
+        self.required_evidence_classes
+            .iter()
+            .filter(|class| {
+                let normalized = class.to_ascii_lowercase();
+                !matches!(
+                    normalized.as_str(),
+                    "verification"
+                        | "verification_receipt"
+                        | "verification-receipt"
+                        | "delegated_evidence"
+                        | "external_evidence"
+                ) && !normalized.starts_with("delegated:")
+            })
+            .cloned()
+            .collect()
+    }
+
+    pub fn evidence_class_stages(&self) -> Result<Option<EvidenceClassStages>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(|profile| profile.get("evidenceClassStages"))
+        else {
+            return Ok(None);
+        };
+        let stages: EvidenceClassStages = serde_json::from_value(value.clone())
+            .map_err(|error| format!("invalid evidenceClassStages: {error}"))?;
+        if stages.schema_version != 1 || stages.classes.is_empty() {
+            return Err("evidenceClassStages requires schemaVersion1 and non-empty classes".into());
+        }
+        let custom = self.custom_required_evidence_classes();
+        let mut seen = std::collections::BTreeSet::new();
+        for entry in &stages.classes {
+            if entry.class.trim().is_empty()
+                || entry.class.trim() != entry.class
+                || entry.class.chars().any(char::is_control)
+                || !custom.contains(&entry.class)
+                || custom.iter().filter(|class| *class == &entry.class).count() != 1
+                || !seen.insert(entry.class.as_str())
+            {
+                return Err(format!(
+                    "evidenceClassStages class {:?} must name one unique declared custom evidence class",
+                    entry.class
+                ));
+            }
+        }
+        Ok(Some(stages))
+    }
+
+    /// No declaration preserves the legacy execution prerequisite. Explicit
+    /// finish-only classes are deferred, never removed from final acceptance.
+    /// An unavailable final member is omitted from the evidence projection.
+    /// A supplied member remains an integrity claim, not a pending placeholder:
+    /// empty/unverified evidence is rejected even before the finish boundary.
+    pub fn custom_evidence_classes_required_at(
+        &self,
+        boundary: EvidenceClassStage,
+    ) -> Result<Vec<String>, String> {
+        let stages = self.evidence_class_stages()?;
+        let guarded = self
+            .required_runtime_capabilities
+            .iter()
+            .any(|capability| capability == EVIDENCE_CLASS_STAGES_CAPABILITY);
+        if stages.is_some() != guarded {
+            return Err("evidenceClassStages and evidence-class-stages capability must be declared together".into());
+        }
+        Ok(self
+            .custom_required_evidence_classes()
+            .into_iter()
+            .filter(|class| {
+                boundary == EvidenceClassStage::Finish
+                    || !stages.as_ref().is_some_and(|stages| {
+                        stages.classes.iter().any(|entry| {
+                            &entry.class == class
+                                && entry.required_from == EvidenceClassStage::Finish
+                        })
+                    })
+            })
+            .collect())
+    }
+
     pub fn task_authorization_policy(&self) -> Result<Option<TaskAuthorizationPolicy>, String> {
         let Some(value) = self
             .governance_profile
@@ -4402,6 +4510,10 @@ impl Contract {
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
         let is_v2 = self.contract_version == Some(2);
+
+        if let Err(error) = self.custom_evidence_classes_required_at(EvidenceClassStage::Finish) {
+            errors.push(error);
+        }
 
         let mut previous_capability: Option<&str> = None;
         for capability in &self.required_runtime_capabilities {
@@ -6367,4 +6479,191 @@ pub fn canonical_json<T: Serialize>(value: &T) -> Result<Vec<u8>, serde_json::Er
 
 pub fn digest_json<T: Serialize>(value: &T) -> Result<Digest, serde_json::Error> {
     Ok(Digest::sha256_bytes(&canonical_json(value)?))
+}
+
+#[cfg(test)]
+mod evidence_class_stage_tests {
+    use super::*;
+    use serde_json::json;
+
+    fn contract() -> Contract {
+        serde_json::from_value(json!({
+            "protocolVersion":1,"repositoryId":"stage-fixture","workItemId":"WI-STAGES",
+            "intent":{"businessGoal":"bounded verification","userGoal":"finish honestly",
+                "problem":"final evidence cannot precede its execution","constraints":[],
+                "nonGoals":[],"rationale":"separate evidence boundaries"},
+            "goal":"keep final acceptance strict","scope":["src/**"],"outOfScope":[],
+            "risk":"low","authority":"authorized","acceptanceCriteria":["no missing final evidence"],
+            "requiredEvidenceClasses":["verification","build_inputs","adopter_acceptance"],
+            "baseRevision":"base","projectProfileDigest":Digest::sha256_bytes(b"profile"),
+            "repositorySnapshotDigest":Digest::sha256_bytes(b"snapshot")
+        })).unwrap()
+    }
+
+    fn stages() -> serde_json::Value {
+        json!({"schemaVersion":1,"classes":[
+            {"class":"adopter_acceptance","requiredFrom":"finish"}
+        ]})
+    }
+
+    fn opt_in(contract: &mut Contract, value: serde_json::Value) {
+        contract.governance_profile = Some(json!({"evidenceClassStages":value}));
+        contract.required_runtime_capabilities = vec![EVIDENCE_CLASS_STAGES_CAPABILITY.into()];
+    }
+
+    #[test]
+    fn evidence_stages_defer_only_explicit_final_classes() {
+        let mut contract = contract();
+        let all = vec!["build_inputs".to_owned(), "adopter_acceptance".to_owned()];
+        assert_eq!(
+            contract
+                .custom_evidence_classes_required_at(EvidenceClassStage::Verification)
+                .unwrap(),
+            all
+        );
+        opt_in(&mut contract, stages());
+        contract.validate().unwrap();
+        assert_eq!(
+            contract
+                .custom_evidence_classes_required_at(EvidenceClassStage::Verification)
+                .unwrap(),
+            vec!["build_inputs"]
+        );
+        assert_eq!(
+            contract
+                .custom_evidence_classes_required_at(EvidenceClassStage::Finish)
+                .unwrap(),
+            all
+        );
+        opt_in(
+            &mut contract,
+            json!({"schemaVersion":1,"classes":[
+                {"class":"adopter_acceptance","requiredFrom":"verification"}
+            ]}),
+        );
+        assert_eq!(
+            contract
+                .custom_evidence_classes_required_at(EvidenceClassStage::Verification)
+                .unwrap(),
+            all
+        );
+    }
+
+    #[test]
+    fn evidence_stages_reject_ambiguous_and_builtin_declarations() {
+        let entry = json!({"class":"adopter_acceptance","requiredFrom":"finish"});
+        for value in [
+            serde_json::Value::Null,
+            json!({"schemaVersion":2,"classes":[entry.clone()]}),
+            json!({"schemaVersion":1,"classes":[]}),
+            json!({"schemaVersion":1,"classes":[entry.clone(),entry.clone()]}),
+            json!({"schemaVersion":1,"classes":[entry],"fallback":"finish"}),
+            json!({"schemaVersion":1,"classes":[{"class":"unknown","requiredFrom":"finish"}]}),
+            json!({"schemaVersion":1,"classes":[{"class":"verification","requiredFrom":"finish"}]}),
+            json!({"schemaVersion":1,"classes":[{"class":"adopter_acceptance ","requiredFrom":"finish"}]}),
+            json!({"schemaVersion":1,"classes":[{"class":"adopter_acceptance","requiredFrom":"release"}]}),
+            json!({"schemaVersion":1,"classes":[{"class":"adopter_acceptance","requiredFrom":"finish","passed":true}]}),
+        ] {
+            let mut contract = contract();
+            opt_in(&mut contract, value.clone());
+            assert!(contract.validate().is_err(), "accepted {value}");
+            assert!(
+                contract
+                    .custom_evidence_classes_required_at(EvidenceClassStage::Verification)
+                    .is_err()
+            );
+        }
+        for builtin in [
+            "delegated:github",
+            "delegated_evidence",
+            "external_evidence",
+            "verification_receipt",
+        ] {
+            let mut contract = contract();
+            contract.required_evidence_classes.push(builtin.into());
+            opt_in(
+                &mut contract,
+                json!({"schemaVersion":1,"classes":[{"class":builtin,"requiredFrom":"finish"}]}),
+            );
+            assert!(contract.validate().is_err(), "deferred builtin {builtin}");
+        }
+        let mut duplicate = contract();
+        duplicate
+            .required_evidence_classes
+            .push("adopter_acceptance".into());
+        opt_in(&mut duplicate, stages());
+        assert!(duplicate.validate().is_err());
+    }
+
+    #[test]
+    fn evidence_stages_require_the_protected_capability_both_ways() {
+        let mut contract = contract();
+        contract.governance_profile = Some(json!({"evidenceClassStages":stages()}));
+        assert!(
+            contract.validate().is_err(),
+            "unguarded semantics must fail closed"
+        );
+        contract.governance_profile = None;
+        contract
+            .required_runtime_capabilities
+            .push(EVIDENCE_CLASS_STAGES_CAPABILITY.into());
+        assert!(
+            contract.validate().is_err(),
+            "capability without declaration must fail closed"
+        );
+        opt_in(&mut contract, stages());
+        contract
+            .required_runtime_capabilities
+            .push("future-unsupported-evidence-stage".into());
+        let errors = contract.validate().unwrap_err();
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.contains("unsupported capability")
+                    && error.contains("future-unsupported-evidence-stage")),
+            "{errors:?}"
+        );
+    }
+
+    #[test]
+    fn evidence_stages_amendment_is_sensitive_and_adds_protected_capability() {
+        let contract = contract();
+        let request = ContractAmendmentRequest {
+            schema_version: 1,
+            change_id: "stages".into(),
+            expected_contract_digest: Digest::sha256_bytes(b"fixture"),
+            reason: "review the explicit final boundary".into(),
+            development_review: None,
+            changes: vec![ContractAmendmentChange {
+                path: "/governanceProfile".into(),
+                operation: ContractAmendmentOperation::Set,
+                value: Some(json!({"evidenceClassStages":stages()})),
+            }],
+        };
+        assert_eq!(
+            contract_amendment_field_class("/governanceProfile/evidenceClassStages").unwrap(),
+            ContractAmendmentFieldClass::SensitivePlanEditable
+        );
+        let amended = apply_contract_amendment(&contract, &request).unwrap();
+        assert!(
+            amended
+                .required_runtime_capabilities
+                .contains(&EVIDENCE_CLASS_STAGES_CAPABILITY.into())
+        );
+        assert_eq!(
+            amended.required_evidence_classes,
+            contract.required_evidence_classes
+        );
+        let mut invalid = request.clone();
+        invalid.changes[0].path = "/requiredRuntimeCapabilities".into();
+        invalid.changes[0].value = Some(json!([]));
+        assert!(apply_contract_amendment(&amended, &invalid).is_err());
+        invalid.changes[0].path = "/governanceProfile/evidenceClassStages".into();
+        invalid.changes[0].operation = ContractAmendmentOperation::Clear;
+        invalid.changes[0].value = None;
+        assert!(
+            apply_contract_amendment(&amended, &invalid).is_err(),
+            "removing enforcement must not drop the guard"
+        );
+    }
 }

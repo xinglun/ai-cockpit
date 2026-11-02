@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:875ca53e019037a7c9cfe87713b03fdd03f51997d37307e9c51bee1db9185942",
+  "materialManifestDigest": "sha256:e98b90263a78a655b0d617a2732c77f767e2a6b1bf05c0379c0d41f28c69af40",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:266bfbcafb88a3235a4dad4bce2dede7ddc9de39c2b62bb9069b8f84997ee868",
+  "reviewedSourceHead": "9a12124b8b4ee75143c8aa1ea8ed18479873ac7b",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot accepted the current exact request266bfbcafb88a3235a4dad4bce2dede7ddc9de39c2b62bb9069b8f84997ee868 after independent official materialization of the250292-byte final package SHA256a851ed7f142a84977d980f02a8d5d1f3c7894fab7a491106b3c84f798d80447a, all54 manifest payloads, the13700-byte raw request SHAcccc1497a3696ce1485251d30452e2433f9bba55feee2bdf5097968da827b7b4 and native domain-separated request digest. Full29-entry comparison confirms26Clean and3original permitted readable committed Rust syntax Unknowns, zero Finding; the3Unknown entries and complete committed blobs are unchanged. Contract/profile/policy/analysis remain unchanged. The27759-byte cumulative source patch was independently reverse-reconstructed to the exact base and rebuilt from the reviewed production proposal and private-directory correction, with no unreviewed production drift. Three genuine formal receipts and inner execution-record digests were independently verified;234root tests span14root targets excluding4nested child summaries. This is a fresh agent:codex/self_declared technical decision for only those3permitted entries, not inherited acceptance, human/provider authority or overall WI acceptance.",
+  "residualRisk": "Machine Rust syntax Unknowns remain Unknown, not Clean. Material acceptance is not verification success, provider authentication, human approval, Mac validation or WI acceptance. Run8 is a real154-pass/two-failure root execution: exact_composition and successful_exact_identity fixtures retained Unknown on same-UID procfs.cwd EACCES; PID4189993 and4191200 sources are unknown and cannot be retrospectively declared unrelated. Run5 failure remains historical; run6 success does not repair flakiness. Preserve all failures, wrapper97/PID4135169 ambiguity, proc environment failures and unattributed PID1 Git zombie4177448 without killing it. Diagnostic bounded(failure) truncates but does not redact stderr/paths/caller errors; keep diagnostics private and separately inspect before any public delivery. New lsof parser unit cases passed on Linux, not actual Mac; the lsof subprocess query remains unbounded and Mac backend, history-timeout/multiworker/restart/provider acceptance remain incomplete. Scope-authorized test helper only controls final fixture observation under real owned/coherence/ECHILD proof; its environment_digest is a fixed test label, input_environment_digest is checked, and it is not complete host-environment authentication or production KnownEmpty evidence. Any new cause/Finding/material identity needs a new technical review. Native run9 passed224/224 and had a fresh formal receipt for its original Contract, but sequence10 correctly invalidates freshness for the changed declaration/scope; no old execution is force-rebound. Mac detached-descendant ownership proof, bounded lsof query and control-channel finite cleanup remain incomplete; EOF, generic UnixProcessGroup, non-Linux reap Ok or an empty snapshot are not complete-tree proof. All prior23 maintenance and nine native verification run records remain preserved. This current review accepts the bounded query P1/P2 correction under the reviewed scope only. Query success requires natural leader exit and both natural EOFs before any termination request; errors remain sticky and cleanup facts are retained. The original RED stdout truncation and missing detailed P2 panic/summary are preserved and not reconstructed; the separate compile failure ran zero tests. Detached pipe negative already returned Unknown in the faulty implementation and is not called a new RED. Generic Mac verification remains unsupported; composition UnixProcessGroup is a distinct existing path and neither lsof nor non-Linux reap Ok establishes complete descendants. Actual Mac, control-channel safety, provider admission and whole-WI goals remain incomplete. No CI, push, Runtime switch or cache cleanup has occurred.",
+  "recordedAt": "2026-10-30T04:52:01Z",
+  "receiptDigest": "sha256:9bc944c24c8154cd2a36127faba03f5dceebd2a969152441afe069fa157c9f73"
+}

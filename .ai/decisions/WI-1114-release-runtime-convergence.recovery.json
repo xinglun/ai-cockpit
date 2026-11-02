@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T01:23:04.082150+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.f65c416591c59317336e29a92aa430a24fbfab6d05e71ac2629203e18f0d8f4e.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/8725511a4bb0309b23034e7d9a43401fca73cdb13500efd48faeda2f8b23d9c6.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:cfbe21bfee5fa4c2610cf1314fedea426aeeabfef9f57c9b3615132ac3216009",
+  "predecessorSummaryDigest": "sha256:33db316f46e3db1c29cdf5d4a7f7cb1b43c68ce54c72d93f8781e892dcc38033",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Record the actual delegated technical retry decision before the next in-scope Mac worktree-observation implementation. Current source68e176e9 has a fresh209-test formal receipt; this is an advance source-iteration boundary, not a claim that run5 was repaired or that a human made this agent decision. The existing owner-approved WI-1114 implementation authority and sequence8 exact recovery.json persistence boundary (Sentinel_cbe2e2ea76488191be7ed7aab3aacdbd and its actual confirm_review Sentinel_2d70809237d881918664df4d1d7d4486) are unchanged. Preserve the current formal receipt and immutable execution attempt f65c416591c59317336e29a92aa430a24fbfab6d05e71ac2629203e18f0d8f4e as predecessor evidence. Implement only complete validation of the existing lsof newline field protocol in composition.rs and its unit tests, without relaxing cleanup/verification/acceptance. Do not authorize another recovery suffix, release, publication, cleanup or Runtime switch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only after this genuine native retry binding is recorded, advance the scoped source checkpoint, run a current non-red preflight and the declared single-worker verification. Consume the marker only through an accepted new current formal receipt; unknown source or cleanup results remain blocked.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

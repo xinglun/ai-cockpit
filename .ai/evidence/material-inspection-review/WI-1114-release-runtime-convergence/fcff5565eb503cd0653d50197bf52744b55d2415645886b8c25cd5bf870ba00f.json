@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea",
+  "materialManifestDigest": "sha256:75c9c05f87ed12b959911db51d576f60083eabf67647e99e27aa31474c978946",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:fcff5565eb503cd0653d50197bf52744b55d2415645886b8c25cd5bf870ba00f",
+  "reviewedSourceHead": "003927e0a9f97f7c73b3254dca84e1f0ec0ca002",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:1219c02119cc117a953664ffce6afe8e0eee3b8020b42efd3551f7daca8f62af"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b2b0d7ce5a203823f7223f94e28df20f57f7babf7b62cd96d6d840d70b85db0f"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Record the actual parent delegated technical GREEN material narrow-review decision on exact requestfcff5565eb503cd0653d50197bf52744b55d2415645886b8c25cd5bf870ba00f, actual raw18411B/SHA c320a34f207691a233cf0eb93fe7f23d77bcbac8c210c8137fb167eb9742d240 and sourceHEAD003927e0a9f97f7c73b3254dca84e1f0ec0ca002. Independent review checked actual workflow equals the previously reviewed03 GREEN-only patch; actual test66580B/SHA102d92... is byte-identical to the real RED test. Against accepted828d all39 other material entries and all six whole Unknown committed blobs are unchanged; only already-existing Clean workflow entry changes to afterBlobDigest ed59fd817e8ed343c62b3d706663b8fe3bb1d55536a1c8055262e5fed8bd7b8d and hunk cba7954ebbcbdd850f106b170fb5ec2e4e299cf88fb7990fa9f4acbdc39f1cf5. Total40=34Clean6sameUnknown0Finding. C14 Contract40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea, profile/policy/scanner/analysis identities and original checkpoint1/current C14 invalidation marker are preserved. Source-edit and ordinary real-caller preflight were performed through supported boundaries, no recovery/old-consumed retry reuse. Preserve previous complete original-blob reviews and actual workflow review; this rebind is not a newly invented full source review or human/provider approval. Actor agent:codex/self_declared and profile authoritySource are real and unchanged.",
+  "residualRisk": "Six readable_committed_rust_syntax_unknown remain Unknown, not Clean. Material acceptance is not the forthcoming119 GREEN result, complete119 inventory, real hosted CI or CI>=30percent proof, provider authentication/acceptance/reuse, native Windows/full Mac supervision, or overall WI acceptance. Actual RED70df4095... and all historical failures/unknowns remain. Current tests use Ubuntu/POSIX substitute helper/Runtime fixtures and do not grant real authority or categorical unknown-WI denial. Current ordinary WI release0/CI8 total boundaries are unchanged; next independent Mac WI still owes real local execution plus complete arbitrary-detached descendant supervision before any later separately approved publication and subsequent actual Sentinel package acceptance. No extra test, new network/proxy/trust/credential/OS permission, cache deletion, CI/push, Runtime switch or publication follows this technical receipt.",
+  "recordedAt": "2026-10-31T05:36:20Z",
+  "receiptDigest": "sha256:06a8d0c40a79855eb6c2f72815f598efe88313cecbfe3e4276da8deb27e1ef63"
+}

@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-02T10:33:17Z",
+  "files": {
+    "contractDigest": "sha256:005a291f82bf81f44f71f2d6e2758e1b526c8a9d334e615e5f7417a7bbe7a413",
+    "contractPath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.contract.json",
+    "eventsDigest": "sha256:a1589eda5569f4b2872403136b5802262c7fd3a4da168ada650061996b84bddc",
+    "eventsPath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.events.jsonl",
+    "outcomeDigest": "sha256:cd7c6fae851ce7a9ff73f290a4ac719ddf8d7440b1f925977b3597379c07b061",
+    "outcomePath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.outcome.json",
+    "summaryDigest": "sha256:9734fb826a4a4ec01151d5a9b4a0c388b2d2a0444716c91b22386262f1a16440",
+    "summaryPath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.summary.json",
+    "taskReportDigest": "sha256:e7355d3c9f72a7e932b919e7ccbd65334e5e302ff421dc9789310bb3dd5a4c21",
+    "taskReportMarkdownDigest": "sha256:5f2831d93894ec64f6b9d0e35d0c2e4f4249ef48c6c6282ab7f6ddf0dff48111",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-02T10:33:17.907048692Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-02T10:33:17.907048692Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

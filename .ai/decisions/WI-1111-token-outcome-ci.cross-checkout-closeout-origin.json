@@ -1,0 +1,78 @@
+{
+  "closeDecision": {
+    "digest": "sha256:90137c4466d7df2393bcdb538964c53b56bf1d88cf28570f0576aa41e49544c8",
+    "path": ".ai/decisions/WI-1111-token-outcome-ci.close.json",
+    "sizeBytes": 20041
+  },
+  "contractDigest": "sha256:a82110bf724bca97055a265b3792f95942f1b4c98f394dad52c100d350baa2f4",
+  "destinationRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "fileDigests": [
+    {
+      "digest": "sha256:90137c4466d7df2393bcdb538964c53b56bf1d88cf28570f0576aa41e49544c8",
+      "path": ".ai/decisions/WI-1111-token-outcome-ci.close.json",
+      "sizeBytes": 20041
+    },
+    {
+      "digest": "sha256:d3053f8ff81c659123932c8224485da0115070e6884550f607bc204ce8c00b2e",
+      "path": ".ai/decisions/WI-1111-token-outcome-ci.recovery.b4bfbfe8767af2eeb8fa290a73fb810891c073864a8acb9f29e048bf3cf8c04f.json",
+      "sizeBytes": 2412
+    },
+    {
+      "digest": "sha256:87afd5d6721db10550cf8e940a53cbbbd4df5d79c629ea33d7c43fae608fad5f",
+      "path": ".ai/decisions/WI-1111-token-outcome-ci.recovery.json",
+      "sizeBytes": 2424
+    },
+    {
+      "digest": "sha256:3df986fd94b2869711cf23a1ae6008751f4c5154682979c1bc83e81f9c781d8f",
+      "path": ".ai/evidence/WI-1111-token-outcome-ci.verification.json",
+      "sizeBytes": 579364
+    },
+    {
+      "digest": "sha256:db393e840aa32e6df79e57222ebb367201c01e863e25ae42ebdc94ce576d50f0",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.archive.json",
+      "sizeBytes": 1660
+    },
+    {
+      "digest": "sha256:e8e6f3a061ce382ceed35f86303dc443005e156c41b46fd0d6c64c2c5229032a",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.contract.json",
+      "sizeBytes": 27205
+    },
+    {
+      "digest": "sha256:45b93ef7b035081145b80101e80b5e36b2a699ae8407b02064e2b7d5c83ce79e",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.events.jsonl",
+      "sizeBytes": 2879
+    },
+    {
+      "digest": "sha256:1b0f51bf4a995224210c9d8a2402d03254fa26b0d2c406ce73fb0170028379a9",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.outcome.json",
+      "sizeBytes": 22167
+    },
+    {
+      "digest": "sha256:88c195988a0d7b10e3a03f74991631fa9810f1b2fecf53d409f51eb545cbe88c",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.summary.json",
+      "sizeBytes": 54766
+    },
+    {
+      "digest": "sha256:7ac1029f598f4aa69e846375b23c98a46337ffccc9003d72efcd8e68076678f6",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.task-report.json",
+      "sizeBytes": 15162
+    },
+    {
+      "digest": "sha256:152c12cb57f38716246101903cadb51d7ad0f74e656273da457bd177016da667",
+      "path": ".ai/work-items/archive/WI-1111-token-outcome-ci.task-report.md",
+      "sizeBytes": 5832
+    }
+  ],
+  "kind": "cross_checkout_closeout_origin",
+  "providerFacts": null,
+  "requiredRecoveryReceipt": {
+    "path": ".ai/decisions/WI-1111-token-outcome-ci.cross-checkout-closeout-recovery.json",
+    "schemaVersion": 2
+  },
+  "runtimeDigest": "sha256:2b0b24c102997e1282de66dfda89d55d210cfabf0ea59b0f04916da3e0fdbce8",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceSnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+  "workItemId": "WI-1111-token-outcome-ci"
+}

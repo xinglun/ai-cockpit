@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:07396c8480be0f1cb27f986fe959abd3d10316cb5b61dca2e98c392b2204ac90",
+  "materialManifestDigest": "sha256:df9e7a97078d30e56e64e0cd4afc3f184905c106394e285488d5a758e1d076cc",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:935d7528f003fd6330213aa2099c720759c7001b0112dfa9ae81d74e1e46dbdb",
+  "reviewedSourceHead": "7d43cb63a8603bd5c4fb6f904a1b134c7446d1e2",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot made a fresh exact-request accept_permitted_unknowns decision for935d7528f003fd6330213aa2099c720759c7001b0112dfa9ae81d74e1e46dbdb after independent official Library materialization of13283-byte raw JSON SHA2560824fd2274cbb1dde207f9dd277b04b70d29df938e69daffff53623ca9c2ff86 and matching native request-digest recomputation. The previous27 entries are identical; the sole added test-material entry is Clean and matches the independently reviewed2117-byte patch SHA2564b5c3932712b553e1dfd86e06ea187d9ead80800c9a9c0f45133cc1b404c1c71 and committed blob7dbed14c6e3d88486e687684649dcaaaf413f7ac8fcdc8598068c7658b57fbbd. It changes only two Linux fixture calls to the existing controlled completed-worktree helper; every assertion, subsequent logic, non-Linux call and production observation/rejection rule is unchanged. All3 previously substantively reviewed complete committed Unknown blobs and entries remain identical, with unchanged Contract/profile/policy/analysis and no Finding. This is the actual agent:codex/self_declared technical decision for only those three permitted entries, not old receipt inheritance, human/provider approval, test success or a production global observation proof. Existing complete review and stated residual risks remain applicable to identical bytes.",
+  "residualRisk": "Machine Rust syntax Unknowns remain Unknown, not Clean. Material acceptance is not verification success, provider authentication, human approval, Mac validation or WI acceptance. Run8 is a real154-pass/two-failure root execution: exact_composition and successful_exact_identity fixtures retained Unknown on same-UID procfs.cwd EACCES; PID4189993 and4191200 sources are unknown and cannot be retrospectively declared unrelated. Run5 failure remains historical; run6 success does not repair flakiness. Preserve all failures, wrapper97/PID4135169 ambiguity, proc environment failures and unattributed PID1 Git zombie4177448 without killing it. Diagnostic bounded(failure) truncates but does not redact stderr/paths/caller errors; keep diagnostics private and separately inspect before any public delivery. New lsof parser unit cases passed on Linux, not actual Mac; the lsof subprocess query remains unbounded and Mac backend, history-timeout/multiworker/restart/provider acceptance remain incomplete. Scope-authorized test helper only controls final fixture observation under real owned/coherence/ECHILD proof; its environment_digest is a fixed test label, input_environment_digest is checked, and it is not complete host-environment authentication or production KnownEmpty evidence. Any new cause/Finding/material identity needs a new technical review.",
+  "recordedAt": "2026-10-30T02:20:41Z",
+  "receiptDigest": "sha256:91973319f1b4a636565dffcc5f3acba9b3aedc7138304fca4d7392736e4d0e3a"
+}

@@ -398,6 +398,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "safe_actions",
             "knowledge_query",
             "evidence_get",
+            "evidence_bundle_plan",
             "delegated_evidence_list",
             "repository_observe",
             "capability_show",
@@ -443,7 +444,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 44);
+    assert_eq!(listed.len(), 45);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -2473,6 +2474,88 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+fn single_terminal_with_execution_checkpoints(
+    root: &Path,
+    work_item_id: &str,
+) -> serde_json::Value {
+    let values = fs::read_dir(root.join(".ai/evidence"))
+        .expect("evidence directory")
+        .map(|entry| entry.expect("evidence entry"))
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with(&format!("{work_item_id}.verification-attempt."))
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("native observation bytes"),
+            )
+            .expect("native observation JSON")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        values.len(),
+        3,
+        "two execution checkpoints and one terminal"
+    );
+    for value in &values {
+        assert_eq!(value["workItemId"], work_item_id);
+        assert_eq!(
+            value["runtimeDigest"],
+            test_runtime_context().runtime_digest.to_string()
+        );
+        let id_key = match value["kind"].as_str() {
+            Some("verification_execution_checkpoint") => "checkpointId",
+            Some("verification_attempt") => "attemptId",
+            other => panic!("unexpected native observation kind: {other:?}"),
+        };
+        let mut unsigned = value.clone();
+        unsigned
+            .as_object_mut()
+            .expect("observation object")
+            .remove(id_key);
+        assert_eq!(
+            value[id_key],
+            serde_json::json!(
+                cockpit_protocol::digest_json(&unsigned).expect("native observation digest")
+            )
+        );
+    }
+    let checkpoints = values
+        .iter()
+        .filter(|v| v["kind"] == "verification_execution_checkpoint")
+        .collect::<Vec<_>>();
+    assert_eq!(checkpoints.len(), 2);
+    let prepared = checkpoints
+        .iter()
+        .find(|v| v["state"] == "execution_prepared")
+        .expect("durable pre-spawn checkpoint");
+    let completed = checkpoints
+        .iter()
+        .find(|v| v["state"] == "node_execution_completed")
+        .expect("durable actual execution result");
+    assert!(prepared["executionId"].is_string());
+    assert_eq!(prepared["executionId"], completed["executionId"]);
+    assert_eq!(prepared["commands"], completed["commands"]);
+    for checkpoint in &checkpoints {
+        assert_eq!(checkpoint["passed"], false);
+        assert_eq!(checkpoint["postExecutionIdentityValidated"], false);
+    }
+    let terminals = values
+        .iter()
+        .filter(|v| v["kind"] == "verification_attempt")
+        .collect::<Vec<_>>();
+    assert_eq!(terminals.len(), 1, "exactly one final attempt");
+    let terminal = terminals[0];
+    assert_eq!(completed["executionRecords"], terminal["executionRecords"]);
+    assert_eq!(
+        completed["commands"][0]["commandDigest"],
+        terminal["executionRecords"][0]["commandDigest"]
+    );
+    terminal.clone()
+}
+
 #[test]
 fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails() {
     let directory = TestTempDir::new("cockpit-mcp-receipt-rejection");
@@ -2545,20 +2628,7 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
             .exists()
     );
 
-    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
-        .expect("evidence directory")
-        .filter_map(Result::ok)
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .contains(&format!("{work_item_id}.verification-attempt."))
-        })
-        .collect::<Vec<_>>();
-    assert_eq!(attempts.len(), 1);
-    let attempt: serde_json::Value =
-        serde_json::from_slice(&fs::read(attempts[0].path()).expect("rejected attempt"))
-            .expect("rejected attempt JSON");
+    let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
     assert_eq!(attempt["state"], "formal_receipt_rejected");
     assert_eq!(attempt["passed"], true);
     assert_eq!(attempt["processesSpawned"], 1);
@@ -2677,20 +2747,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
         serde_json::json!(["project-command-0"])
     );
 
-    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
-        .expect("evidence directory")
-        .filter_map(Result::ok)
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .contains(&format!("{work_item_id}.verification-attempt."))
-        })
-        .collect::<Vec<_>>();
-    assert_eq!(attempts.len(), 1);
-    let attempt: serde_json::Value =
-        serde_json::from_slice(&fs::read(attempts[0].path()).expect("failed attempt"))
-            .expect("failed attempt JSON");
+    let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
     assert_eq!(attempt["state"], "execution_failed");
     assert_eq!(attempt["passed"], false);
     assert_eq!(attempt["processesSpawned"], 1);
@@ -3014,6 +3071,170 @@ fn mcp_non_boolean_prepare_is_rejected_before_any_work_item_write() {
                 .path()
                 .join(".ai/work-items/active/WI-MCP-INVALID-PREPARE.contract.json")
                 .exists()
+        );
+    }
+}
+
+#[test]
+fn portable_bundle_mcp_plan_schema_has_exact_inputs_and_read_only_metadata() {
+    let tools = handle_request(
+        &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}),
+        &test_runtime_context(),
+    );
+    let tools = tools["result"]["tools"].as_array().expect("tool inventory");
+    assert_eq!(tools.len(), 45);
+    let names = tools
+        .iter()
+        .map(|tool| tool["name"].as_str().expect("tool name"))
+        .collect::<BTreeSet<_>>();
+    assert_eq!(names.len(), 45);
+    assert!(!names.contains("evidence_bundle_accept"));
+    let matches = tools
+        .iter()
+        .filter(|tool| tool["name"] == "evidence_bundle_plan")
+        .collect::<Vec<_>>();
+    assert_eq!(matches.len(), 1);
+    let tool = matches[0];
+    assert_eq!(tool["annotations"]["readOnlyHint"], true);
+    assert_eq!(tool["annotations"]["destructiveHint"], false);
+    assert_eq!(tool["annotations"]["openWorldHint"], false);
+    assert_eq!(tool["inputSchema"]["additionalProperties"], false);
+    assert_eq!(
+        tool["inputSchema"]["required"],
+        serde_json::json!(["input"])
+    );
+    let actual = tool["inputSchema"]["properties"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<BTreeSet<_>>();
+    assert_eq!(
+        actual,
+        ["input", "taskCaller", "workItemId"].into_iter().collect()
+    );
+    let caller = &tool["inputSchema"]["properties"]["taskCaller"];
+    assert_eq!(caller["additionalProperties"], false);
+    assert_eq!(caller["properties"]["assurance"]["const"], "self_declared");
+}
+
+#[test]
+fn portable_bundle_mcp_plan_rejects_fake_authority_before_io() {
+    for field in [
+        "trusted",
+        "authenticated",
+        "sourceVerifier",
+        "url",
+        "command",
+        "sourceRequest",
+        "nodeId",
+        "expectedPlanDigest",
+    ] {
+        let mut arguments = serde_json::json!({"input":"/absent-input", "workItemId":"WI-TEST"});
+        arguments[field] = serde_json::json!("forged");
+        let result = handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"evidence_bundle_plan","arguments":arguments}}),
+            Path::new("/absent-repository"),
+            &test_runtime_context(),
+        );
+        assert_eq!(result["result"]["isError"], true);
+        let message = result["result"]["content"][0]["text"].as_str().unwrap();
+        assert!(
+            message.contains(field) && message.contains("unknown"),
+            "{message}"
+        );
+    }
+}
+
+#[test]
+fn retired_portable_bundle_accept_is_unknown_with_and_without_repository_binding() {
+    let runtime = test_runtime_context();
+    for arguments in [
+        serde_json::json!({}),
+        serde_json::json!({"input":"/absent-input","workItemId":"WI-TEST","expectedPlanDigest":"sha256:abc","sourceRequest":7,"nodeId":"project-command-0"}),
+    ] {
+        let request = serde_json::json!({"jsonrpc":"2.0","id":87,"method":"tools/call","params":{"name":"evidence_bundle_accept","arguments":arguments}});
+        for response in [
+            handle_request(&request, &runtime),
+            handle_request_for_repo(&request, Path::new("/absent-repository"), &runtime),
+        ] {
+            assert_eq!(response["id"], 87);
+            assert_eq!(response["error"]["code"], -32602, "{response}");
+            assert_eq!(response["error"]["message"], "unknown tool", "{response}");
+            assert!(response.get("result").is_none(), "{response}");
+        }
+    }
+}
+
+// A captured receipt is an unverified data fixture, not an authenticated publisher.
+fn portable_unverified_wire_fixture() -> &'static str {
+    r#"{"schemaVersion":1,"nativeInput":{"schemaVersion":1,"nodeId":"project-command-0","producer":"untrusted_captured_fixture","assurance":"self_declared"},"nativeEvidence":{"captureMode":"full_capture","contractDigest":"sha256:40e7ab0b9c454664c3a004ccb362c969eb5897beabfb25b6c8db78bd1c60b6ea","createdAt":"2026-10-31T05:42:18Z","evidenceSchemaVersion":2,"passed":true,"protocolVersion":1,"receipt":{"costObservation":{"advisoryOnly":true,"confidence":"complete","elapsedMs":44080,"executionElapsedMs":43583,"maxConcurrentProcesses":1,"nodesExecuted":1,"nodesPlanned":1,"nodesReused":0,"passed":true,"planningElapsedMs":0,"processesSpawned":1,"protectedNodesExecuted":0,"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","schemaVersion":1,"unknowns":[]},"elapsedMs":44080,"executionElapsedMs":43583,"executionRecords":[{"commandDigest":"sha256:dd3968def0dd92b8c1cabb1d5198ce956a5824b3ee296eb33f492523bd40965f","deadlineMs":1793426194838,"elapsedMs":43578,"exitCode":0,"nodeId":"project-command-0","passed":true,"spawned":true,"stderr":"7461736b2d617574686f72697a656420576f726b204974656d20766572696669636174696f6e20726571756972657320616e206578706c69636974202d2d7461736b2d63616c6c65722066696c650a63616e6469646174652052756e74696d6520707265666c69676874206661696c65642077697468206578697420310a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a6465636c6172656420766572696669636174696f6e2074696d656f7574206d757374206265206120706f7369746976652066696e69746520696e74656765720a63616e6469646174652052756e74696d65207265706f72747320667265736820766572696669636174696f6e2c206275742069747320666f726d616c2072656365697074206973206e6f74207265757361626c6520286578697374696e675f66726573685f726563656970745f6964656e746974795f6d69736d61746368290a776f726b737061636520726563656970742073796e632072656a65637465643a20666f726d616c20766572696669636174696f6e2072656365697074207265706f7369746f7279206964656e7469747920646966666572732066726f6d2052756e74696d65207374617475730a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a576f726b204974656d20494420697320756e7361666520666f72207468652063616e6f6e6963616c2065766964656e636520706174680a776f726b737061636520726563656970742073796e632072656a65637465643a2063616e6f6e6963616c20776f726b7370616365207265636569707420746172676574206973206e6f74206120726567756c6172206e6f6e2d73796d6c696e6b2066696c650a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a63616e6469646174652052756e74696d6520646f6573206e6f74206163636570742074686520666f726d616c207265636569707420617320667265736820666f72207468652063757272656e7420436f6e747261637420616e6420736f7572636520736e617073686f740a63616e6469646174652052756e74696d652061646d697473206e6569746865722072756e5f707265666c69676874206e6f722072756e5f766572696669636174696f6e0a63616e6469646174652052756e74696d65206e6f206c6f6e6765722061646d6974732072756e5f766572696669636174696f6e2061667465722073746174757320726566726573680a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652072657475726e656420616e20696e76616c696420576f726b204974656d2076616c69646174696f6e207265706f72740a63616e6469646174652052756e74696d652061646d697473206e6569746865722072756e5f707265666c69676874206e6f722072756e5f766572696669636174696f6e0a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a20457870656374696e672070726f7065727479206e616d6520656e636c6f73656420696e20646f75626c652071756f7465733a206c696e65203120636f6c756d6e20322028636861722031290a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a206475706c6963617465207374646f75742f65766964656e6365204a534f4e206669656c640a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a2052756e74696d65207374646f757420646f6573206e6f742070726f6a65637420746f2074686520666f726d616c20726563656970740a686f7374656420657865637574696f6e206f75747075742062696e64696e672072656a65637465643a2052756e74696d65207374646f757420646f6573206e6f742070726f6a65637420746f2074686520666f726d616c20726563656970740a","stderrTruncated":false,"stdout":"776f726b7370616365207061636b61676520636f766572616765207061737365643a2031207061636b616765730a74696d656f75742072656772657373696f6e207061737365643a20626f756e6465643d312c2064656661756c743d312c20756e72656c617465643d312c20696e76616c69643d352c2052756e74696d652d7265667573616c3d310a70726f64756365722f636f6e73756d657220436172676f20636f6e746578742070726f6f66207061737365643a2031322063617365730a686f737465642052756e74696d6520766572696669636174696f6e206f726368657374726174696f6e2072656772657373696f6e207061737365640a","stdoutTruncated":false,"timedOut":false,"timeoutSeconds":900}],"filesHashed":5,"filesRead":5,"gitCalls":6,"maxConcurrentProcesses":1,"nodesExecuted":1,"nodesPlanned":1,"nodesReused":0,"passed":true,"planReceipt":{"affectedPaths":[],"assurance":"repository_verified","baseRevision":"efc9f309f1500e433240a76fe5dc76db64abb53b","dependencyConfidence":"unknown","escalations":[],"executedNodes":["project-command-0"],"executionElapsedMs":43583,"finalTier":"T0","initialTier":"T0","planningElapsedMs":0,"policyRefs":["wi-1114-bounded-release-verification-v1"],"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","repositorySnapshotDigest":"sha256:3ff877b2050551986531641a9573e9ecf332ea3da524b710f6e9a3ee38cb1150","requiredAssurance":"self_declared","requiredTier":"T0","reusedNodes":[],"savedExecutions":0,"schemaVersion":1,"selectionReasons":["effective:ai-cockpit-project-v1:wi-1114-bounded-release-verification-v1: Enforce the approved maximum of 900 seconds per actual verification command with single worker, finite supervised cleanup and at least 1 GiB free disk. Stage applicability does not authorize publication or production use; exact version, tag and assets require separate future owner approval. Keep all platform, source, evidence and approval requirements; the whole multi-command run has a separately declared finite aggregate budget."],"sharedNodes":[],"stage":"task","timeoutSeconds":900,"workItemId":"WI-1114-release-runtime-convergence"},"planningElapsedMs":0,"processSpawnFailures":0,"processesSpawned":1,"protectedNodesExecuted":0,"protectedNodesSkipped":0,"receiptCandidates":[],"repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","rerunStale":0,"rerunUnknown":0,"results":[{"action":"execute","nodeId":"project-command-0","outputDigest":"sha256:3ed74a2373b13cd963aa5dc6b029c636f686b556ba635ac4b49d6f7f3d48634e","outputTruncated":false,"passed":true,"protected":false,"reason":"reuse_not_configured","receiptId":null,"reused":false,"satisfiedBy":"execution","state":"not_applicable","timedOut":false}],"runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","timeoutSeconds":900,"workItemId":"WI-1114-release-runtime-convergence"},"receiptDigest":"sha256:c82b48c8f1c733a39619b96d2ab77af6379cb329a03c1ba070546742cb3a6ff2","repositoryId":"sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b","repositorySnapshotDigest":"sha256:3ff877b2050551986531641a9573e9ecf332ea3da524b710f6e9a3ee38cb1150","runtimeDigest":"sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838","runtimeVersion":"1.0.1","workItemId":"WI-1114-release-runtime-convergence"}}"#
+}
+
+#[test]
+fn portable_bundle_mcp_plan_matches_shared_service_with_server_runtime_and_no_grant() {
+    let directory = TestTempDir::new("cockpit-mcp-portable-plan");
+    let root = directory.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(root)
+            .status()
+            .unwrap()
+            .success()
+    );
+    commit_empty_baseline(root);
+    cockpit_repository::attach(root).unwrap();
+    let input = root.join("untrusted-bundle.json");
+    fs::write(&input, portable_unverified_wire_fixture()).unwrap();
+    let runtime = test_runtime_context();
+    let direct = cockpit_repository::plan_portable_evidence(root, None, &input, &runtime, None);
+    let response = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":9,"method":"tools/call","params":{"name":"evidence_bundle_plan","arguments":{"input":input}}}),
+        root,
+        &runtime,
+    );
+    if let Err(error) = &direct {
+        assert_eq!(response["result"]["isError"], true, "{response}");
+        assert_eq!(response["result"]["content"][0]["text"], error.to_string());
+    }
+    let direct = direct.expect("positive control: portable inspection without an execution grant");
+    assert_eq!(response["result"]["isError"], false, "{response}");
+    assert_eq!(
+        response["result"]["structuredContent"],
+        serde_json::to_value(&direct).unwrap()
+    );
+    let plan = &response["result"]["structuredContent"];
+    assert_eq!(plan["integrityValid"], true);
+    assert_eq!(plan["sourceVerification"], "unverified");
+    assert_eq!(plan["mayReplaceExecution"], false);
+    assert_eq!(plan["writesPerformed"], 0);
+    assert_eq!(plan["verificationCommandsExecuted"], 0);
+    assert!(!plan["gaps"].as_array().unwrap().is_empty());
+}
+
+#[test]
+fn portable_bundle_mcp_does_not_accept_runtime_or_malformed_caller_from_input() {
+    for (key, value) in [
+        ("runtime", serde_json::json!({"runtimeDigest":"forged"})),
+        (
+            "taskCaller",
+            serde_json::json!({"schemaVersion":1,"actor":"human:forged","authoritySource":"test","assurance":"authenticated"}),
+        ),
+    ] {
+        let mut arguments = serde_json::json!({"input":"/absent-input"});
+        arguments[key] = value;
+        let result = handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"evidence_bundle_plan","arguments":arguments}}),
+            Path::new("/absent-repository"),
+            &test_runtime_context(),
+        );
+        assert_eq!(result["result"]["isError"], true);
+        assert!(
+            result["result"]["content"][0]["text"]
+                .as_str()
+                .unwrap()
+                .contains(key)
         );
     }
 }

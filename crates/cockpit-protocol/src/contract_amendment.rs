@@ -817,6 +817,23 @@ pub fn apply_contract_amendment_with_trace(
     let mut prospective: Contract = serde_json::from_value(document)
         .map_err(|source| errors(error("contract_schema_invalid", "", source.to_string())))?;
     if prospective
+        .evidence_class_stages()
+        .map_err(|message| {
+            errors(error(
+                "contract_invariant_failed",
+                "/governanceProfile/evidenceClassStages",
+                message,
+            ))
+        })?
+        .is_some()
+    {
+        prospective
+            .required_runtime_capabilities
+            .push(super::EVIDENCE_CLASS_STAGES_CAPABILITY.into());
+        prospective.required_runtime_capabilities.sort();
+        prospective.required_runtime_capabilities.dedup();
+    }
+    if prospective
         .material_inspection_review_profile()
         .map_err(|message| {
             errors(error(

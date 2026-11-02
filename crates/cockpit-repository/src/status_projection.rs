@@ -1808,6 +1808,19 @@ fn work_item_status_snapshot_with_snapshot(
             })
         && material_review_decision_available
         && material_unknowns.contains(&"material_review_receipt_stale".into());
+    // A current ordinary retry may span an in-scope source commit. Collect
+    // only its missing current preflight before allowing material recording;
+    // never turn a stale bind or eligible Unknown into accepted evidence.
+    let retry_material_preflight_refresh_ready = retry_recovery_pending
+        && material_preflight_refresh_binding
+        && !archived
+        && !historical
+        && lifecycle_phase == "checkpointed"
+        && !blocking
+        && !material_projection_unavailable
+        && !material_blocked_by_finding
+        && !malformed_evidence
+        && !amendment_review_required;
     let amendment_material_recovery_context = !archived
         && !historical
         && lifecycle_phase == "checkpointed"
@@ -1961,6 +1974,10 @@ fn work_item_status_snapshot_with_snapshot(
         ]
     } else if supersede_archive_ready {
         vec!["archive_when_reviewed".into()]
+    } else if retry_material_preflight_refresh_ready {
+        // Observation only. Existing current-preflight and material checks
+        // still control review recording, execution and completion.
+        vec!["run_preflight".into()]
     } else if retry_recovery_pending {
         // An explicit, identity-bound retry decision authorizes one fresh
         // verification cycle to replace the blocked projection. Keep the

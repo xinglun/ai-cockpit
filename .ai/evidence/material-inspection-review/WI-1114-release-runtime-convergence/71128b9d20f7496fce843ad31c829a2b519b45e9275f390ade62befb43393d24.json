@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:091734ea76df889b6ac6c7623e1a80e5a0f604d81883a307ba31abeee75abc0f",
+  "materialManifestDigest": "sha256:72c49299162fbd13dad5cf32c66f4d1e092ad3f6052a0c038ece45615217054b",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:71128b9d20f7496fce843ad31c829a2b519b45e9275f390ade62befb43393d24",
+  "reviewedSourceHead": "f6d2e6b993d368215a3510163da448e151a06561",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:1219c02119cc117a953664ffce6afe8e0eee3b8020b42efd3551f7daca8f62af"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:01658337513150f17ed3cca00007c10020ffbd1e48004a3545f2e8eb55c99cbd"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b2b0d7ce5a203823f7223f94e28df20f57f7babf7b62cd96d6d840d70b85db0f"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent technical review of current request sha256:71128b9d20f7496fce843ad31c829a2b519b45e9275f390ade62befb43393d24 and committed HEAD f6d2e6b993d368215a3510163da448e151a06561. Exact four-file GREEN delta is the independently reviewed 71257B patch f40d963588e54abfdb02f86f8ce95edded06e1ee1f27f1fb757405816e8a2537. All four source after bytes and blob digests match the approved proposal. Other38 entries are identical to previous8294; seven complete reviewed Unknown entries remain unchanged. No Finding or new cause. Contract C15, policy, review profile and candidate2330 compiled analysis implementation unchanged. Native ordinary caller preflight is refreshed, no copied receipt/human identity or state edits. The new parser returns Untrusted material only; integrity is not provider or producer authentication. Complete proposal and offline dependency resolution were independently reviewed, no new package/version or download.",
+  "residualRisk": "Seven permitted syntaxUnknown remain Unknown. Actual GREEN/strict execution is pending. JSON key1024 check occurs after String allocation and is not a hard peak cap; total expanded raw cap remains. Unsigned descriptor CRC equal optional signature is conservatively rejected, not complete classic ZIP compatibility. No provider/workflow/producer/consumer authentication, store/accept/MCP/trust, real product HTTPS/proxy, full comparable CI30percent or Mac/full descendants/Windows/wholeWI acceptance. All original failures, successes, b977 and checkpoint1 retained. Candidate2330 only this WI, no default Runtime switch/network/CI/push/release/extra cleanup.",
+  "recordedAt": "2026-10-31T11:45:48Z",
+  "receiptDigest": "sha256:c13d812a1a92418a0b6725698b25f9ac5efa3eefd9ecf58dba6f30f55bad8241"
+}

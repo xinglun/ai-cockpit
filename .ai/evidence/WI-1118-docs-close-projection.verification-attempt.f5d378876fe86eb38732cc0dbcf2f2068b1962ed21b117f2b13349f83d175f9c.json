@@ -1,0 +1,39 @@
+{
+  "checkpointId": "sha256:f5d378876fe86eb38732cc0dbcf2f2068b1962ed21b117f2b13349f83d175f9c",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:f4f59b10791390e790936522325a0d1107c1fa8f89e476e8aa31d140d9e99b4e",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:bc0b3e9f2f968af610d2c53df6370a9e3ccab35c644d17c3f163c8324c326901",
+  "contractExecutionScopeDigest": "sha256:b8b9b6ffd52ffcf42e44cb59056ef643243ba62b486de2ca3f37fbdc26a8e7c2",
+  "createdAt": "2026-11-02T11:43:43.031476245Z",
+  "executionId": "sha256:99271bd84299e2f7fbea2c16ef3fe34bfc8c363671e1d8a2dfcc4e08e485858d",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3c12a1423154e6ab76511f9084253ed1ea06f138071d69a6134fe0631211f7a9",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1118-docs-close-projection"
+}

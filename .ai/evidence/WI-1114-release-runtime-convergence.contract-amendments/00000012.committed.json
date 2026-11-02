@@ -1,0 +1,54 @@
+{
+  "sequence": 12,
+  "preparedDigest": "sha256:90a91aeb33d6903ef3635a1b25986d199b1ab4bb0705517d35610397556f91dd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1114-release-runtime-convergence",
+    "sequence": 12,
+    "changeId": "wi1114-mac-explicit-capability-boundary-and-deferred-full-descendants-20261030",
+    "requestDigest": "sha256:8e9410003b7bc5ef77b5638cfdda5bfb89c43579b094bd85db66e2647f875b10",
+    "reason": "User Sentinel_c9ffc007c07481919b55ff5530971032 at2026-10-30T22:56:22Z explicitly agreed to split universal arbitrary detached-descendant supervision into an independent later task. This3fieldMac acceptance refinement preserves exactly5WI1114subtasks, realMac usability/strict/lifecycle requirements, unsupported/unknown/failclosed boundaries, LinuxWindows guarantees, all tests/history/final evidence classes and current118commands/scope122/budgets/permissions. It grants no ES entitlement/systemsecurity/credential/Runtime switch or newbackend implementation. Prepared only while current107/51/108/113are running; do not execute until the batch is terminal. General consent is not the later native exact confirm_review.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "replace",
+        "oldValue": "Mac actual strict-warnings and fresh lifecycle must cover success/nonzero/timeout/parent disconnect/malformed protocol/detached pipe holding; uncertainty fails closed. Preserve Linux and Windows guarantees and explicitly state platform capabilities.",
+        "newValue": "Mac actual arm64 strict-warnings and fresh governed basic operation must be accepted only within explicit, actually observed platform capability boundaries: ordinary startup, success/nonzero, bounded I/O/protocol, timeout/cancellation, parent disconnect and known-process supervision. Any unprovable observation or cleanup stays unsupported/unknown and fails closed for the requested guarantee; no unsafe cleanup/reuse or hidden guarantee downgrade. Universal supervision/containment of arbitrary escaped or detached descendants is deferred to an independent later task and is not delivered by WI-1114. Keep the explicit unsupported boundary and adversarial refusal tests; do not replace full-tree proof with process-group, EOF, exit, ECHILD or empty-lsof observations. Preserve Linux and Windows guarantees and all historical failures; actual Mac usability still requires real pinned candidate evidence."
+      },
+      {
+        "path": "/scenarioCoverage/0/expected",
+        "operation": "replace",
+        "oldValue": "Actual macOS arm64 strict-warnings and fresh governed lifecycle with successful and adversarial finite-cleanup results.",
+        "newValue": "Actual macOS arm64 strict-warnings and real fresh governed operation within a documented capability matrix, with ordinary startup/I/O/timeout/known-process behavior evidenced and unsupported or unknown guarantees explicitly refused. Universal arbitrary detached-descendant supervision is an independent deferred task, not a completed feature."
+      },
+      {
+        "path": "/scenarioCoverage/0/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Actual Mac strictClippy and isolated lifecycle for nonzero/timeout/parent/protocol/detached pipe cases. Linux is not Mac evidence.",
+        "newValue": "Pin immutable Mac source/lock/toolchain/binary/inspect identities; actual Mac compile/strict checks and ordinary CLI lifecycle success/nonzero; bounded startup/request/response/protocol/timeout/cancellation and parent-disconnect versus normal Release EOF; known-process identity/cleanup and explicit unsupported full-owned-descendant requests; missing/ambiguous observations remain unknown with protected resources retained. Keep malformed/oversize/detached-pipe adversarial cases and Linux/Windows regression standards; a refusal is evidence of a boundary, not proof the requested workload is supported. Current public Mac verification/composition supervision remains unsupported until an explicitly scoped implementation and real Mac runs prove the bounded supported mode. Full arbitrary detached supervision is not claimed or tested as completed here; separate follow-up must resolve OS mechanism, permissions, identity, event loss and terminal cleanup proof."
+      }
+    ],
+    "previousContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+    "newContractDigest": "sha256:c5e9bec3c08c82c554604f2cd84d471799d38c142a0f1a4ee76651d2de3765c5",
+    "repositorySnapshotDigest": "sha256:f52bc98309b6adffc396b2d50bd1bafbc37c78551620b8091c41d8d409af0dc4",
+    "environmentObservationDigest": "sha256:c904b8e702fbe88714e49e9155953c51ce5aa4c2eb9ba55960a5d9b16aa54579",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1114-release-runtime-convergence.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/1",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:fe19d97775c78b09666baff7ae6a5688f41ee79020b18c64b60f9c7f76954f6d",
+    "journalDigest": "sha256:d4e5c7b2584294f1e64b2f72270ee8f3d96e9f6b8a1a4672dd354391f5e3e2a5",
+    "recordedAt": "2026-10-30T23:18:44Z"
+  }
+}

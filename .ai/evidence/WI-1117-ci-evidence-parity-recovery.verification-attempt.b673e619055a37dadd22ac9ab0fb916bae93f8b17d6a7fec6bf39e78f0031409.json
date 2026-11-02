@@ -1,0 +1,429 @@
+{
+  "checkpointId": "sha256:b673e619055a37dadd22ac9ab0fb916bae93f8b17d6a7fec6bf39e78f0031409",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:9a208956dffbe02a6ef28420493ccefcb4e9e6dec957cd98abb3e742a47cfb17",
+      "nodeId": "project-command-0",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/ci/governance_integrity_gate_test.sh"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:9a208956dffbe02a6ef28420493ccefcb4e9e6dec957cd98abb3e742a47cfb17",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-0",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:42776cea980f1f939c6747991d9094d8c840579e752af29e3fcde3800d51dfe4",
+      "nodeId": "project-command-1",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/docs/work_item_status_consistency_test.sh"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:42776cea980f1f939c6747991d9094d8c840579e752af29e3fcde3800d51dfe4",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-1",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:e0cc8caf4b288293dd900496d2152618a49930371a42aa9735ae8aba8df7a118",
+      "nodeId": "project-command-2",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/docs/promote_closed_work_item_test.sh"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:e0cc8caf4b288293dd900496d2152618a49930371a42aa9735ae8aba8df7a118",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-2",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:9e73252d83211d61312bdd868764a9454ffd121a3a763507cb9303234ea76834",
+      "nodeId": "project-command-3",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/docs/parity_status_check.sh"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:9e73252d83211d61312bdd868764a9454ffd121a3a763507cb9303234ea76834",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-3",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check_test.sh"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:5817d511c309368670388f426ab06fad56e90867eb820974c2772755ab548732",
+      "nodeId": "project-command-4",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/docs/parity_status_check_test.sh"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:5817d511c309368670388f426ab06fad56e90867eb820974c2772755ab548732",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-4",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib",
+        "evidence_store::",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:ee13050e11230918d59aff7d5a97299a431d18005841c166042e205e88ffbfac",
+      "nodeId": "project-command-5",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-repository",
+          "--lib",
+          "evidence_store::",
+          "--",
+          "--test-threads=1"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:ee13050e11230918d59aff7d5a97299a431d18005841c166042e205e88ffbfac",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-5",
+        "planningElapsedMs": 0,
+        "program": "cargo",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:264063e88e76768667ca244345c33afc657129519e376284d5d55af2b6c08a07",
+      "nodeId": "project-command-6",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "clippy",
+          "--locked",
+          "-p",
+          "cockpit-repository",
+          "--all-targets",
+          "--all-features",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:264063e88e76768667ca244345c33afc657129519e376284d5d55af2b6c08a07",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-6",
+        "planningElapsedMs": 0,
+        "program": "cargo",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:415bfc3899b2c08503d6f438cc99489037bf8c743d93836a58df124675b4edf7",
+      "nodeId": "project-command-7",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:415bfc3899b2c08503d6f438cc99489037bf8c743d93836a58df124675b4edf7",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-7",
+        "planningElapsedMs": 0,
+        "program": "cargo",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/run_repository_prechecks.sh",
+        "--repo",
+        "/workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:47397448ff34733802ae2651de03f97ac9b91a0c2bfaf5a5ba392e0a69610af7",
+      "nodeId": "project-command-8",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "tests/ci/run_repository_prechecks.sh",
+          "--repo",
+          "/workspace/ai-cockpit-wi1114-release-runtime-convergence"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:47397448ff34733802ae2651de03f97ac9b91a0c2bfaf5a5ba392e0a69610af7",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+          "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690"
+        },
+        "localNodeReuseReason": "local_store_or_identity_unknown",
+        "nodeId": "project-command-8",
+        "planningElapsedMs": 0,
+        "program": "bash",
+        "reason": "local_store_or_identity_unknown",
+        "receiptId": null,
+        "reuseAuthorization": "fresh_required_by_native_observation",
+        "satisfiedBy": "execution",
+        "state": "unknown",
+        "timeoutSeconds": 300
+      },
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "contractExecutionScopeDigest": "sha256:221f9aff3ebb52229b6a5083ddc4979acba62337429362fce29172dba548d29f",
+  "createdAt": "2026-11-02T07:39:52.832082095Z",
+  "kind": "verification_run_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b419f3f17c6aa5122e25ca73c13bc10c91ceaaf402ea5c30cb3851f41f713904",
+  "runId": "sha256:2feb76db1aa7b76a08d25a8978ae50983e9f59b85c5425de09dee62e1abcf5cb",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "run_prepared",
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

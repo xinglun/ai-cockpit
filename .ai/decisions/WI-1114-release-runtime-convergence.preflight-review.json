@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:09fd99bd8ea34e96c0a26b5f3627ae603dc6ca6dc4e78fb28ec4f6ece73c6220",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Record the actual owner sequence2 confirm_review from trusted user message Sentinel_dc92ce74b4688191a08712a0a3cae0ae at 2026-10-29 07:38 UTC accepting the complete proposal Sentinel_c9f00e23fa2081918970d2efce9ec461. The owner confirmed five subtasks, scope99 (only three previously approved WI1111 history close/recovery additions), quality CI8 including main, release workflows2, initial independent task policy and narrow per-request material review, and exact Contract09fd99bd/preflight59ca2cce/snapshot08e22f63/Runtime2b0b24c1. recordedAt is the time this received decision was recorded, not a claimed exact message timestamp. This is not an agent-created owner approval. Preserve unverified scenarios and missing formal evidence; it approves no exact version/tag/release, shared/production Runtime switch, irreversible deletion or old evidence rewrite.",
+  "recordedAt": "2026-10-29T07:40:08.172824+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:08e22f63f5ee55ee113d84d5837edf4f66f03282a973095486c5aa3fb6687e0e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

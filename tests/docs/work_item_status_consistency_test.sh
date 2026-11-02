@@ -120,6 +120,18 @@ spec.loader.exec_module(module)
 rows, errors = module.parity_statuses(root)
 assert not errors, errors
 assert set(rows) >= {first, second}, rows
+# A complete ID is valid even when the stripped first cell ends at the ID.
+# Both exact IDs must survive parsing without a human description suffix.
+for suffix in suffixes:
+    parity = root / 'docs/reference' / f'reference-parity{suffix}.md'
+    text = parity.read_text(encoding='utf-8')
+    text = text.replace(f'{first} — fixture', first)
+    text = text.replace(f'{second} — independent recovery', second)
+    parity.write_text(text, encoding='utf-8')
+rows, errors = module.parity_statuses(root)
+assert not errors, errors
+assert rows[first] == ['recovered'] * 3, rows
+assert rows[second] == ['recovered'] * 3, rows
 PY
 python3 "$checker" --repo "$full_id_fixture"
 
@@ -378,7 +390,11 @@ for suffix, status in (("", "recovered"), (".zh-CN", "recovered"), (".ja", "reco
     document.write_text(text, encoding="utf-8")
 for suffix, status in (("", "Recovered"), (".zh-CN", "已恢复"), (".ja", "Recovered")):
     parity = root / "docs/reference" / f"reference-parity{suffix}.md"
-    text = parity.read_text(encoding="utf-8").replace("fixture | Implemented", f"fixture | {status}")
+    old_status = "已实现" if suffix == ".zh-CN" else "Implemented"
+    text = parity.read_text(encoding="utf-8")
+    needle = f"fixture | {old_status}"
+    assert text.count(needle) == 1, (suffix, text)
+    text = text.replace(needle, f"fixture | {status}", 1)
     parity.write_text(text, encoding="utf-8")
 PY
 python3 "$checker" --repo "$digest_recovery"
@@ -835,5 +851,529 @@ PY
 expect_conditional_failure foreign-successor-close
 
 python3 "$checker" --repo "$root"
+
+
+# Ordinary approved close must not be rewritten as superseded to continue.
+# This is a normalized protocol fixture, not proof that a forged issuer is trusted.
+python3 - "$checker" "$tmp/ordinary-native-shaped-lineage" <<'PYTEST'
+from pathlib import Path
+import copy, hashlib, importlib.util, json, os, subprocess, sys
+checker_path=Path(sys.argv[1]);path=checker_path;sys.path.insert(0,str(checker_path.parent))
+spec=importlib.util.spec_from_file_location("status_checker_under_test",path)
+module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+root=Path(sys.argv[2]);root.mkdir();rid="sha256:"+"e"*64
+p="WI-1201-ordinary-predecessor-v9-9-9";s="WI-1202-doc-projection-v9-9-9";runtime="sha256:"+"a"*64;snapshot="sha256:"+"b"*64
+canonical=module.canonical_json_digest
+
+def put(relative,value):
+ target=root/relative;target.parent.mkdir(parents=True,exist_ok=True)
+ target.write_text(json.dumps(value,ensure_ascii=False,indent=2)+"\n")
+ return target
+
+def native_archive(wi, contract, summary):
+ records={"contract":contract,"summary":summary,"outcome":{"workItemId":wi,"decisionState":"green","verification":{"status":"verified"}}}
+ files={}
+ for kind,value in records.items():
+  rel=f".ai/work-items/archive/{wi}.{kind}.json";target=put(rel,value);files[kind+"Path"]=rel;files[kind+"Digest"]=module.raw_file_digest(target)
+ rel=f".ai/work-items/archive/{wi}.events.jsonl";target=root/rel;target.write_text("{}\n");files["eventsPath"]=rel;files["eventsDigest"]=module.raw_file_digest(target)
+ manifest={"state":"archived","workItemId":wi,"repositoryId":rid,"files":files,"runtimeDigest":runtime}
+ put(f".ai/work-items/archive/{wi}.archive.json",manifest)
+ return manifest
+
+def native_verification_close(wi, contract):
+ relative=f".ai/evidence/{wi}.verification.json"
+ receipt={"workItemId":wi,"repositoryId":rid,"passed":True,"runtimeDigest":runtime,
+          "planReceipt":{"workItemId":wi,"repositoryId":rid,"repositorySnapshotDigest":snapshot}}
+ verification={"evidenceSchemaVersion":1,"workItemId":wi,"repositoryId":rid,"passed":True,"contractDigest":canonical(contract),"repositorySnapshotDigest":snapshot,"runtimeDigest":runtime,"receipt":receipt,"receiptDigest":canonical(receipt)}
+ put(relative,verification)
+ report={"workItemId":wi,"status":"verified","humanStatusColor":"green","bindings":{"workItemId":wi,"repositoryId":rid,"repositorySnapshotDigest":snapshot,"evidenceRefs":[relative]}}
+ decision={"actor":"human:fixture-owner","authoritySource":"fixture:explicit-actual-close","reason":"fixture approved result","decidedAt":"2026-01-02T00:00:00Z","decision":"approved","evidenceRefs":[relative],"policyRefs":[]}
+ close={"workItemId":wi,"repositoryId":rid,"state":"closed","decisionState":"confirmed","humanDecision":"approved","runtimeDigest":runtime,"structuredDecision":decision,"finalReport":report,"finalReportDigest":canonical(report)}
+ writer="sha256:"+"c"*64
+ close.update(runtimeDigest=writer,runtimeVersion="1.0.1")
+ binding={"schemaVersion":1,"workItemId":wi,"repositoryId":rid,"contractDigest":canonical(contract),"archiveManifestDigest":module.raw_file_digest(root/f".ai/work-items/archive/{wi}.archive.json"),"headRevision":"d"*40,"branch":"fixture-branch","branchRef":"refs/heads/fixture-branch","capturedAt":"2026-01-02T00:00:00Z","worktreeGitDir":"/fixture/git","worktreeId":"fixture-worktree","worktreePath":"/fixture/worktree","runtimeVersion":"1.0.1","runtimeDigest":writer}
+ close.update(ordinaryCleanupBinding=binding,ordinaryCleanupBindingDigest=canonical(binding))
+ put(f".ai/decisions/{wi}.close.json",close)
+ return verification,close
+
+def summary(wi,contract):
+ return {"workItemId":wi,"repositoryId":rid,"state":"finish_ready","checkpointCount":1,"preflightState":"green","preflightContractDigest":canonical(contract),"checkpointContractDigest":canonical(contract),"checkpointRepositorySnapshotDigest":snapshot,"preflightRepositorySnapshotDigest":snapshot}
+
+put(".ai/project.json",{"repositoryId":rid})
+put("cargo-metadata.json",{"packages":[{"name":"fixture","version":"9.9.9","source":None}]})
+put(".ai/project/documentation-policy.json",{"schemaVersion":1,"repositoryId":rid,"defaultProjection":"required","requiredModes":[],"requiredOperations":[],"preserveExistingRegistrations":True})
+put(".ai/project/capabilities.json",{"repositoryId":rid,"operationMappings":{}})
+put("docs/reference/pending-parity-registry.json",{"schemaVersion":1,"entries":[]})
+
+def projection(phase):
+ for suffix,conditional,implemented,recovered in (
+  ("","In progress → Implemented after verified close","Implemented","Recovered"),
+  (".zh-CN","进行中 → 验证关闭后已实现","已实现","已恢复"),
+  (".ja","In progress → verified close 後 Implemented","Implemented","Recovered"),
+ ):
+  rows=[]
+  for wi in (p,s):
+   if wi==s or phase!="closed": status=conditional
+   else: status=recovered
+   refs=[f".ai/work-items/archive/{wi}.contract.json",f".ai/evidence/{wi}.verification.json",f".ai/decisions/{wi}.finalize.json",f".ai/decisions/{wi}.close.json"]
+   if wi==p: refs.append(f".ai/decisions/{p}.recovery.json")
+   rows.append("| "+wi+" — fixture | "+status+" | "+"; ".join("`"+v+"`" for v in refs)+" |")
+   target=root/f"docs/work-items/{wi}{suffix}.md";target.parent.mkdir(parents=True,exist_ok=True)
+   # Predecessor projection is owned by its exact docs successor. No unrelated
+   # WI gains verifier status merely by having a valid Contract.
+   target.write_text(f"---\nworkItemId: {wi}\nstatus: {'recovered' if wi==p and phase=='closed' else 'in_progress'}\nlastVerifiedBy: {s}\n---\n")
+  target=root/f"docs/reference/reference-parity{suffix}.md";target.parent.mkdir(parents=True,exist_ok=True)
+  target.write_text("| Work Item | Status | Evidence |\n| --- | --- | --- |\n"+"\n".join(rows)+"\n")
+
+def inventory(expected, invalid=False, retired=False, *, invalid_code="invalid_ordinary_successor_lineage"):
+ gate=checker_path.parents[1]/"ci/governance_integrity_gate.py"
+ report=root.parent/(root.name+"-inventory.json")
+ env={k:v for k,v in os.environ.items() if k not in {"GITHUB_EVENT_NAME","GITHUB_REF","GITHUB_REF_NAME","GITHUB_SHA","GITHUB_EVENT_PATH","GITHUB_BASE_REF"}}
+ completed=subprocess.run([sys.executable,str(gate),"--repo",str(root),"--report",str(report)],capture_output=True,text=True,env=env)
+ assert completed.returncode in (0,1),(completed.returncode,completed.stdout,completed.stderr)
+ document=json.loads(report.read_text())
+ records={v["workItemId"]:v for v in document["inventory"]}
+ assert records[p]["lifecycleState"]==expected,(records,document["findings"])
+ codes=[v["code"] for v in document["findings"] if v["workItemId"]==p]
+ if invalid:
+  assert completed.returncode==1 and invalid_code in codes,(codes,completed)
+ else:
+  assert "invalid_ordinary_successor_lineage" not in codes,(codes,completed)
+  if expected=="closed":
+   successor_key="retiredSuccessorWorkItemId" if retired else "pendingSuccessorWorkItemId"
+   assert records[p][successor_key]==s,records[p]
+   if retired: assert "pendingSuccessorWorkItemId" not in records[p],records[p]
+ # Other independent fixture-policy findings do not certify a green full gate.
+ # This integration assertion specifically exercises the actual inventory route;
+ # real native-producer full-gate acceptance is a separately required regression.
+ return document
+
+pc={"workItemId":p,"repositoryId":rid,"createdAt":"2026-01-01T00:00:00Z","baseRevision":"d"*40,"scope":["src/old.rs"]};ps=summary(p,pc);pm=native_archive(p,pc,ps);pv,pclose=native_verification_close(p,pc)
+# State0: real predecessor close alone; no child or recovery can be invented.
+recovery_path=root/f".ai/decisions/{p}.recovery.json"
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,{}) is None
+recovery={"schemaVersion":1,"decisionId":"work-item-recovery","decision":"successor","workItemId":p,"predecessorWorkItemId":p,"repositoryId":rid,"predecessorContractDigest":canonical(pc),"predecessorSummaryDigest":canonical(ps),"predecessorOutcomeDigest":canonical({"workItemId":p,"decisionState":"green","verification":{"status":"verified"}}),"predecessorEventsDigest":pm["files"]["eventsDigest"],"successorWorkItemId":s,"runtimeVersion":"1.0.1","runtimeDigest":runtime,"actor":"agent:fixture","authoritySource":"fixture:native-shaped-technical-recovery","reason":"project actual completed result","decidedAt":"2026-01-03T00:00:00Z","resumeCondition":"bounded docs and actual close required","policyRefs":[],"evidenceRefs":[f".ai/work-items/archive/{p}.archive.json",f".ai/decisions/{p}.close.json"]}
+put(recovery_path.relative_to(root),recovery)
+sc={"workItemId":s,"repositoryId":rid,"createdAt":"2026-01-03T00:00:00Z","baseRevision":"d"*40,"predecessorWorkItemId":p,"predecessorContractDigest":canonical(pc),"recoveryDecisionPath":recovery_path.relative_to(root).as_posix(),"scope":["docs/reference/reference-parity.md","docs/reference/reference-parity.zh-CN.md","docs/reference/reference-parity.ja.md"]+[f"docs/work-items/{wi}{suffix}.md" for wi in (p,s) for suffix in ("",".zh-CN",".ja")]};ss=summary(s,sc);ss.update({k:sc[k] for k in ("predecessorWorkItemId","predecessorContractDigest","recoveryDecisionPath")})
+ac=put(f".ai/work-items/active/{s}.contract.json",sc);asu=put(f".ai/work-items/active/{s}.summary.json",ss)
+# State1: ordinary approved predecessor, canonical first receipt, exact active child.
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("pending",s)
+assert not (root/f".ai/decisions/{s}.close.json").exists()
+assert module.ordinary_closed_projection_continuation(root,p,rid)==s
+projection("pending");inventory("closed")
+# Canonical receipt is a real native form; an arbitrary suffix is not an alias.
+bad=root/f".ai/decisions/{p}.recovery.{('0'*64)}.json";bad.write_bytes(recovery_path.read_bytes());recovery_path.unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,bad,recovery) is None
+bad.unlink();put(recovery_path.relative_to(root),recovery)
+# Every negative restores exact native-shaped bytes; none recomputes approval to hide corruption.
+for target,mutate in [
+ (root/f".ai/decisions/{p}.close.json",lambda v:v.update(humanDecision="superseded")),
+ (root/f".ai/decisions/{p}.close.json",lambda v:v.update(repositoryId="sha256:"+"f"*64)),
+ (root/f".ai/evidence/{p}.verification.json",lambda v:v.update(receiptDigest="sha256:"+"0"*64)),
+ (recovery_path,lambda v:v.update(predecessorContractDigest="sha256:"+"0"*64)),
+ (recovery_path,lambda v:v.update(predecessorEventsDigest="sha256:"+"0"*64)),
+ (recovery_path,lambda v:v.update(decision="supersede")),
+ (recovery_path,lambda v:v.update(unrecognizedTrust=True)),
+ (recovery_path,lambda v:v.update(successorBindingMode="arbitrary")),
+ (root/f".ai/work-items/archive/{p}.archive.json",lambda v:v["files"].update(summaryDigest="sha256:"+"0"*64)),
+ (ac,lambda v:v.update(recoveryDecisionPath=".ai/decisions/unrelated.recovery.json")),
+ (asu,lambda v:v.update(predecessorWorkItemId="WI-999-foreign")),
+ (asu,lambda v:v.update(state="closed")),
+]:
+ original=target.read_bytes();value=json.loads(original);mutate(value);target.write_text(json.dumps(value)+"\n")
+ current=json.loads(recovery_path.read_bytes());assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,current) is None,(target,value)
+ target.write_bytes(original)
+original=(root/f".ai/decisions/{p}.close.json").read_bytes();(root/f".ai/decisions/{p}.close.json").unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+(root/f".ai/decisions/{p}.close.json").write_bytes(original)
+# A symlink and duplicate JSON key are rejected even when their resolved value looks right.
+original=ac.read_bytes();ac.unlink();outside=root/"untrusted-contract.json";outside.write_bytes(original);ac.symlink_to(outside)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ac.unlink();ac.write_bytes(original)
+original=recovery_path.read_bytes();recovery_path.write_bytes(original.replace(b'"schemaVersion": 1',b'"schemaVersion": 1, "schemaVersion": 1',1))
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+recovery_path.write_bytes(original)
+# State1b: archived child without its close is still pending, never closed.
+ac.unlink();asu.unlink();native_archive(s,sc,ss)
+native_verification_close(s,sc);(root/f".ai/decisions/{s}.close.json").unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("pending",s)
+projection("pending");inventory("closed")
+# State2: child's own valid archive + verification + real-close-shaped record.
+sv,sclose=native_verification_close(s,sc)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+projection("closed");inventory("recovered")
+
+# Native equivalent representations retain all C/S/formal/close bindings.
+for wi in (p,s):
+ manifest_path=root/f".ai/work-items/archive/{wi}.archive.json"
+ close_path=root/f".ai/decisions/{wi}.close.json"
+ originals={target:target.read_bytes() for target in (manifest_path,close_path)}
+ def own_manifest(value):
+  put(manifest_path.relative_to(root),value)
+  close=json.loads(originals[close_path]);close["ordinaryCleanupBinding"]["archiveManifestDigest"]=module.raw_file_digest(manifest_path)
+  close["ordinaryCleanupBindingDigest"]=canonical(close["ordinaryCleanupBinding"]);put(close_path.relative_to(root),close)
+ manifest=json.loads(originals[manifest_path]);manifest.pop("repositoryId");own_manifest(manifest)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+ for wrong in (None,"sha256:"+"0"*64):
+  bad=copy.deepcopy(manifest);bad["repositoryId"]=wrong;own_manifest(bad)
+  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ for target,raw in originals.items():target.write_bytes(raw)
+# canonical envelope + raw archive are the exact two digest kinds of native approval.
+for wi in (p,s):
+ close_path=root/f".ai/decisions/{wi}.close.json";raw=close_path.read_bytes();close=json.loads(raw)
+ formal=json.loads((root/f".ai/evidence/{wi}.verification.json").read_bytes())
+ correct=[module.raw_file_digest(root/f".ai/work-items/archive/{wi}.archive.json"),canonical(formal)]
+ close["structuredDecision"]["evidenceRefs"]=correct;put(close_path.relative_to(root),close)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+ archived=module.archived_recovery_bundle(root,wi,rid)
+ assert not module.terminal_successor_is_verified_and_closed(root,wi,rid,archived)
+ for index in (0,1):
+  bad=copy.deepcopy(close);bad["structuredDecision"]["evidenceRefs"][index]="sha256:"+"0"*64
+  put(close_path.relative_to(root),bad)
+  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ close_path.write_bytes(raw)
+
+# Native human citations may preserve an explicitly unknown authored time.
+# Their contents alone grant nothing; the full actual close tuple is required.
+close_path=root/f".ai/decisions/{p}.close.json";original_close=close_path.read_bytes()
+close=json.loads(original_close);statement="fixture owner accepts this exact historical archive"
+statement_digest=hashlib.sha256(statement.encode()).hexdigest()
+source="conversation:direct-user-message:sha256:"+statement_digest+";authoredAt=unknown"
+close["structuredDecision"]["authoritySource"]=source
+citation_relative=f".ai/evidence/{p}.human-close-fixture/direct-authorization.json"
+close["structuredDecision"]["evidenceRefs"]=[citation_relative]
+citation={"schemaVersion":1,"actor":close["structuredDecision"]["actor"],"authoritySource":source,"statement":statement,"statementUtf8Sha256":statement_digest,"decidedAt":"unknown","bindings":{"workItemId":p,"repositoryId":rid,"contractDigest":canonical(pc),"archiveRawSha256":module.raw_file_digest(root/f".ai/work-items/archive/{p}.archive.json").removeprefix("sha256:")}}
+citation_path=put(citation_relative,citation);put(close_path.relative_to(root),close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+for mutate in (
+ lambda value:value.update(actor="agent:untrusted"),
+ lambda value:value.update(authoritySource="unrelated"),
+ lambda value:value.update(statement="edited without rebinding the real close source"),
+ lambda value:value["bindings"].update(workItemId="WI-1299-foreign"),
+ lambda value:value["bindings"].update(repositoryId="sha256:"+"0"*64),
+ lambda value:value["bindings"].update(contractDigest="sha256:"+"0"*64),
+ lambda value:value["bindings"].update(archiveRawSha256="0"*64),
+):
+ bad=copy.deepcopy(citation);mutate(bad);put(citation_relative,bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+# Rehashing a different statement cannot change the frozen native authoritySource.
+bad=copy.deepcopy(citation);bad["statement"]="different statement";bad["statementUtf8Sha256"]=hashlib.sha256(bad["statement"].encode()).hexdigest();put(citation_relative,bad)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(citation_relative,{"verified":True})
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+close_path.write_bytes(original_close);citation_path.unlink()
+
+# The four exact frozen artifact paths are a native recovery representation.
+original_recovery=recovery_path.read_bytes();native_artifacts=copy.deepcopy(recovery)
+native_artifacts["evidenceRefs"]=[f".ai/work-items/archive/{p}.{ending}" for ending in ("contract.json","summary.json","outcome.json","events.jsonl")]
+put(recovery_path.relative_to(root),native_artifacts)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_artifacts)==("closed",s)
+for index in range(4):
+ wrong=copy.deepcopy(native_artifacts);wrong["evidenceRefs"][index]=wrong["evidenceRefs"][index].replace(p,"WI-1299-foreign")
+ put(recovery_path.relative_to(root),wrong)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,wrong) is None
+recovery_path.write_bytes(original_recovery)
+# An accepted successor-close citation also binds an exact native attempt whose
+# complete receipt equals the parent's frozen successful formal receipt.
+parent_close=root/f".ai/decisions/{p}.close.json";original_parent_close=parent_close.read_bytes()
+close=json.loads(original_parent_close);close["structuredDecision"]["evidenceRefs"]=[recovery_path.relative_to(root).as_posix(),f".ai/decisions/{s}.close.json"]
+put(parent_close.relative_to(root),close)
+attempt_relative=f".ai/evidence/{p}.verification-attempt.{('5'*64)}.json"
+formal=json.loads((root/f".ai/evidence/{p}.verification.json").read_bytes())
+attempt={"schemaVersion":1,"protocolVersion":1,"attemptId":"sha256:"+"5"*64,"kind":"verification_attempt","state":"execution_completed","workItemId":p,"repositoryId":rid,"contractDigest":canonical(pc),"repositorySnapshotDigest":snapshot,"runtimeDigest":runtime,"passed":True,"receipt":formal["receipt"]}
+attempt_path=put(attempt_relative,attempt);native_attempt=copy.deepcopy(recovery);native_attempt["evidenceRefs"]=[f".ai/work-items/archive/{p}.outcome.json",attempt_relative]
+put(recovery_path.relative_to(root),native_attempt)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt)==("closed",s)
+child_close=root/f".ai/decisions/{s}.close.json";child_raw=child_close.read_bytes();child_close.unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt) is None
+child_close.write_bytes(child_raw)
+for mutate in (
+ lambda value:value.update(schemaVersion=True),
+ lambda value:value.update(schemaVersion=2),
+ lambda value:value.update(protocolVersion=2),
+ lambda value:value.update(workItemId="WI-1299-foreign"),
+ lambda value:value.update(repositoryId="sha256:"+"0"*64),
+ lambda value:value.update(contractDigest="sha256:"+"0"*64),
+ lambda value:value.update(repositorySnapshotDigest="sha256:"+"0"*64),
+ lambda value:value.update(runtimeDigest="sha256:"+"0"*64),
+ lambda value:value["receipt"].update(passed=False),
+):
+ bad=copy.deepcopy(attempt);mutate(bad);put(attempt_relative,bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt) is None
+put(attempt_relative,attempt)
+for refs in (["verified"],["sha256:"+"0"*64],["https://example.invalid/unverified"]):
+ bad=copy.deepcopy(native_attempt);bad["evidenceRefs"]=refs;put(recovery_path.relative_to(root),bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,bad) is None
+parent_close.write_bytes(original_parent_close);recovery_path.write_bytes(original_recovery);attempt_path.unlink()
+# A finalize-looking string/file is never the full resource-finalization proof.
+close=json.loads(original_parent_close);close.pop("ordinaryCleanupBinding");close.pop("ordinaryCleanupBindingDigest")
+finalize_relative=f".ai/decisions/{p}.finalize.json";close["structuredDecision"]["evidenceRefs"]=[finalize_relative]
+put(parent_close.relative_to(root),close);finalize=put(finalize_relative,{"workItemId":p,"repositoryId":rid,"result":{"disposition":"deleted"}})
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+parent_close.write_bytes(original_parent_close);finalize.unlink()
+
+# Native schema-v1 idempotent resource observation: no deletion is performed.
+# All bytes below belong to this owned temporary fixture, never actual history.
+saved_resource={candidate:candidate.read_bytes() for candidate in root.rglob("*") if candidate.is_file()}
+context={"baseBranch":"main","baseRemote":"origin","branch":"fixture-resource","provider":"github","pullRequest":"https://example.invalid/pull/1","worktree":"/fixture/resource"}
+resource_contract=copy.deepcopy(sc);resource_contract["resourceContext"]=context
+resource_summary=summary(s,resource_contract);resource_summary.update({key:sc[key] for key in ("predecessorWorkItemId","predecessorContractDigest","recoveryDecisionPath")})
+native_archive(s,resource_contract,resource_summary);_,resource_close=native_verification_close(s,resource_contract)
+resource_close.pop("ordinaryCleanupBinding");resource_close.pop("ordinaryCleanupBindingDigest")
+resource_root_relative=f".ai/decisions/{s}.finalize.json"
+terminal_state={"branch":"deleted","pullRequest":"merged","worktree":"removed"}
+resource_root={"schemaVersion":1,"workItemId":s,"repositoryId":rid,"contractDigest":module.raw_file_digest(root/f".ai/work-items/archive/{s}.contract.json"),"contractBaseRevision":"d"*40,"resourceContext":context,"provider":"github","before":copy.deepcopy(terminal_state),"after":copy.deepcopy(terminal_state),"result":{"disposition":"deleted","failureCodes":[],"unknownCodes":[]},"actor":"agent:fixture","authoritySource":"fixture:accepted-idempotent-observation","reason":"already absent, no new deletion","timestamp":"2026-01-03T00:00:00Z","operationId":"fixture-operation","receiptId":"fixture-idempotent-root","runtimeVersion":"1.0.1","runtimeDigest":runtime,"branch":{"name":context["branch"],"remote":"origin","headRevision":"e"*40},"worktree":{"path":context["worktree"],"branch":context["branch"],"worktreeId":"fixture-worktree","headRevision":"e"*40},"pullRequest":{"number":1,"url":context["pullRequest"],"baseBranch":"main","baseRemote":"origin","baseRevision":"d"*40,"headRevision":"e"*40,"mergeCommit":"f"*40}}
+resource_close["structuredDecision"]["evidenceRefs"]=[resource_root_relative]
+resource_close.update(resourceFinalizationSequence=0,resourceFinalizationHeadPath=resource_root_relative,resourceFinalizationHeadDigest=canonical(resource_root))
+put(resource_root_relative,resource_root);put(f".ai/decisions/{s}.close.json",resource_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+
+# A normal resource close binds its native head fields; its human citation can
+# be a source message rather than redundantly repeating the finalization path.
+fresh=copy.deepcopy(resource_root);fresh["before"]={"branch":"present","pullRequest":"merged","worktree":"clean"}
+fresh_close=copy.deepcopy(resource_close);fresh_close["resourceFinalizationHeadDigest"]=canonical(fresh);fresh_close["structuredDecision"]["evidenceRefs"]=["fixture-human-message"]
+put(resource_root_relative,fresh);put(f".ai/decisions/{s}.close.json",fresh_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+bad=copy.deepcopy(fresh_close);bad["resourceFinalizationHeadDigest"]="sha256:"+"0"*64;put(f".ai/decisions/{s}.close.json",bad)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(resource_root_relative,resource_root);put(f".ai/decisions/{s}.close.json",resource_close)
+
+for mutate in (
+ lambda value:value["before"].update(branch="unknown"),
+ lambda value:value["after"].update(branch="present"),
+ lambda value:value["result"].update(unknownCodes=["unknown"]),
+ lambda value:value.update(repositoryId="sha256:"+"0"*64),
+ lambda value:value.update(contractDigest="sha256:"+"0"*64),
+ lambda value:value["resourceContext"].update(branch="foreign"),
+ lambda value:value["pullRequest"].update(mergeCommit=None),
+ lambda value:value["pullRequest"].update(headRevision="0"*40),
+):
+ bad=copy.deepcopy(resource_root);mutate(bad);put(resource_root_relative,bad)
+ # Repair only this owned fixture's head hash to isolate the actual bad field.
+ bound_close=copy.deepcopy(resource_close);bound_close["resourceFinalizationHeadDigest"]=canonical(bad);put(f".ai/decisions/{s}.close.json",bound_close)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+put(resource_root_relative,resource_root)
+for mutate in (
+ lambda value:value.update(resourceFinalizationHeadDigest="sha256:"+"0"*64),
+ lambda value:value.update(resourceFinalizationSequence=1),
+ lambda value:value["structuredDecision"].update(evidenceRefs=["verified"]),
+):
+ bad=copy.deepcopy(resource_close);mutate(bad);put(f".ai/decisions/{s}.close.json",bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+for candidate in list(root.rglob("*")):
+ if candidate.is_file() and candidate not in saved_resource:candidate.unlink()
+for candidate,raw in saved_resource.items():candidate.write_bytes(raw)
+print("native idempotent resource observation cases passed")
+
+print("exact native close/reference representation cases passed")
+
+for target,mutate in [
+ (root/f".ai/decisions/{s}.close.json",lambda v:v.update(finalReportDigest="sha256:"+"0"*64)),
+ (root/f".ai/decisions/{s}.close.json",lambda v:v["structuredDecision"].update(decision="rejected")),
+ (root/f".ai/evidence/{s}.verification.json",lambda v:v.update(passed=False)),
+ (root/f".ai/evidence/{s}.verification.json",lambda v:v.update(repositorySnapshotDigest="sha256:"+"0"*64)),
+]:
+ original=target.read_bytes();v=json.loads(original);mutate(v);target.write_text(json.dumps(v)+"\n")
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ inventory("closure_invalid",invalid=True)
+ target.write_bytes(original)
+# Fixed346 explicitly requires exactly one checkpoint; do not invent future compatibility.
+# Writer Runtime is deliberately different from executor Runtime in this positive fixture.
+for wi in (p,s):
+ close_path=root/f".ai/decisions/{wi}.close.json"
+ value=json.loads(close_path.read_bytes());original=close_path.read_bytes()
+ value["humanDecision"]="confirmed";value["structuredDecision"]["decision"]="confirmed";put(close_path.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+ close_path.write_bytes(original)
+for wi in (p,s):
+ target=root/f".ai/decisions/{wi}.close.json"
+ for mutate in (
+  lambda v:v.update(ordinaryCleanupBindingDigest="sha256:"+"0"*64),
+  lambda v:v["ordinaryCleanupBinding"].update(archiveManifestDigest="sha256:"+"0"*64),
+  lambda v:v["ordinaryCleanupBinding"].update(contractDigest="sha256:"+"0"*64),
+ ):
+  original=target.read_bytes();value=json.loads(original);mutate(value);put(target.relative_to(root),value)
+  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+  target.write_bytes(original)
+ original=target.read_bytes();value=json.loads(original)
+ value["finalReport"]["bindings"]["repositorySnapshotDigest"]="sha256:"+"0"*64
+ value["finalReportDigest"]=canonical(value["finalReport"]);put(target.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ target.write_bytes(original)
+ # Keep the old real-shaped close unchanged while replacing a self-consistent bundle.
+ paths=list((root/".ai/work-items/archive").glob(wi+".*"))+[root/f".ai/evidence/{wi}.verification.json"]
+ saved={path:path.read_bytes() for path in paths}
+ contract=json.loads((root/f".ai/work-items/archive/{wi}.contract.json").read_bytes())
+ altered=copy.deepcopy(contract);altered["goal"]="different same-WI contract"
+ altered_summary=summary(wi,altered)
+ if wi==s: altered_summary.update({k:sc[k] for k in ("predecessorWorkItemId","predecessorContractDigest","recoveryDecisionPath")})
+ native_archive(wi,altered,altered_summary)
+ formal=json.loads((root/f".ai/evidence/{wi}.verification.json").read_bytes());formal["contractDigest"]=canonical(altered);put(f".ai/evidence/{wi}.verification.json",formal)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ for path,raw in saved.items(): path.write_bytes(raw)
+# Suspicious existing competing candidates must not disappear as 'missing'.
+other=root/f".ai/decisions/{p}.recovery.{('f'*64)}.json"
+for raw in (b'{broken',b'{"decision":"retry","decision":"retry"}'):
+ other.write_bytes(raw)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ other.unlink()
+# Old close retained while the child formal/summaries/archive all consistently
+# move to another snapshot must still be rejected by report/cleanup binding.
+saved={target:target.read_bytes() for target in root.rglob("*") if target.is_file()}
+summary_path=root/f".ai/work-items/archive/{s}.summary.json"
+value=json.loads(summary_path.read_bytes());new_snapshot="sha256:"+"9"*64
+value.update(checkpointRepositorySnapshotDigest=new_snapshot,preflightRepositorySnapshotDigest=new_snapshot)
+put(summary_path.relative_to(root),value)
+manifest_path=root/f".ai/work-items/archive/{s}.archive.json"
+manifest=json.loads(manifest_path.read_bytes());manifest["files"]["summaryDigest"]=module.raw_file_digest(summary_path);put(manifest_path.relative_to(root),manifest)
+formal_path=root/f".ai/evidence/{s}.verification.json";formal=json.loads(formal_path.read_bytes())
+formal["repositorySnapshotDigest"]=new_snapshot;formal["receipt"]["planReceipt"]["repositorySnapshotDigest"]=new_snapshot;formal["receiptDigest"]=canonical(formal["receipt"]);put(formal_path.relative_to(root),formal)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+inventory("closure_invalid",invalid=True)
+for target,raw in saved.items(): target.write_bytes(raw)
+# Fixed Runtime count==1: rewrite raw manifest consistently so count is the
+# precise violated condition, not an incidental archive digest mismatch.
+for count in (0,2,True,1.0):
+ close_path=root/f".ai/decisions/{s}.close.json"
+ originals={target:target.read_bytes() for target in (summary_path,manifest_path,close_path)}
+ value=json.loads(summary_path.read_bytes());value["checkpointCount"]=count;put(summary_path.relative_to(root),value)
+ manifest=json.loads(manifest_path.read_bytes());manifest["files"]["summaryDigest"]=module.raw_file_digest(summary_path);put(manifest_path.relative_to(root),manifest)
+ # This is our synthetic fixture, never an actual human-close record. Repair
+ # its own archive tuple so the counter's type/value is the only bad condition.
+ close=json.loads(close_path.read_bytes())
+ close["ordinaryCleanupBinding"]["archiveManifestDigest"]=module.raw_file_digest(manifest_path)
+ close["ordinaryCleanupBindingDigest"]=canonical(close["ordinaryCleanupBinding"])
+ put(close_path.relative_to(root),close)
+ assert module.ordinary_cleanup_tuple_matches(root,s,rid,sc,close)
+ archived=module.archived_recovery_bundle(root,s,rid)
+ assert archived is not None and module.terminal_successor_is_verified_and_closed(root,s,rid,archived)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ for target,raw in originals.items(): target.write_bytes(raw)
+# Exact ordinary conditional verifier validation is reached through check(),
+# not asserted merely by calling the new helper. A foreign valid WI is negative.
+projection("pending")
+foreign="WI-1299-unrelated-verifier"
+put(f".ai/work-items/active/{foreign}.contract.json",{"workItemId":foreign,"repositoryId":rid})
+for suffix in ("",".zh-CN",".ja"):
+ target=root/f"docs/work-items/{p}{suffix}.md";target.write_text(target.read_text().replace(f"lastVerifiedBy: {s}",f"lastVerifiedBy: {foreign}"))
+errors=module.check(root)
+assert any("not the predecessor or its exact docs successor" in error for error in errors),errors
+projection("pending")
+ja=root/"docs/reference/reference-parity.ja.md";raw=ja.read_bytes()
+ja.write_text("\n".join(line for line in ja.read_text().splitlines() if not line.startswith("| "+p+" "))+"\n")
+errors=module.check(root);assert any("missing or mixed three-language parity" in error for error in errors),errors
+ja.write_bytes(raw)
+ja.write_text(ja.read_text().replace("In progress → verified close 後 Implemented","Implemented",1))
+errors=module.check(root);assert any("missing or mixed three-language parity" in error for error in errors),errors
+ja.write_bytes(raw)
+
+# A later accepted parent close and a precisely retired child are independent.
+# Never turn replaced/not_verified into child verified/closed or docs exemption.
+projection("pending")
+(root/f".ai/decisions/{s}.close.json").unlink()
+manifest_path=root/f".ai/work-items/archive/{s}.archive.json"
+archived_child_manifest=manifest_path.read_bytes()
+manifest=json.loads(archived_child_manifest)
+retirement_relative=f".ai/decisions/{s}.retirement.json"
+manifest.update(state="replaced",retirementDisposition="replaced",retirementReceiptPath=retirement_relative,closeRequired=False,historicalEvidence=True,successorWorkItemId="WI-1203-independent-continuation")
+put(manifest_path.relative_to(root),manifest)
+retirement={"schemaVersion":1,"decisionId":"work-item-retirement","workItemId":s,"repositoryId":rid,"disposition":"replaced","successorWorkItemId":manifest["successorWorkItemId"],"originalBytesPreserved":True,"verificationClaim":"not_verified","actor":"agent:fixture","authoritySource":"fixture:explicit-retirement","reason":"preserve nonverified child, not success","recordedAt":"2026-01-04T00:00:00Z","runtimeDigest":runtime,"runtimeVersion":"1.0.1","contractDigest":canonical(sc),"summaryDigest":canonical(ss),"archiveManifestDigest":canonical(manifest),"artifacts":{key:{"path":manifest["files"][key+"Path"],"digest":manifest["files"][key+"Digest"]} for key in ("contract","summary","outcome")}}
+retirement_path=put(retirement_relative,retirement)
+assert module.valid_retirement_receipt(root,s,retirement_path,retirement)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("retired",s)
+assert module.ordinary_closed_projection_continuation(root,p,rid) is None
+for suffix,implemented,replaced in (("","Implemented","Replaced"),(".zh-CN","已实现","已替代"),(".ja","Implemented","Replaced")):
+ target=root/f"docs/work-items/{p}{suffix}.md"
+ target.write_text(target.read_text().replace("status: in_progress","status: implemented").replace(f"lastVerifiedBy: {s}",f"lastVerifiedBy: {p}"))
+ parity=root/f"docs/reference/reference-parity{suffix}.md";lines=parity.read_text().splitlines()
+ for index,line in enumerate(lines):
+  if line.startswith("| "+p+" "):
+   cells=[cell.strip() for cell in line.split("|")[1:-1]];cells[1]=implemented;lines[index]="| "+" | ".join(cells)+" |"
+  elif line.startswith("| "+s+" "):
+   lines[index]=f"| {s} — retired child | {replaced} | `{retirement_relative}`; not_verified |"
+ parity.write_text("\n".join(lines)+"\n")
+assert module.check(root)==[],module.check(root)
+report=inventory("closed",retired=True)
+child=next(item for item in report["inventory"] if item["workItemId"]==s)
+assert child["lifecycleState"]=="replaced",child
+assert not (root/f".ai/decisions/{s}.close.json").exists()
+for target,mutate in (
+ (retirement_path,lambda value:value.update(repositoryId="sha256:"+"0"*64)),
+ (retirement_path,lambda value:value.update(workItemId="WI-1299-foreign")),
+ (retirement_path,lambda value:value.update(archiveManifestDigest="sha256:"+"0"*64)),
+ (retirement_path,lambda value:value.update(verificationClaim="verified")),
+ (root/f".ai/work-items/archive/{s}.contract.json",lambda value:value.update(predecessorWorkItemId="WI-1299-foreign")),
+ (root/f".ai/work-items/archive/{s}.summary.json",lambda value:value.update(recoveryDecisionPath=".ai/decisions/foreign.recovery.json")),
+ (manifest_path,lambda value:value["files"].update(outcomeDigest="sha256:"+"0"*64)),
+):
+ raw=target.read_bytes();value=json.loads(raw);mutate(value);put(target.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None,(target,value)
+ expected_code=("invalid_recovery_successor_binding" if target==root/f".ai/work-items/archive/{s}.contract.json" else "invalid_ordinary_successor_lineage")
+ inventory("closure_invalid",invalid=True,invalid_code=expected_code)
+ target.write_bytes(raw)
+raw=retirement_path.read_bytes();retirement_path.unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+retirement_path.write_bytes(raw)
+child_close=root/f".ai/decisions/{s}.close.json";put(child_close.relative_to(root),sclose)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+inventory("closure_invalid",invalid=True)
+child_close.unlink()
+
+# Native chronology: a recovery can predate the human's accepted parent close,
+# so it cannot contain that future close reference. This exception is retired-only.
+parent_close_path=root/f".ai/decisions/{p}.close.json"
+original_parent_close=parent_close_path.read_bytes();original_recovery=recovery_path.read_bytes()
+prior_recovery=copy.deepcopy(recovery)
+prior_recovery["evidenceRefs"]=["https://example.invalid/historical-pr","https://example.invalid/historical-run"]
+put(recovery_path.relative_to(root),prior_recovery)
+# Isolate chronology: the decision and recorded time both predate recovery.
+early_close=json.loads(original_parent_close);early_close["recordedAt"]="2026-01-02T00:00:01Z"
+put(parent_close_path.relative_to(root),early_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery) is None
+late_close=json.loads(original_parent_close)
+late_close["structuredDecision"]["decidedAt"]="2026-01-05T00:00:00Z"
+late_close["recordedAt"]="2026-01-05T00:00:01Z"
+put(parent_close_path.relative_to(root),late_close)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery)==("retired",s)
+assert module.ordinary_closed_projection_continuation(root,p,rid) is None
+inventory("closed",retired=True)
+
+# Absence of old path refs never relaxes actual predecessor digest bindings.
+for key in ("predecessorContractDigest","predecessorSummaryDigest","predecessorOutcomeDigest","predecessorEventsDigest","predecessorArchiveManifestDigest"):
+ wrong=copy.deepcopy(prior_recovery);wrong[key]="sha256:"+"0"*64;put(recovery_path.relative_to(root),wrong)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,wrong) is None,key
+put(recovery_path.relative_to(root),prior_recovery)
+
+for decided_at,recorded_at in (
+ ("2026-01-03T00:00:00Z","2026-01-05T00:00:01Z"),
+ ("2026-01-05T00:00:00","2026-01-05T00:00:01Z"),
+ ("2026-01-05T00:00:00Z","2026-01-04T00:00:00Z"),
+ ("2026-01-05T00:00:00Z",None),
+):
+ value=copy.deepcopy(late_close);value["structuredDecision"]["decidedAt"]=decided_at;value["recordedAt"]=recorded_at
+ put(parent_close_path.relative_to(root),value)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,prior_recovery) is None
+put(parent_close_path.relative_to(root),late_close)
+# Missing future reference does not open either original ordinary close or pending route.
+retired_manifest=manifest_path.read_bytes();retirement_bytes=retirement_path.read_bytes()
+retirement_path.unlink();manifest_path.write_bytes(archived_child_manifest)
+for references in (
+ prior_recovery["evidenceRefs"],
+ [f".ai/decisions/{p}.close.json"],
+ [f".ai/work-items/archive/{p}.archive.json"],
+):
+ missing_ref=copy.deepcopy(prior_recovery);missing_ref["evidenceRefs"]=references
+ put(recovery_path.relative_to(root),missing_ref)
+ put(child_close.relative_to(root),sclose)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,missing_ref) is None
+ child_close.unlink()
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,missing_ref) is None
+manifest_path.write_bytes(retired_manifest);retirement_path.write_bytes(retirement_bytes)
+parent_close_path.write_bytes(original_parent_close);recovery_path.write_bytes(original_recovery)
+
+print("ordinary parent close with nonverified retired child cases passed")
+
+print("ordinary canonical three-state lineage draft cases passed")
+PYTEST
 
 echo 'work item status consistency regression passed'

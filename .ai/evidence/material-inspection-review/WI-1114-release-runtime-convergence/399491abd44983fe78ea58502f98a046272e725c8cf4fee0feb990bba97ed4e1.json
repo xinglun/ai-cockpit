@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "materialManifestDigest": "sha256:ffd149507c410a008abd71fce8bf325ecdbb8c63e9d84dbeb690ebbdc703c292",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:399491abd44983fe78ea58502f98a046272e725c8cf4fee0feb990bba97ed4e1",
+  "reviewedSourceHead": "c29f9d57d4a9632b216c5c800331bd22131a8843",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:b74ba1e5112327516249f88f4cb2275a040fb5179564154037f9dd46a2a36f7b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:4e4b8c25f4c9ba79c2ce171503aa0a7833f080561ef40606aa8ee771d5826842"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Raydot technical decision accepted this exact399491 request after independent materialization of Library libfile_1c361fa80bc8819197f334a4be505127,ZIP761725B SHA9c6643c96cca690c24c6394fe6faa532936289c629f3dfda9940427500da549c and127payload manifest entries. Original17988B request SHA bc93f4aa4339b63701428e369f6d0e4b7114407048c603fe237f4d0ca344d002 and native domain canonical request digest were independently recomputed. All39entries33Clean6permittedUnknown0Finding,complete committed blobs/OID/SHA/hunk/Contract/profile/policy identities inspected. Four old full entries are identical; composition/collaboration complete blobs plus exact independently reviewed23/24mechanical deltas were read, and Clean verification/lib equals23after. Current four declared Linux commands genuinely passed atc29 with exact native artifacts. No injection,invented authority or source drift found. This is a truthful agent/self_declared technical review under the original profile,not human identity or execution approval.",
+  "residualRisk": "All6machine readable_committed_rust_syntax_unknown findings remain Unknown,never Clean. Technical material acceptance is not whole-WI acceptance,platform support,authenticated provider admission/reuse,performance achievement,Sentinel formal-package acceptance,human approval or publication permission. Linux ancestry/time exclusion heuristics,EOF/nonLinux reap Ok and observed owned-child ECHILD are not arbitrary full-tree containment proof. Guard tests prove their real safe-fresh/reuse-current calls,not a complete second fresh parent protocol or real preRelease Abort round-trip. Owner-death before first failure publication,all-publications-failed durability and ignored nonJSON temporary residue remain limitations. Actual Mac/Windows support/tests,positive product HTTPS/authenticated accept/reuse,measured CI savings and Sentinel immutable formal-package acceptance remain incomplete. Preserve all failed/stale/partial/compile0tests receipts,old wrapper97 and unknown PID4135169 attribution,procfs/EACCES failures and private raw path/error diagnostics; do not retroactively attribute processes,kill PID1 zombies or relabel failures. Diagnostic bounds do not imply secret redaction; retain controlled private distribution. Old279repository execution remains at74a3,old258guard at27d1. Current same-head two strict/fmt/258guard proofs are selected commands only; full118plan still reports0reuse,118execute and distinct logical binding,not completed coverage. No forced hash/receipt rebinding,credential/trust install,cleanup,Runtime switch,CI,push or release follows from this material decision.",
+  "recordedAt": "2026-10-30T15:08:32Z",
+  "receiptDigest": "sha256:95eeca6bc8fabb3ce02026f2181c5ff9df2bd6c25fb6357704339a8b5069e9c7"
+}

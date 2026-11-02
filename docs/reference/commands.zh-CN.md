@@ -14,6 +14,135 @@ capabilityClaims:
 
 # 命令参考
 
+<!-- AI_COCKPIT_PUBLIC_CLI:BEGIN -->
+## 完整 CLI 目录
+
+从当前 Clap 命令树生成；包括继承的全局参数与内建 help/version 参数。这里只列名称，具体语义请查询对应命令的 --help；help [COMMAND]... 使用相同的公开命令路径。
+
+<details>
+<summary>完整 CLI 目录</summary>
+
+| 命令 | 参数名称 | 可见命令别名 |
+| --- | --- | --- |
+| `ai-cockpit` | `--task-caller`, `-V / --version`, `-h / --help` |  |
+| `ai-cockpit inspect` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit preflight` | `--contract`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit observe` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit isolation-manifest` | `--mask-ancestors-of`, `--output`, `--paths-file`, `--root`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit attach` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit status` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit compatibility` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate plan` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate apply` | `--approved`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit start` | `--acceptance`, `--authority`, `--development-review`, `--goal`, `--id`, `--intent`, `--out-of-scope`, `--prepare`, `--repo`, `--required-evidence`, `--risk`, `--scenario-coverage`, `--scope`, `--source`, `--task-authorization`, `--task-caller`, `--verification`, `-h / --help` |  |
+| `ai-cockpit checkpoint` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit finish` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit archive` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit archive-historical` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit close` | `--actor`, `--authority-source`, `--decided-at`, `--evidence-ref`, `--human-decision`, `--id`, `--json`, `--language`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
+| `ai-cockpit gate` | `--base-revision`, `--contract`, `--repo`, `--report`, `--runner`, `--stage`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit gate-report` | `--repo`, `--report`, `--route-receipt`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
+| `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence observe` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence list` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence list-observations` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence policy` | `--classification`, `--disposal-action`, `--expires-at`, `--persistence`, `--repo`, `--retention-days`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence purge-plan` | `--now-epoch-seconds`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit cognitive-benefit` | `--binary`, `--check`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit export` | `--actor`, `--cursor`, `--display-timezone`, `--event-type`, `--from`, `--limit`, `--output`, `--repo`, `--reported-model`, `--task-caller`, `--to`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit audit query` | `--actor`, `--cursor`, `--display-timezone`, `--event-type`, `--from`, `--limit`, `--repo`, `--reported-model`, `--task-caller`, `--to`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit work-item` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery plan` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item new` | `--id`, `--mode`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item revalidate-amendment` | `--id`, `--reason`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item amend` | `--id`, `--input`, `--reason`, `--repo`, `--request`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item amendments` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item revalidate-archived` | `--actor`, `--authority-source`, `--evidence-ref`, `--id`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--successor`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item approach` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item outcome` | `--delivery`, `--display-timezone`, `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `--view`, `-h / --help` |  |
+| `ai-cockpit work-item usage` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item usage import` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item usage record` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review plan` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest plan` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest review` | `--manifest`, `--repo`, `--review`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest start` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest check` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest outcome` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest inspect` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest terminate` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest ledger` | `--manifest-digest`, `--repo`, `--task-caller`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit work-item reconcile-artifacts` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item retire` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-plan` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item legacy-closeout-source-record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item closeout-recovery-plan` | `--id`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item closeout-recover` | `--id`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item status` | `--all`, `--authorization-request`, `--id`, `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item inspect` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item declare` | `--conflicts-with`, `--depends-on`, `--id`, `--parallelizable`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item validate` | `--id`, `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item controls` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item recover` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item recover-selected-successor-lineage` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item boundary` | `--file`, `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot acquire` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot release` | `--id`, `--lease-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot list` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination inspect` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination register` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination report-impact` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination publish-outcome` | `--generation`, `--id`, `--outcome-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination request-pause` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination acknowledge` | `--repo`, `--request-id`, `--state`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination resume` | `--generation`, `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination recover` | `--consumer-generation`, `--consumer-work-item-id`, `--event-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination check-environment-drift` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination record-environment-drift` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item composition` | `--generation`, `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit capability` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit capability show` | `--format`, `--language`, `--repo`, `--surface`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit diagnose` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit knowledge` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit knowledge query` | `--component`, `--repo`, `--state`, `--task-caller`, `--topic`, `--v2`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit profile` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile confirm` | `--args`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile propose` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit mcp` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent first-start` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent list` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent install` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent repair` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent detach` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+
+</details>
+<!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+
 历史兼容必须显式且保持低 assurance。旧的共享主 worktree 记录可以使用
 `historical.kind=shared_worktree_retained` 与 `assurance=historical_low`；它必须绑定主
 repository worktree，并且仍需要人工 close 决定。没有 PR 的本地合并可以使用
@@ -69,16 +198,10 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 
 ## Contract 修订与环境漂移
 
-Runtime `1.0.1-rc.1` 的 CLI 修订请求在策略要求时可包含绑定请求的
-`authorization` 对象：`schemaVersion`、`decisionId`、
-`decision: "authorize_change"`、`authorizedBy`、`authoritySource`、
-`assurance: "self_declared"`、`executedBy`、`repositoryId`、`workItemId`、
-`contractDigest`、`repositorySnapshotDigest`、`requestDigest` 和
-`changedPaths`。授权者与执行者必须不同。用只读 `work-item amend-check` 的结果绑定当前
-repository、Work Item、Contract、snapshot、request digest 和精确变更路径；写入前 `amend`
-会再次校验。该声明式授权不是宿主认证证明，也不是 `confirm_review` 决定。当前
-`work_item_amend` 的 `tools/list` schema 未公开此可选对象，因此不能推断 MCP 支持，也不要经
-MCP 发送未声明字段；应使用受支持的 CLI 路径。
+用 `work-item amend --request <request.json>` 提交当前类型化、绑定 digest 的修订，
+用 `work-item amendments` 只读查询历史。CLI 与 MCP 各自接受的输入以当前命令帮助和
+`tools/list` schema 为准，不要跨传输推断字段支持。声明的 caller 元数据不是宿主认证证明，
+也不会记录人工 `confirm_review` 决定。
 
 敏感修订使此前的 preflight 过期后，只有 Runtime 准入时才运行新的 `preflight`。该操作可以生成
 绑定当前 repository、Work Item、Contract digest 和 repository snapshot 的待确认 review request。
@@ -340,11 +463,191 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-record -->
+### 接口事实: `work-item-usage-record`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `request` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-usage-record -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-import -->
+### 接口事实: `work-item-usage-import`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `request` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-usage-import -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-material-review-plan -->
+### 接口事实: `work-item-material-review-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-material-review-plan -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-material-review-record -->
+### 接口事实: `work-item-material-review-record`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+| `decision` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-material-review-record -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN audit-query -->
+### 接口事实: `audit-query`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item-id` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reported-model` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `event-type` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `—` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reportedModel` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `eventType` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `50` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END audit-query -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN audit-export -->
+### 接口事实: `audit-export`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item-id` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reported-model` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `event-type` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `—` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
+| `output` | `string` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END audit-export -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-plan -->
+### 接口事实: `evidence-bundle-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
+
 - 重复执行 `observe`、`capability show`、顶层 `status` 和单项/全量 Work Item status，不会写入 tracked
   repository bytes 或 observer cache。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
   `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括 `evidenceClasses` 和绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
   `evidenceClasses` 用于明确映射 Contract 中每个非内置 evidence class：每项必须绑定当前 Contract digest、普通且非符号链接的仓库文件、locator、`passed` 状态和文件 SHA-256。缺失、修改、格式错误或 foreign evidence 会被拒绝或标记为 stale；仅将 scenario 标记为 verified 不能满足自定义 evidence class。
+  可显式声明 `governanceProfile.evidenceClassStages`：`{"schemaVersion":1,"classes":[{"class":"adopter","requiredFrom":"finish"}]}`，只延后列出的已声明自定义类。`requiredFrom:"verification"` 及未列出的类仍是执行前置条件。typed amendment 自动添加受保护的 `evidence-class-stages` capability，旧 Runtime 必须拒绝该 Contract。仅在 `implementation_active` 或 `checkpointed` 状态下，尚未取得的 finish-only 项从 `evidenceClasses` 省略；不得填空 evidence 或 `unverified` 占位项。所有已提供项仍须通过原有 identity、文件、digest 与 passed 检查。未知状态、终态标记、`finish_ready` 以及 finish/archive/close 均保持完整证据要求；未验证场景仍如实保留，此声明或源码验证不会将它们升级为通过。
   `record_governance_controls` 是 active Work Item 上由 Runtime 准入的写入动作。验证已通过但必需控制项仍缺证据时，status 会撤销 `finish` 准入并推荐记录缺失证据；写入后重新查询 status 获取下一动作。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` 记录绑定 identity 的 `retry`、`successor` 或 `supersede` decision。`supersede` 要求已经绑定的 successor Work Item，并把 predecessor 归档为明确的历史 `superseded` 状态；原始 bytes 不会改写。receipt 必须绑定 predecessor 的 Contract、Summary、Outcome 以及存在时的 event digest，并绑定当前 Runtime identity。既有 receipt 永不覆盖，后续 decision 使用 digest 后缀文件；recovery receipt 不会让 verification 自动变绿，也不会静默重写 predecessor。被替代的 predecessor 不是当前成功或失败，后续工作由 successor 负责。Outcome 与 archive consumer 会重验每个 current candidate 的 regular-file/文件名边界、repository 和当前 Runtime identity、predecessor digest、时间戳、decision shape 与 successor Contract 绑定。invalid 或 ambiguous candidate 以 `recovery_decision_invalid` 失败关闭；历史 archive bytes 与投影保持不可变。当 retry 的 predecessor digest 在新鲜归档的 Contract/Summary/Outcome/Events 中不再匹配时，它属于已消费历史，静态门禁会投影真正的 finalization 路径，不会虚构 recovered 终态；仍然匹配且 blocked 的 retry 继续 fail closed。
 - `work-item revalidate-archived --repo <path> --id <predecessor> --successor <id> --reason <text> --actor <id> --authority-source <source> --resume-condition <text> [--evidence-ref <ref>] [--policy-ref <ref>]` 是归档后 Contract 经审查修订时的正式 append-only 重验证入口。它校验当前 archive manifest，保留并以 digest 绑定历史 verification evidence，并在 predecessor 仍 pending close 时创建 `not_ready` successor。Successor 必须独立完成 start、verification、archive、finalization 和显式 close，之后 predecessor 才能 close。该命令不会改写 predecessor Contract、archive、Outcome、Events 或 verification evidence；malformed、foreign、stale 或 contradictory 历史会 fail closed。

@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T21:29:10.315975+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.a0afe7ced02354ecb5498eb1cc1552760b92a2cc213733a0c60037977280de80.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:5589dde31817b299534a298fdaed015eeaffd4573e9b747eb127a775bc3d6b2e",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Record the real three-language documentation source iteration after native CLI bin1 compiled then failed reference inventory assertion atHEAD9367e274. Parent independent review accepted exact2964B patchSHA73d02529166210fa9ad9bb1972834a79afe2a3f6bf43c21f215c8af985794b16: insert only evidence github and evidence github plan public inventory rows in each already scoped commands document. Preserve111PASS and previousCLI1FAIL; no Rust, production behavior, assertion or permission change.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back this normal retry before applying exactly three approved documentation files and ordinary source-only commit. Refresh current material/admission through supported entry; run only declared1 cargo test --locked -p cockpit-cli --bin ai-cockpit -- --test-threads=1 once, jobs1/one heavyworker/900s/1.25GiB disk floor. Stop dependency on failure. No extra target, cleanup, Runtime switch, push/CI/release. Prior111 and old101 stay at their actual identities.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

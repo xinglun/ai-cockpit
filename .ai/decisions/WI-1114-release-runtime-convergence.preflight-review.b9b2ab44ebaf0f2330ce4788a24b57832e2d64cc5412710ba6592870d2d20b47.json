@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7c7f87203f0c4b85fd840ddbae20e1269fc773992e3dc1059bdc3ee0f7899011",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b537162efbc9d3e48d0b7357d82e3b228cd398fce58c800997b5263a6a8fbc4a",
+  "reason": "Recorder agent:codex records the actual owner sequence19 exact confirm_review in conversation:Sentinel_888a564751c88191bda752133a851675 received2026-11-01T08:19:36Z, replying to displayed Sentinel_4561cce40b20819197fb9fe59f724cb3 at2026-11-01T07:53:34Z. Contract/Preflight/Snapshot and executing2330 Runtime freshly match the exact confirmed bindings. This records the real user response to the approved mechanism-decoupling amendment; no agent-generated human decision, new permission or extra network/CI/push/merge/release/cache cleanup/defaultRuntime/profile grant is asserted. Product cleanup remains limited to the approved30paths within130scope;119declarations and native evidence gates retained.",
+  "recordedAt": "2026-11-01T08:19:36Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5f8fcaa5a1aa212d737bd62cefdc97cebcf9cd986a1df7dd29179adb30d9346d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

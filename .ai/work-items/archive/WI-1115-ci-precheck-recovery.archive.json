@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-01T23:52:58Z",
+  "files": {
+    "contractDigest": "sha256:44f31f4219d64846143c9e72b462eb5bd3d0b7c3507ada731137f0fd620741fb",
+    "contractPath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.contract.json",
+    "eventsDigest": "sha256:a3aaa098733948ab5a4447c425fc0ad706d1b62bf79fd8426564b7a46e8f65bd",
+    "eventsPath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.events.jsonl",
+    "outcomeDigest": "sha256:bbadd39d3de666774bf643bde5bb287460470596a4e12ce28167ce3abcfd9ca8",
+    "outcomePath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.outcome.json",
+    "summaryDigest": "sha256:a60432c3980600fdd7b7aff869bb15bb77ba5a5b4b60154caa5e11e273e0fdd7",
+    "summaryPath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.summary.json",
+    "taskReportDigest": "sha256:b6319ce1f3b1d185dc093c7e3eae2856a6d6cdbc18163ffeb24be6ff7751fecb",
+    "taskReportMarkdownDigest": "sha256:47a42278b8d46c57610cef7673734c91ac5d9d4e04bf38af9513db41d839ebbc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1115-ci-precheck-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-01T23:52:58.731542013Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-01T23:52:58.731542013Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

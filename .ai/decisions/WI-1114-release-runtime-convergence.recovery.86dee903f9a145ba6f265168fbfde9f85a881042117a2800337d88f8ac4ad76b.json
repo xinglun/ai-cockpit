@@ -1,0 +1,26 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "agent:codex technical CI-recovery decision at 2026-11-01T22:40:25Z under conversation:Sentinel_6a4fa02cbae08191bde8f7147b1290f1 (user permission at 2026-11-01T22:36:30Z for exact346 isolated Runtime CI-recovery lifecycle and necessary public governance metadata); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery approval at 2026-11-01T15:23:28Z; native human review, protected merge and later exact release approval remain required)",
+  "decidedAt": "2026-11-01T22:40:25Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/41355842658",
+    ".ai/work-items/archive/WI-1114-release-runtime-convergence.archive.json",
+    ".ai/decisions/WI-1114-release-runtime-convergence.close.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:fddebbab1895fa1f1f6b00263f795c5faf059c5b5c56010790656ca8cf9b8b07",
+  "predecessorEventsDigest": "sha256:22cd930751a32498324199490399748d84059309b57a8d7adb0eb52c82d59f40",
+  "predecessorOutcomeDigest": "sha256:d48641af85b1a9bf0e5b7ce29cfa88584d81d478d075f6758abd0a8c39c804fe",
+  "predecessorSummaryDigest": "sha256:0f8295d8b28a3cc11e74d962bce7a0950d95380b93c4bcf137f36cbe866b714c",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Continue the existing PR1077 delivery through a distinct native successor to repair the independently observed canonical-precheck stale caller assertions. Preserve closed WI1114 accepted source, archive, formal verification and close receipt unchanged. This is an agent technical recovery decision, not human acceptance.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate only the explicitly scoped CI-precheck successor through native admission and the exact three local checks; stop at actual human review or acceptance gates. No product/workflow changes, network workaround, release, cache deletion or default Runtime replacement.",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1115-ci-precheck-recovery",
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

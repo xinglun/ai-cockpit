@@ -819,14 +819,20 @@ fn exact_composition_uses_real_linked_worktree_and_finds_interface_error() {
     run(root.path(), &["checkout", "-q", "main"]);
     let state = tempdir("state");
     let missing_interface = "test -f required-interface.txt";
-    let attempt = run_composition(input(
+    let composition = input(
         root.path(),
         state.path(),
         binding(&base, vec![provider_head, consumer_head]),
         vec![command("interface-check", "sh", &["-c", missing_interface])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
-    ))
-    .expect("composition attempt");
+    );
+    // Control only the final fixture observation; the helper executes the
+    // real command and requires coherent owned execution reaped to ECHILD.
+    #[cfg(target_os = "linux")]
+    let attempt = run_composition_with_pure_cache_test_supervisor(composition);
+    #[cfg(not(target_os = "linux"))]
+    let attempt = run_composition(composition);
+    let attempt = attempt.expect("composition attempt");
     assert!(!attempt.passed);
     assert!(attempt.isolated_worktree.ends_with("composition"));
     assert_eq!(attempt.binding.target_sha, base);
@@ -1530,7 +1536,11 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
         vec![command("cheap", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let passed = run_composition(composition.clone()).expect("successful attempt");
+    #[cfg(target_os = "linux")]
+    let passed = run_composition_with_pure_cache_test_supervisor(composition.clone());
+    #[cfg(not(target_os = "linux"))]
+    let passed = run_composition(composition.clone());
+    let passed = passed.expect("successful attempt");
     assert!(passed.passed);
     assert_eq!(
         classify_reuse(&passed, &composition).kind,

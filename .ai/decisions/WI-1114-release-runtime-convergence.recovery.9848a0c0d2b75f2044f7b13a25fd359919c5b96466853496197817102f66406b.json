@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T07:35:57.464899+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.7d77e08599095642da7849a8519b9d03cd0608f088acea0d92e7152f607db827.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.25f30f1010f2eb25ca97d99cbade8190dbaed0a286a0df7e5ab1b6955493d089.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:4b96a536d285b67c1da01ae20c3d7ddb93cd92bd8fdfee590d6ba8f8bb6d798d",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual native strict Clippy found one collapsible_if in the new selected-artifact duplicate check after genuine assertion RED and19/19 GREEN plus2/2 CLI tests. Retry only to collapse the equivalent conditions, preserve all assertions and prior failures, then revalidate the final same-source targets and strict checks. No permission or assurance change.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the native retry marker before the one scoped style edit and local source commit. Keep all collection limits, caller gates, rejection and non-admission gaps unchanged; run only existing declared commands with one worker,900s maximum and>=1GiB disk. No cleanup, CI, public push, credential/trust installation or Runtime switch.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

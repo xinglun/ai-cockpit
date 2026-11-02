@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T05:42:02.705094+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.65c563413531c98a218f67cfb9c373d4b8689fd249f61d8193967dd010245da2.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/eabc771769e0990cf7b79fe6d5e16a0fb3f7d74462a288ba8de2f93623b10350.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:f30fd07924f94caf033c39c5db1fbd287d9a28cb236293e113958fb3ca684696",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Actual agent technical retry before the next owner-authorized source iteration under sequence11: integrate the independently reviewed verification startup-channel phase proposal against exact current verification/lib.rs SHA05e84e84a31d70fc1fb6034f915bbd7c71eea030f21837d721ea01c4e7fa2a0e. Preserve the strict evidence/protocol/interface pass and all previous failures. First apply only reviewed RED extraction/tests, obtain real declared verification assertion failures, then apply the reviewed Unix nonblocking request/shared startup deadline implementation and verify current source. This is not a human decision, full control-channel boundedness, Mac execution or complete detached-descendant supervision proof.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only after native retry binding is recorded, commit the scoped RED source, use current native admission and the already declared cockpit-verification all-targets command. Keep the marker pending across genuine RED and consume it only through accepted current formal verification. No extra scope, credentials, trust installation, Runtime switch, CI, push, cleanup or publication.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

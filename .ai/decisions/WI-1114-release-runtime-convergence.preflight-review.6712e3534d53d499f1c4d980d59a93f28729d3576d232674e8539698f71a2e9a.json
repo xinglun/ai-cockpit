@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:831cdf2d1187594fe028b13bb3a428ef737e4b5fcc43469db00f9c4009cd3648",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20295d26f43f97ca50e692ae4aea0c9ee5fbe67fed0892c7e15766446965d9ba",
+  "reason": "Record the actual user exact confirmation, Sentinel_3bb6d13d6a348191946eb92fe96b009b at2026-10-31T03:22:44Z: 确认以上 WI-1114 sequence 13 绑定，confirm_review。 The displayed request Sentinel_debe357bcf688191bca12bfe4bfbed95 at2026-10-31T02:53:48Z specified ordinary work/no version release; the immediately following independent WI must deliver Mac local governed execution AND complete owned-descendant supervision before any later separately approved publication, with real acceptance before release. CI>=30percent/full coverage and trusted GitHub acceptance remain current requirements. Current WI/sequence13/Contract sha256:831cdf2d1187594fe028b13bb3a428ef737e4b5fcc43469db00f9c4009cd3648, Preflight sha256:20295d26f43f97ca50e692ae4aea0c9ee5fbe67fed0892c7e15766446965d9ba, Snapshot sha256:3477a9c1c2ce15b93e12643eebe7b78ffa04ad9d323da383d2f67c4d2107d293, Runtime sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838 were rechecked unchanged. This records only that actual precise human plan review, not test/acceptance success, proxy or credential authorization, CI/push, Runtime switching, ES/OS security changes or publication. Scope122/verification118 and all historical failed/unknown observations are preserved; release workflow cap0 and original counters are not reset/transferred. Recorder agent:codex preserves the actual owner decision; no new human decision or extra grant is invented.",
+  "recordedAt": "2026-10-31T03:25:02.751225+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3477a9c1c2ce15b93e12643eebe7b78ffa04ad9d323da383d2f67c4d2107d293",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

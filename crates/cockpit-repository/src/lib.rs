@@ -50,6 +50,7 @@ use thiserror::Error;
 
 mod action_admission;
 mod audit_query;
+mod ci_admission;
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;
@@ -71,6 +72,15 @@ mod status_projection;
 mod task_authorization;
 mod usage;
 mod usage_import;
+
+pub use ci_admission::archive::{
+    EvidenceArchiveError, MAX_EVIDENCE_ARCHIVE_BYTES, MAX_EVIDENCE_ARCHIVE_ENTRIES,
+    MAX_EVIDENCE_ARCHIVE_ENTRY_BYTES, MAX_EVIDENCE_EXPANDED_BYTES, MAX_EVIDENCE_EXPANSION_RATIO,
+    MAX_EVIDENCE_NODE_CLAIMS, UntrustedEvidenceArchiveInspection, UntrustedEvidenceArchiveMember,
+    UntrustedPortableArchiveInspection, inspect_untrusted_evidence_archive,
+    inspect_untrusted_portable_archive,
+};
+pub use ci_admission::plan_portable_evidence;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
@@ -1160,6 +1170,14 @@ pub enum ObserverError {
         path: PathBuf,
         source: std::io::Error,
     },
+    /// Bounded executor facts survived in memory, but their checkpoint did not
+    /// publish successfully. These observations have not passed post-execution
+    /// identity validation and cannot authorize reuse or a successful attempt.
+    #[error("verification execution checkpoint publication failed: {source}")]
+    VerificationCheckpointPublication {
+        source: Box<ObserverError>,
+        observation: Box<serde_json::Value>,
+    },
     #[error("repository snapshot root does not match observer root")]
     SnapshotRootMismatch,
     #[error("repository protocol state error at {path}: {message}")]
@@ -1455,7 +1473,7 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
-    run_repository_verification_inner(root, request, process_observer, |_| {}, None, None)
+    run_repository_verification_inner(root, request, process_observer, |_| {}, None, None, None)
 }
 
 #[cfg(all(test, unix))]
@@ -1472,6 +1490,7 @@ where
         request,
         |_node_id, _process_id, _started| Ok(()),
         post_prepare,
+        None,
         None,
         None,
     )
@@ -1495,6 +1514,7 @@ where
         process_observer,
         |_| {},
         Some((runtime, caller)),
+        None,
         None,
     )
 }
@@ -1520,6 +1540,32 @@ where
         |_| {},
         Some((runtime, caller)),
         Some(supervisor),
+        None,
+    )
+}
+
+/// Guard both optional caches with current native causal observations. The
+/// context can request physical execution; it cannot grant profile authority.
+pub fn run_repository_verification_with_local_node_guard<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+    supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+    context: LocalNodeExecutionContext<'_>,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
+        supervisor,
+        Some(context),
     )
 }
 
@@ -1597,6 +1643,7 @@ fn run_repository_verification_inner<F, H>(
         Option<&cockpit_protocol::TaskAuthorizationCaller>,
     )>,
     process_supervisor: Option<cockpit_verification::VerificationSupervisorLaunch>,
+    local_context: Option<LocalNodeExecutionContext<'_>>,
 ) -> Result<RepositoryVerificationRun, ObserverError>
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
@@ -1626,22 +1673,68 @@ where
         path: root.clone(),
         message: error.to_string(),
     })?;
-    let prepared = prepare_repository_verification_command(&root, request, &snapshot)?;
+    let mut prepared = prepare_repository_verification_command(&root, request, &snapshot)?;
     post_prepare(&prepared);
+    let local_node_input = match (request.work_item_id.as_deref(), task_context) {
+        (Some(_), Some((runtime, _))) => Some(lifecycle::capture_local_node_input(
+            &root,
+            request,
+            &snapshot,
+            runtime,
+            &prepared.command,
+            prepared.execution_identity.as_ref(),
+            prepared.authorized_binding.as_ref(),
+        )?),
+        _ => None,
+    };
+    if let Some((_, authorization)) = prepared.authorized_binding.as_ref() {
+        // A legacy WI call cannot claim a known local observation belongs to
+        // another Runtime version. Absent such observations its old route is
+        // preserved; bare non-WI calls never consult this WI-local guard.
+        let causal_fresh = match local_node_input.as_ref() {
+            Some(input) => lifecycle::local_profile_cache_requires_fresh(
+                &root,
+                input,
+                local_context.and_then(|context| context.own_run),
+            ),
+            None if request.work_item_id.is_some() => {
+                lifecycle::local_unbound_profile_cache_requires_fresh(&root, request, &snapshot)
+            }
+            None => false,
+        };
+        if local_context.is_some_and(|context| context.force_fresh) || causal_fresh {
+            prepared.command = prepared
+                .command
+                .clone()
+                .with_reuse_candidate(None, authorization.context.clone());
+            prepared.reuse_authorization = "authorized_forced_fresh".into();
+        }
+    }
     let mut store_files_read = prepared.store_files_read;
     let mut store_unavailable_reason = prepared.store_unavailable_reason;
     let mut executable_files_read = prepared.executable_files_read;
     let mut executable_files_hashed = prepared.executable_files_hashed;
     let mut authorized_binding = prepared.authorized_binding;
+
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
+    let execution_checkpoint = match (request.work_item_id.as_ref(), task_context) {
+        (Some(_), Some((runtime, _))) => Some(lifecycle::VerificationExecutionCheckpoint::prepare(
+            &root,
+            request,
+            &snapshot,
+            runtime,
+            command.command_digest(),
+        )?),
+        _ => None,
+    };
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
     let observer_callback =
         move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
-    let mut receipt = match process_supervisor.clone() {
+    let execution_result = match process_supervisor.clone() {
         Some(supervisor) => {
             cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
                 vec![command],
@@ -1657,8 +1750,11 @@ where
             observer_callback,
             Arc::clone(&start_gate),
         ),
+    };
+    if let Some(checkpoint) = &execution_checkpoint {
+        checkpoint.observe(&execution_result)?;
     }
-    .map_err(|error| ObserverError::State {
+    let mut receipt = execution_result.map_err(|error| ObserverError::State {
         path: root.clone(),
         message: error.to_string(),
     })?;
@@ -1745,7 +1841,19 @@ where
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
             observer(node_id, process_id, started)
         };
-        receipt = match process_supervisor {
+        let retry_checkpoint = match (request.work_item_id.as_ref(), task_context) {
+            (Some(_), Some((runtime, _))) => {
+                Some(lifecycle::VerificationExecutionCheckpoint::prepare(
+                    &root,
+                    request,
+                    &final_snapshot,
+                    runtime,
+                    command.command_digest(),
+                )?)
+            }
+            _ => None,
+        };
+        let execution_result = match process_supervisor {
             Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
                 vec![command],
                 request.workers,
@@ -1759,8 +1867,11 @@ where
                 observer_callback,
                 Arc::clone(&start_gate),
             ),
+        };
+        if let Some(checkpoint) = &retry_checkpoint {
+            checkpoint.observe(&execution_result)?;
         }
-        .map_err(|error| ObserverError::State {
+        receipt = execution_result.map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;
@@ -1865,6 +1976,22 @@ where
         plan_receipt.saved_executions = receipt.nodes_reused;
         plan_receipt.timeout_seconds = receipt.timeout_seconds;
         receipt.plan_receipt = Some(plan_receipt);
+    }
+    if let (Some(before), Some((runtime, _)), Some(checkpoint)) = (
+        local_node_input.as_ref(),
+        task_context,
+        execution_checkpoint.as_ref(),
+    ) && let Some(execution_id) = checkpoint.local_execution_id()
+    {
+        lifecycle::publish_validated_local_node(
+            &root,
+            request,
+            &final_snapshot,
+            runtime,
+            before,
+            &receipt,
+            execution_id,
+        )?;
     }
     Ok(RepositoryVerificationRun {
         receipt,
@@ -4653,6 +4780,32 @@ pub fn snapshot_digest(snapshot: &RepositorySnapshot) -> Result<Digest, Observer
     })
 }
 
+/// Keep completion's input change inventory separate from diagnostic writes.
+/// The final source identity and observations are preserved. Only captured,
+/// clean-source identities are compared; dirty, changed, or unknown source
+/// retains its actual final inventory instead of rereading an old dirty input.
+pub fn verification_recording_snapshot(
+    input: &RepositorySnapshot,
+    final_snapshot: &RepositorySnapshot,
+) -> RepositorySnapshot {
+    let mut recording = final_snapshot.clone();
+    let has_captured_clean_source = |snapshot: &RepositorySnapshot| {
+        snapshot.source_tree_digest.is_some()
+            && snapshot
+                .changed_paths
+                .iter()
+                .all(|path| path == ".ai" || path.starts_with(".ai/"))
+    };
+    if has_captured_clean_source(input)
+        && has_captured_clean_source(final_snapshot)
+        && let (Ok(before), Ok(after)) = (snapshot_digest(input), snapshot_digest(final_snapshot))
+        && before == after
+    {
+        recording.changed_paths = input.changed_paths.clone();
+    }
+    recording
+}
+
 fn policy_document(root: &Path) -> Result<Option<GovernancePolicyDocument>, ObserverError> {
     let path = root.join(".ai/policy.json");
     if !path.is_file() {
@@ -5557,10 +5710,36 @@ pub(crate) fn pre_execution_quality_state(
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
     if requires_verification || fs::symlink_metadata(&evidence_path).is_ok() {
-        verification_evidence_state(root, contract, snapshot, archived, current_runtime)
-    } else {
-        Ok(EvidenceState::Complete)
+        let state =
+            verification_evidence_state(root, contract, snapshot, archived, current_runtime)?;
+        if state != EvidenceState::Complete {
+            return Ok(state);
+        }
     }
+    // Legacy quality gates retain their original behavior. An explicit stage
+    // policy additionally enforces its execution prerequisites here, using the
+    // same selector as status, spawning and receipt publication.
+    if contract
+        .evidence_class_stages()
+        .map_err(|message| ObserverError::State {
+            path: root.into(),
+            message,
+        })?
+        .is_some()
+    {
+        let summary_path = root
+            .join(".ai/work-items")
+            .join(if archived { "archive" } else { "active" })
+            .join(format!("{}.summary.json", contract.work_item_id));
+        return evidence_class_projection_state_at(
+            root,
+            contract,
+            &read_json(&summary_path)?,
+            archived,
+            cockpit_protocol::EvidenceClassStage::Verification,
+        );
+    }
+    Ok(EvidenceState::Complete)
 }
 
 /// Evaluate governance at a pre-execution or finish boundary. Completion
@@ -5871,23 +6050,7 @@ pub(crate) fn check_verification_preconditions(
     // projection remains fail-closed and prevents process spawn.
     let mut controls = controls;
     if !custom_required_evidence_classes(&contract).is_empty() {
-        let custom_evidence_state =
-            evidence_class_projection_state(&root, &contract, &summary, false)?;
-        if custom_evidence_state != EvidenceState::Complete {
-            let state_code = match custom_evidence_state {
-                EvidenceState::Missing => "missing",
-                EvidenceState::Stale => "stale",
-                EvidenceState::Contradictory => "contradictory",
-                EvidenceState::Unknown => "unknown",
-                EvidenceState::Complete => unreachable!("complete state handled above"),
-            };
-            return Err(ObserverError::State {
-                path: contract_path.clone(),
-                message: format!(
-                    "verification preconditions are blocked: evidence_classes_{state_code}"
-                ),
-            });
-        }
+        require_verification_custom_evidence(&root, &contract, &summary)?;
         controls
             .unknowns
             .retain(|unknown| unknown != "evidence_classes_repository_context_required");
@@ -9526,22 +9689,34 @@ pub fn evidence_state_for_contract_with_runtime(
 pub(crate) fn custom_required_evidence_classes(
     contract: &cockpit_protocol::Contract,
 ) -> Vec<String> {
-    contract
-        .required_evidence_classes
-        .iter()
-        .filter(|class| {
-            let normalized = class.to_ascii_lowercase();
-            !matches!(
-                normalized.as_str(),
-                "verification" | "verification_receipt" | "verification-receipt"
-            ) && !normalized.starts_with("delegated:")
-                && !matches!(
-                    normalized.as_str(),
-                    "delegated_evidence" | "external_evidence"
-                )
-        })
-        .cloned()
-        .collect()
+    contract.custom_required_evidence_classes()
+}
+
+pub(crate) fn require_verification_custom_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let state = evidence_class_projection_state_at(
+        root,
+        contract,
+        summary,
+        false,
+        cockpit_protocol::EvidenceClassStage::Verification,
+    )?;
+    let code = match state {
+        EvidenceState::Complete => return Ok(()),
+        EvidenceState::Missing => "missing",
+        EvidenceState::Stale => "stale",
+        EvidenceState::Contradictory => "contradictory",
+        EvidenceState::Unknown => "unknown",
+    };
+    Err(ObserverError::State {
+        path: root
+            .join(".ai/work-items/active")
+            .join(format!("{}.contract.json", contract.work_item_id)),
+        message: format!("verification preconditions are blocked: evidence_classes_{code}"),
+    })
 }
 
 /// Validate the explicit projection for Contract evidence classes that are
@@ -9555,12 +9730,40 @@ pub(crate) fn evidence_class_projection_state(
     summary: &serde_json::Value,
     archived: bool,
 ) -> Result<EvidenceState, ObserverError> {
-    let required = custom_required_evidence_classes(contract);
-    if required.is_empty() {
+    // Finish, archive, close and general status keep the complete requirement
+    // set. Only the explicit verification entrypoints select an earlier stage.
+    evidence_class_projection_state_at(
+        root,
+        contract,
+        summary,
+        archived,
+        cockpit_protocol::EvidenceClassStage::Finish,
+    )
+}
+
+fn evidence_class_projection_state_at(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+    archived: bool,
+    boundary: cockpit_protocol::EvidenceClassStage,
+) -> Result<EvidenceState, ObserverError> {
+    let required = contract
+        .custom_evidence_classes_required_at(boundary)
+        .map_err(|message| ObserverError::State {
+            path: root.into(),
+            message,
+        })?;
+    let declared = custom_required_evidence_classes(contract);
+    if declared.is_empty() {
         return Ok(EvidenceState::Complete);
     }
     let Some(projection) = summary.get("evidenceClasses") else {
-        return Ok(EvidenceState::Missing);
+        return Ok(if required.is_empty() {
+            EvidenceState::Complete
+        } else {
+            EvidenceState::Missing
+        });
     };
     let Some(projection) = projection.as_object() else {
         return Ok(EvidenceState::Contradictory);
@@ -9579,7 +9782,9 @@ pub(crate) fn evidence_class_projection_state(
     let Some(items) = projection["items"].as_array() else {
         return Ok(EvidenceState::Missing);
     };
-    let required_set = required.iter().map(String::as_str).collect::<BTreeSet<_>>();
+    // A deferred member may be absent. If provided, its original integrity
+    // checks still apply; a stage declaration never hides bad/foreign facts.
+    let required_set = declared.iter().map(String::as_str).collect::<BTreeSet<_>>();
     let mut seen = BTreeSet::new();
     for item in items {
         let Some(item_object) = item.as_object() else {
@@ -9668,7 +9873,7 @@ pub(crate) fn evidence_class_projection_state(
             }
         }
     }
-    if seen.len() != required.len() {
+    if seen.iter().filter(|class| required.contains(class)).count() != required.len() {
         return Ok(EvidenceState::Missing);
     }
     Ok(EvidenceState::Complete)
@@ -20030,6 +20235,7 @@ mod post_prepare_identity_tests {
             },
             Some((&runtime, Some(&caller))),
             None,
+            None,
         );
         let second = second.unwrap();
         assert!(!second.receipt.passed);
@@ -20728,6 +20934,386 @@ mod scope_pattern_relation_tests {
         assert_eq!(
             scope_pattern_matches_path("README.md", "docs/reference.md"),
             Some(false)
+        );
+    }
+}
+
+#[cfg(test)]
+mod evidence_class_stage_projection_tests {
+    use super::*;
+    use cockpit_protocol::EvidenceClassStage;
+    use serde_json::{Value, json};
+
+    fn persist_contract(root: &Path, contract: &Contract) -> Digest {
+        for phase in ["active", "archive"] {
+            let path = root.join(format!(".ai/work-items/{phase}/WI-STAGES.contract.json"));
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, serde_json::to_vec(contract).unwrap()).unwrap();
+        }
+        contract_digest(&root.join(".ai/work-items/active/WI-STAGES.contract.json")).unwrap()
+    }
+
+    fn fixture() -> (tempfile::TempDir, Contract, Value) {
+        let directory = tempfile::tempdir().unwrap();
+        let contract: Contract = serde_json::from_value(json!({
+            "protocolVersion":1,"repositoryId":"stage-fixture","workItemId":"WI-STAGES",
+            "intent":{"businessGoal":"bounded verification","userGoal":"finish honestly",
+                "problem":"final evidence is produced later","constraints":[],"nonGoals":[],"rationale":"staged evidence"},
+            "goal":"preserve completion evidence","scope":["**"],"outOfScope":[],
+            "risk":"low","authority":"authorized","acceptanceCriteria":["all final classes required"],
+            "requiredEvidenceClasses":["inputs","adopter"],"baseRevision":"base",
+            "projectProfileDigest":Digest::sha256_bytes(b"profile"),
+            "repositorySnapshotDigest":Digest::sha256_bytes(b"snapshot"),
+            "governanceProfile":{"evidenceClassStages":{"schemaVersion":1,"classes":[
+                {"class":"adopter","requiredFrom":"finish"}]}},
+            "requiredRuntimeCapabilities":[cockpit_protocol::EVIDENCE_CLASS_STAGES_CAPABILITY]
+        })).unwrap();
+        contract.validate().unwrap();
+        let digest = persist_contract(directory.path(), &contract);
+        fs::create_dir_all(directory.path().join(".ai/evidence")).unwrap();
+        fs::write(
+            directory.path().join(".ai/evidence/input.txt"),
+            b"input checked\n",
+        )
+        .unwrap();
+        let summary = json!({"evidenceClasses":{
+            "schemaVersion":1,
+            "contractDigest":digest,
+            "items":[{"class":"inputs","evidence":[{
+                "type":"fixture","path":".ai/evidence/input.txt","locator":"all",
+                "verification":"passed","digest":Digest::sha256_bytes(b"input checked\n")
+            }]}]
+        }});
+        (directory, contract, summary)
+    }
+
+    #[test]
+    fn evidence_stages_execution_projection_does_not_satisfy_completion() {
+        let (directory, contract, mut summary) = fixture();
+        let root = directory.path();
+        require_verification_custom_evidence(root, &contract, &summary).unwrap();
+        for archived in [false, true] {
+            assert_eq!(
+                evidence_class_projection_state(root, &contract, &summary, archived).unwrap(),
+                EvidenceState::Missing
+            );
+        }
+        let mut adopter = summary["evidenceClasses"]["items"][0].clone();
+        adopter["class"] = json!("adopter");
+        summary["evidenceClasses"]["items"]
+            .as_array_mut()
+            .unwrap()
+            .push(adopter);
+        for archived in [false, true] {
+            assert_eq!(
+                evidence_class_projection_state(root, &contract, &summary, archived).unwrap(),
+                EvidenceState::Complete
+            );
+        }
+        fs::write(root.join(".ai/evidence/input.txt"), b"changed\n").unwrap();
+        assert_eq!(
+            evidence_class_projection_state_at(
+                root,
+                &contract,
+                &summary,
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Stale
+        );
+        assert_eq!(
+            evidence_class_projection_state(root, &contract, &summary, false).unwrap(),
+            EvidenceState::Stale
+        );
+    }
+
+    #[test]
+    fn evidence_stages_prerequisite_faults_remain_fail_closed() {
+        for (case, expected) in [
+            ("absent", EvidenceState::Missing),
+            ("missing_file", EvidenceState::Missing),
+            ("stale_file", EvidenceState::Stale),
+            ("foreign_contract", EvidenceState::Stale),
+            ("foreign_class", EvidenceState::Contradictory),
+            ("duplicate", EvidenceState::Contradictory),
+            ("malformed", EvidenceState::Contradictory),
+            ("not_passed", EvidenceState::Missing),
+            ("escape", EvidenceState::Contradictory),
+            ("directory", EvidenceState::Contradictory),
+        ] {
+            let (directory, contract, mut summary) = fixture();
+            let path = directory.path().join(".ai/evidence/input.txt");
+            match case {
+                "absent" => summary = json!({}),
+                "missing_file" => fs::remove_file(&path).unwrap(),
+                "stale_file" => fs::write(&path, b"wrong").unwrap(),
+                "foreign_contract" => {
+                    summary["evidenceClasses"]["contractDigest"] =
+                        json!(Digest::sha256_bytes(b"foreign"))
+                }
+                "foreign_class" => {
+                    summary["evidenceClasses"]["items"][0]["class"] = json!("foreign")
+                }
+                "duplicate" => {
+                    let item = summary["evidenceClasses"]["items"][0].clone();
+                    summary["evidenceClasses"]["items"]
+                        .as_array_mut()
+                        .unwrap()
+                        .push(item);
+                }
+                "malformed" => summary["evidenceClasses"]["schemaVersion"] = json!(2),
+                "not_passed" => {
+                    summary["evidenceClasses"]["items"][0]["evidence"][0]["verification"] =
+                        json!("unverified")
+                }
+                "escape" => {
+                    summary["evidenceClasses"]["items"][0]["evidence"][0]["path"] =
+                        json!("../foreign")
+                }
+                "directory" => {
+                    fs::remove_file(&path).unwrap();
+                    fs::create_dir(&path).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            assert_eq!(
+                evidence_class_projection_state_at(
+                    directory.path(),
+                    &contract,
+                    &summary,
+                    false,
+                    EvidenceClassStage::Verification
+                )
+                .unwrap(),
+                expected,
+                "{case}"
+            );
+            assert!(
+                require_verification_custom_evidence(directory.path(), &contract, &summary)
+                    .is_err(),
+                "{case}"
+            );
+        }
+    }
+
+    #[test]
+    fn evidence_stages_missing_final_is_allowed_but_supplied_corruption_is_not() {
+        let (directory, mut contract, mut summary) = fixture();
+        contract.governance_profile.as_mut().unwrap()["evidenceClassStages"]["classes"]
+            .as_array_mut()
+            .unwrap()
+            .push(json!({"class":"inputs","requiredFrom":"finish"}));
+        summary["evidenceClasses"]["contractDigest"] =
+            json!(persist_contract(directory.path(), &contract));
+        assert_eq!(
+            evidence_class_projection_state_at(
+                directory.path(),
+                &contract,
+                &json!({}),
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Complete
+        );
+        summary["evidenceClasses"]["items"][0]["evidence"][0]["digest"] =
+            json!(Digest::sha256_bytes(b"tampered"));
+        assert_eq!(
+            evidence_class_projection_state_at(
+                directory.path(),
+                &contract,
+                &summary,
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Stale
+        );
+        contract.governance_profile = None;
+        contract.required_runtime_capabilities.clear();
+        persist_contract(directory.path(), &contract);
+        assert_eq!(
+            evidence_class_projection_state_at(
+                directory.path(),
+                &contract,
+                &json!({}),
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Missing,
+            "undeclared legacy classes remain execution prerequisites"
+        );
+    }
+
+    #[test]
+    fn evidence_stages_supplied_pending_final_is_not_an_integrity_claim() {
+        for evidence in [
+            json!([]),
+            json!([{
+                "type":"fixture","path":".ai/evidence/input.txt","locator":"all",
+                "verification":"unverified","digest":Digest::sha256_bytes(b"input checked\n")
+            }]),
+        ] {
+            let (directory, contract, mut summary) = fixture();
+            require_verification_custom_evidence(directory.path(), &contract, &summary).unwrap();
+            summary["evidenceClasses"]["items"]
+                .as_array_mut()
+                .unwrap()
+                .push(json!({"class":"adopter","evidence":evidence}));
+            for boundary in [EvidenceClassStage::Verification, EvidenceClassStage::Finish] {
+                assert_eq!(
+                    evidence_class_projection_state_at(
+                        directory.path(),
+                        &contract,
+                        &summary,
+                        false,
+                        boundary,
+                    )
+                    .unwrap(),
+                    EvidenceState::Missing
+                );
+            }
+            assert!(
+                require_verification_custom_evidence(directory.path(), &contract, &summary)
+                    .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn evidence_stages_legacy_duplicate_requirement_is_not_silently_satisfied() {
+        let (directory, mut contract, mut summary) = fixture();
+        contract.governance_profile = None;
+        contract.required_runtime_capabilities.clear();
+        contract.required_evidence_classes = vec!["inputs".into(), "inputs".into()];
+        summary["evidenceClasses"]["contractDigest"] =
+            json!(persist_contract(directory.path(), &contract));
+        assert_eq!(
+            evidence_class_projection_state_at(
+                directory.path(),
+                &contract,
+                &summary,
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Missing
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn evidence_stages_symlink_prerequisite_remains_rejected() {
+        let (directory, contract, summary) = fixture();
+        let path = directory.path().join(".ai/evidence/input.txt");
+        fs::rename(&path, path.with_extension("original")).unwrap();
+        std::os::unix::fs::symlink("input.original", &path).unwrap();
+        assert_eq!(
+            evidence_class_projection_state_at(
+                directory.path(),
+                &contract,
+                &summary,
+                false,
+                EvidenceClassStage::Verification
+            )
+            .unwrap(),
+            EvidenceState::Contradictory
+        );
+    }
+}
+
+#[cfg(test)]
+mod verification_input_inventory_tests {
+    use super::*;
+
+    fn snapshot() -> RepositorySnapshot {
+        RepositorySnapshot {
+            root: PathBuf::from("/isolated-inventory-fixture"),
+            git_root: PathBuf::from("/isolated-inventory-fixture"),
+            head: Some("a".repeat(40)),
+            changed_paths: vec![".ai/project.json".into()],
+            change_evidence: vec![],
+            git_calls: 2,
+            tree_digest: Digest::sha256_bytes(b"tree").to_string(),
+            diff_digest: Digest::sha256_bytes(b"diff").to_string(),
+            dependency_fingerprint: Digest::sha256_bytes(b"dependencies").to_string(),
+            files_read: 3,
+            files_hashed: 4,
+            bytes_read: 5,
+            bytes_hashed: 6,
+            source_tree_digest: Some(Digest::sha256_bytes(b"source").to_string()),
+        }
+    }
+
+    #[test]
+    fn recording_inventory_excludes_own_later_writes_without_changing_final_identity() {
+        let input = snapshot();
+        let mut final_snapshot = input.clone();
+        final_snapshot
+            .changed_paths
+            .push(".ai/evidence/fixture.verification-attempt.json".into());
+        final_snapshot.git_calls = 9;
+        final_snapshot.files_read = 10;
+        let mut expected = final_snapshot.clone();
+        expected.changed_paths = input.changed_paths.clone();
+        assert_eq!(
+            verification_recording_snapshot(&input, &final_snapshot),
+            expected
+        );
+        assert_eq!(
+            final_snapshot.changed_paths.len(),
+            2,
+            "actual final snapshot is untouched"
+        );
+        assert_eq!(
+            snapshot_digest(&input).unwrap(),
+            snapshot_digest(&final_snapshot).unwrap()
+        );
+    }
+
+    #[test]
+    fn recording_inventory_never_masks_source_drift_or_unknown_identity() {
+        let input = snapshot();
+        let mut final_snapshot = input.clone();
+        final_snapshot
+            .changed_paths
+            .push(".ai/evidence/fixture.verification-attempt.json".into());
+        final_snapshot.source_tree_digest =
+            Some(Digest::sha256_bytes(b"changed source").to_string());
+        assert_ne!(
+            snapshot_digest(&input).unwrap(),
+            snapshot_digest(&final_snapshot).unwrap()
+        );
+        assert_eq!(
+            verification_recording_snapshot(&input, &final_snapshot),
+            final_snapshot
+        );
+        let mut unknown = input;
+        unknown.source_tree_digest = Some("invalid".into());
+        assert!(snapshot_digest(&unknown).is_err());
+        assert_eq!(
+            verification_recording_snapshot(&unknown, &final_snapshot),
+            final_snapshot
+        );
+        let mut dirty_input = snapshot();
+        dirty_input.changed_paths.push("src/before.rs".into());
+        let mut dirty_final = dirty_input.clone();
+        dirty_final.changed_paths.push("src/after.rs".into());
+        assert_eq!(
+            verification_recording_snapshot(&dirty_input, &dirty_final),
+            dirty_final
+        );
+        let clean = snapshot();
+        let mut unknown_final = clean.clone();
+        unknown_final.source_tree_digest = None;
+        unknown_final
+            .changed_paths
+            .push(".ai/evidence/new.json".into());
+        assert_eq!(
+            verification_recording_snapshot(&clean, &unknown_final),
+            unknown_final
         );
     }
 }

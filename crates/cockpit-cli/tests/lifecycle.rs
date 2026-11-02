@@ -89,6 +89,255 @@ fn run_output(binary: &str, args: &[&str], repo: &std::path::Path) -> std::proce
         .expect("run command")
 }
 
+#[cfg(target_os = "linux")]
+fn run_interrupted_verification(
+    replace_evidence: bool,
+) -> (tempfile::TempDir, std::path::PathBuf, std::process::Output) {
+    use std::os::unix::fs::PermissionsExt;
+
+    let fixture = tempfile::tempdir().expect("fixture");
+    let repo = fixture.path().join("repository with spaces");
+    fs::create_dir(&repo).expect("repository");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .arg(&repo)
+            .status()
+            .unwrap()
+            .success()
+    );
+    fs::write(repo.join("README.md"), "baseline\n").unwrap();
+    commit_baseline(&repo);
+    let mut scripts = Vec::new();
+    for (name, body) in [
+        ("first", "printf first-node-output"),
+        (
+            "second",
+            if replace_evidence {
+                "mv .ai/evidence .ai/evidence-retained && mkdir .ai/evidence && printf second-node-output && printf second-node-error >&2 && exit 7"
+            } else {
+                "mv .git .git-after-execution && printf second-node-output"
+            },
+        ),
+        ("third", "touch third-node-started"),
+    ] {
+        let path = fixture.path().join(name);
+        fs::write(&path, format!("#!/bin/sh\nset -eu\n{body}\n")).unwrap();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
+        scripts.push(path);
+    }
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    run(binary, &["attach"], &repo);
+    run(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-PARTIAL",
+            "--intent",
+            "retain actual node facts",
+            "--goal",
+            "failure must not discard completed execution",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--prepare",
+        ],
+        &repo,
+    );
+    let output = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&repo)
+        .args(["--work-item", "WI-PARTIAL", "--workers", "1"])
+        .args(["--command"])
+        .arg(&scripts[0])
+        .args(["--command"])
+        .arg(&scripts[1])
+        .args(["--command"])
+        .arg(&scripts[2])
+        .output()
+        .expect("verification");
+    assert!(
+        !output.status.success(),
+        "metadata failure must remain a failure"
+    );
+    assert!(
+        !repo.join("third-node-started").exists(),
+        "stop scheduling after the worker error"
+    );
+    (fixture, repo, output)
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn verification_worker_error_preserves_completed_nodes_and_stops_scheduling() {
+    let (_fixture, repo, output) = run_interrupted_verification(false);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("execute repository verification"),
+        "{stderr}"
+    );
+    let output: serde_json::Value = serde_json::from_slice(&output.stdout)
+        .expect("worker failure must emit a structured partial execution record");
+    assert_eq!(output["state"], "partial");
+    assert_eq!(output["passed"], false);
+    let checkpoint = &output["checkpoint"];
+    assert_eq!(checkpoint["kind"], "verification_run_checkpoint");
+    assert_eq!(checkpoint["state"], "interrupted");
+    assert_eq!(checkpoint["postExecutionIdentityValidated"], false);
+    assert!(checkpoint.get("attemptId").is_none());
+    assert_eq!(
+        checkpoint["completedNodes"],
+        serde_json::json!(["project-command-0"])
+    );
+    assert_eq!(
+        checkpoint["unstartedNodes"],
+        serde_json::json!(["project-command-2"])
+    );
+    assert_eq!(
+        checkpoint["unavailableNodes"][0]["nodeId"],
+        "project-command-1"
+    );
+    assert_eq!(
+        checkpoint["unavailableNodes"][0]["executionState"],
+        "unknown"
+    );
+    assert_eq!(
+        checkpoint["completedReceipts"][0]["executionRecords"][0]["stdout"],
+        "66697273742d6e6f64652d6f7574707574"
+    );
+    let facts = fs::read_dir(repo.join(".ai/evidence"))
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-PARTIAL.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(&fs::read(entry.path()).unwrap()).unwrap()
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        facts.iter().any(|fact| fact == checkpoint),
+        "terminal must actually be persisted"
+    );
+    assert!(
+        facts
+            .iter()
+            .any(|fact| fact["state"] == "node_execution_completed"
+                && fact["executionRecords"][0]["stdout"] == "7365636f6e642d6e6f64652d6f7574707574"),
+        "even the failed worker's raw child output must survive"
+    );
+    assert!(facts.iter().all(|fact| fact["passed"] == false));
+    assert!(
+        !repo
+            .join(".ai/evidence/WI-PARTIAL.verification.json")
+            .exists()
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn verification_checkpoint_publication_failure_keeps_output_and_both_errors() {
+    let (_fixture, repo, output) = run_interrupted_verification(true);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("execute repository verification"),
+        "{stderr}"
+    );
+    let output: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("structured partial output");
+    assert_eq!(output["state"], "partial");
+    assert_eq!(output["passed"], false);
+    assert!(output["checkpoint"].is_null());
+    assert!(
+        output["checkpointPersistenceError"]
+            .as_str()
+            .unwrap()
+            .contains("evidence directory changed")
+    );
+    assert_eq!(
+        output["completedReceipts"][0]["executionRecords"][0]["stdout"],
+        "66697273742d6e6f64652d6f7574707574"
+    );
+    let interruption = &output["interruption"];
+    assert_eq!(
+        interruption["passed"], false,
+        "failure output must retain identity and node partition even when publication fails"
+    );
+    assert_eq!(interruption["postExecutionIdentityValidated"], false);
+    assert_eq!(interruption["workItemId"], "WI-PARTIAL");
+    assert_eq!(
+        interruption["completedNodes"],
+        serde_json::json!(["project-command-0"])
+    );
+    assert_eq!(
+        interruption["unavailableNodes"][0]["nodeId"],
+        "project-command-1"
+    );
+    assert_eq!(
+        interruption["unavailableNodes"][0]["executionState"],
+        "unknown"
+    );
+    assert_eq!(
+        interruption["unstartedNodes"],
+        serde_json::json!(["project-command-2"])
+    );
+    assert_eq!(interruption["commands"].as_array().unwrap().len(), 3);
+    for key in [
+        "repositoryId",
+        "runtimeDigest",
+        "contractDigest",
+        "contractExecutionScopeDigest",
+        "repositorySnapshotDigest",
+    ] {
+        assert!(
+            interruption[key]
+                .as_str()
+                .is_some_and(|value| value.starts_with("sha256:")),
+            "missing captured {key}"
+        );
+    }
+    let observations = output["unvalidatedExecutionObservations"]
+        .as_array()
+        .expect("separate raw observations");
+    assert_eq!(observations.len(), 1);
+    let observation = &observations[0];
+    assert_eq!(observation["passed"], false);
+    assert_eq!(observation["postExecutionIdentityValidated"], false);
+    assert_eq!(observation["commands"][0]["nodeId"], "project-command-1");
+    assert_eq!(
+        observation["executionRecords"][0]["stdout"],
+        "7365636f6e642d6e6f64652d6f7574707574"
+    );
+    assert_eq!(
+        observation["executionRecords"][0]["stderr"],
+        "7365636f6e642d6e6f64652d6572726f72"
+    );
+    assert_eq!(observation["executionRecords"][0]["exitCode"], 7);
+    assert_eq!(observation["executionRecords"][0]["spawned"], true);
+    assert!(observation.get("attemptId").is_none());
+    assert!(
+        interruption.get("checkpointId").is_none(),
+        "stdout facts must not claim publication"
+    );
+    assert!(
+        stderr.contains("interruption checkpoint publication failed"),
+        "{stderr}"
+    );
+    assert_eq!(fs::read_dir(repo.join(".ai/evidence")).unwrap().count(), 0);
+    assert!(
+        fs::read_dir(repo.join(".ai/evidence-retained"))
+            .unwrap()
+            .count()
+            >= 3,
+        "old facts must remain intact"
+    );
+}
+
 #[test]
 fn prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command() {
     let repo = repository();
@@ -1398,4 +1647,493 @@ fn preflight_is_blocked_by_test_and_coverage_weakening_from_tracked_diff() {
     assert!(preflight_error.contains("test_weakening"));
     assert!(preflight_error.contains("coverage_weakening"));
     fs::remove_dir_all(repo).expect("cleanup");
+}
+
+// Native CLI integration fixtures, not invocations under the enclosing WI grant.
+// Supervised fresh CLI execution currently has a Linux implementation; these
+// tests make no macOS/Windows backend claim.
+#[cfg(target_os = "linux")]
+fn node_subset_repository() -> tempfile::TempDir {
+    let fixture = tempfile::tempdir().expect("owned subset fixture");
+    let repo = fixture.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .arg(repo)
+            .status()
+            .unwrap()
+            .success()
+    );
+    fs::write(repo.join("README.md"), "native subset fixture\n").unwrap();
+    commit_baseline(repo);
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    run(binary, &["attach"], repo);
+    run(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-NODE-SUBSET",
+            "--intent",
+            "retain partial execution without completion promotion",
+            "--goal",
+            "verify the declared inventory honestly",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--required-evidence",
+            "verification",
+            "--verification",
+            "git --version",
+            "--verification",
+            "git version --build-options",
+        ],
+        repo,
+    );
+    let controls = tempfile::NamedTempFile::new().unwrap();
+    fs::write(controls.path(),br#"{"intentAlignment":{"state":"resolved","evidence":["tests/lifecycle.rs native subset fixture"]}}"#).unwrap();
+    run(
+        binary,
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            "WI-NODE-SUBSET",
+            "--input",
+            controls.path().to_str().unwrap(),
+        ],
+        repo,
+    );
+    common::plan(binary, repo, "WI-NODE-SUBSET");
+    run(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-NODE-SUBSET.contract.json",
+        ],
+        repo,
+    );
+    run(binary, &["checkpoint", "--id", "WI-NODE-SUBSET"], repo);
+    fixture
+}
+
+#[cfg(target_os = "linux")]
+fn subset_formal_bytes(repo: &std::path::Path) -> Vec<(String, Option<Vec<u8>>)> {
+    [
+        ".ai/evidence/WI-NODE-SUBSET.verification.json",
+        ".ai/work-items/active/WI-NODE-SUBSET.summary.json",
+        ".ai/work-items/active/WI-NODE-SUBSET.outcome.json",
+        ".ai/decisions/WI-NODE-SUBSET.recovery.json",
+    ]
+    .into_iter()
+    .map(|relative| {
+        let path = repo.join(relative);
+        let bytes = if path.exists() {
+            Some(fs::read(path).unwrap())
+        } else {
+            None
+        };
+        (relative.into(), bytes)
+    })
+    .collect()
+}
+
+#[cfg(target_os = "linux")]
+fn assert_native_subset_attempt(repo: &std::path::Path, output: &serde_json::Value) {
+    assert_eq!(output["passed"], true);
+    assert_eq!(output["declaredCoverage"]["complete"], false);
+    assert_eq!(
+        output["declaredCoverage"]["inventory"],
+        serde_json::json!(["project-command-0", "project-command-1"])
+    );
+    assert_eq!(
+        output["declaredCoverage"]["selected"],
+        serde_json::json!(["project-command-0"])
+    );
+    assert_eq!(
+        output["declaredCoverage"]["omitted"],
+        serde_json::json!(["project-command-1"])
+    );
+    let attempts = fs::read_dir(repo.join(".ai/evidence"))
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-NODE-SUBSET.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(&fs::read(entry.path()).unwrap()).unwrap()
+        })
+        .collect::<Vec<_>>();
+    let parent = attempts
+        .iter()
+        .find(|a| {
+            a["kind"] == "verification_attempt"
+                && a["state"] == "execution_completed"
+                && a["diagnostic"]["code"] == "partial_declaration_coverage"
+        })
+        .expect("durable partial native execution attempt");
+    assert_eq!(parent["commands"].as_array().unwrap().len(), 1);
+    assert_eq!(parent["commands"][0]["nodeId"], "project-command-0");
+    assert_eq!(parent["receipt"]["results"], output["results"]);
+    assert_eq!(
+        parent["receipt"]["executionRecords"],
+        output["executionRecords"]
+    );
+    assert!(parent["contractDigest"].as_str().is_some());
+    assert_eq!(
+        parent["passed"], true,
+        "selected physical execution succeeded without becoming full verification"
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn node_subset_without_formal_baseline_cannot_promote_status_or_finish() {
+    let fixture = node_subset_repository();
+    let repo = fixture.path();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let before = subset_formal_bytes(repo);
+    assert!(before[0].1.is_none());
+    let output = run(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-NODE-SUBSET",
+            "--node",
+            "project-command-0",
+        ],
+        repo,
+    );
+    assert_native_subset_attempt(repo, &output);
+    assert_eq!(
+        subset_formal_bytes(repo),
+        before,
+        "partial must not write Summary, Outcome, formal receipt or recovery decision"
+    );
+    let status = run(
+        binary,
+        &["work-item", "status", "--id", "WI-NODE-SUBSET", "--json"],
+        repo,
+    );
+    assert_eq!(status["evidenceFreshness"]["state"], "missing");
+    let finish = run_output(binary, &["finish", "--id", "WI-NODE-SUBSET"], repo);
+    assert!(!finish.status.success());
+    let finish_error = String::from_utf8_lossy(&finish.stderr);
+    // Admission also reports the fixture's undeclared acceptance/benefit;
+    // require the verification-specific blocker without claiming it is alone.
+    assert!(
+        finish_error.contains("current action admission rejected requested action \"finish\""),
+        "{finish_error}"
+    );
+    assert!(
+        finish_error.contains("\"verification_evidence_missing\""),
+        "{finish_error}"
+    );
+    let failed_status = run(
+        binary,
+        &["work-item", "status", "--id", "WI-NODE-SUBSET", "--json"],
+        repo,
+    );
+    assert_ne!(failed_status["evidenceFreshness"]["state"], "fresh");
+    assert!(
+        !repo
+            .join(".ai/evidence/WI-NODE-SUBSET.verification.json")
+            .exists()
+    );
+    // finish is allowed to append its genuine failure projection. Partial's
+    // no-write assertion above applies before that explicit finish request.
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-NODE-SUBSET.summary.json")).unwrap(),
+    )
+    .unwrap();
+    // This refusal occurs at current action admission, before the later
+    // recorded-receipt check, so its real failure projection is lifecycle.
+    assert_eq!(summary["failedGate"], "finish.lifecycle");
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn node_subset_keeps_existing_complete_formal_evidence_byte_for_byte() {
+    let fixture = node_subset_repository();
+    let repo = fixture.path();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let complete = run(binary, &["verify", "--work-item", "WI-NODE-SUBSET"], repo);
+    assert_eq!(complete["declaredCoverage"]["complete"], true);
+    assert_eq!(complete["results"].as_array().unwrap().len(), 2);
+    let before = subset_formal_bytes(repo);
+    assert!(before[0].1.is_some());
+    let status_before = run(
+        binary,
+        &["work-item", "status", "--id", "WI-NODE-SUBSET", "--json"],
+        repo,
+    );
+    assert_eq!(status_before["evidenceFreshness"]["state"], "fresh");
+    let output = run(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-NODE-SUBSET",
+            "--node",
+            "project-command-0",
+        ],
+        repo,
+    );
+    assert_native_subset_attempt(repo, &output);
+    assert_eq!(
+        subset_formal_bytes(repo),
+        before,
+        "new subset cannot replace, relabel, delete or refresh the old complete evidence"
+    );
+    let status_after = run(
+        binary,
+        &["work-item", "status", "--id", "WI-NODE-SUBSET", "--json"],
+        repo,
+    );
+    assert_eq!(
+        status_after["evidenceFreshness"],
+        status_before["evidenceFreshness"]
+    );
+    assert_eq!(
+        status_after["lastVerificationAt"],
+        status_before["lastVerificationAt"]
+    );
+    let formal: serde_json::Value = serde_json::from_slice(before[0].1.as_ref().unwrap()).unwrap();
+    assert_eq!(
+        formal["receipt"]["results"].as_array().unwrap().len(),
+        2,
+        "any remaining fresh proof is the prior complete run, not the new subset"
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn optional_local_facts_preserve_bare_cli_verify_execution_without_work_item() {
+    let fixture = tempfile::tempdir().unwrap();
+    let repo = fixture.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .arg(repo)
+            .status()
+            .unwrap()
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = run(
+        binary,
+        &["verify", "--command", "git", "--args=--version"],
+        repo,
+    );
+    assert_eq!(output["passed"], true);
+    assert_eq!(output["nodesExecuted"], 1);
+    assert_eq!(output["nodesReused"], 0);
+    assert_eq!(output["processesSpawned"], 1);
+    assert_eq!(output["executionRecords"][0]["spawned"], true);
+    assert_eq!(output["executionRecords"][0]["exitCode"], 0);
+    assert!(
+        !repo.join(".ai/evidence").exists(),
+        "a bare request has no WI-local fact/attempt destination"
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn cli_causal_failure_cannot_fall_back_to_the_older_real_profile_receipt() {
+    use std::os::unix::fs::PermissionsExt;
+    let fixture = tempfile::tempdir().unwrap();
+    let repo = fixture.path().join("repository");
+    fs::create_dir(&repo).unwrap();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .arg(&repo)
+            .status()
+            .unwrap()
+            .success()
+    );
+    fs::write(repo.join("README.md"), "dual-cache fixture\n").unwrap();
+    commit_baseline(&repo);
+    let counter = fixture.path().join("counter");
+    let mode = fixture.path().join("fail-once");
+    let program = fixture.path().join("verified-command");
+    let quote =
+        |p: &std::path::Path| format!("'{}'", p.display().to_string().replace('\'', "'\\''"));
+    fs::write(&program,format!("#!/bin/sh\nprintf x >> {}; if test -f {}; then rm {}; printf real-new-failure; exit 7; fi; printf stable-command-output\n",quote(&counter),quote(&mode),quote(&mode))).unwrap();
+    fs::set_permissions(&program, fs::Permissions::from_mode(0o700)).unwrap();
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    run(binary, &["attach"], &repo);
+    cockpit_repository::confirm_profile_update(&repo, program.to_str().unwrap(), &[]).unwrap();
+    run(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-DUAL-CACHE",
+            "--intent",
+            "causal refusal applies to both caches",
+            "--goal",
+            "real fresh fallback after new failed execution",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--required-evidence",
+            "verification",
+            "--verification",
+            program.to_str().unwrap(),
+        ],
+        &repo,
+    );
+    let controls = tempfile::NamedTempFile::new().unwrap();
+    fs::write(controls.path(),br#"{"intentAlignment":{"state":"resolved","evidence":["tests/lifecycle.rs dual-cache fixture"]}}"#).unwrap();
+    run(
+        binary,
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            "WI-DUAL-CACHE",
+            "--input",
+            controls.path().to_str().unwrap(),
+        ],
+        &repo,
+    );
+    common::plan(binary, &repo, "WI-DUAL-CACHE");
+    run(
+        binary,
+        &[
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-DUAL-CACHE.contract.json",
+        ],
+        &repo,
+    );
+    run(binary, &["checkpoint", "--id", "WI-DUAL-CACHE"], &repo);
+    let first = run(binary, &["verify", "--work-item", "WI-DUAL-CACHE"], &repo);
+    assert_eq!(first["passed"], true);
+    assert_eq!(first["processesSpawned"], 1);
+    let parent = fs::read_dir(repo.join(".ai/evidence"))
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("WI-DUAL-CACHE.verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(&fs::read(entry.path()).unwrap()).unwrap()
+        })
+        .find(|value| {
+            value["kind"] == "verification_attempt" && value["state"] == "execution_completed"
+        })
+        .unwrap();
+    let descriptor = &parent["commands"][0];
+    let request = cockpit_repository::RepositoryVerificationRequest {
+        node_id: "project-command-0".into(),
+        program: program.to_string_lossy().into_owned(),
+        args: vec![],
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: first["runtimeDigest"].as_str().unwrap().into(),
+        base_commit: descriptor["baseCommit"].as_str().map(str::to_owned),
+        workers: 1,
+        work_item_id: Some("WI-DUAL-CACHE".into()),
+        // The original CLI verify omitted --timeout-seconds. The descriptor
+        // records its effective deadline, not an explicit override grant.
+        timeout_seconds: None,
+        policy: cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized,
+    };
+    let now = || {
+        std::time::SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+            .try_into()
+            .unwrap()
+    };
+    let snapshot = cockpit_git::GitRepository::discover(&repo)
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let legacy =
+        cockpit_repository::plan_repository_verification_action(&repo, &request, &snapshot, now())
+            .unwrap();
+    assert_eq!(
+        legacy["timeoutSeconds"], descriptor["timeoutSeconds"],
+        "reconstructed implicit timeout must retain the native effective deadline"
+    );
+    assert_eq!(
+        legacy["identityBinding"]["commandDigest"], descriptor["commandDigest"],
+        "reconstructed declaration must retain the native command identity"
+    );
+    assert_eq!(
+        legacy["action"], "reuse",
+        "must start with an actual old profile receipt, not just a local candidate"
+    );
+    assert!(legacy["receiptId"].as_str().is_some());
+    fs::write(&mode, b"real controlled next execution failure").unwrap();
+    let failed = run_output(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-DUAL-CACHE",
+            "--command",
+            program.to_str().unwrap(),
+        ],
+        &repo,
+    );
+    assert!(!failed.status.success());
+    let failure: serde_json::Value = serde_json::from_slice(&failed.stdout).unwrap();
+    assert_eq!(failure["processesSpawned"], 1);
+    assert_eq!(failure["executionRecords"][0]["exitCode"], 7);
+    let snapshot = cockpit_git::GitRepository::discover(&repo)
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let still_cached =
+        cockpit_repository::plan_repository_verification_action(&repo, &request, &snapshot, now())
+            .unwrap();
+    assert_eq!(still_cached["action"], "reuse");
+    assert_eq!(
+        still_cached["receiptId"], legacy["receiptId"],
+        "failure handling must retain the older cache bytes"
+    );
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: first["runtimeVersion"].as_str().unwrap().into(),
+        protocol_version: 1,
+        runtime_digest: serde_json::from_value(first["runtimeDigest"].clone()).unwrap(),
+    };
+    let refused =
+        cockpit_repository::plan_local_node_reuse(&repo, &[request], &snapshot, &runtime).unwrap();
+    assert!(refused[0].candidate.is_none());
+    assert!(refused[0].fresh_required);
+    let fresh = run(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-DUAL-CACHE",
+            "--node",
+            "project-command-0",
+        ],
+        &repo,
+    );
+    assert_eq!(fresh["passed"], true);
+    assert_eq!(fresh["processesSpawned"], 1);
+    assert_eq!(fresh["nodesReused"], 0);
+    assert_eq!(
+        fs::read(counter).unwrap(),
+        b"xxx",
+        "CLI fallback must actually execute after the newer failure"
+    );
 }

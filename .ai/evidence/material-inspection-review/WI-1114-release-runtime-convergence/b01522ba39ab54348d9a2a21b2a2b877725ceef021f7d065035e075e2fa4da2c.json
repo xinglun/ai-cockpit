@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "materialManifestDigest": "sha256:671461b2480b0f1b7a230d842a99ab2d0649563bea1e615e6eff3e22c1646d5a",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:b01522ba39ab54348d9a2a21b2a2b877725ceef021f7d065035e075e2fa4da2c",
+  "reviewedSourceHead": "69711419291690a0311c8eb6a7fe45e435259656",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot made a fresh technical accept_permitted_unknowns decision for this exact request after official materialization of the479117-byte package SHA2563cbf54f883ec75a35959d94da47685a57eccc650119eeedefb9383fee92f33ee and all84manifest payloads. Exact base05e84e84 -> reviewed01RED -> reviewed02after0b53e5cc -> formatting-only -> finalsource1aa39f57 and15054-byte actual patch were mechanically reconstructed, with no unreviewed production drift. Real RED compiled110pass2assert failures, observing lateStarted wrongly Ok and blocked write endingBrokenPipe. GREEN239root tests across14targets excludes4nested summaries; verification strict/fmt exit0 and all real formal receipt/immutable attempt inner digests were independently recomputed, no truncation/timeout/reuse and ECHILD/no new residue. The supplemental three-package strict receipt remains bound to its real prior edcc source snapshot. The14113-byte raw request SHA256bfb660f9fa098628a5f094ae4bae61dac5abc3038df9f7ada1f962daea4222d2 and native digest were independently verified; old29entries are equal and only theverification-lib Clean entry changes. All3original readable committed Rust syntaxUnknown entries, fullblobs and source/profile/policy/analysis identities remain unchanged,0Finding. Actual agent:codex/self_declared decision, never human/provider authentication or whole-WI acceptance.",
+  "residualRisk": "Machine Rust syntaxUnknown remains Unknown, not Clean. Static material acceptance is not testing, independent provider authentication, usable CI admission, performance achievement, human approval, Mac validation, release or whole-WI acceptance. The direct evidence/protocol/interface strict Clippy command was previously undeclared; sequence11 now declares it, but it has not yet run at this decision. Checks on other crates are not a substitute. The typed equality API has no provider acquisition, trusted catalog, acceptance writer or skip-work authority; exact equality is not origin authentication. Current seven new unit tests include33 mutation cases inside one test, not33 independent test functions;14GREEN total includes7existing integration tests. Real history timeout, sibling-worker failure, restart, provider and cross-platform whole-path proof remain incomplete. Preserve all original failures, stdout truncation/missing detailed P2panic, compile0tests failure, wrapper97/PID4135169 ambiguous attribution and procfs environment failures; do not retrospectively identify unknown PIDs or kill existing PID1 zombies. Historical diagnostic bounded(failure) truncates but does not redact paths/stderr/caller errors; keep private and inspect separately before publication. Historical statements that the query was unbounded describe the earlier baseline: current bounded lsof P1/P2 changes are independently reviewed and Linux-tested, but actual Mac/control-channel/full detached-descendant proof remains incomplete. Natural EOF, generic UnixProcessGroup, nonLinux reap Ok or an empty snapshot are not complete-descendant proof. Controlled fixture observation and its fixed environment label are not complete host authentication or production KnownEmpty evidence. All23 maintenance and18normal verification executions remain preserved; prior receipts stay bound to their real original identities. New cause/Finding/identity drift requires a new real review. No CI, push, Runtime switch, cleanup or publication occurred in this segment. Current startup phase is Linux-tested Unix request transmission plus a shared receive budget, not actual Mac support or complete control-channel cleanup. Outer cleanup/wait/join, Windows blocking request writes, composition Release/EOF/Abort semantics, genericMac backend and complete owned-descendant proof remain open. The private fixture has an independent2second hardTTL; its test-owned teardown is not Runtime descendant-cleanup proof. The five new root entries contain4behavior tests and1private fixture entry. Current source phase passed239root tests and direct verification strict/fmt; previous three-package strict passed at its actual prior snapshot and is not relabeled. Provider snapshot-gap helper is verified support input only, not integrated/tested/HTTPS-authenticated evidence. Normal verification total23 and historicalmaintenance23 remain separate, CI0/8release0/2. Any actual trust/caller/Runtime change still needs its real supporting approval.",
+  "recordedAt": "2026-10-30T06:09:15Z",
+  "receiptDigest": "sha256:dbfacb7bfc441d6485023c03fd3d435dba19dbcc6015b5375b480f80258582e5"
+}

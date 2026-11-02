@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:23886010e14fc41934781fed3cf1b19d6bd9ef375b42ff4226733f84973bbb53",
+  "reason": "Recorder agent:codex registers the actual human confirmation in conversation:Sentinel_6f4aa7b06b488191be422f24e4c8da79 at 2026-11-02T01:07:00Z, replying to the exact WI1116 sequence1 four bindings and limited material mechanism displayed in conversation:Sentinel_6163a9d4655481918e3ad26bc82883d2 at 2026-11-02T01:05:21Z. Fresh persisted Contract/Preflight/Snapshot and isolated346 match all four approved values. Scope remains seven paths and six local declarations. Material acceptance is only honest fresh request-bound agent:codex self_declared review of readable_committed_rust_syntax_unknown, never a permanent file exemption, other causes or Findings. No future human close, Windows GREEN or release is represented.",
+  "recordedAt": "2026-11-02T01:07:00Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1116-ci-parity-windows-recovery"
+}

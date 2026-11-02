@@ -14,6 +14,135 @@ capabilityClaims:
 
 # Command reference
 
+<!-- AI_COCKPIT_PUBLIC_CLI:BEGIN -->
+## Complete CLI inventory
+
+Generated from the current Clap command tree, including inherited global arguments and built-in help/version arguments. Names only; use each command's --help for semantics. The built-in help [COMMAND]... uses these same public command paths.
+
+<details>
+<summary>Complete CLI inventory</summary>
+
+| Command | Argument names | Visible command aliases |
+| --- | --- | --- |
+| `ai-cockpit` | `--task-caller`, `-V / --version`, `-h / --help` |  |
+| `ai-cockpit inspect` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit preflight` | `--contract`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit observe` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit isolation-manifest` | `--mask-ancestors-of`, `--output`, `--paths-file`, `--root`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit attach` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit status` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit compatibility` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate plan` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit migrate apply` | `--approved`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit start` | `--acceptance`, `--authority`, `--development-review`, `--goal`, `--id`, `--intent`, `--out-of-scope`, `--prepare`, `--repo`, `--required-evidence`, `--risk`, `--scenario-coverage`, `--scope`, `--source`, `--task-authorization`, `--task-caller`, `--verification`, `-h / --help` |  |
+| `ai-cockpit checkpoint` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit finish` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit archive` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit archive-historical` | `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit close` | `--actor`, `--authority-source`, `--decided-at`, `--evidence-ref`, `--human-decision`, `--id`, `--json`, `--language`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit verify` | `--archived-recovery`, `--args`, `--base-revision`, `--command`, `--node`, `--plan-only`, `--repo`, `--stage`, `--task-caller`, `--timeout-seconds`, `--work-item`, `--workers`, `-h / --help` |  |
+| `ai-cockpit gate` | `--base-revision`, `--contract`, `--repo`, `--report`, `--runner`, `--stage`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit gate-report` | `--repo`, `--report`, `--route-receipt`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit gate-plan` | `--base`, `--contract`, `--head`, `--manifest`, `--profile`, `--receipt`, `--repo`, `--risk`, `--stage`, `--task-caller`, `--validate-receipt`, `-h / --help` |  |
+| `ai-cockpit release-plan` | `--input`, `--output`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit evidence bundle plan` | `--input`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence import` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence observe` | `--metadata`, `--raw`, `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence list` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence list-observations` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence policy` | `--classification`, `--disposal-action`, `--expires-at`, `--persistence`, `--repo`, `--retention-days`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit evidence purge-plan` | `--now-epoch-seconds`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit cognitive-benefit` | `--binary`, `--check`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit audit export` | `--actor`, `--cursor`, `--display-timezone`, `--event-type`, `--from`, `--limit`, `--output`, `--repo`, `--reported-model`, `--task-caller`, `--to`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit audit query` | `--actor`, `--cursor`, `--display-timezone`, `--event-type`, `--from`, `--limit`, `--repo`, `--reported-model`, `--task-caller`, `--to`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit work-item` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery plan` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item activation-recovery record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item new` | `--id`, `--mode`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item revalidate-amendment` | `--id`, `--reason`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item amend` | `--id`, `--input`, `--reason`, `--repo`, `--request`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item amendments` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item revalidate-archived` | `--actor`, `--authority-source`, `--evidence-ref`, `--id`, `--policy-ref`, `--reason`, `--repo`, `--resume-condition`, `--successor`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item approach` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item outcome` | `--delivery`, `--display-timezone`, `--id`, `--json`, `--language`, `--repo`, `--task-caller`, `--view`, `-h / --help` |  |
+| `ai-cockpit work-item usage` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item usage import` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item usage record` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review plan` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item material-review record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest plan` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest review` | `--manifest`, `--repo`, `--review`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest start` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest check` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest outcome` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest inspect` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest terminate` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item authorization-manifest ledger` | `--manifest-digest`, `--repo`, `--task-caller`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit work-item reconcile-artifacts` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item retire` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-plan` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item legacy-closeout-source-record` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item closeout-recovery-plan` | `--id`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item closeout-recover` | `--id`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item status` | `--all`, `--authorization-request`, `--id`, `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item inspect` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item declare` | `--conflicts-with`, `--depends-on`, `--id`, `--parallelizable`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item validate` | `--id`, `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item controls` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item recover` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item recover-selected-successor-lineage` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item boundary` | `--file`, `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot acquire` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot release` | `--id`, `--lease-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item slot list` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination inspect` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination register` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination report-impact` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination publish-outcome` | `--generation`, `--id`, `--outcome-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination request-pause` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination acknowledge` | `--repo`, `--request-id`, `--state`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination resume` | `--generation`, `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination recover` | `--consumer-generation`, `--consumer-work-item-id`, `--event-id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination check-environment-drift` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item coordination record-environment-drift` | `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item composition` | `--generation`, `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit capability` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit capability show` | `--format`, `--language`, `--repo`, `--surface`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit diagnose` | `--repo`, `--task-caller`, `--work-item`, `-h / --help` |  |
+| `ai-cockpit knowledge` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit knowledge query` | `--component`, `--repo`, `--state`, `--task-caller`, `--topic`, `--v2`, `--work-item-id`, `-h / --help` |  |
+| `ai-cockpit profile` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile confirm` | `--args`, `--program`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit profile propose` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit mcp` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent` | `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent first-start` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent list` | `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent install` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent doctor` | `--json`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent repair` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit agent detach` | `--provider`, `--repo`, `--task-caller`, `-h / --help` |  |
+
+</details>
+<!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+
 Historical compatibility is explicit and low assurance. Legacy shared-primary
 worktree records may use `historical.kind=shared_worktree_retained` with
 `assurance=historical_low`; they identify the primary worktree and still need a
@@ -81,18 +210,12 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 
 ## Contract amendments and environment drift
 
-In Runtime `1.0.1-rc.1`, a policy-sensitive CLI amendment request may include a
-request-bound `authorization` object: `schemaVersion`, `decisionId`,
-`decision: "authorize_change"`, `authorizedBy`, `authoritySource`,
-`assurance: "self_declared"`, `executedBy`, `repositoryId`, `workItemId`,
-`contractDigest`, `repositorySnapshotDigest`, `requestDigest`, and
-`changedPaths`. Keep the authorizer and executor distinct. Use the read-only
-`work-item amend-check` result to bind the current repository, Work Item,
-Contract, snapshot, request digest, and exact changed paths; `amend` rechecks
-the request before writing. This declared authority is not host-authenticated
-proof and is not a `confirm_review` decision. The current `tools/list` schema
-for `work_item_amend` does not expose this optional object, so do not infer MCP
-support or send an undeclared field through MCP; use the supported CLI route.
+Use `work-item amend --request <request.json>` for the current typed,
+digest-bound amendment, and `work-item amendments` for read-only history.
+Consult the current CLI help and MCP `tools/list` schemas for their respective
+accepted inputs; do not infer that one transport accepts another's fields.
+Declared caller metadata is not host-authenticated proof and does not record
+a human `confirm_review` decision.
 
 When a sensitive amendment makes the previous preflight stale, run a fresh
 `preflight` only when Runtime admits it. That preflight may create a pending
@@ -232,6 +355,185 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-record -->
+### Interface facts: `work-item-usage-record`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `request` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-usage-record -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-import -->
+### Interface facts: `work-item-usage-import`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `request` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-usage-import -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-material-review-plan -->
+### Interface facts: `work-item-material-review-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-material-review-plan -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-material-review-record -->
+### Interface facts: `work-item-material-review-record`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `—` |
+| `decision` | `object` | `yes` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-material-review-record -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN audit-query -->
+### Interface facts: `audit-query`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item-id` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reported-model` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `event-type` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `—` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reportedModel` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `eventType` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `50` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END audit-query -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN audit-export -->
+### Interface facts: `audit-export`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item-id` | `string` | `no` | `—` | `—` | `—` |
+| `from` | `string` | `no` | `—` | `—` | `—` |
+| `to` | `string` | `no` | `—` | `—` | `—` |
+| `reported-model` | `string` | `no` | `—` | `—` | `—` |
+| `actor` | `string` | `no` | `—` | `—` | `—` |
+| `event-type` | `string` | `no` | `—` | `—` | `—` |
+| `limit` | `integer` | `no` | `—` | `—` | `—` |
+| `cursor` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
+| `output` | `string` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END audit-export -->
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN evidence-bundle-plan -->
+### Interface facts: `evidence-bundle-plan`
+
+- Schema: `v1`
+- Runtime: `1.0.1`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `repo` | `string` | `yes` | `—` | `—` | `—` |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `work-item` | `string` | `no` | `—` | `—` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `input` | `string` | `yes` | `—` | `—` | `—` |
+| `workItemId` | `string` | `no` | `—` | `—` | `—` |
+| `taskCaller` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END evidence-bundle-plan -->
+
 
 ## Explicit present-day registration of legacy v1 source
 
@@ -562,6 +864,18 @@ review when the returned state is yellow, red, unknown, or not ready.
   state, and the file SHA-256, all bound to the current Contract digest. Missing,
   changed, malformed, or foreign evidence is rejected or reported stale; a
   scenario marked verified alone never satisfies a custom evidence class.
+  An explicit `governanceProfile.evidenceClassStages` policy uses
+  `{"schemaVersion":1,"classes":[{"class":"adopter","requiredFrom":"finish"}]}`
+  to defer only named, declared custom classes; `requiredFrom:"verification"`
+  and every unlisted class retain the execution prerequisite. Typed amendment
+  adds the protected `evidence-class-stages` capability, so an older Runtime
+  must reject this Contract. In `implementation_active` or `checkpointed`,
+  omit unavailable finish-only members from `evidenceClasses`; do not supply
+  empty evidence or `unverified` placeholders. Every supplied member still
+  requires valid passed evidence and all original identity/file checks.
+  Unknown states, terminal markers, `finish_ready`, finish, archive and close
+  retain the complete requirement. Unverified scenarios remain visible and
+  are not promoted by this declaration or by source verification.
   `record_governance_controls` is a Runtime-admitted write action for an active
   Work Item. If verified work still lacks required controls, status withholds
   `finish` and recommends recording the missing evidence; refresh status after

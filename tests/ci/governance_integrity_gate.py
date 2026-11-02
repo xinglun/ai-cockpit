@@ -23,6 +23,7 @@ from work_item_projection_policy import (
 )
 
 
+
 PARITY_DOCS = (
     ("docs/reference/reference-parity.md", "Implemented"),
     ("docs/reference/reference-parity.zh-CN.md", "已实现"),
@@ -2127,74 +2128,18 @@ def retirement_receipt(repo: Path, work_item: str) -> tuple[Path, dict[str, Any]
         return path, {}
 
 
+
 def valid_retirement_receipt(
     repo: Path,
     work_item: str,
     receipt_path: Path,
     receipt: dict[str, Any],
 ) -> bool:
-    """Validate Runtime retirement as historical cleanup, never verification."""
-
-    try:
-        project = load_json(repo / ".ai/project.json")
-        manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
-        manifest = load_json(manifest_path)
-    except ValueError:
-        return False
-    digest_pattern = re.compile(r"sha256:[0-9a-f]{64}")
-    nonempty = lambda key: isinstance(receipt.get(key), str) and bool(
-        receipt[key].strip()
-    )
-    disposition = receipt.get("disposition")
-    if disposition not in {"integrated", "replaced"}:
-        return False
-    successor = receipt.get("successorWorkItemId")
-    if disposition == "replaced" and (not isinstance(successor, str) or not successor):
-        return False
-    if disposition == "integrated" and successor is not None:
-        return False
-    if not (
-        receipt.get("schemaVersion") == 1
-        and receipt.get("decisionId") == "work-item-retirement"
-        and receipt.get("workItemId") == work_item
-        and receipt.get("repositoryId") == project.get("repositoryId")
-        and receipt.get("originalBytesPreserved") is True
-        and receipt.get("verificationClaim") == "not_verified"
-        and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "recordedAt"))
-        and digest_pattern.fullmatch(str(receipt.get("runtimeDigest", "")))
-        and nonempty("runtimeVersion")
-        and digest_pattern.fullmatch(str(receipt.get("archiveManifestDigest", "")))
-    ):
-        return False
-    if _json_digest(manifest) != receipt.get("archiveManifestDigest"):
-        return False
-    if not (
-        manifest.get("workItemId") == work_item
-        and manifest.get("state") in {"retired", "replaced"}
-        and manifest.get("retirementDisposition") == disposition
-        and manifest.get("retirementReceiptPath")
-        == str(receipt_path.relative_to(repo))
-        and manifest.get("closeRequired") is False
-        and manifest.get("historicalEvidence") is True
-    ):
-        return False
-    artifacts = receipt.get("artifacts")
-    if not isinstance(artifacts, dict):
-        return False
-    for suffix in ("contract", "summary", "outcome"):
-        artifact = artifacts.get(suffix)
-        relative = f".ai/work-items/archive/{work_item}.{suffix}.json"
-        path = repo / relative
-        if not isinstance(artifact, dict) or artifact.get("path") != relative:
-            return False
-        digest = artifact.get("digest")
-        if not isinstance(digest, str) or not digest_pattern.fullmatch(digest):
-            return False
-        if not path.is_file() or path.is_symlink():
-            return False
-        if "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest() != digest:
-            return False
-    return True
+    # Inactive capabilities do not require loading their implementation.
+    # If retirement is present, the same shared predicate is mandatory;
+    # import failure never becomes an acceptance or a legacy bypass.
+    from work_item_status_consistency import valid_retirement_receipt as validate
+    return validate(repo, work_item, receipt_path, receipt)
 
 
 def main() -> int:
@@ -2445,16 +2390,17 @@ def main() -> int:
                         )
                     )
                     continue
-                expected_status = (
-                    "进行中 → 验证关闭后已实现"
+                expected_statuses = (
+                    ("进行中 → 验证关闭后已实现",)
                     if parity_doc.endswith(".zh-CN.md")
                     else (
-                        "進行中 → 検証済みクローズ後に実装済み"
+                        ("In progress → verified close 後 Implemented",
+                         "進行中 → 検証済みクローズ後に実装済み")
                         if parity_doc.endswith(".ja.md")
-                        else "In progress → Implemented after verified close"
+                        else ("In progress → Implemented after verified close",)
                     )
                 )
-                if f"| {expected_status} |" not in line or any(
+                if parity_status_cell(line) not in expected_statuses or any(
                     f"`{relative}`" not in line for relative in expected_records
                 ):
                     prearchive_valid = False
@@ -2627,23 +2573,42 @@ def main() -> int:
                 except ValueError:
                     decision_value = {}
                 if valid_close_decision(repo, work_item, decision_value):
-                    if (
-                        recovery_links_successor
-                        and recovery_successor_binding_valid
-                        and recovery_successor_is_closed(repo, recovery_value)
-                    ):
-                        # A closed predecessor with a terminal successor is a
-                        # valid historical decision, but it is not a green
-                        # implementation projection. Keep the recovery receipt
-                        # as the terminal inventory path so parity remains
-                        # explicitly recovered and successor-owned.
-                        decision = str(recovery_path.relative_to(repo))
-                        record["decisionPath"] = decision
-                        record["lifecycleState"] = "recovered"
-                    elif recovery_links_successor and recovery_successor_binding_valid:
-                        decision = str(recovery_path.relative_to(repo))
-                        record["decisionPath"] = decision
-                        record["lifecycleState"] = "awaiting_successor_close"
+                    if recovery_links_successor and recovery_successor_binding_valid:
+                        if (decision_value.get("humanDecision") in {"approved", "confirmed"}
+                                and recovery_value.get("decision") == "successor"):
+                            # Ordinary native close has one strict three-state
+                            # route. Do not let the old minimal closed helper
+                            # bypass child formal/report/cleanup validation.
+                            from work_item_status_consistency import ordinary_closed_successor_state
+                            ordinary = ordinary_closed_successor_state(
+                                repo, work_item, str(decision_value.get("repositoryId", "")),
+                                recovery_path, recovery_value,
+                            )
+                            if ordinary is None:
+                                decision = str(recovery_path.relative_to(repo))
+                                record["decisionPath"] = decision
+                                record["lifecycleState"] = "closure_invalid"
+                                findings.append(finding(work_item, "invalid_ordinary_successor_lineage", decision))
+                            elif ordinary[0] == "closed":
+                                decision = str(recovery_path.relative_to(repo))
+                                record["decisionPath"] = decision
+                                record["lifecycleState"] = "recovered"
+                            elif ordinary[0] == "retired":
+                                record["decisionPath"] = decision
+                                record["lifecycleState"] = "closed"
+                                record["retiredSuccessorWorkItemId"] = ordinary[1]
+                            else:
+                                record["decisionPath"] = decision
+                                record["lifecycleState"] = "closed"
+                                record["pendingSuccessorWorkItemId"] = ordinary[1]
+                        else:
+                            # Existing superseded semantics remain separate.
+                            decision = str(recovery_path.relative_to(repo))
+                            record["decisionPath"] = decision
+                            record["lifecycleState"] = (
+                                "recovered" if recovery_successor_is_closed(repo, recovery_value)
+                                else "awaiting_successor_close"
+                            )
                     elif recovery_links_successor:
                         decision = str(recovery_path.relative_to(repo))
                         record["decisionPath"] = decision

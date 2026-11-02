@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:07396c8480be0f1cb27f986fe959abd3d10316cb5b61dca2e98c392b2204ac90",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:650c5157377eb1a02bcf78dc04246cd86f2d0ea6697a33bcbdaf384c38702330",
+  "reason": "Record actual user confirmation conversation Sentinel_999792c61874819185c15eecafd13252 at 2026-10-30 02:00 UTC: WI-1114 sequence9 adds exactly crates/cockpit-verification/tests/composition.rs, scope109 to110; two Linux fixture call sites may use the existing controlled observation helper while all assertions, non-Linux paths and production rejection rules remain unchanged. The current Contract07396c8480be0f1cb27f986fe959abd3d10316cb5b61dca2e98c392b2204ac90, Preflight650c5157377eb1a02bcf78dc04246cd86f2d0ea6697a33bcbdaf384c38702330, Snapshote6c2987f13bc4fe6836a52cc0b775e5d8120dc117838d419ccbe0287594b412e and actual approved Runtime6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838 were checked unchanged before recording. This records genuine human scope/binding approval only, not material acceptance, successful verification, host-environment authentication or WI acceptance. Preserve pending native retry, all original failed attempts, normal8 runs/prior23 maintenance commands. Budgets/Runtime unchanged; no test, compile, cleanup, public push or CI in this confirmation.",
+  "recordedAt": "2026-10-30T02:01:41.963713+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e6c2987f13bc4fe6836a52cc0b775e5d8120dc117838d419ccbe0287594b412e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

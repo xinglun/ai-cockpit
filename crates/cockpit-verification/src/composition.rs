@@ -20,7 +20,7 @@ use std::sync::Arc;
 #[cfg(unix)]
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -655,6 +655,458 @@ fn legacy_node_identity_digest() -> Digest {
     Digest::sha256_bytes(b"legacy-composition-node-identity")
 }
 
+// Parent observations are additional native execution facts, not replacement
+// child attempts or caller-supplied permission. Publishing one never authorizes
+// verification, reuse, cleanup or a lifecycle transition.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentIdentity {
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub binding: CompositionBinding,
+    pub launch_input_identity: CompositionIdentity,
+    pub generation: u64,
+    pub owner: CompositionProcessIdentity,
+    pub child_pid: u32,
+    pub observed_supervisor: Option<CompositionProcessIdentity>,
+    pub registered_receipt: Option<CompositionSupervisorReceipt>,
+    pub command_plan_digest: Digest,
+    pub input_environment_digest: Digest,
+    pub attempt_started_at_unix_nanos: u128,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentCleanup {
+    pub child_reaped: Option<bool>,
+    pub exit_code: Option<i32>,
+    pub termination_signal: Option<i32>,
+    pub actions: Vec<String>,
+    pub diagnostic: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "state", rename_all = "snake_case", deny_unknown_fields)]
+pub enum CompositionParentEvent {
+    Failure {
+        phase: String,
+        diagnostic: String,
+        release_may_have_been_delivered: bool,
+    },
+    Cleanup {
+        failure_observation_id: Digest,
+        facts: CompositionParentCleanup,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentObservationFacts {
+    pub schema_version: u32,
+    pub kind: String,
+    pub identity: CompositionParentIdentity,
+    pub event: CompositionParentEvent,
+    pub observed_at_unix_nanos: u128,
+    pub passed: bool,
+    pub post_execution_identity_validated: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionParentObservation {
+    pub observation_id: Digest,
+    pub facts: CompositionParentObservationFacts,
+}
+
+impl CompositionParentObservation {
+    pub fn new(
+        identity: CompositionParentIdentity,
+        event: CompositionParentEvent,
+        observed_at_unix_nanos: u128,
+    ) -> Result<Self, CompositionError> {
+        let facts = CompositionParentObservationFacts {
+            schema_version: 1,
+            kind: "composition_parent_observation".into(),
+            identity,
+            event,
+            observed_at_unix_nanos,
+            passed: false,
+            post_execution_identity_validated: false,
+        };
+        let observation_id = composition_parent_observation_digest(&facts)?;
+        let observation = Self {
+            observation_id,
+            facts,
+        };
+        observation.validate()?;
+        Ok(observation)
+    }
+
+    pub fn validate(&self) -> Result<(), CompositionError> {
+        let identity = &self.facts.identity;
+        validate_binding(&identity.binding)?;
+        let id_bytes = serde_json::to_vec(&(
+            &identity.binding,
+            &identity.launch_input_identity,
+            &identity.run_nonce,
+        ))
+        .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let expected_id = format!("composition-{}", Digest::sha256_bytes(&id_bytes));
+        if self.facts.schema_version != 1
+            || self.facts.kind != "composition_parent_observation"
+            || self.facts.passed
+            || self.facts.post_execution_identity_validated
+            || self.observation_id != composition_parent_observation_digest(&self.facts)?
+            || !(2..=i32::MAX as u32).contains(&identity.child_pid)
+            || identity.attempt_started_at_unix_nanos == 0
+            || self.facts.observed_at_unix_nanos == 0
+            || identity.owner.process_id == 0
+            || identity.run_nonce.is_empty()
+            || identity.attempt_id != expected_id
+            || identity
+                .observed_supervisor
+                .as_ref()
+                .is_some_and(|process| process.process_id != identity.child_pid)
+            || identity.registered_receipt.as_ref().is_some_and(|receipt| {
+                receipt.attempt_id != identity.attempt_id
+                    || receipt.run_nonce != identity.run_nonce
+                    || receipt.generation != identity.generation
+                    || receipt.owner != identity.owner
+                    || receipt.supervisor.process_id != identity.child_pid
+                    || identity.observed_supervisor.as_ref() != Some(&receipt.supervisor)
+                    || receipt.runtime_version != identity.binding.verifier.runtime_version
+                    || receipt.runtime_digest != identity.binding.verifier.runtime_digest
+                    || receipt.repository_id != identity.binding.repository_id
+                    || receipt.target_sha != identity.binding.target_sha
+                    || receipt.command_plan_digest != identity.command_plan_digest
+                    || receipt.input_environment_digest != identity.input_environment_digest
+            })
+        {
+            return Err(CompositionError::Serialization(
+                "composition parent observation identity/digest mismatch".into(),
+            ));
+        }
+        if matches!(
+            self.facts.event,
+            CompositionParentEvent::Failure {
+                release_may_have_been_delivered: true,
+                ..
+            }
+        ) && identity.registered_receipt.is_none()
+        {
+            return Err(CompositionError::Serialization(
+                "Release observation lacks the bound registered receipt".into(),
+            ));
+        }
+        if let CompositionParentEvent::Cleanup { facts, .. } = &self.facts.event
+            && (facts.child_reaped != Some(true)
+                && (facts.exit_code.is_some() || facts.termination_signal.is_some())
+                || facts.exit_code.is_some() && facts.termination_signal.is_some())
+        {
+            return Err(CompositionError::Serialization(
+                "composition parent cleanup facts contradict exit/reap state".into(),
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn composition_parent_observation_digest(
+    facts: &CompositionParentObservationFacts,
+) -> Result<Digest, CompositionError> {
+    let bytes = serde_json::to_vec(&("ai-cockpit:composition-parent-observation:v1", facts))
+        .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
+// A view keeps raw child evidence intact. parent_failures affects authority to
+// project/reuse that exact attempt, without changing its real exit/output,
+// cleanup disposition, ECHILD proof or stored bytes.
+#[derive(Clone, Debug)]
+pub struct CompositionParentView {
+    pub attempt_id: String,
+    pub binding: CompositionBinding,
+    pub recorded_at_unix_nanos: u128,
+    pub child_attempt: Option<CompositionAttempt>,
+    pub parent_failures: Vec<CompositionParentObservation>,
+    pub parent_cleanup: Vec<CompositionParentObservation>,
+    pub parent_context_valid: bool,
+}
+
+impl CompositionParentView {
+    pub fn has_parent_failure(&self) -> bool {
+        !self.parent_failures.is_empty()
+    }
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct CompositionParentCatalog {
+    views: Vec<CompositionParentView>,
+    registrations: Option<Vec<CompositionSupervisorReceipt>>,
+}
+
+impl CompositionParentCatalog {
+    // Pure identity validation only. The repository-owned caller must acquire
+    // native originals through the pinned bounded reader, not an external
+    // artifact or an input JSON assertion. No CLI/MCP import grants this trust.
+    pub fn from_native_observations(
+        attempts: Vec<CompositionAttempt>,
+        observations: Vec<CompositionParentObservation>,
+    ) -> Result<Self, CompositionError> {
+        let mut views = BTreeMap::<String, CompositionParentView>::new();
+        for attempt in attempts {
+            validate_binding(&attempt.binding)?;
+            attempt.binding.verifier.validate_candidate()?;
+            if !(1..=COMPOSITION_SCHEMA_VERSION).contains(&attempt.schema_version) {
+                return Err(CompositionError::Serialization(
+                    "unsupported child attempt schema".into(),
+                ));
+            }
+            let id = attempt.attempt_id.clone();
+            if views.contains_key(&id) {
+                return Err(CompositionError::Serialization(
+                    "duplicate child attempt identity".into(),
+                ));
+            }
+            views.insert(
+                id.clone(),
+                CompositionParentView {
+                    attempt_id: id,
+                    binding: attempt.binding.clone(),
+                    recorded_at_unix_nanos: attempt.recorded_at_unix_nanos,
+                    child_attempt: Some(attempt),
+                    parent_failures: Vec::new(),
+                    parent_cleanup: Vec::new(),
+                    parent_context_valid: true,
+                },
+            );
+        }
+        let mut seen = BTreeMap::<String, CompositionParentObservation>::new();
+        for observation in observations {
+            observation.validate()?;
+            let key = observation.observation_id.to_string();
+            if let Some(previous) = seen.get(&key) {
+                if previous != &observation {
+                    return Err(CompositionError::Serialization(
+                        "conflicting parent observation".into(),
+                    ));
+                }
+                continue;
+            }
+            let identity = &observation.facts.identity;
+            let id = identity.attempt_id.clone();
+            let view = views
+                .entry(id.clone())
+                .or_insert_with(|| CompositionParentView {
+                    attempt_id: id,
+                    binding: identity.binding.clone(),
+                    recorded_at_unix_nanos: identity.attempt_started_at_unix_nanos,
+                    child_attempt: None,
+                    parent_failures: Vec::new(),
+                    parent_cleanup: Vec::new(),
+                    parent_context_valid: true,
+                });
+            if view.binding != identity.binding {
+                return Err(CompositionError::Serialization(
+                    "parent/child composition binding conflict".into(),
+                ));
+            }
+            if let Some(previous) = view.parent_failures.first().or(view.parent_cleanup.first())
+                && previous.facts.identity != *identity
+            {
+                return Err(CompositionError::Serialization(
+                    "parent observation nonce/owner/supervisor conflict".into(),
+                ));
+            }
+            if let Some(child) = &view.child_attempt {
+                if let Some(receipt) = &child.supervisor_receipt {
+                    if let Some(registered) = &identity.registered_receipt {
+                        let mut expected = registered.clone();
+                        expected.execution_records_digest =
+                            receipt.execution_records_digest.clone();
+                        expected.descendants_reaped_to_echild =
+                            receipt.descendants_reaped_to_echild;
+                        if &expected != receipt {
+                            return Err(CompositionError::Serialization(
+                                "raw child receipt changed its parent binding".into(),
+                            ));
+                        }
+                    }
+                    if receipt.attempt_id != identity.attempt_id
+                        || receipt.run_nonce != identity.run_nonce
+                        || receipt.owner != identity.owner
+                        || receipt.runtime_version != identity.binding.verifier.runtime_version
+                        || receipt.runtime_digest != identity.binding.verifier.runtime_digest
+                        || receipt.supervisor.process_id != identity.child_pid
+                        || identity
+                            .observed_supervisor
+                            .as_ref()
+                            .is_some_and(|supervisor| supervisor != &receipt.supervisor)
+                        || receipt.command_plan_digest != identity.command_plan_digest
+                    {
+                        return Err(CompositionError::Serialization(
+                            "parent observation does not bind the raw child receipt".into(),
+                        ));
+                    }
+                } else if child.processes_spawned != 0
+                    || !child.execution_records.is_empty()
+                    || child.passed
+                {
+                    return Err(CompositionError::Serialization(
+                        "unbound child execution cannot join a parent observation".into(),
+                    ));
+                }
+            }
+            // Start order, not a later cleanup/failure append, determines which
+            // attempt is current. A late helper write cannot erase its failure.
+            view.recorded_at_unix_nanos = identity.attempt_started_at_unix_nanos;
+            match &observation.facts.event {
+                CompositionParentEvent::Failure { .. } => {
+                    view.parent_failures.push(observation.clone())
+                }
+                CompositionParentEvent::Cleanup { .. } => {
+                    view.parent_cleanup.push(observation.clone())
+                }
+            }
+            seen.insert(key, observation);
+        }
+        for view in views.values() {
+            for cleanup in &view.parent_cleanup {
+                let CompositionParentEvent::Cleanup {
+                    failure_observation_id,
+                    facts,
+                } = &cleanup.facts.event
+                else {
+                    unreachable!()
+                };
+                if !view
+                    .parent_failures
+                    .iter()
+                    .any(|failure| &failure.observation_id == failure_observation_id)
+                {
+                    return Err(CompositionError::Serialization(
+                        "cleanup does not reference its exact parent failure".into(),
+                    ));
+                }
+                for other in &view.parent_cleanup {
+                    let CompositionParentEvent::Cleanup { facts: other, .. } = &other.facts.event
+                    else {
+                        unreachable!()
+                    };
+                    if facts.child_reaped == Some(true)
+                        && other.child_reaped == Some(true)
+                        && (facts.exit_code != other.exit_code
+                            || facts.termination_signal != other.termination_signal)
+                    {
+                        return Err(CompositionError::Serialization(
+                            "conflicting cleanup exit observations".into(),
+                        ));
+                    }
+                }
+            }
+        }
+        Ok(Self {
+            views: views.into_values().collect(),
+            registrations: None,
+        })
+    }
+
+    #[doc(hidden)]
+    pub fn with_native_registrations(
+        mut self,
+        registrations: Vec<CompositionSupervisorReceipt>,
+    ) -> Result<Self, CompositionError> {
+        let mut ids = BTreeSet::new();
+        for registration in &registrations {
+            if registration.schema_version != 1
+                || !ids.insert(registration.attempt_id.clone())
+                || registration.run_nonce.is_empty()
+                || registration.owner.process_id == 0
+                || registration.supervisor.process_id == 0
+            {
+                return Err(CompositionError::Serialization(
+                    "invalid or duplicate native supervisor registration".into(),
+                ));
+            }
+        }
+        self.registrations = Some(registrations);
+        Ok(self)
+    }
+
+    fn checked_view(&self, view: &CompositionParentView) -> CompositionParentView {
+        let mut result = view.clone();
+        result.parent_context_valid =
+            self.parent_context_valid(&view.attempt_id, &mut BTreeSet::new());
+        result
+    }
+
+    fn parent_context_valid(&self, id: &str, visiting: &mut BTreeSet<String>) -> bool {
+        if visiting.len() >= 128 || !visiting.insert(id.into()) {
+            return false;
+        }
+        let valid = self
+            .views
+            .iter()
+            .find(|view| view.attempt_id == id)
+            .is_some_and(|view| {
+                view.parent_failures.is_empty()
+                    && view.child_attempt.as_ref().is_some_and(|attempt| {
+                        attempt
+                            .execution_records
+                            .iter()
+                            .filter(|record| record.reused)
+                            .all(|record| {
+                                record
+                                    .predecessor_attempt_id
+                                    .as_deref()
+                                    .is_some_and(|parent| {
+                                        self.parent_context_valid(parent, visiting)
+                                    })
+                            })
+                    })
+            });
+        visiting.remove(id);
+        valid
+    }
+
+    pub fn view_for_attempt(&self, attempt_id: &str) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .find(|view| view.attempt_id == attempt_id)
+            .map(|view| self.checked_view(view))
+    }
+
+    pub fn latest_for_work_item(&self, work_item_id: &str) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .filter(|view| {
+                view.binding
+                    .participant_work_items
+                    .iter()
+                    .any(|id| id == work_item_id)
+            })
+            .max_by(|left, right| {
+                (left.recorded_at_unix_nanos, &left.attempt_id)
+                    .cmp(&(right.recorded_at_unix_nanos, &right.attempt_id))
+            })
+            .map(|view| self.checked_view(view))
+    }
+
+    pub fn latest_for_binding(
+        &self,
+        binding: &CompositionBinding,
+    ) -> Option<CompositionParentView> {
+        self.views
+            .iter()
+            .filter(|view| same_composition_lineage(&view.binding, binding))
+            .max_by(|left, right| {
+                (left.recorded_at_unix_nanos, &left.attempt_id)
+                    .cmp(&(right.recorded_at_unix_nanos, &right.attempt_id))
+            })
+            .map(|view| self.checked_view(view))
+    }
+}
+
 #[derive(Debug, Error)]
 pub enum CompositionError {
     #[error(transparent)]
@@ -721,6 +1173,155 @@ pub fn run_composition_with_supervisor_receipt(
     )
 }
 
+/// Native repository adapter. The catalog is acquired through its pinned,
+/// bounded store reader. This does not accept evidence from a CLI JSON import.
+#[doc(hidden)]
+pub fn run_composition_with_supervisor_receipt_and_parent_catalog(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+    receipt: CompositionSupervisorReceipt,
+    catalog_loader: &dyn Fn() -> Result<CompositionParentCatalog, String>,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    run_composition_inner_with_observer(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+        CompositionObservationHooks {
+            parent_catalog_loader: Some(catalog_loader),
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation: FinalWorktreeObservation::Real,
+        },
+    )
+}
+
+fn require_parent_predecessor_current(
+    previous: &CompositionAttempt,
+    catalog: &CompositionParentCatalog,
+) -> Result<(), CompositionError> {
+    let view = catalog
+        .view_for_attempt(&previous.attempt_id)
+        .ok_or_else(|| CompositionError::UnknownAttemptOwner {
+            attempt_id: previous.attempt_id.clone(),
+        })?;
+    let unknown = || CompositionError::UnknownAttemptOwner {
+        attempt_id: previous.attempt_id.clone(),
+    };
+    let expected = digest_serialized(previous).ok_or_else(unknown)?;
+    let actual = view
+        .child_attempt
+        .as_ref()
+        .and_then(digest_serialized)
+        .ok_or_else(unknown)?;
+    if !view.parent_context_valid || actual != expected {
+        return Err(unknown());
+    }
+    Ok(())
+}
+
+fn safe_unreleased_parent_failure(view: &CompositionParentView) -> bool {
+    !view.parent_failures.is_empty()
+        && view.parent_failures.iter().all(|event| {
+            matches!(
+                &event.facts.event,
+                CompositionParentEvent::Failure {
+                    release_may_have_been_delivered: false,
+                    ..
+                }
+            )
+        })
+        && view.parent_cleanup.iter().any(|event| {
+            matches!(&event.facts.event,
+            CompositionParentEvent::Cleanup { facts, .. } if facts.child_reaped == Some(true))
+        })
+        && view.child_attempt.as_ref().is_none_or(|attempt| {
+            attempt.processes_spawned == 0 && attempt.execution_records.is_empty()
+        })
+}
+
+fn child_resources_are_proven_clean(child: &CompositionAttempt) -> bool {
+    let Some(owner_pid) = child.owner_pid else {
+        return false;
+    };
+    let Some((worktree, parent)) = validated_composition_paths(child, owner_pid) else {
+        return false;
+    };
+    let known_absent = |path: &Path| matches!(fs::symlink_metadata(path), Err(error) if error.kind() == std::io::ErrorKind::NotFound);
+    if !known_absent(&worktree) || !known_absent(&parent) {
+        return false;
+    }
+    child.schema_version >= 3
+        && child.cleanup_disposition == CompositionCleanupDisposition::Cleaned
+        && child
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
+        && !child.owned_tree_termination_unknown
+        && child.active_execution_node.is_none()
+        && child.active_process_group_id.is_none()
+        && child.active_process_group_identity.is_none()
+        && child.supervisor_receipt.as_ref().is_some_and(|receipt| {
+            receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+                && receipt.descendants_reaped_to_echild
+                && receipt.execution_records_digest
+                    == execution_records_digest(&child.execution_records)
+                && child.owner_pid == Some(receipt.supervisor.process_id)
+        })
+}
+
+fn require_safe_new_attempt_after_parent_failure(
+    view: &CompositionParentView,
+    current: Option<&CompositionSupervisorReceipt>,
+) -> Result<(), CompositionError> {
+    let unknown = || CompositionError::UnknownAttemptOwner {
+        attempt_id: view.attempt_id.clone(),
+    };
+    let current = current.ok_or_else(unknown)?;
+    if current.attempt_id == view.attempt_id {
+        return Err(unknown());
+    }
+    if let Some(failure) = view.parent_failures.first() {
+        let identity = &failure.facts.identity;
+        if current.run_nonce == identity.run_nonce {
+            return Err(CompositionError::Serialization(
+                "parent failure retry requires a new exact attempt identity and nonce".into(),
+            ));
+        }
+        if safe_unreleased_parent_failure(view) {
+            return Ok(());
+        }
+        let reaped = view.parent_cleanup.iter().any(|event| {
+            matches!(&event.facts.event,
+            CompositionParentEvent::Cleanup { facts, .. } if facts.child_reaped == Some(true))
+        });
+        if !reaped
+            || !view
+                .child_attempt
+                .as_ref()
+                .is_some_and(child_resources_are_proven_clean)
+        {
+            return Err(unknown());
+        }
+        return Ok(());
+    }
+    // A known bad/missing reuse ancestor cannot be reused either. If this
+    // descendant's own real cleanup and exact supervisor termination are
+    // independently known, a new nonce can execute fresh without rewriting it.
+    let child = view.child_attempt.as_ref().ok_or_else(unknown)?;
+    let receipt = child.supervisor_receipt.as_ref().ok_or_else(unknown)?;
+    if current.run_nonce == receipt.run_nonce
+        || !child_resources_are_proven_clean(child)
+        || linux_prior_supervisor_termination_proven(receipt).is_err()
+    {
+        return Err(unknown());
+    }
+    Ok(())
+}
+
 /// Test-only final worktree observation for selected pure cache fixtures.
 /// The production observer remains authoritative for recovery and retry.
 #[cfg(all(feature = "test-support", target_os = "linux"))]
@@ -752,6 +1353,7 @@ pub fn run_composition_with_test_completed_worktree_observation(
         Some(receipt),
         Some(attempt_id),
         CompositionObservationHooks {
+            parent_catalog_loader: None,
             observe_worktree_process: &verifier_process_using_worktree,
             reap_owned_descendants: &reap_composition_supervisor_descendants,
             final_observation,
@@ -830,6 +1432,7 @@ fn run_composition_inner(
         supervisor_receipt,
         supervised_attempt_id,
         CompositionObservationHooks {
+            parent_catalog_loader: None,
             observe_worktree_process: &verifier_process_using_worktree,
             reap_owned_descendants: &reap_composition_supervisor_descendants,
             final_observation: FinalWorktreeObservation::Real,
@@ -845,6 +1448,7 @@ enum FinalWorktreeObservation {
 }
 
 struct CompositionObservationHooks<'a> {
+    parent_catalog_loader: Option<&'a dyn Fn() -> Result<CompositionParentCatalog, String>>,
     observe_worktree_process: &'a dyn Fn(&Path) -> Result<Option<u32>, String>,
     reap_owned_descendants: &'a dyn Fn() -> Result<(), String>,
     final_observation: FinalWorktreeObservation,
@@ -859,6 +1463,7 @@ fn run_composition_inner_with_observer(
     hooks: CompositionObservationHooks<'_>,
 ) -> Result<CompositionAttempt, CompositionError> {
     let CompositionObservationHooks {
+        parent_catalog_loader,
         observe_worktree_process,
         reap_owned_descendants,
         final_observation,
@@ -871,8 +1476,45 @@ fn run_composition_inner_with_observer(
     input.identity = CompositionIdentity::default();
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
-    validate_supervisor_registrations(&input.state_dir, supervisor_receipt.as_ref())?;
-    let loaded_predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
+    let parent_catalog = parent_catalog_loader
+        .map(|load| load().map_err(CompositionError::Serialization))
+        .transpose()?;
+    validate_supervisor_registrations(
+        &input.state_dir,
+        supervisor_receipt.as_ref(),
+        parent_catalog.as_ref(),
+    )?;
+    let loaded_predecessor = match parent_catalog.as_ref() {
+        Some(catalog) => match catalog.latest_for_binding(&input.binding) {
+            Some(view) if !view.parent_context_valid => {
+                require_safe_new_attempt_after_parent_failure(&view, supervisor_receipt.as_ref())?;
+                // Do not classify, reuse or rewrite any old child record. The
+                // new nonce executes fresh only after the retained resources
+                // and exact owned-child exit can be proven safe.
+                None
+            }
+            Some(view) => view.child_attempt,
+            None => None,
+        },
+        None => {
+            match fs::symlink_metadata(input.state_dir.join("parent-observations")) {
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(source) => {
+                    return Err(CompositionError::Io {
+                        path: input.state_dir.join("parent-observations"),
+                        source,
+                    });
+                }
+                Ok(_) => {
+                    return Err(CompositionError::Serialization(
+                        "native parent-observation reader is required; legacy fallback forbidden"
+                            .into(),
+                    ));
+                }
+            }
+            load_latest_attempt(&input.state_dir, &input.binding)?
+        }
+    };
     let deferred_predecessor = loaded_predecessor
         .as_ref()
         .is_some_and(is_deferred_cleanup_attempt);
@@ -1193,6 +1835,13 @@ fn run_composition_inner_with_observer(
             let mut persistence_error = None;
             let admission_result = {
                 let mut accept_reuse = || {
+                    if let (Some(load), Some(previous)) =
+                        (parent_catalog_loader, predecessor.as_ref())
+                    {
+                        let catalog = load()?;
+                        require_parent_predecessor_current(previous, &catalog)
+                            .map_err(|error| error.to_string())?;
+                    }
                     accepted = true;
                     attempt.execution_records.push(record.clone());
                     refresh_execution_records_digest(&mut attempt);
@@ -1282,6 +1931,20 @@ fn run_composition_inner_with_observer(
         || attempt.failure.as_deref() == Some("in_progress"))
         && attempt.execution_records.len() == input.commands.len()
         && attempt.execution_records.iter().all(|record| record.passed);
+    if attempt.execution_records.iter().any(|record| record.reused)
+        && let Some(load) = parent_catalog_loader
+    {
+        let previous =
+            predecessor
+                .as_ref()
+                .ok_or_else(|| CompositionError::UnknownAttemptOwner {
+                    attempt_id: attempt.attempt_id.clone(),
+                })?;
+        require_parent_predecessor_current(
+            previous,
+            &load().map_err(CompositionError::Serialization)?,
+        )?;
+    }
     if attempt.passed {
         attempt.failure = None;
     }
@@ -1588,7 +2251,56 @@ fn load_latest_attempt(
 fn validate_supervisor_registrations(
     state_dir: &Path,
     active_receipt: Option<&CompositionSupervisorReceipt>,
+    parent_catalog: Option<&CompositionParentCatalog>,
 ) -> Result<(), CompositionError> {
+    if let Some(catalog) = parent_catalog {
+        let registrations = catalog.registrations.as_ref().ok_or_else(|| {
+            CompositionError::Serialization("native registrations were not acquired".into())
+        })?;
+        for registered in registrations {
+            let view = catalog.view_for_attempt(&registered.attempt_id);
+            let raw = view.as_ref().and_then(|view| view.child_attempt.as_ref());
+            match raw {
+                None => {
+                    let active = active_receipt
+                        .filter(|active| *active == registered)
+                        .and_then(|_| current_composition_process_identity().ok());
+                    if active.as_ref() == Some(&registered.supervisor) {
+                        continue;
+                    }
+                    if view.as_ref().is_some_and(|view| {
+                        safe_unreleased_parent_failure(view)
+                            && view
+                                .parent_failures
+                                .first()
+                                .and_then(|event| event.facts.identity.registered_receipt.as_ref())
+                                == Some(registered)
+                    }) {
+                        continue;
+                    }
+                    return Err(CompositionError::UnknownAttemptOwner {
+                        attempt_id: registered.attempt_id.clone(),
+                    });
+                }
+                Some(attempt) => {
+                    let actual = attempt.supervisor_receipt.as_ref().ok_or_else(|| {
+                        CompositionError::UnknownAttemptOwner {
+                            attempt_id: registered.attempt_id.clone(),
+                        }
+                    })?;
+                    let mut expected = registered.clone();
+                    expected.execution_records_digest = actual.execution_records_digest.clone();
+                    expected.descendants_reaped_to_echild = actual.descendants_reaped_to_echild;
+                    if attempt.attempt_id != actual.attempt_id || &expected != actual {
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id.clone(),
+                        });
+                    }
+                }
+            }
+        }
+        return Ok(());
+    }
     let directory = state_dir.join("supervisors");
     let entries = match fs::read_dir(&directory) {
         Ok(entries) => entries,
@@ -2446,11 +3158,6 @@ fn worktree_is_registered(
             fs::canonicalize(&listed).unwrap_or(listed) == expected
         })
     }))
-}
-
-#[cfg(all(unix, not(target_os = "linux")))]
-fn process_is_alive(pid: u32) -> bool {
-    process_liveness_probe(pid).0
 }
 
 #[cfg(unix)]
@@ -3374,30 +4081,1040 @@ fn linux_process_ancestor_ids(proc_root: &Path, process_id: u32) -> Result<BTree
 fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
     let user_id = unsafe { libc::getuid() }.to_string();
-    let output = Command::new("lsof")
+    let mut command = Command::new("lsof");
+    command
         .args(["-nP", "-Fpn", "-a", "-u", &user_id, "+D"])
-        .arg(&worktree)
-        .output()
-        .map_err(|error| format!("cannot inspect open worktree files: {error}"))?;
-    let mut process_id = None;
-    for line in String::from_utf8_lossy(&output.stdout).lines() {
-        if let Some(value) = line.strip_prefix('p') {
-            process_id = value.parse::<u32>().ok();
-        } else if let Some(value) = line.strip_prefix('n')
-            && path_is_within(&worktree, Path::new(value))
-        {
-            return Ok(process_id);
+        .arg(&worktree);
+    let output = capture_worktree_query(&mut command, Duration::from_secs(10))?;
+    inspect_lsof_worktree_output(&worktree, &output)
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn capture_worktree_query(
+    command: &mut Command,
+    timeout: Duration,
+) -> Result<std::process::Output, String> {
+    capture_worktree_query_with_reaper(command, timeout, |child| child.try_wait())
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn capture_worktree_query_with_reaper(
+    command: &mut Command,
+    timeout: Duration,
+    mut reap: impl FnMut(&mut std::process::Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+) -> Result<std::process::Output, String> {
+    use std::os::unix::process::CommandExt;
+    use std::process::Stdio;
+
+    let deadline = Instant::now() + timeout;
+    let mut child = command
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .process_group(0)
+        .spawn()
+        .map_err(|error| format!("cannot start open-worktree query: {error}"))?;
+    let child_id = child.id() as libc::pid_t;
+    let mut stdout = Vec::new();
+    let mut stderr = Vec::new();
+    let mut remaining_budget = MAX_OUTPUT_BYTES;
+    let mut stdout_closed = false;
+    let mut stderr_closed = false;
+    let mut owns_child = true;
+    let execution = (|| {
+        nonblocking_worktree_query_pipe(child.stdout.as_ref())?;
+        nonblocking_worktree_query_pipe(child.stderr.as_ref())?;
+        loop {
+            drain_worktree_query_pipe(
+                child.stdout.as_mut(),
+                &mut stdout,
+                &mut stdout_closed,
+                &mut remaining_budget,
+            )?;
+            drain_worktree_query_pipe(
+                child.stderr.as_mut(),
+                &mut stderr,
+                &mut stderr_closed,
+                &mut remaining_budget,
+            )?;
+            if Instant::now() >= deadline {
+                return Err("open-worktree query exceeded its execution deadline".to_owned());
+            }
+            // Hold the owned leader identity. Both streams must naturally reach
+            // EOF before any termination request; cleanup cannot complete data.
+            let mut observed: libc::siginfo_t = unsafe { std::mem::zeroed() };
+            let result = unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    child_id as libc::id_t,
+                    &mut observed,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            };
+            if result < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                if error.raw_os_error() == Some(libc::ECHILD) {
+                    owns_child = false;
+                }
+                return Err(format!("cannot observe owned open-worktree query: {error}"));
+            }
+            if unsafe { observed.si_pid() } == child_id && stdout_closed && stderr_closed {
+                return Ok(());
+            }
+            std::thread::sleep(Duration::from_millis(2));
+        }
+    })();
+    let primary_failure = execution.err();
+    let capture_cancelled = primary_failure.is_some();
+    if capture_cancelled {
+        // Keep natural-EOF facts unchanged: closing our read ends after a
+        // failure is cancellation, not evidence of complete query output.
+        drop(child.stdout.take());
+        drop(child.stderr.take());
+    }
+    let mut cleanup_errors = Vec::new();
+    let mut group_signal = "not_requested".to_owned();
+    let mut child_signal = "not_requested".to_owned();
+    if owns_child && primary_failure.is_some() {
+        // The group ID is still held by our unreaped leader. No signal is sent
+        // on successful completion, or after we lose the child identity.
+        let killed = unsafe { libc::kill(-child_id, libc::SIGKILL) };
+        if killed == 0 {
+            group_signal = "SIGKILL_request_accepted".into();
+        } else {
+            let error = std::io::Error::last_os_error();
+            group_signal = format!("SIGKILL_request_error({error})");
+            if error.raw_os_error() != Some(libc::ESRCH) {
+                cleanup_errors.push(format!("terminate owned query group: {error}"));
+            }
+        }
+        match child.kill() {
+            Ok(()) => child_signal = "SIGKILL_request_accepted".into(),
+            Err(error) => {
+                child_signal = format!("SIGKILL_request_error({error})");
+                if error.raw_os_error() != Some(libc::ESRCH) {
+                    cleanup_errors.push(format!("terminate owned query child: {error}"));
+                }
+            }
         }
     }
-    if !output.status.success() && !(output.status.code() == Some(1) && output.stdout.is_empty()) {
-        let stderr = String::from_utf8_lossy(&output.stderr);
+    let cleanup_deadline = Instant::now() + Duration::from_millis(250);
+    let mut status = None;
+    loop {
+        match reap(&mut child) {
+            Ok(Some(observed)) => {
+                status = Some(observed);
+                break;
+            }
+            Ok(None) => {}
+            Err(error) => {
+                cleanup_errors.push(format!("reap owned query child: {error}"));
+                break;
+            }
+        }
+        if Instant::now() >= cleanup_deadline {
+            cleanup_errors.push("owned query child was not reaped before cleanup deadline".into());
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(2));
+    }
+    if primary_failure.is_some() || !cleanup_errors.is_empty() {
         return Err(format!(
-            "lsof exited with status {:?}: {}",
-            output.status.code(),
-            stderr.trim()
+            "primary={}; cleanup: ownedChild={child_id}, ownedProcessGroup={child_id}, ownershipHeld={owns_child}, reaped={}, stdoutNaturalEof={stdout_closed}, stderrNaturalEof={stderr_closed}, captureCancelled={capture_cancelled}, groupSignal={group_signal}, childSignal={child_signal}, errors=[{}]",
+            primary_failure.as_deref().unwrap_or("none"),
+            status.is_some(),
+            cleanup_errors.join("; ")
         ));
     }
-    Ok(None)
+    let status = status.ok_or("open-worktree query has no complete exit observation")?;
+    Ok(std::process::Output {
+        status,
+        stdout,
+        stderr,
+    })
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn nonblocking_worktree_query_pipe(pipe: Option<&impl std::os::fd::AsRawFd>) -> Result<(), String> {
+    let pipe = pipe.ok_or("open-worktree query capture pipe is missing")?;
+    let descriptor = pipe.as_raw_fd();
+    let flags = unsafe { libc::fcntl(descriptor, libc::F_GETFL) };
+    if flags < 0 || unsafe { libc::fcntl(descriptor, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0
+    {
+        return Err(format!(
+            "cannot configure bounded open-worktree query capture: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(any(target_os = "macos", all(test, target_os = "linux")))]
+fn drain_worktree_query_pipe(
+    pipe: Option<&mut impl std::io::Read>,
+    bytes: &mut Vec<u8>,
+    complete: &mut bool,
+    remaining_budget: &mut usize,
+) -> Result<(), String> {
+    if *complete {
+        return Ok(());
+    }
+    let pipe = pipe.ok_or("open-worktree query capture pipe is missing")?;
+    let mut buffer = [0_u8; 8192];
+    // Bound each turn so a continuously writable stream cannot starve the
+    // other stream or the execution/cleanup deadline.
+    for _ in 0..8 {
+        match pipe.read(&mut buffer) {
+            Ok(0) => {
+                *complete = true;
+                return Ok(());
+            }
+            Ok(count) if count > *remaining_budget => {
+                return Err("open-worktree query exceeded its capture limit".into());
+            }
+            Ok(count) => {
+                bytes.extend_from_slice(&buffer[..count]);
+                *remaining_budget -= count;
+            }
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::WouldBlock | std::io::ErrorKind::Interrupted
+                ) =>
+            {
+                return Ok(());
+            }
+            Err(error) => {
+                return Err(format!(
+                    "cannot capture open-worktree query output: {error}"
+                ));
+            }
+        }
+    }
+    Ok(())
+}
+
+#[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
+mod worktree_query_execution_tests {
+    use super::capture_worktree_query;
+    use std::io::Write;
+    use std::process::Command;
+    use std::time::{Duration, Instant};
+
+    struct QueryFixtureDirectory(std::path::PathBuf);
+
+    impl QueryFixtureDirectory {
+        fn new() -> Self {
+            let path = super::unique_composition_parent();
+            super::create_private_composition_parent(&path)
+                .expect("exclusive private fixture directory");
+            Self(path)
+        }
+
+        fn path(&self) -> &std::path::Path {
+            &self.0
+        }
+    }
+
+    impl Drop for QueryFixtureDirectory {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn fixture(mode: &str) -> Command {
+        let mut command = Command::new(std::env::current_exe().expect("test executable"));
+        command
+            .args([
+                "--exact",
+                "composition::worktree_query_execution_tests::worktree_query_child",
+                "--nocapture",
+            ])
+            .env("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD", mode);
+        command
+    }
+
+    #[test]
+    fn worktree_query_child() {
+        let Ok(mode) = std::env::var("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD") else {
+            return;
+        };
+        #[cfg(target_os = "linux")]
+        if let Some(detached) = match mode.as_str() {
+            "pipe_owner_same_group" => Some(false),
+            "pipe_owner_detached" => Some(true),
+            _ => None,
+        } {
+            pipe_holder_owner(detached);
+            return;
+        }
+        #[cfg(target_os = "linux")]
+        if let Some(detached) = match mode.as_str() {
+            "pipe_holder_same_group" => Some(false),
+            "pipe_holder_detached" => Some(true),
+            _ => None,
+        } {
+            pipe_holder_child(detached);
+            return;
+        }
+        match mode.as_str() {
+            "timeout" => std::thread::sleep(Duration::from_millis(1500)),
+            "oversize" => std::io::stdout()
+                .write_all(&vec![b'x'; 128 * 1024])
+                .expect("fixture stdout"),
+            "stderr_oversize" => std::io::stderr()
+                .write_all(&vec![b'x'; 128 * 1024])
+                .expect("fixture stderr"),
+            "nonzero" => {
+                std::io::stderr()
+                    .write_all(b"query fixture denied\n")
+                    .expect("fixture stderr");
+                std::process::exit(7);
+            }
+            "no_match" => std::process::exit(1),
+            "complete" => std::io::stdout()
+                .write_all(b"query fixture complete\n")
+                .expect("fixture stdout"),
+            other => panic!("unknown test fixture mode {other}"),
+        }
+        std::io::stdout().flush().expect("fixture flush");
+    }
+
+    #[test]
+    fn worktree_query_timeout_is_not_complete_output() {
+        let started = Instant::now();
+        let result = capture_worktree_query(&mut fixture("timeout"), Duration::from_millis(80));
+        let error = result.expect_err("a timed-out query must remain unknown");
+        assert!(error.contains("execution deadline"), "{error}");
+        assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[test]
+    fn worktree_query_output_limit_is_not_complete_output() {
+        for mode in ["oversize", "stderr_oversize"] {
+            let result = capture_worktree_query(&mut fixture(mode), Duration::from_secs(2));
+            let error = result.expect_err("an oversized query must remain unknown");
+            assert!(error.contains("capture limit"), "{mode}: {error}");
+        }
+    }
+
+    #[test]
+    fn worktree_query_budget_covers_both_streams_together() {
+        let mut command = Command::new("/bin/sh");
+        command
+            .args([
+                "-c",
+                "printf '%s' \"$1\"; printf '%s' \"$2\" >&2",
+                "query-budget",
+            ])
+            .arg("x".repeat(40 * 1024))
+            .arg("y".repeat(40 * 1024));
+        let error = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .map(|output| {
+                (
+                    output.status.code(),
+                    output.stdout.len(),
+                    output.stderr.len(),
+                )
+            })
+            .expect_err("two individually small streams must share the capture budget");
+        assert!(error.contains("capture limit"), "{error}");
+    }
+
+    #[test]
+    fn worktree_query_accepts_the_exact_combined_budget() {
+        let mut command = Command::new("/bin/sh");
+        command
+            .args([
+                "-c",
+                "printf '%s' \"$1\"; printf '%s' \"$2\" >&2",
+                "query-budget",
+            ])
+            .arg("x".repeat(32 * 1024))
+            .arg("y".repeat(32 * 1024));
+        let output = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .expect("complete output exactly at the combined limit");
+        assert!(output.status.success());
+        assert_eq!(output.stdout, vec![b'x'; 32 * 1024]);
+        assert_eq!(output.stderr, vec![b'y'; 32 * 1024]);
+    }
+
+    #[test]
+    fn worktree_query_preserves_primary_and_unreaped_cleanup_facts() {
+        let mut owned_child = None;
+        let result = super::capture_worktree_query_with_reaper(
+            &mut fixture("timeout"),
+            Duration::from_millis(80),
+            |child| {
+                owned_child = Some(child.id());
+                // Fault injection only: deliberately withhold the cleanup
+                // observation. This never reports a reusable success.
+                Ok(None)
+            },
+        );
+        let owned_child = owned_child.expect("real child held by the cleanup observer");
+        // Reap the exact, already killed test child after the negative result.
+        // This fixture cleanup is not credited as Runtime cleanup.
+        let mut status = 0;
+        let waited =
+            unsafe { libc::waitpid(owned_child as libc::pid_t, &mut status, libc::WNOHANG) };
+        assert_eq!(waited, owned_child as libc::pid_t);
+        assert!(libc::WIFSIGNALED(status));
+        assert_eq!(libc::WTERMSIG(status), libc::SIGKILL);
+        let error = result.expect_err("unobserved cleanup must remain unknown");
+        assert!(error.contains("execution deadline"), "{error}");
+        assert!(
+            error.contains(&format!("ownedChild={owned_child}")),
+            "{error}"
+        );
+        assert!(error.contains("reaped=false"), "{error}");
+        assert!(error.contains("stdoutNaturalEof="), "{error}");
+        assert!(error.contains("stderrNaturalEof="), "{error}");
+        assert!(error.contains("groupSignal="), "{error}");
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn leader_exit_before_same_group_pipe_holder_is_not_a_complete_query() {
+        let output = fixture("pipe_owner_same_group")
+            .output()
+            .expect("isolated pipe-holder test owner");
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn leader_exit_before_detached_pipe_holder_is_not_a_complete_query() {
+        let output = fixture("pipe_owner_detached")
+            .output()
+            .expect("isolated pipe-holder test owner");
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    #[cfg(target_os = "linux")]
+    fn pipe_holder_child(detached: bool) {
+        use std::fs;
+        let root = std::path::PathBuf::from(
+            std::env::var_os("AI_COCKPIT_QUERY_PIPE_FIXTURE_ROOT").expect("private fixture root"),
+        );
+        let nonce = std::env::var("AI_COCKPIT_QUERY_PIPE_FIXTURE_NONCE").expect("private nonce");
+        if detached {
+            assert!(unsafe { libc::setsid() } > 0, "fixture setsid");
+        }
+        let identity = super::current_composition_process_identity().expect("holder identity");
+        let ready = serde_json::json!({"nonce":nonce,"identity":identity,"parentProcessId":unsafe {libc::getppid()}});
+        fs::write(
+            root.join("ready.pending"),
+            serde_json::to_vec(&ready).unwrap(),
+        )
+        .expect("complete ready marker");
+        fs::rename(root.join("ready.pending"), root.join("ready.json"))
+            .expect("atomic ready publication");
+        // This fixture expires itself. The test owner never kills a detached
+        // holder or credits its TTL exit as Runtime cleanup.
+        std::thread::sleep(Duration::from_millis(1500));
+        let late = b"p123\nn/late-observation\n";
+        let written = unsafe { libc::write(3, late.as_ptr().cast(), late.len()) };
+        let expired = serde_json::json!({"nonce":nonce,"identity":identity,"lateWriteAttempted":true,"writeResult":written});
+        fs::write(
+            root.join("expired.pending"),
+            serde_json::to_vec(&expired).unwrap(),
+        )
+        .expect("expiry observation");
+        fs::rename(root.join("expired.pending"), root.join("expired.json"))
+            .expect("atomic expiry publication");
+    }
+
+    #[cfg(target_os = "linux")]
+    fn pipe_holder_owner(detached: bool) {
+        use std::fs;
+        // Isolate the subreaper from the library test process and every other
+        // fixture. A hard self deadline makes owner failure non-green.
+        std::thread::spawn(|| {
+            std::thread::sleep(Duration::from_secs(5));
+            std::process::exit(98);
+        });
+        assert_eq!(
+            super::initialize_composition_supervisor_backend().expect("fixture owner backend"),
+            super::CompositionSupervisorBackend::LinuxSubreaper
+        );
+        let root = QueryFixtureDirectory::new();
+        let nonce = format!("{}-{}", std::process::id(), root.path().display());
+        let mut command = Command::new("/bin/sh");
+        command
+            .args([
+                "-c",
+                "\"$1\" --exact composition::worktree_query_execution_tests::worktree_query_child --nocapture 3>&1 4>&2 >/dev/null 2>&1 &\nprintf '%s\\n' \"$!\" > \"$2/holder.pid\"\nturn=0\nwhile [ ! -f \"$2/ready.json\" ]; do turn=$((turn+1)); [ \"$turn\" -lt 1000000 ] || exit 97; done\nexit 1",
+                "query-leader",
+            ])
+            .arg(std::env::current_exe().expect("fixture executable"))
+            .arg(root.path())
+            .env("AI_COCKPIT_WORKTREE_QUERY_TEST_CHILD", if detached {"pipe_holder_detached"} else {"pipe_holder_same_group"})
+            .env("AI_COCKPIT_QUERY_PIPE_FIXTURE_ROOT", root.path())
+            .env("AI_COCKPIT_QUERY_PIPE_FIXTURE_NONCE", &nonce);
+        let mut leader_pid = None;
+        let result = super::capture_worktree_query_with_reaper(
+            &mut command,
+            Duration::from_millis(500),
+            |child| {
+                leader_pid = Some(child.id());
+                child.try_wait()
+            },
+        );
+        let holder: libc::pid_t = fs::read_to_string(root.path().join("holder.pid"))
+            .expect("leader registered its exact child")
+            .trim()
+            .parse()
+            .expect("positive holder PID");
+        assert!(holder > 0);
+        let ready: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.path().join("ready.json")).expect("complete holder identity"),
+        )
+        .expect("valid ready record");
+        assert_eq!(ready["nonce"], nonce);
+        assert_eq!(
+            ready["parentProcessId"],
+            leader_pid.expect("actual owned query leader")
+        );
+        let recorded: super::CompositionProcessIdentity =
+            serde_json::from_value(ready["identity"].clone()).expect("recorded holder identity");
+        assert_eq!(recorded.process_id, holder as u32);
+        assert_eq!(
+            recorded.process_group_id,
+            if detached {
+                Some(holder as u32)
+            } else {
+                leader_pid
+            }
+        );
+        if detached {
+            assert_eq!(recorded.session_id, Some(holder as u32));
+        }
+        assert_eq!(
+            super::observe_composition_process_identity(holder as u32)
+                .expect("current owned identity"),
+            recorded
+        );
+        let deadline = Instant::now() + Duration::from_secs(3);
+        let mut status = 0;
+        loop {
+            let waited = unsafe { libc::waitpid(holder, &mut status, libc::WNOHANG) };
+            if waited == holder {
+                break;
+            }
+            assert_eq!(
+                waited,
+                0,
+                "exact owned holder wait: {}",
+                std::io::Error::last_os_error()
+            );
+            assert!(
+                Instant::now() < deadline,
+                "fixture holder did not expire; no rescue permitted"
+            );
+            std::thread::sleep(Duration::from_millis(2));
+        }
+        if detached {
+            assert!(libc::WIFEXITED(status));
+            assert_eq!(libc::WEXITSTATUS(status), 0);
+            let expired: serde_json::Value = serde_json::from_slice(
+                &fs::read(root.path().join("expired.json")).expect("fixture TTL evidence"),
+            )
+            .expect("valid expiry record");
+            assert_eq!(expired["nonce"], nonce);
+            assert_eq!(expired["identity"], ready["identity"]);
+            assert_eq!(expired["lateWriteAttempted"], true);
+        } else {
+            assert!(libc::WIFSIGNALED(status));
+            assert_eq!(libc::WTERMSIG(status), libc::SIGKILL);
+            assert!(!root.path().join("expired.json").exists());
+        }
+        let mut unexpected: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        let inspected = unsafe {
+            libc::waitid(
+                libc::P_ALL,
+                0,
+                &mut unexpected,
+                libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+            )
+        };
+        assert_eq!(
+            inspected, -1,
+            "unexpected child remains; never reap an unidentified child"
+        );
+        assert_eq!(
+            std::io::Error::last_os_error().raw_os_error(),
+            Some(libc::ECHILD)
+        );
+        let premature = result.as_ref().ok().map(|output| {
+            (
+                output.status.code(),
+                output.stdout.len(),
+                output.stderr.len(),
+                super::inspect_lsof_worktree_output(root.path(), output),
+            )
+        });
+        let error = result.expect_err(&format!("leader exit with inherited pipes cannot prove a complete query; premature={premature:?}"));
+        assert!(
+            error.contains("deadline") || error.contains("cleanup is uncertain"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn worktree_query_launch_failure_stays_unknown() {
+        let directory = QueryFixtureDirectory::new();
+        let mut command = Command::new(directory.path().join("missing-query-executable"));
+        let error = capture_worktree_query(&mut command, Duration::from_secs(2))
+            .expect_err("a missing query cannot prove absence of references");
+        assert!(error.contains("cannot start"), "{error}");
+    }
+
+    #[test]
+    fn worktree_query_preserves_complete_output_and_actual_status() {
+        let output = capture_worktree_query(&mut fixture("complete"), Duration::from_secs(2))
+            .expect("complete query");
+        assert!(output.status.success());
+        assert!(
+            output
+                .stdout
+                .windows(b"query fixture complete\n".len())
+                .any(|bytes| bytes == b"query fixture complete\n")
+        );
+        let output = capture_worktree_query(&mut fixture("nonzero"), Duration::from_secs(2))
+            .expect("completed nonzero query");
+        assert_eq!(output.status.code(), Some(7));
+        assert_eq!(output.stderr, b"query fixture denied\n");
+        let output = capture_worktree_query(&mut fixture("no_match"), Duration::from_secs(2))
+            .expect("completed no-match query");
+        assert_eq!(output.status.code(), Some(1));
+    }
+}
+
+#[cfg(any(target_os = "macos", all(test, unix)))]
+fn inspect_lsof_worktree_output(
+    worktree: &Path,
+    output: &std::process::Output,
+) -> Result<Option<u32>, String> {
+    // A partial inspection cannot establish the absence of references, even
+    // when lsof reports its ordinary no-match exit status.
+    if !output.stderr.is_empty() {
+        return Err(format!(
+            "lsof observation has diagnostics: {}",
+            bounded(&String::from_utf8_lossy(&output.stderr))
+        ));
+    }
+    if !output.status.success() {
+        if output.status.code() == Some(1) && output.stdout.is_empty() {
+            return Ok(None);
+        }
+        return Err(format!(
+            "lsof exited with status {:?}",
+            output.status.code()
+        ));
+    }
+    if output.stdout.len() > MAX_OUTPUT_BYTES {
+        return Err("lsof listing exceeds the observation limit".into());
+    }
+    let stdout = std::str::from_utf8(&output.stdout)
+        .map_err(|_| "lsof output is not valid UTF-8".to_owned())?;
+    if stdout.is_empty()
+        || !stdout.ends_with('\n')
+        || stdout
+            .chars()
+            .any(|character| character.is_control() && character != '\n')
+    {
+        return Err("lsof listing has incomplete or invalid field framing".into());
+    }
+    let mut process_id = None;
+    let mut process_has_name = false;
+    let mut descriptor_needs_name = false;
+    let mut reference = None;
+    for line in stdout.split_terminator('\n') {
+        if let Some(value) = line.strip_prefix('p') {
+            if process_id.is_some() && (!process_has_name || descriptor_needs_name) {
+                return Err("lsof process has an incomplete file observation".into());
+            }
+            process_id = Some(
+                value
+                    .parse::<u32>()
+                    .ok()
+                    .filter(|process_id| {
+                        *process_id > 0
+                            && i32::try_from(*process_id).is_ok()
+                            && process_id.to_string() == value
+                    })
+                    .ok_or_else(|| "lsof returned an invalid process identity".to_owned())?,
+            );
+            process_has_name = false;
+            descriptor_needs_name = false;
+        } else if let Some(value) = line.strip_prefix('f') {
+            // Some older lsof versions emit this descriptor field even when
+            // only p/n were selected. It must still belong to a complete set.
+            if process_id.is_none() || value.is_empty() || descriptor_needs_name {
+                return Err("lsof returned an incomplete descriptor observation".into());
+            }
+            descriptor_needs_name = true;
+        } else if let Some(value) = line.strip_prefix('n') {
+            let Some(process_id) = process_id else {
+                return Err("lsof returned a file name without a process identity".into());
+            };
+            // Display escapes cannot be compared to native paths reliably.
+            // Keep them Unknown rather than interpreting an escaped name as
+            // an unrelated file and declaring the worktree unreferenced.
+            if value.is_empty() || value.contains('\\') || !Path::new(value).is_absolute() {
+                return Err("lsof returned an unobservable file name".into());
+            }
+            process_has_name = true;
+            descriptor_needs_name = false;
+            if path_is_within(worktree, Path::new(value)) && reference.is_none() {
+                reference = Some(process_id);
+            }
+        } else {
+            return Err("lsof returned an unexpected field".into());
+        }
+    }
+    if process_id.is_none() || !process_has_name || descriptor_needs_name {
+        return Err("lsof listing ends with an incomplete process or file observation".into());
+    }
+    Ok(reference)
+}
+
+#[cfg(all(test, unix))]
+mod macos_lsof_output_tests {
+    use super::inspect_lsof_worktree_output;
+    use std::os::unix::process::ExitStatusExt;
+    use std::path::Path;
+    use std::process::{ExitStatus, Output};
+
+    fn output(code: i32, stdout: &[u8], stderr: &[u8]) -> Output {
+        Output {
+            status: ExitStatus::from_raw(code << 8),
+            stdout: stdout.to_vec(),
+            stderr: stderr.to_vec(),
+        }
+    }
+
+    #[test]
+    fn empty_no_match_with_permission_diagnostic_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(
+                1,
+                b"",
+                b"lsof: cannot inspect directory: Permission denied\n",
+            ),
+        );
+        assert!(
+            result.is_err(),
+            "a diagnostic is not a complete negative observation"
+        );
+    }
+
+    #[test]
+    fn successful_output_with_warning_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(
+                0,
+                b"p42\nn/tmp/worktree with spaces/file\n",
+                b"lsof: observation incomplete\n",
+            ),
+        );
+        assert!(
+            result.is_err(),
+            "partial observation must retain the worktree"
+        );
+    }
+
+    #[test]
+    fn invalid_utf8_observation_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"p42\nn/tmp/\xff\n", b""),
+        );
+        assert!(
+            result.is_err(),
+            "lossy decoding cannot prove an empty reference set"
+        );
+    }
+
+    #[test]
+    fn matching_path_without_process_identity_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"n/tmp/worktree with spaces/file\n", b""),
+        );
+        assert!(
+            result.is_err(),
+            "a matching file without a PID cannot be clear"
+        );
+    }
+
+    #[test]
+    fn matching_path_with_invalid_process_identity_is_unknown() {
+        let result = inspect_lsof_worktree_output(
+            Path::new("/tmp/worktree with spaces"),
+            &output(0, b"pnot-a-pid\nn/tmp/worktree with spaces/file\n", b""),
+        );
+        assert!(
+            result.is_err(),
+            "malformed process identity must fail closed"
+        );
+    }
+
+    #[test]
+    fn complete_empty_no_match_is_clear() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(1, b"", b""),
+            ),
+            Ok(None),
+        );
+    }
+
+    #[test]
+    fn valid_process_in_spaced_worktree_is_retained() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces/file\n", b""),
+            ),
+            Ok(Some(42)),
+        );
+    }
+
+    #[test]
+    fn component_prefix_is_not_a_worktree_reference() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces-other/file\n", b""),
+            ),
+            Ok(None),
+        );
+    }
+
+    #[test]
+    fn successful_empty_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn unexpected_selected_field_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\ng42\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn process_only_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn next_process_cannot_complete_the_previous_process() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\np43\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn descriptor_without_name_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn next_descriptor_cannot_complete_the_previous_descriptor() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\nf1\nn/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn unbound_unrelated_name_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"n/tmp/other/file\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn empty_or_relative_file_name_is_unknown() {
+        for source in [b"p42\nn\n".as_slice(), b"p42\nnrelative/file\n".as_slice()] {
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source, b""),
+                )
+                .is_err(),
+                "{source:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn unterminated_listing_is_unknown() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/other/file", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn escaped_or_control_bearing_name_is_unknown() {
+        let sources: &[&[u8]] = &[
+            b"p42\nn/tmp/other/\\x20file\n",
+            b"p42\nn/tmp/other/file\tname\n",
+            b"p42\r\nn/tmp/other/file\r\n",
+            b"p42\nn/tmp/other/\0file\n",
+            b"p42\nn/tmp/other/\x7ffile\n",
+            b"p42\nn/tmp/other/\xc2\x85file\n",
+        ];
+        for source in sources {
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source, b""),
+                )
+                .is_err(),
+                "{source:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn oversized_listing_is_unknown() {
+        let mut source = b"p42\n".to_vec();
+        while source.len() <= super::MAX_OUTPUT_BYTES {
+            source.extend_from_slice(b"n/tmp/other/file\n");
+        }
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, &source, b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn pid_must_be_a_canonical_platform_process_identity() {
+        for pid in ["4294967295", "+42", "0", "042"] {
+            let source = format!("p{pid}\nn/tmp/other/file\n");
+            assert!(
+                inspect_lsof_worktree_output(
+                    Path::new("/tmp/worktree with spaces"),
+                    &output(0, source.as_bytes(), b""),
+                )
+                .is_err(),
+                "{pid}"
+            );
+        }
+    }
+
+    #[test]
+    fn malformed_tail_is_not_hidden_by_a_positive_reference() {
+        assert!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nn/tmp/worktree with spaces/file\nqbad\n", b""),
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn legacy_implicit_descriptors_are_accepted() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nfcwd\nn/tmp/worktree with spaces/file\n", b""),
+            ),
+            Ok(Some(42))
+        );
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(0, b"p42\nf1\nn/tmp/other/file\n", b""),
+            ),
+            Ok(None)
+        );
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(
+                    0,
+                    "p42\nfcwd\nn/tmp/worktree with spaces/確認\n".as_bytes(),
+                    b"",
+                ),
+            ),
+            Ok(Some(42))
+        );
+    }
+
+    #[test]
+    fn complete_process_and_file_sets_keep_matching_identity() {
+        assert_eq!(
+            inspect_lsof_worktree_output(
+                Path::new("/tmp/worktree with spaces"),
+                &output(
+                    0,
+                    b"p42\nfcwd\nn/tmp/other/file\nf1\nn/tmp/other/second\np43\nfcwd\nn/tmp/worktree with spaces/file\nf2\nn/tmp/other/third\n",
+                    b"",
+                ),
+            ),
+            Ok(Some(43))
+        );
+    }
 }
 
 #[cfg(all(unix, not(any(target_os = "linux", target_os = "macos"))))]
@@ -5044,6 +6761,24 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
             path: state_dir.to_path_buf(),
             source,
         })?;
+    if let Some(failure) = attempt
+        .failure
+        .as_deref()
+        .filter(|failure| *failure != "in_progress")
+    {
+        let thread = std::thread::current();
+        let last_record = attempt.execution_records.last();
+        reconciliation_trace(&format!(
+            "stage=persisted_attempt thread={:?} attempt={} outcome={:?} cleanup={:?} last_exit={:?} last_signal={:?} failure={}",
+            thread.name(),
+            attempt.attempt_id,
+            attempt.execution_outcome,
+            attempt.cleanup_disposition,
+            last_record.and_then(|record| record.exit_code),
+            last_record.and_then(|record| record.termination_signal),
+            bounded(failure),
+        ));
+    }
     Ok(())
 }
 
@@ -5062,6 +6797,11 @@ fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
         }
     }
     portable
+}
+
+#[doc(hidden)]
+pub fn composition_attempt_record_name_matches(path: &Path, attempt_id: &str) -> bool {
+    attempt_record_filename_matches(path, attempt_id)
 }
 
 fn attempt_record_filename_matches(path: &Path, attempt_id: &str) -> bool {
@@ -5979,6 +7719,350 @@ mod external_observer_deferred_tests {
         (repository, state, input)
     }
 
+    // Reuse the existing cfg(test) supervisor entry, but give these new cases
+    // an explicit parent deadline. No test-only environment is read in a
+    // production entry. A timeout/rescue is always a test failure.
+    fn real_parent_guard_predecessor(
+        input: &CompositionInput,
+        expected_verifier_spawns: usize,
+    ) -> CompositionAttempt {
+        let io = TestDir::new("parent-guard-io");
+        let input_path = io.path().join("input.json");
+        let output_path = io.path().join("output.json");
+        fs::write(&input_path, serde_json::to_vec(input).expect("input")).expect("write input");
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args(["external_observer_test_child_entry", "--nocapture"])
+            .env("AI_COCKPIT_A12_CHILD_INPUT", &input_path)
+            .env("AI_COCKPIT_A12_CHILD_OUTPUT", &output_path)
+            .env("AI_COCKPIT_A12_UNKNOWN_PATH", "")
+            .env("AI_COCKPIT_A12_GENERATION", "1")
+            .stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .expect("spawn owned test supervisor");
+        let pid = child.id();
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            match child.try_wait() {
+                Ok(Some(status)) => break status,
+                Ok(None) if Instant::now() < deadline => {
+                    std::thread::sleep(Duration::from_millis(10))
+                }
+                Ok(None) => {
+                    // Exact unreaped Child only, never killpg or an inferred PID.
+                    let kill = child.kill();
+                    let cleanup_deadline = Instant::now() + Duration::from_secs(2);
+                    let mut reaped = false;
+                    while Instant::now() < cleanup_deadline {
+                        if matches!(child.try_wait(), Ok(Some(_))) {
+                            reaped = true;
+                            break;
+                        }
+                        std::thread::sleep(Duration::from_millis(10));
+                    }
+                    panic!(
+                        "parent guard fixture did not finish naturally: pid={pid} kill={kill:?} reaped={reaped}; rescue is not a pass"
+                    );
+                }
+                Err(error) => panic!(
+                    "parent guard fixture wait ownership unknown: pid={pid} error={error}; no signal authorized"
+                ),
+            }
+        };
+        assert!(status.success(), "owned supervisor exited {status}");
+        let result: Result<CompositionAttempt, String> = serde_json::from_slice(
+            &fs::read(&output_path)
+                .expect("real child must publish its output; zero tests is not success"),
+        )
+        .expect("child result");
+        let attempt = result.expect("completed predecessor");
+        assert_eq!(attempt.owner_pid, Some(pid));
+        assert_eq!(
+            attempt
+                .supervisor_receipt
+                .as_ref()
+                .expect("actual receipt")
+                .supervisor
+                .process_id,
+            pid
+        );
+        assert_eq!(attempt.processes_spawned, expected_verifier_spawns);
+        attempt
+    }
+
+    fn parent_guard_catalog(
+        input: &CompositionInput,
+        previous: &CompositionAttempt,
+        release_may_have_been_delivered: bool,
+        child_reaped: bool,
+        include_child: bool,
+    ) -> CompositionParentCatalog {
+        let receipt = previous
+            .supervisor_receipt
+            .as_ref()
+            .expect("real predecessor receipt");
+        let identity = CompositionParentIdentity {
+            attempt_id: receipt.attempt_id.clone(),
+            run_nonce: receipt.run_nonce.clone(),
+            binding: previous.binding.clone(),
+            launch_input_identity: input.identity.clone(),
+            generation: receipt.generation,
+            owner: receipt.owner.clone(),
+            child_pid: receipt.supervisor.process_id,
+            observed_supervisor: Some(receipt.supervisor.clone()),
+            registered_receipt: Some(receipt.clone()),
+            command_plan_digest: receipt.command_plan_digest.clone(),
+            input_environment_digest: receipt.input_environment_digest.clone(),
+            attempt_started_at_unix_nanos: previous.recorded_at_unix_nanos,
+        };
+        // Parent transport fault injection is synthetic; the child exit,
+        // command count, cleanup, and ECHILD below come from the real fixture.
+        let failure = CompositionParentObservation::new(
+            identity.clone(),
+            CompositionParentEvent::Failure {
+                phase: "injected_parent_eof".into(),
+                diagnostic: "test parent transport failure".into(),
+                release_may_have_been_delivered,
+            },
+            previous.recorded_at_unix_nanos + 1,
+        )
+        .expect("failure fact");
+        let cleanup = CompositionParentObservation::new(
+            identity,
+            CompositionParentEvent::Cleanup {
+                failure_observation_id: failure.observation_id.clone(),
+                facts: CompositionParentCleanup {
+                    child_reaped: Some(child_reaped),
+                    exit_code: child_reaped.then_some(0),
+                    termination_signal: None,
+                    actions: Vec::new(),
+                    diagnostic: None,
+                },
+            },
+            previous.recorded_at_unix_nanos + 2,
+        )
+        .expect("cleanup fact");
+        CompositionParentCatalog::from_native_observations(
+            if include_child {
+                vec![previous.clone()]
+            } else {
+                Vec::new()
+            },
+            vec![failure, cleanup],
+        )
+        .expect("typed guard catalog")
+        .with_native_registrations(Vec::new())
+        .expect("fixture native catalog")
+    }
+
+    fn next_parent_guard_receipt(
+        input: &CompositionInput,
+        previous: &CompositionAttempt,
+    ) -> CompositionSupervisorReceipt {
+        let mut next = previous.supervisor_receipt.clone().expect("receipt");
+        next.run_nonce = new_composition_run_nonce();
+        next.attempt_id = new_supervised_composition_attempt_id(input, &next.run_nonce);
+        next
+    }
+
+    #[test]
+    fn parent_failure_pre_release_without_child_record_calls_the_safe_fresh_guard() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        input.preconditions.push(CompositionPrecondition {
+            name: "parent_guard_zero_execution".into(),
+            satisfied: false,
+            reason: "injected_before_execute_node".into(),
+        });
+        let previous = real_parent_guard_predecessor(&input, 0);
+        assert_eq!(
+            previous.failure.as_deref(),
+            Some("precondition_failed:parent_guard_zero_execution:injected_before_execute_node")
+        );
+        assert!(!previous.passed);
+        assert!(
+            previous.isolated_worktree.is_empty(),
+            "must reject before worktree preparation"
+        );
+        assert!(previous.execution_records.is_empty());
+        assert!(!state.path().join("a12-verifier-spawns").exists());
+        let raw = fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+            .expect("original raw");
+        // Missing child-record is an explicit catalog scenario. The real raw
+        // file remains intact; this does not claim an actual pre-Release EOF.
+        let catalog = parent_guard_catalog(&input, &previous, false, true, false);
+        let view = catalog
+            .latest_for_binding(&input.binding)
+            .expect("failed parent");
+        assert!(view.child_attempt.is_none());
+        let next = next_parent_guard_receipt(&input, &previous);
+        require_safe_new_attempt_after_parent_failure(&view, Some(&next))
+            .expect("real guard permits zero-verifier, reaped, pre-Release boundary");
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            raw
+        );
+    }
+
+    #[test]
+    fn parent_failure_post_release_real_cleanup_calls_fresh_guard_and_rejects_unsafe_variants() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        let previous = real_parent_guard_predecessor(&input, 1);
+        assert!(previous.passed);
+        assert!(
+            previous
+                .supervisor_receipt
+                .as_ref()
+                .expect("receipt")
+                .descendants_reaped_to_echild
+        );
+        let (worktree, parent) =
+            validated_composition_paths(&previous, previous.owner_pid.expect("owner"))
+                .expect("actual owned paths");
+        assert!(!worktree.exists() && !parent.exists());
+        assert!(child_resources_are_proven_clean(&previous));
+        let raw = fs::read(attempt_record_path(state.path(), &previous.attempt_id)).expect("raw");
+        let catalog = parent_guard_catalog(&input, &previous, true, true, true);
+        let view = catalog
+            .latest_for_binding(&input.binding)
+            .expect("failed parent");
+        let next = next_parent_guard_receipt(&input, &previous);
+        require_safe_new_attempt_after_parent_failure(&view, Some(&next))
+            .expect("actual guard allows safe fresh identity");
+        let mut same_nonce = next.clone();
+        same_nonce.run_nonce = previous
+            .supervisor_receipt
+            .as_ref()
+            .expect("receipt")
+            .run_nonce
+            .clone();
+        let mut changed_identity = input.clone();
+        changed_identity.identity.interface_digest =
+            Digest::sha256_bytes(b"same nonce different attempt");
+        same_nonce.attempt_id =
+            new_supervised_composition_attempt_id(&changed_identity, &same_nonce.run_nonce);
+        assert!(require_safe_new_attempt_after_parent_failure(&view, Some(&same_nonce)).is_err());
+        let unreaped = parent_guard_catalog(&input, &previous, true, false, true);
+        assert!(
+            require_safe_new_attempt_after_parent_failure(
+                &unreaped.latest_for_binding(&input.binding).expect("view"),
+                Some(&next)
+            )
+            .is_err()
+        );
+        let mut retained = previous.clone();
+        retained.cleanup_disposition = CompositionCleanupDisposition::Retained;
+        let retained = parent_guard_catalog(&input, &retained, true, true, true);
+        assert!(
+            require_safe_new_attempt_after_parent_failure(
+                &retained.latest_for_binding(&input.binding).expect("view"),
+                Some(&next)
+            )
+            .is_err()
+        );
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            raw
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("one actual verifier"),
+            b"x"
+        );
+        // These call the real safety guard; they do not claim a second fresh
+        // verifier executed. Full parent-protocol retry remains separate.
+    }
+
+    #[test]
+    fn parent_failure_between_reuse_acceptance_and_final_recheck_cannot_finish_green() {
+        let (_repository, state, mut input) = composition_case();
+        input.timeout_seconds = 1;
+        let previous = real_parent_guard_predecessor(&input, 1);
+        assert!(is_reusable_terminal_attempt(&previous));
+        let original =
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id)).expect("raw");
+        let clean =
+            CompositionParentCatalog::from_native_observations(vec![previous.clone()], Vec::new())
+                .expect("clean catalog")
+                .with_native_registrations(Vec::new())
+                .expect("native fixture");
+        let failed = parent_guard_catalog(&input, &previous, true, true, true);
+        let loads = std::cell::Cell::new(0);
+        let load = || {
+            loads.set(loads.get() + 1);
+            // Initial selection and actual accept_reuse see the original.
+            // The final production recheck sees an appended parent failure.
+            Ok(if loads.get() <= 2 {
+                clean.clone()
+            } else {
+                failed.clone()
+            })
+        };
+        let accepted = Arc::new(AtomicBool::new(false));
+        let accepted_in_gate = Arc::clone(&accepted);
+        let check: ProcessAdmissionCheck = Arc::new(move |_, accept| {
+            accept()?;
+            accepted_in_gate.store(true, Ordering::SeqCst);
+            Ok(())
+        });
+        let gate: ProcessStartGate =
+            Arc::new(|_, _| panic!("a reuse must never start a second verifier"));
+        let observe = |_worktree: &Path| Ok(None);
+        let result = run_composition_inner_with_observer(
+            input,
+            Some(check),
+            Some(gate),
+            None,
+            None,
+            CompositionObservationHooks {
+                parent_catalog_loader: Some(&load),
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| panic!("no current supervisor receipt"),
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        );
+        assert!(
+            accepted.load(Ordering::SeqCst),
+            "must exercise actual accept_reuse, not early rejection"
+        );
+        assert_eq!(loads.get(), 3, "initial, accept, and final catalog reads");
+        assert!(
+            matches!(result, Err(CompositionError::UnknownAttemptOwner { .. })),
+            "late parent failure cannot produce a successful final attempt: {result:?}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("one actual verifier"),
+            b"x"
+        );
+        assert_eq!(
+            fs::read(attempt_record_path(state.path(), &previous.attempt_id))
+                .expect("unchanged raw"),
+            original
+        );
+        let entries = fs::read_dir(state.path()).expect("native attempt state");
+        let incomplete = entries
+            .filter_map(Result::ok)
+            .filter_map(|entry| {
+                let path = entry.path();
+                if path.extension().and_then(|s| s.to_str()) != Some("json") {
+                    return None;
+                }
+                let attempt: CompositionAttempt =
+                    serde_json::from_slice(&fs::read(&path).expect("raw attempt"))
+                        .expect("raw attempt JSON");
+                (attempt.attempt_id != previous.attempt_id).then_some(attempt)
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(incomplete.len(), 1);
+        assert!(
+            !incomplete[0].passed,
+            "late failure cannot persist a green terminal"
+        );
+    }
+
     fn real_eacces_is_testable_without_ptrace_capability() -> bool {
         if unsafe { libc::geteuid() } == 0 {
             eprintln!("skipping real EACCES observer case: root may bypass procfs ptrace checks");
@@ -6231,6 +8315,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     panic!("an attempt without a supervisor receipt must not reap descendants")
@@ -6326,6 +8411,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     panic!("no supervisor receipt must not reap descendants")
@@ -6457,6 +8543,7 @@ mod external_observer_deferred_tests {
             Some(receipt),
             Some(attempt_id),
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe,
                 reap_owned_descendants: &|| {
                     if unknown_path == "owned-proof-unknown" {
@@ -6736,6 +8823,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe_clean,
                 reap_owned_descendants: &reap_without_receipt,
                 final_observation: FinalWorktreeObservation::Real,
@@ -6773,6 +8861,7 @@ mod external_observer_deferred_tests {
             None,
             None,
             CompositionObservationHooks {
+                parent_catalog_loader: None,
                 observe_worktree_process: &observe_eacces,
                 reap_owned_descendants: &reap_without_receipt,
                 final_observation: FinalWorktreeObservation::Real,

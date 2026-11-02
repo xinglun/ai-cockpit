@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1118-docs-close-projection",
+  "contractDigest": "sha256:bc0b3e9f2f968af610d2c53df6370a9e3ccab35c644d17c3f163c8324c326901",
+  "materialManifestDigest": "sha256:59f41deeaf886417e4e9846baf74c3db898256f82fe87bdbe6869483e8065f3d",
+  "profileDigest": "sha256:e104f59e32dcabc918a810df3b5daa25990ce9c7774b890fb18af15706a4cba2",
+  "requestDigest": "sha256:188f62454c65576e1916ccd2e2dea15d2efe86764615e13c58e42dee03099dd0",
+  "reviewedSourceHead": "a5bdc0eccea61d18815701c1583bb23ad7f9ce74",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (actual user approval at 2026-11-02T03:32:48Z of frozen A20 and B12 initialization, only real per-request agent review of readable committed Rust syntax Unknown. B actual amended four-binding human confirmation still pending; no other Unknown/Findings or blanket files exemption.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "digest": "sha256:20b832dadac769e025050c0086bf350fd70b33f1c0d6679e180bed91789c1d18"
+    },
+    {
+      "path": "Cargo.lock",
+      "digest": "sha256:d7d6a5a6dc2ff13f904182e4bd404a17dd4c30eecbb7ac64293ca71468ba43b7"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:6b4141e26ae37e70405d781f433cace4fbac87fe3da022a9d4e72c97bcb508d9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "digest": "sha256:7394efc36b407a49bbfd88ee9b5a8e9f3f5fd543560c17daccd43715a2fca318"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "digest": "sha256:8a4cc4af674bf25637b99d0564862712a6a0d66634b0127a5f60aaf56c0c74ff"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:08aeabae502b4e49e49fa3c574920dc5949515a39c19a7aa254edc7929637f63"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "digest": "sha256:c9b2e4da076cebad9cac6d5a4e8f1399eea6ff65edd887b5e6bebc87b9ab8f85"
+    },
+    {
+      "path": "crates/cockpit-evidence/src/lib.rs",
+      "digest": "sha256:719dae871131ea0c8d8d45b4b9acbdd2df4c6a9178c9fdf873da7c93da1ffeb7"
+    },
+    {
+      "path": "crates/cockpit-interface/src/interface_description.rs",
+      "digest": "sha256:2f87839e6b656c677ea13063af5204e7016f1e5059d9b1cc0ed5349c84960252"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/ci_admission.rs",
+      "digest": "sha256:17d00aec98f5f4388b561beb2d3b65d0803b2416e1e944a60db6a03e036c34e0"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "digest": "sha256:99936f2c8562d0e7526665a951ee7abd91764cac6143cbf8414494b1ae771d6f"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "digest": "sha256:2f99c4ac6197fe8a913ef2521615b10ea960c052145584a6bc478280c1d1ec45"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "digest": "sha256:cf0e1a8dbe8fe2e6fb7496b786f61e627f3579b8b87519ce720b65097f5a64e1"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "digest": "sha256:641e373d445f8939848fd54da7fb02328eefceac46863889a5db3bfff51cd750"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/ci_admission.rs",
+      "digest": "sha256:64ba06cee741fdbd681afae1e58712b7e472a313a365f1a5c6c4a22979ec7227"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "digest": "sha256:c89a542874b33be5504102dcb2d60d9fdb099ac04420b3161d58a8c930f2eb7e"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "digest": "sha256:f86f51e8a37f48b427851a39ac86fdac7fb45297784b593c870656f6414b7369"
+    },
+    {
+      "path": "crates/cockpit-repository/Cargo.toml",
+      "digest": "sha256:db385531e38c6a6f9a24d0ffc24711c840d597badc76cd36e3fce28f1d099baa"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:e5ef90199534ce0d6bc583ecb26e943374efe2d4ffdaef28923f604539f47e87"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:f5f9b00e45a3eab3a923a559693ebc293073e6336386982382918f795609e0ab"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:3c58e49bb4a5991059d2373081d7e91baef3c3201058ae5d7618f9c019e771c1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:59b7f16ba7f09cbecccce79bc9d42a017b667a453ca228fb46fa5633adb43cc2"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "digest": "sha256:5e886ad41919e47fc4796ee8a4ffc9b4d7d8ebbc6660f224b1c3536320c76e2e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "digest": "sha256:6091fda3ae9190c1b998c0f92bbca8ef76e51831163060b7b41d6c9c08033da7"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "digest": "sha256:140bc719774bda234127b59b53d0ac7cc7cfb99be0c0fb612b1812a94288185e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "digest": "sha256:9187549e48a43f0549958e38370aabf1c21e43e4b588dfabb4d0be7d7f64657e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:329027c3bb5d129b10256a0e99ab0e8108b3b53400e86887e1fb20e509092db1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:a1a43e2f973c3ba2fd85fec9c4f4738b34ea791d005cdcda1a17b2219e2b2a8a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "digest": "sha256:8df6fe2d225be5e952e6e1c3ca2a4dc6b5878e0b85c8477b4e3cf17b0de712c9"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "digest": "sha256:b3efe0e591748dd320f9f7a86a55fc314a6494cd4b089b2a58b0076db9eed167"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evolution.rs",
+      "digest": "sha256:7edcba46cbf8029bb32abc4d8fd743146fb55b2f001b8290240f24c0472a0b64"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    },
+    {
+      "path": "crates/cockpit-verification/src/lib.rs",
+      "digest": "sha256:f2403e2a6d958360fa3f00fe9c5550d7a5cf2889ddab6b552d52f655a5c6f468"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:7dbed14c6e3d88486e687684649dcaaaf413f7ac8fcdc8598068c7658b57fbbd"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "digest": "sha256:1e57294b100f725e8c19be986437530241b99a23e8a571ed0f2239a028201ab9"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "digest": "sha256:637619df7537b2867704fcb3736e944a31b6e57983f203f62c3f2796cc11d9cd"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "digest": "sha256:366a29318fc41ddb4a152ffb1c30de5cc2d383b45d430a1abcdd9de88c2c7ef3"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "digest": "sha256:25236252e5bcff0a37c18d7889a84437bc676a7c32613dcd1fb66413170e7186"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "digest": "sha256:2fb935fc58f58521c5d1cad6dac25498fcad882791d7d7e9b498f65108d4a1c4"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "digest": "sha256:07726f23352b41d0bbaffe95b352387ec586005f93f0264bf7d985f15c3d599d"
+    },
+    {
+      "path": "docs/work-items/WI-1035-task8-governance-friction-remediation.ja.md",
+      "digest": "sha256:5b75445e391b9d6ec1a1dfb35c9541c5fe20066eb0f7a04335222189d05bdeb7"
+    },
+    {
+      "path": "docs/work-items/WI-1035-task8-governance-friction-remediation.md",
+      "digest": "sha256:e4d06ccd57d8fb3ab03346b5a7b8fda31ff9a682b54774b287800991721d5163"
+    },
+    {
+      "path": "docs/work-items/WI-1035-task8-governance-friction-remediation.zh-CN.md",
+      "digest": "sha256:432a9dcac4e6e054101e01da0dd8a2e244d80e6756547d3915ebda48a8bc6d2f"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.ja.md",
+      "digest": "sha256:2dc764273c012a3277af2395cce4af7ed058d05884576f98b4068a4e6190ad02"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.md",
+      "digest": "sha256:5a93f9acb03f557a4c07565078d344373832417180adf245a44055e14400599b"
+    },
+    {
+      "path": "docs/work-items/WI-1114-release-runtime-convergence.zh-CN.md",
+      "digest": "sha256:c343c076e1d872d858f25abbf5ea3002325aefec1c670c91db406cb38d0a5270"
+    },
+    {
+      "path": "docs/work-items/WI-1116-ci-parity-windows-recovery.ja.md",
+      "digest": "sha256:ce082a7c655046a4263a46be08b1d47b49826f8fad000fc3fd28e305c15beaa0"
+    },
+    {
+      "path": "docs/work-items/WI-1116-ci-parity-windows-recovery.md",
+      "digest": "sha256:279986930aaaf96d982871615b746cb1534b7a9484a707cb774fe2984c221649"
+    },
+    {
+      "path": "docs/work-items/WI-1116-ci-parity-windows-recovery.zh-CN.md",
+      "digest": "sha256:e9ead6e4d975d9df2ccc041633d47afbd97b4ec1f14904a1d1df6f236ccf7ec7"
+    },
+    {
+      "path": "docs/work-items/WI-1117-ci-evidence-parity-recovery.ja.md",
+      "digest": "sha256:87935c0282bca8dab253cdd5d0fb5f3f9e499ce2d52084a558a22a269207ee0a"
+    },
+    {
+      "path": "docs/work-items/WI-1117-ci-evidence-parity-recovery.md",
+      "digest": "sha256:2553007980c0e4f4dc614a080903ebf9bcebabadf55f1b188fa44232d8e24019"
+    },
+    {
+      "path": "docs/work-items/WI-1117-ci-evidence-parity-recovery.zh-CN.md",
+      "digest": "sha256:5f27de26f3f4f11c9d55058baa6c97f87e4eea762e985ff347dc952f6d3a4dbf"
+    },
+    {
+      "path": "docs/work-items/WI-1118-docs-close-projection.ja.md",
+      "digest": "sha256:9b376d3828864c0bac4d5a75982fd2b94e2c5e72808ce5a69eb170f5e9f1a20d"
+    },
+    {
+      "path": "docs/work-items/WI-1118-docs-close-projection.md",
+      "digest": "sha256:1138ffca8d9203ab6c12140c7e7dcc641e7064396c7630b1af8f593d54ce5612"
+    },
+    {
+      "path": "docs/work-items/WI-1118-docs-close-projection.zh-CN.md",
+      "digest": "sha256:f0a9b1035b859b8d0cd21f7e0aacec90a9453f55e654c34565a7f25ea4cb6e2f"
+    },
+    {
+      "path": "tests/acceptance/evidence_stage_runtime_compatibility.py",
+      "digest": "sha256:38e235cf0240bce8259b50d413445ede8799bc6bfc0e6cd6bc2ab08f66430c23"
+    },
+    {
+      "path": "tests/ci/governance_integrity_gate.py",
+      "digest": "sha256:35dfc19ba42930a5c3065ac7c13850ed7ef1ff7d269687e346b7827f60b59484"
+    },
+    {
+      "path": "tests/ci/governance_integrity_gate_test.sh",
+      "digest": "sha256:563ab5597751004aa5350af6c1c00f6d850868018025efabe2a57ce212d0ed99"
+    },
+    {
+      "path": "tests/ci/hosted_runtime_verification_test.sh",
+      "digest": "sha256:b21f18f49d36cbd8db9c940f81d5702d6f0ce98fb82e674aaef7169dd1eed07b"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest.json",
+      "digest": "sha256:00a448c2335389a134538ed9903018ce8f292511bf22e30a31e930c2abd7dcc2"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.py",
+      "digest": "sha256:675ca42f1c65ad409e2cc8e048f92793ad033af7d5da0e27a54c3c2decb0ce11"
+    },
+    {
+      "path": "tests/ci/workflow_convergence_test.sh",
+      "digest": "sha256:6426f1cd14273cb33013e172d8ebb17a70bd1829a93e649e12de604d2eac2bf8"
+    },
+    {
+      "path": "tests/docs/work_item_status_consistency.py",
+      "digest": "sha256:9a7228f7871e255f40138251f144b2cff62f425ddf32d727bb7f57d5b94bbd52"
+    },
+    {
+      "path": "tests/docs/work_item_status_consistency_test.sh",
+      "digest": "sha256:9500a11f6794465715a8f5507d8cc78d2183869004be2696b0d832713ef56450"
+    }
+  ],
+  "rationale": "Actual fresh B-specific full66-entry review for committed source a5bdc0eccea61d18815701c1583bb23ad7f9ce74:56Clean10Unknown0Finding. All regular bytes and committed blobs were read/matched to this exact new request. Only the approved12 documentation paths changed from A source5e; no Rust/checker/permission/HCI source changed. Closed1116/1117 projections use actual canonical native records, genuine user close, formal/source and actual CI41423500056; G1/G2 are metadata, not retests. Own1118 has honest conditional preregistration and no future verification/close. The generic finalize path is only the existing checker preregistration reference, not a required provider operation or an invented receipt. Current native grant admits these docs. All10 inherited readable committed Rust syntaxUnknown entries/hunks/digests/causes/reviewability are exactly unchanged; each is read and accepted only under the approved self_declared cause. This is a new B decision, not A material/pass transfer. Seven actual B declarations, genuine B human close and postclose self_terminal/check-all remain unproved until executed.",
+  "residualRisk": "Only exact readable_committed_rust_syntax_unknown for this fresh request. Raw10 Unknown remain, no Finding/other Unknown accepted. Old118/1 root unknown, first lost Windows errno, Outcome ENAMETOOLONG and actual B closure/main postmergeCI/cloud cleanup/Mac/HCI/Sentinel/release obligations remain. No old receipt/grant/retry/checkpoint or future human decision is synthesized.",
+  "recordedAt": "2026-11-02T11:39:24Z",
+  "receiptDigest": "sha256:c663adfa17900c0f507e59b04a1c8a2faf9dfbe72618cebfe270fe5fea1bd59e"
+}

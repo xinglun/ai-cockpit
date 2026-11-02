@@ -85,7 +85,20 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 44);
+    assert_eq!(tools.len(), 45);
+    let names = tools
+        .iter()
+        .map(|tool| tool["name"].as_str().expect("tool name"))
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(names.len(), 45);
+    assert!(!names.contains("evidence_bundle_accept"));
+    assert_eq!(
+        tools
+            .iter()
+            .filter(|tool| tool["name"] == "evidence_bundle_plan")
+            .count(),
+        1
+    );
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (

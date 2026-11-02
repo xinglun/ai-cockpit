@@ -1,0 +1,26 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "agent:codex new technical recovery decision at 2026-11-02T03:36:27.137587Z under conversation:Sentinel_32ad5ad6ea7c81919f24f330aaffa73c (user approval at 2026-11-02T03:32:48Z of final A20 WI1117 and B12 WI1118 scopes, exact346 native purposes, limited per-request committed-Rust syntax Unknown review, necessary public governance metadata and nonforce PR1077 CI delivery; actual native four-binding and human close decisions remain required; no merge/release, new credentials/security/default Runtime or extra cache deletion)",
+  "decidedAt": "2026-11-02T03:36:27.137587Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/41376207420",
+    ".ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json",
+    ".ai/decisions/WI-1116-ci-parity-windows-recovery.close.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+  "predecessorEventsDigest": "sha256:5188d250c221d34840860572bd361212a54046446bc6406afad152f480a08c9c",
+  "predecessorOutcomeDigest": "sha256:f0a8a00233e7b505262da9021856f76f5b1439d67269b7f73ea372a04ae35b9d",
+  "predecessorSummaryDigest": "sha256:1a865984a82f656d112710ea7fdc2f0e79811c7713726f3877aadac0392e1e2c",
+  "predecessorWorkItemId": "WI-1116-ci-parity-windows-recovery",
+  "reason": "Continue the real closed1116 recovery chain on PR1077. Diagnose the sole Windows optional-directory failure without guessing its lost first errno or weakening invalid-path rejection; repair independently reviewed ordinary-close tuple and actual inventory checks and required truthful predecessor documentation. Keep every accepted predecessor result and failed CI record; do not reuse an old human/retry/grant decision.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only final20 paths and9 exact declarations with real native material/owner gates. Fixed346 one-checkpoint semantics and exact-source evidence remain; Windows253/1 actual first result/errno unknown, second probe is a second observation. No implementation before actual owner confirm_review. B12 is future independent native lifecycle after actual A results. No new credentials/security/default Runtime, merge/release, cache deletion or HCI changes.",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1117-ci-evidence-parity-recovery",
+  "workItemId": "WI-1116-ci-parity-windows-recovery"
+}

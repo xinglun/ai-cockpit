@@ -1344,6 +1344,14 @@ enum ActivationPathHistoryAnchor {
     NotIntroduced,
 }
 
+#[cfg(test)]
+thread_local! {
+    // One typed failure at the actual bounded-history result boundary. This
+    // cannot be selected by a production environment variable or caller.
+    static ACTIVATION_HISTORY_FAILURE: std::cell::RefCell<Option<cockpit_git::GitError>> =
+        const { std::cell::RefCell::new(None) };
+}
+
 fn activation_path_history_anchor(
     git: &cockpit_git::GitRepository,
     head: &str,
@@ -1351,7 +1359,14 @@ fn activation_path_history_anchor(
     literal_repo_path: &str,
     current_bytes: &[u8],
 ) -> Result<ActivationPathHistoryAnchor, ObserverError> {
-    match git.first_path_introduction_bounded(head, literal_repo_path) {
+    #[cfg(test)]
+    let introduction = match ACTIVATION_HISTORY_FAILURE.with_borrow_mut(Option::take) {
+        Some(error) => Err(error),
+        None => git.first_path_introduction_bounded(head, literal_repo_path),
+    };
+    #[cfg(not(test))]
+    let introduction = git.first_path_introduction_bounded(head, literal_repo_path);
+    match introduction {
         Ok(introduction) if introduction.bytes == current_bytes => {
             Ok(ActivationPathHistoryAnchor::Committed)
         }
@@ -3680,6 +3695,396 @@ mod tests {
             .expect("read the committed amendment history");
         super::validate_transition_chain(root, &id, &history, None)
             .expect("the recorded local owner can read its pending native start transaction");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn activation_history_timeout_before_spawn_retains_prior_execution_facts() {
+        use std::sync::{
+            Arc,
+            atomic::{AtomicUsize, Ordering},
+        };
+        let (directory, id) = portable_activation_transition_fixture();
+        // Keep only this test's own repository and out-of-repository
+        // diagnostics on panic. Drop never observes native state or Git.
+        struct PreserveOnFailure {
+            repository: Option<tempfile::TempDir>,
+            diagnostics: Option<tempfile::TempDir>,
+        }
+        impl Drop for PreserveOnFailure {
+            fn drop(&mut self) {
+                if std::thread::panicking() {
+                    let repository = self.repository.take().map(tempfile::TempDir::keep);
+                    let diagnostics = self.diagnostics.take().map(tempfile::TempDir::keep);
+                    eprintln!(
+                        "HISTORY_FIXTURE_PRESERVED repository={repository:?} diagnostics={diagnostics:?}"
+                    );
+                }
+            }
+        }
+        fn save<T: serde::Serialize + ?Sized>(directory: &Path, name: &str, value: &T) {
+            let bytes =
+                serde_json::to_vec_pretty(value).expect("serialize actual fixture diagnostic");
+            assert!(
+                bytes.len() <= 2 * 1024 * 1024,
+                "fixture diagnostic exceeds explicit byte budget"
+            );
+            fs::write(directory.join(name), bytes).expect("save private fixture diagnostic");
+        }
+        fn observe(
+            root: &Path,
+            diagnostics: &Path,
+            id: &str,
+            runtime: &cockpit_protocol::RuntimeContext,
+            caller: &cockpit_protocol::TaskAuthorizationCaller,
+            stage: &str,
+        ) {
+            // No process environment, credentials or arbitrary source export.
+            // Preserve these fixed synthetic native records byte-for-byte.
+            let active = root.join(".ai/work-items/active");
+            let pinned = crate::legacy_closeout_source::PinnedRoot::open(&active)
+                .expect("pin fixture native record directory");
+            let directory = pinned.directory().expect("clone fixture record capability");
+            for kind in ["contract", "summary"] {
+                let leaf = format!("{id}.{kind}.json");
+                let bytes = crate::legacy_closeout_source::read_regular_cap_bounded(
+                    &directory,
+                    &leaf,
+                    &active.join(&leaf),
+                    128 * 1024,
+                )
+                .expect("read bounded no-follow actual fixture native record");
+                pinned
+                    .require_current()
+                    .expect("fixture native directory stays current");
+                fs::write(diagnostics.join(format!("{stage}.{kind}.json")), bytes)
+                    .expect("save exact fixture native record bytes");
+            }
+            match crate::work_item_status_snapshot_with_runtime(root, id, runtime) {
+                Ok(status) => {
+                    save(
+                        diagnostics,
+                        &format!("{stage}.action-explanation.json"),
+                        &status.action_explanation,
+                    );
+                    save(diagnostics, &format!("{stage}.status.json"), &status);
+                }
+                Err(error) => save(
+                    diagnostics,
+                    &format!("{stage}.status-error.json"),
+                    &error.to_string(),
+                ),
+            }
+            let request = cockpit_protocol::TaskAuthorizationRequest {
+                schema_version: 1,
+                caller: caller.clone(),
+                action: "run_verification".into(),
+                paths: Vec::new(),
+                public_target: None,
+            };
+            match crate::assess_task_authorization(root, id, &request, runtime) {
+                Ok(assessment) => save(
+                    diagnostics,
+                    &format!("{stage}.authorization.json"),
+                    &assessment,
+                ),
+                Err(error) => save(
+                    diagnostics,
+                    &format!("{stage}.authorization-error.json"),
+                    &error.to_string(),
+                ),
+            }
+        }
+        let directory = PreserveOnFailure {
+            repository: Some(directory),
+            diagnostics: Some(
+                tempfile::Builder::new()
+                    .prefix("history-fixture-diagnostic-")
+                    .tempdir()
+                    .expect("own private out-of-repository diagnostic directory"),
+            ),
+        };
+        let root = directory
+            .repository
+            .as_ref()
+            .expect("owned fixture repository")
+            .path();
+        let diagnostics = directory
+            .diagnostics
+            .as_ref()
+            .expect("owned fixture diagnostics")
+            .path();
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"portable activation fixture"),
+        };
+        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+        let current = read_json(&contract_path);
+        crate::amend_work_item_contract_with_runtime(
+            root,
+            &id,
+            &json!({
+                "schemaVersion":1, "changeId":"history-timeout-task-policy",
+                "expectedContractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+                "reason":"isolated native authorization history failure regression",
+                "changes":[{"path":"/governanceProfile","operation":"set","value":{
+                    "taskAuthorization":{
+                        "schemaVersion":1,"agentActor":"agent:history-test",
+                        "authoritySource":"synthetic:history-timeout-test",
+                        "allowedActions":["checkpoint","run_preflight","run_verification"],
+                        "closeoutActions":[],"expiresAt":"2099-01-01T00:00:00Z","publicTarget":null
+                    }
+                }}]
+            }),
+            "",
+            &runtime,
+        )
+        .unwrap();
+        crate::preflight_work_item_with_runtime(root, &contract_path, &runtime).unwrap();
+        let current = read_json(&contract_path);
+        let summary = read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
+        crate::record_work_item_governance_controls_with_runtime(root, &id, &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":id,"repositoryId":crate::repository_id(root),
+            "contractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
+            "reason":"Synthetic isolated owner confirmation; no external human identity claim."
+        }}), &runtime).unwrap();
+        let caller = cockpit_protocol::TaskAuthorizationCaller {
+            schema_version: 1,
+            actor: "agent:history-test".into(),
+            authority_source: "synthetic:history-timeout-test".into(),
+            assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+        };
+        // This fixture now has an active delegated grant. Use its original
+        // explicit caller at the native preflight boundary, just as at spawn.
+        observe(root, diagnostics, &id, &runtime, &caller, "before-refresh");
+        let refreshed = crate::preflight_work_item_with_task_authorization(
+            root,
+            &contract_path,
+            &runtime,
+            &caller,
+        );
+        match &refreshed {
+            Ok(preflight) => save(diagnostics, "actual-preflight-result.json", preflight),
+            Err(error) => save(
+                diagnostics,
+                "actual-preflight-error.json",
+                &error.to_string(),
+            ),
+        }
+        refreshed.expect("refresh native preflight with the active fixture caller");
+        observe(
+            root,
+            diagnostics,
+            &id,
+            &runtime,
+            &caller,
+            "before-checkpoint",
+        );
+        // Native start intentionally leaves implementation_active. Preflight
+        // does not replace the required before-edit lifecycle checkpoint.
+        let checkpoint =
+            crate::checkpoint_work_item_with_caller(root, &id, &runtime, Some(&caller));
+        match &checkpoint {
+            Ok(receipt) => save(diagnostics, "actual-checkpoint-result.json", receipt),
+            Err(error) => save(
+                diagnostics,
+                "actual-checkpoint-error.json",
+                &error.to_string(),
+            ),
+        }
+        let checkpoint = checkpoint.expect("native checkpoint before the first verification");
+        observe(
+            root,
+            diagnostics,
+            &id,
+            &runtime,
+            &caller,
+            "after-checkpoint",
+        );
+        assert_eq!(checkpoint.state, "checkpointed");
+        let admission = crate::work_item_status_snapshot_with_runtime(root, &id, &runtime)
+            .expect("read the actual checkpointed action admission");
+        assert!(
+            admission
+                .safe_actions
+                .iter()
+                .any(|action| action == "run_verification"),
+            "fixture must enter normal verification admission: {admission:?}"
+        );
+        let command = crate::RepositoryVerificationRequest {
+            node_id: "first".into(),
+            program: "git".into(),
+            args: vec!["diff".into(), "--check".into()],
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some(id.clone()),
+            timeout_seconds: None,
+            policy: crate::RepositoryVerificationPolicy::NeverReuse,
+        };
+        let mut second = command.clone();
+        second.node_id = "second".into();
+        let snapshot = cockpit_git::GitRepository::discover(root)
+            .unwrap()
+            .snapshot()
+            .unwrap();
+        let requests = [command.clone(), second.clone()];
+        let plans = requests
+            .iter()
+            .map(|request| {
+                let plan = crate::plan_repository_verification_action(root, request, &snapshot, 1);
+                match &plan {
+                    Ok(value) => save(
+                        diagnostics,
+                        &format!("actual-plan-{}.json", request.node_id),
+                        value,
+                    ),
+                    Err(error) => save(
+                        diagnostics,
+                        &format!("actual-plan-{}-error.json", request.node_id),
+                        &error.to_string(),
+                    ),
+                }
+                plan.unwrap()
+            })
+            .collect::<Vec<_>>();
+        save(
+            diagnostics,
+            "actual-plan-route.json",
+            &json!({
+                "stage":command.stage, "runner":command.runner, "program":command.program,
+                "args":command.args, "runtimeDigest":command.runtime_digest,
+                "baseCommit":command.base_commit, "workItemId":command.work_item_id,
+                "requestTimeoutSeconds":command.timeout_seconds, "workers":command.workers,
+                "scope":command.scope, "plans":plans,
+            }),
+        );
+        let run_checkpoint =
+            crate::VerificationRunCheckpoint::prepare(root, &requests, &plans, &snapshot, &runtime)
+                .unwrap();
+        observe(
+            root,
+            diagnostics,
+            &id,
+            &runtime,
+            &caller,
+            "before-first-command",
+        );
+        let first = crate::run_repository_verification_with_task_authorization(
+            root,
+            &command,
+            &runtime,
+            Some(&caller),
+            |_, _, _| Ok(()),
+        );
+        match &first {
+            Ok(run) => save(diagnostics, "actual-first-receipt.json", &run.receipt),
+            Err(error) => save(diagnostics, "actual-first-error.json", &error.to_string()),
+        }
+        observe(
+            root,
+            diagnostics,
+            &id,
+            &runtime,
+            &caller,
+            "after-first-command",
+        );
+        let first = first.expect("real authorized first child");
+        assert!(
+            first.receipt.passed,
+            "actual first receipt: {}",
+            serde_json::to_string(&first.receipt).expect("actual first receipt JSON")
+        );
+        assert_eq!(first.receipt.nodes_executed, 1);
+        assert!(first.receipt.execution_records[0].spawned);
+        assert_eq!(first.receipt.execution_records[0].exit_code, Some(0));
+        let starts = Arc::new(AtomicUsize::new(0));
+        let observed = Arc::clone(&starts);
+        super::ACTIVATION_HISTORY_FAILURE.with_borrow_mut(|slot| {
+            *slot = Some(cockpit_git::GitError::CommandTimeout { timeout_ms: 9981 })
+        });
+        let error = crate::run_repository_verification_with_task_authorization(
+            root,
+            &second,
+            &runtime,
+            Some(&caller),
+            move |_, _, started| {
+                if started {
+                    observed.fetch_add(1, Ordering::SeqCst);
+                }
+                Ok(())
+            },
+        )
+        .expect_err("the real activation authorization path must reject a bounded-history timeout");
+        assert!(
+            super::ACTIVATION_HISTORY_FAILURE.with_borrow(|slot| slot.is_none()),
+            "fault must be consumed at the intended history boundary"
+        );
+        let diagnostic = error.to_string();
+        assert!(
+            diagnostic.contains("activation-transition/prepared.json"),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("cannot prove committed activation history"),
+            "{diagnostic}"
+        );
+        assert!(diagnostic.contains("9981ms"), "{diagnostic}");
+        assert_eq!(
+            starts.load(Ordering::SeqCst),
+            0,
+            "authorization failure must not start the second child"
+        );
+        let partial = run_checkpoint
+            .record_interrupted(
+                &[&first.receipt],
+                &[(second.node_id, diagnostic)],
+                &[],
+                "worker",
+                "bounded activation history lookup failed",
+            )
+            .unwrap();
+        assert_eq!(partial["passed"], false);
+        assert_eq!(partial["completedNodes"], json!(["first"]));
+        assert_eq!(partial["unavailableNodes"][0]["executionState"], "unknown");
+        let facts = fs::read_dir(root.join(".ai/evidence"))
+            .unwrap()
+            .filter_map(Result::ok)
+            .filter(|entry| {
+                entry
+                    .file_name()
+                    .to_string_lossy()
+                    .starts_with(&format!("{id}.verification-attempt."))
+            })
+            .map(|entry| read_json(entry.path()))
+            .collect::<Vec<_>>();
+        assert!(facts.iter().any(|fact| fact == &partial));
+        assert!(
+            facts
+                .iter()
+                .any(|fact| fact["state"] == "node_execution_completed"
+                    && fact["executionRecords"][0]["nodeId"] == "first")
+        );
+        assert!(
+            !facts
+                .iter()
+                .any(|fact| fact["commands"][0]["nodeId"] == "second"
+                    && fact["kind"] == "verification_execution_checkpoint"),
+            "second node never reached executor preparation"
+        );
+        assert!(
+            !root
+                .join(format!(".ai/evidence/{id}.verification.json"))
+                .exists()
+        );
     }
 
     #[test]

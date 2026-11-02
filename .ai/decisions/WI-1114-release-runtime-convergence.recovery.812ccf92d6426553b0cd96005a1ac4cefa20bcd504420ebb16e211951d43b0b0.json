@@ -1,0 +1,22 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T22:29:24.872348+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.5e20112b3b5d587bc7a39df8025e351858bdae927e3cf1029ed9cf3ac58ab3c8.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:dffd09084374928699d17c771e68c41337c8418edcd2c3b73619de4f0f31a8ed",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Real source iteration after aad97c61 target22 compiled then failed18pass2fail, parent independently reviewed exact two-fixture2653B patchSHA c4ed6934876db6c4d0abae1b8e0afc7cbb40d0bca2ecf59286d1807c5cc55fb7. Only CLItests/lifecycle.rs: restore implicit timeout None and assert native effective timeout/command digest equality; require exact finish admission refusal with quoted verification_evidence_missing and real finish.lifecycle, retaining all no-write/no-promotion assertions. Fixed Rust1.98.1 rustfmt1.9 single-file stdin normalization only two argument-line joins; exact final2635B SHAe3cfb9287f199558d46e0d3fe3fa726e3277648c53bd27c38fbc75db1b19c936, after68430B SHAc9b2e4da076cebad9cac6d5a4e8f1399eea6ff65edd887b5e6bebc87b9ab8f85. No production policy/grant/Runtime change,20root tests unchanged. Keep original failure and prior target1success.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back this normal retry, apply only reviewed one-file final delta and ordinary source-only commit; current material/native admission rechecked. Execute exact existing111 fmtcheck, then22 lifecycle, then39 verify only after each actual success and resource recheck. Oneheavyworker/CargoJobs1/900s percommand/original1.25GiB floor. Stop dependency on first failure, no blind retry/extra cleanup/Runtime switch/push/CI/release/other107/51/strict/101. Current tests are not full118/WI or platform/provider acceptance.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

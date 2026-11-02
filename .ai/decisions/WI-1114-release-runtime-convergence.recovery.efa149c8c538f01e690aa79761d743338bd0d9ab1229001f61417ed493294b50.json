@@ -1,0 +1,23 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (user approval at 2026-10-29 06:40 UTC to start the fixed five-subtask WI-1114 release plan; quality CI total eight including main, release workflows total two; exact version/tag/assets publication and shared or production Runtime replacement remain unapproved; WI-1113 stays delivered with native closure pending, with history and recovery resources preserved)",
+  "decidedAt": "2026-10-30T21:02:58.881400+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification.json",
+    ".ai/evidence/WI-1114-release-runtime-convergence.verification-attempt.740cce7333523774c6d502f0763d598e57ba9ba88e474323bc32cba5a59bd48f.json",
+    ".ai/evidence/material-inspection-review/WI-1114-release-runtime-convergence/cee88152a8c23c9883512c80931036b0079455c907bc0cbaf3986ea7ca7eb59d.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "predecessorSummaryDigest": "sha256:2ecb5218b6a7314e55de30b2922ca5d3ae1e041bc6adeccafd900e773ea3fdcd",
+  "predecessorWorkItemId": "WI-1114-release-runtime-convergence",
+  "reason": "Record a real source iteration for the independently accepted actual fixed-toolchain six-file format-only proposal. Preserve HEAD71411eb1 native10134/34 and all prior failures, including nativefmt111 failed/truncated attempt740cce73. Apply only exact293456B deltaSHA0e42bdcafab9c17cd78fd688522f8c08ef117cc856dff1d2f2608d14ca5adf1d; original string/char/conditions/assertions unchanged by the reviewed formatting. No claim that old success covers formatted source.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Read back this normal retry before grouped source-only application/commit; do not repeat before-edit checkpoint. Regenerate current material and native admission. Execute only declared111 cargo fmt --all -- --check, then only if it passes and resources/admission remain adequate execute declared1 cargo test --locked -p cockpit-cli --bin ai-cockpit -- --test-threads=1. Stop at any failure, jobs1/one heavy worker/900s/1.25GiB. No cleanup, other targets, Runtime switch, CI/push/release. Retain complete old proof; new-source101 remains a later separate verification.",
+  "runtimeDigest": "sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

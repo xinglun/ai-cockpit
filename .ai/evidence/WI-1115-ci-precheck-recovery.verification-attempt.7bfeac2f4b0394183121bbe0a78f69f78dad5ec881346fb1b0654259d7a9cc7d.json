@@ -1,0 +1,41 @@
+{
+  "checkpointId": "sha256:7bfeac2f4b0394183121bbe0a78f69f78dad5ec881346fb1b0654259d7a9cc7d",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/run_repository_prechecks.sh",
+        "--repo",
+        "/workspace/ai-cockpit-wi1114-release-runtime-convergence"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:98d9488469cf66f8880609ab34ad984a9791a4a94174d81f4a3e07b48dd11ada",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:04e64e6a50a3a84567f3c5a153e2bc6221911a677aff387825180e04e95e9120",
+  "contractExecutionScopeDigest": "sha256:e7e6550cda687f4891248ebfa962be47cd7277a8d9d6ce6df563c7634a5cebeb",
+  "createdAt": "2026-11-01T23:06:27.869868807Z",
+  "executionId": "sha256:fcbcc7c471f01ea379ec90f31f9d3538ed60a2de98e0663b951702cc73d3926f",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98d37fbca61f176351cba1a00812742983a00b1d0e866a5eb85cab90d047dbb8",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

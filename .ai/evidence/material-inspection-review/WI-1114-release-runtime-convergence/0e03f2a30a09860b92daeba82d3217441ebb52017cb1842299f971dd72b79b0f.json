@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:a75db31ec6293ed105e2be8b9dcd092245824d0fe14e448584231fe87d2a70ad",
+  "materialManifestDigest": "sha256:b5b93b25728f29deabe64240f3d0c21f35caccd6b39ac9f9662e8a6d1e8d6be5",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:0e03f2a30a09860b92daeba82d3217441ebb52017cb1842299f971dd72b79b0f",
+  "reviewedSourceHead": "bc589f10c086c05c71286a1722ffc79f83612b64",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/github_evidence.rs",
+      "digest": "sha256:8d8b4a5bf0de3d04b30b6698ef03f43c98abd86fc9a71075628704cd599c6fe2"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:5d12eca824c76c740d619069d54a6762d41e11648b6de9898ebfbb91bf3d861c"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:ebb43a9a9edc018d8dbd6a4eb93eabbeb8e87ff343bc2a859d9163417a7a61d6"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:5a49faed061e86762ed0bcaa8cc4e0b6c6f1a1156d9d4c59898cc53d290ad13e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/mod.rs",
+      "digest": "sha256:b1a89abd6e60bc4d85dc91b0c83c37adc2d5e8bb9f70fd3234cb440f4a0baffd"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:637b2a24f822e8fe5014246a1e3730d34372d5c602515d393f7b34182cdaec90"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/execution_context.rs",
+      "digest": "sha256:0610a58a128665a6569297460ff408630f60b42dac080003288ff0b0b918b544"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b249d2ae2e3581e7b6e0b8a92163e70453d363982ddd5db19d35d68fe378adf1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Real self-declared author technical review of the exact five-file scoped increment from73f532. The observed seven fixture failures all originated at the explicit five-second timeout policy gate; the self-owned fixture now has the same typed finite Project/task policy structure as the existing verified template, leaving timeout and every original assertion intact. The observed E0308 is corrected by checked i64 epoch conversion in that test only. Added bounded fixed-origin transport API uses actual owned ureq body, no proxy or automatic redirect; its permitted302 remains conservative NotImplemented and production storage allowlist empty. Added full-run/producer assertions, inventory acquisition API and CLI parser tests remain conservative actual RED scaffolds, no file or JSON mints a capability. Actual source bytes and all material entries rehashed; only this scoped increment differs; prior Unknown identities/causes preserved and no Finding. No actual profile, permission or Runtime change. This is agent author review, not external origin certification.",
+  "residualRisk": "Previous recipe GREEN attempt compiled but seven roots failed at the fixture timeout precondition; this repair has not been rerun yet. Previous inventory attempt had E0308 and zero tests, not target RED. Archive GREEN, PR/inventory and new transport/parser assertions are not yet certified. No real HTTP request, external source acceptance, profile-v3 confirmation, full119, CI performance, Mac or Windows acceptance is proved. All production source-capability limitations remain; storage origin is unreviewed and conservative rejection remains.",
+  "recordedAt": "2026-11-01T05:05:21Z",
+  "receiptDigest": "sha256:194a78a12299ebeec34f97a722ee4eadf32ceb7bf006a6aa37ed6a6f16d7163a"
+}

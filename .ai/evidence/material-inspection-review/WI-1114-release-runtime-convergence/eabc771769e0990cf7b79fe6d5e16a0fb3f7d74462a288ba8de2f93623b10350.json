@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581",
+  "materialManifestDigest": "sha256:020717e76bce99e64156b2d87a5be28c481d0a1b2d4938fb1498bb3d2f72112e",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:eabc771769e0990cf7b79fe6d5e16a0fb3f7d74462a288ba8de2f93623b10350",
+  "reviewedSourceHead": "d31ce8dcb0604c8cf9f6943dc41a0e488e4e7dff",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:6f7897c9b46ec160a1fb193f6767ad3f745c86aea522dc16e81a8ab60003d838",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a0f3025684b2e11ad54ff5b700304ae441536f728524b34c6246ff974cf59384"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:b81d7df7c7ca073183c2e980a8dde1da6b143b55ec591b1538becb69b55d58bd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:08711a24dec2d0c20184b05b10b1562005ef14340f6c6abeeafc72a6ee63e4b9"
+    }
+  ],
+  "rationale": "Raydot accepted this exact sequence11 request after independent official materialization of the45044-byte confirmation package SHA256654e0930e97c9c40819c3f4159ab80f60ceca1ad9a782eee90c5067c598d4b55 and all13 manifest payloads. The new raw canonical request and Contract9e62d85f1f934bf153df633964e1df827a9f4bee4e10f9a9fee4d93bfe298581 were independently recomputed. Relative to the fully reviewed15fb676cba367aabaa90c5356d6448d4c1a711513fd104428ba2da0addc8cac8 only contractDigest/requestDigest change. All30 entries,27Clean/3original readable committed Rust syntaxUnknown/0Finding and all other source/profile/policy/analysis identities are equal. Reapply the actual full three-blob review and prior tested/reconstructed kernel/lsof patch review to the same committed bytes under the new binding, as a fresh real agent:codex/self_declared technical decision. It does not inherit the old receipt, masquerade as human/provider authentication or grant missing actual provider/workflow/producer trust.",
+  "residualRisk": "Machine Rust syntaxUnknown remains Unknown, not Clean. Static material acceptance is not testing, independent provider authentication, usable CI admission, performance achievement, human approval, Mac validation, release or whole-WI acceptance. The direct evidence/protocol/interface strict Clippy command was previously undeclared; sequence11 now declares it, but it has not yet run at this decision. Checks on other crates are not a substitute. The typed equality API has no provider acquisition, trusted catalog, acceptance writer or skip-work authority; exact equality is not origin authentication. Current seven new unit tests include33 mutation cases inside one test, not33 independent test functions;14GREEN total includes7existing integration tests. Real history timeout, sibling-worker failure, restart, provider and cross-platform whole-path proof remain incomplete. Preserve all original failures, stdout truncation/missing detailed P2panic, compile0tests failure, wrapper97/PID4135169 ambiguous attribution and procfs environment failures; do not retrospectively identify unknown PIDs or kill existing PID1 zombies. Historical diagnostic bounded(failure) truncates but does not redact paths/stderr/caller errors; keep private and inspect separately before publication. Historical statements that the query was unbounded describe the earlier baseline: current bounded lsof P1/P2 changes are independently reviewed and Linux-tested, but actual Mac/control-channel/full detached-descendant proof remains incomplete. Natural EOF, generic UnixProcessGroup, nonLinux reap Ok or an empty snapshot are not complete-descendant proof. Controlled fixture observation and its fixed environment label are not complete host authentication or production KnownEmpty evidence. All23 maintenance and18normal verification executions remain preserved; prior receipts stay bound to their real original identities. New cause/Finding/identity drift requires a new real review. No CI, push, Runtime switch, cleanup or publication occurred in this segment.",
+  "recordedAt": "2026-10-30T05:36:34Z",
+  "receiptDigest": "sha256:c2fce9b09284fffd8548acbd5e75a3715537bc70b1811c84257daa36a08781f7"
+}

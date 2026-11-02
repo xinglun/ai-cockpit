@@ -1,0 +1,46 @@
+{
+  "checkpointId": "sha256:1a5a36102e88f9a9665a105bb69e41fabb632b0947082b569045ba28655ac639",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib",
+        "collaboration::",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:71765b4d5a0ffdbb1e8325ba556134bf4316b490098b964655766e160ee29a14",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:333ace1fd608c123734843b0212135a5223ec2878b28af318697514a83fb69ec",
+  "contractExecutionScopeDigest": "sha256:ed0e30522d2a8c3050c9aeef0ec46243a61e2ee4a022aa06807dcc6404b78900",
+  "createdAt": "2026-11-02T01:16:58.042530854Z",
+  "executionId": "sha256:076cba354f73f3493ceaf7bc24b4903856c2e27cf9397ebd59e9b3941c73b13a",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:55e8a56fb5386166466bb90fe8e0ec7644a95abc5e08f1f90c0186992cb57286",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1116-ci-parity-windows-recovery"
+}

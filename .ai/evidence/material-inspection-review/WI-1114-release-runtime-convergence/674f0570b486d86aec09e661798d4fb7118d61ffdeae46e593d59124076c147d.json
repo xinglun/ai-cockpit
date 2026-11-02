@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:fddebbab1895fa1f1f6b00263f795c5faf059c5b5c56010790656ca8cf9b8b07",
+  "materialManifestDigest": "sha256:e505b9556bc32d1b89fa29300f5ac7d4f21e5d49b1cc7cdae7fe30dd9ab77b93",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:674f0570b486d86aec09e661798d4fb7118d61ffdeae46e593d59124076c147d",
+  "reviewedSourceHead": "ba2ca3f3b9c557daf25900aa0464b29199fae34e",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:6b4141e26ae37e70405d781f433cace4fbac87fe3da022a9d4e72c97bcb508d9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/github_evidence.rs",
+      "digest": "sha256:08aeabae502b4e49e49fa3c574920dc5949515a39c19a7aa254edc7929637f63"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:e5ef90199534ce0d6bc583ecb26e943374efe2d4ffdaef28923f604539f47e87"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:3c58e49bb4a5991059d2373081d7e91baef3c3201058ae5d7618f9c019e771c1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:329027c3bb5d129b10256a0e99ab0e8108b3b53400e86887e1fb20e509092db1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:a1a43e2f973c3ba2fd85fec9c4f4738b34ea791d005cdcda1a17b2219e2b2a8a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent:codex/self_declared C20 technical review after target35 returned8pass/1canonical-Outcome mismatch and target59 passed54/54 on preceding source. Reviewed three-file production/inline-test inventory patch plus2564B peer-required guard: only both captured source identities with governance-only dirty paths can be compared; actual initial inventory is used only when those digests match. Dirty source, missing captured source, identity errors or drift retain every actual final field. The unsafe dynamic dirty-input comparison draft was stopped before Runtime material record or tests. CLI active/archive and MCP use shared helper; original final snapshot and all native receipt/source/causal checks retained. No copied historical Summary, canonical-byte relaxation, new schema/trust/permission or changed35test. Three committed-source deltas reviewed against captured before/after, every blob rehashed and working bytes exact; all other material entries identical to preceding request. Only readable committed Rust syntax Unknown is reviewed; Unknown remains Unknown and Findings fail closed.",
+  "residualRisk": "All three targeted declarations need final-source results; old14 58/2 and35 8/1 failures remain, old59 54/54 is not rebound. New inline unit tests require declaration51; MCP normal route needs existing broader regression later. This corrects clean-input fixture replay consistency, does not reconstruct arbitrary old dirty inventories or waive source drift. Not full119 or whole-WI acceptance. No new retry, network, CI, cleanup, profile configuration or Runtime-default permission.",
+  "recordedAt": "2026-11-01T14:37:55Z",
+  "receiptDigest": "sha256:26d555ff26c5dbc1f23f55922d3cdd059f98b01cfc015d46bd7e892b1bb0e08a"
+}

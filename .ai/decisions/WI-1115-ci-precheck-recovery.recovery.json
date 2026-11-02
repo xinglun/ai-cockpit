@@ -1,0 +1,26 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "agent:codex technical recovery decision at 2026-11-02T00:56:56.843151Z under conversation:Sentinel_d5942a3ad3008191b607c3921570b61e (user approval at 2026-11-02T00:54:59Z of this seven-path WI1116 CI recovery successor, exact346 Runtime lifecycle/material-mechanism amendment purpose, and necessary public governance metadata for PR1077); conversation:Sentinel_8cb70ced06848191b4f14e2e8d8a7ce3 (bounded xinglun/ai-cockpit delivery permission; actual human review/close, repository protection, later Mac/HCI and exact final release decisions remain required)",
+  "decidedAt": "2026-11-02T00:56:56.843151Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/41366590629",
+    ".ai/work-items/archive/WI-1115-ci-precheck-recovery.archive.json",
+    ".ai/decisions/WI-1115-ci-precheck-recovery.close.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:548471ca794b89880203fe0097eb443b1b20ccb5fb7852c1d2b15084fb97993a",
+  "predecessorEventsDigest": "sha256:a3aaa098733948ab5a4447c425fc0ad706d1b62bf79fd8426564b7a46e8f65bd",
+  "predecessorOutcomeDigest": "sha256:2ef257930fb5d2d473bc154f84afe667b0b8a0661ebb8ac8e582b94c031e3b53",
+  "predecessorSummaryDigest": "sha256:ca5d8e6413ba1aa14179b6aa40833dfc67b5086e3b5b67ea1d12542688e178c9",
+  "predecessorWorkItemId": "WI-1115-ci-precheck-recovery",
+  "reason": "Continue the selected1114->1115 lineage in PR1077 to repair two independently observed hosted CI roots: a Unix test-only helper emitted unused on Windows, and three stale WI1114 governance parity rows. Preserve both closed predecessors and all native/hosted failure history. This is a new agent technical successor decision, not a human close or retry decision.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only this seven-path CI recovery scope, six declared checks and existing bounded syntax-Unknown material review. Require actual new native four-binding owner confirmation before source edits/testing; genuine human close remains future. No default Runtime replacement, credentials/security change, extra cache deletion or release; Mac/full descendant supervision/HCI remain a later separate WI.",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1116-ci-parity-windows-recovery",
+  "workItemId": "WI-1115-ci-precheck-recovery"
+}

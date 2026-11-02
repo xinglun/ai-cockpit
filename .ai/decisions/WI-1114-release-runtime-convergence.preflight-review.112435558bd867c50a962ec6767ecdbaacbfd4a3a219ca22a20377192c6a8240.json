@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:728eebca280b16f33e67fd91cb7bbea657b691ed8f869149d39ffd85b0f819eb",
+  "reason": "Record actual owner precise sequence17 confirm_review received2026-10-31T21:05:45Z in messageSentinel_448c396d91e081919d5dc642ac95cfbb, responding to displayedSentinel_d08f4b2d7b8081918d80c194f65bd57c at2026-10-31T20:52:58Z. ExactC e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f/P728eebca280b16f33e67fd91cb7bbea657b691ed8f869149d39ffd85b0f819eb/Scb7f6542935a9ebe614bc664963b7e4fc2be6ca599f1e4368d899cf3aa2ecbc7/R2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65/sequence17 all checked unchanged. Recorderagent:codex records the real owner decision, not an agent impersonating a human or additional permission. Only material_review.rs+usage.rs scope124to126,119decl/allacceptance/budgets/authority/runtime unchanged. No extra retry/network/CI/push/merge/release/cleanup/defaultRuntime/trustkey/root or source authenticity waiver.",
+  "recordedAt": "2026-10-31T21:08:37.367169+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cb7f6542935a9ebe614bc664963b7e4fc2be6ca599f1e4368d899cf3aa2ecbc7",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}

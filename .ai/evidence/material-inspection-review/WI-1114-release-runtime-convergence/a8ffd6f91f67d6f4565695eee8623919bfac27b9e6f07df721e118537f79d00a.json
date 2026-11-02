@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1114-release-runtime-convergence",
+  "contractDigest": "sha256:e055b1c56fd80283dbb6e571a639ea90bdfed3bc6d3ac4c9d2bb2755b6b3660f",
+  "materialManifestDigest": "sha256:2bbd4ba03c13ce148c67da0db716f4a840849c314455adb742fd7a37bc1fb483",
+  "profileDigest": "sha256:88ec7e6fc7c4c832d7237331fb7d9c6085cc6128eaa87d68808b62ecca7891b6",
+  "requestDigest": "sha256:a8ffd6f91f67d6f4565695eee8623919bfac27b9e6f07df721e118537f79d00a",
+  "reviewedSourceHead": "57f2549e6e21e1c2200434b228479807f7b9bae7",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:2330f9b23eee0612727e5205e34d4a044d927155970e04bfbcb565c99c29fc65",
+  "authoritySource": "conversation:Sentinel_9e8d19f256dc819190fcdb1476cb5792 (approved WI-1114 five-subtask release plan; proposed initial profile only for real per-request technical review of bounded committed Rust syntax Unknown. This declaration grants no current material acceptance, does not convert Unknown into Clean and awaits exact WI-1114 confirm_review; Findings and all other causes fail closed.)",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "digest": "sha256:a55cab34c7a19d7bab013f0eb018fea8e16718bc13e56f20624a0e5907c9f2da"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/archive.rs",
+      "digest": "sha256:806e2e506419a2778980bf0f90afd27af771287660497a46f9100cb0eaec4575"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/github.rs",
+      "digest": "sha256:dfbb4e37ec2aa4a0cab496ccbf5761d1141047542bf64b2fe67e6504082b44bf"
+    },
+    {
+      "path": "crates/cockpit-repository/src/ci_admission/tests.rs",
+      "digest": "sha256:b33f6af141ef74d5c724c8e43104bb097cd842c644f3f0809172c746099684b8"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:6c59838d4709e4ce1dd7f74e5cacd130fb48ced87be24c360415cec8278bcedc"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "digest": "sha256:78cbffa1820dd7e30b5d8e6a90c29008fb6b96d5a3db6f0418051702ab057ef4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "digest": "sha256:d4eb0002a80df8f46cf14ba1c4e001b38f3e67477f89ee8943863921671b3b01"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "digest": "sha256:c28f6bd5b6f70939c139342a5a083a58bb8388cb65c0205fd61f8d7cb72ec9e1"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:0c0d202a204621a23d1c1682d8dd6e79f841ab7e50d4b5746a409c0e8696ece4"
+    }
+  ],
+  "rationale": "Actual agent technical review of current sha256:a8ffd6f91f67d6f4565695eee8623919bfac27b9e6f07df721e118537f79d00a HEAD 57f2549e6e21e1c2200434b228479807f7b9bae7. C17 real owner confirmation recorded through native controls. Exactly two newly approved MCP test entries added, byte-identical to independently reviewed1282B patch2a1da94f4d1a54422aad0cc5f304070ac6d739bf41abcc79487ab64f046fa0a4. Strict inventory44to46 plus each new portable evidence tool exactlyonce; all previous assertions remain. Other46 complete entries including all9 syntax Unknown byte-identical to last reviewed material. Request domain canonical digest independently recomputed, noFinding. Existing embedded2330 analysis/profile/policy/base unchanged, no authority/budget/execution change. Real agent self_declared technical decision, not human or provider attestation.",
+  "residualRisk": "Nine permitted Rust syntax Unknown remainUnknown. Actual material_review old44 RED preserved; usage was not reached before, no claim of its RED. New HEAD tests not yet run. No all119/fullWI/comparableCI30percent/realGithubsource/Macfulltree/Windows completion. Cold crosshost bytes/hash/marker remainUntrusted, local witness assumes trustedservice/executionadapter not malicioussameprocessSDK or arbitrarysupervisor. Publisher error after persistent write does not establish rollback. No newnetwork/CI/push/merge/release/cleanup/defaultRuntime/trustroot/key/permission.",
+  "recordedAt": "2026-10-31T21:11:28Z",
+  "receiptDigest": "sha256:eba48d390eab4278537d2dda177847ccb9f72ab1a155db8b67faad7a4a03c8b7"
+}

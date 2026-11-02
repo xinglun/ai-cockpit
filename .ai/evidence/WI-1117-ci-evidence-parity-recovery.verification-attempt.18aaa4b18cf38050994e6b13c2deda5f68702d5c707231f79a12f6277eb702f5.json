@@ -1,0 +1,116 @@
+{
+  "checkpointId": "sha256:18aaa4b18cf38050994e6b13c2deda5f68702d5c707231f79a12f6277eb702f5",
+  "commands": [
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "efc9f309f1500e433240a76fe5dc76db64abb53b",
+      "commandDigest": "sha256:3d71cabcb6e79a8d9cec6a925d7f0f62e1f196d365bcc12bd1ee117f8cd76cbd",
+      "nodeId": "project-command-6",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
+  "contractExecutionScopeDigest": "sha256:221f9aff3ebb52229b6a5083ddc4979acba62337429362fce29172dba548d29f",
+  "createdAt": "2026-11-02T09:16:09.972373327Z",
+  "executionId": "sha256:11b1b627a80cb4509030dfce3b95a1cf37e4dde575a9b8caf8c4ba0e27900514",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:3d71cabcb6e79a8d9cec6a925d7f0f62e1f196d365bcc12bd1ee117f8cd76cbd",
+      "deadlineMs": 1793611199992,
+      "elapsedMs": 69956,
+      "exitCode": 0,
+      "nodeId": "project-command-6",
+      "passed": true,
+      "spawned": true,
+      "stderr": "20202020436865636b696e6720636f636b7069742d7265706f7369746f72792076312e302e3120282f776f726b73706163652f61692d636f636b7069742d7769313131342d72656c656173652d72756e74696d652d636f6e76657267656e63652f6372617465732f636f636b7069742d7265706f7369746f7279290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e2035362e3135730a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 69969,
+    "executionElapsedMs": 69969,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:3d71cabcb6e79a8d9cec6a925d7f0f62e1f196d365bcc12bd1ee117f8cd76cbd",
+        "deadlineMs": 1793611199992,
+        "elapsedMs": 69956,
+        "exitCode": 0,
+        "nodeId": "project-command-6",
+        "passed": true,
+        "spawned": true,
+        "stderr": "20202020436865636b696e6720636f636b7069742d7265706f7369746f72792076312e302e3120282f776f726b73706163652f61692d636f636b7069742d7769313131342d72656c656173652d72756e74696d652d636f6e76657267656e63652f6372617465732f636f636b7069742d7265706f7369746f7279290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e2035362e3135730a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-6",
+        "outputDigest": "sha256:561cf8151d14beb3cde845a58b2496c57be6a51be15f13e206670ae97dcc3897",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fff255bc4658bb3db2566bbc1a46c6853ffde8f0620240fb6e5d5e76f04f5971",
+  "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1117-ci-evidence-parity-recovery"
+}

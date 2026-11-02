@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:68f812726d66ce15ecded2a4b91ca2d0d37942f8075888a941ef30a3e593b1bf",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ebdb6b7872119ba4291330af7fc5c3d941ba961a7f9077fbdd15f593dcc3bed5",
+  "reason": "Record the actual owner sequence3 confirm_review from trusted user message Sentinel_1f77265c77248191b6dfd8701337f57e at 2026-10-29 10:54 UTC accepting proposal Sentinel_289efbc5336c8191bfd416b2e5761434. Exact five added paths only: canonical WI1114 preflight-review.json, three reference-parity ledgers, and cockpit-interface interface_description.rs; scope99 to104. The four exact bindings were rechecked before recording. recordedAt is record time, not a claimed exact message timestamp. Preserve actual preflight red, pending source/material projection and audit-query default metadata RED; this scope confirmation is not acceptance of failing verification, a Runtime switch, Mac admission, publication, or permission expansion. Quality CI total8 including main, release total2 and all governance/caller/budgets remain unchanged. This records the received human decision, not an agent-created approval.",
+  "recordedAt": "2026-10-29T10:55:43.238052+00:00",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:94904d41ac5f1f4af17abfab59a153efe32dba2807418db2e6e263a185ba42ca",
+  "schemaVersion": 1,
+  "workItemId": "WI-1114-release-runtime-convergence"
+}
