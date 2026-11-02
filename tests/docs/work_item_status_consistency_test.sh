@@ -1001,6 +1001,83 @@ projection("pending");inventory("closed")
 sv,sclose=native_verification_close(s,sc)
 assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
 projection("closed");inventory("recovered")
+
+# Native equivalent representations retain all C/S/formal/close bindings.
+for wi in (p,s):
+ manifest_path=root/f".ai/work-items/archive/{wi}.archive.json"
+ close_path=root/f".ai/decisions/{wi}.close.json"
+ originals={target:target.read_bytes() for target in (manifest_path,close_path)}
+ def own_manifest(value):
+  put(manifest_path.relative_to(root),value)
+  close=json.loads(originals[close_path]);close["ordinaryCleanupBinding"]["archiveManifestDigest"]=module.raw_file_digest(manifest_path)
+  close["ordinaryCleanupBindingDigest"]=canonical(close["ordinaryCleanupBinding"]);put(close_path.relative_to(root),close)
+ manifest=json.loads(originals[manifest_path]);manifest.pop("repositoryId");own_manifest(manifest)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+ for wrong in (None,"sha256:"+"0"*64):
+  bad=copy.deepcopy(manifest);bad["repositoryId"]=wrong;own_manifest(bad)
+  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ for target,raw in originals.items():target.write_bytes(raw)
+# canonical envelope + raw archive are the exact two digest kinds of native approval.
+for wi in (p,s):
+ close_path=root/f".ai/decisions/{wi}.close.json";raw=close_path.read_bytes();close=json.loads(raw)
+ formal=json.loads((root/f".ai/evidence/{wi}.verification.json").read_bytes())
+ correct=[module.raw_file_digest(root/f".ai/work-items/archive/{wi}.archive.json"),canonical(formal)]
+ close["structuredDecision"]["evidenceRefs"]=correct;put(close_path.relative_to(root),close)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery)==("closed",s)
+ archived=module.archived_recovery_bundle(root,wi,rid)
+ assert not module.terminal_successor_is_verified_and_closed(root,wi,rid,archived)
+ for index in (0,1):
+  bad=copy.deepcopy(close);bad["structuredDecision"]["evidenceRefs"][index]="sha256:"+"0"*64
+  put(close_path.relative_to(root),bad)
+  assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+ close_path.write_bytes(raw)
+# The four exact frozen artifact paths are a native recovery representation.
+original_recovery=recovery_path.read_bytes();native_artifacts=copy.deepcopy(recovery)
+native_artifacts["evidenceRefs"]=[f".ai/work-items/archive/{p}.{ending}" for ending in ("contract.json","summary.json","outcome.json","events.jsonl")]
+put(recovery_path.relative_to(root),native_artifacts)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_artifacts)==("closed",s)
+for index in range(4):
+ wrong=copy.deepcopy(native_artifacts);wrong["evidenceRefs"][index]=wrong["evidenceRefs"][index].replace(p,"WI-1299-foreign")
+ put(recovery_path.relative_to(root),wrong)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,wrong) is None
+recovery_path.write_bytes(original_recovery)
+# An accepted successor-close citation also binds an exact native attempt whose
+# complete receipt equals the parent's frozen successful formal receipt.
+parent_close=root/f".ai/decisions/{p}.close.json";original_parent_close=parent_close.read_bytes()
+close=json.loads(original_parent_close);close["structuredDecision"]["evidenceRefs"]=[recovery_path.relative_to(root).as_posix(),f".ai/decisions/{s}.close.json"]
+put(parent_close.relative_to(root),close)
+attempt_relative=f".ai/evidence/{p}.verification-attempt.{('5'*64)}.json"
+formal=json.loads((root/f".ai/evidence/{p}.verification.json").read_bytes())
+attempt={"schemaVersion":1,"protocolVersion":1,"attemptId":"sha256:"+"5"*64,"kind":"verification_attempt","state":"execution_completed","workItemId":p,"repositoryId":rid,"contractDigest":canonical(pc),"repositorySnapshotDigest":snapshot,"runtimeDigest":runtime,"passed":True,"receipt":formal["receipt"]}
+attempt_path=put(attempt_relative,attempt);native_attempt=copy.deepcopy(recovery);native_attempt["evidenceRefs"]=[f".ai/work-items/archive/{p}.outcome.json",attempt_relative]
+put(recovery_path.relative_to(root),native_attempt)
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt)==("closed",s)
+child_close=root/f".ai/decisions/{s}.close.json";child_raw=child_close.read_bytes();child_close.unlink()
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt) is None
+child_close.write_bytes(child_raw)
+for mutate in (
+ lambda value:value.update(workItemId="WI-1299-foreign"),
+ lambda value:value.update(repositoryId="sha256:"+"0"*64),
+ lambda value:value.update(contractDigest="sha256:"+"0"*64),
+ lambda value:value.update(repositorySnapshotDigest="sha256:"+"0"*64),
+ lambda value:value.update(runtimeDigest="sha256:"+"0"*64),
+ lambda value:value["receipt"].update(passed=False),
+):
+ bad=copy.deepcopy(attempt);mutate(bad);put(attempt_relative,bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,native_attempt) is None
+put(attempt_relative,attempt)
+for refs in (["verified"],["sha256:"+"0"*64],["https://example.invalid/unverified"]):
+ bad=copy.deepcopy(native_attempt);bad["evidenceRefs"]=refs;put(recovery_path.relative_to(root),bad)
+ assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,bad) is None
+parent_close.write_bytes(original_parent_close);recovery_path.write_bytes(original_recovery);attempt_path.unlink()
+# A finalize-looking string/file is never the full resource-finalization proof.
+close=json.loads(original_parent_close);close.pop("ordinaryCleanupBinding");close.pop("ordinaryCleanupBindingDigest")
+finalize_relative=f".ai/decisions/{p}.finalize.json";close["structuredDecision"]["evidenceRefs"]=[finalize_relative]
+put(parent_close.relative_to(root),close);finalize=put(finalize_relative,{"workItemId":p,"repositoryId":rid,"result":{"disposition":"deleted"}})
+assert module.ordinary_closed_successor_state(root,p,rid,recovery_path,recovery) is None
+parent_close.write_bytes(original_parent_close);finalize.unlink()
+print("exact native close/reference representation cases passed")
+
 for target,mutate in [
  (root/f".ai/decisions/{s}.close.json",lambda v:v.update(finalReportDigest="sha256:"+"0"*64)),
  (root/f".ai/decisions/{s}.close.json",lambda v:v["structuredDecision"].update(decision="rejected")),

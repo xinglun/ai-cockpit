@@ -357,17 +357,17 @@ def ordinary_cleanup_tuple_matches(
     return True
 
 
-def terminal_successor_is_verified_and_closed(
+def _verified_native_close_record(
     repository: Path,
     work_item_id: str,
     repository_id: str,
     bundle: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]],
-) -> bool:
+) -> dict[str, Any] | None:
     _, contract, summary, _ = bundle
     verification_relative = f".ai/evidence/{work_item_id}.verification.json"
     verification = load_regular_json(repository / verification_relative)
     if not verification:
-        return False
+        return None
     contract_digest = verification.get("contractDigest")
     snapshot_digest = verification.get("repositorySnapshotDigest")
     receipt = verification.get("receipt")
@@ -398,15 +398,15 @@ def terminal_successor_is_verified_and_closed(
         or plan_receipt.get("repositoryId") != repository_id
         or plan_receipt.get("repositorySnapshotDigest") != snapshot_digest
     ):
-        return False
+        return None
     close_relative = f".ai/decisions/{work_item_id}.close.json"
     close = load_regular_json(repository / close_relative)
     if not close or not valid_close(repository / close_relative, work_item_id, repository_id):
-        return False
+        return None
     final_report = close.get("finalReport")
     bindings = final_report.get("bindings") if isinstance(final_report, dict) else None
     structured = close.get("structuredDecision")
-    return bool(
+    return close if (
         isinstance(final_report, dict)
         and close.get("finalReportDigest") == canonical_json_digest(final_report)
         and final_report.get("status") == "verified"
@@ -419,12 +419,25 @@ def terminal_successor_is_verified_and_closed(
         and isinstance(structured, dict)
         and structured.get("decision") in {"approved", "confirmed"}
         and close.get("humanDecision") == structured.get("decision")
-        and verification_relative in structured.get("evidenceRefs", [])
         and (
             not any(key in close for key in ("ordinaryCleanupBinding", "ordinaryCleanupBindingDigest"))
             or ordinary_cleanup_tuple_matches(repository, work_item_id, repository_id, contract, close)
         )
+    ) else None
+
+def terminal_successor_is_verified_and_closed(
+    repository: Path,
+    work_item_id: str,
+    repository_id: str,
+    bundle: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]],
+) -> bool:
+    close = _verified_native_close_record(repository, work_item_id, repository_id, bundle)
+    return bool(
+        close
+        and f".ai/evidence/{work_item_id}.verification.json"
+        in close["structuredDecision"].get("evidenceRefs", [])
     )
+
 
 
 def valid_terminal_successor_lineage(
@@ -866,7 +879,7 @@ def ordinary_closed_successor_state(
     def bundle(wi: str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]] | None:
         manifest = strict(f".ai/work-items/archive/{wi}.archive.json")
         if (not manifest or manifest.get("workItemId") != wi
-                or manifest.get("repositoryId") != repository_id
+                or ("repositoryId" in manifest and manifest["repositoryId"] != repository_id)
                 or manifest.get("state") != "archived"
                 or not isinstance(manifest.get("files"), dict)):
             return None
@@ -888,17 +901,17 @@ def ordinary_closed_successor_state(
             return None
         return manifest, records["contract"], records["summary"], records["outcome"]
 
-    def complete(wi: str, archived: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]) -> bool:
+    def complete(wi: str, archived: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]], selected_recovery: str | None = None, selected_successor: str | None = None) -> str | None:
         verification = strict(f".ai/evidence/{wi}.verification.json")
         close = strict(f".ai/decisions/{wi}.close.json")
         if not verification or not close:
-            return False
+            return None
         structured = close.get("structuredDecision")
         if (close.get("humanDecision") not in {"approved", "confirmed"} or not isinstance(structured, dict)
                 or structured.get("decision") != close.get("humanDecision")
                 or any(not isinstance(structured.get(key), str) or not structured[key].strip()
                        for key in ("actor", "authoritySource", "reason", "decidedAt"))):
-            return False
+            return None
         receipt = verification.get("receipt")
         plan = receipt.get("planReceipt") if isinstance(receipt, dict) else None
         summary = archived[2]
@@ -911,23 +924,42 @@ def ordinary_closed_successor_state(
                 or summary.get("state") != "finish_ready"
                 or summary.get("preflightState") != "green"
                 or not isinstance(plan, dict)):
-            return False
-        if not terminal_successor_is_verified_and_closed(repository, wi, repository_id, archived):
-            return False
+            return None
+        bound_close = _verified_native_close_record(repository, wi, repository_id, archived)
+        if bound_close is None or bound_close != close:
+            return None
+        references = structured["evidenceRefs"]
         if any(key in close for key in ("ordinaryCleanupBinding", "ordinaryCleanupBindingDigest")):
-            return ordinary_cleanup_tuple_matches(repository, wi, repository_id, archived[1], close)
-        # Preserve real existing resource closes only through their existing
-        # complete native finalization validator. Missing/bad ordinary tuple is
-        # not allowed to fall back to a minimal close or an untrusted flag.
+            if not ordinary_cleanup_tuple_matches(repository, wi, repository_id, archived[1], close):
+                return None
+            if f".ai/evidence/{wi}.verification.json" in references:
+                return "direct"
+            # Native close accepts digest_json(envelope), whereas its archive
+            # approval binds exact manifest bytes. Do not substitute raw JSON
+            # formatting bytes for the canonical verification envelope digest.
+            if (canonical_json_digest(verification) in references
+                    and raw_file_digest(repository / f".ai/work-items/archive/{wi}.archive.json") in references):
+                return "direct"
+            if (selected_recovery is not None and selected_successor is not None
+                    and selected_recovery in references
+                    and f".ai/decisions/{selected_successor}.close.json" in references):
+                return "successor_close"
+            return None
+        # Resource closes bind the native finalization head/root, not a new
+        # ordinary path requirement. Reuse the complete existing chain validator.
         from promote_closed_work_item import PromotionError, validate_terminal_evidence
         try:
             terminal = validate_terminal_evidence(repository, wi)
         except (PromotionError, OSError, ValueError, KeyError, TypeError):
-            return False
-        return terminal.finalization_path is not None
+            return None
+        if (terminal.finalization_path is not None
+                and any(path in references for path in (
+                    terminal.finalization_path, f".ai/decisions/{wi}.finalize.json"))):
+            return "resource"
+        return None
 
     predecessor_bundle = bundle(predecessor)
-    if predecessor_bundle is None or not complete(predecessor, predecessor_bundle):
+    if predecessor_bundle is None:
         return None
     try:
         relative = recovery_path.relative_to(repository).as_posix()
@@ -982,6 +1014,9 @@ def ordinary_closed_successor_state(
             or any(recovery.get(key) is not None for key in
                    ("successorBindingMode", "currentContractDigest", "predecessorVerificationEvidenceDigest"))
             or not recovery_binds_archive_bundle_digests(repository, predecessor, recovery, predecessor_bundle)):
+        return None
+    parent_close_binding = complete(predecessor, predecessor_bundle, relative, successor)
+    if parent_close_binding is None:
         return None
     recovery_references_parent_close = (
         f".ai/decisions/{predecessor}.close.json" in recovery["evidenceRefs"]
@@ -1045,7 +1080,8 @@ def ordinary_closed_successor_state(
         # retirement permits only the predecessor's already accepted result
         # to remain closed, with the child reported separately as nonverified.
         retirement = strict(retirement_relative)
-        if (close_path.exists() or close_path.is_symlink() or not manifest or not retirement
+        if (parent_close_binding == "successor_close"
+                or close_path.exists() or close_path.is_symlink() or not manifest or not retirement
                 or type(retirement.get("schemaVersion")) is not int
                 or retirement.get("disposition") != "replaced"
                 or manifest.get("state") != "replaced"
@@ -1088,8 +1124,43 @@ def ordinary_closed_successor_state(
                     or not recovery_at < decision_at <= recorded_at):
                 return None
         return "retired", successor
-    if not (recovery_references_parent_close and recovery_references_parent_archive):
-        return None  # preserve both original reference gates for pending/closed children
+    references = recovery["evidenceRefs"]
+    artifact_paths = {
+        f".ai/work-items/archive/{predecessor}.{suffix}"
+        for suffix in ("contract.json", "summary.json", "outcome.json", "events.jsonl")
+    }
+    artifact_set_bound = artifact_paths <= set(references)
+    resource_archive_bound = (
+        parent_close_binding == "resource" and recovery_references_parent_archive
+        and f".ai/work-items/archive/{predecessor}.outcome.json" in references
+    )
+    same_native_attempt_bound = False
+    if parent_close_binding == "successor_close":
+        attempts = [reference for reference in references if re.fullmatch(
+            rf"\.ai/evidence/{re.escape(predecessor)}\.verification-attempt\.[0-9a-f]{{64}}\.json", reference
+        )]
+        if len(attempts) == 1:
+            attempt = strict(attempts[0])
+            formal = strict(f".ai/evidence/{predecessor}.verification.json")
+            expected_id = "sha256:" + attempts[0].rsplit(".", 2)[-2]
+            same_native_attempt_bound = bool(
+                attempt and formal
+                and attempt.get("kind") == "verification_attempt"
+                and attempt.get("attemptId") == expected_id
+                and attempt.get("state") == "execution_completed"
+                and attempt.get("passed") is True
+                and attempt.get("workItemId") == predecessor
+                and attempt.get("repositoryId") == repository_id
+                and attempt.get("contractDigest") == canonical_json_digest(predecessor_bundle[1])
+                and attempt.get("repositorySnapshotDigest") == formal.get("repositorySnapshotDigest")
+                and attempt.get("runtimeDigest") == formal.get("runtimeDigest")
+                and isinstance(attempt.get("receipt"), dict)
+                and canonical_json_digest(attempt["receipt"]) == formal.get("receiptDigest")
+                and f".ai/work-items/archive/{predecessor}.outcome.json" in references
+            )
+    if not ((recovery_references_parent_close and recovery_references_parent_archive)
+            or artifact_set_bound or resource_archive_bound or same_native_attempt_bound):
+        return None  # opaque strings/URLs alone never establish a normal binding
     verification_path = repository / f".ai/evidence/{successor}.verification.json"
     verification_exists = verification_path.exists() or verification_path.is_symlink()
     verification = strict(f".ai/evidence/{successor}.verification.json") if verification_exists else None
@@ -1111,6 +1182,8 @@ def ordinary_closed_successor_state(
                 or plan.get("repositorySnapshotDigest") != verification.get("repositorySnapshotDigest")):
             return None
     if location == "active":
+        if parent_close_binding == "successor_close":
+            return None  # this native decision explicitly relies on a closed child
         if close_path.exists() or close_path.is_symlink():
             return None
         if any(str(record.get(key, "")).lower() in {"archived", "closed", "complete", "completed", "implemented", "recovered", "terminal"}
@@ -1123,6 +1196,9 @@ def ordinary_closed_successor_state(
         return None
     if close_path.exists() or close_path.is_symlink():
         return ("closed", successor) if complete(successor, successor_bundle) else None
+    # A close explicitly citing its selected child cannot be satisfied by pending.
+    if parent_close_binding == "successor_close":
+        return None
     # A genuinely archived/verified child still awaiting its human close is pending.
     return "pending", successor
 
