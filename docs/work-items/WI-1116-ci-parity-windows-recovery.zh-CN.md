@@ -9,11 +9,14 @@ workItemId: WI-1116-ci-parity-windows-recovery
 status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1116-ci-parity-windows-recovery
+terminalArchive: .ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1116-ci-parity-windows-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1116-ci-parity-windows-recovery.close.json
 ---
 
 ## 当前已验收状态
 
-这项有限的Unix wrapper／parity修复已基于源码 cc7da2d410efe05d0d0c49d68d784b9c3c6e1939 的六项实际本地声明验收关闭。当前恢复后继 WI-1117 尚在进行，不把其结果算到本项。CI run41376207420 的Windows boundaries套件通过，但repository-library根harness为253通过／1失败，失败位于evidence_store optional_directory_tests，首次Result／errno未知；这不是完整Windows或全CI通过。Outcome ENAMETOOLONG显示风险、旧118/1及后续Mac/HCI义务保留。
+本项保留源码 cc7da2d410efe05d0d0c49d68d784b9c3c6e1939 六项检查后的真实验收关闭。恢复后继 WI-1117 已经九项本地检查和 CI run41423500056 验收关闭：六项作业／七项检查均成功，含 Windows 库254/254和 boundaries。后续结果属于源码5e1af996be34724a8cdf7bed5595b96c425979b3，不冒充本项源码复跑。此前 Windows253/1及首次errno丢失仍保留为历史证据。PR1077尚未合并，WI-1118只做有限文档终态投影；旧118/1和Outcome ENAMETOOLONG风险保留。A/B与合法合并后，先处理闲置资源和云环境，再开独立Mac／完整后代监督／HCI工作项；不声称清理、Mac或发布完成。
 
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json`
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json`

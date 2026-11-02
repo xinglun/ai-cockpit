@@ -9,11 +9,14 @@ workItemId: WI-1116-ci-parity-windows-recovery
 status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1116-ci-parity-windows-recovery
+terminalArchive: .ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1116-ci-parity-windows-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1116-ci-parity-windows-recovery.close.json
 ---
 
 ## 現在の受入れ状態
 
-この限定Unix wrapper／parity修正は source cc7da2d410efe05d0d0c49d68d784b9c3c6e1939 の実際のローカル6宣言で受け入れられ close 済みです。復旧後継 WI-1117 は進行中で、その結果を本項に加算しません。CI run41376207420 のWindows boundariesは成功、repository-libraryのroot harnessは253成功／1失敗（evidence_store optional_directory_tests）で、最初のResult／errnoは不明です。完全なWindows／全CI成功ではありません。Outcome ENAMETOOLONG、旧118/1、後続Mac/HCI義務を残します。
+本項は source cc7da2d410efe05d0d0c49d68d784b9c3c6e1939 の6検査による実際の受入れcloseを保持します。復旧後継 WI-1117 は9つのローカル検査とCI run41423500056で受入れclose済みです。6 jobs／7 checks、Windows library254/254とboundariesが成功しました。後続結果はsource5e1af996be34724a8cdf7bed5595b96c425979b3に属し、本項の再実行とは扱いません。以前のWindows253/1と失われた最初のerrnoは履歴として保存します。PR1077は未mergeで、WI-1118が限定した最終文書投影を行います。旧118/1とOutcome ENAMETOOLONGのリスクは残ります。A/Bと正規merge後、未使用資源とcloud清掃を先に行い、その後独立したMac／完全な子孫監督／HCI WIへ進みます。清掃・Mac・公開の完了を主張しません。
 
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json`
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json`

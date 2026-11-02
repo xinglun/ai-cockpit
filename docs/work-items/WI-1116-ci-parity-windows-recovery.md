@@ -9,11 +9,14 @@ workItemId: WI-1116-ci-parity-windows-recovery
 status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1116-ci-parity-windows-recovery
+terminalArchive: .ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1116-ci-parity-windows-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1116-ci-parity-windows-recovery.close.json
 ---
 
 ## Current accepted state
 
-This bounded Unix-wrapper/parity repair was accepted and closed after six actual local declarations on source cc7da2d410efe05d0d0c49d68d784b9c3c6e1939. The current recovery WI-1117 is active; its result is not credited here. CI run41376207420 proved the Windows boundaries suite, while the repository-library root was 253 passed / 1 failed in evidence_store optional_directory_tests; the first returned Result/errno is unknown. This is not full Windows or global CI success. Outcome ENAMETOOLONG display risk, old118/1 and later Mac/HCI obligations remain.
+This bounded wrapper/parity repair retains its own six-check accepted close on source cc7da2d410efe05d0d0c49d68d784b9c3c6e1939. Its recovery WI-1117 has now been genuinely accepted and closed after nine local checks and CI run41423500056: all six jobs/seven checks passed, including Windows library254/254 and boundaries. Those later results belong to source5e1af996be34724a8cdf7bed5595b96c425979b3, not a re-execution of WI-1116. The earlier Windows253/1 failure and lost first errno remain historical evidence. PR1077 is not yet merged; WI-1118 handles the bounded final documentation projection. Old118/1 and Outcome ENAMETOOLONG risks remain. After A/B and lawful merge, idle resources and cloud cleanup precede the independent Mac/full descendants/HCI WI; no cleanup, Mac or release completion is claimed.
 
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json`
 - `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json`
