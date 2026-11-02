@@ -6,10 +6,22 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1116-ci-parity-windows-recovery
-status: in_progress
+status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1116-ci-parity-windows-recovery
 ---
+
+## 当前已验收状态
+
+这项有限的Unix wrapper／parity修复已基于源码 cc7da2d410efe05d0d0c49d68d784b9c3c6e1939 的六项实际本地声明验收关闭。当前恢复后继 WI-1117 尚在进行，不把其结果算到本项。CI run41376207420 的Windows boundaries套件通过，但repository-library根harness为253通过／1失败，失败位于evidence_store optional_directory_tests，首次Result／errno未知；这不是完整Windows或全CI通过。Outcome ENAMETOOLONG显示风险、旧118/1及后续Mac/HCI义务保留。
+
+- `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json`
+- `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json`
+- `.ai/evidence/WI-1116-ci-parity-windows-recovery.verification.json`
+- `.ai/decisions/WI-1116-ci-parity-windows-recovery.close.json`
+- `.ai/decisions/WI-1116-ci-parity-windows-recovery.recovery.json`
+
+## 历史计划（保留，不代表现行验收）
 
 # WI-1116-ci-parity-windows-recovery — Windows 测试 cfg 与治理 parity 恢复
 

@@ -951,10 +951,34 @@ mod optional_directory_tests {
                 .is_some()
         );
         std::fs::write(root.path().join("file"), b"not a directory").expect("fixture file");
-        assert!(matches!(
-            open_optional_cap_directory_nofollow(&parent, "file", &root.path().join("file")),
-            Err(ObserverError::State { message, .. }) if message.contains("store_path_invalid")
-        ));
+        let file_result =
+            open_optional_cap_directory_nofollow(&parent, "file", &root.path().join("file"));
+        assert!(
+            matches!(
+                &file_result,
+                Err(ObserverError::State { message, .. }) if message.contains("store_path_invalid")
+            ),
+            "ordinary file must remain invalid; result={file_result:?}; backend={}",
+            {
+                // Failure-only diagnostic. This remains capability-relative and
+                // drops any successful probe before the assertion panics.
+                #[cfg(windows)]
+                {
+                    match parent.open_dir_nofollow("file") {
+                        Ok(directory) => format!("opened: metadata={:?}", directory.dir_metadata()),
+                        Err(error) => format!(
+                            "kind={:?}, raw_os_error={:?}, error={error}",
+                            error.kind(),
+                            error.raw_os_error()
+                        ),
+                    }
+                }
+                #[cfg(not(windows))]
+                {
+                    "Windows backend probe not applicable".to_string()
+                }
+            }
+        );
     }
 
     #[cfg(unix)]

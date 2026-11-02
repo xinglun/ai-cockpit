@@ -6,10 +6,22 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1114-release-runtime-convergence
-status: in_progress
+status: recovered
 authority: native-contract
 lastVerifiedBy: WI-1114-release-runtime-convergence
 ---
+
+## 現在の受入れ状態
+
+通常交付は source ae867a986c32ce011b174b5295a1a275b5ec8e1b の実際のローカル119/119宣言で受け入れられ close 済みです。復旧系列は WI-1115、WI-1116 から PR1077 の進行中 WI-1117 に続きます。CI ≥30%、trusted GitHub admission、main CI の必須目標は取消であり成功ではありません。以前の118/1原因は未解明です。Mac実機／完全な子孫監督、必要なHCI修正、後続Sentinel受入れは別作業に残り、全CI・merge・release成功を主張しません。
+
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.contract.json`
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.archive.json`
+- `.ai/evidence/WI-1114-release-runtime-convergence.verification.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.close.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.recovery.86dee903f9a145ba6f265168fbfde9f85a881042117a2800337d88f8ac4ad76b.json`
+
+## 保存した当初計画（現在の受入れ条件ではありません）
 
 # WI-1114 — Runtime リリース収束
 

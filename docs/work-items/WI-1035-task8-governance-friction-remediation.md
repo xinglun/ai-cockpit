@@ -4,10 +4,22 @@ workItemId: WI-1035-task8-governance-friction-remediation
 title: Task 8 governance-friction remediation
 description: Resolve the complete 20-item Task 8 governance-friction inventory in one serial Work Item, expose usable Agent collaboration capabilities, and verify the resulting behavior before the release-review boundary.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1035-task8-governance-friction-remediation
 ---
+
+## Current accepted state
+
+Its own result has a genuine confirmed close. The selected digest-named successor recovery below continues the Task8 lineage through WI-1036, which also has a confirmed close; all three language projections therefore use Recovered consistently. Those are preserved historical records, not new executions or results rebound to WI-1117. No publication claim follows from this documentation repair.
+
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json`
+- `.ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json`
+- `.ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.close.json`
+- `.ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json`
+
+## Preserved original plan (historical, not current acceptance)
 
 [简体中文](WI-1035-task8-governance-friction-remediation.zh-CN.md) · [日本語](WI-1035-task8-governance-friction-remediation.ja.md)
 

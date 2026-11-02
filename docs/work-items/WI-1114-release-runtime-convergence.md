@@ -6,10 +6,22 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1114-release-runtime-convergence
-status: in_progress
+status: recovered
 authority: native-contract
 lastVerifiedBy: WI-1114-release-runtime-convergence
 ---
+
+## Current accepted state
+
+The ordinary delivery was genuinely accepted and closed after 119/119 local declarations on source ae867a986c32ce011b174b5295a1a275b5ec8e1b. Its selected recovery continues through WI-1115 and WI-1116 to the active WI-1117 in PR1077. CI ≥30%, trusted GitHub admission and a main-CI hard goal were cancelled, not passed. The earlier 118/1 cause remains unknown. Mac real execution/full descendant supervision, necessary HCI correction and later Sentinel acceptance remain later independent work. No global CI, merge or release success is asserted.
+
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.contract.json`
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.archive.json`
+- `.ai/evidence/WI-1114-release-runtime-convergence.verification.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.close.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.recovery.86dee903f9a145ba6f265168fbfde9f85a881042117a2800337d88f8ac4ad76b.json`
+
+## Preserved original plan (historical, not current acceptance)
 
 # WI-1114 — Runtime release convergence
 

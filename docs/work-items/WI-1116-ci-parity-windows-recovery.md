@@ -6,10 +6,22 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1116-ci-parity-windows-recovery
-status: in_progress
+status: implemented
 authority: native-contract
 lastVerifiedBy: WI-1116-ci-parity-windows-recovery
 ---
+
+## Current accepted state
+
+This bounded Unix-wrapper/parity repair was accepted and closed after six actual local declarations on source cc7da2d410efe05d0d0c49d68d784b9c3c6e1939. The current recovery WI-1117 is active; its result is not credited here. CI run41376207420 proved the Windows boundaries suite, while the repository-library root was 253 passed / 1 failed in evidence_store optional_directory_tests; the first returned Result/errno is unknown. This is not full Windows or global CI success. Outcome ENAMETOOLONG display risk, old118/1 and later Mac/HCI obligations remain.
+
+- `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.contract.json`
+- `.ai/work-items/archive/WI-1116-ci-parity-windows-recovery.archive.json`
+- `.ai/evidence/WI-1116-ci-parity-windows-recovery.verification.json`
+- `.ai/decisions/WI-1116-ci-parity-windows-recovery.close.json`
+- `.ai/decisions/WI-1116-ci-parity-windows-recovery.recovery.json`
+
+## Preserved original plan (historical, not current acceptance)
 
 # WI-1116-ci-parity-windows-recovery — Windows test-cfg and governance parity recovery
 

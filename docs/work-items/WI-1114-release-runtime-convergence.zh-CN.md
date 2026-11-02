@@ -6,10 +6,22 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1114-release-runtime-convergence
-status: in_progress
+status: recovered
 authority: native-contract
 lastVerifiedBy: WI-1114-release-runtime-convergence
 ---
+
+## 当前已验收状态
+
+普通交付已基于源码 ae867a986c32ce011b174b5295a1a275b5ec8e1b 的实际119/119本地声明验收关闭；恢复链经 WI-1115、WI-1116 继续到 PR1077 中尚在进行的 WI-1117。CI提速≥30%、可信GitHub接纳及一次main CI硬目标已取消，不算通过；此前118/1的原因仍未知。Mac实机／完整后代监督、必要HCI矫正及后续Sentinel验收仍属后继独立工作，不声称全CI、合并或发布完成。
+
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.contract.json`
+- `.ai/work-items/archive/WI-1114-release-runtime-convergence.archive.json`
+- `.ai/evidence/WI-1114-release-runtime-convergence.verification.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.close.json`
+- `.ai/decisions/WI-1114-release-runtime-convergence.recovery.86dee903f9a145ba6f265168fbfde9f85a881042117a2800337d88f8ac4ad76b.json`
+
+## 历史计划（保留，不代表现行验收）
 
 # WI-1114 — Runtime 发布收敛
 
