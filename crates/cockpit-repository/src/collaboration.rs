@@ -3968,7 +3968,7 @@ fn render_parent_cleanup(
 }
 
 // Compatibility wrapper for the existing finite owned-child test fixtures.
-#[cfg(test)]
+#[cfg(all(test, unix))]
 fn terminate_composition_child_until(
     child: &mut Child,
     deadline: Instant,
