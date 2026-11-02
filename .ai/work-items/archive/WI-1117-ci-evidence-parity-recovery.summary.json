@@ -1601,7 +1601,7 @@
     ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification-attempt.fdcf258f7ab929d87d794cc615799e7d36baf22063fb6b535965e9b1200ec231.json",
     ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification-attempt.ffb4740f4fbf7beb53d9884337f71e942f8dd5201de6c8bfb45198939b4e0c01.json",
     ".ai/evidence/material-inspection-review/WI-1117-ci-evidence-parity-recovery/0e8225dfb7471184252ee5f3b84360ec54d92c056a10a14dd2f60cd08b8d99d7.json",
-    ".ai/work-items/active/WI-1117-ci-evidence-parity-recovery.summary.json"
+    ".ai/work-items/archive/WI-1117-ci-evidence-parity-recovery.summary.json"
   ],
   "checkpointAt": "2026-11-02T04:34:28Z",
   "checkpointContractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
@@ -1621,7 +1621,28 @@
     "schemaVersion": 1,
     "workItemId": "WI-1117-ci-evidence-parity-recovery"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1117-ci-evidence-parity-recovery.verification.json",
+      ".ai/evidence/material-inspection-review/WI-1117-ci-evidence-parity-recovery/0e8225dfb7471184252ee5f3b84360ec54d92c056a10a14dd2f60cd08b8d99d7.json",
+      ".ai/decisions/WI-1117-ci-evidence-parity-recovery.recovery.json",
+      "git:5e1af996be34724a8cdf7bed5595b96c425979b3:crates/cockpit-repository/src/evidence_store.rs",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/41423500056",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/41423500056/job/125206835627",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/41423500056/job/125206835729"
+    ],
+    "reason": "Actual agent technical review: the approved A20 component is implemented at executed source5e1af996be34724a8cdf7bed5595b96c425979b3 (governance-only current HEADaabbf6b95f19cf49264eccfd0ca147fabe24891d is not reexecuted source). All9 exact declarations actually executed/pass with0reuse, worker1 and native300s limits under C26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48/Runtime346; native formal3003f63c9576948df3a23a6e14810172adf507dfefc871746a1e8462dfd11bd1 was successfully written and consumed precisely the real user approved retry58b093e3e4f7a2a67c029a3c8ffb336bff009027a56f8dc45e10de84907452b9, checkpointCount remains1. The new full material request63 entries/53Clean/10Rust-syntaxUnknown/0Finding has an honest request-bound agent self_declared decision under the exact permitted cause; no blanket exemption. Automatic source CI2of2 run41423500056 attempt1 genuinely succeeded6/6jobs and all7 observed HEADchecks. Actual Windows library254/254 including exact optional-directory invalid-path target, workspace strictClippy and boundaries passed; first lost errno remains unknown, second probe267 was not the first. NotADirectory classification remains an error and the exact invalid-path/symlink/permission/publication assertions are retained. Ordinary native tuple/inventory/retirement compatibility and narrow three-language factual projections passed the exact approved regressions; no global historical migration or HCI changes. This component can finish/archive its verified scope; actual A archived-unclosed/human-close original capture and later B12 self_terminal/--check-all remain sequential obligations, not predeclared passed. No human close, B start, merge, release or protection bypass is claimed. Preserve the old refused-formal9 records, CI1 failure, earlier1114 unexplained118/1, Outcome display ENAMETOOLONG, raw syntaxUnknowns and later independent Mac/full descendant/HCI/Sentinel duties. Cancelled CI goals remain cancelled, not achieved.",
+    "state": "resolved"
+  },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-11-02T10:31:34.347844702Z",
+      "recordedAt": "2026-11-02T10:31:34.347844702Z",
+      "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -1629,6 +1650,12 @@
       "recordedAt": "2026-11-02T03:39:24.921365340Z",
       "runtimeDigest": "sha256:346fc6be0546d6e4a234cf00a2185c0e11a2b5a23b3bbda5ef67b3d66e61f690",
       "runtimeVersion": "1.0.1"
+    },
+    "taskOutcomeProjectionFinishBinding": {
+      "projectionPolicyDigest": "sha256:4cb585032352f94a21b14e9f95dd8d8196fd090bec44d288de69d85859ed35e6",
+      "schemaVersion": 1,
+      "taskReportJsonDigest": "sha256:e7355d3c9f72a7e932b919e7ccbd65334e5e302ff421dc9789310bb3dd5a4c21",
+      "taskReportMarkdownDigest": "sha256:5f2831d93894ec64f6b9d0e35d0c2e4f4249ef48c6c6282ab7f6ddf0dff48111"
     }
   },
   "materialReviewReceipt": {
@@ -1709,7 +1736,7 @@
     "verificationEvidenceDigest": "sha256:3003f63c9576948df3a23a6e14810172adf507dfefc871746a1e8462dfd11bd1"
   },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
+  "state": "finish_ready",
   "taskOutcomeProjectionPolicy": {
     "contractDigest": "sha256:26391ed65f1deadb090bbff13c52d367f1dc3902aedcded73c35d9351285fc48",
     "jsonFormat": "ai-cockpit.task-outcome",
@@ -1723,7 +1750,7 @@
     "sourceSnapshotDigest": "sha256:fff255bc4658bb3db2566bbc1a46c6853ffde8f0620240fb6e5d5e76f04f5971",
     "workItemId": "WI-1117-ci-evidence-parity-recovery"
   },
-  "updatedAt": "2026-11-02T04:34:28Z",
+  "updatedAt": "2026-11-02T10:31:34.347844702Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -1762,6 +1789,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3003f63c9576948df3a23a6e14810172adf507dfefc871746a1e8462dfd11bd1",
   "workItemId": "WI-1117-ci-evidence-parity-recovery"
 }
