@@ -1,4 +1,9 @@
 ---
+author: AI Cockpit maintainers
+description: "严格原生证据与Windows诊断的有限恢复；实际验收以原生记录为准。"
+audience:
+  - maintainer
+  - reviewer
 workItemId: WI-1117-ci-evidence-parity-recovery
 title: "WI-1117-ci-evidence-parity-recovery — strict evidence and parity recovery"
 status: in_progress

@@ -1,4 +1,9 @@
 ---
+author: AI Cockpit maintainers
+description: "Bounded strict native evidence and Windows diagnosis; current acceptance remains governed by the native records."
+audience:
+  - maintainer
+  - reviewer
 workItemId: WI-1117-ci-evidence-parity-recovery
 title: "WI-1117-ci-evidence-parity-recovery — strict evidence and parity recovery"
 status: in_progress

@@ -1,4 +1,9 @@
 ---
+author: AI Cockpit maintainers
+description: "厳密なnative証拠とWindows診断の限定復旧。実際の受入れはnative記録に従います。"
+audience:
+  - maintainer
+  - reviewer
 workItemId: WI-1117-ci-evidence-parity-recovery
 title: "WI-1117-ci-evidence-parity-recovery — strict evidence and parity recovery"
 status: in_progress
