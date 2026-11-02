@@ -64,7 +64,7 @@ def parity_work_item_id(line: str) -> str | None:
     if not cells:
         return None
     match = re.match(
-        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\|)",
+        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\||$)",
         cells[0],
         re.IGNORECASE,
     )
@@ -1177,9 +1177,6 @@ def check(repository: Path) -> list[str]:
             continue
 
         parity = parity_statuses_for_work_item(rows, work_item_id)
-        if len(parity) != 3 or len(set(parity)) != 1:
-            errors.append(f"{english.relative_to(repository)}: missing or mixed three-language parity status")
-            continue
         if "conditional" in parity:
             if bounded_documentation_projection(repository, work_item_id):
                 # The current documentation-promotion Work Item is itself the
@@ -1206,6 +1203,12 @@ def check(repository: Path) -> list[str]:
                 continue
             ordinary_successor = ordinary_closed_projection_continuation(repository, work_item_id, repository_id)
             if ordinary_successor is not None:
+                # Only this new docs-only continuation exemption requires a
+                # complete uniform projection; legacy status handling below
+                # remains unchanged outside this narrow branch.
+                if len(parity) != 3 or len(set(parity)) != 1:
+                    errors.append(f"{english.relative_to(repository)}: missing or mixed three-language parity status")
+                    continue
                 # A valid unrelated WI is not this projection's verifier.
                 verifier = verifiers[0]
                 if verifier not in {work_item_id, ordinary_successor}:

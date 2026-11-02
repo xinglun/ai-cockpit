@@ -120,6 +120,18 @@ spec.loader.exec_module(module)
 rows, errors = module.parity_statuses(root)
 assert not errors, errors
 assert set(rows) >= {first, second}, rows
+# A complete ID is valid even when the stripped first cell ends at the ID.
+# Both exact IDs must survive parsing without a human description suffix.
+for suffix in suffixes:
+    parity = root / 'docs/reference' / f'reference-parity{suffix}.md'
+    text = parity.read_text(encoding='utf-8')
+    text = text.replace(f'{first} — fixture', first)
+    text = text.replace(f'{second} — independent recovery', second)
+    parity.write_text(text, encoding='utf-8')
+rows, errors = module.parity_statuses(root)
+assert not errors, errors
+assert rows[first] == ['recovered'] * 3, rows
+assert rows[second] == ['recovered'] * 3, rows
 PY
 python3 "$checker" --repo "$full_id_fixture"
 
