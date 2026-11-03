@@ -3581,7 +3581,7 @@ impl VerificationSupervisorRequest {
         }
     }
 
-    fn into_command(&self) -> Result<VerificationCommand, String> {
+    fn to_command(&self) -> Result<VerificationCommand, String> {
         if self.schema_version != 1 {
             return Err("unsupported verification supervisor request schema".into());
         }
@@ -3907,7 +3907,7 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
             return Err(message);
         }
     };
-    let command = match request.into_command() {
+    let command = match request.to_command() {
         Ok(command) => command,
         Err(error) => {
             write_supervisor_start_message(None, Some(&error))?;
@@ -4106,22 +4106,22 @@ pub fn request_process_cleanup_from_owner(
         {
             return None;
         }
-        if let Ok(bytes) = std::fs::read(mailbox.join("response.json")) {
-            if let Ok(response) = serde_json::from_slice::<serde_json::Value>(&bytes) {
-                if response["schemaVersion"] == 1
-                    && response["workItemId"] == work_item_id
-                    && response["executionId"] == execution_id
-                    && response["nodeId"] == node_id
-                    && response["processId"].as_u64() == Some(u64::from(process_id))
-                    && matches!(
-                        response["state"].as_str(),
-                        Some("direct_child_reaped" | "unknown")
-                    )
-                {
-                    return Some(response);
-                }
-                return None;
+        if let Ok(bytes) = std::fs::read(mailbox.join("response.json"))
+            && let Ok(response) = serde_json::from_slice::<serde_json::Value>(&bytes)
+        {
+            if response["schemaVersion"] == 1
+                && response["workItemId"] == work_item_id
+                && response["executionId"] == execution_id
+                && response["nodeId"] == node_id
+                && response["processId"].as_u64() == Some(u64::from(process_id))
+                && matches!(
+                    response["state"].as_str(),
+                    Some("direct_child_reaped" | "unknown")
+                )
+            {
+                return Some(response);
             }
+            return None;
         }
         if Instant::now() >= deadline {
             return None;
@@ -4168,7 +4168,11 @@ fn prepare_cleanup_mailbox(
 }
 
 #[cfg(target_os = "macos")]
-fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut child: Child) {
+fn serve_cleanup_mailbox(
+    context: &SupervisorCleanupContext,
+    node_id: &str,
+    mut child: Child,
+) -> Child {
     let mailbox = cleanup_mailbox(context, node_id);
     let deadline = Instant::now() + RETAINED_OWNER_DEADLINE;
     let process_id = child.id();
@@ -4264,20 +4268,19 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut 
         .write(true)
         .create_new(true)
         .open(mailbox.join("response.json"))
+        && let Ok(bytes) = serde_json::to_vec(&response)
     {
-        if let Ok(bytes) = serde_json::to_vec(&response) {
-            let _ = file.write_all(&bytes);
-            let _ = file.sync_all();
-        }
+        let _ = file.write_all(&bytes);
+        let _ = file.sync_all();
     }
+    child
 }
 
 #[cfg(all(test, target_os = "macos"))]
 mod retained_owner_cleanup_tests {
     use super::*;
 
-    #[test]
-    fn exact_owner_request_reaps_only_its_child() {
+    fn fixture_root() -> PathBuf {
         let nonce = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("clock")
@@ -4287,11 +4290,21 @@ mod retained_owner_cleanup_tests {
             std::process::id()
         ));
         std::fs::create_dir(&root).expect("fixture root");
-        let context = SupervisorCleanupContext {
-            repository_root: root.clone(),
+        root
+    }
+
+    fn context(root: &Path) -> SupervisorCleanupContext {
+        SupervisorCleanupContext {
+            repository_root: root.to_path_buf(),
             work_item_id: "WI-OWNER-FIXTURE".into(),
             execution_id: "execution-one".into(),
-        };
+        }
+    }
+
+    #[test]
+    fn exact_owner_request_reaps_only_its_child() {
+        let root = fixture_root();
+        let context = context(&root);
         let child = Command::new("/bin/sleep")
             .arg("5")
             .spawn()
@@ -4306,7 +4319,7 @@ mod retained_owner_cleanup_tests {
             let context = context.clone();
             move || {
                 mac_register_spawned_child(&child);
-                serve_cleanup_mailbox(&context, "node-one", child);
+                serve_cleanup_mailbox(&context, "node-one", child)
             }
         });
         assert!(
@@ -4338,9 +4351,85 @@ mod retained_owner_cleanup_tests {
                 .expect("unrelated observation")
                 .is_none()
         );
-        owner.join().expect("owner completion");
+        let mut reaped = owner.join().expect("owner completion");
+        assert!(
+            reaped
+                .try_wait()
+                .expect("owned child observation")
+                .is_some()
+        );
         unrelated.kill().expect("stop own unrelated fixture");
         unrelated.wait().expect("reap own unrelated fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
+    #[test]
+    fn missing_or_unresponsive_owner_is_unknown_and_does_not_signal() {
+        let root = fixture_root();
+        let context = context(&root);
+        let mut child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned fixture child");
+        let started = Instant::now();
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                child.id(),
+                Duration::from_secs(4),
+            )
+            .is_none()
+        );
+        assert!(started.elapsed() < Duration::from_secs(1));
+        prepare_cleanup_mailbox(&context, "node-one", child.id()).expect("stale ready mailbox");
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                child.id(),
+                Duration::from_millis(50),
+            )
+            .is_none()
+        );
+        assert!(child.try_wait().expect("fixture observation").is_none());
+        child.kill().expect("stop own fixture");
+        child.wait().expect("reap own fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
+    #[test]
+    fn unregistered_birth_identity_stays_unknown_without_signal() {
+        let root = fixture_root();
+        let context = context(&root);
+        let child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned fixture child");
+        let process_id = child.id();
+        prepare_cleanup_mailbox(&context, "node-one", process_id).expect("ready mailbox");
+        let owner = std::thread::spawn({
+            let context = context.clone();
+            move || serve_cleanup_mailbox(&context, "node-one", child)
+        });
+        let response = request_process_cleanup_from_owner(
+            &root,
+            &context.work_item_id,
+            &context.execution_id,
+            "node-one",
+            process_id,
+            Duration::from_secs(4),
+        )
+        .expect("owner response");
+        assert_eq!(response["state"], "unknown");
+        let mut child = owner.join().expect("owner returns exact handle");
+        assert!(child.try_wait().expect("fixture observation").is_none());
+        child.kill().expect("stop own fixture");
+        child.wait().expect("reap own fixture");
         std::fs::remove_dir_all(root).expect("remove fixture");
     }
 }
