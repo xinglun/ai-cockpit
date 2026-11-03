@@ -4203,7 +4203,7 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, chil
             if !bound {
                 break ("unknown", "cleanup request binding invalid");
             }
-            match supervisor_pipe::observe_owned_child_exit(&child) {
+            match supervisor_pipe::observe_owned_child_exit(child) {
                 Ok(true) => {
                     break match child.wait() {
                         Ok(_) => ("direct_child_reaped", "owner reaped exited direct Child"),
