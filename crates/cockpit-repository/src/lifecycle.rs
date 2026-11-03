@@ -9350,9 +9350,7 @@ pub fn work_item_process_cleanup_report(
     });
     let state = if ledger.is_none() {
         "not_recorded"
-    } else if entries.is_none() {
-        "unknown"
-    } else if unresolved > 0 {
+    } else if entries.is_none() || unresolved > 0 {
         "unknown"
     } else if entries.is_some_and(Vec::is_empty) {
         "no_recorded_processes"
