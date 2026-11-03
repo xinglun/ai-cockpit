@@ -235,7 +235,9 @@
     "crates/cockpit-cli/tests/mcp.rs",
     "docs/reference/commands.md",
     "crates/cockpit-protocol/src/lib.rs",
-    "crates/cockpit-repository/src/task_authorization.rs"
+    "crates/cockpit-repository/src/task_authorization.rs",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

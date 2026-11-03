@@ -995,8 +995,10 @@ enum WorkItemCommand {
     /// Request bounded cleanup from a live owner of this Work Item's exact
     /// Child. Historical PIDs alone never authorize a signal.
     ProcessCleanup {
+        /// Repository checkout to inspect or operate on.
         #[arg(long)]
         repo: PathBuf,
+        /// Work Item identifier.
         #[arg(long)]
         id: String,
     },

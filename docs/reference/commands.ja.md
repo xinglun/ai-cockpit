@@ -91,6 +91,7 @@ capabilityClaims:
 | `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item process-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
@@ -141,6 +142,14 @@ capabilityClaims:
 
 </details>
 <!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+`work-item process-cleanup --repo <checkout> --id <wi>` は、その WI の Summary に
+あるプロセス記録だけを確認し、子プロセスの識別情報を検証できる生存中の監督器に
+期限付きの終了・回収を要求します。数値 PID と一時メールボックス名は記録の対応付け
+にのみ使い、独立コマンドからのシグナル送信を許可しません。監督器の喪失、要求の
+期限切れ、終了失敗、識別不能は Unknown として報告します。直接の子プロセスを回収
+しても、すべての子孫の終了は証明できません。保持したハンドルによる回収経路は現在
+macOS でのみ確立され、Linux と Windows は記録と Unknown の意味を共有します。
 
 
 歴史互換は明示的かつ低 assurance でなければなりません。旧 shared-primary worktree の
