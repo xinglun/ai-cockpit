@@ -4338,7 +4338,6 @@ mod retained_owner_cleanup_tests {
             work_item_id: wi.into(),
             execution_id: execution_id.into(),
         };
-        mac_register_spawned_child(&child);
         prepare_cleanup_mailbox(&context, node_id, process_id).expect("ready owner mailbox");
         let summary_path = root.join(format!(".ai/work-items/active/{wi}.summary.json"));
         let mut summary: serde_json::Value = serde_json::from_slice(
@@ -4362,6 +4361,9 @@ mod retained_owner_cleanup_tests {
         )
         .expect("record own fixture process");
         let owner = std::thread::spawn(move || {
+            // Birth identities are intentionally thread-local. Register on
+            // the same supervisor thread that will decide whether to signal.
+            mac_register_spawned_child(&child);
             serve_cleanup_mailbox(&context, node_id, &mut child);
             let reaped = child.try_wait().expect("owned child observation").is_some();
             if !reaped {
@@ -4381,10 +4383,11 @@ mod retained_owner_cleanup_tests {
         );
         let report: serde_json::Value =
             serde_json::from_slice(&report.stdout).expect("cleanup report");
+        let owner_reaped = owner.join().expect("owner completion");
         assert_eq!(report["state"], "direct_children_reaped");
         assert_eq!(report["ownersContacted"], 1);
         assert_eq!(report["descendantClosure"], "unknown");
-        assert!(owner.join().expect("owner completion"));
+        assert!(owner_reaped);
         assert!(unrelated.0.try_wait().expect("unrelated observation").is_none());
         std::fs::remove_dir_all(root).expect("remove fixture");
     }
