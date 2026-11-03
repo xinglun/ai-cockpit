@@ -337,6 +337,156 @@ pub mod supervisor_pipe {
     }
 }
 
+#[cfg(target_os = "macos")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct MacOwnedChildIdentity {
+    pid: u32,
+    started_seconds: u64,
+    started_microseconds: u64,
+}
+
+#[cfg(target_os = "macos")]
+thread_local! {
+    // Retain the first identity for each numeric PID. A PID reused by a later
+    // child on this thread must never refresh a stale Child's signal authority.
+    static MAC_SPAWN_IDENTITIES: std::cell::RefCell<std::collections::HashMap<u32, Option<MacOwnedChildIdentity>>> =
+        std::cell::RefCell::new(std::collections::HashMap::new());
+}
+
+#[cfg(target_os = "macos")]
+fn mac_process_identity(pid: u32) -> std::io::Result<MacOwnedChildIdentity> {
+    if !(2..=i32::MAX as u32).contains(&pid) {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "invalid child PID",
+        ));
+    }
+    // Read only the exact test-owned or Runtime-owned child, never a process list.
+    // SAFETY: proc_pidinfo writes at most the size of the initialized C struct.
+    let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
+    let size = std::mem::size_of::<libc::proc_bsdinfo>() as libc::c_int;
+    let read = unsafe {
+        libc::proc_pidinfo(
+            pid as libc::c_int,
+            libc::PROC_PIDTBSDINFO,
+            0,
+            (&mut info as *mut libc::proc_bsdinfo).cast(),
+            size,
+        )
+    };
+    if read != size || info.pbi_pid != pid || info.pbi_start_tvsec == 0 {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "owned child birth identity is unavailable",
+        ));
+    }
+    Ok(MacOwnedChildIdentity {
+        pid,
+        started_seconds: info.pbi_start_tvsec,
+        started_microseconds: info.pbi_start_tvusec,
+    })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_register_spawned_child(child: &Child) {
+    let pid = child.id();
+    let identity = mac_process_identity(pid).ok();
+    MAC_SPAWN_IDENTITIES.with(|recorded| {
+        let mut recorded = recorded.borrow_mut();
+        // A second spawn with the same number cannot inherit the first spawn's
+        // group authority, even if its reported birth timestamp collides.
+        if let std::collections::hash_map::Entry::Vacant(entry) = recorded.entry(pid) {
+            entry.insert(identity);
+        } else {
+            recorded.insert(pid, None);
+        }
+    });
+}
+
+#[cfg(target_os = "macos")]
+fn mac_expected_child_identity(pid: u32) -> std::io::Result<MacOwnedChildIdentity> {
+    MAC_SPAWN_IDENTITIES
+        .with(|recorded| recorded.borrow().get(&pid).copied().flatten())
+        .ok_or_else(|| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "child identity is not uniquely registered",
+            )
+        })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_observe_owned_child_identity(child: &Child) -> std::io::Result<MacOwnedChildIdentity> {
+    // WNOWAIT preserves the owned child (including a zombie) while the birth
+    // identity is read. No group signal follows an ownership or info failure.
+    supervisor_pipe::observe_owned_child_exit(child)?;
+    mac_process_identity(child.id())
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reject_known_identity_change(child: &Child) -> std::io::Result<()> {
+    // A missing current birth observation cannot authorize a signal, but it
+    // need not erase an independently observed exit. A known mismatch or an
+    // unregistered live identity could belong to a reused numeric PID.
+    let expected = mac_expected_child_identity(child.id());
+    let observed = mac_process_identity(child.id());
+    match (expected, observed) {
+        (Ok(expected), Ok(observed)) if expected != observed => Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "owned child identity changed",
+        )),
+        (Err(_), Ok(_)) => Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "spawned child identity was not recorded",
+        )),
+        _ => Ok(()),
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_if_same_identity(
+    expected: MacOwnedChildIdentity,
+    mut observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
+    mut signal: impl FnMut(u32),
+) -> bool {
+    // The second observation models the check-to-signal boundary. The final
+    // kernel call still assumes this Runtime exclusively retains and reaps its
+    // Child; an external reaper invalidates that assumption.
+    if observe().ok() != Some(expected) || observe().ok() != Some(expected) {
+        return false;
+    }
+    signal(expected.pid);
+    true
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_registered_group_with(
+    child_id: u32,
+    observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
+    signal: impl FnMut(u32),
+) -> bool {
+    let Ok(expected) = mac_expected_child_identity(child_id) else {
+        return false;
+    };
+    mac_signal_if_same_identity(expected, observe, signal)
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_owned_group(child: &Child, child_id: u32) -> bool {
+    if child.id() != child_id {
+        return false;
+    }
+    mac_signal_registered_group_with(
+        child_id,
+        || mac_observe_owned_child_identity(child),
+        |pid| {
+            // SAFETY: two exact child observations matched the spawn identity;
+            // its unreaped Child pins the PID under exclusive-reaper ownership.
+            unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
+        },
+    )
+}
+
 /// A machine-readable measurement captured by a repository-local performance
 /// fixture.  The identity fields are intentionally required: a timing value
 /// without the runtime and repository that produced it is not release
@@ -4781,6 +4931,8 @@ fn spawn_verification_supervisor(
     let mut child = process
         .spawn()
         .map_err(|error| format!("spawn verification supervisor: {error}"))?;
+    #[cfg(target_os = "macos")]
+    mac_register_spawned_child(&child);
     let worker_id = child.id();
     #[cfg(windows)]
     {
@@ -5241,7 +5393,10 @@ fn close_supervisor_input(child: &mut Child) {
 
 #[cfg(unix)]
 fn observe_owned_supervisor_exit(child: &mut Child) -> std::io::Result<bool> {
-    supervisor_pipe::observe_owned_child_exit(child)
+    let exited = supervisor_pipe::observe_owned_child_exit(child)?;
+    #[cfg(target_os = "macos")]
+    mac_reject_known_identity_change(child)?;
+    Ok(exited)
 }
 
 #[cfg(unix)]
@@ -5290,6 +5445,11 @@ fn wait_supervisor_cleanup_with_operations(
                     // No complete natural protocol boundary: terminate the
                     // owned group while its zombie leader still pins the PID.
                     *forced_termination = true;
+                    #[cfg(target_os = "macos")]
+                    if !mac_signal_owned_group(child, child_id) {
+                        return None;
+                    }
+                    #[cfg(not(target_os = "macos"))]
                     terminate_descendants(child_id);
                     let _ = child.kill();
                     signalled = true;
@@ -5309,6 +5469,11 @@ fn wait_supervisor_cleanup_with_operations(
                 // WNOWAIT pins both a running child and an exited zombie.
                 match observe(child) {
                     Ok(_) => {
+                        #[cfg(target_os = "macos")]
+                        if !mac_signal_owned_group(child, child_id) {
+                            return None;
+                        }
+                        #[cfg(not(target_os = "macos"))]
                         terminate_descendants(child_id);
                         let _ = child.kill();
                         signalled = true;
@@ -5557,6 +5722,8 @@ fn execute_captured_inner(
         }
     };
     let child_id = child.id();
+    #[cfg(target_os = "macos")]
+    mac_register_spawned_child(&child);
     #[cfg(windows)]
     let process_tree = match WindowsProcessTree::attach(&child) {
         Some(tree) => tree,
@@ -5608,20 +5775,44 @@ fn execute_captured_inner(
     if let Some(on_started) = on_started.as_mut()
         && let Err(error) = on_started(child_id)
     {
-        terminate_process_tree(&mut child, child_id);
-        let _ = child.wait();
+        let identity_confirmed = terminate_process_tree(&mut child, child_id);
+        if identity_confirmed {
+            let _ = child.wait();
+        }
         #[cfg(windows)]
         drop(process_tree);
+        if !identity_confirmed {
+            return failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "child_identity_unconfirmed",
+                &error,
+                &[child_id],
+            );
+        }
         return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
     }
     if let Some(observer) = observer
         && let Err(error) = observer(&command.id, child_id, true)
     {
-        terminate_process_tree(&mut child, child_id);
-        let _ = child.wait();
+        let identity_confirmed = terminate_process_tree(&mut child, child_id);
+        if identity_confirmed {
+            let _ = child.wait();
+        }
         let _ = observer(&command.id, child_id, false);
         #[cfg(windows)]
         drop(process_tree);
+        if !identity_confirmed {
+            return failed_cleanup_uncertain_outcome(
+                started,
+                timeout_seconds,
+                deadline_ms,
+                "child_identity_unconfirmed",
+                &error,
+                &[child_id],
+            );
+        }
         return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
     }
     let stdout = child.stdout.take();
@@ -5637,17 +5828,26 @@ fn execute_captured_inner(
         match observed {
             Ok(Some(status)) => break (Some(status), false),
             Ok(None) if cancellation.is_some_and(|flag| flag.load(Ordering::Acquire)) => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), false);
+                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                break (
+                    identity_confirmed.then(|| child.wait().ok()).flatten(),
+                    false,
+                );
             }
             Ok(None) if composition::owner_interruption_signal().is_some() => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), false);
+                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                break (
+                    identity_confirmed.then(|| child.wait().ok()).flatten(),
+                    false,
+                );
             }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), true);
+                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                break (
+                    identity_confirmed.then(|| child.wait().ok()).flatten(),
+                    true,
+                );
             }
             Err(_) => {
                 terminate_process_tree(&mut child, child_id);
@@ -5794,21 +5994,22 @@ fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
     stderr.extend_from_slice(&error.as_bytes()[..error.len().min(remaining)]);
 }
 
-fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {
+fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) -> bool {
     #[cfg(target_os = "macos")]
     {
-        // waitid(WNOWAIT) confirms this exact child is still ours. Its
-        // unreaped PID pins the original group number through the signal.
-        // ECHILD or any observation failure grants no numeric PID authority.
-        if supervisor_pipe::observe_owned_child_exit(child).is_ok() {
-            terminate_descendants(child_id);
+        // An identity or ownership failure grants no numeric PID authority.
+        if mac_signal_owned_group(child, child_id) {
             let _ = child.kill();
+            true
+        } else {
+            false
         }
     }
     #[cfg(not(target_os = "macos"))]
     {
         terminate_descendants(child_id);
         let _ = child.kill();
+        true
     }
 }
 
@@ -5817,10 +6018,14 @@ fn mac_owned_child_poll(
     child: &mut std::process::Child,
     child_id: u32,
 ) -> std::io::Result<Option<std::process::ExitStatus>> {
-    if supervisor_pipe::observe_owned_child_exit(child)? {
+    let exited = supervisor_pipe::observe_owned_child_exit(child)?;
+    mac_reject_known_identity_change(child)?;
+    if exited {
         // The leader is an owned zombie until wait() below. A process that
         // left this group is outside the bounded guarantee and remains Unknown.
-        terminate_descendants(child_id);
+        // proc_pidinfo may no longer expose the birth time of an exited
+        // zombie. In that case retain the direct exit but send no group signal.
+        let _ = mac_signal_owned_group(child, child_id);
         child.wait().map(Some)
     } else {
         Ok(None)
@@ -5852,7 +6057,7 @@ fn common_timeout_seconds(commands: &[PlannedVerificationCommand]) -> Option<u64
         .then_some(first)
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 fn terminate_descendants(child_id: u32) {
     // SAFETY: kill is called with a negative, freshly spawned process-group id.
     unsafe {
@@ -6963,6 +7168,97 @@ while not marker.exists() and time.monotonic()<deadline:
 
     #[cfg(target_os = "macos")]
     #[test]
+    fn mac_owned_child_birth_read_diagnostic() {
+        use std::os::unix::process::CommandExt;
+
+        let mut running = Command::new("/bin/sleep")
+            .arg("2")
+            .process_group(0)
+            .spawn()
+            .expect("spawn live test-owned child");
+        let live_identity = mac_process_identity(running.id());
+        eprintln!("live owned child identity: {live_identity:?}");
+        let _ = running.kill();
+        let _ = running.wait();
+
+        let mut exited = Command::new("/usr/bin/true")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exiting test-owned child");
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            if supervisor_pipe::observe_owned_child_exit(&exited)
+                .expect("observe exact test-owned child")
+            {
+                break;
+            }
+            assert!(Instant::now() < deadline, "child did not exit in time");
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        let zombie_identity = mac_process_identity(exited.id());
+        eprintln!("unreaped exited child identity: {zombie_identity:?}");
+        exited.wait().expect("reap exact test-owned child");
+        assert!(
+            live_identity.is_ok(),
+            "running owned child identity must be readable"
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_same_numeric_pid_changed_birth_never_reaches_signal_sink() {
+        let original = MacOwnedChildIdentity {
+            pid: 42,
+            started_seconds: 100,
+            started_microseconds: 1,
+        };
+        let changed = MacOwnedChildIdentity {
+            started_microseconds: 2,
+            ..original
+        };
+        MAC_SPAWN_IDENTITIES.with(|recorded| {
+            recorded.borrow_mut().insert(original.pid, Some(original));
+        });
+        let mut observations = [original, changed].into_iter();
+        let mut signals = Vec::new();
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(observations.next().expect("two observations")),
+            |pid| signals.push(pid),
+        );
+        assert!(
+            !authorized,
+            "identity change at the final check must refuse the signal"
+        );
+        assert!(signals.is_empty(), "no numeric PID reaches the signal sink");
+
+        let mut signals = Vec::new();
+        let authorized =
+            mac_signal_registered_group_with(original.pid, || Ok(changed), |pid| signals.push(pid));
+        assert!(
+            !authorized,
+            "a changed birth before the first check also refuses the signal"
+        );
+        assert!(signals.is_empty());
+
+        let mut signals = Vec::new();
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(original),
+            |pid| signals.push(pid),
+        );
+        assert!(
+            authorized,
+            "the recorded sink must be reachable for a matching identity"
+        );
+        assert_eq!(signals, [original.pid]);
+        MAC_SPAWN_IDENTITIES.with(|recorded| {
+            recorded.borrow_mut().remove(&original.pid);
+        });
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
     fn mac_reaped_child_grants_no_later_numeric_group_signal() {
         use std::os::unix::process::CommandExt;
 
@@ -6970,6 +7266,7 @@ while not marker.exists() and time.monotonic()<deadline:
             .process_group(0)
             .spawn()
             .expect("spawn exact test-owned child");
+        mac_register_spawned_child(&old_child);
         let old_id = old_child.id();
         old_child
             .wait()
@@ -7652,7 +7949,7 @@ mod supervisor_finalization_tests {
     }
 
     fn fixture_child(mode: &str) -> Child {
-        Command::new(std::env::current_exe().expect("test executable"))
+        let child = Command::new(std::env::current_exe().expect("test executable"))
             .args([
                 "--exact",
                 "supervisor_finalization_tests::finalization_fixture",
@@ -7665,7 +7962,10 @@ mod supervisor_finalization_tests {
             .stderr(Stdio::piped())
             .process_group(0)
             .spawn()
-            .expect("spawn exact owned finite helper")
+            .expect("spawn exact owned finite helper");
+        #[cfg(target_os = "macos")]
+        mac_register_spawned_child(&child);
+        child
     }
 
     fn finish_owned_fixture(mut child: Child) {

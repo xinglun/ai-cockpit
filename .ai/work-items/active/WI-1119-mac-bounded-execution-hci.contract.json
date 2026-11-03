@@ -3,7 +3,7 @@
   "acceptanceCriteria": [
     "Mac reports directly observed verifier exit and original-group control separately from unproven escaped-descendant cleanup; no complete-tree claim.",
     "Timeout, parent disconnect, output saturation, and cleanup errors remain bounded and produce explicit uncertainty where closure is unproven.",
-    "setsid, double-fork, closed-pipe, changed-cwd, and PID-reuse negatives never become cleanup-success or reusable evidence; unrelated processes survive.",
+    "setsid, double-fork, closed-pipe, changed-cwd, stale owned-child handle, and controlled identity-loss negatives never become cleanup-success or reusable evidence; unrelated test-owned processes survive. Actual kernel PID reuse is not claimed as tested in this Work Item.",
     "Cold read and restart retain Unknown; uncertainty cannot be promoted to clean by a later empty process-group probe.",
     "Full composition supervision still rejects Mac before starting a verifier.",
     "The nine scoped documents state HCI as the sole current North Star: understandable, controllable, explainable, recoverable; the historical map retains its historical identity.",
@@ -147,7 +147,7 @@
       "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent fixture cleanup and assert Unknown, retained evidence and no reuse."
     },
     {
-      "description": null,
+      "description": "The historical scenario key names PID reuse. This Work Item verifies real Mac child lifecycle, a stale owned-child handle, and controlled ownership/identity loss at the production signal decision. It does not claim actual kernel PID recycling. A field defect with evidence belongs in a later Work Item.",
       "evidence": [],
       "expected": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
       "expectedOutcome": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
@@ -156,7 +156,7 @@
       "required": true,
       "scenario": "mac_pid_reuse_unrelated_survival",
       "status": "unverified",
-      "verificationPlan": "Use an identity-change fixture and a separate unrelated process; assert no unrelated termination and fail-closed outcome."
+      "verificationPlan": "On Mac, run bounded test-owned child lifecycle and stale-handle fixtures with a separate unrelated test-owned process. Inject ECHILD at the production supervisor wait/signal decision; assert no numeric group signal, cleanup Unknown, no reusable success, and survival of the child and unrelated process until their fixture cleanup. Through the production Mac identity decision and a recording signal sink, inject the same numeric PID with a different birth identity both at the initial check and at the final check immediately before signal; assert zero signal calls in both negative cases, with a matching-identity positive control proving the sink is reachable. Correlate these controlled negatives with the supervised Unknown and no-reuse fixtures. Do not signal an unknown or possibly recycled PID. Record actual kernel PID reuse as untested; investigate a later field defect with its evidence in a later Work Item."
     },
     {
       "description": null,

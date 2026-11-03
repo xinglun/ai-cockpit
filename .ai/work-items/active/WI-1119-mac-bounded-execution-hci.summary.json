@@ -157,22 +157,74 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:96810de8722d72069c0fba77c7fb850e2706437467603265451f97f2d39995e6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:b78d5ef6b9b66f1c2ffa4bb2f9734019da11829d57fe3cfb1dbceb3ed85609c6",
+      "reason": "The user approved real Mac process lifecycle plus controlled identity-loss injection as this Work Item's PID-safety evidence. Actual kernel PID reuse is not claimed as tested; evidence from later real use will enter a later Work Item if a defect appears. Preserve the no-unrelated-signal, Unknown, no-reuse and formal-verification gates.",
+      "recorded": true,
+      "recordedAt": "2026-11-03T10:26:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e1aca44d9fe485619454ff6f5d4c88b14a839b5f73aa23bb6c6bd0dc6ab1b1ce",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:96810de8722d72069c0fba77c7fb850e2706437467603265451f97f2d39995e6",
+      "reason": "The user selected real Mac child lifecycle plus controlled same-numeric-PID/different-birth-identity injection as this Work Item's PID-safety evidence. Preserve the previously planned ECHILD negative, zero unauthorized signal, cleanup Unknown, no reusable success, and unrelated-child survival. Actual kernel PID recycling remains untested and any later field defect belongs in a later Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-11-03T11:22:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc4a25813b4ab97906af049f5fb5945861a82bc8e62ce9e4abb6d5420290e6e2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b78d5ef6b9b66f1c2ffa4bb2f9734019da11829d57fe3cfb1dbceb3ed85609c6",
+    "contractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1dfbbb6088f9c34d9c78c90c54cb8a520246a1a4a5da3776e555959c3a1f3b74",
-    "reason": "The verified user replied confirm_review in room message Sentinel_a76d50c469288191802e244d61806837 at 2026-11-03T09:49:32.210002Z to the immediately preceding exact Contract, Preflight, Snapshot and Runtime binding request. This confirms only nine equivalent expected plan fields, not scenario verification, descendant cleanup, or completion.",
-    "recordedAt": "2026-11-03T09:49:32.210002Z",
-    "recordedBy": "user:Sentinel_a76d50c469288191802e244d61806837",
+    "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing these exact Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_8612b3a7aadc8191b3f2b16b309330cf at 2026-11-03T11:27:50.951887Z. This confirms the revised controlled identity plan only; it does not approve the separately requested two tests, attest actual kernel PID reuse, or establish formal verification or completion.",
+    "recordedAt": "2026-11-03T11:27:50.951887+00:00",
+    "recordedBy": "user:Sentinel_8612b3a7aadc8191b3f2b16b309330cf",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e85c2da627a5ee0b4a7bb7a9de0cd875ce3e9b79db55035f98595f81356f7d54",
+    "repositorySnapshotDigest": "sha256:dc4a25813b4ab97906af049f5fb5945861a82bc8e62ce9e4abb6d5420290e6e2",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "user:Sentinel_381510dbe1bc8191bd3a23bd9643358f@2026-11-03T04:47:26.031827Z selected route A: Mac command facts plus cleanup Unknown remain pending formal verification; no finish or archive from Mac alone.",
+      "git:eaf4856fb74420dde37239edcf4d047a1f1aa95a: WI-1119 implementation and HCI documents on the isolated branch; implementation direction only.",
+      "task-artifact:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-current-hci-review.json#sha256:e527327f7bdc5657b705aaf0d16da53a31cb6997ee9e2a46d1037b62629a6a15",
+      "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-round8-docs.log#sha256:93d9021d2e6ed6325ec5744ce94f274b32be0b6a7fb42294429f9b3b8d53e18a",
+      "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-cli-cold-read.log#sha256:9c2a61ac1db46302075eea6144bdd46b5860cc62651132eafbf5ff330bea570e",
+      "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-mac-scenarios.log#sha256:43d51a67d6d6d3b0f3f87d40c49020f65f035cceec43b48666638577d75b5172",
+      "Alignment describes the implemented direction and HCI review only; eight Mac scenarios and formal verification remain unverified."
+    ],
+    "state": "resolved"
   },
   "lifecycleFacts": {
     "start": {
@@ -185,10 +237,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-03T09:46:15Z",
-  "preflightContractDigest": "sha256:b78d5ef6b9b66f1c2ffa4bb2f9734019da11829d57fe3cfb1dbceb3ed85609c6",
-  "preflightDecisionDigest": "sha256:1dfbbb6088f9c34d9c78c90c54cb8a520246a1a4a5da3776e555959c3a1f3b74",
-  "preflightRepositorySnapshotDigest": "sha256:e85c2da627a5ee0b4a7bb7a9de0cd875ce3e9b79db55035f98595f81356f7d54",
+  "preflightAt": "2026-11-03T11:22:52Z",
+  "preflightContractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+  "preflightRepositorySnapshotDigest": "sha256:dc4a25813b4ab97906af049f5fb5945861a82bc8e62ce9e4abb6d5420290e6e2",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -306,11 +358,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T09:51:51.913868+00:00",
+  "updatedAt": "2026-11-03T11:29:14.371408+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b78d5ef6b9b66f1c2ffa4bb2f9734019da11829d57fe3cfb1dbceb3ed85609c6",
+    "contractHash": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-03T09:45:52Z"
+    "recordedAt": "2026-11-03T11:22:27Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
