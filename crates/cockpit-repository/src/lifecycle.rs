@@ -37,6 +37,7 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::Ordering;
+use std::time::{Duration, Instant};
 
 /// The persisted preflight decision plus the repository-relative files this
 /// explicit write operation actually changed.
@@ -9299,6 +9300,11 @@ pub(super) fn record_process_results(
         // owned Child. Timeout/unknown never becomes reaped by inference.
         let reaped = !record.timed_out
             && (record.exit_code.is_some() || record.termination_signal.is_some());
+        if entry["directChildReaped"] == true && !reaped {
+            // A later Unknown verification projection cannot undo a direct
+            // reap observed by the still-owning supervisor.
+            continue;
+        }
         entry["state"] = if reaped {
             "direct_child_reaped"
         } else {
@@ -9366,6 +9372,85 @@ pub fn work_item_process_cleanup_report(
         "descendantClosure": "unknown",
         "message": "Historical numeric PIDs cannot authorize signaling or reaping; unresolved entries require owner evidence.",
     }))
+}
+
+/// Request cleanup only from a live supervisor that still owns the exact
+/// Child. The Summary's PID is a correlation fact, never signal authority.
+pub fn work_item_process_cleanup_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    super::task_authorization::require_task_caller(
+        root, work_item_id, "process_cleanup", runtime, caller,
+    )?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(), source,
+    })?;
+    let original = work_item_process_cleanup_report(&root, work_item_id)?;
+    let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
+    if !summary_path.starts_with(root.join(".ai/work-items/active")) {
+        return Ok(original);
+    }
+    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut contacted = 0_usize;
+    if let Some(entries) = original["entries"].as_array() {
+        for entry in entries {
+            if entry["state"] == "direct_child_reaped" || Instant::now() >= deadline {
+                continue;
+            }
+            let (Some(execution_id), Some(node_id), Some(process_id)) = (
+                entry["executionId"].as_str(),
+                entry["nodeId"].as_str(),
+                entry["processId"].as_u64().and_then(|value| u32::try_from(value).ok()),
+            ) else {
+                continue;
+            };
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            let response = cockpit_verification::request_process_cleanup_from_owner(
+                &root, work_item_id, execution_id, node_id, process_id, remaining,
+            );
+            let Some(response) = response else {
+                continue;
+            };
+            contacted += 1;
+            if response["state"] != "direct_child_reaped" {
+                continue;
+            }
+            let guard = acquire_lifecycle_lock(&root, work_item_id)?;
+            guard.require_subject(&root, work_item_id)?;
+            let mut summary = read_json(&summary_path)?;
+            if summary["workItemId"] != work_item_id
+                || summary["repositoryId"] != repository_id(&root).to_string()
+            {
+                return Err(ObserverError::State {
+                    path: summary_path,
+                    message: "process Summary identity mismatch".into(),
+                });
+            }
+            let Some(current) = summary["processCleanup"]["entries"]
+                .as_array_mut()
+                .and_then(|entries| entries.iter_mut().find(|current| {
+                    current["executionId"].as_str() == Some(execution_id)
+                        && current["nodeId"].as_str() == Some(node_id)
+                        && current["processId"].as_u64() == Some(u64::from(process_id))
+                }))
+            else {
+                continue;
+            };
+            current["state"] = "direct_child_reaped".into();
+            current["directChildReaped"] = true.into();
+            current["observedAt"] = now().into();
+            current["cleanupResponse"] = response;
+            summary["updatedAt"] = now().into();
+            atomic_json(&summary_path, &summary)?;
+        }
+    }
+    let mut report = work_item_process_cleanup_report(&root, work_item_id)?;
+    report["action"] = "bounded_owned_child_request".into();
+    report["ownersContacted"] = serde_json::json!(contacted);
+    Ok(report)
 }
 
 fn work_item_artifact_path_optional(

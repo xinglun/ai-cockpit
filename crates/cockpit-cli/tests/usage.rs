@@ -126,7 +126,7 @@ fn process_cleanup_reports_only_this_work_items_unowned_processes() {
     assert_eq!(report["unresolvedCount"], 1);
     assert_eq!(
         report["action"],
-        "no_owned_child_handle_in_separate_process"
+        "bounded_owned_child_request"
     );
     assert_eq!(report["descendantClosure"], "unknown");
 }

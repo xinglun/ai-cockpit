@@ -36,7 +36,7 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 #[cfg(any(test, not(unix)))]
 use std::io::BufReader;
 use std::io::{BufRead, Read, Write};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Condvar, Mutex, mpsc};
@@ -59,6 +59,8 @@ const SUPERVISOR_PARENT_CLEANUP_GRACE: Duration = Duration::from_secs(
 );
 const MAX_CLEANUP_REMAINING_PIDS: usize = 128;
 const MAX_CLEANUP_DIAGNOSTIC_BYTES: usize = 4096;
+#[cfg(target_os = "macos")]
+const RETAINED_OWNER_DEADLINE: Duration = Duration::from_secs(30);
 
 /// Shared Unix pipe mechanics only. These operations confer no process-tree,
 /// authority, receipt-validation or protocol-state assurance.
@@ -2751,10 +2753,19 @@ pub type ProcessStartGate = Arc<
 /// Exact executable used to start one isolated verification-command supervisor.
 /// The supervisor must be the same Runtime executable that admitted the parent
 /// verification request.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct SupervisorCleanupContext {
+    repository_root: PathBuf,
+    work_item_id: String,
+    execution_id: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationSupervisorLaunch {
     executable: PathBuf,
     arguments: Vec<String>,
+    cleanup_context: Option<SupervisorCleanupContext>,
     #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
     extra_environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
 }
@@ -2764,9 +2775,26 @@ impl VerificationSupervisorLaunch {
         Self {
             executable: executable.into(),
             arguments,
+            cleanup_context: None,
             #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
             extra_environment: Vec::new(),
         }
+    }
+
+    /// Bind a short-lived cleanup mailbox to one execution of one Work Item.
+    /// The mailbox is a request channel, not process identity or authority.
+    pub fn with_process_cleanup_context(
+        mut self,
+        repository_root: PathBuf,
+        work_item_id: String,
+        execution_id: String,
+    ) -> Self {
+        self.cleanup_context = Some(SupervisorCleanupContext {
+            repository_root,
+            work_item_id,
+            execution_id,
+        });
+        self
     }
 
     #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
@@ -3359,6 +3387,16 @@ struct VerificationSupervisorOutcomeWire {
     cleanup_uncertain: Option<CleanupUncertainty>,
 }
 
+impl VerificationSupervisorOutcomeWire {
+    fn owner_retained(&self) -> bool {
+        !self.passed
+            && self.exit_code.is_none()
+            && self.cleanup_uncertain.as_ref().is_some_and(|uncertainty| {
+                uncertainty.phase.contains("owner_retained_pending_cleanup")
+            })
+    }
+}
+
 impl From<ExecutionOutcome> for VerificationSupervisorOutcomeWire {
     fn from(outcome: ExecutionOutcome) -> Self {
         Self {
@@ -3442,6 +3480,8 @@ struct VerificationSupervisorRequest {
     environment: Vec<(SupervisorOsString, SupervisorOsString)>,
     clear_environment: bool,
     timeout_seconds: u64,
+    #[serde(default)]
+    cleanup_context: Option<SupervisorCleanupContext>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -3512,7 +3552,10 @@ impl SupervisorOsString {
 }
 
 impl VerificationSupervisorRequest {
-    fn from_command(command: &VerificationCommand) -> Self {
+    fn from_command(
+        command: &VerificationCommand,
+        cleanup_context: Option<SupervisorCleanupContext>,
+    ) -> Self {
         Self {
             schema_version: 1,
             command_id: command.id.clone(),
@@ -3534,10 +3577,11 @@ impl VerificationSupervisorRequest {
                 .collect(),
             clear_environment: command.clear_environment,
             timeout_seconds: command.timeout_seconds,
+            cleanup_context,
         }
     }
 
-    fn into_command(self) -> Result<VerificationCommand, String> {
+    fn into_command(&self) -> Result<VerificationCommand, String> {
         if self.schema_version != 1 {
             return Err("unsupported verification supervisor request schema".into());
         }
@@ -3548,18 +3592,20 @@ impl VerificationSupervisorRequest {
             .map_err(|error| error.to_string())?;
         let current_dir = self
             .current_dir
+            .clone()
             .map(SupervisorOsString::into_os)
             .transpose()?
             .map(PathBuf::from);
         let environment = self
             .environment
+            .clone()
             .into_iter()
             .map(|(key, value)| Ok((key.into_os()?, value.into_os()?)))
             .collect::<Result<Vec<_>, String>>()?;
         let mut command = VerificationCommand::new(
             &self.command_id,
             &self.program,
-            self.args,
+            self.args.clone(),
             VerificationReusePolicy::NeverReuse,
         )
         .with_environment(environment)
@@ -3634,6 +3680,17 @@ impl VerificationSupervisorMessages {
             Self::Channel(_) => false,
             #[cfg(unix)]
             Self::Pipe(pipe) => pipe.borrow().terminal,
+        }
+    }
+
+    #[cfg(unix)]
+    fn owner_retained(&self) -> bool {
+        match self {
+            #[cfg(any(test, not(unix)))]
+            Self::Channel(_) => false,
+            Self::Pipe(pipe) => pipe.borrow().pending.iter().any(|message| {
+                matches!(message, VerificationSupervisorMessage::Outcome { outcome } if outcome.owner_retained())
+            }),
         }
     }
 
@@ -3752,7 +3809,9 @@ impl UnixSupervisorMessagePipe {
             }
             let natural_eof = self.eof;
             if let Some(message) = self.pending.pop_front_if(|message| {
-                matches!(message, VerificationSupervisorMessage::Started { .. }) || natural_eof
+                matches!(message, VerificationSupervisorMessage::Started { .. })
+                    || natural_eof
+                    || matches!(message, VerificationSupervisorMessage::Outcome { outcome } if outcome.owner_retained())
             }) {
                 return Ok(Ok(message));
             }
@@ -3877,12 +3936,18 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     drop(watcher);
 
     let mut announce_started = |process_id| write_supervisor_start_message(Some(process_id), None);
+    #[cfg(target_os = "macos")]
+    let mut retained_child: Option<Child> = None;
     let outcome = execute_captured_inner(
         &command,
         None,
         None,
         Some(&cancelled),
         Some(&mut announce_started),
+        #[cfg(target_os = "macos")]
+        request.cleanup_context.as_ref().map(|_| &mut retained_child),
+        #[cfg(not(target_os = "macos"))]
+        None,
     );
 
     #[cfg(target_os = "macos")]
@@ -3898,6 +3963,25 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
                     remaining_pids_truncated: false,
                 },
             );
+        }
+        let retained_ready = match (request.cleanup_context.as_ref(), retained_child.as_ref()) {
+            (Some(context), Some(child)) => {
+                prepare_cleanup_mailbox(context, &command.id, child.id()).is_ok()
+            }
+            _ => false,
+        };
+        if retained_ready {
+            merge_cleanup_uncertainty(
+                &mut outcome,
+                CleanupUncertainty {
+                    phase: "owner_retained_pending_cleanup".into(),
+                    reason: "The short-lived supervisor still owns the unreaped direct Child; a bounded WI-local cleanup request may be attempted, but cleanup remains Unknown".into(),
+                    remaining_pids: Vec::new(),
+                    remaining_pids_truncated: false,
+                },
+            );
+        } else {
+            retained_child = None;
         }
         outcome
     };
@@ -3921,7 +4005,304 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     }
     let mut stderr = std::io::stderr().lock();
     write_supervisor_outcome_message(&response, &mut stderr)?;
+    #[cfg(target_os = "macos")]
+    if let (Some(context), Some(child)) = (request.cleanup_context.as_ref(), retained_child) {
+        serve_cleanup_mailbox(context, &command.id, child);
+    }
     Ok(())
+}
+
+/// The digest names a WI-local temporary mailbox. It is a correlation key,
+/// never a credential and never authority to signal a recorded PID.
+pub fn process_cleanup_mailbox_path(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    node_id: &str,
+) -> PathBuf {
+    let binding = serde_json::to_vec(&(work_item_id, execution_id, node_id))
+        .expect("process cleanup mailbox binding is serializable");
+    let digest = Digest::sha256_bytes(&binding).to_string();
+    root.join(".ai/locks/process-cleanup")
+        .join(digest.trim_start_matches("sha256:"))
+}
+
+/// Ask the still-running owner of an exact Child to perform one bounded
+/// cleanup. A missing, expired, or malformed mailbox is Unknown. This never
+/// signals the historical PID in the caller process.
+pub fn request_process_cleanup_from_owner(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    node_id: &str,
+    process_id: u32,
+    timeout: Duration,
+) -> Option<serde_json::Value> {
+    let mailbox = process_cleanup_mailbox_path(root, work_item_id, execution_id, node_id);
+    if std::fs::symlink_metadata(&mailbox)
+        .ok()
+        .is_none_or(|metadata| !metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    let binding = serde_json::json!({
+        "schemaVersion": 1, "workItemId": work_item_id,
+        "executionId": execution_id, "nodeId": node_id,
+        "processId": process_id,
+    });
+    if std::fs::symlink_metadata(mailbox.join("ready.json"))
+        .ok()
+        .is_none_or(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    let ready = std::fs::read(mailbox.join("ready.json"))
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+    if ready.as_ref() != Some(&binding) {
+        return None;
+    }
+    let request_path = mailbox.join("request.json");
+    match std::fs::OpenOptions::new()
+        .write(true).create_new(true).open(&request_path)
+    {
+        Ok(mut request) => {
+            if request.write_all(&serde_json::to_vec(&binding).ok()?).is_err()
+                || request.sync_all().is_err()
+            {
+                return None;
+            }
+            if std::fs::OpenOptions::new()
+                .write(true).create_new(true)
+                .open(mailbox.join("request.ready"))
+                .is_err()
+            {
+                return None;
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let existing = std::fs::read(&request_path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+            if existing.as_ref() != Some(&binding) {
+                return None;
+            }
+        }
+        Err(_) => return None,
+    }
+    let deadline = Instant::now() + timeout.min(Duration::from_secs(4));
+    loop {
+        if std::fs::symlink_metadata(mailbox.join("response.json"))
+            .ok()
+            .is_some_and(|metadata| metadata.file_type().is_symlink())
+        {
+            return None;
+        }
+        if let Ok(bytes) = std::fs::read(mailbox.join("response.json")) {
+            if let Ok(response) = serde_json::from_slice::<serde_json::Value>(&bytes) {
+                if response["schemaVersion"] == 1
+                    && response["workItemId"] == work_item_id
+                    && response["executionId"] == execution_id
+                    && response["nodeId"] == node_id
+                    && response["processId"].as_u64() == Some(u64::from(process_id))
+                    && matches!(response["state"].as_str(), Some("direct_child_reaped" | "unknown"))
+                {
+                    return Some(response);
+                }
+                return None;
+            }
+        }
+        if Instant::now() >= deadline {
+            return None;
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str) -> PathBuf {
+    process_cleanup_mailbox_path(
+        &context.repository_root,
+        &context.work_item_id,
+        &context.execution_id,
+        node_id,
+    )
+}
+
+#[cfg(target_os = "macos")]
+fn prepare_cleanup_mailbox(
+    context: &SupervisorCleanupContext,
+    node_id: &str,
+    process_id: u32,
+) -> std::io::Result<()> {
+    let mailbox = cleanup_mailbox(context, node_id);
+    let parent = mailbox.parent().expect("mailbox has parent");
+    std::fs::create_dir_all(parent)?;
+    if std::fs::symlink_metadata(parent)?.file_type().is_symlink() {
+        return Err(std::io::Error::other("cleanup mailbox parent is a symlink"));
+    }
+    std::fs::create_dir(&mailbox)?;
+    let ready = serde_json::json!({
+        "schemaVersion": 1, "workItemId": context.work_item_id,
+        "executionId": context.execution_id, "nodeId": node_id,
+        "processId": process_id,
+    });
+    let mut file = std::fs::OpenOptions::new()
+        .write(true).create_new(true).open(mailbox.join("ready.json"))?;
+    let bytes = serde_json::to_vec(&ready).map_err(std::io::Error::other)?;
+    file.write_all(&bytes)?;
+    file.sync_all()
+}
+
+#[cfg(target_os = "macos")]
+fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut child: Child) {
+    let mailbox = cleanup_mailbox(context, node_id);
+    let deadline = Instant::now() + RETAINED_OWNER_DEADLINE;
+    let process_id = child.id();
+    let result = loop {
+        match child.try_wait() {
+            Ok(Some(_)) => break ("direct_child_reaped", "owner observed and reaped direct Child"),
+            Err(_) => break ("unknown", "owner could not observe direct Child"),
+            Ok(None) => {}
+        }
+        if mailbox.join("request.ready").is_file() {
+            if std::fs::symlink_metadata(mailbox.join("request.json"))
+                .ok()
+                .is_none_or(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+            {
+                break ("unknown", "cleanup request is not a regular file");
+            }
+            let request = std::fs::read(mailbox.join("request.json"))
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+            let bound = request.as_ref().is_some_and(|request| {
+                request["schemaVersion"] == 1
+                    && request["workItemId"] == context.work_item_id
+                    && request["executionId"] == context.execution_id
+                    && request["nodeId"] == node_id
+                    && request["processId"].as_u64() == Some(u64::from(process_id))
+            });
+            if !bound {
+                break ("unknown", "cleanup request binding invalid");
+            }
+            match supervisor_pipe::observe_owned_child_exit(&child) {
+                Ok(true) => {
+                    break match child.wait() {
+                        Ok(_) => ("direct_child_reaped", "owner reaped exited direct Child"),
+                        Err(_) => ("unknown", "owned direct Child wait failed"),
+                    };
+                }
+                Ok(false) => {}
+                Err(_) => break ("unknown", "direct Child ownership could not be confirmed"),
+            }
+            match (
+                mac_expected_child_identity(process_id),
+                mac_process_identity(process_id),
+            ) {
+                (Ok(expected), Ok(current)) if expected == current => {}
+                _ => break ("unknown", "direct Child birth identity could not be confirmed"),
+            }
+            if child.kill().is_err() {
+                break ("unknown", "direct Child termination request failed");
+            }
+            let reap_deadline = Instant::now() + SUPERVISOR_PROTOCOL_CLOSE_GRACE;
+            loop {
+                match child.try_wait() {
+                    Ok(Some(_)) => break,
+                    Ok(None) if Instant::now() < reap_deadline =>
+                        std::thread::sleep(Duration::from_millis(10)),
+                    _ => break,
+                }
+            }
+            break match child.try_wait() {
+                Ok(Some(_)) => ("direct_child_reaped", "owner reaped direct Child after request"),
+                _ => ("unknown", "direct Child reap unconfirmed after bounded request"),
+            };
+        }
+        if Instant::now() >= deadline {
+            break ("unknown", "short-lived owner deadline expired");
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    };
+    let response = serde_json::json!({
+        "schemaVersion": 1, "workItemId": context.work_item_id,
+        "executionId": context.execution_id, "nodeId": node_id,
+        "processId": process_id, "state": result.0, "detail": result.1,
+        "descendantClosure": "unknown",
+    });
+    if let Ok(mut file) = std::fs::OpenOptions::new()
+        .write(true).create_new(true).open(mailbox.join("response.json"))
+    {
+        if let Ok(bytes) = serde_json::to_vec(&response) {
+            let _ = file.write_all(&bytes);
+            let _ = file.sync_all();
+        }
+    }
+}
+
+#[cfg(all(test, target_os = "macos"))]
+mod retained_owner_cleanup_tests {
+    use super::*;
+
+    #[test]
+    fn exact_owner_request_reaps_only_its_child() {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "ai-cockpit-retained-owner-{}-{nonce}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&root).expect("fixture root");
+        let context = SupervisorCleanupContext {
+            repository_root: root.clone(),
+            work_item_id: "WI-OWNER-FIXTURE".into(),
+            execution_id: "execution-one".into(),
+        };
+        let child = Command::new("/bin/sleep").arg("5").spawn().expect("owned child");
+        let child_id = child.id();
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("unrelated child");
+        prepare_cleanup_mailbox(&context, "node-one", child_id).expect("ready mailbox");
+        let owner = std::thread::spawn({
+            let context = context.clone();
+            move || {
+                mac_register_spawned_child(&child);
+                serve_cleanup_mailbox(&context, "node-one", child);
+            }
+        });
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                unrelated.id(),
+                Duration::from_millis(50),
+            )
+            .is_none(),
+            "a different process ID is never sent to the owner"
+        );
+        let response = request_process_cleanup_from_owner(
+            &root,
+            &context.work_item_id,
+            &context.execution_id,
+            "node-one",
+            child_id,
+            Duration::from_secs(4),
+        )
+        .expect("owner response");
+        assert_eq!(response["state"], "direct_child_reaped");
+        assert_eq!(response["descendantClosure"], "unknown");
+        assert!(unrelated.try_wait().expect("unrelated observation").is_none());
+        owner.join().expect("owner completion");
+        unrelated.kill().expect("stop own unrelated fixture");
+        unrelated.wait().expect("reap own unrelated fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
 }
 
 fn write_supervisor_start_message(
@@ -4712,6 +5093,7 @@ fn execute_supervised_captured(
     let command_deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let mut parent_timed_out = false;
     let mut cleanup_forced_termination = false;
+    let mut retained_owner = false;
     #[cfg(unix)]
     let mut protocol_error: Option<String> = None;
     #[cfg(not(unix))]
@@ -4733,6 +5115,13 @@ fn execute_supervised_captured(
                     message_receiver.as_ref(),
                     &mut parent_group_signal_diagnostic,
                 );
+            }
+            if messages.owner_retained() {
+                // This terminal result is already Unknown. The helper keeps
+                // the exact Child for a short WI-local cleanup window; do not
+                // wait for its EOF or turn its continued life into success.
+                retained_owner = true;
+                break None;
             }
             if messages.terminal_seen() {
                 close_supervisor_input(&mut worker);
@@ -4839,7 +5228,7 @@ fn execute_supervised_captured(
     let response_timeout = SUPERVISOR_STARTUP_DEADLINE;
     let response = if let Some(error) = protocol_error {
         Err(error)
-    } else if worker_status.is_some() {
+    } else if worker_status.is_some() || retained_owner {
         match message_receiver.as_ref() {
             Some(receiver) => receiver
                 .recv_timeout(response_timeout)
@@ -4900,7 +5289,7 @@ fn execute_supervised_captured(
             );
         }
     };
-    if worker_status.is_none() {
+    if worker_status.is_none() && !retained_owner {
         outcome.passed = false;
         outcome.timed_out |= parent_timed_out;
         outcome.exit_code = None;
@@ -4961,7 +5350,10 @@ fn spawn_verification_supervisor(
     initial_message: &mut Option<VerificationSupervisorMessage>,
     #[cfg(windows)] windows_tree: &mut Option<WindowsProcessTree>,
 ) -> Result<Child, String> {
-    let request = VerificationSupervisorRequest::from_command(command);
+    let request = VerificationSupervisorRequest::from_command(
+        command,
+        supervisor.cleanup_context.clone(),
+    );
     let mut request_bytes = serde_json::to_vec(&request)
         .map_err(|error| format!("encode verification supervisor request: {error}"))?;
     if request_bytes.len() + 1 > MAX_SUPERVISOR_REQUEST_BYTES {
@@ -5774,7 +6166,7 @@ fn execute_captured(
     observer: Option<&ProcessObserver>,
     process_start_gate: Option<&ProcessStartGate>,
 ) -> ExecutionOutcome {
-    execute_captured_inner(command, observer, process_start_gate, None, None)
+    execute_captured_inner(command, observer, process_start_gate, None, None, None)
 }
 
 fn execute_captured_inner(
@@ -5783,7 +6175,10 @@ fn execute_captured_inner(
     process_start_gate: Option<&ProcessStartGate>,
     cancellation: Option<&AtomicBool>,
     mut on_started: Option<&mut dyn FnMut(u32) -> Result<(), String>>,
+    retained_child: Option<&mut Option<Child>>,
 ) -> ExecutionOutcome {
+    #[cfg(not(target_os = "macos"))]
+    let _ = retained_child;
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
     let deadline_ms =
@@ -6067,6 +6462,10 @@ fn execute_captured_inner(
                 remaining_pids_truncated: false,
             },
         );
+        #[cfg(target_os = "macos")]
+        if let Some(slot) = retained_child {
+            *slot = Some(child);
+        }
         return outcome;
     };
     let termination_signal = status_termination_signal(&status);
@@ -7384,7 +7783,7 @@ while not marker.exists() and time.monotonic()<deadline:
             VerificationReusePolicy::NeverReuse,
         )
         .with_timeout_seconds(5);
-        let request = VerificationSupervisorRequest::from_command(&command);
+        let request = VerificationSupervisorRequest::from_command(&command, None);
         let mut request_bytes = serde_json::to_vec(&request).expect("encode supervisor request");
         request_bytes.push(b'\n');
         let executable = std::env::current_exe().expect("resolve test executable");
@@ -8043,7 +8442,7 @@ while not marker.exists() and time.monotonic()<deadline:
         )
         .with_environment(vec![("MARKER".into(), marker.as_os_str().to_owned())])
         .with_timeout_seconds(5);
-        let request = VerificationSupervisorRequest::from_command(&command);
+        let request = VerificationSupervisorRequest::from_command(&command, None);
         let mut request_bytes = serde_json::to_vec(&request).expect("encode supervisor request");
         request_bytes.push(b'\n');
         let executable = std::env::current_exe().expect("resolve test executable");
@@ -8646,7 +9045,7 @@ mod supervisor_finalization_tests {
             VerificationReusePolicy::NeverReuse,
         );
         let mut request =
-            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command))
+            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command, None))
                 .expect("request");
         request.push(b'\n');
         let started = exchange_verification_supervisor_startup(
@@ -8689,7 +9088,7 @@ mod supervisor_finalization_tests {
             VerificationReusePolicy::NeverReuse,
         );
         let mut request =
-            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command))
+            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command, None))
                 .expect("request");
         request.push(b'\n');
         let first = exchange_verification_supervisor_startup(

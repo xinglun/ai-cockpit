@@ -59,7 +59,6 @@
   "outOfScope": [
     "crates/cockpit-repository/src/collaboration.rs",
     "crates/cockpit-verification/src/composition.rs",
-    "crates/cockpit-protocol/**",
     ".github/**",
     "docs/release/**"
   ],
@@ -233,7 +232,9 @@
     "crates/cockpit-verification/tests/diagnostic_summary.rs",
     "crates/cockpit-mcp/src/lib.rs",
     "crates/cockpit-cli/tests/mcp.rs",
-    "docs/reference/commands.md"
+    "docs/reference/commands.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/task_authorization.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

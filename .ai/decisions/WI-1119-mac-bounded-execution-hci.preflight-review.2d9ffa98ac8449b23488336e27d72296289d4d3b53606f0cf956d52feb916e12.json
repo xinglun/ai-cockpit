@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:25e4b60303a1210679481b43c46f95dfc63d78135a150cbbbc5495c2f5e59011",
+  "reason": "The verified user replied 确认 to the immediately preceding WI-1119 request showing Contract 2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c, Preflight 25e4b60303a1210679481b43c46f95dfc63d78135a150cbbbc5495c2f5e59011, Snapshot 35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b, and Runtime ac4b107a75d25b39e912a5ed0aa5a794a019ec46ea0c0ecf417648fce518da9f. This confirms the two exact-path scope amendment, not process_cleanup action admission, implementation, tests, full descendant cleanup, completion, or release.",
+  "recordedAt": "2026-11-03T17:10:38.864566+00:00",
+  "recordedBy": "user:parent-thread-approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

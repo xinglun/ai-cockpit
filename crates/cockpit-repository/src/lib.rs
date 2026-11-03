@@ -61,7 +61,7 @@ mod historical_compatibility;
 mod knowledge_projection;
 mod legacy_closeout_source;
 mod lifecycle;
-pub use lifecycle::work_item_process_cleanup_report;
+pub use lifecycle::{work_item_process_cleanup_report, work_item_process_cleanup_with_caller};
 mod material_review;
 mod observation_ledger;
 mod outcome_render;
@@ -1741,6 +1741,12 @@ where
             request.runtime_digest.clone(),
         ))
     });
+    let process_supervisor = process_supervisor.map(|supervisor| match &recording {
+        Some((root, wi, execution_id, _)) => supervisor.with_process_cleanup_context(
+            root.clone(), wi.clone(), execution_id.clone(),
+        ),
+        None => supervisor,
+    });
     let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
         if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
             lifecycle::record_process_start(
@@ -1891,6 +1897,12 @@ where
                 checkpoint.local_execution_id()?.to_string(),
                 request.runtime_digest.clone(),
             ))
+        });
+        let process_supervisor = process_supervisor.map(|supervisor| match &recording {
+            Some((root, wi, execution_id, _)) => supervisor.with_process_cleanup_context(
+                root.clone(), wi.clone(), execution_id.clone(),
+            ),
+            None => supervisor,
         });
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
             if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {

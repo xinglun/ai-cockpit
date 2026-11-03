@@ -277,20 +277,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:1d3eb788b01c643f72e5b67acf2a0e61fa1922b964046be5dae4a4e51bf1627f",
+      "reason": "The user approved adding only crates/cockpit-protocol/src/lib.rs and crates/cockpit-repository/src/task_authorization.rs for an explicit WI-local process_cleanup action. The current governing Runtime rejects unknown task actions, so this prerequisite revision only enables those exact source paths and removes their one conflicting broad exclusion; it grants no cleanup execution permission. All other exclusions, Unknown safety boundary, and formal completion gates remain unchanged. A later action-policy amendment requires a newly built and separately approved Runtime plus native review.",
+      "recorded": true,
+      "recordedAt": "2026-11-03T16:56:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:1d3eb788b01c643f72e5b67acf2a0e61fa1922b964046be5dae4a4e51bf1627f",
+    "contractDigest": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
-    "reason": "The verified user replied 确认了 in room message Sentinel_2e9efd21a29c81918e497b93b2842a2f at 2026-11-03T16:16:00.215322Z to the immediately preceding WI-1119 confirm_review request with these exact four bindings. This approves the WI-local Summary process record and independent final cleanup command Contract; it does not attest implementation, test results, descendant cleanup, formal verification, completion, or release.",
-    "recordedAt": "2026-11-03T16:16:00.215322+00:00",
-    "recordedBy": "user:Sentinel_2e9efd21a29c81918e497b93b2842a2f",
+    "preflightDecisionDigest": "sha256:25e4b60303a1210679481b43c46f95dfc63d78135a150cbbbc5495c2f5e59011",
+    "reason": "The verified user replied 确认 to the immediately preceding WI-1119 request showing Contract 2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c, Preflight 25e4b60303a1210679481b43c46f95dfc63d78135a150cbbbc5495c2f5e59011, Snapshot 35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b, and Runtime ac4b107a75d25b39e912a5ed0aa5a794a019ec46ea0c0ecf417648fce518da9f. This confirms the two exact-path scope amendment, not process_cleanup action admission, implementation, tests, full descendant cleanup, completion, or release.",
+    "recordedAt": "2026-11-03T17:10:38.864566+00:00",
+    "recordedBy": "user:parent-thread-approval",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:df7c10bc5be042a27e659b5c94090365e077f5ec94c83a111c6ea6359b27a5f1",
+    "repositorySnapshotDigest": "sha256:35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -317,10 +337,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-03T16:37:46Z",
-  "preflightContractDigest": "sha256:1d3eb788b01c643f72e5b67acf2a0e61fa1922b964046be5dae4a4e51bf1627f",
-  "preflightDecisionDigest": "sha256:96a84b8c9fe42c51a72c83b21d1e6940426ec0825ed155cb398dbf33273b975a",
-  "preflightRepositorySnapshotDigest": "sha256:e817c587c172918882e44b349e40610fc6ce42ceea8c77586f8a2a853c5e9765",
+  "preflightAt": "2026-11-03T17:05:19Z",
+  "preflightContractDigest": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
+  "preflightDecisionDigest": "sha256:25e4b60303a1210679481b43c46f95dfc63d78135a150cbbbc5495c2f5e59011",
+  "preflightRepositorySnapshotDigest": "sha256:35d85a8476950db22463dd650d48df08d9fed91fc09f4bc9cfcd42a5e661d31b",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -468,11 +488,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T16:17:25.447038+00:00",
+  "updatedAt": "2026-11-03T17:11:02.005397+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:1d3eb788b01c643f72e5b67acf2a0e61fa1922b964046be5dae4a4e51bf1627f",
+    "contractHash": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-03T16:13:06Z"
+    "recordedAt": "2026-11-03T16:56:57Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }

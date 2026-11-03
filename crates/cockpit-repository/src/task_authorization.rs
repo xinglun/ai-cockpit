@@ -1922,6 +1922,7 @@ pub fn assess_task_authorization(
     .contains(&request.action.as_str());
     let native_operation = [
         "checkpoint",
+        "process_cleanup",
         "finalize_resources",
         "record_finalization",
         "finalize_verify",

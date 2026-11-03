@@ -992,8 +992,8 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
     },
-    /// Inspect this Work Item's process ledger at final cleanup. A separate
-    /// invocation never signals a historical PID without an owned Child handle.
+    /// Request bounded cleanup from a live owner of this Work Item's exact
+    /// Child. Historical PIDs alone never authorize a signal.
     ProcessCleanup {
         #[arg(long)]
         repo: PathBuf,
@@ -3292,8 +3292,10 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::ProcessCleanup { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;
-                let report = cockpit_repository::work_item_process_cleanup_report(&repo, &id)
-                    .context("inspect Work Item process cleanup")?;
+                let report = cockpit_repository::work_item_process_cleanup_with_caller(
+                    &repo, &id, &runtime_context, task_caller.as_ref(),
+                )
+                .context("request Work Item process cleanup")?;
                 println!("{}", serde_json::to_string_pretty(&report)?);
             }
             WorkItemCommand::FinalizeRecovery { repo, id, input } => {
