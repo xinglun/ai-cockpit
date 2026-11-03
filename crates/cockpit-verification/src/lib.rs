@@ -5458,6 +5458,12 @@ fn observe_owned_supervisor_exit(child: &mut Child) -> std::io::Result<bool> {
 }
 
 #[cfg(unix)]
+struct SupervisorCleanupOperations {
+    observe: fn(&mut Child) -> std::io::Result<bool>,
+    reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+}
+
+#[cfg(unix)]
 #[cfg(test)]
 fn wait_supervisor_cleanup_with_operations(
     child: &mut Child,
@@ -5475,7 +5481,7 @@ fn wait_supervisor_cleanup_with_operations(
         forced_termination,
         messages,
         &mut None,
-        (observe, reap),
+        SupervisorCleanupOperations { observe, reap },
     )
 }
 
@@ -5487,12 +5493,9 @@ fn wait_supervisor_cleanup_with_operations_recording(
     forced_termination: &mut bool,
     messages: Option<&VerificationSupervisorMessages>,
     group_signal_diagnostic: &mut Option<String>,
-    operations: (
-        fn(&mut Child) -> std::io::Result<bool>,
-        fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
-    ),
+    operations: SupervisorCleanupOperations,
 ) -> Option<std::process::ExitStatus> {
-    let (observe, reap) = operations;
+    let SupervisorCleanupOperations { observe, reap } = operations;
     if child.id() != child_id || !(2..=i32::MAX as u32).contains(&child_id) {
         *forced_termination = true;
         return None;
@@ -5624,7 +5627,10 @@ fn wait_supervisor_cleanup_recording(
             forced_termination,
             messages,
             group_signal_diagnostic,
-            (observe_owned_supervisor_exit, Child::try_wait),
+            SupervisorCleanupOperations {
+                observe: observe_owned_supervisor_exit,
+                reap: Child::try_wait,
+            },
         )
     }
     #[cfg(not(unix))]
