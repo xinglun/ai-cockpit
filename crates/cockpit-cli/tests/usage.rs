@@ -91,7 +91,8 @@ fn request(root: &Path) -> UsageRecordRequest {
 fn process_cleanup_reports_only_this_work_items_unowned_processes() {
     let root = fixture();
     let wi = "WI-CLI-MCP-USAGE";
-    let summary_path = root.path().join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let repo_path: &Path = root.path();
+    let summary_path = repo_path.join(format!(".ai/work-items/active/{wi}.summary.json"));
     let mut summary: serde_json::Value =
         serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
             .expect("parse Summary");
