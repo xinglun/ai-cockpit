@@ -1,0 +1,583 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 7,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1119-scenario-expected-result-equivalence-20261103",
+      "expectedContractDigest": "sha256:8799d44a9264e1ca8b16917509fdd4139cd9a00e91c87e9e68d991457ac9b1a4",
+      "reason": "User approved adding expectedResult to each of the nine required WI-1119 scenarios as an exact copy of existing expectedOutcome, solely to satisfy native planned-scenario validation while retaining every status, verification plan, scope and completion gate.",
+      "changes": [
+        {
+          "path": "/scenarioCoverage/0/expectedResult",
+          "operation": "set",
+          "value": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup."
+        },
+        {
+          "path": "/scenarioCoverage/1/expectedResult",
+          "operation": "set",
+          "value": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved."
+        },
+        {
+          "path": "/scenarioCoverage/2/expectedResult",
+          "operation": "set",
+          "value": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated."
+        },
+        {
+          "path": "/scenarioCoverage/3/expectedResult",
+          "operation": "set",
+          "value": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass."
+        },
+        {
+          "path": "/scenarioCoverage/4/expectedResult",
+          "operation": "set",
+          "value": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation."
+        },
+        {
+          "path": "/scenarioCoverage/5/expectedResult",
+          "operation": "set",
+          "value": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success."
+        },
+        {
+          "path": "/scenarioCoverage/6/expectedResult",
+          "operation": "set",
+          "value": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse."
+        },
+        {
+          "path": "/scenarioCoverage/7/expectedResult",
+          "operation": "set",
+          "value": "The production composition entry rejects full-owned-descendant supervision before verifier spawn."
+        },
+        {
+          "path": "/scenarioCoverage/8/expectedResult",
+          "operation": "set",
+          "value": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity."
+        }
+      ]
+    },
+    "requestDigest": "sha256:b157bc2ebe7b301341b4cd2e4eb0ed44968c33c369e0c3feda9a2ab66a8c4002",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Mac reports directly observed verifier exit and original-group control separately from unproven escaped-descendant cleanup; no complete-tree claim.",
+        "Timeout, parent disconnect, output saturation, and cleanup errors remain bounded and produce explicit uncertainty where closure is unproven.",
+        "setsid, double-fork, closed-pipe, changed-cwd, and PID-reuse negatives never become cleanup-success or reusable evidence; unrelated processes survive.",
+        "Cold read and restart retain Unknown; uncertainty cannot be promoted to clean by a later empty process-group probe.",
+        "Full composition supervision still rejects Mac before starting a verifier.",
+        "The nine scoped documents state HCI as the sole current North Star: understandable, controllable, explainable, recoverable; the historical map retains its historical identity.",
+        "A command's observed exit does not imply that arbitrary descendants were reaped or that governed verification passed.",
+        "Mac records directly observed command completion separately from descendant cleanup assurance; cleanup Unknown leaves the Work Item pending formal verification and cannot authorize a reusable receipt or finish, archive, or close.",
+        "A capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot; the prior Mac attempt remains historical Unknown and is never promoted to clean."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "missing",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-03T02:44:47Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Control and wait for the directly owned verifier and its original process group on Mac; preserve Unknown and prohibit cleanup-success and result reuse where escaped descendants cannot be ruled out. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed"
+          ],
+          "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision",
+          "closeoutActions": [],
+          "expiresAt": null,
+          "publicTarget": null,
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Provide an honest bounded Mac execution boundary and align the human-facing North Star with HCI.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-repository/src/collaboration.rs",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-protocol/**",
+        ".github/**",
+        "docs/release/**"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_direct_child_natural_exit",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac direct-child fixture through the proposed supervised CLI path and inspect the receipt and human Outcome."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_original_group_timeout",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac timeout fixture with a same-group member and a separate unrelated process; confirm the latter survives."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_owner_disconnect_and_death",
+          "status": "unverified",
+          "verificationPlan": "Run isolated real Mac parent-disconnect and owner-death fixtures; retain Unknown when the supervising proof is lost."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_output_saturation",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac saturating-output fixture with a finite watchdog; inspect command and cleanup fields."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_escaped_descendant_negative",
+          "status": "unverified",
+          "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent fixture cleanup and assert Unknown, retained evidence and no reuse."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_pid_reuse_unrelated_survival",
+          "status": "unverified",
+          "verificationPlan": "Use an identity-change fixture and a separate unrelated process; assert no unrelated termination and fail-closed outcome."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_cold_read_restart_unknown",
+          "status": "unverified",
+          "verificationPlan": "Persist an uncertain attempt, restart the same exact Mac Runtime, and inspect status, Outcome, and reuse admission without replaying the command."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "mac_composition_remains_unsupported",
+          "status": "unverified",
+          "verificationPlan": "Use an admitted-shape real Mac CLI/MCP composition fixture and assert exact unsupported error, no verifier spawn, and durable failure evidence."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
+          "expectedResult": null,
+          "reason": null,
+          "required": true,
+          "scenario": "hci_north_star_three_languages",
+          "status": "unverified",
+          "verificationPlan": "Review all nine files and run the repository documentation acceptance gate."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-cli/tests/usage.rs",
+        "README.md",
+        "README.ja.md",
+        "README.zh-CN.md",
+        "docs/architecture/product-boundary.md",
+        "docs/architecture/product-boundary.ja.md",
+        "docs/architecture/product-boundary.zh-CN.md",
+        "docs/reference/architecture-responsibility-map-2026-09.md",
+        "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+        "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-verification/tests/composition.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-verification/tests/diagnostic_summary.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-cli/tests/mcp.rs"
+      ],
+      "sources": [
+        "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+        "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+        "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
+        "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877",
+        "AGENTS.md and .ai/README.md on the exact base",
+        "User selected route A in the current conversation: Mac command facts remain pending formal verification; existing completion gates stay unchanged."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-verification --lib --test execution -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test usage -- --test-threads=1",
+        "tests/docs/documentation_acceptance.sh",
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    "previousContractDigest": "sha256:8799d44a9264e1ca8b16917509fdd4139cd9a00e91c87e9e68d991457ac9b1a4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Mac reports directly observed verifier exit and original-group control separately from unproven escaped-descendant cleanup; no complete-tree claim.",
+        "Timeout, parent disconnect, output saturation, and cleanup errors remain bounded and produce explicit uncertainty where closure is unproven.",
+        "setsid, double-fork, closed-pipe, changed-cwd, and PID-reuse negatives never become cleanup-success or reusable evidence; unrelated processes survive.",
+        "Cold read and restart retain Unknown; uncertainty cannot be promoted to clean by a later empty process-group probe.",
+        "Full composition supervision still rejects Mac before starting a verifier.",
+        "The nine scoped documents state HCI as the sole current North Star: understandable, controllable, explainable, recoverable; the historical map retains its historical identity.",
+        "A command's observed exit does not imply that arbitrary descendants were reaped or that governed verification passed.",
+        "Mac records directly observed command completion separately from descendant cleanup assurance; cleanup Unknown leaves the Work Item pending formal verification and cannot authorize a reusable receipt or finish, archive, or close.",
+        "A capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot; the prior Mac attempt remains historical Unknown and is never promoted to clean."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "missing",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-03T02:44:47Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Control and wait for the directly owned verifier and its original process group on Mac; preserve Unknown and prohibit cleanup-success and result reuse where escaped descendants cannot be ruled out. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "taskAuthorization": {
+          "agentActor": "agent:codex",
+          "allowedActions": [
+            "modify_source",
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "record_governance_controls",
+            "record_material_review_decision",
+            "finish",
+            "archive_when_reviewed"
+          ],
+          "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision",
+          "closeoutActions": [],
+          "expiresAt": null,
+          "publicTarget": null,
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Provide an honest bounded Mac execution boundary and align the human-facing North Star with HCI.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-repository/src/collaboration.rs",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-protocol/**",
+        ".github/**",
+        "docs/release/**"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "bounded-task-authorization",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
+          "expectedResult": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_direct_child_natural_exit",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac direct-child fixture through the proposed supervised CLI path and inspect the receipt and human Outcome."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+          "expectedResult": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_original_group_timeout",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac timeout fixture with a same-group member and a separate unrelated process; confirm the latter survives."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
+          "expectedResult": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_owner_disconnect_and_death",
+          "status": "unverified",
+          "verificationPlan": "Run isolated real Mac parent-disconnect and owner-death fixtures; retain Unknown when the supervising proof is lost."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
+          "expectedResult": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_output_saturation",
+          "status": "unverified",
+          "verificationPlan": "Run a real Mac saturating-output fixture with a finite watchdog; inspect command and cleanup fields."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
+          "expectedResult": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_escaped_descendant_negative",
+          "status": "unverified",
+          "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent fixture cleanup and assert Unknown, retained evidence and no reuse."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
+          "expectedResult": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_pid_reuse_unrelated_survival",
+          "status": "unverified",
+          "verificationPlan": "Use an identity-change fixture and a separate unrelated process; assert no unrelated termination and fail-closed outcome."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
+          "expectedResult": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_cold_read_restart_unknown",
+          "status": "unverified",
+          "verificationPlan": "Persist an uncertain attempt, restart the same exact Mac Runtime, and inspect status, Outcome, and reuse admission without replaying the command."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
+          "expectedResult": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
+          "reason": null,
+          "required": true,
+          "scenario": "mac_composition_remains_unsupported",
+          "status": "unverified",
+          "verificationPlan": "Use an admitted-shape real Mac CLI/MCP composition fixture and assert exact unsupported error, no verifier spawn, and durable failure evidence."
+        },
+        {
+          "description": null,
+          "evidence": [],
+          "expected": null,
+          "expectedOutcome": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
+          "expectedResult": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
+          "reason": null,
+          "required": true,
+          "scenario": "hci_north_star_three_languages",
+          "status": "unverified",
+          "verificationPlan": "Review all nine files and run the repository documentation acceptance gate."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-cli/tests/usage.rs",
+        "README.md",
+        "README.ja.md",
+        "README.zh-CN.md",
+        "docs/architecture/product-boundary.md",
+        "docs/architecture/product-boundary.ja.md",
+        "docs/architecture/product-boundary.zh-CN.md",
+        "docs/reference/architecture-responsibility-map-2026-09.md",
+        "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+        "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-verification/tests/composition.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-verification/tests/diagnostic_summary.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-cli/tests/mcp.rs"
+      ],
+      "sources": [
+        "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+        "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+        "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
+        "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877",
+        "AGENTS.md and .ai/README.md on the exact base",
+        "User selected route A in the current conversation: Mac command facts remain pending formal verification; existing completion gates stay unchanged."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-verification --lib --test execution -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test usage -- --test-threads=1",
+        "tests/docs/documentation_acceptance.sh",
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    "newContractDigest": "sha256:7c70e1cc706a560c7e02fbe4004935ba069a9a18268326eb300ec77028764bc8",
+    "previousSummaryDigest": "sha256:2118634c3b08aee85d2321d31c6157d49709cdc352d7d0d1f7118e7b7fb435e4",
+    "repositorySnapshotDigest": "sha256:e85c2da627a5ee0b4a7bb7a9de0cd875ce3e9b79db55035f98595f81356f7d54",
+    "environmentObservationDigest": "sha256:6a894392d8c1833388d56fba84b151710c92b4efe8e3999f527574d9dbc400bf",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:ac4b107a75d25b39e912a5ed0aa5a794a019ec46ea0c0ecf417648fce518da9f"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:998e7ac254f5483b5e5fa6c0add208e87cef545a65abb2c032e1ff3af9d83a0d",
+    "policyReviewRequirements": [
+      "/scenarioCoverage/0/expectedResult",
+      "/scenarioCoverage/1/expectedResult",
+      "/scenarioCoverage/2/expectedResult",
+      "/scenarioCoverage/3/expectedResult",
+      "/scenarioCoverage/4/expectedResult",
+      "/scenarioCoverage/5/expectedResult",
+      "/scenarioCoverage/6/expectedResult",
+      "/scenarioCoverage/7/expectedResult",
+      "/scenarioCoverage/8/expectedResult"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-11-03T09:26:31Z"
+  },
+  "preparedDigest": "sha256:e1ee7543742f686228085647245d96f6ee52e3d3b3a8515059ae2571feaae496"
+}

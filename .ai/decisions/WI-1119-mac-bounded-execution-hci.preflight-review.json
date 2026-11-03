@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8a05df088f0f91fc2c26418e9c31c3e96aaaae4eb34444babf390657e8377434",
+  "reason": "User explicitly confirmed the four WI-1119 Contract, Preflight, Snapshot and Runtime bindings and confirm_review in conversation message Sentinel_40addc47a7488191bc41be185acd6907 at 2026-11-03T02:59:37Z. This permits continued bounded Mac implementation only and does not attest that scenarios passed.",
+  "recordedAt": "2026-11-03T02:59:37Z",
+  "recordedBy": "user:Sentinel_40addc47a7488191bc41be185acd6907",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

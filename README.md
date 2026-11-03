@@ -18,6 +18,8 @@ capabilityClaims:
 
 Repository governance for AI coding agents. AI Cockpit makes scope explicit, keeps verification evidence reviewable, and records human decisions separately. Built in Rust with a command-line interface and a local Model Context Protocol (MCP) adapter.
 
+The sole current North Star is human-computer interaction (HCI): make the system understandable, controllable, explainable, and recoverable for the person using it. This does not promise zero errors. Calibrated human-agent trust is an outcome of those interactions, supported by evidence and explicit decisions.
+
 ## When an agent says “done”
 
 Did the change stay within scope? Were required checks run against the current repository? Is approval still valid for the change being reviewed?

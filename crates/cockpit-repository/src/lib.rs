@@ -17330,6 +17330,17 @@ fn outcome_v2_internal_with_snapshot_and_hook(
             attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
         ));
     }
+    if let Some(attempt) = current_attempt.as_ref()
+        && attempt.state == "cleanup_unknown"
+    {
+        unknowns.push(format!(
+            "verification_attempt_cleanup_unknown:{}:{}:snapshot={}:evidence={}",
+            attempt.command_result.as_deref().unwrap_or("unknown"),
+            attempt.attempt_id,
+            attempt.snapshot_digest,
+            attempt.path
+        ));
+    }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());
     }

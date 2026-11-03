@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b78d5ef6b9b66f1c2ffa4bb2f9734019da11829d57fe3cfb1dbceb3ed85609c6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1dfbbb6088f9c34d9c78c90c54cb8a520246a1a4a5da3776e555959c3a1f3b74",
+  "reason": "The verified user replied confirm_review in room message Sentinel_a76d50c469288191802e244d61806837 at 2026-11-03T09:49:32.210002Z to the immediately preceding exact Contract, Preflight, Snapshot and Runtime binding request. This confirms only nine equivalent expected plan fields, not scenario verification, descendant cleanup, or completion.",
+  "recordedAt": "2026-11-03T09:49:32.210002Z",
+  "recordedBy": "user:Sentinel_a76d50c469288191802e244d61806837",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e85c2da627a5ee0b4a7bb7a9de0cd875ce3e9b79db55035f98595f81356f7d54",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

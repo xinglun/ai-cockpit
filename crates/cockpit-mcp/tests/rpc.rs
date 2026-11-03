@@ -1073,6 +1073,7 @@ fn mcp_prepared_start_preserves_human_review_without_checkpointing() {
     assert_eq!(summary["preflightState"], "yellow");
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn mcp_plan_only_reports_actions_without_running_project_commands() {
     let directory = TestTempDir::new("cockpit-mcp-plan-only");
@@ -2216,6 +2217,7 @@ fn mcp_verify_rejects_a_repository_that_requires_migration() {
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn repository_bound_verify_binds_evidence_after_command_side_effects() {
     let suffix = SystemTime::now()
@@ -2474,6 +2476,7 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+#[cfg(not(target_os = "macos"))]
 fn single_terminal_with_execution_checkpoints(
     root: &Path,
     work_item_id: &str,
@@ -2556,6 +2559,7 @@ fn single_terminal_with_execution_checkpoints(
     terminal.clone()
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails() {
     let directory = TestTempDir::new("cockpit-mcp-receipt-rejection");
@@ -2669,6 +2673,7 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
     );
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     let directory = TestTempDir::new("cockpit-mcp-failed-execution");
@@ -2748,7 +2753,10 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     );
 
     let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
+    #[cfg(not(target_os = "macos"))]
     assert_eq!(attempt["state"], "execution_failed");
+    #[cfg(target_os = "macos")]
+    assert_eq!(attempt["state"], "cleanup_unknown");
     assert_eq!(attempt["passed"], false);
     assert_eq!(attempt["processesSpawned"], 1);
     assert_eq!(attempt["diagnostic"]["code"], "verification_execution");
@@ -2759,6 +2767,27 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     assert_eq!(record["passed"], false);
     assert_eq!(record["exitCode"], 7);
     assert_eq!(record["timedOut"], false);
+    #[cfg(target_os = "macos")]
+    {
+        assert_eq!(record["commandResult"], "failed");
+        assert_eq!(
+            record["cleanupUncertainty"]["phase"],
+            "mac_descendant_boundary"
+        );
+        assert_eq!(attempt["nodeExecutionFacts"], serde_json::json!([]));
+        assert_eq!(attempt["localNodeLinkState"], "not_applicable");
+        assert_eq!(
+            attempt["receipt"]["receiptCandidates"],
+            serde_json::json!([])
+        );
+        assert!(
+            !directory
+                .path()
+                .join(format!(".ai/evidence/{work_item_id}.verification.json"))
+                .exists(),
+            "cleanup Unknown cannot create formal verification evidence"
+        );
+    }
     assert!(record["elapsedMs"].is_u64());
     assert!(record["stdout"].is_string());
     assert!(record["stderr"].is_string());
@@ -2769,8 +2798,219 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
         attempt["receipt"]["runtimeVersion"],
         test_runtime_context().runtime_version
     );
+    #[cfg(target_os = "macos")]
+    {
+        let outcome = handle_request_for_repo(
+            &serde_json::json!({
+                "jsonrpc": "2.0",
+                "id": 13,
+                "method": "tools/call",
+                "params": {
+                    "name": "work_item_outcome",
+                    "arguments": {"workItemId": work_item_id, "delivery": false}
+                }
+            }),
+            directory.path(),
+            &test_runtime_context(),
+        );
+        assert_eq!(outcome["result"]["isError"], false);
+        let unknowns = &outcome["result"]["structuredContent"]["outcome"]["unknowns"];
+        assert!(
+            unknowns
+                .as_array()
+                .is_some_and(|values| values.iter().any(|value| {
+                    value.as_str().is_some_and(|code| {
+                        code.starts_with("verification_attempt_cleanup_unknown:failed:")
+                    })
+                })),
+            "cold MCP Outcome must retain failed command and unknown cleanup: {outcome}"
+        );
+    }
 }
 
+#[cfg(target_os = "macos")]
+#[test]
+fn mac_mcp_composition_rejects_full_descendant_supervision_before_spawn() {
+    use cockpit_git::GitRepository;
+    use cockpit_protocol::{
+        CollaborationDeclaration, CompositionBinding, CompositionVerification,
+        IntegrationResponsibility, RuntimeCapabilityBinding, WorktreeRegistration,
+    };
+    use cockpit_repository::{CoordinationStore, WorkItemStartOptions, repository_id};
+    use cockpit_verification::{
+        CompositionCommand, CompositionIdentity, CompositionInput, CompositionPrecondition,
+        composition_commands_digest,
+    };
+
+    let directory = TestTempDir::new("cockpit-mcp-mac-composition-refusal");
+    let canonical_root = fs::canonicalize(directory.path()).expect("canonical fixture root");
+    let root = canonical_root.as_path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q", "-b", "main"])
+            .current_dir(root)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    fs::write(root.join("README.md"), "composition refusal fixture\n").expect("README");
+    commit_test_source(root, &["README.md"], "composition refusal fixture");
+    cockpit_repository::attach(root).expect("attach");
+    let work_item_id = "WI-MCP-MAC-COMPOSITION-REFUSAL";
+    cockpit_repository::start_work_item_with_options(
+        root,
+        work_item_id,
+        "reject unsupported full descendant supervision",
+        "retain an exact failed attempt before any verifier starts",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["full supervision is rejected on Mac".into()],
+            verification_commands: vec!["true".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start work item");
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+            .expect("Contract JSON");
+    contract["verification"] = serde_json::json!([{"check": "true", "required": true}]);
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("serialize Contract"),
+    )
+    .expect("write explicit required check");
+    let contract_digest = cockpit_protocol::digest_json(&contract).expect("Contract digest");
+
+    let executable = std::env::current_exe().expect("exact test Runtime");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(
+            &fs::read(&executable).expect("exact test Runtime bytes"),
+        ),
+    };
+    let candidate = RuntimeCapabilityBinding {
+        schema_version: 1,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        capability: cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY.into(),
+    };
+    let git = GitRepository::discover(root).expect("discover repository");
+    let topology = git.topology().expect("repository topology");
+    let head = topology.head.expect("committed fixture head");
+    let declaration = CollaborationDeclaration {
+        integration_responsibility: IntegrationResponsibility {
+            responsible_work_item_id: work_item_id.into(),
+            target_branch: "main".into(),
+            composition_order: vec![work_item_id.into()],
+            rationale: "exercise the production Mac refusal".into(),
+        },
+        composition_verification: CompositionVerification {
+            reusable_nodes: vec!["check".into()],
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    let store = CoordinationStore::open(&git, candidate.clone()).expect("coordination store");
+    store
+        .register(WorktreeRegistration {
+            schema_version: 1,
+            repository_id: repository_id(root),
+            work_item_id: work_item_id.into(),
+            contract_digest: contract_digest.clone(),
+            worktree_path: root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("fixture branch"),
+            head: head.clone(),
+            generation: 1,
+            declaration,
+            runtime: candidate.clone(),
+            environment: None,
+        })
+        .expect("register admitted worktree");
+    let commands = vec![CompositionCommand {
+        node_id: "check".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        depends_on: Vec::new(),
+        environment: Default::default(),
+        input_paths: vec!["README.md".into()],
+        covered_scenarios: Vec::new(),
+        covered_constraints: Vec::new(),
+    }];
+    let input = CompositionInput {
+        repository_root: root.to_path_buf(),
+        state_dir: root.join("unused-composition-state"),
+        binding: CompositionBinding {
+            schema_version: 1,
+            repository_id: repository_id(root),
+            binding_id: "mac-composition-refusal".into(),
+            target_branch: "main".into(),
+            target_sha: head.clone(),
+            participant_work_items: vec![work_item_id.into()],
+            participant_heads: vec![head],
+            contract_digests: vec![contract_digest],
+            verifier: candidate,
+        },
+        identity: CompositionIdentity {
+            command_digest: composition_commands_digest(&commands),
+            ..Default::default()
+        },
+        commands,
+        reusable_node_ids: vec!["check".into()],
+        preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+        timeout_seconds: 30,
+    };
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc": "2.0",
+            "id": 14,
+            "method": "tools/call",
+            "params": {
+                "name": "work_item_composition",
+                "arguments": {
+                    "workItemId": work_item_id,
+                    "generation": 1,
+                    "input": input
+                }
+            }
+        }),
+        root,
+        &runtime,
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .is_some_and(|text| text.contains("full-owned-descendant supervision is unsupported")),
+        "production composition must reject the Mac backend: {response}"
+    );
+    let attempts = fs::read_dir(store.root().join("compositions"))
+        .expect("durable rejected composition directory")
+        .map(|entry| entry.expect("composition attempt entry"))
+        .filter(|entry| {
+            entry
+                .path()
+                .extension()
+                .is_some_and(|value| value == "json")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("composition attempt bytes"),
+            )
+            .expect("composition attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    assert_eq!(attempts[0]["processesSpawned"], 0);
+    assert_eq!(attempts[0]["passed"], false);
+    assert_eq!(attempts[0]["executionRecords"], serde_json::json!([]));
+}
+
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service() {
     let suffix = SystemTime::now()

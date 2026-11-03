@@ -18,6 +18,8 @@ capabilityClaims:
 
 AI coding agent のための repository governance です。scope を明示し、verification evidence をレビュー可能にし、human decision を別に記録します。Rust 製の CLI と、Model Context Protocol（MCP）用の local adapter を提供します。
 
+現在の唯一の North Star は HCI（人間とコンピュータのインタラクション）です。使う人がシステムを理解し、制御し、説明を受け、問題から回復できるようにします。エラーがゼロになるという約束ではありません。校正された人間と agent の信頼は、証拠と明示的な判断に支えられた、これらの対話の結果です。
+
 ## Agent が「完了」と言ったとき
 
 変更は宣言した scope 内ですか。必要な check は現在の repository で実行されましたか。approval はレビュー中の変更に対して有効ですか。

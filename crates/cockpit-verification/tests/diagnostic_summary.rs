@@ -13,6 +13,8 @@ fn record(
         deadline_ms: 0,
         spawned: true,
         passed,
+        command_result: None,
+        cleanup_uncertainty: None,
         exit_code,
         termination_signal: None,
         stdout_hex: String::new(),

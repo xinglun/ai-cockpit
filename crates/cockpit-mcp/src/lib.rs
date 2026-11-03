@@ -3329,14 +3329,39 @@ fn verify_for_repo(
             "plannedNodes": [planned],
         }));
     }
+    #[cfg(target_os = "macos")]
+    let run = {
+        let executable = std::env::current_exe()
+            .map_err(|error| format!("resolve governing Runtime executable: {error}"))?;
+        let digest = cockpit_core::Digest::sha256_bytes(
+            &fs::read(&executable)
+                .map_err(|error| format!("read governing Runtime executable: {error}"))?,
+        );
+        if runtime.runtime_version != env!("CARGO_PKG_VERSION") || runtime.runtime_digest != digest
+        {
+            return Err("unsupported_runtime_capability: MCP verification requires the exact governing Runtime executable on macOS".into());
+        }
+        cockpit_repository::run_repository_verification_with_task_authorization_supervised(
+            &root,
+            &request,
+            runtime,
+            caller.as_ref(),
+            |_node_id, _pid, _started| Ok(()),
+            cockpit_verification::VerificationSupervisorLaunch::new(
+                executable,
+                vec!["__verification-supervisor".into()],
+            ),
+        )
+    };
+    #[cfg(not(target_os = "macos"))]
     let run = cockpit_repository::run_repository_verification_with_task_authorization(
         &root,
         &request,
         runtime,
         caller.as_ref(),
         |_node_id, _pid, _started| Ok(()),
-    )
-    .map_err(|error| error.to_string())?;
+    );
+    let run = run.map_err(|error| error.to_string())?;
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());

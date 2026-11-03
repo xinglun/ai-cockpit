@@ -16,8 +16,10 @@ capabilityClaims:
 
 ## 产品身份
 
-AI Cockpit 是面向 AI 辅助工程的 Repository Governance Layer。North Star 是
-校准的人类—Agent 信任，核心规则是 Evidence over Self-Declaration。
+AI Cockpit 是面向 AI 辅助工程的 Repository Governance Layer。当前唯一的 North Star
+是人机交互（HCI）：让使用者能够理解、控制、解释系统，并在出问题后恢复；这不承诺
+零错误。经校准的人类与代理信任是这些交互的结果。核心规则是 Evidence over
+Self-Declaration。
 
 治理链是：
 

@@ -27,7 +27,7 @@ use std::sync::atomic::AtomicBool;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
 use std::time::Duration;
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 use std::time::Instant;
 
 #[cfg(target_os = "linux")]
@@ -1664,15 +1664,17 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
             match blocked.failure.as_deref() {
                 Some(failure) if failure.starts_with("verifier_process_state_unknown:") => {
                     #[cfg(target_os = "linux")]
-                    assert_expected_procfs_observer_failure(failure);
+                    {
+                        assert_expected_procfs_observer_failure(failure);
+                        assert!(blocked.owned_tree_termination_unknown);
+                        assert_eq!(
+                            blocked.execution_outcome,
+                            CompositionExecutionOutcome::Unknown
+                        );
+                        assert!(!blocked.execution_evidence_complete);
+                    }
                     #[cfg(not(target_os = "linux"))]
                     panic!("unexpected cleanup observation on non-Linux Unix: {failure}");
-                    assert!(blocked.owned_tree_termination_unknown);
-                    assert_eq!(
-                        blocked.execution_outcome,
-                        CompositionExecutionOutcome::Unknown
-                    );
-                    assert!(!blocked.execution_evidence_complete);
                 }
                 Some(failure) if failure.starts_with("verifier_descendant_active:") => {
                     let process_id = failure
@@ -2425,6 +2427,9 @@ fn retry_does_not_remove_a_worktree_owned_by_a_live_process() {
 }
 
 #[cfg(unix)]
+// This recovery fixture requires Linux subreaper identity and /proc proof.
+// macOS composition deliberately cannot certify an escaped descendant.
+#[cfg(target_os = "linux")]
 #[test]
 fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     if std::env::var_os("COMPOSITION_CRASH_CHILD").is_some() {
@@ -2810,7 +2815,9 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     );
 }
 
-#[cfg(unix)]
+// Numeric process-group liveness alone is insufficient on macOS; this
+// interrupted-owner reconciliation is a Linux subreaper proof fixture.
+#[cfg(target_os = "linux")]
 #[test]
 fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
     if std::env::var_os("COMPOSITION_ORPHAN_CHILD").is_some() {

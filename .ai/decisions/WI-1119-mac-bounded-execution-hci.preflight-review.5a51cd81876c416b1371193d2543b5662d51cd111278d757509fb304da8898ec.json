@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8799d44a9264e1ca8b16917509fdd4139cd9a00e91c87e9e68d991457ac9b1a4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:f5819a9b2e8848be0937521f71bac1c6a3ae77a60ad3f582d73cb6fe8d648ef7",
+  "reason": "The verified user replied confirm_review to the immediately preceding exact WI-1119 Contract, Preflight, Snapshot and Runtime bindings in message Sentinel_ce5adbb2fac08191a177e79d3e760704 at 2026-11-03T07:52:08.502009Z. This confirms only the two-path MCP supervised-route and test scope revision; it does not attest verification, descendant cleanup, or completion.",
+  "recordedAt": "2026-11-03T07:52:08.502009Z",
+  "recordedBy": "user:Sentinel_ce5adbb2fac08191a177e79d3e760704",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:adf733edc96f9ffddbd379ad38e832d88a399b4ec0fd94c799456fe2626ac7e3",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

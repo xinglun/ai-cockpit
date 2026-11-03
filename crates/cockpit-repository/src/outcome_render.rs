@@ -1263,7 +1263,13 @@ fn push_reason_for_gate(keys: &mut Vec<String>, gate: &str) {
 }
 
 fn push_reason_for_unknown(keys: &mut Vec<String>, unknown: &str) {
-    let key = if unknown == "verification_evidence_missing" {
+    let key = if unknown.starts_with("verification_attempt_cleanup_unknown:succeeded:") {
+        "mac_command_succeeded_cleanup_unknown"
+    } else if unknown.starts_with("verification_attempt_cleanup_unknown:failed:") {
+        "mac_command_failed_cleanup_unknown"
+    } else if unknown.starts_with("verification_attempt_cleanup_unknown:unknown:") {
+        "mac_command_result_unknown_cleanup_unknown"
+    } else if unknown == "verification_evidence_missing" {
         "verification_evidence_missing"
     } else if unknown == "evidence_stale"
         || unknown.contains("evidence") && unknown.contains("stale")
@@ -3251,6 +3257,15 @@ fn localized_summary_next_action(
 
 fn localized_governance_reason(key: &str, language: &str) -> String {
     match (language, key) {
+        ("zh", "mac_command_succeeded_cleanup_unknown") => "命令已观察到成功退出；逃逸后代清理无法确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_succeeded_cleanup_unknown") => "コマンドの正常終了を確認しました。離脱した子孫プロセスの終了は確認できず、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_succeeded_cleanup_unknown") => "The command exited successfully; escaped descendant cleanup is unconfirmed, so the Work Item awaits formal verification.".into(),
+        ("zh", "mac_command_failed_cleanup_unknown") => "命令已观察到失败；逃逸后代清理也无法确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_failed_cleanup_unknown") => "コマンドの失敗を確認しました。離脱した子孫プロセスの終了も確認できず、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_failed_cleanup_unknown") => "The command failed; escaped descendant cleanup is also unconfirmed, so the Work Item awaits formal verification.".into(),
+        ("zh", "mac_command_result_unknown_cleanup_unknown") => "命令结果与逃逸后代清理均无法确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_result_unknown_cleanup_unknown") => "コマンドの結果と離脱した子孫プロセスの終了を確認できず、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_result_unknown_cleanup_unknown") => "The command result and escaped descendant cleanup are unconfirmed; the Work Item awaits formal verification.".into(),
         ("zh", "verification_failed") => "验证执行失败；当前结果已停止。".into(),
         ("ja", "verification_failed") => "検証の実行に失敗したため、現在の結果は停止しています。".into(),
         (_, "verification_failed") => "Verification execution failed; the current result is stopped.".into(),

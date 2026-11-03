@@ -19,8 +19,9 @@ terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 # アーキテクチャ責任・依存関係マップ（2026-09）
 
 これは 2026-09 アーキテクチャ最適化の P0 事実マップである。目標実装ではなく、現在の
-責任と呼び出し境界を記録する。North Star は **Calibrated Human-Agent Trust** のままで
-ある。本 Work Item は文書だけを変更し、Rust の挙動、wire format、ガバナンス規則、
+責任と呼び出し境界を記録する。このマップ作成時の North Star は
+**Calibrated Human-Agent Trust** だった。現在の唯一の North Star は HCI であり、
+現行の製品境界に記載されている。本 Work Item は文書だけを変更し、Rust の挙動、wire format、ガバナンス規則、
 `.ai/` 記録プロトコルは変更しない。
 
 ## 入口と現在の呼び出し経路

@@ -4775,6 +4775,11 @@ fn run_verification_command(
         &run.receipt.execution_records
     ));
     if !run.receipt.passed {
+        let cleanup_unknown = run
+            .receipt
+            .execution_records
+            .iter()
+            .any(|record| record.cleanup_uncertainty.is_some());
         let failed_nodes = run
             .receipt
             .results
@@ -4785,11 +4790,22 @@ fn run_verification_command(
         if work_item.is_some() {
             let attempt = persist_for_run(
                 &initial_snapshot,
-                "execution_failed",
-                Some((
-                    "verification_execution",
-                    "one or more verification nodes failed",
-                )),
+                if cleanup_unknown {
+                    "cleanup_unknown"
+                } else {
+                    "execution_failed"
+                },
+                Some(if cleanup_unknown {
+                    (
+                        "verification_cleanup_unknown",
+                        "command results were observed, but descendant cleanup is unproven; formal verification remains pending",
+                    )
+                } else {
+                    (
+                        "verification_execution",
+                        "one or more verification nodes failed",
+                    )
+                }),
                 Some(&verification_receipt),
                 None,
             );
@@ -4798,6 +4814,16 @@ fn run_verification_command(
             }
         }
         println!("{}", serde_json::to_string_pretty(&output)?);
+        if cleanup_unknown {
+            anyhow::bail!(
+                "command results recorded for {}; descendant cleanup is unknown and formal verification remains pending; structured attempt emitted",
+                if failed_nodes.is_empty() {
+                    "an unknown node".into()
+                } else {
+                    failed_nodes.join(", ")
+                }
+            );
+        }
         anyhow::bail!(
             "verification command failed for {}; structured failure receipt emitted",
             if failed_nodes.is_empty() {

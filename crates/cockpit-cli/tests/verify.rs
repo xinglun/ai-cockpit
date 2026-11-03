@@ -443,6 +443,7 @@ fn verify_cli_accepts_policy_authorized_timeout_and_rejects_the_runtime_cap_befo
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() {
     let directory = std::env::temp_dir().join(format!(
@@ -547,6 +548,164 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
     let _: cockpit_verification::VerificationReceipt =
         serde_json::from_value(receipt.clone()).expect("strict typed verification receipt");
     fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[cfg(target_os = "macos")]
+#[test]
+fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
+    let directory = tempfile::tempdir().expect("isolated repository");
+    let root = directory.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(root)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    commit_baseline(root, "Mac pending verification fixture\n");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let work_item_id = "WI-CLI-MAC-CLEANUP-UNKNOWN";
+    let run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(root)
+            .output()
+            .expect("run exact CLI binary")
+    };
+    for args in [
+        vec![
+            "start",
+            "--id",
+            work_item_id,
+            "--intent",
+            "record bounded Mac execution honestly",
+            "--goal",
+            "separate observed command exit from descendant cleanup",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "A1: cleanup remains unknown",
+            "--required-evidence",
+            "verification",
+        ],
+        vec![
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-CLI-MAC-CLEANUP-UNKNOWN.contract.json",
+        ],
+        vec!["checkpoint", "--id", work_item_id],
+    ] {
+        let output = run(&args);
+        assert!(
+            output.status.success(),
+            "args={args:?}, stderr={}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "Mac pending verification fixture",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {"state": "resolved", "evidence": ["README.md"]}
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    let controls_path = controls.path().to_str().expect("controls path");
+    let controlled = run(&[
+        "work-item",
+        "controls",
+        "--id",
+        work_item_id,
+        "--input",
+        controls_path,
+    ]);
+    assert!(
+        controlled.status.success(),
+        "controls: {}",
+        String::from_utf8_lossy(&controlled.stderr)
+    );
+
+    let verification = run(&["verify", "--work-item", work_item_id, "--command", "true"]);
+    assert!(!verification.status.success());
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&verification.stdout).expect("structured command result");
+    assert_eq!(receipt["passed"], false);
+    assert_eq!(receipt["executionRecords"][0]["exitCode"], 0);
+    assert_eq!(receipt["executionRecords"][0]["commandResult"], "succeeded");
+    assert_eq!(
+        receipt["executionRecords"][0]["cleanupUncertainty"]["phase"],
+        "mac_descendant_boundary"
+    );
+    assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{work_item_id}.verification.json"))
+            .exists()
+    );
+
+    let attempts = fs::read_dir(root.join(".ai/evidence"))
+        .expect("durable evidence directory")
+        .map(|entry| entry.expect("evidence entry"))
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with(&format!("{work_item_id}.verification-attempt."))
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("attempt bytes"),
+            )
+            .expect("attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    let attempt = attempts
+        .iter()
+        .find(|attempt| attempt["kind"] == "verification_attempt")
+        .expect("durable terminal attempt");
+    assert_eq!(attempt["state"], "cleanup_unknown");
+    assert_eq!(attempt["passed"], false);
+    assert_eq!(
+        attempt["receipt"]["executionRecords"],
+        receipt["executionRecords"]
+    );
+    assert_eq!(attempt["nodeExecutionFacts"], serde_json::json!([]));
+    assert_eq!(attempt["localNodeLinkState"], "not_applicable");
+
+    // Each CLI invocation is a new process: this is a cold read of the
+    // persisted attempt, not an in-memory projection from the verify call.
+    let outcome = run(&["work-item", "outcome", "--id", work_item_id, "--json"]);
+    assert!(
+        outcome.status.success(),
+        "cold Outcome read: {}",
+        String::from_utf8_lossy(&outcome.stderr)
+    );
+    let outcome: serde_json::Value =
+        serde_json::from_slice(&outcome.stdout).expect("cold Outcome JSON");
+    assert!(
+        outcome["unknowns"]
+            .as_array()
+            .is_some_and(|unknowns| unknowns.iter().any(|unknown| {
+                unknown.as_str().is_some_and(|value| {
+                    value.starts_with("verification_attempt_cleanup_unknown:succeeded:")
+                })
+            })),
+        "cold Outcome must retain the command and cleanup distinction: {outcome}"
+    );
 }
 
 #[test]

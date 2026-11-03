@@ -10115,6 +10115,25 @@ fn persist_verification_attempt_internal(
         .and_then(|value| value.get("passed"))
         .and_then(serde_json::Value::as_bool)
         .unwrap_or(false);
+    // CLI and MCP both persist through this boundary. Keep a failed formal
+    // result, but distinguish a witnessed command result from cleanup that
+    // neither transport can prove. This state is never eligible for reuse.
+    let cleanup_unknown = bound_receipt
+        .as_ref()
+        .and_then(|value| {
+            serde_json::from_value::<cockpit_verification::VerificationReceipt>(value.clone()).ok()
+        })
+        .is_some_and(|receipt| {
+            receipt
+                .execution_records
+                .iter()
+                .any(|record| record.cleanup_uncertainty.is_some())
+        });
+    let state = if state == "execution_failed" && !passed && cleanup_unknown {
+        "cleanup_unknown"
+    } else {
+        state
+    };
     let processes_spawned = bound_receipt
         .as_ref()
         .and_then(|value| value.get("processesSpawned"))
@@ -10561,9 +10580,56 @@ pub(crate) struct CurrentVerificationAttemptProjection {
     pub state: String,
     pub attempt_id: String,
     pub path: String,
+    pub command_result: Option<String>,
     pub diagnostic_code: Option<String>,
     pub diagnostic_message: Option<String>,
     pub snapshot_digest: String,
+}
+
+fn observed_attempt_command_result(record: &serde_json::Value) -> Option<&'static str> {
+    let observed = if record["timedOut"] != serde_json::json!(false) {
+        "unknown"
+    } else if record["terminationSignal"].as_i64().is_some() {
+        "failed"
+    } else if !record["terminationSignal"].is_null() {
+        "unknown"
+    } else {
+        match record["exitCode"].as_i64() {
+            Some(0) => "succeeded",
+            Some(_) => "failed",
+            None => "unknown",
+        }
+    };
+    // Legacy records have no explicit commandResult. A cleanup-uncertain
+    // record must carry one, and any supplied result must agree with the
+    // observed exit fields rather than creating a new success assertion.
+    match record.get("commandResult") {
+        Some(value) if value.as_str() != Some(observed) => None,
+        None if record["cleanupUncertainty"].is_object() => None,
+        _ => Some(observed),
+    }
+}
+
+fn summarize_cleanup_unknown_command_results(
+    records: &[serde_json::Value],
+) -> Option<&'static str> {
+    if !records
+        .iter()
+        .any(|record| record["cleanupUncertainty"].is_object())
+    {
+        return None;
+    }
+    let observed = records
+        .iter()
+        .map(observed_attempt_command_result)
+        .collect::<Option<Vec<_>>>()?;
+    if observed.contains(&"failed") {
+        Some("failed")
+    } else if observed.contains(&"unknown") {
+        Some("unknown")
+    } else {
+        Some("succeeded")
+    }
 }
 
 fn select_current_verification_attempt_projection(
@@ -10674,6 +10740,13 @@ pub(crate) fn current_verification_attempt_projection(
         let Ok(attempt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
             continue;
         };
+        let attempt_state = attempt["state"].as_str().unwrap_or_default();
+        let cleanup_unknown =
+            attempt_state == "cleanup_unknown" && attempt["passed"] == serde_json::json!(false);
+        let completed = matches!(
+            attempt_state,
+            "execution_completed" | "formal_receipt_rejected"
+        ) && attempt["passed"] == serde_json::json!(true);
         if !verification_attempt_content_digest_matches(&attempt)
             || attempt["attemptId"]
                 .as_str()
@@ -10686,11 +10759,7 @@ pub(crate) fn current_verification_attempt_projection(
             || attempt["contractDigest"] != serde_json::json!(expected_contract_digest)
             || attempt["contractExecutionScopeDigest"] != serde_json::json!(expected_scope_digest)
             || attempt["repositorySnapshotDigest"] != serde_json::json!(expected_snapshot_digest)
-            || !matches!(
-                attempt["state"].as_str(),
-                Some("execution_completed" | "formal_receipt_rejected")
-            )
-            || attempt["passed"] != serde_json::json!(true)
+            || !(completed || cleanup_unknown)
             || attempt["processesSpawned"].as_u64().unwrap_or_default() == 0
         {
             continue;
@@ -10710,7 +10779,7 @@ pub(crate) fn current_verification_attempt_projection(
         let receipt = &attempt["receipt"];
         if commands.is_empty()
             || records.is_empty()
-            || receipt["passed"] != serde_json::json!(true)
+            || receipt["passed"] != attempt["passed"]
             || receipt["workItemId"] != serde_json::json!(work_item_id)
             || receipt["repositoryId"] != serde_json::json!(expected_repository_id)
             || receipt["runtimeVersion"] != attempt["runtimeVersion"]
@@ -10736,13 +10805,25 @@ pub(crate) fn current_verification_attempt_projection(
                         .iter()
                         .any(|command| command.get("nodeId") == record.get("nodeId"))
                     || record["spawned"] != serde_json::json!(true)
-                    || record["passed"] != serde_json::json!(true)
-                    || record["timedOut"] != serde_json::json!(false)
+                    || (completed
+                        && (record["passed"] != serde_json::json!(true)
+                            || record["timedOut"] != serde_json::json!(false)))
             })
+            || (cleanup_unknown && summarize_cleanup_unknown_command_results(records).is_none())
         {
             continue;
         }
-        let state = attempt["state"].as_str().unwrap_or_default();
+        if cleanup_unknown
+            && serde_json::from_value::<cockpit_verification::VerificationReceipt>(receipt.clone())
+                .is_err()
+        {
+            continue;
+        }
+        let state = attempt_state;
+        let command_result = cleanup_unknown
+            .then(|| summarize_cleanup_unknown_command_results(records))
+            .flatten()
+            .map(str::to_owned);
         let diagnostic = attempt.get("diagnostic");
         let (diagnostic_code, diagnostic_message) = if state == "formal_receipt_rejected" {
             let Some(code) = diagnostic
@@ -10783,6 +10864,7 @@ pub(crate) fn current_verification_attempt_projection(
                 state: state.to_owned(),
                 attempt_id,
                 path: repository_relative_path(root, &entry.path()),
+                command_result,
                 diagnostic_code,
                 diagnostic_message,
                 snapshot_digest: expected_snapshot_digest.clone(),
@@ -11766,6 +11848,64 @@ mod recovery_retry_consumption_tests {
     use std::process::Command;
 
     #[test]
+    fn mixed_cleanup_unknown_records_preserve_observed_command_results() {
+        let clean_exit = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 0,
+            "terminationSignal": null
+        });
+        let uncertain_exit = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 0,
+            "terminationSignal": null,
+            "commandResult": "succeeded",
+            "cleanupUncertainty": {"phase": "mac_descendant_boundary"}
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[
+                clean_exit.clone(),
+                uncertain_exit.clone(),
+            ]),
+            Some("succeeded")
+        );
+
+        let failed = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 7,
+            "terminationSignal": null
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[failed, uncertain_exit.clone()]),
+            Some("failed")
+        );
+
+        let timed_out = serde_json::json!({
+            "spawned": true,
+            "timedOut": true,
+            "exitCode": null,
+            "terminationSignal": null
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[timed_out, uncertain_exit.clone()]),
+            Some("unknown")
+        );
+
+        let mut contradictory = uncertain_exit;
+        contradictory["commandResult"] = serde_json::json!("failed");
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[clean_exit.clone(), contradictory]),
+            None
+        );
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[clean_exit]),
+            None
+        );
+    }
+
+    #[test]
     fn explicit_supersession_overrides_tied_attempt_digest_order() {
         let execution_id = format!("sha256:{}", "f".repeat(64));
         let rejection_id = format!("sha256:{}", "0".repeat(64));
@@ -11773,6 +11913,7 @@ mod recovery_retry_consumption_tests {
             state: state.into(),
             attempt_id: attempt_id.into(),
             path: ".ai/evidence/attempt.json".into(),
+            command_result: None,
             diagnostic_code: None,
             diagnostic_message: None,
             snapshot_digest: "sha256:snapshot".into(),

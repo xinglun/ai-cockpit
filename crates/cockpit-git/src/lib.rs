@@ -908,6 +908,10 @@ mod unix_bounded_process_tests {
                 }
             }
             #[cfg(not(target_os = "linux"))]
+            #[expect(
+                clippy::zombie_processes,
+                reason = "this non-Linux escaped-pipe fixture must outlive its parent; the outer test waits for its finite done marker"
+            )]
             let _detached = detached.spawn().expect("spawn escaped pipe holder");
             let started_deadline = Instant::now() + Duration::from_secs(2);
             while !std::path::Path::new(&started).exists() && Instant::now() < started_deadline {

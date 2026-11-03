@@ -1,0 +1,107 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:7ccba370a42b6e2ac6ae1ae36832d28879189eebf38bb7286edb387ec9d9db65",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 1,
+    "changeId": "legacy-a3e4cf9282e7f11dfa73f29925c1e8e711106655ba9d0199fa7232ddbba194cb",
+    "requestDigest": "sha256:e890b63c79efc03abee9d2977ba8fc1d22eda76d765092732dd283e66c2191b9",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:a3e4cf9282e7f11dfa73f29925c1e8e711106655ba9d0199fa7232ddbba194cb",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb"
+        ],
+        "newValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction"
+        ],
+        "newValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+          "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+          "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762"
+        ],
+        "newValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+          "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
+          "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+          "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
+          "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877"
+        ],
+        "newValue": [
+          "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
+          "user decision 2026-11-03 02:30:41 UTC approving bounded direct-child/original-process-group Mac acceptance and HCI correction",
+          "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
+          "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877",
+          "AGENTS.md and .ai/README.md on the exact base"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:cc89ad70c2b4d86cccee4b83a5a97f97c2f24528e63a772228bf7ed55e9ec5d5",
+    "newContractDigest": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+    "repositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
+    "environmentObservationDigest": "sha256:6a894392d8c1833388d56fba84b151710c92b4efe8e3999f527574d9dbc400bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:1f8d7ba57decab4f1cf53afc24cb1350de0ef454073f54f713510a5c12e3b914",
+    "recordedAt": "2026-11-03T02:44:47Z"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c640c30de6c30a634fef42d0b438b39374164dbd681394e3424f47f0b8d509df",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:60e49153de491c65c860b863831ebf059a418005bdef49cebd2c6945010cf459",
+  "reason": "User approved the exact four WI-1119 bindings for the 14-path amendment and the single narrowly justified Clippy test expectation in the parent conversation. RecordedAt is the native receipt recording time; this decision does not attest tests or release.",
+  "recordedAt": "2026-11-03T03:36:17Z",
+  "recordedBy": "user:parent-thread-approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0c4a4c2c40ed48142632cd2c22f8f08c0aa5ae658ee4144e7aede76abd3b736",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}
