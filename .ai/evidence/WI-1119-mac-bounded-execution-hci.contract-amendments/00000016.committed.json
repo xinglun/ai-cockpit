@@ -1,0 +1,57 @@
+{
+  "sequence": 16,
+  "preparedDigest": "sha256:048ab04c4672c89ef057f7e68f9cd35a0e96b7460e0ae2c57aa7584384d79f60",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 16,
+    "changeId": "wi1119-process-cleanup-action-policy-20261103",
+    "requestDigest": "sha256:c1993345f3444cbd16b72b66591b17187b8ebafadbd54248d1487bf926ab7ea7",
+    "reason": "The user approved the WI-local independent cleanup command and explicitly approved this exact new Runtime for native cleanup-action authorization revision. Add only process_cleanup to existing allowedActions. Preserve all other authority, scope, Unknown, evidence, and completion gates; actual cleanup still requires current caller admission and real evidence.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile/taskAuthorization/allowedActions",
+        "operation": "add",
+        "oldValue": [
+          "modify_source",
+          "checkpoint",
+          "run_preflight",
+          "run_verification",
+          "record_governance_controls",
+          "record_material_review_decision",
+          "finish",
+          "archive_when_reviewed"
+        ],
+        "newValue": [
+          "modify_source",
+          "checkpoint",
+          "run_preflight",
+          "run_verification",
+          "record_governance_controls",
+          "record_material_review_decision",
+          "finish",
+          "archive_when_reviewed",
+          "process_cleanup"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:2f00f2d54fe0092e697fd2e1df2e60c94b3334f16914bddb7150ca11a51f268c",
+    "newContractDigest": "sha256:c85f9dcc16dbca6bb761f25ada174251d83162be03df407c91625ea0c23f34d0",
+    "repositorySnapshotDigest": "sha256:beaf77a8614c973227d54f1d8a0d7a494d5c38d985656326e7ad44f4ce297fbb",
+    "environmentObservationDigest": "sha256:6a894392d8c1833388d56fba84b151710c92b4efe8e3999f527574d9dbc400bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:a9ed1bf8bb9566c3bdd6e0eb457df5be0b1dcccb9cfd0575bf773220a861e8b9",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile/taskAuthorization/allowedActions"
+    ],
+    "previousJournalDigest": "sha256:a90259445a3d70538ff79f43b8f59e2a82b31f8b2a3ebe3f3575d4badebe1e86",
+    "journalDigest": "sha256:4ffd6deb8f2b51f2a71135b3a711fe80c495660a82b014e1e5facb1e40f17cf8",
+    "recordedAt": "2026-11-03T17:57:55Z"
+  }
+}

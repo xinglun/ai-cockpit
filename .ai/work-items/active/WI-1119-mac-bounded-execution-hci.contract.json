@@ -40,7 +40,8 @@
         "record_governance_controls",
         "record_material_review_decision",
         "finish",
-        "archive_when_reviewed"
+        "archive_when_reviewed",
+        "process_cleanup"
       ],
       "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision",
       "closeoutActions": [],

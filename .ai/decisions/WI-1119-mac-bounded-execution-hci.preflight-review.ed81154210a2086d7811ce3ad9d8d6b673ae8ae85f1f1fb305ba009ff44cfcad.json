@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c85f9dcc16dbca6bb761f25ada174251d83162be03df407c91625ea0c23f34d0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:dea1ad57b850b3d2e6b426af2c0d2d7d6d8a5f0469dedaad4aab7f5c89d5d350",
+  "reason": "The verified user replied confirm review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot, and Runtime binding. This confirms only the process_cleanup action amendment review; it does not attest tests, actual child cleanup, formal verification, completion, or release.",
+  "recordedAt": "2026-11-03T21:15:35Z",
+  "recordedBy": "user:parent-thread-approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:beaf77a8614c973227d54f1d8a0d7a494d5c38d985656326e7ad44f4ce297fbb",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

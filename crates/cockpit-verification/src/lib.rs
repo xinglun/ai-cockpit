@@ -4275,6 +4275,120 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, chil
 mod retained_owner_cleanup_tests {
     use super::*;
 
+    /// The CLI is passed explicitly so this exercises a separate real Runtime
+    /// process and the production owner mailbox without making the library
+    /// test depend on a workspace build side effect.
+    #[test]
+    #[ignore = "requires AI_COCKPIT_TEST_CLI to name the freshly built CLI"]
+    fn independent_cli_requests_cleanup_from_real_owner() {
+        struct OwnChild(Child);
+        impl Drop for OwnChild {
+            fn drop(&mut self) {
+                if self.0.try_wait().ok().flatten().is_none() {
+                    let _ = self.0.kill();
+                    let _ = self.0.wait();
+                }
+            }
+        }
+        let cli = std::env::var_os("AI_COCKPIT_TEST_CLI").expect("explicit CLI path");
+        let root = fixture_root();
+        let run = |program: &str, args: &[&str]| {
+            let output = Command::new(program)
+                .args(args)
+                .current_dir(&root)
+                .output()
+                .expect("fixture command");
+            assert!(
+                output.status.success(),
+                "{program} {args:?}: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        };
+        run("git", &["init", "-q"]);
+        run("git", &["config", "user.email", "test@example.invalid"]);
+        run("git", &["config", "user.name", "Test"]);
+        std::fs::write(root.join("README.md"), "owner fixture\n").expect("baseline");
+        run("git", &["add", "README.md"]);
+        run("git", &["commit", "-qm", "owner fixture"]);
+        let cli = cli.to_string_lossy();
+        let root_arg = root.to_string_lossy();
+        run(&cli, &["attach", "--repo", &root_arg]);
+        let wi = "WI-OWNER-CLI";
+        run(
+            &cli,
+            &[
+                "start", "--repo", &root_arg, "--id", wi,
+                "--intent", "test owned child cleanup", "--goal", "reap own child",
+                "--scope", ".ai/**", "--authority", "authorized",
+            ],
+        );
+        let execution_id = "execution-one";
+        let node_id = "node-one";
+        let mut child = Command::new("/bin/sleep")
+            .arg("20")
+            .spawn()
+            .expect("owned child");
+        let process_id = child.id();
+        let mut unrelated = OwnChild(Command::new("/bin/sleep")
+            .arg("20")
+            .spawn()
+            .expect("unrelated child"));
+        let context = SupervisorCleanupContext {
+            repository_root: root.clone(),
+            work_item_id: wi.into(),
+            execution_id: execution_id.into(),
+        };
+        mac_register_spawned_child(&child);
+        prepare_cleanup_mailbox(&context, node_id, process_id).expect("ready owner mailbox");
+        let summary_path = root.join(format!(".ai/work-items/active/{wi}.summary.json"));
+        let mut summary: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(&summary_path).expect("read Summary"),
+        )
+        .expect("parse Summary");
+        summary["processCleanup"] = serde_json::json!({
+            "schemaVersion": 1,
+            "entries": [{
+                "executionId": execution_id,
+                "nodeId": node_id,
+                "processId": process_id,
+                "identityStrength": "numeric_pid_only",
+                "state": "unknown",
+                "directChildReaped": false
+            }]
+        });
+        std::fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&summary).expect("encode Summary"),
+        )
+        .expect("record own fixture process");
+        let owner = std::thread::spawn(move || {
+            serve_cleanup_mailbox(&context, node_id, &mut child);
+            let reaped = child.try_wait().expect("owned child observation").is_some();
+            if !reaped {
+                child.kill().expect("stop own fixture child");
+                child.wait().expect("reap own fixture child");
+            }
+            reaped
+        });
+        let report = Command::new(cli.as_ref())
+            .args(["work-item", "process-cleanup", "--repo", &root_arg, "--id", wi])
+            .output()
+            .expect("independent cleanup CLI");
+        assert!(
+            report.status.success(),
+            "{}",
+            String::from_utf8_lossy(&report.stderr)
+        );
+        let report: serde_json::Value =
+            serde_json::from_slice(&report.stdout).expect("cleanup report");
+        assert_eq!(report["state"], "direct_children_reaped");
+        assert_eq!(report["ownersContacted"], 1);
+        assert_eq!(report["descendantClosure"], "unknown");
+        assert!(owner.join().expect("owner completion"));
+        assert!(unrelated.0.try_wait().expect("unrelated observation").is_none());
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
     fn fixture_root() -> PathBuf {
         let nonce = SystemTime::now()
             .duration_since(UNIX_EPOCH)
