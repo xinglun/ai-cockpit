@@ -112,7 +112,7 @@ fn process_cleanup_reports_only_this_work_items_unowned_processes() {
         .arg(root.path())
         .args(["--id", wi])
         .output()
-        .expect("run process cleanup report");
+        .expect("CLI report");
     assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("cleanup report");
     assert_eq!(report["workItemId"], wi);
