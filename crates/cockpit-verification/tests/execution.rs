@@ -728,7 +728,26 @@ fn descendant_inheriting_capture_pipes_cannot_hold_the_executor_open() {
 
     let result = execute_bounded_at(vec![command], 1, NOW).expect("execute descendant");
 
-    assert!(result.passed);
+    #[cfg(target_os = "linux")]
+    assert!(
+        result.passed,
+        "Linux must preserve the positive supervised result"
+    );
+    #[cfg(target_os = "macos")]
+    {
+        assert!(
+            !result.passed,
+            "Mac cannot promote inherited descendant pipes to a clean result"
+        );
+        assert!(
+            result.receipt_candidates.is_empty(),
+            "Mac cleanup uncertainty cannot produce reusable evidence"
+        );
+        assert!(
+            result.execution_records[0].cleanup_uncertainty.is_some(),
+            "Mac must explain the descendant cleanup boundary: {result:?}"
+        );
+    }
     assert!(
         started.elapsed() < std::time::Duration::from_secs(5),
         "descendant must not retain the capture pipes"
