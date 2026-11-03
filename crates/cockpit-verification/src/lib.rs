@@ -7303,7 +7303,10 @@ while not marker.exists() and time.monotonic()<deadline:
             ownership_lost,
             Child::try_wait,
         );
-        let owned_alive = owned.try_wait().expect("observe exact owned child").is_none();
+        let owned_alive = owned
+            .try_wait()
+            .expect("observe exact owned child")
+            .is_none();
         let unrelated_alive = unrelated
             .try_wait()
             .expect("observe exact unrelated child")
@@ -7314,14 +7317,20 @@ while not marker.exists() and time.monotonic()<deadline:
         let _ = unrelated.wait();
 
         assert!(identity_registered, "live owned identity must be recorded");
-        assert_eq!(identity_observations, 1, "the production check must observe ECHILD");
+        assert_eq!(
+            identity_observations, 1,
+            "the production check must observe ECHILD"
+        );
         assert!(!signal_authorized, "ECHILD cannot authorize a group signal");
         assert!(signals.is_empty(), "no numeric PID reached the signal sink");
         assert!(
             cleanup_result.is_none() && forced,
             "ECHILD must leave supervisor cleanup unproved"
         );
-        assert!(owned_alive, "owned child must survive until fixture cleanup");
+        assert!(
+            owned_alive,
+            "owned child must survive until fixture cleanup"
+        );
         assert!(
             unrelated_alive,
             "unrelated child must survive until fixture cleanup"
