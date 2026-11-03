@@ -554,7 +554,7 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
 #[test]
 fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     let directory = tempfile::tempdir().expect("isolated repository");
-    let root = directory.path();
+    let root: &::std::path::Path = directory.path();
     assert!(
         Command::new("git")
             .args(["init", "-q"])
