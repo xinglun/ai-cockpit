@@ -1743,8 +1743,15 @@ where
     });
     let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
         if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
-            lifecycle::record_process_start(root, wi, execution_id, node_id, runtime_digest, process_id)
-                .map_err(|error| error.to_string())?;
+            lifecycle::record_process_start(
+                root,
+                wi,
+                execution_id,
+                node_id,
+                runtime_digest,
+                process_id,
+            )
+            .map_err(|error| error.to_string())?;
         }
         observer(node_id, process_id, started)
     };
@@ -1770,8 +1777,13 @@ where
         if let Ok(receipt) = &execution_result {
             lifecycle::record_process_results(
                 &root,
-                request.work_item_id.as_deref().expect("WI checkpoint requires WI"),
-                checkpoint.local_execution_id().expect("prepared checkpoint has ID"),
+                request
+                    .work_item_id
+                    .as_deref()
+                    .expect("WI checkpoint requires WI"),
+                checkpoint
+                    .local_execution_id()
+                    .expect("prepared checkpoint has ID"),
                 &receipt.execution_records,
             )?;
         }
@@ -1882,8 +1894,15 @@ where
         });
         let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
             if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
-                lifecycle::record_process_start(root, wi, execution_id, node_id, runtime_digest, process_id)
-                    .map_err(|error| error.to_string())?;
+                lifecycle::record_process_start(
+                    root,
+                    wi,
+                    execution_id,
+                    node_id,
+                    runtime_digest,
+                    process_id,
+                )
+                .map_err(|error| error.to_string())?;
             }
             observer(node_id, process_id, started)
         };
@@ -1907,8 +1926,13 @@ where
             if let Ok(receipt) = &execution_result {
                 lifecycle::record_process_results(
                     &root,
-                    request.work_item_id.as_deref().expect("WI checkpoint requires WI"),
-                    checkpoint.local_execution_id().expect("prepared checkpoint has ID"),
+                    request
+                        .work_item_id
+                        .as_deref()
+                        .expect("WI checkpoint requires WI"),
+                    checkpoint
+                        .local_execution_id()
+                        .expect("prepared checkpoint has ID"),
                     &receipt.execution_records,
                 )?;
             }
@@ -17417,7 +17441,11 @@ fn outcome_v2_internal_with_snapshot_and_hook(
         && let Some(ledger) = summary.get("processCleanup")
     {
         match ledger.get("entries").and_then(serde_json::Value::as_array) {
-            Some(entries) if entries.iter().any(|entry| entry["state"] != "direct_child_reaped") => {
+            Some(entries)
+                if entries
+                    .iter()
+                    .any(|entry| entry["state"] != "direct_child_reaped") =>
+            {
                 unknowns.push("wi_process_cleanup_unresolved".into());
             }
             None => unknowns.push("wi_process_cleanup_record_invalid".into()),

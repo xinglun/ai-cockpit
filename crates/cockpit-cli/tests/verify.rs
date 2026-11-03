@@ -664,7 +664,11 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     assert_eq!(entries[0]["directChildReaped"], true);
     assert_eq!(entries[0]["identityStrength"], "numeric_pid_only");
     let cleanup = run(&["work-item", "process-cleanup", "--id", work_item_id]);
-    assert!(cleanup.status.success(), "{}", String::from_utf8_lossy(&cleanup.stderr));
+    assert!(
+        cleanup.status.success(),
+        "{}",
+        String::from_utf8_lossy(&cleanup.stderr)
+    );
     let cleanup: serde_json::Value = serde_json::from_slice(&cleanup.stdout).expect("cleanup JSON");
     assert_eq!(cleanup["state"], "direct_children_reaped");
     assert_eq!(cleanup["descendantClosure"], "unknown");

@@ -94,8 +94,7 @@ fn process_cleanup_reports_only_this_work_items_unowned_processes() {
     let repo_path: &std::path::Path = root.path();
     let summary_path = repo_path.join(format!(".ai/work-items/active/{wi}.summary.json"));
     let mut summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
-            .expect("parse Summary");
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("parse Summary");
     summary["processCleanup"] = ::serde_json::json!({
         "schemaVersion": 1,
         "entries": [
@@ -105,20 +104,30 @@ fn process_cleanup_reports_only_this_work_items_unowned_processes() {
              "identityStrength":"numeric_pid_only","state":"direct_child_reaped","directChildReaped":true}
         ]
     });
-    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).expect("encode Summary"))
-        .expect("write fixture Summary");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("encode Summary"),
+    )
+    .expect("write fixture Summary");
     let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
         .args(["work-item", "process-cleanup", "--repo"])
         .arg(root.path())
         .args(["--id", wi])
         .output()
         .expect("CLI report");
-    assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("cleanup report");
     assert_eq!(report["workItemId"], wi);
     assert_eq!(report["state"], "unknown");
     assert_eq!(report["unresolvedCount"], 1);
-    assert_eq!(report["action"], "no_owned_child_handle_in_separate_process");
+    assert_eq!(
+        report["action"],
+        "no_owned_child_handle_in_separate_process"
+    );
     assert_eq!(report["descendantClosure"], "unknown");
 }
 

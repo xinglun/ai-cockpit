@@ -1263,7 +1263,9 @@ fn push_reason_for_gate(keys: &mut Vec<String>, gate: &str) {
 }
 
 fn push_reason_for_unknown(keys: &mut Vec<String>, unknown: &str) {
-    let key = if unknown == "wi_process_cleanup_unresolved" || unknown == "wi_process_cleanup_record_invalid" {
+    let key = if unknown == "wi_process_cleanup_unresolved"
+        || unknown == "wi_process_cleanup_record_invalid"
+    {
         "wi_process_cleanup_unknown"
     } else if unknown.starts_with("verification_attempt_cleanup_unknown:succeeded:") {
         "mac_command_succeeded_cleanup_unknown"

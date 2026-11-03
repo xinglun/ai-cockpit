@@ -6304,11 +6304,8 @@ fn mac_reap_owned_child_bounded(
     child: &mut Child,
     diagnostic: &mut Option<String>,
 ) -> Option<std::process::ExitStatus> {
-    let observed = mac_reap_owned_child_bounded_with(
-        child,
-        SUPERVISOR_PROTOCOL_CLOSE_GRACE,
-        Child::try_wait,
-    );
+    let observed =
+        mac_reap_owned_child_bounded_with(child, SUPERVISOR_PROTOCOL_CLOSE_GRACE, Child::try_wait);
     let (status, detail) = match observed {
         Ok(Some(status)) => (Some(status), "confirmed_reaped".into()),
         Ok(None) => (None, "unconfirmed_deadline".into()),
@@ -7714,11 +7711,10 @@ while not marker.exists() and time.monotonic()<deadline:
             .process_group(0)
             .spawn()
             .expect("spawn exact owned child");
-        let result = mac_reap_owned_child_bounded_with(
-            &mut owned,
-            Duration::from_millis(50),
-            |_child| Err(std::io::Error::from_raw_os_error(libc::ECHILD)),
-        );
+        let result =
+            mac_reap_owned_child_bounded_with(&mut owned, Duration::from_millis(50), |_child| {
+                Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+            });
         let alive = owned.try_wait().expect("owned child observation").is_none();
         let _ = owned.kill();
         let _ = owned.wait();

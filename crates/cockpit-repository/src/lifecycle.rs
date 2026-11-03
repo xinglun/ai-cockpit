@@ -9203,22 +9203,43 @@ pub(super) fn record_process_start(
     guard.require_subject(root, work_item_id)?;
     let path = work_item_artifact_path(root, work_item_id, "summary.json")?;
     if !path.starts_with(root.join(".ai/work-items/active")) {
-        return Err(ObserverError::State { path, message: "cannot record a process in an archived Summary".into() });
+        return Err(ObserverError::State {
+            path,
+            message: "cannot record a process in an archived Summary".into(),
+        });
     }
     let mut summary = read_json(&path)?;
-    if summary["workItemId"] != work_item_id || summary["repositoryId"] != repository_id(root).to_string() {
-        return Err(ObserverError::State { path, message: "process Summary identity mismatch".into() });
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
     }
-    let object = summary.as_object_mut().ok_or_else(|| ObserverError::State {
-        path: path.clone(), message: "process Summary must be an object".into(),
-    })?;
+    let object = summary
+        .as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "process Summary must be an object".into(),
+        })?;
     let ledger = object
-        .entry("processCleanup").or_insert_with(|| serde_json::json!({"schemaVersion": 1, "entries": []}));
-    let entries = ledger["entries"].as_array_mut().ok_or_else(|| ObserverError::State {
-        path: path.clone(), message: "invalid process Summary entries".into(),
-    })?;
-    if entries.iter().any(|entry| entry["executionId"].as_str() == Some(execution_id) && entry["nodeId"].as_str() == Some(node_id)) {
-        return Err(ObserverError::State { path, message: "duplicate process start observation".into() });
+        .entry("processCleanup")
+        .or_insert_with(|| serde_json::json!({"schemaVersion": 1, "entries": []}));
+    let entries = ledger["entries"]
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "invalid process Summary entries".into(),
+        })?;
+    if entries.iter().any(|entry| {
+        entry["executionId"].as_str() == Some(execution_id)
+            && entry["nodeId"].as_str() == Some(node_id)
+    }) {
+        return Err(ObserverError::State {
+            path,
+            message: "duplicate process start observation".into(),
+        });
     }
     entries.push(serde_json::json!({
         "executionId": execution_id, "nodeId": node_id, "runtimeDigest": runtime_digest,
@@ -9243,26 +9264,56 @@ pub(super) fn record_process_results(
     guard.require_subject(root, work_item_id)?;
     let path = work_item_artifact_path(root, work_item_id, "summary.json")?;
     if !path.starts_with(root.join(".ai/work-items/active")) {
-        return Err(ObserverError::State { path, message: "cannot update an archived process Summary".into() });
+        return Err(ObserverError::State {
+            path,
+            message: "cannot update an archived process Summary".into(),
+        });
     }
     let mut summary = read_json(&path)?;
-    if summary["workItemId"] != work_item_id || summary["repositoryId"] != repository_id(root).to_string() {
-        return Err(ObserverError::State { path, message: "process Summary identity mismatch".into() });
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
     }
-    let entries = summary["processCleanup"]["entries"].as_array_mut().ok_or_else(|| ObserverError::State {
-        path: path.clone(), message: "process Summary entries unavailable".into(),
-    })?;
+    let entries = summary["processCleanup"]["entries"]
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "process Summary entries unavailable".into(),
+        })?;
     for record in records.iter().filter(|record| record.spawned) {
-        let entry = entries.iter_mut().find(|entry| entry["executionId"].as_str() == Some(execution_id) && entry["nodeId"].as_str() == Some(record.node_id.as_str()))
-            .ok_or_else(|| ObserverError::State { path: path.clone(), message: "spawned process has no Summary start".into() })?;
+        let entry = entries
+            .iter_mut()
+            .find(|entry| {
+                entry["executionId"].as_str() == Some(execution_id)
+                    && entry["nodeId"].as_str() == Some(record.node_id.as_str())
+            })
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: "spawned process has no Summary start".into(),
+            })?;
         // An observed exit status implies wait/try_wait reaped the directly
         // owned Child. Timeout/unknown never becomes reaped by inference.
-        let reaped = !record.timed_out && (record.exit_code.is_some() || record.termination_signal.is_some());
-        entry["state"] = if reaped { "direct_child_reaped" } else { "unknown" }.into();
+        let reaped = !record.timed_out
+            && (record.exit_code.is_some() || record.termination_signal.is_some());
+        entry["state"] = if reaped {
+            "direct_child_reaped"
+        } else {
+            "unknown"
+        }
+        .into();
         entry["directChildReaped"] = reaped.into();
         entry["observedAt"] = now().into();
-        entry["cleanupUncertainty"] = serde_json::to_value(&record.cleanup_uncertainty)
-            .map_err(|error| ObserverError::State { path: path.clone(), message: error.to_string() })?;
+        entry["cleanupUncertainty"] =
+            serde_json::to_value(&record.cleanup_uncertainty).map_err(|error| {
+                ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                }
+            })?;
     }
     summary["updatedAt"] = now().into();
     atomic_json(&path, &summary)
@@ -9270,22 +9321,44 @@ pub(super) fn record_process_results(
 
 /// A separate CLI process does not inherit a Child handle. A historical PID
 /// can be reported, but can never be used here as a signal or wait target.
-pub fn work_item_process_cleanup_report(root: &Path, work_item_id: &str) -> Result<serde_json::Value, ObserverError> {
+pub fn work_item_process_cleanup_report(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
-    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read { path: root.into(), source })?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
     let path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
     let summary = read_json(&path)?;
-    if summary["workItemId"] != work_item_id || summary["repositoryId"] != repository_id(&root).to_string() {
-        return Err(ObserverError::State { path, message: "process Summary identity mismatch".into() });
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(&root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
     }
     let ledger = summary.get("processCleanup");
     let entries = ledger.and_then(|ledger| ledger["entries"].as_array());
-    let unresolved = entries.map_or(0, |entries| entries.iter().filter(|entry| entry["state"] != "direct_child_reaped").count());
-    let state = if ledger.is_none() { "not_recorded" }
-        else if entries.is_none() { "unknown" }
-        else if unresolved > 0 { "unknown" }
-        else if entries.is_some_and(Vec::is_empty) { "no_recorded_processes" }
-        else { "direct_children_reaped" };
+    let unresolved = entries.map_or(0, |entries| {
+        entries
+            .iter()
+            .filter(|entry| entry["state"] != "direct_child_reaped")
+            .count()
+    });
+    let state = if ledger.is_none() {
+        "not_recorded"
+    } else if entries.is_none() {
+        "unknown"
+    } else if unresolved > 0 {
+        "unknown"
+    } else if entries.is_some_and(Vec::is_empty) {
+        "no_recorded_processes"
+    } else {
+        "direct_children_reaped"
+    };
     Ok(serde_json::json!({
         "workItemId": work_item_id,
         "state": state,
