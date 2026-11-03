@@ -4009,8 +4009,8 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     let mut stderr = std::io::stderr().lock();
     write_supervisor_outcome_message(&response, &mut stderr)?;
     #[cfg(target_os = "macos")]
-    if let (Some(context), Some(child)) = (request.cleanup_context.as_ref(), retained_child) {
-        serve_cleanup_mailbox(context, &command.id, child);
+    if let (Some(context), Some(mut child)) = (request.cleanup_context.as_ref(), retained_child) {
+        serve_cleanup_mailbox(context, &command.id, &mut child);
     }
     Ok(())
 }
@@ -4168,11 +4168,7 @@ fn prepare_cleanup_mailbox(
 }
 
 #[cfg(target_os = "macos")]
-fn serve_cleanup_mailbox(
-    context: &SupervisorCleanupContext,
-    node_id: &str,
-    mut child: Child,
-) -> Child {
+fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, child: &mut Child) {
     let mailbox = cleanup_mailbox(context, node_id);
     let deadline = Instant::now() + RETAINED_OWNER_DEADLINE;
     let process_id = child.id();
@@ -4273,7 +4269,6 @@ fn serve_cleanup_mailbox(
         let _ = file.write_all(&bytes);
         let _ = file.sync_all();
     }
-    child
 }
 
 #[cfg(all(test, target_os = "macos"))]
@@ -4318,8 +4313,10 @@ mod retained_owner_cleanup_tests {
         let owner = std::thread::spawn({
             let context = context.clone();
             move || {
+                let mut child = child;
                 mac_register_spawned_child(&child);
-                serve_cleanup_mailbox(&context, "node-one", child)
+                serve_cleanup_mailbox(&context, "node-one", &mut child);
+                child
             }
         });
         assert!(
@@ -4414,7 +4411,11 @@ mod retained_owner_cleanup_tests {
         prepare_cleanup_mailbox(&context, "node-one", process_id).expect("ready mailbox");
         let owner = std::thread::spawn({
             let context = context.clone();
-            move || serve_cleanup_mailbox(&context, "node-one", child)
+            move || {
+                let mut child = child;
+                serve_cleanup_mailbox(&context, "node-one", &mut child);
+                child
+            }
         });
         let response = request_process_cleanup_from_owner(
             &root,
