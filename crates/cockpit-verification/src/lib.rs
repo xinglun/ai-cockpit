@@ -7000,12 +7000,15 @@ fn mac_owned_child_poll(
     let exited = supervisor_pipe::observe_owned_child_exit(child)?;
     mac_reject_known_identity_change(child)?;
     if exited {
-        // The leader is an owned zombie until wait() below. A process that
+        // The leader is an owned zombie until the bounded reap below. A process that
         // left this group is outside the bounded guarantee and remains Unknown.
         // proc_pidinfo may no longer expose the birth time of an exited
         // zombie. In that case retain the direct exit but send no group signal.
         *group_signal_diagnostic = Some(mac_signal_owned_group(child, child_id).diagnostic());
-        child.wait().map(Some)
+        // Even a previously observed exit must not turn a failed or stuck
+        // Child wait into an unbounded verifier operation. None is propagated
+        // to the caller as unconfirmed reaping, never as cleanup success.
+        Ok(mac_reap_owned_child_bounded(child, group_signal_diagnostic))
     } else {
         Ok(None)
     }
@@ -8389,6 +8392,40 @@ while not marker.exists() and time.monotonic()<deadline:
 
         assert_eq!(result.unwrap_err().raw_os_error(), Some(libc::ECHILD));
         assert!(alive, "an observation failure does not prove exit");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_direct_reap_pending_observation_expires_without_losing_ownership() {
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("spawn exact owned child");
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("spawn unrelated child");
+        let started = Instant::now();
+        let result =
+            mac_reap_owned_child_bounded_with(&mut owned, Duration::from_millis(50), |_child| {
+                Ok(None)
+            })
+            .expect("pending observation is bounded");
+        let elapsed = started.elapsed();
+        let owned_alive = owned.try_wait().expect("owned observation").is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("unrelated observation")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(result.is_none(), "pending wait cannot prove direct reaping");
+        assert!(elapsed < Duration::from_secs(1), "wait took {elapsed:?}");
+        assert!(owned_alive, "the fixture still owns its live Child handle");
+        assert!(unrelated_alive, "the unrelated process must survive");
     }
 
     #[cfg(target_os = "macos")]
