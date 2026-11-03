@@ -706,6 +706,35 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
             })),
         "cold Outcome must retain the command and cleanup distinction: {outcome}"
     );
+
+    let human = run(&[
+        "work-item",
+        "outcome",
+        "--id",
+        work_item_id,
+        "--language",
+        "en",
+    ]);
+    assert!(
+        human.status.success(),
+        "human Outcome: {}",
+        String::from_utf8_lossy(&human.stderr)
+    );
+    let human = String::from_utf8(human.stdout).expect("human Outcome UTF-8");
+    assert!(human.starts_with("Outcome:"), "visible handoff is missing");
+    assert!(
+        human
+            .contains("The command exited successfully; escaped descendant cleanup is unconfirmed"),
+        "human Outcome must separate the command result from cleanup: {human}"
+    );
+    assert!(
+        human.contains("awaits formal verification"),
+        "human Outcome must retain the completion boundary: {human}"
+    );
+    assert!(
+        !human.starts_with("Outcome: 🟢"),
+        "uncertain cleanup cannot display a green Outcome"
+    );
 }
 
 #[test]

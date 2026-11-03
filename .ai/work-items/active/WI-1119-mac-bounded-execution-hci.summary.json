@@ -237,10 +237,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-03T11:53:48Z",
+  "preflightAt": "2026-11-03T11:55:20Z",
   "preflightContractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
-  "preflightDecisionDigest": "sha256:602f084c1b042d14b2b8e1718cba5286b43be7fce613fe18d824009315dc9f5b",
-  "preflightRepositorySnapshotDigest": "sha256:a5a9b0f00cfe145abd5829584ae2c1041417aa2344e148cac7e086f60ab94513",
+  "preflightDecisionDigest": "sha256:f335cce771887e83a93b598d33404c4e93e89b6773a165ea02ab6054ff06a86c",
+  "preflightRepositorySnapshotDigest": "sha256:d3d975ae60c6296968b3a15aac604af70818c8dafe2c06f6f7f92f95c7be9702",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -248,9 +248,9 @@
     {
       "description": null,
       "evidence": [],
-      "expected": null,
+      "expected": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
       "expectedOutcome": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
-      "expectedResult": null,
+      "expectedResult": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
       "reason": null,
       "required": true,
       "scenario": "mac_direct_child_natural_exit",
@@ -260,9 +260,9 @@
     {
       "description": null,
       "evidence": [],
-      "expected": null,
+      "expected": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
       "expectedOutcome": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "expectedResult": null,
+      "expectedResult": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
       "reason": null,
       "required": true,
       "scenario": "mac_original_group_timeout",
@@ -271,58 +271,66 @@
     },
     {
       "description": null,
-      "evidence": [],
-      "expected": null,
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-mac.log#sha256:577b8a2d63da216ed35b97560a3a6b57a1db4f01bc217eece6af7ef2d86d9199"
+      ],
+      "expected": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
       "expectedOutcome": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
-      "expectedResult": null,
-      "reason": null,
+      "expectedResult": "Parent disconnect and owner death have distinct observations and cannot imply that all supervisors and descendants terminated.",
+      "reason": "Current Mac commit 6e6562c59dcf09d1e95cc791373cbc48d1fa2501; exact passing test names: mac_parent_disconnect_reports_unknown_after_owned_child_cancellation, mac_supervisor_owner_death_keeps_command_and_cleanup_unknown. Scenario behavior only; not a formal verification receipt or complete descendant cleanup.",
       "required": true,
       "scenario": "mac_owner_disconnect_and_death",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run isolated real Mac parent-disconnect and owner-death fixtures; retain Unknown when the supervising proof is lost."
     },
     {
       "description": null,
-      "evidence": [],
-      "expected": null,
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-mac.log#sha256:577b8a2d63da216ed35b97560a3a6b57a1db4f01bc217eece6af7ef2d86d9199"
+      ],
+      "expected": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
       "expectedOutcome": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
-      "expectedResult": null,
-      "reason": null,
+      "expectedResult": "Output cap terminates bounded execution and records truncation and any cleanup uncertainty without a false pass.",
+      "reason": "Current Mac commit 6e6562c59dcf09d1e95cc791373cbc48d1fa2501; exact passing test names: mac_supervisor_output_saturation_preserves_uncertainty. Scenario behavior only; not a formal verification receipt or complete descendant cleanup.",
       "required": true,
       "scenario": "mac_output_saturation",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run a real Mac saturating-output fixture with a finite watchdog; inspect command and cleanup fields."
     },
     {
       "description": null,
-      "evidence": [],
-      "expected": null,
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-mac.log#sha256:577b8a2d63da216ed35b97560a3a6b57a1db4f01bc217eece6af7ef2d86d9199"
+      ],
+      "expected": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
       "expectedOutcome": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
-      "expectedResult": null,
-      "reason": null,
+      "expectedResult": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
+      "reason": "Current Mac commit 6e6562c59dcf09d1e95cc791373cbc48d1fa2501; exact passing test names: mac_supervisor_cannot_promote_an_escaped_descendant_to_clean, mac_double_fork_closed_pipes_and_changed_cwd_remain_cleanup_unknown. Scenario behavior only; not a formal verification receipt or complete descendant cleanup.",
       "required": true,
       "scenario": "mac_escaped_descendant_negative",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent fixture cleanup and assert Unknown, retained evidence and no reuse."
     },
     {
-      "description": null,
-      "evidence": [],
-      "expected": null,
+      "description": "The historical scenario key names PID reuse. This Work Item verifies real Mac child lifecycle, a stale owned-child handle, and controlled ownership/identity loss at the production signal decision. It does not claim actual kernel PID recycling. A field defect with evidence belongs in a later Work Item.",
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-mac.log#sha256:577b8a2d63da216ed35b97560a3a6b57a1db4f01bc217eece6af7ef2d86d9199"
+      ],
+      "expected": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
       "expectedOutcome": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
-      "expectedResult": null,
-      "reason": null,
+      "expectedResult": "A stale numeric PID or process-group observation never signals an unrelated process or turns uncertainty into cleanup success.",
+      "reason": "Current Mac commit 6e6562c59dcf09d1e95cc791373cbc48d1fa2501; exact passing test names: mac_echild_observation_never_signals_owned_or_unrelated_child, mac_same_numeric_pid_changed_birth_never_reaches_signal_sink, mac_reaped_child_grants_no_later_numeric_group_signal. Scenario behavior only; not a formal verification receipt or complete descendant cleanup.",
       "required": true,
       "scenario": "mac_pid_reuse_unrelated_survival",
-      "status": "unverified",
-      "verificationPlan": "Use an identity-change fixture and a separate unrelated process; assert no unrelated termination and fail-closed outcome."
+      "status": "verified",
+      "verificationPlan": "On Mac, run bounded test-owned child lifecycle and stale-handle fixtures with a separate unrelated test-owned process. Inject ECHILD at the production supervisor wait/signal decision; assert no numeric group signal, cleanup Unknown, no reusable success, and survival of the child and unrelated process until their fixture cleanup. Through the production Mac identity decision and a recording signal sink, inject the same numeric PID with a different birth identity both at the initial check and at the final check immediately before signal; assert zero signal calls in both negative cases, with a matching-identity positive control proving the sink is reachable. Correlate these controlled negatives with the supervised Unknown and no-reuse fixtures. Do not signal an unknown or possibly recycled PID. Record actual kernel PID reuse as untested; investigate a later field defect with its evidence in a later Work Item."
     },
     {
       "description": null,
       "evidence": [],
-      "expected": null,
+      "expected": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
       "expectedOutcome": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
-      "expectedResult": null,
+      "expectedResult": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
       "reason": null,
       "required": true,
       "scenario": "mac_cold_read_restart_unknown",
@@ -331,14 +339,16 @@
     },
     {
       "description": null,
-      "evidence": [],
-      "expected": null,
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-cli-mcp.log#sha256:e241ca999f516f5813243a6ebe562510dc9e8a9be22d9c2639d932e14ea2c95d"
+      ],
+      "expected": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
       "expectedOutcome": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
-      "expectedResult": null,
-      "reason": null,
+      "expectedResult": "The production composition entry rejects full-owned-descendant supervision before verifier spawn.",
+      "reason": "Current Mac commit 6e6562c59dcf09d1e95cc791373cbc48d1fa2501; exact passing test names: mac_mcp_composition_rejects_full_descendant_supervision_before_spawn. Scenario behavior only; not a formal verification receipt or complete descendant cleanup.",
       "required": true,
       "scenario": "mac_composition_remains_unsupported",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Use an admitted-shape real Mac CLI/MCP composition fixture and assert exact unsupported error, no verifier spawn, and durable failure evidence."
     },
     {
@@ -347,9 +357,9 @@
         "task-artifact:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-current-hci-review.json#sha256:e527327f7bdc5657b705aaf0d16da53a31cb6997ee9e2a46d1037b62629a6a15",
         "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-round8-docs.log#sha256:93d9021d2e6ed6325ec5744ce94f274b32be0b6a7fb42294429f9b3b8d53e18a"
       ],
-      "expected": null,
+      "expected": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
       "expectedOutcome": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
-      "expectedResult": null,
+      "expectedResult": "Nine scoped documents identify HCI as the sole current North Star while preserving the historical responsibility map identity.",
       "reason": null,
       "required": true,
       "scenario": "hci_north_star_three_languages",
@@ -358,7 +368,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T11:29:14.371408+00:00",
+  "updatedAt": "2026-11-03T12:08:32.470172+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
     "invalidatedRequiredChecks": [],
