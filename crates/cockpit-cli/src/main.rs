@@ -3293,7 +3293,10 @@ fn run() -> Result<()> {
             WorkItemCommand::ProcessCleanup { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;
                 let report = cockpit_repository::work_item_process_cleanup_with_caller(
-                    &repo, &id, &runtime_context, task_caller.as_ref(),
+                    &repo,
+                    &id,
+                    &runtime_context,
+                    task_caller.as_ref(),
                 )
                 .context("request Work Item process cleanup")?;
                 println!("{}", serde_json::to_string_pretty(&report)?);

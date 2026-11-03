@@ -9383,10 +9383,15 @@ pub fn work_item_process_cleanup_with_caller(
     caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<serde_json::Value, ObserverError> {
     super::task_authorization::require_task_caller(
-        root, work_item_id, "process_cleanup", runtime, caller,
+        root,
+        work_item_id,
+        "process_cleanup",
+        runtime,
+        caller,
     )?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.into(), source,
+        path: root.into(),
+        source,
     })?;
     let original = work_item_process_cleanup_report(&root, work_item_id)?;
     let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
@@ -9403,13 +9408,20 @@ pub fn work_item_process_cleanup_with_caller(
             let (Some(execution_id), Some(node_id), Some(process_id)) = (
                 entry["executionId"].as_str(),
                 entry["nodeId"].as_str(),
-                entry["processId"].as_u64().and_then(|value| u32::try_from(value).ok()),
+                entry["processId"]
+                    .as_u64()
+                    .and_then(|value| u32::try_from(value).ok()),
             ) else {
                 continue;
             };
             let remaining = deadline.saturating_duration_since(Instant::now());
             let response = cockpit_verification::request_process_cleanup_from_owner(
-                &root, work_item_id, execution_id, node_id, process_id, remaining,
+                &root,
+                work_item_id,
+                execution_id,
+                node_id,
+                process_id,
+                remaining,
             );
             let Some(response) = response else {
                 continue;
@@ -9431,11 +9443,13 @@ pub fn work_item_process_cleanup_with_caller(
             }
             let Some(current) = summary["processCleanup"]["entries"]
                 .as_array_mut()
-                .and_then(|entries| entries.iter_mut().find(|current| {
-                    current["executionId"].as_str() == Some(execution_id)
-                        && current["nodeId"].as_str() == Some(node_id)
-                        && current["processId"].as_u64() == Some(u64::from(process_id))
-                }))
+                .and_then(|entries| {
+                    entries.iter_mut().find(|current| {
+                        current["executionId"].as_str() == Some(execution_id)
+                            && current["nodeId"].as_str() == Some(node_id)
+                            && current["processId"].as_u64() == Some(u64::from(process_id))
+                    })
+                })
             else {
                 continue;
             };

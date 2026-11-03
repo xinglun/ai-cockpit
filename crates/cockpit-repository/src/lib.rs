@@ -1742,9 +1742,9 @@ where
         ))
     });
     let process_supervisor = process_supervisor.map(|supervisor| match &recording {
-        Some((root, wi, execution_id, _)) => supervisor.with_process_cleanup_context(
-            root.clone(), wi.clone(), execution_id.clone(),
-        ),
+        Some((root, wi, execution_id, _)) => {
+            supervisor.with_process_cleanup_context(root.clone(), wi.clone(), execution_id.clone())
+        }
         None => supervisor,
     });
     let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
@@ -1900,7 +1900,9 @@ where
         });
         let process_supervisor = process_supervisor.map(|supervisor| match &recording {
             Some((root, wi, execution_id, _)) => supervisor.with_process_cleanup_context(
-                root.clone(), wi.clone(), execution_id.clone(),
+                root.clone(),
+                wi.clone(),
+                execution_id.clone(),
             ),
             None => supervisor,
         });

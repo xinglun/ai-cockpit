@@ -3945,7 +3945,10 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
         Some(&cancelled),
         Some(&mut announce_started),
         #[cfg(target_os = "macos")]
-        request.cleanup_context.as_ref().map(|_| &mut retained_child),
+        request
+            .cleanup_context
+            .as_ref()
+            .map(|_| &mut retained_child),
         #[cfg(not(target_os = "macos"))]
         None,
     );
@@ -4064,16 +4067,21 @@ pub fn request_process_cleanup_from_owner(
     }
     let request_path = mailbox.join("request.json");
     match std::fs::OpenOptions::new()
-        .write(true).create_new(true).open(&request_path)
+        .write(true)
+        .create_new(true)
+        .open(&request_path)
     {
         Ok(mut request) => {
-            if request.write_all(&serde_json::to_vec(&binding).ok()?).is_err()
+            if request
+                .write_all(&serde_json::to_vec(&binding).ok()?)
+                .is_err()
                 || request.sync_all().is_err()
             {
                 return None;
             }
             if std::fs::OpenOptions::new()
-                .write(true).create_new(true)
+                .write(true)
+                .create_new(true)
                 .open(mailbox.join("request.ready"))
                 .is_err()
             {
@@ -4105,7 +4113,10 @@ pub fn request_process_cleanup_from_owner(
                     && response["executionId"] == execution_id
                     && response["nodeId"] == node_id
                     && response["processId"].as_u64() == Some(u64::from(process_id))
-                    && matches!(response["state"].as_str(), Some("direct_child_reaped" | "unknown"))
+                    && matches!(
+                        response["state"].as_str(),
+                        Some("direct_child_reaped" | "unknown")
+                    )
                 {
                     return Some(response);
                 }
@@ -4148,7 +4159,9 @@ fn prepare_cleanup_mailbox(
         "processId": process_id,
     });
     let mut file = std::fs::OpenOptions::new()
-        .write(true).create_new(true).open(mailbox.join("ready.json"))?;
+        .write(true)
+        .create_new(true)
+        .open(mailbox.join("ready.json"))?;
     let bytes = serde_json::to_vec(&ready).map_err(std::io::Error::other)?;
     file.write_all(&bytes)?;
     file.sync_all()
@@ -4161,7 +4174,12 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut 
     let process_id = child.id();
     let result = loop {
         match child.try_wait() {
-            Ok(Some(_)) => break ("direct_child_reaped", "owner observed and reaped direct Child"),
+            Ok(Some(_)) => {
+                break (
+                    "direct_child_reaped",
+                    "owner observed and reaped direct Child",
+                );
+            }
             Err(_) => break ("unknown", "owner could not observe direct Child"),
             Ok(None) => {}
         }
@@ -4200,7 +4218,12 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut 
                 mac_process_identity(process_id),
             ) {
                 (Ok(expected), Ok(current)) if expected == current => {}
-                _ => break ("unknown", "direct Child birth identity could not be confirmed"),
+                _ => {
+                    break (
+                        "unknown",
+                        "direct Child birth identity could not be confirmed",
+                    );
+                }
             }
             if child.kill().is_err() {
                 break ("unknown", "direct Child termination request failed");
@@ -4209,14 +4232,21 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut 
             loop {
                 match child.try_wait() {
                     Ok(Some(_)) => break,
-                    Ok(None) if Instant::now() < reap_deadline =>
-                        std::thread::sleep(Duration::from_millis(10)),
+                    Ok(None) if Instant::now() < reap_deadline => {
+                        std::thread::sleep(Duration::from_millis(10))
+                    }
                     _ => break,
                 }
             }
             break match child.try_wait() {
-                Ok(Some(_)) => ("direct_child_reaped", "owner reaped direct Child after request"),
-                _ => ("unknown", "direct Child reap unconfirmed after bounded request"),
+                Ok(Some(_)) => (
+                    "direct_child_reaped",
+                    "owner reaped direct Child after request",
+                ),
+                _ => (
+                    "unknown",
+                    "direct Child reap unconfirmed after bounded request",
+                ),
             };
         }
         if Instant::now() >= deadline {
@@ -4231,7 +4261,9 @@ fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, mut 
         "descendantClosure": "unknown",
     });
     if let Ok(mut file) = std::fs::OpenOptions::new()
-        .write(true).create_new(true).open(mailbox.join("response.json"))
+        .write(true)
+        .create_new(true)
+        .open(mailbox.join("response.json"))
     {
         if let Ok(bytes) = serde_json::to_vec(&response) {
             let _ = file.write_all(&bytes);
@@ -4260,7 +4292,10 @@ mod retained_owner_cleanup_tests {
             work_item_id: "WI-OWNER-FIXTURE".into(),
             execution_id: "execution-one".into(),
         };
-        let child = Command::new("/bin/sleep").arg("5").spawn().expect("owned child");
+        let child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned child");
         let child_id = child.id();
         let mut unrelated = Command::new("/bin/sleep")
             .arg("5")
@@ -4297,7 +4332,12 @@ mod retained_owner_cleanup_tests {
         .expect("owner response");
         assert_eq!(response["state"], "direct_child_reaped");
         assert_eq!(response["descendantClosure"], "unknown");
-        assert!(unrelated.try_wait().expect("unrelated observation").is_none());
+        assert!(
+            unrelated
+                .try_wait()
+                .expect("unrelated observation")
+                .is_none()
+        );
         owner.join().expect("owner completion");
         unrelated.kill().expect("stop own unrelated fixture");
         unrelated.wait().expect("reap own unrelated fixture");
@@ -5350,10 +5390,8 @@ fn spawn_verification_supervisor(
     initial_message: &mut Option<VerificationSupervisorMessage>,
     #[cfg(windows)] windows_tree: &mut Option<WindowsProcessTree>,
 ) -> Result<Child, String> {
-    let request = VerificationSupervisorRequest::from_command(
-        command,
-        supervisor.cleanup_context.clone(),
-    );
+    let request =
+        VerificationSupervisorRequest::from_command(command, supervisor.cleanup_context.clone());
     let mut request_bytes = serde_json::to_vec(&request)
         .map_err(|error| format!("encode verification supervisor request: {error}"))?;
     if request_bytes.len() + 1 > MAX_SUPERVISOR_REQUEST_BYTES {

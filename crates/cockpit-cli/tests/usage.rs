@@ -124,10 +124,7 @@ fn process_cleanup_reports_only_this_work_items_unowned_processes() {
     assert_eq!(report["workItemId"], wi);
     assert_eq!(report["state"], "unknown");
     assert_eq!(report["unresolvedCount"], 1);
-    assert_eq!(
-        report["action"],
-        "bounded_owned_child_request"
-    );
+    assert_eq!(report["action"], "bounded_owned_child_request");
     assert_eq!(report["descendantClosure"], "unknown");
 }
 
