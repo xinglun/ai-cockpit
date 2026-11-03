@@ -6698,7 +6698,8 @@ fn execute_captured_inner(
     append_observer_error(&mut stderr_bytes, observer_error.as_deref());
     let group_signal_truncated =
         append_mac_group_signal_diagnostic(&mut stderr_bytes, group_signal_diagnostic.as_deref());
-    if stdout.timed_out || stderr.timed_out {
+    let capture_timed_out = stdout.timed_out || stderr.timed_out;
+    if capture_timed_out {
         timed_out = true;
     }
     let Some(status) = status else {
@@ -6739,7 +6740,7 @@ fn execute_captured_inner(
     };
     let termination_signal = status_termination_signal(&status);
     if stdout.failed || stderr.failed {
-        return ExecutionOutcome {
+        let outcome = ExecutionOutcome {
             spawned: true,
             passed: false,
             // A timeout is a bounded cancellation outcome, even when the
@@ -6760,6 +6761,21 @@ fn execute_captured_inner(
             deadline_ms,
             cleanup_uncertain: None,
         };
+        #[cfg(target_os = "macos")]
+        let mut outcome = outcome;
+        #[cfg(target_os = "macos")]
+        if capture_timed_out {
+            apply_cleanup_uncertainty(
+                &mut outcome,
+                CleanupUncertainty {
+                    phase: "mac_capture_pipe_owner_unknown".into(),
+                    reason: "A descendant may still hold a capture pipe after the directly owned child was reaped; descendant closure cannot be proved".into(),
+                    remaining_pids: Vec::new(),
+                    remaining_pids_truncated: false,
+                },
+            );
+        }
+        return outcome;
     }
     let identity = OutputIdentity {
         success: status.success() && !timed_out && observer_error.is_none(),
