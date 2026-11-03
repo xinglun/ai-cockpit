@@ -283,14 +283,14 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "expectedOutcome": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "expectedResult": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "reason": null,
+      "expected": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "expectedOutcome": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "expectedResult": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "reason": "The final-source Mac fixture and failed-signal injection passed, but direct Child::wait after a signal attempt has no independent deadline in production; bounded direct-child reaping is not yet proved for a failed direct-child kill. The group and escaped descendants remain Unknown.",
       "required": true,
       "scenario": "mac_original_group_timeout",
       "status": "unverified",
-      "verificationPlan": "Run a real Mac timeout fixture with a same-group member and a separate unrelated process; confirm the latter survives."
+      "verificationPlan": "Run a bounded real Mac timeout fixture with a directly owned child, a same-original-group member, and a separate unrelated process. Observe the actual original-group signal attempt and return, wait for the directly owned child, confirm the unrelated process survives, and retain cleanup Unknown when closure of non-child group members or escaped descendants is unproved. Do not treat a missing survival marker or an empty group observation as proof that the whole group or tree exited."
     },
     {
       "description": null,
@@ -350,14 +350,20 @@
     },
     {
       "description": null,
-      "evidence": [],
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-postgroup-check-4-verify.stdout.json#sha256:eec0692ae07c663af556917cd98ccfe8c0f0ad920b26c17b7fa19e898c78f0e1",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-postgroup-check-4-cold-status.json#sha256:161d4fb8bc6a1af737423a4d66a9f3478e196e37e4b30cb7e904861f70ffd393",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-postgroup-check-4-cold-outcome.json#sha256:70ffad1c2dc70d946d6f17a27a0e7b8a1f888352da6ebdea05897129510a4e1c",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-postgroup-check-4-cold-reuse-plan.json#sha256:0dce65ee9d07186828cf6577900236ba9301b3957d0811e7bf8d4107eba34c2c",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/ai-cockpit-mac-preflight/.ai/evidence/WI-1119-mac-bounded-execution-hci.verification-attempt.c9624cc7f96728f4dfefe63c714f8bb6841a8c626cc6febe0504651782df8a64.json#sha256:50cbe209e52f4afe71dae307cfa6b04ce368916da66470a95b8995932e32d0ab"
+      ],
       "expected": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
       "expectedOutcome": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
       "expectedResult": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
-      "reason": null,
+      "reason": "At source HEAD f3479915a43ebc73993308da588f219f1252941d, exact Mac Runtime SHA256 23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7 ran only Contract-declared project-command-3: one process spawned, cargo fmt exited 0, cleanup stayed Unknown, passed=false, and no receipt candidates. It durably recorded cleanup_unknown attempt sha256:c9624cc7f96728f4dfefe63c714f8bb6841a8c626cc6febe0504651782df8a64. Separate invocations of that exact binary cold-read status with the unknown attempt, Outcome not_ready, and a plan with one execution and zero reuse without replay. This verifies persistence and no-reuse only, not full descendant cleanup or formal WI verification.",
       "required": true,
       "scenario": "mac_cold_read_restart_unknown",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Persist an uncertain attempt, restart the same exact Mac Runtime, and inspect status, Outcome, and reuse admission without replaying the command."
     },
     {
@@ -391,7 +397,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T12:42:13.228369+00:00",
+  "updatedAt": "2026-11-03T13:14:05.204527+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
     "invalidatedRequiredChecks": [],
