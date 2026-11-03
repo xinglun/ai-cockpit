@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1d3eb788b01c643f72e5b67acf2a0e61fa1922b964046be5dae4a4e51bf1627f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+  "reason": "The verified user replied 确认了 in room message Sentinel_2e9efd21a29c81918e497b93b2842a2f at 2026-11-03T16:16:00.215322Z to the immediately preceding WI-1119 confirm_review request with these exact four bindings. This approves the WI-local Summary process record and independent final cleanup command Contract; it does not attest implementation, test results, descendant cleanup, formal verification, completion, or release.",
+  "recordedAt": "2026-11-03T16:16:00.215322+00:00",
+  "recordedBy": "user:Sentinel_2e9efd21a29c81918e497b93b2842a2f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:df7c10bc5be042a27e659b5c94090365e077f5ec94c83a111c6ea6359b27a5f1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

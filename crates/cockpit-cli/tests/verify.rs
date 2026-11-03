@@ -651,6 +651,24 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
         "mac_descendant_boundary"
     );
     assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")))
+            .expect("process Summary"),
+    )
+    .expect("process Summary JSON");
+    let entries = summary["processCleanup"]["entries"]
+        .as_array()
+        .expect("WI-local process entries");
+    assert_eq!(entries.len(), 1);
+    assert_eq!(entries[0]["state"], "direct_child_reaped");
+    assert_eq!(entries[0]["directChildReaped"], true);
+    assert_eq!(entries[0]["identityStrength"], "numeric_pid_only");
+    let cleanup = run(&["work-item", "process-cleanup", "--id", work_item_id]);
+    assert!(cleanup.status.success(), "{}", String::from_utf8_lossy(&cleanup.stderr));
+    let cleanup: serde_json::Value = serde_json::from_slice(&cleanup.stdout).expect("cleanup JSON");
+    assert_eq!(cleanup["state"], "direct_children_reaped");
+    assert_eq!(cleanup["descendantClosure"], "unknown");
+    assert_eq!(cleanup["entries"], serde_json::json!(entries));
     assert!(
         !root
             .join(format!(".ai/evidence/{work_item_id}.verification.json"))

@@ -61,6 +61,7 @@ mod historical_compatibility;
 mod knowledge_projection;
 mod legacy_closeout_source;
 mod lifecycle;
+pub use lifecycle::work_item_process_cleanup_report;
 mod material_review;
 mod observation_ledger;
 mod outcome_render;
@@ -1732,8 +1733,21 @@ where
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let observer_callback =
-        move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
+    let recording = execution_checkpoint.as_ref().and_then(|checkpoint| {
+        Some((
+            root.clone(),
+            request.work_item_id.clone()?,
+            checkpoint.local_execution_id()?.to_string(),
+            request.runtime_digest.clone(),
+        ))
+    });
+    let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+        if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
+            lifecycle::record_process_start(root, wi, execution_id, node_id, runtime_digest, process_id)
+                .map_err(|error| error.to_string())?;
+        }
+        observer(node_id, process_id, started)
+    };
     let execution_result = match process_supervisor.clone() {
         Some(supervisor) => {
             cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
@@ -1753,6 +1767,14 @@ where
     };
     if let Some(checkpoint) = &execution_checkpoint {
         checkpoint.observe(&execution_result)?;
+        if let Ok(receipt) = &execution_result {
+            lifecycle::record_process_results(
+                &root,
+                request.work_item_id.as_deref().expect("WI checkpoint requires WI"),
+                checkpoint.local_execution_id().expect("prepared checkpoint has ID"),
+                &receipt.execution_records,
+            )?;
+        }
     }
     let mut receipt = execution_result.map_err(|error| ObserverError::State {
         path: root.clone(),
@@ -1837,10 +1859,6 @@ where
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
             )
         };
-        let observer = Arc::clone(&process_observer);
-        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
-            observer(node_id, process_id, started)
-        };
         let retry_checkpoint = match (request.work_item_id.as_ref(), task_context) {
             (Some(_), Some((runtime, _))) => {
                 Some(lifecycle::VerificationExecutionCheckpoint::prepare(
@@ -1852,6 +1870,22 @@ where
                 )?)
             }
             _ => None,
+        };
+        let observer = Arc::clone(&process_observer);
+        let recording = retry_checkpoint.as_ref().and_then(|checkpoint| {
+            Some((
+                root.clone(),
+                request.work_item_id.clone()?,
+                checkpoint.local_execution_id()?.to_string(),
+                request.runtime_digest.clone(),
+            ))
+        });
+        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+            if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
+                lifecycle::record_process_start(root, wi, execution_id, node_id, runtime_digest, process_id)
+                    .map_err(|error| error.to_string())?;
+            }
+            observer(node_id, process_id, started)
         };
         let execution_result = match process_supervisor {
             Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
@@ -1870,6 +1904,14 @@ where
         };
         if let Some(checkpoint) = &retry_checkpoint {
             checkpoint.observe(&execution_result)?;
+            if let Ok(receipt) = &execution_result {
+                lifecycle::record_process_results(
+                    &root,
+                    request.work_item_id.as_deref().expect("WI checkpoint requires WI"),
+                    checkpoint.local_execution_id().expect("prepared checkpoint has ID"),
+                    &receipt.execution_records,
+                )?;
+            }
         }
         receipt = execution_result.map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -17371,6 +17413,19 @@ fn outcome_v2_internal_with_snapshot_and_hook(
             .as_deref()
             .and_then(|path| read_json(path).ok())
     };
+    if let Some(summary) = summary_value.as_ref()
+        && let Some(ledger) = summary.get("processCleanup")
+    {
+        match ledger.get("entries").and_then(serde_json::Value::as_array) {
+            Some(entries) if entries.iter().any(|entry| entry["state"] != "direct_child_reaped") => {
+                unknowns.push("wi_process_cleanup_unresolved".into());
+            }
+            None => unknowns.push("wi_process_cleanup_record_invalid".into()),
+            _ => {}
+        }
+        unknowns.sort();
+        unknowns.dedup();
+    }
     if summary_value.as_ref().is_some_and(|summary| {
         summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown"
     }) {

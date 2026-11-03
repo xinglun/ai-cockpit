@@ -992,6 +992,14 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
     },
+    /// Inspect this Work Item's process ledger at final cleanup. A separate
+    /// invocation never signals a historical PID without an owned Child handle.
+    ProcessCleanup {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
     /// Classify an immutable legacy receipt, or record a first direct-merge
     /// finalization when no predecessor exists, without rewriting history.
     FinalizeRecovery {
@@ -3281,6 +3289,12 @@ fn run() -> Result<()> {
                     .context("record ordinary cleanup")?,
                 )?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::ProcessCleanup { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let report = cockpit_repository::work_item_process_cleanup_report(&repo, &id)
+                    .context("inspect Work Item process cleanup")?;
+                println!("{}", serde_json::to_string_pretty(&report)?);
             }
             WorkItemCommand::FinalizeRecovery { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;

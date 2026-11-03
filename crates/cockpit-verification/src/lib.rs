@@ -3889,11 +3889,11 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     let outcome = {
         let mut outcome = outcome;
         if outcome.spawned {
-            apply_cleanup_uncertainty(
+            merge_cleanup_uncertainty(
                 &mut outcome,
                 CleanupUncertainty {
                     phase: "mac_descendant_boundary".into(),
-                    reason: "The directly owned child and original process group were bounded; escaped descendants cannot be proved absent on macOS".into(),
+                    reason: "Direct-child reaping is reported separately; original-group and escaped-descendant closure cannot be proved on macOS".into(),
                     remaining_pids: Vec::new(),
                     remaining_pids_truncated: false,
                 },
@@ -5901,18 +5901,24 @@ fn execute_captured_inner(
     {
         let identity_confirmed =
             terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-        if identity_confirmed {
-            let _ = child.wait();
-        }
+        #[cfg(target_os = "macos")]
+        let direct_reaped =
+            mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic).is_some();
+        #[cfg(not(target_os = "macos"))]
+        let direct_reaped = !identity_confirmed || child.wait().is_ok();
         #[cfg(windows)]
         drop(process_tree);
-        if !identity_confirmed {
+        if !identity_confirmed || !direct_reaped {
             return with_mac_group_signal_diagnostic(
                 failed_cleanup_uncertain_outcome(
                     started,
                     timeout_seconds,
                     deadline_ms,
-                    "child_identity_unconfirmed",
+                    if identity_confirmed {
+                        "direct_child_reap_unconfirmed"
+                    } else {
+                        "child_identity_unconfirmed"
+                    },
                     &error,
                     &[child_id],
                 ),
@@ -5929,19 +5935,25 @@ fn execute_captured_inner(
     {
         let identity_confirmed =
             terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-        if identity_confirmed {
-            let _ = child.wait();
-        }
+        #[cfg(target_os = "macos")]
+        let direct_reaped =
+            mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic).is_some();
+        #[cfg(not(target_os = "macos"))]
+        let direct_reaped = !identity_confirmed || child.wait().is_ok();
         let _ = observer(&command.id, child_id, false);
         #[cfg(windows)]
         drop(process_tree);
-        if !identity_confirmed {
+        if !identity_confirmed || !direct_reaped {
             return with_mac_group_signal_diagnostic(
                 failed_cleanup_uncertain_outcome(
                     started,
                     timeout_seconds,
                     deadline_ms,
-                    "child_identity_unconfirmed",
+                    if identity_confirmed {
+                        "direct_child_reap_unconfirmed"
+                    } else {
+                        "child_identity_unconfirmed"
+                    },
                     &error,
                     &[child_id],
                 ),
@@ -5968,31 +5980,44 @@ fn execute_captured_inner(
             Ok(None) if cancellation.is_some_and(|flag| flag.load(Ordering::Acquire)) => {
                 let identity_confirmed =
                     terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-                break (
-                    identity_confirmed.then(|| child.wait().ok()).flatten(),
-                    false,
-                );
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, false);
             }
             Ok(None) if composition::owner_interruption_signal().is_some() => {
                 let identity_confirmed =
                     terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-                break (
-                    identity_confirmed.then(|| child.wait().ok()).flatten(),
-                    false,
-                );
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, false);
             }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
                 let identity_confirmed =
                     terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-                break (
-                    identity_confirmed.then(|| child.wait().ok()).flatten(),
-                    true,
-                );
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, true);
             }
             Err(_) => {
                 terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
-                break (None, false);
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = None;
+                break (status, false);
             }
         }
     };
@@ -6013,7 +6038,7 @@ fn execute_captured_inner(
         timed_out = true;
     }
     let Some(status) = status else {
-        return ExecutionOutcome {
+        let outcome = ExecutionOutcome {
             spawned: true,
             passed: false,
             exit_code: None,
@@ -6030,6 +6055,19 @@ fn execute_captured_inner(
             deadline_ms,
             cleanup_uncertain: None,
         };
+        #[cfg(target_os = "macos")]
+        let mut outcome = outcome;
+        #[cfg(target_os = "macos")]
+        apply_cleanup_uncertainty(
+            &mut outcome,
+            CleanupUncertainty {
+                phase: "mac_direct_child_reap_unconfirmed".into(),
+                reason: "The directly owned child was not confirmed reaped within bounded grace; it may still be running, and a terminated supervisor does not transfer its Child handle".into(),
+                remaining_pids: Vec::new(),
+                remaining_pids_truncated: false,
+            },
+        );
+        return outcome;
     };
     let termination_signal = status_termination_signal(&status);
     if stdout.failed || stderr.failed {
@@ -6199,16 +6237,93 @@ fn mac_terminate_owned_tree_with(
     group_signal_diagnostic: &mut Option<String>,
     signal: impl FnMut(u32) -> (i32, Option<i32>),
 ) -> bool {
+    mac_terminate_owned_tree_with_operations(
+        child,
+        child_id,
+        group_signal_diagnostic,
+        signal,
+        Child::kill,
+    )
+}
+
+#[cfg(target_os = "macos")]
+fn mac_terminate_owned_tree_with_operations(
+    child: &mut Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+    mut direct_kill: impl FnMut(&mut Child) -> std::io::Result<()>,
+) -> bool {
     // An identity or ownership failure grants no numeric PID authority.
     let result = mac_signal_owned_group_with(child, child_id, signal);
     *group_signal_diagnostic = Some(result.diagnostic());
     if !result.attempted() {
         return false;
     }
-    // A failed group syscall does not withdraw the exact Child handle. The
-    // caller still waits for that direct child; group closure remains unknown.
-    let _ = child.kill();
+    // A failed group syscall does not withdraw this exact Child handle. A
+    // direct kill error is a fact, never proof of exit or group closure.
+    let detail = match direct_kill(child) {
+        Ok(()) => "attempted=true result=ok".into(),
+        Err(error) => format!(
+            "attempted=true result=error errno={:?} kind={:?}",
+            error.raw_os_error(),
+            error.kind()
+        ),
+    };
+    *group_signal_diagnostic = Some(format!(
+        "{}; direct_child_kill: {detail}",
+        result.diagnostic()
+    ));
     true
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reap_owned_child_bounded_with(
+    child: &mut Child,
+    grace: Duration,
+    mut reap: impl FnMut(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+) -> std::io::Result<Option<std::process::ExitStatus>> {
+    let deadline = Instant::now() + grace;
+    loop {
+        match reap(child) {
+            Ok(Some(status)) => return Ok(Some(status)),
+            Ok(None) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => {}
+            Err(error) => return Err(error),
+        }
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Ok(None);
+        }
+        std::thread::sleep(Duration::from_millis(10).min(remaining));
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reap_owned_child_bounded(
+    child: &mut Child,
+    diagnostic: &mut Option<String>,
+) -> Option<std::process::ExitStatus> {
+    let observed = mac_reap_owned_child_bounded_with(
+        child,
+        SUPERVISOR_PROTOCOL_CLOSE_GRACE,
+        Child::try_wait,
+    );
+    let (status, detail) = match observed {
+        Ok(Some(status)) => (Some(status), "confirmed_reaped".into()),
+        Ok(None) => (None, "unconfirmed_deadline".into()),
+        Err(error) => (
+            None,
+            format!(
+                "observation_error errno={:?} kind={:?}",
+                error.raw_os_error(),
+                error.kind()
+            ),
+        ),
+    };
+    let prior = diagnostic.take().unwrap_or_else(|| "not_attempted".into());
+    *diagnostic = Some(format!("{prior}; direct_child_reap: {detail}"));
+    status
 }
 
 #[cfg(target_os = "macos")]
@@ -7249,7 +7364,11 @@ while not marker.exists() and time.monotonic()<deadline:
                 Ok(None) | Err(_) => {
                     // The exact Child handle is still owned by this test.
                     let _ = child.kill();
-                    let _ = child.wait();
+                    let _ = mac_reap_owned_child_bounded_with(
+                        child,
+                        Duration::from_secs(1),
+                        Child::try_wait,
+                    );
                     panic!("isolated supervisor did not exit within its test watchdog");
                 }
             }
@@ -7516,6 +7635,96 @@ while not marker.exists() and time.monotonic()<deadline:
         );
         assert!(!direct_status.success());
         assert!(unrelated_alive, "unrelated child must survive");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_failed_group_and_direct_kill_return_after_bounded_observation() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+        let owned_id = owned.id();
+        let mut group_calls = Vec::new();
+        let mut direct_calls = 0;
+        let mut diagnostic = None;
+        let attempted = mac_terminate_owned_tree_with_operations(
+            &mut owned,
+            owned_id,
+            &mut diagnostic,
+            |pid| {
+                group_calls.push(pid);
+                (-1, Some(libc::EPERM))
+            },
+            |_child| {
+                direct_calls += 1;
+                Err(std::io::Error::from_raw_os_error(libc::EPERM))
+            },
+        );
+        let started = Instant::now();
+        let reaped = mac_reap_owned_child_bounded_with(
+            &mut owned,
+            Duration::from_millis(50),
+            Child::try_wait,
+        )
+        .expect("observe exact child without a signal");
+        let owned_alive = owned.try_wait().expect("owned child observation").is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("unrelated child observation")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(attempted);
+        assert_eq!(group_calls, [owned_id]);
+        assert_eq!(direct_calls, 1);
+        assert!(
+            diagnostic.as_deref().is_some_and(|value| {
+                value.contains("return=-1")
+                    && value.contains("direct_child_kill: attempted=true result=error")
+                    && value.contains("errno=Some(1)")
+            }),
+            "both failed termination results must remain visible"
+        );
+        assert!(reaped.is_none(), "an attempted signal is not an exit");
+        assert!(started.elapsed() < Duration::from_secs(1));
+        assert!(owned_alive, "the fixture retains its live Child handle");
+        assert!(unrelated_alive, "no unrelated process was signalled");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_direct_reap_observation_error_preserves_owned_handle() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        let result = mac_reap_owned_child_bounded_with(
+            &mut owned,
+            Duration::from_millis(50),
+            |_child| Err(std::io::Error::from_raw_os_error(libc::ECHILD)),
+        );
+        let alive = owned.try_wait().expect("owned child observation").is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+
+        assert_eq!(result.unwrap_err().raw_os_error(), Some(libc::ECHILD));
+        assert!(alive, "an observation failure does not prove exit");
     }
 
     #[cfg(target_os = "macos")]

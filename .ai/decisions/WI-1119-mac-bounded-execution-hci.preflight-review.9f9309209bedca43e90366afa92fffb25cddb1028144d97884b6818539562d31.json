@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3cee10fce2c5b299a8a2940b0bdf4e44c8abccb3fcc6e35d09b3172a52fb586d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:a7cc8d0b526be622caf8ac0a73e0f476b33c4de7df365c5da206d17f4b65e8a4",
+  "reason": "The verified user explicitly replied 确认 WI-1119 的confirm_review in room message Sentinel_c7cfd81ce19c81919de3342a4fd3d148 at 2026-11-03T15:18:16.386445Z to the immediately preceding request with these exact Contract, Preflight, Snapshot and Runtime bindings. This confirms the bounded observation and honest Unknown acceptance revision, not implementation, tests, complete cleanup, formal verification, or release. The user's latest design choice keeps persistent process records and WI cleanup checks for a later enhancement.",
+  "recordedAt": "2026-11-03T15:18:16.386445+00:00",
+  "recordedBy": "user:Sentinel_c7cfd81ce19c81919de3342a4fd3d148",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98cd2755ac3a2d5f9397c796124886a26c04c1e94a4bb37196f04b421e499f12",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

@@ -91,6 +91,7 @@ Generated from the current Clap command tree, including inherited global argumen
 | `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item process-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
@@ -141,6 +142,16 @@ Generated from the current Clap command tree, including inherited global argumen
 
 </details>
 <!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+`work-item process-cleanup --repo <checkout> --id <wi>` reads only that WI's
+Summary process entries. The supervising execution records an actual start
+with its execution ID and numeric PID; an observed direct-child exit is
+recorded separately. A fresh CLI invocation does not inherit the original
+`Child` handle, so the command reports unresolved entries and does not signal
+a historical PID. An absent or damaged entry is not proof of cleanup, and a
+reaped direct child does not prove that descendants exited. The ordinary
+`work-item ordinary-cleanup` command concerns branch/worktree resources and
+has a separate meaning. The command does not manage external `git` or `rm`.
 
 
 Historical compatibility is explicit and low assurance. Legacy shared-primary

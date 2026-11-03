@@ -2,14 +2,15 @@
   "acceptance": null,
   "acceptanceCriteria": [
     "Mac reports directly observed verifier exit and original-group control separately from unproven escaped-descendant cleanup; no complete-tree claim.",
-    "Timeout, parent disconnect, output saturation, and cleanup errors remain bounded and produce explicit uncertainty where closure is unproven.",
+    "Timeout, parent disconnect, output saturation, failed group or direct-child termination, and cleanup errors return after bounded observation. Record actual signal and kill results and whether the directly owned child was reaped; if exit or reaping is not confirmed by the deadline, persist cleanup Unknown rather than wait indefinitely or claim the process ended.",
     "setsid, double-fork, closed-pipe, changed-cwd, stale owned-child handle, and controlled identity-loss negatives never become cleanup-success or reusable evidence; unrelated test-owned processes survive. Actual kernel PID reuse is not claimed as tested in this Work Item.",
     "Cold read and restart retain Unknown; uncertainty cannot be promoted to clean by a later empty process-group probe.",
     "Full composition supervision still rejects Mac before starting a verifier.",
     "The nine scoped documents state HCI as the sole current North Star: understandable, controllable, explainable, recoverable; the historical map retains its historical identity.",
     "A command's observed exit does not imply that arbitrary descendants were reaped or that governed verification passed.",
-    "Mac records directly observed command completion separately from descendant cleanup assurance; cleanup Unknown leaves the Work Item pending formal verification and cannot authorize a reusable receipt or finish, archive, or close.",
-    "A capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot; the prior Mac attempt remains historical Unknown and is never promoted to clean."
+    "A WI-local Summary records an actual process start with its execution and platform identity, then records confirmed direct-child reaping or explicit Unknown without erasing the history. A separate final cleanup command reads only that WI, skips already reaped entries, performs bounded cleanup only through a still-held and verified owner handle, and reports unowned live, zombie, missing, stale, or ambiguous entries as Unknown; it never signals an old numeric PID alone. Mac command results and cleanup assurance remain distinct, an Unknown attempt is not reusable or a formal pass, and finish/archive/close still require fresh formal verification in a capable environment. Supervisor death never implies handle transfer or cleanup.",
+    "A capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot; the prior Mac attempt remains historical Unknown and is never promoted to clean.",
+    "The WI-local Summary lifecycle and independent final cleanup command use the same Rust-facing record and result semantics on Linux, macOS, and Windows. Platform-specific ownership and reaping mechanisms remain below that interface and may yield different proof strength; no platform claims cleanup solely from a stored PID, an empty group observation, or another platform's evidence. Normal verification does not require a cross-WI or always-running cleanup service."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -26,7 +27,7 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "On Mac, control and wait for the directly owned verifier within bounded grace. When its exact owned birth identity permits, attempt to signal its original process group and record the actual return; keep cleanup Unknown where group members or escaped descendants cannot be proved closed, and prohibit cleanup-success and result reuse. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
+  "goal": "Use a common Rust execution record and a WI-local Summary to record each process actually started for this Work Item and whether its directly owned child was observed reaped. Provide a separate final process-cleanup command scoped to one WI: inspect those records, use only a still-held and verified process handle for bounded cleanup, and report Unknown when ownership, identity, or reaping cannot be proved. Keep ordinary verification usable, do not add a permanent service or cross-WI cleanup registry, and do not signal historical PID values alone. Preserve Mac's bounded direct-child/original-group limit and unsupported full composition supervision, honest Outcome, existing formal verification gates, and HCI as the sole North Star in English, Japanese, and Chinese.",
   "governancePolicy": null,
   "governanceProfile": {
     "taskAuthorization": {
@@ -101,14 +102,14 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
-      "expectedOutcome": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
-      "expectedResult": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "expected": "On Mac timeout, record actual original-group signal and direct-child termination results, and observe direct-child reaping within bounded grace. Persist the WI-local start and final reaping-or-Unknown facts. The separate final cleanup command reports the remaining uncertainty without signaling an old PID; no whole-group or full-tree closure is claimed, and the unrelated process survives.",
+      "expectedOutcome": "On Mac timeout, record actual original-group signal and direct-child termination results, and observe direct-child reaping within bounded grace. Persist the WI-local start and final reaping-or-Unknown facts. The separate final cleanup command reports the remaining uncertainty without signaling an old PID; no whole-group or full-tree closure is claimed, and the unrelated process survives.",
+      "expectedResult": "On Mac timeout, record actual original-group signal and direct-child termination results, and observe direct-child reaping within bounded grace. Persist the WI-local start and final reaping-or-Unknown facts. The separate final cleanup command reports the remaining uncertainty without signaling an old PID; no whole-group or full-tree closure is claimed, and the unrelated process survives.",
       "reason": null,
       "required": true,
       "scenario": "mac_original_group_timeout",
       "status": "unverified",
-      "verificationPlan": "Run a bounded real Mac timeout fixture with a directly owned child, a same-original-group member, and a separate unrelated process. Observe the actual original-group signal attempt and return, wait for the directly owned child, confirm the unrelated process survives, and retain cleanup Unknown when closure of non-child group members or escaped descendants is unproved. Do not treat a missing survival marker or an empty group observation as proof that the whole group or tree exited."
+      "verificationPlan": "On a real Mac use bounded test-owned direct child, original-group member, and unrelated child fixtures. Assert the actual signal/kill returns, bounded reaping observation, WI-local Summary start and final facts, and the final cleanup command's Unknown report when no verified owner handle remains. Assert zero signals to historical or uncertain numeric PIDs and survival of the unrelated child. Supervisor death does not transfer its Child handle."
     },
     {
       "description": null,
@@ -168,7 +169,7 @@
       "required": true,
       "scenario": "mac_cold_read_restart_unknown",
       "status": "unverified",
-      "verificationPlan": "Persist an uncertain attempt, restart the same exact Mac Runtime, and inspect status, Outcome, and reuse admission without replaying the command."
+      "verificationPlan": "Persist an uncertain attempt and WI-local Summary start/final facts, restart the same exact Mac Runtime, and inspect status, Outcome, final cleanup command, and reuse admission without replaying the verifier. Verify an old PID alone cannot authorize a signal or clean result."
     },
     {
       "description": null,
@@ -193,6 +194,17 @@
       "scenario": "hci_north_star_three_languages",
       "status": "unverified",
       "verificationPlan": "Review all nine files and run the repository documentation acceptance gate."
+    },
+    {
+      "description": "One independent final command inspects the selected WI Summary only; historical numeric PID values are observations, not termination authority.",
+      "evidence": [],
+      "expected": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
+      "expectedOutcome": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
+      "expectedResult": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
+      "required": true,
+      "scenario": "wi_local_final_process_cleanup",
+      "status": "unverified",
+      "verificationPlan": "On real platform-bound test fixtures, inspect the same WI Summary after start, confirmed reap, owner loss, and restart. Run the independent final command against that WI and an unrelated WI: it skips reaped entries, reports uncertain live or zombie entries without an unsafe signal or false cleanup, and leaves the unrelated WI untouched. Test Linux, macOS, and Windows separately; bind each result to its actual Runtime and source snapshot."
     }
   ],
   "scope": [
@@ -220,7 +232,8 @@
     "crates/cockpit-mcp/tests/rpc.rs",
     "crates/cockpit-verification/tests/diagnostic_summary.rs",
     "crates/cockpit-mcp/src/lib.rs",
-    "crates/cockpit-cli/tests/mcp.rs"
+    "crates/cockpit-cli/tests/mcp.rs",
+    "docs/reference/commands.md"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",
@@ -228,7 +241,8 @@
     "crates/cockpit-verification/src/lib.rs:3593-3601,4199-4216,5754-5762",
     "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877",
     "AGENTS.md and .ai/README.md on the exact base",
-    "User selected route A in the current conversation: Mac command facts remain pending formal verification; existing completion gates stay unchanged."
+    "User selected route A in the current conversation: Mac command facts remain pending formal verification; existing completion gates stay unchanged.",
+    "User confirmed in the current conversation: WI-1119 itself records each started process and observed reap in its own Summary and exposes a separate final cleanup command for that WI; it never blindly signals an untrusted historical PID, adds a permanent service, or controls other Work Items."
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
