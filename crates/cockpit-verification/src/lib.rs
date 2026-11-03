@@ -4317,9 +4317,19 @@ mod retained_owner_cleanup_tests {
         run(
             &cli,
             &[
-                "start", "--repo", &root_arg, "--id", wi,
-                "--intent", "test owned child cleanup", "--goal", "reap own child",
-                "--scope", ".ai/**", "--authority", "authorized",
+                "start",
+                "--repo",
+                &root_arg,
+                "--id",
+                wi,
+                "--intent",
+                "test owned child cleanup",
+                "--goal",
+                "reap own child",
+                "--scope",
+                ".ai/**",
+                "--authority",
+                "authorized",
             ],
         );
         let execution_id = "execution-one";
@@ -4329,10 +4339,12 @@ mod retained_owner_cleanup_tests {
             .spawn()
             .expect("owned child");
         let process_id = child.id();
-        let mut unrelated = OwnChild(Command::new("/bin/sleep")
-            .arg("20")
-            .spawn()
-            .expect("unrelated child"));
+        let mut unrelated = OwnChild(
+            Command::new("/bin/sleep")
+                .arg("20")
+                .spawn()
+                .expect("unrelated child"),
+        );
         let context = SupervisorCleanupContext {
             repository_root: root.clone(),
             work_item_id: wi.into(),
@@ -4340,10 +4352,9 @@ mod retained_owner_cleanup_tests {
         };
         prepare_cleanup_mailbox(&context, node_id, process_id).expect("ready owner mailbox");
         let summary_path = root.join(format!(".ai/work-items/active/{wi}.summary.json"));
-        let mut summary: serde_json::Value = serde_json::from_slice(
-            &std::fs::read(&summary_path).expect("read Summary"),
-        )
-        .expect("parse Summary");
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&summary_path).expect("read Summary"))
+                .expect("parse Summary");
         summary["processCleanup"] = serde_json::json!({
             "schemaVersion": 1,
             "entries": [{
@@ -4373,7 +4384,14 @@ mod retained_owner_cleanup_tests {
             reaped
         });
         let report = Command::new(cli.as_ref())
-            .args(["work-item", "process-cleanup", "--repo", &root_arg, "--id", wi])
+            .args([
+                "work-item",
+                "process-cleanup",
+                "--repo",
+                &root_arg,
+                "--id",
+                wi,
+            ])
             .output()
             .expect("independent cleanup CLI");
         assert!(
@@ -4388,7 +4406,13 @@ mod retained_owner_cleanup_tests {
         assert_eq!(report["ownersContacted"], 1);
         assert_eq!(report["descendantClosure"], "unknown");
         assert!(owner_reaped);
-        assert!(unrelated.0.try_wait().expect("unrelated observation").is_none());
+        assert!(
+            unrelated
+                .0
+                .try_wait()
+                .expect("unrelated observation")
+                .is_none()
+        );
         std::fs::remove_dir_all(root).expect("remove fixture");
     }
 
