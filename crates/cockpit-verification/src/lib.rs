@@ -7259,6 +7259,77 @@ while not marker.exists() and time.monotonic()<deadline:
 
     #[cfg(target_os = "macos")]
     #[test]
+    fn mac_echild_observation_never_signals_owned_or_unrelated_child() {
+        use std::os::unix::process::CommandExt;
+
+        fn ownership_lost(_: &mut Child) -> std::io::Result<bool> {
+            Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+        }
+
+        // Both children have a finite lifetime even if a test assertion fails.
+        // Group signals are never sent by this fixture; cleanup uses only the
+        // exact Child handles that the fixture created.
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+
+        let owned_id = owned.id();
+        let identity_registered = mac_expected_child_identity(owned_id).is_ok();
+        let mut signals = Vec::new();
+        let mut identity_observations = 0;
+        let signal_authorized = mac_signal_registered_group_with(
+            owned_id,
+            || {
+                identity_observations += 1;
+                Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+            },
+            |pid| signals.push(pid),
+        );
+        let mut forced = false;
+        let cleanup_result = wait_supervisor_cleanup_with_operations(
+            &mut owned,
+            owned_id,
+            Duration::from_millis(80),
+            &mut forced,
+            None,
+            ownership_lost,
+            Child::try_wait,
+        );
+        let owned_alive = owned.try_wait().expect("observe exact owned child").is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("observe exact unrelated child")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(identity_registered, "live owned identity must be recorded");
+        assert_eq!(identity_observations, 1, "the production check must observe ECHILD");
+        assert!(!signal_authorized, "ECHILD cannot authorize a group signal");
+        assert!(signals.is_empty(), "no numeric PID reached the signal sink");
+        assert!(
+            cleanup_result.is_none() && forced,
+            "ECHILD must leave supervisor cleanup unproved"
+        );
+        assert!(owned_alive, "owned child must survive until fixture cleanup");
+        assert!(
+            unrelated_alive,
+            "unrelated child must survive until fixture cleanup"
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
     fn mac_reaped_child_grants_no_later_numeric_group_signal() {
         use std::os::unix::process::CommandExt;
 
