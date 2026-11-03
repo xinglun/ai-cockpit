@@ -197,20 +197,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+      "reason": "The user approved correcting the Mac original-group boundary: record the actual group-signal return and wait only for the directly owned child. Unknown cleanup, no complete-group/tree claim, no result reuse, and the existing composition refusal remain. This corrects the owner-reviewed acceptance wording before implementing the in-scope return handling.",
+      "recorded": true,
+      "recordedAt": "2026-11-03T12:30:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+    "contractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
-    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing these exact Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_8612b3a7aadc8191b3f2b16b309330cf at 2026-11-03T11:27:50.951887Z. This confirms the revised controlled identity plan only; it does not approve the separately requested two tests, attest actual kernel PID reuse, or establish formal verification or completion.",
-    "recordedAt": "2026-11-03T11:27:50.951887+00:00",
-    "recordedBy": "user:Sentinel_8612b3a7aadc8191b3f2b16b309330cf",
+    "preflightDecisionDigest": "sha256:a71997e7ca6e27d83e26095119922d401967cab13cedb123882b0f05999b18ab",
+    "reason": "The verified user replied 批准 to the immediately preceding WI-1119 request with these exact Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_3e41e732c0848191abe865ed4641b820 at 2026-11-03T12:40:05.309863Z. This confirms the original-group signal-return boundary amendment and the bounded six-check budget; it does not attest tests, whole-group or escaped-descendant cleanup, formal verification, completion, or release.",
+    "recordedAt": "2026-11-03T12:40:05.309863+00:00",
+    "recordedBy": "user:Sentinel_3e41e732c0848191abe865ed4641b820",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:dc4a25813b4ab97906af049f5fb5945861a82bc8e62ce9e4abb6d5420290e6e2",
+    "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -237,24 +257,27 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-03T11:55:20Z",
-  "preflightContractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
-  "preflightDecisionDigest": "sha256:f335cce771887e83a93b598d33404c4e93e89b6773a165ea02ab6054ff06a86c",
-  "preflightRepositorySnapshotDigest": "sha256:d3d975ae60c6296968b3a15aac604af70818c8dafe2c06f6f7f92f95c7be9702",
+  "preflightAt": "2026-11-03T12:31:22Z",
+  "preflightContractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+  "preflightDecisionDigest": "sha256:a71997e7ca6e27d83e26095119922d401967cab13cedb123882b0f05999b18ab",
+  "preflightRepositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "description": null,
-      "evidence": [],
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-mac-close-human-outcome.log#sha256:5ee8d5f609f2896ba1d5e86bf0fa45a489c09434278642d3b504c71cb78f0d0d",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-final-four-mac.log#sha256:577b8a2d63da216ed35b97560a3a6b57a1db4f01bc217eece6af7ef2d86d9199"
+      ],
       "expected": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
       "expectedOutcome": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
       "expectedResult": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
-      "reason": null,
+      "reason": "At current Mac commit 4f8fbd6d569d21e3e49c1c5bfd79e9baab3d3e24, the exact CLI test observed a successful direct command exit, bounded receipt, cleanup Unknown, no reusable result, and English human Outcome that remained non-green and awaited formal verification; the Mac supervisor unit test separately checked direct exit. This records the CLI handoff returned to the test process, not host display or full descendant cleanup.",
       "required": true,
       "scenario": "mac_direct_child_natural_exit",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run a real Mac direct-child fixture through the proposed supervised CLI path and inspect the receipt and human Outcome."
     },
     {
@@ -368,11 +391,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T12:08:32.470172+00:00",
+  "updatedAt": "2026-11-03T12:42:13.228369+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+    "contractHash": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-03T11:22:27Z"
+    "recordedAt": "2026-11-03T12:30:23Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }

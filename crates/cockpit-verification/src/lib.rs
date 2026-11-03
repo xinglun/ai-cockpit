@@ -444,47 +444,79 @@ fn mac_reject_known_identity_change(child: &Child) -> std::io::Result<()> {
 }
 
 #[cfg(target_os = "macos")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum MacGroupSignalResult {
+    IdentityUnconfirmed,
+    Attempted { returned: i32, errno: Option<i32> },
+}
+
+#[cfg(target_os = "macos")]
+impl MacGroupSignalResult {
+    fn attempted(self) -> bool {
+        matches!(self, Self::Attempted { .. })
+    }
+
+    fn diagnostic(self) -> String {
+        match self {
+            Self::IdentityUnconfirmed => "not_attempted_identity_unconfirmed".into(),
+            Self::Attempted { returned, errno } => {
+                format!("attempted=true return={returned} errno={errno:?}")
+            }
+        }
+    }
+}
+
+#[cfg(target_os = "macos")]
 fn mac_signal_if_same_identity(
     expected: MacOwnedChildIdentity,
     mut observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
-    mut signal: impl FnMut(u32),
-) -> bool {
+    mut signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
     // The second observation models the check-to-signal boundary. The final
     // kernel call still assumes this Runtime exclusively retains and reaps its
     // Child; an external reaper invalidates that assumption.
     if observe().ok() != Some(expected) || observe().ok() != Some(expected) {
-        return false;
+        return MacGroupSignalResult::IdentityUnconfirmed;
     }
-    signal(expected.pid);
-    true
+    let (returned, errno) = signal(expected.pid);
+    MacGroupSignalResult::Attempted { returned, errno }
 }
 
 #[cfg(target_os = "macos")]
 fn mac_signal_registered_group_with(
     child_id: u32,
     observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
-    signal: impl FnMut(u32),
-) -> bool {
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
     let Ok(expected) = mac_expected_child_identity(child_id) else {
-        return false;
+        return MacGroupSignalResult::IdentityUnconfirmed;
     };
     mac_signal_if_same_identity(expected, observe, signal)
 }
 
 #[cfg(target_os = "macos")]
-fn mac_signal_owned_group(child: &Child, child_id: u32) -> bool {
+fn mac_signal_owned_group(child: &Child, child_id: u32) -> MacGroupSignalResult {
+    mac_signal_owned_group_with(child, child_id, |pid| {
+        // SAFETY: the helper checks two exact child observations against the
+        // spawn identity while this Runtime exclusively retains its Child.
+        let returned = unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
+        let errno = (returned == -1)
+            .then(|| std::io::Error::last_os_error().raw_os_error())
+            .flatten();
+        (returned, errno)
+    })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_owned_group_with(
+    child: &Child,
+    child_id: u32,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
     if child.id() != child_id {
-        return false;
+        return MacGroupSignalResult::IdentityUnconfirmed;
     }
-    mac_signal_registered_group_with(
-        child_id,
-        || mac_observe_owned_child_identity(child),
-        |pid| {
-            // SAFETY: two exact child observations matched the spawn identity;
-            // its unreaped Child pins the PID under exclusive-reaper ownership.
-            unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
-        },
-    )
+    mac_signal_registered_group_with(child_id, || mac_observe_owned_child_identity(child), signal)
 }
 
 /// A machine-readable measurement captured by a repository-local performance
@@ -4566,18 +4598,20 @@ fn execute_supervised_captured(
         }
     };
     let worker_id = worker.id();
+    let mut parent_group_signal_diagnostic = None;
     let Some(target_id) = target_process_id else {
         if let Some(VerificationSupervisorMessage::Outcome { outcome: wire }) =
             initial_message.take()
         {
             close_supervisor_input(&mut worker);
             let mut forced = false;
-            let status = wait_supervisor_cleanup(
+            let status = wait_supervisor_cleanup_recording(
                 &mut worker,
                 worker_id,
                 SUPERVISOR_PARENT_CLEANUP_GRACE,
                 &mut forced,
                 message_receiver.as_ref(),
+                &mut parent_group_signal_diagnostic,
             );
             join_startup_reader(&mut startup_reader);
             let mut outcome = match ExecutionOutcome::try_from(wire) {
@@ -4599,6 +4633,16 @@ fn execute_supervised_captured(
                     parent_cleanup_uncertainty(
                         "parent_forced_supervisor_termination",
                         "supervisor did not finish after its initial outcome",
+                        &[worker_id],
+                    ),
+                );
+            }
+            if let Some(diagnostic) = parent_group_signal_diagnostic.as_deref() {
+                merge_cleanup_uncertainty(
+                    &mut outcome,
+                    parent_cleanup_uncertainty(
+                        "mac_original_group_signal",
+                        diagnostic,
                         &[worker_id],
                     ),
                 );
@@ -4681,12 +4725,13 @@ fn execute_supervised_captured(
                 protocol_error = Some(error);
                 close_supervisor_input(&mut worker);
                 cleanup_forced_termination = true;
-                break wait_supervisor_cleanup(
+                break wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PROTOCOL_CLOSE_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 );
             }
             if messages.terminal_seen() {
@@ -4722,24 +4767,26 @@ fn execute_supervised_captured(
             protocol_error = Some("verification supervisor did not reach natural control EOF and exit within its close deadline".into());
             close_supervisor_input(&mut worker);
             cleanup_forced_termination = true;
-            break wait_supervisor_cleanup(
+            break wait_supervisor_cleanup_recording(
                 &mut worker,
                 worker_id,
                 SUPERVISOR_PROTOCOL_CLOSE_GRACE,
                 &mut cleanup_forced_termination,
                 message_receiver.as_ref(),
+                &mut parent_group_signal_diagnostic,
             );
         }
         match worker_poll {
             Ok(Some(status)) => break Some(status),
             Ok(None) if composition::owner_interruption_signal().is_some() => {
                 close_supervisor_input(&mut worker);
-                break wait_supervisor_cleanup(
+                break wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 );
             }
             Ok(None) if Instant::now() < command_deadline + SUPERVISOR_CLEANUP_GRACE => {
@@ -4748,12 +4795,13 @@ fn execute_supervised_captured(
             Ok(None) if !parent_timed_out => {
                 parent_timed_out = true;
                 close_supervisor_input(&mut worker);
-                match wait_supervisor_cleanup(
+                match wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 ) {
                     Some(status) => break Some(status),
                     None => break None,
@@ -4887,6 +4935,16 @@ fn execute_supervised_captured(
             &[worker_id, target_id],
         );
         merge_cleanup_uncertainty(&mut outcome, uncertainty);
+    }
+    if let Some(diagnostic) = parent_group_signal_diagnostic.as_deref() {
+        merge_cleanup_uncertainty(
+            &mut outcome,
+            parent_cleanup_uncertainty(
+                "mac_original_group_signal",
+                diagnostic,
+                &[worker_id, target_id],
+            ),
+        );
     }
     outcome.deadline_ms = deadline_ms;
     outcome.elapsed_ms = started.elapsed().as_millis();
@@ -5409,6 +5467,29 @@ fn wait_supervisor_cleanup_with_operations(
     observe: fn(&mut Child) -> std::io::Result<bool>,
     reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
 ) -> Option<std::process::ExitStatus> {
+    wait_supervisor_cleanup_with_operations_recording(
+        child,
+        child_id,
+        grace,
+        forced_termination,
+        messages,
+        &mut None,
+        observe,
+        reap,
+    )
+}
+
+#[cfg(unix)]
+fn wait_supervisor_cleanup_with_operations_recording(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+    group_signal_diagnostic: &mut Option<String>,
+    observe: fn(&mut Child) -> std::io::Result<bool>,
+    reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+) -> Option<std::process::ExitStatus> {
     if child.id() != child_id || !(2..=i32::MAX as u32).contains(&child_id) {
         *forced_termination = true;
         return None;
@@ -5446,11 +5527,18 @@ fn wait_supervisor_cleanup_with_operations(
                     // owned group while its zombie leader still pins the PID.
                     *forced_termination = true;
                     #[cfg(target_os = "macos")]
-                    if !mac_signal_owned_group(child, child_id) {
-                        return None;
+                    {
+                        let signal = mac_signal_owned_group(child, child_id);
+                        *group_signal_diagnostic = Some(signal.diagnostic());
+                        if !signal.attempted() {
+                            return None;
+                        }
                     }
                     #[cfg(not(target_os = "macos"))]
-                    terminate_descendants(child_id);
+                    {
+                        let _ = group_signal_diagnostic;
+                        terminate_descendants(child_id);
+                    }
                     let _ = child.kill();
                     signalled = true;
                 }
@@ -5470,11 +5558,18 @@ fn wait_supervisor_cleanup_with_operations(
                 match observe(child) {
                     Ok(_) => {
                         #[cfg(target_os = "macos")]
-                        if !mac_signal_owned_group(child, child_id) {
-                            return None;
+                        {
+                            let signal = mac_signal_owned_group(child, child_id);
+                            *group_signal_diagnostic = Some(signal.diagnostic());
+                            if !signal.attempted() {
+                                return None;
+                            }
                         }
                         #[cfg(not(target_os = "macos"))]
-                        terminate_descendants(child_id);
+                        {
+                            let _ = group_signal_diagnostic;
+                            terminate_descendants(child_id);
+                        }
                         let _ = child.kill();
                         signalled = true;
                     }
@@ -5499,14 +5594,33 @@ fn wait_supervisor_cleanup(
     forced_termination: &mut bool,
     messages: Option<&VerificationSupervisorMessages>,
 ) -> Option<std::process::ExitStatus> {
+    wait_supervisor_cleanup_recording(
+        child,
+        child_id,
+        grace,
+        forced_termination,
+        messages,
+        &mut None,
+    )
+}
+
+fn wait_supervisor_cleanup_recording(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+    group_signal_diagnostic: &mut Option<String>,
+) -> Option<std::process::ExitStatus> {
     #[cfg(unix)]
     {
-        wait_supervisor_cleanup_with_operations(
+        wait_supervisor_cleanup_with_operations_recording(
             child,
             child_id,
             grace,
             forced_termination,
             messages,
+            group_signal_diagnostic,
             observe_owned_supervisor_exit,
             Child::try_wait,
         )
@@ -5514,6 +5628,7 @@ fn wait_supervisor_cleanup(
     #[cfg(not(unix))]
     {
         let _ = messages;
+        let _ = group_signal_diagnostic;
         let deadline = Instant::now() + grace;
         loop {
             match child.try_wait() {
@@ -5722,6 +5837,7 @@ fn execute_captured_inner(
         }
     };
     let child_id = child.id();
+    let mut group_signal_diagnostic = None;
     #[cfg(target_os = "macos")]
     mac_register_spawned_child(&child);
     #[cfg(windows)]
@@ -5775,28 +5891,36 @@ fn execute_captured_inner(
     if let Some(on_started) = on_started.as_mut()
         && let Err(error) = on_started(child_id)
     {
-        let identity_confirmed = terminate_process_tree(&mut child, child_id);
+        let identity_confirmed =
+            terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
         if identity_confirmed {
             let _ = child.wait();
         }
         #[cfg(windows)]
         drop(process_tree);
         if !identity_confirmed {
-            return failed_cleanup_uncertain_outcome(
-                started,
-                timeout_seconds,
-                deadline_ms,
-                "child_identity_unconfirmed",
-                &error,
-                &[child_id],
+            return with_mac_group_signal_diagnostic(
+                failed_cleanup_uncertain_outcome(
+                    started,
+                    timeout_seconds,
+                    deadline_ms,
+                    "child_identity_unconfirmed",
+                    &error,
+                    &[child_id],
+                ),
+                group_signal_diagnostic.as_deref(),
             );
         }
-        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+        return with_mac_group_signal_diagnostic(
+            observer_failed_outcome(started, timeout_seconds, deadline_ms, error),
+            group_signal_diagnostic.as_deref(),
+        );
     }
     if let Some(observer) = observer
         && let Err(error) = observer(&command.id, child_id, true)
     {
-        let identity_confirmed = terminate_process_tree(&mut child, child_id);
+        let identity_confirmed =
+            terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
         if identity_confirmed {
             let _ = child.wait();
         }
@@ -5804,16 +5928,22 @@ fn execute_captured_inner(
         #[cfg(windows)]
         drop(process_tree);
         if !identity_confirmed {
-            return failed_cleanup_uncertain_outcome(
-                started,
-                timeout_seconds,
-                deadline_ms,
-                "child_identity_unconfirmed",
-                &error,
-                &[child_id],
+            return with_mac_group_signal_diagnostic(
+                failed_cleanup_uncertain_outcome(
+                    started,
+                    timeout_seconds,
+                    deadline_ms,
+                    "child_identity_unconfirmed",
+                    &error,
+                    &[child_id],
+                ),
+                group_signal_diagnostic.as_deref(),
             );
         }
-        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+        return with_mac_group_signal_diagnostic(
+            observer_failed_outcome(started, timeout_seconds, deadline_ms, error),
+            group_signal_diagnostic.as_deref(),
+        );
     }
     let stdout = child.stdout.take();
     let stderr = child.stderr.take();
@@ -5822,20 +5952,22 @@ fn execute_captured_inner(
     let deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let (status, mut timed_out) = loop {
         #[cfg(target_os = "macos")]
-        let observed = mac_owned_child_poll(&mut child, child_id);
+        let observed = mac_owned_child_poll(&mut child, child_id, &mut group_signal_diagnostic);
         #[cfg(not(target_os = "macos"))]
         let observed = child.try_wait();
         match observed {
             Ok(Some(status)) => break (Some(status), false),
             Ok(None) if cancellation.is_some_and(|flag| flag.load(Ordering::Acquire)) => {
-                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
                 break (
                     identity_confirmed.then(|| child.wait().ok()).flatten(),
                     false,
                 );
             }
             Ok(None) if composition::owner_interruption_signal().is_some() => {
-                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
                 break (
                     identity_confirmed.then(|| child.wait().ok()).flatten(),
                     false,
@@ -5843,14 +5975,15 @@ fn execute_captured_inner(
             }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
-                let identity_confirmed = terminate_process_tree(&mut child, child_id);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
                 break (
                     identity_confirmed.then(|| child.wait().ok()).flatten(),
                     true,
                 );
             }
             Err(_) => {
-                terminate_process_tree(&mut child, child_id);
+                terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
                 break (None, false);
             }
         }
@@ -5866,6 +5999,8 @@ fn execute_captured_inner(
     let observer_error = observer.and_then(|observer| observer(&command.id, child_id, false).err());
     let mut stderr_bytes = stderr.bytes;
     append_observer_error(&mut stderr_bytes, observer_error.as_deref());
+    let group_signal_truncated =
+        append_mac_group_signal_diagnostic(&mut stderr_bytes, group_signal_diagnostic.as_deref());
     if stdout.timed_out || stderr.timed_out {
         timed_out = true;
     }
@@ -5878,9 +6013,9 @@ fn execute_captured_inner(
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
-            stderr_truncated: stderr.truncated,
+            stderr_truncated: stderr.truncated || group_signal_truncated,
             output_digest: None,
-            output_truncated: stdout.truncated || stderr.truncated,
+            output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
@@ -5902,9 +6037,9 @@ fn execute_captured_inner(
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
-            stderr_truncated: stderr.truncated,
+            stderr_truncated: stderr.truncated || group_signal_truncated,
             output_digest: None,
-            output_truncated: stdout.truncated || stderr.truncated,
+            output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
@@ -5919,7 +6054,7 @@ fn execute_captured_inner(
         stdout: &stdout.bytes,
         stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
-        stderr_truncated: stderr.truncated,
+        stderr_truncated: stderr.truncated || group_signal_truncated,
         timed_out,
     };
     let output_digest = serde_json::to_vec(&identity)
@@ -5933,9 +6068,9 @@ fn execute_captured_inner(
         stdout: stdout.bytes,
         stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
-        stderr_truncated: stderr.truncated,
+        stderr_truncated: stderr.truncated || group_signal_truncated,
         output_digest,
-        output_truncated: stdout.truncated || stderr.truncated,
+        output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
         timed_out,
         elapsed_ms: started.elapsed().as_millis(),
         timeout_seconds,
@@ -5994,19 +6129,55 @@ fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
     stderr.extend_from_slice(&error.as_bytes()[..error.len().min(remaining)]);
 }
 
-fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) -> bool {
+fn append_mac_group_signal_diagnostic(stderr: &mut Vec<u8>, diagnostic: Option<&str>) -> bool {
+    let Some(diagnostic) = diagnostic else {
+        return false;
+    };
+    let marker = b"\nmac_original_group_signal: ";
+    let reserve = marker.len().saturating_add(diagnostic.len());
+    let keep = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(reserve);
+    let truncated = stderr.len() > keep;
+    stderr.truncate(keep);
+    stderr.extend_from_slice(marker);
+    stderr.extend_from_slice(diagnostic.as_bytes());
+    truncated
+}
+
+fn with_mac_group_signal_diagnostic(
+    mut outcome: ExecutionOutcome,
+    diagnostic: Option<&str>,
+) -> ExecutionOutcome {
+    if diagnostic.is_none() {
+        return outcome;
+    }
+    outcome.stderr_truncated |= append_mac_group_signal_diagnostic(&mut outcome.stderr, diagnostic);
+    outcome.output_truncated |= outcome.stderr_truncated;
+    if outcome.output_digest.is_some() {
+        outcome.output_digest = execution_outcome_digest(&outcome);
+    }
+    outcome
+}
+
+fn terminate_process_tree(
+    child: &mut std::process::Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+) -> bool {
     #[cfg(target_os = "macos")]
     {
-        // An identity or ownership failure grants no numeric PID authority.
-        if mac_signal_owned_group(child, child_id) {
-            let _ = child.kill();
-            true
-        } else {
-            false
-        }
+        mac_terminate_owned_tree_with(child, child_id, group_signal_diagnostic, |pid| {
+            // SAFETY: the helper checks the owned child birth identity twice
+            // while its unreaped Child pins the PID under exclusive ownership.
+            let returned = unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
+            let errno = (returned == -1)
+                .then(|| std::io::Error::last_os_error().raw_os_error())
+                .flatten();
+            (returned, errno)
+        })
     }
     #[cfg(not(target_os = "macos"))]
     {
+        let _ = group_signal_diagnostic;
         terminate_descendants(child_id);
         let _ = child.kill();
         true
@@ -6014,9 +6185,29 @@ fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) -> boo
 }
 
 #[cfg(target_os = "macos")]
+fn mac_terminate_owned_tree_with(
+    child: &mut Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> bool {
+    // An identity or ownership failure grants no numeric PID authority.
+    let result = mac_signal_owned_group_with(child, child_id, signal);
+    *group_signal_diagnostic = Some(result.diagnostic());
+    if !result.attempted() {
+        return false;
+    }
+    // A failed group syscall does not withdraw the exact Child handle. The
+    // caller still waits for that direct child; group closure remains unknown.
+    let _ = child.kill();
+    true
+}
+
+#[cfg(target_os = "macos")]
 fn mac_owned_child_poll(
     child: &mut std::process::Child,
     child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
 ) -> std::io::Result<Option<std::process::ExitStatus>> {
     let exited = supervisor_pipe::observe_owned_child_exit(child)?;
     mac_reject_known_identity_change(child)?;
@@ -6025,7 +6216,7 @@ fn mac_owned_child_poll(
         // left this group is outside the bounded guarantee and remains Unknown.
         // proc_pidinfo may no longer expose the birth time of an exited
         // zombie. In that case retain the direct exit but send no group signal.
-        let _ = mac_signal_owned_group(child, child_id);
+        *group_signal_diagnostic = Some(mac_signal_owned_group(child, child_id).diagnostic());
         child.wait().map(Some)
     } else {
         Ok(None)
@@ -6933,6 +7124,12 @@ time.sleep(30)
         assert!(!receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
         assert!(record.cleanup_uncertainty.is_some());
+        let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
+        assert!(
+            String::from_utf8_lossy(&stderr)
+                .contains("mac_original_group_signal: attempted=true return="),
+            "the actual original-group syscall return must be retained"
+        );
         // The member has a four-second independent TTL. A survival marker is
         // an observable failure; its absence is not complete-tree proof.
         std::thread::sleep(Duration::from_secs(5));
@@ -7224,19 +7421,28 @@ while not marker.exists() and time.monotonic()<deadline:
         let authorized = mac_signal_registered_group_with(
             original.pid,
             || Ok(observations.next().expect("two observations")),
-            |pid| signals.push(pid),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
         );
         assert!(
-            !authorized,
+            !authorized.attempted(),
             "identity change at the final check must refuse the signal"
         );
         assert!(signals.is_empty(), "no numeric PID reaches the signal sink");
 
         let mut signals = Vec::new();
-        let authorized =
-            mac_signal_registered_group_with(original.pid, || Ok(changed), |pid| signals.push(pid));
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(changed),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
+        );
         assert!(
-            !authorized,
+            !authorized.attempted(),
             "a changed birth before the first check also refuses the signal"
         );
         assert!(signals.is_empty());
@@ -7245,16 +7451,63 @@ while not marker.exists() and time.monotonic()<deadline:
         let authorized = mac_signal_registered_group_with(
             original.pid,
             || Ok(original),
-            |pid| signals.push(pid),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
         );
         assert!(
-            authorized,
+            authorized.attempted(),
             "the recorded sink must be reachable for a matching identity"
         );
         assert_eq!(signals, [original.pid]);
         MAC_SPAWN_IDENTITIES.with(|recorded| {
             recorded.borrow_mut().remove(&original.pid);
         });
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_failed_original_group_signal_records_return_and_reaps_direct_child() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+        let owned_id = owned.id();
+        let mut signal_calls = Vec::new();
+        let mut diagnostic = None;
+        let attempted =
+            mac_terminate_owned_tree_with(&mut owned, owned_id, &mut diagnostic, |pid| {
+                signal_calls.push(pid);
+                (-1, Some(libc::EPERM)) // Inject failure; do not signal any PID.
+            });
+        let direct_status = owned.wait().expect("reap exact owned child");
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("observe exact unrelated child")
+            .is_none();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(attempted, "the exact child remains safe to reap");
+        assert_eq!(signal_calls, [owned_id]);
+        assert!(
+            diagnostic
+                .as_deref()
+                .is_some_and(|value| value.contains("attempted=true return=-1")),
+            "the failed syscall return must be recorded"
+        );
+        assert!(!direct_status.success());
+        assert!(unrelated_alive, "unrelated child must survive");
     }
 
     #[cfg(target_os = "macos")]
@@ -7291,7 +7544,10 @@ while not marker.exists() and time.monotonic()<deadline:
                 identity_observations += 1;
                 Err(std::io::Error::from_raw_os_error(libc::ECHILD))
             },
-            |pid| signals.push(pid),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
         );
         let mut forced = false;
         let cleanup_result = wait_supervisor_cleanup_with_operations(
@@ -7321,7 +7577,10 @@ while not marker.exists() and time.monotonic()<deadline:
             identity_observations, 1,
             "the production check must observe ECHILD"
         );
-        assert!(!signal_authorized, "ECHILD cannot authorize a group signal");
+        assert!(
+            !signal_authorized.attempted(),
+            "ECHILD cannot authorize a group signal"
+        );
         assert!(signals.is_empty(), "no numeric PID reached the signal sink");
         assert!(
             cleanup_result.is_none() && forced,
@@ -7361,7 +7620,12 @@ while not marker.exists() and time.monotonic()<deadline:
             .spawn()
             .expect("spawn exact unrelated child");
         assert_ne!(old_id, unrelated.id(), "these are distinct owned children");
-        terminate_process_tree(&mut old_child, old_id);
+        let mut signal_diagnostic = None;
+        terminate_process_tree(&mut old_child, old_id, &mut signal_diagnostic);
+        assert_eq!(
+            signal_diagnostic.as_deref(),
+            Some("not_attempted_identity_unconfirmed")
+        );
         let unrelated_status = unrelated.try_wait().expect("observe unrelated child");
         let _ = unrelated.kill();
         let _ = unrelated.wait();

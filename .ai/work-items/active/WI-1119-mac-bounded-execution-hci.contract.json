@@ -26,7 +26,7 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "Control and wait for the directly owned verifier and its original process group on Mac; preserve Unknown and prohibit cleanup-success and result reuse where escaped descendants cannot be ruled out. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
+  "goal": "On Mac, control and wait for the directly owned verifier within bounded grace. When its exact owned birth identity permits, attempt to signal its original process group and record the actual return; keep cleanup Unknown where group members or escaped descendants cannot be proved closed, and prohibit cleanup-success and result reuse. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
   "governancePolicy": null,
   "governanceProfile": {
     "taskAuthorization": {
@@ -101,14 +101,14 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "expectedOutcome": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
-      "expectedResult": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+      "expected": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "expectedOutcome": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
+      "expectedResult": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
       "reason": null,
       "required": true,
       "scenario": "mac_original_group_timeout",
       "status": "unverified",
-      "verificationPlan": "Run a real Mac timeout fixture with a same-group member and a separate unrelated process; confirm the latter survives."
+      "verificationPlan": "Run a bounded real Mac timeout fixture with a directly owned child, a same-original-group member, and a separate unrelated process. Observe the actual original-group signal attempt and return, wait for the directly owned child, confirm the unrelated process survives, and retain cleanup Unknown when closure of non-child group members or escaped descendants is unproved. Do not treat a missing survival marker or an empty group observation as proof that the whole group or tree exited."
     },
     {
       "description": null,

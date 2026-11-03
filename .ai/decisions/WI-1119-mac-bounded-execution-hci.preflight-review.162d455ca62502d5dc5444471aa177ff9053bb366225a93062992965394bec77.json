@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:a71997e7ca6e27d83e26095119922d401967cab13cedb123882b0f05999b18ab",
+  "reason": "The verified user replied 批准 to the immediately preceding WI-1119 request with these exact Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_3e41e732c0848191abe865ed4641b820 at 2026-11-03T12:40:05.309863Z. This confirms the original-group signal-return boundary amendment and the bounded six-check budget; it does not attest tests, whole-group or escaped-descendant cleanup, formal verification, completion, or release.",
+  "recordedAt": "2026-11-03T12:40:05.309863+00:00",
+  "recordedBy": "user:Sentinel_3e41e732c0848191abe865ed4641b820",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}
