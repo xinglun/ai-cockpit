@@ -6,10 +6,16 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1113-delivery-continuity-parallel-authorization
-status: in_progress
+status: historical
 authority: native-contract
 lastVerifiedBy: WI-1113-delivery-continuity-parallel-authorization
 ---
+
+## 現在の native disposition
+
+固定 Runtime は 2026-11-02T22:15:27Z に WI-1113 を一度だけ native retirement とし、disposition は `integrated`、verification claim は `not_verified`、元の bytes は保全済みです。commit 履歴は実際の main merge `80d480b2a88fade7169d093bdd70ce99c63b2657` に到達しますが、それは本履歴 Work Item の受入れ完了や再検証を意味しません。固定した Contract／Summary／Outcome は `.ai/work-items/archive/`、権威ある決定は `.ai/decisions/WI-1113-delivery-continuity-parallel-authorization.retirement.json` にあります。WI-1113 の verified close や新しい successor 関係は作成していません。過去のローカル／hosted failure と以下の履歴計画を保持します。retirement は終端 disposition であり、新しい検証結果ではありません。
+
+## 保全した履歴計画と以前の状態
 
 # WI-1113 — Delivery continuity と並行 authorization
 

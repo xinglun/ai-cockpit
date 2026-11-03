@@ -615,8 +615,14 @@
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
   "intentAlignment": {
-    "reason": "Implementation has not started; no behavior or test evidence exists to assess intent alignment. Reassess after implementation and verification.",
-    "state": "unknown"
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871152904",
+      "https://github.com/xinglun/ai-cockpit/pull/1076"
+    ],
+    "reason": "Implementation and technical acceptance align with the authorized successor continuity, byte integrity, profile transition, exact per-WI authority and independent quota/result goals. CI13 completed all six jobs, formal113/113, workspace14 packages/178 groups, Contract gate green. All21 prose acceptance requirements were reviewed: implementation behavior1-13 is supported by named real scenario tests; local/CI budget and caller boundaries14-15 retain all failures and20-total cap; pre-merge provider/cumulative identities16-18 are observed; requirements19-20 (actual merge/mainCI then native archived resourceContext/finalize/humanclose) remain explicit future delivery duties, not claimed complete; frozen28 requirement21 remains checked. Risk remains high for authorization/concurrency/evidence/lifecycle/compatibility; optional Git diagnostic stderr may block, whole API10s and descendants reaped are not asserted, provider fixture assurance stays self_declared, and current material syntax Unknowns remain machine Unknowns with genuine current review. Local formal receipt is still old and is not replaced by these controls. No Mac support, speedup, release, archive, close or user-visible benefit is inferred. Scenario25 remains unverified pending actual main merge and exact main push CI.",
+    "state": "resolved"
   },
   "lifecycleFacts": {
     "start": {
@@ -703,280 +709,357 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/job/123224096369"
+      ],
       "expected": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
       "expectedOutcome": "The source path contains spaces and remains a local Git transport while retaining --shared --no-checkout isolation.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: Windows repository-library completed actual named clone test. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "windows_local_clone_spaces",
-      "status": "unverified",
-      "verificationPlan": "Add and run the Windows-path regression in crates/cockpit-repository/src/lib.rs tests: cargo test --locked -p cockpit-repository --lib legacy_archive_outcome_uses_the_same_fixed_report_bytes_after_path_replacement -- --exact --test-threads=1; include a source checkout path containing spaces and assert local clone isolation flags are retained."
+      "status": "verified",
+      "verificationPlan": "Implement the planned new private regression tests::local_shared_clone_from_spaced_source_preserves_isolation in crates/cockpit-repository/src/lib.rs, then run cargo test --locked -p cockpit-repository --lib tests::local_shared_clone_from_spaced_source_preserves_isolation -- --exact --test-threads=1. Initialize a real source Git repository in a path containing spaces; use the existing local clone helper and prove --shared object alternates plus --no-checkout tracked-file absence and readable HEAD blobs. The existing Windows repository-library target must execute it; Linux evidence alone is not Windows observation."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
       "expectedOutcome": "Current checkout uses core.autocrlf=true and reads .ai artifacts whose Git blobs contain LF.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-81/current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf. Older failed attempts remain historical and are not promoted to a current pass. These are real core.autocrlf=true fixture tests run by the Linux formal integration target; no additional Windows integration invocation is claimed.",
       "required": true,
       "scenario": "windows_ai_artifact_exact_bytes",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report current_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert core.autocrlf=true checkout bytes equal the committed .ai Git blob bytes."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "An older immutable fixture revision lacks the new attributes rule.",
       "expectedOutcome": "An older immutable fixture revision lacks the new attributes rule.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-81/historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf. Older failed attempts remain historical and are not promoted to a current pass. These are real core.autocrlf=true fixture tests run by the Linux formal integration target; no additional Windows integration invocation is claimed.",
       "required": true,
       "scenario": "historical_ai_artifact_exact_bytes",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report historical_checkout_preserves_archived_ai_blob_bytes_with_autocrlf -- --exact --test-threads=1; assert the old revision fixture preserves blob bytes using only its local fixture attribute rule."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
       "expectedOutcome": "Exactly one byte in a protected archived artifact changes while its declared digest remains unchanged.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-81/archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes. Older failed attempts remain historical and are not promoted to a current pass. These are real core.autocrlf=true fixture tests run by the Linux formal integration target; no additional Windows integration invocation is claimed.",
       "required": true,
       "scenario": "windows_single_byte_tamper_rejected",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report archived_artifact_single_byte_tamper_is_rejected_without_rewriting_bytes -- --exact --test-threads=1; mutate exactly one byte, retain the original digest, assert rejection and unchanged tampered bytes."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
+      ],
       "expected": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
       "expectedOutcome": "WI-1112 is retained as replaced/not_verified and linked to WI-1113 by the native recovery receipt.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-6/continuity_projection_marks_replaced_predecessor_and_active_successor. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "continuity_projection_valid_successor",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_marks_replaced_predecessor_and_active_successor -- --exact --test-threads=1; assert validated WI-1112 replaced/not_verified lineage is shown separately from active WI-1113 and no delivery completion is inferred."
-    },
-    {
-      "evidence": [],
-      "expected": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
-      "expectedOutcome": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
-      "required": true,
-      "scenario": "continuity_projection_invalid_lineage",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_rejects_missing_foreign_or_inconsistent_lineage -- --exact --test-threads=1; cover absent, malformed, foreign, and mismatched repository/predecessor/receipt/archive/successor bindings."
-    },
-    {
-      "evidence": [],
-      "expected": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
-      "expectedOutcome": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
-      "required": true,
-      "scenario": "archive_not_delivery_completion",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test outcome_report continuity_projection_keeps_archive_and_provider_delivery_state_separate -- --exact --test-threads=1; assert local archive with missing, stale, failed, or pending provider evidence remains pending/unknown."
+      "status": "verified",
+      "verificationPlan": "Implement the planned regression continuity_projection_marks_replaced_predecessor_and_active_successor in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. Use real native recovery/retirement/activation artifacts to prove replaced/not_verified predecessor facts, active successor identity, current Runtime nextAction membership in safeActions, byte-preserved retirement evidence and no inferred delivery completion. This name is planned, not an existing passed test."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81"
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
+      ],
+      "expected": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+      "expectedOutcome": "Repository, predecessor, recovery receipt, archive digest, or successor identity is absent, foreign, malformed, or inconsistent.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-6/continuity_projection_rejects_missing_foreign_or_inconsistent_lineage. Older failed attempts remain historical and are not promoted to a current pass.",
+      "required": true,
+      "scenario": "continuity_projection_invalid_lineage",
+      "status": "verified",
+      "verificationPlan": "Implement the planned regression continuity_projection_rejects_missing_foreign_or_inconsistent_lineage in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. On a canonical private native successor fixture independently cover absent, malformed, foreign and mismatched repository/predecessor/receipt/archive/successor bindings; assert real reader refusal or Unknown and no trusted continuity/action. Restore and verify exact baseline bytes and a positive control per case; never manufacture accepted provider evidence."
+    },
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
+      ],
+      "expected": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+      "expectedOutcome": "Local archive is valid while hosted/provider CI is failed, missing, stale, or pending.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-6/continuity_projection_keeps_archive_and_provider_delivery_state_separate. Older failed attempts remain historical and are not promoted to a current pass. Provider-state negatives are self_declared/not_bound fixture observations, not authenticated GitHub delivery facts.",
+      "required": true,
+      "scenario": "archive_not_delivery_completion",
+      "status": "verified",
+      "verificationPlan": "Implement the planned regression continuity_projection_keeps_archive_and_provider_delivery_state_separate in crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs and run that complete CLI target. Use real archived native artifacts and actual reader inputs for missing, stale, failed and pending provider facts; prove local archive does not imply delivered/closed and preserve original archive bytes. This is a planned supplement, not an assertion that all variants have passed."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
       "expectedOutcome": "A current request contains exact same predecessor-reviewed Unknown path/blob/hunk identities.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-81); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority, real_wi1111_to_wi1112_current_reference_is_not_review_authority.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-81/real_wi1111_to_wi1112_current_reference_is_not_review_authority. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "material_reference_only",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_current_reference_is_not_review_authority -- --exact --test-threads=1; assert same material references are read-only and never authorize a new review."
     },
     {
       "evidence": [
         ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-81",
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
       "expectedOutcome": "A path, blob, hunk, cause, scope, Contract, profile, policy, scanner, or Finding differs.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_transition_does_not_cover_a_different_material_path, profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause. This is partial support; the planned per-field delta matrix remains incomplete.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-78/material_reference_identity_delta_matrix_never_carries_review_authority; project-command-81/real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority. Older failed attempts remain historical and are not promoted to a current pass. Scanner identity delta includes a clearly typed synthetic negative; available producer identity mutations use native evidence.",
       "required": true,
       "scenario": "material_delta_invalidates_context",
-      "status": "unverified",
-      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test outcome_report real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority -- --exact --test-threads=1 and extend it with per-field path/blob/hunk/cause/scope/Contract/profile/policy/scanner/Finding deltas; assert any context delta is not equivalent authority."
+      "status": "verified",
+      "verificationPlan": "Retain outcome_report::real_wi1111_to_wi1112_ancestor_reference_reports_shared_bytes_without_authority and implement material_reference_identity_delta_matrix_never_carries_review_authority in crates/cockpit-repository/tests/material_review.rs. From a real Current baseline account separately for path, blob, hunk, cause, scope, Contract, profile, policy, scanner and Finding changes. Use real native producer mutations where available and identify any strict typed synthetic-request negatives honestly; assert old receipt/request authority never carries over and Finding remains unreviewable. Run the complete affected targets; do not relabel synthetic scanner identities as canonical producer evidence."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
       "expectedOutcome": "A valid historic receipt is verified against its original Contract/profile/request/manifest and legal same-WI amendment chain.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: valid_profile_amendment_preserves_exact_prior_receipt_as_history, profile_transition_preserves_prior_receipt_after_ai_only_commit.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-78/valid_profile_amendment_preserves_exact_prior_receipt_as_history. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "material_profile_transition_append_only",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review valid_profile_amendment_preserves_exact_prior_receipt_as_history -- --exact --test-threads=1; verify the old receipt against its historical Contract/profile/request/manifest and legal same-WI amendment chain, preserve it, and require a new request."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
       "expectedOutcome": "The old receipt is corrupted, forged, foreign, profile digest unexplained, or no authorized amendment edge exists.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid, profile_transition_captured_fields_cannot_be_rebound_by_rehashing_local_digest, profile_transition_requires_both_prepared_and_committed_journal_records.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-78/stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "material_transition_negative_cases",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid -- --exact --test-threads=1 plus the material_review suite; reject forged, foreign, malformed, or unbound transition evidence."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A transition sees a new Unknown cause, path, hunk, or Finding.",
       "expectedOutcome": "A transition sees a new Unknown cause, path, hunk, or Finding.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_transition_never_discharges_a_new_canonical_finding.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-78/profile_transition_never_discharges_a_new_canonical_finding; project-command-78/profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause; project-command-78/profile_transition_does_not_cover_a_different_material_path. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "material_transition_new_risk_stays_blocked",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test material_review profile_transition_keeps_new_unknowns_and_findings_blocked -- --exact --test-threads=1; assert the transition discharges no new cause/path/hunk/Finding."
+      "status": "verified",
+      "verificationPlan": "Run the complete cockpit-repository material_review target including the existing profile_transition_never_discharges_a_new_canonical_finding, profile_transition_does_not_cover_changed_hunk_or_new_unknown_cause and profile_transition_does_not_cover_a_different_material_path tests. Preserve each actual cause/path/hunk/Finding rejection and immutable prior evidence; no nonexistent umbrella test is evidence."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-78",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
       "expectedOutcome": "A proposed profile change cannot be supported by a validated append-only receipt transition.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-78); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-78/profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "pre_amendment_profile_lint",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run cargo test --locked -p cockpit-repository --test material_review profile_amendment_is_rejected_before_write_when_prior_receipt_is_already_stale -- --exact --test-threads=1; compare Contract and amendment-journal bytes before and after rejection."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
       "expectedOutcome": "A human reviews a deterministic manifest listing specific same-repository Work Items and their exact Contract/scope/actions/target/budgets/expiry.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: authorization_manifest_binds_explicit_members_and_is_order_independent, authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants, authorization_manifest_rejects_foreign_members_actions_checks_and_expiry.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-98/authorization_manifest_binds_explicit_members_and_is_order_independent; project-command-98/authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants; project-command-98/authorization_manifest_rejects_foreign_members_actions_checks_and_expiry. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "batch_manifest_exact_members",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_binds_exact_members_and_all_member_fields -- --exact --test-threads=1; verify deterministic members and exact repo/WI/Contract/scope/actions/target/budget/actor/expiry digests."
+      "status": "verified",
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target including authorization_manifest_binds_explicit_members_and_is_order_independent, authorization_manifest_owner_decision_is_persisted_once_with_exact_child_grants and authorization_manifest_rejects_foreign_members_actions_checks_and_expiry. Review the exact members and repository/WI/Contract/snapshot/scope/action/target/budget/actor/expiry bindings; deterministic equality never adds a member or permission."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
       "expectedOutcome": "One listed Work Item is stale, expired, denied, or revoked while another is valid.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: parallel_batch_members_keep_independent_grants_and_partial_ledgers, authorization_manifest_rejects_foreign_members_actions_checks_and_expiry.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-98/parallel_batch_members_keep_independent_grants_and_partial_ledgers; project-command-98/an_expired_reviewed_grant_cannot_authorize_future_work. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "per_work_item_grants_independent",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization child_grants_remain_independent_when_one_member_is_denied_or_expired -- --exact --test-threads=1; assert one member cannot change another member grant or quota."
+      "status": "verified",
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target, including parallel_batch_members_keep_independent_grants_and_partial_ledgers, an_expired_reviewed_grant_cannot_authorize_future_work and the manifest foreign/action/check/expiry rejection matrix. Verify each explicitly declared member retains its own grant and durable quota/result ledger when another member is denied, expired or revoked. These reservation tests alone do not prove overlapping command execution; that is scenario17."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-75"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-75",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "Two processes try to reserve the one allowed start for the same member concurrently.",
       "expectedOutcome": "Two processes try to reserve the one allowed start for the same member concurrently.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-75); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: concurrent_member_start_reserves_one_quota_atomically.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-75/concurrent_member_start_reserves_one_quota_atomically. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "atomic_one_start_same_work_item",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency concurrent_member_start_reserves_one_quota_atomically -- --exact --test-threads=1; race separate processes and assert exactly one durable reservation."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
       "expectedOutcome": "Two explicitly selected disjoint Work Items run concurrently and one fails.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: parallel_batch_members_keep_independent_grants_and_partial_ledgers. This test covers independent grants/partial ledgers, not two concurrent verification workers.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-75/distinct_members_run_concurrently_and_keep_partial_results; project-command-75/incomplete_distinct_execution_marker_never_releases_the_barrier. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "parallel_distinct_work_items_partial_results",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test lifecycle_concurrency distinct_members_run_concurrently_and_keep_partial_results -- --exact --test-threads=1; assert disjoint members proceed independently and one failure does not rewrite the other result."
+      "status": "verified",
+      "verificationPlan": "Implement the planned regression distinct_members_run_concurrently_and_keep_partial_results in crates/cockpit-repository/tests/lifecycle_concurrency.rs. Use two owned OS worker processes, distinct real native member grants and existing run_repository_verification_with_task_authorization plus the supported reservation/outcome APIs. Real declared leaf commands write started markers before a release barrier; prove overlapping execution with distinct PIDs, one actual nonzero and one zero returned exit record, independent results and quota accounting. Wait every owned process with bounded panic/timeout cleanup. If current entrypoints cannot safely bind this evidence, retain the actual refusal and report the gap; do not invent an executor or substitute caller-claimed outcomes. Run the complete affected target within existing resource limits."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A named unchanged check fails and has retry budget remaining.",
       "expectedOutcome": "A named unchanged check fails and has retry budget remaining.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: retry_is_limited_to_named_unchanged_check_and_preserves_first_failure.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-98/retry_is_limited_to_named_unchanged_check_and_preserves_first_failure. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "bounded_retry_preserves_first_failure",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1; assert retry budget is finite, check identity unchanged, and original failure remains append-only."
+      "status": "verified",
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization retry_is_limited_to_named_unchanged_check_and_preserves_first_failure -- --exact --test-threads=1 and the complete task_authorization target. This test exists in task_authorization, not recovery_decision; preserve bounded unchanged-check identity, all original failures and append-only attempts."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "Process or write result is uncertain after interruption.",
       "expectedOutcome": "Process or write result is uncertain after interruption.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: uncertain_operation_outcome_blocks_resend_until_inspected.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-98/uncertain_operation_outcome_blocks_resend_until_inspected. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "unknown_outcome_no_resend",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1; simulate interruption after uncertain write and assert no duplicate side effect."
+      "status": "verified",
+      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization uncertain_operation_outcome_blocks_resend_until_inspected -- --exact --test-threads=1 and the complete task_authorization target. This test exists in task_authorization, not recovery_decision; unknown process/write outcomes must be inspected and may not authorize duplicate side effects."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-98",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "A grant expires or receives a valid append-only withdrawn/completed termination.",
       "expectedOutcome": "A grant expires or receives a valid append-only withdrawn/completed termination.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-98); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: an_expired_reviewed_grant_cannot_authorize_future_work, termination_cannot_smuggle_an_unrelated_governance_write, withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-98/an_expired_reviewed_grant_cannot_authorize_future_work; project-command-98/withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion; project-command-98/termination_cannot_smuggle_an_unrelated_governance_write. Older failed attempts remain historical and are not promoted to a current pass. This proves termination/expiry semantics; termination of this current delivery grant remains an end-of-delivery obligation.",
       "required": true,
       "scenario": "expiry_and_termination",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test task_authorization authorization_manifest_expiry_and_termination_are_append_only -- --exact --test-threads=1; verify expiry/withdrawal/completion stop only the exact member grant."
+      "status": "verified",
+      "verificationPlan": "Run the complete cockpit-repository task_authorization target, including an_expired_reviewed_grant_cannot_authorize_future_work, withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion, termination_cannot_smuggle_an_unrelated_governance_write and parallel_batch_members_keep_independent_grants_and_partial_ledgers. Inspect actual append-only termination/expiry and exact-member identity; a conflicting completed request must remain rejected. Record real completed-grant evidence only at its supported delivery boundary, not as a substitute for business completion or another member termination."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-6"
+        ".ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json#project-command-6",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185"
       ],
       "expected": "CLI and MCP request the same batch, member, action, and manifest.",
       "expectedOutcome": "CLI and MCP request the same batch, member, action, and manifest.",
-      "reason": "Historical supporting tests were recorded in the sequence-11 112/113 attempt (.ai/evidence/WI-1113-delivery-continuity-parallel-authorization.verification-attempt.e2225c9e189aa175f321eb2957c07e86ef7322a5d0edbe61e4494420319bed8b.json, project-command-6); this attempt failed overall and does not verify the current sequence-12 scenario. Tests: explicit_batch_authorization_manifest_has_cli_mcp_parity.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-6/explicit_batch_authorization_manifest_has_cli_mcp_parity. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "cli_mcp_parity",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Add and run cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity explicit_batch_authorization_manifest_has_cli_mcp_parity -- --exact --test-threads=1; compare canonical request, member, action, manifest and errors."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185",
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/pull/1075",
+        "https://github.com/xinglun/ai-cockpit/pull/1076"
+      ],
       "expected": "Successor recovery occurs while predecessor PR/branch remain open.",
       "expectedOutcome": "Successor recovery occurs while predecessor PR/branch remain open.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: project-command-86/successor_does_not_transfer_predecessor_pr_or_branch_resource; Fresh provider observations PR1074/1075/1076. Older failed attempts remain historical and are not promoted to a current pass.",
       "required": true,
       "scenario": "pr_resource_not_transferred",
-      "status": "unverified",
-      "verificationPlan": "Add and run cargo test --locked -p cockpit-repository --test recovery_decision successor_does_not_transfer_predecessor_pr_or_branch_resource -- --exact --test-threads=1; assert predecessor PR/branch remain bound to their original Work Item."
+      "status": "verified",
+      "verificationPlan": "Implement the planned regression successor_does_not_transfer_predecessor_pr_or_branch_resource in crates/cockpit-repository/tests/recovery_decision.rs. Use supported native predecessor context setup before verification and normal recovery/start with no explicit successor resource override; prove original predecessor context/receipt byte identity and no implicit successor PR/branch/resource/authority inheritance. Pair with genuine read-only provider observations of #1074, #1075 and the current PR; do not mutate provider resources or claim a nonexistent existing test."
     },
     {
-      "evidence": [],
-      "expected": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
-      "expectedOutcome": "TaskAuthorization publicTarget.baseBranch and the actual PR/resourceContext base branch identify main; the PR head identifies WI-1113. The active Contract.baseRevision, provider main comparison base, tested PR merge revision, and final merge commit remain distinct facts.",
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185",
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/pull/1075",
+        "https://github.com/xinglun/ai-cockpit/pull/1076"
+      ],
+      "expected": "Pre-merge, taskAuthorization.publicTarget and the actual provider PR identify xinglun/ai-cockpit and base main; the exact head branch/revision identifies WI-1113. Contract.baseRevision, provider comparison base, tested PR merge revision and final merge commit remain distinct facts. Verify this policy/provider review using real observations; do not claim that an archived native resourceContext receipt already exists. The native binding and finalization remain mandatory at their supported post-archive phase under AC20.",
+      "expectedOutcome": "Pre-merge, taskAuthorization.publicTarget and the actual provider PR identify xinglun/ai-cockpit and base main; the exact head branch/revision identifies WI-1113. Contract.baseRevision, provider comparison base, tested PR merge revision and final merge commit remain distinct facts. Verify this policy/provider review using real observations; do not claim that an archived native resourceContext receipt already exists. The native binding and finalization remain mandatory at their supported post-archive phase under AC20.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: Current task policy publicTarget github/xinglun/ai-cockpit/main; Fresh actual PR1076 exact head3342/baseb4 observations. Older failed attempts remain historical and are not promoted to a current pass. Fresh provider readback: PR1076 open/draft, xinglun/ai-cockpit, exact source branch/head3342, main/base b4adab2e55119d50bb72ec29f3fdfd2693d14504; matches current publicTarget. This is pre-merge provider/policy review, not post-archive native resourceContext binding.",
       "required": true,
       "scenario": "pr_policy_and_provider_target_alignment",
-      "status": "unverified",
-      "verificationPlan": "Run cargo test --locked -p cockpit-repository --test task_authorization public_target_matches_native_resource_context_base -- --exact --test-threads=1; after the actual PR is created, read the provider PR and native resource receipt to compare repository, exact head branch/SHA, base main/SHA, and Contract baseline separately."
+      "status": "verified",
+      "verificationPlan": "Use the existing complete task_authorization CI target, current read-only native task-authorization assessment, and actual provider PR observations to compare repository, PR number/URL, exact head branch/SHA, base main/SHA, and Contract baseline separately. Mark this pre-merge scenario verified only after those observations are genuinely reviewed. Do not require or fabricate a pre-archive native resourceContext receipt. After archive, fulfill AC20 with the supported native finalize-plan binding and actual finalize/finalize-verify evidence before close."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871317236",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976/artifacts/12871058185",
+        "https://github.com/xinglun/ai-cockpit/pull/1074",
+        "https://github.com/xinglun/ai-cockpit/pull/1075",
+        "https://github.com/xinglun/ai-cockpit/pull/1076"
+      ],
       "expected": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
       "expectedOutcome": "While #1075 remains open and WI-1113 starts from its head, a direct WI-1113-to-main comparison exposes the complete inherited WI-1111, WI-1112, and WI-1113 cumulative diff. Preserve #1074 and #1075 unchanged, keep the new PR draft while checks/review are pending, review full-diff provenance, and do not call the comparison a pure WI-1113 delta.",
+      "reason": "Current sequence-20 technical acceptance from completed successful CI13, source 3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, tested merge 7f309e7c12b8467bb7a11d026ffa40620712847d. Formal receipt sha256:1803ef4d2f83990a5815445af9e73114d3bd877d7c8f40c253f03061ee4582eb, 113 actually executed / 0 reused / 0 failed. Checked evidence: Git cumulative provenance252 paths(84 nonAI); WI1111→WI1112→WI1113 ranges; frozen28 unchanged; Fresh provider oldPRs1074/1075 open/draft unchanged. Older failed attempts remain historical and are not promoted to a current pass. Complete cumulative diff252 paths/84nonAI traced through WI1111/WI1112/WI1113; frozen28 blobs and modes match5a942f93acaf0a514a291e39674465feddfa69e7. OldPR1074/1075 remain unchanged/open/draft. Actual final merge is not yet observed.",
       "required": true,
       "scenario": "stacked_pr_overlap_is_visible",
-      "status": "unverified",
-      "verificationPlan": "Run the stacked-PR provenance regression and inspect the provider comparison against main; trace cumulative hunks to WI-1111, WI-1112, or WI-1113 without retargeting or closing #1074/#1075."
+      "status": "verified",
+      "verificationPlan": "Review the actual cumulative Git/provider comparison against main, tracing inherited WI-1111/WI-1112 and WI-1113 paths and exact commit/blob provenance while preserving #1074 and #1075 unchanged. Use the real recovery/resource-isolation fixture in scenario22 for any private stacked-branch provenance assertion, not an unnamed purported existing regression. Keep predecessor HEAD, Contract baseline, provider comparison base, tested PR merge revision and final merge commit distinct. Validate the 28 frozen inherited path blobs and modes against 5a942f93acaf0a514a291e39674465feddfa69e7 before final publication; current required status remains unverified until evidence is actually reviewed."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/pull/1076",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40814284609",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40805214976"
+      ],
       "expected": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
       "expectedOutcome": "Existing pull_request CI covers the main-target PR, and existing push CI runs on main after merge. Hosted verification passes the exact explicit caller file only to preflight and verify; absent or mismatched caller data fails closed. Read back the exact merge commit and its actual push result, keeping delivery pending when the result is absent, stale, or failed.",
+      "reason": "Actual normal merge of PR1076 completed at2026-10-29T03:49:18Z; source head3342cbefe27c4cf0b9561a12d4066b1b5ebf0cb9, PR-tested merge7f309e7c12b8467bb7a11d026ffa40620712847d and actual merge/main efc9f309f1500e433240a76fe5dc76db64abb53b remain distinct. GitHub provider readback of run40814284609: event=push, head_branch=main, exact head_sha=efc9f309f1500e433240a76fe5dc76db64abb53b, status=completed/conclusion=success at2026-10-29T04:23:53Z; all six jobs success. CI13 and CI14 caller/budget boundaries retained; hosted run ledger14/20. This proves actual main push CI only; finish/archive/resourceContext/finalize/human close remain separate duties, not inferred.",
       "required": true,
       "scenario": "main_merge_post_merge_push_ci_readback",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run bash tests/ci/hosted_runtime_verification_test.sh and bash tests/ci/workflow_convergence_test.sh. Verify the hosted runner refuses missing or mismatched explicit caller input and forwards valid input only to preflight/verify; after merge, read the actual main push workflow result for the exact merge SHA and count the automatic run within the twenty-run budget."
     }
   ],
@@ -994,7 +1077,7 @@
     "sourceSnapshotDigest": "sha256:1943f99ce35d4a99006cf25c05de66c807917d1cf9c0d46069310e879e678c68",
     "workItemId": "WI-1113-delivery-continuity-parallel-authorization"
   },
-  "updatedAt": "2026-10-29T01:31:00.000589773+00:00",
+  "updatedAt": "2026-10-29T05:31:36.106424795+00:00",
   "verification": [
     {
       "check": "project-command-0",
