@@ -114,6 +114,51 @@ fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
                 .success()
         );
         commit_baseline(root, "WI-local cleanup fixture\n");
+        if id == first_id {
+            fs::create_dir_all(root.join(".ai")).expect("policy directory");
+            fs::write(
+                root.join(".ai/policy.json"),
+                r#"{
+                  "schemaVersion": 1,
+                  "project": {
+                    "policyId": "wi-local-cleanup-timeout-fixture",
+                    "layer": "project",
+                    "rules": [{
+                      "operation": "modify_source",
+                      "approvalMode": "no_human_approval_for_low_risk",
+                      "requiredEvidence": [],
+                      "verificationRequirement": {
+                        "schemaVersion": 1,
+                        "requiredTier": "T0",
+                        "requiredAssurance": "self_declared",
+                        "policyRefs": ["wi-local-cleanup-timeout-fixture"],
+                        "stageRefs": ["task"],
+                        "gateRefs": [],
+                        "reason": "bound the supervised cleanup diagnostic",
+                        "maxTimeoutSeconds": 15
+                      }
+                    }]
+                  }
+                }"#,
+            )
+            .expect("timeout policy");
+            assert!(
+                Command::new("git")
+                    .args(["add", ".ai/policy.json"])
+                    .current_dir(root)
+                    .status()
+                    .expect("stage timeout policy")
+                    .success()
+            );
+            assert!(
+                Command::new("git")
+                    .args(["commit", "-qm", "timeout policy fixture"])
+                    .current_dir(root)
+                    .status()
+                    .expect("commit timeout policy")
+                    .success()
+            );
+        }
         let started = Command::new(binary)
             .args(["start", "--repo"])
             .arg(root)
