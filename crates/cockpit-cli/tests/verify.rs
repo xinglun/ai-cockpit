@@ -113,6 +113,15 @@ fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
                 .expect("git init")
                 .success()
         );
+        #[cfg(windows)]
+        assert!(
+            Command::new("git")
+                .args(["config", "--local", "core.autocrlf", "false"])
+                .current_dir(root)
+                .status()
+                .expect("disable fixture line-ending conversion")
+                .success()
+        );
         commit_baseline(root, "WI-local cleanup fixture\n");
         if id == first_id {
             fs::create_dir_all(root.join(".ai")).expect("policy directory");
