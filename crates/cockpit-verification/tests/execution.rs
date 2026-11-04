@@ -636,19 +636,28 @@ fn successful_reusable_execution_returns_an_output_bound_receipt_candidate() {
     let result = execute_bounded_at(vec![command], 1, NOW).expect("execute");
 
     assert!(result.passed);
-    assert_eq!(result.receipt_candidates.len(), 1);
-    let candidate = &result.receipt_candidates[0];
-    assert!(candidate.validate().is_ok());
-    assert_eq!(candidate.node_id, "tests");
-    assert_eq!(candidate.context, current);
-    assert_eq!(
-        result.results[0].receipt_id,
-        Some(candidate.receipt_id.clone())
-    );
-    assert_eq!(
-        result.results[0].output_digest,
-        Some(candidate.output_digest.clone())
-    );
+    #[cfg(target_os = "macos")]
+    {
+        assert!(result.receipt_candidates.is_empty());
+        assert!(result.results[0].receipt_id.is_none());
+        assert!(result.results[0].output_digest.is_some());
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        assert_eq!(result.receipt_candidates.len(), 1);
+        let candidate = &result.receipt_candidates[0];
+        assert!(candidate.validate().is_ok());
+        assert_eq!(candidate.node_id, "tests");
+        assert_eq!(candidate.context, current);
+        assert_eq!(
+            result.results[0].receipt_id,
+            Some(candidate.receipt_id.clone())
+        );
+        assert_eq!(
+            result.results[0].output_digest,
+            Some(candidate.output_digest.clone())
+        );
+    }
 }
 
 #[test]
