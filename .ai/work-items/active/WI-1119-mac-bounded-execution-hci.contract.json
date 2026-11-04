@@ -41,12 +41,17 @@
         "record_material_review_decision",
         "finish",
         "archive_when_reviewed",
-        "process_cleanup"
+        "process_cleanup",
+        "publish_branch"
       ],
-      "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision",
+      "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision; conversation: user approved public push of the WI-1119 local branch to github.com/xinglun/ai-cockpit on 2026-11-04, subject to exact source and native review",
       "closeoutActions": [],
       "expiresAt": null,
-      "publicTarget": null,
+      "publicTarget": {
+        "baseBranch": "main",
+        "provider": "github",
+        "repository": "xinglun/ai-cockpit"
+      },
       "schemaVersion": 1
     }
   },

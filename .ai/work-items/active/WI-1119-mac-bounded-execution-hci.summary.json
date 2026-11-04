@@ -437,20 +437,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+      "reason": "The owner explicitly approved publishing the WI-1119 branch to the public GitHub repository for exact-source Linux and Windows validation; authorize only push to the bound GitHub repository and main base. Merge and release remain unauthorized.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T07:18:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+    "contractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:5dfb8a99450bb5f900a818d52f8a683f43f7ecaf97f848ae3780b3a74684e890",
-    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for two process-ledger finish-projection paths. This confirms review only, not test results, cleanup, completion or release.",
-    "recordedAt": "2026-11-04T05:27:30.035438Z",
-    "recordedBy": "user:Sentinel_7d53c4813d8c819198fcce5485f5c768",
+    "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
+    "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 four-binding request for publishing the WI branch to public GitHub xinglun/ai-cockpit. This confirms only the bounded Contract review, not test success, merge, release, or completion.",
+    "recordedAt": "2026-11-04T07:25:55.508014Z",
+    "recordedBy": "user:Sentinel_ef9a950751d881919d013a12c09f8a6d",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
+    "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -477,10 +497,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-04T05:24:58Z",
-  "preflightContractDigest": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
-  "preflightDecisionDigest": "sha256:5dfb8a99450bb5f900a818d52f8a683f43f7ecaf97f848ae3780b3a74684e890",
-  "preflightRepositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
+  "preflightAt": "2026-11-04T07:22:54Z",
+  "preflightContractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+  "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
+  "preflightRepositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -502,14 +522,16 @@
     },
     {
       "description": null,
-      "evidence": [],
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-new12-check-03-verification.log#sha256:8cce5b355366e37f738e5fd24dda476f4a5c8bcf42f1d03e8d05d74b54395080"
+      ],
       "expected": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
       "expectedOutcome": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
       "expectedResult": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives.",
-      "reason": "The final-source Mac fixture and failed-signal injection passed, but direct Child::wait after a signal attempt has no independent deadline in production; bounded direct-child reaping is not yet proved for a failed direct-child kill. The group and escaped descendants remain Unknown.",
+      "reason": "Mac final source 6bcdc792e8d847f626ceb5d3572664834bec6f4b: passing tests mac_timeout_bounds_an_original_group_member_without_claiming_all_descendants, mac_failed_original_group_signal_records_return_and_reaps_direct_child, mac_supervisor_timeout_is_uncertain_and_does_not_signal_unrelated_child, and mac_failed_group_and_direct_kill_return_after_bounded_observation. The tests observe the attempted original-group signal and return, bounded direct-child observation/reap or Unknown on failed termination, and unrelated child survival. A missing survival marker is only bounded evidence; neither whole-group nor escaped-descendant closure is claimed. Scenario evidence is not a formal verification receipt.",
       "required": true,
       "scenario": "mac_original_group_timeout",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run a bounded real Mac timeout fixture with a directly owned child, a same-original-group member, and a separate unrelated process. Observe the actual original-group signal attempt and return, wait for the directly owned child, confirm the unrelated process survives, and retain cleanup Unknown when closure of non-child group members or escaped descendants is unproved. Do not treat a missing survival marker or an empty group observation as proof that the whole group or tree exited."
     },
     {
@@ -617,10 +639,16 @@
     },
     {
       "description": "One independent final command inspects the selected WI Summary only; historical numeric PID values are observations, not termination authority.",
-      "evidence": [],
+      "evidence": [
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-new12-check-10-independent-cli-owner.log#sha256:851d9eed8caa6fa095437e9f9e6206d038c3d57a4414dc8018b6f70b9859f4a0",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-new12-check-11-owner-negative.log#sha256:13a6ea5c8308ab122e38cbf0c6a207762e725bd90391ee904c55fc5efafd39d2",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-new12-check-04-usage.log#sha256:a71bb2c5883226fd2d94994d69bfd4dd88fe669026a54e59399c09bc7cfed6f5",
+        "task-log:/Users/sei-rinn/Documents/Codex/2026-11-03/task/WI-1119-new12-check-12-cross-wi-cli.log#sha256:959f023828eb166fe37b9799abe5b76b33bed9025aa27f594db4e4feb2287258"
+      ],
       "expected": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
       "expectedOutcome": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
       "expectedResult": "Actual starts are recorded before being treated as managed, confirmed directly owned reaping is retained, and unresolved records remain Unknown. The final command skips already reaped entries, never reads another WI as its target, and acts only through a still-held verified owner handle. Linux, macOS, and Windows share this result contract without claiming equal descendant guarantees.",
+      "reason": "Partial Mac-only evidence at source 6bcdc792e8d847f626ceb5d3572664834bec6f4b and explicitly approved Mach-O Runtime sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4: independent CLI reached a still-owning supervisor and reaped only its test Child; unrelated test Child survived and descendant closure remained Unknown. Owner missing/unresponsive and unregistered birth identity stayed Unknown with no unsafe signal; CLI reports current-WI unresolved Summary records. This does not yet prove the complete current-WI start/reap/restart and unrelated-WI matrix or Linux/Windows behavior. Scenario remains unverified; no formal verification or cleanup-success credential is claimed. Additional Mac two-WI fixture (script sha256:2d68fd32d23ebf738332875684f96ddcd06c74f19812880b3ddd8940bd0ad876) ran the exact approved candidate as a fresh CLI process against WI-A, preserved WI-B Summary byte-for-byte, left both test-owned children alive, and reported Unknown without claiming descendant closure. Remaining: confirm persisted same-WI transition/restart matrix and actual Linux/Windows platform results. Status remains unverified.",
       "required": true,
       "scenario": "wi_local_final_process_cleanup",
       "status": "unverified",
@@ -628,11 +656,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T05:28:20.170896+00:00",
+  "updatedAt": "2026-11-04T07:27:25.346234+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+    "contractHash": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T05:19:32Z"
+    "recordedAt": "2026-11-04T07:18:36Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
