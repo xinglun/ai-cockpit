@@ -244,7 +244,10 @@
     "crates/cockpit-repository/tests/verification_context.rs",
     "crates/cockpit-repository/tests/verification_service.rs",
     "crates/cockpit-repository/tests/verification_attempts.rs",
-    "crates/cockpit-cli/tests/legacy_closeout_source.rs"
+    "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+    "crates/cockpit-cli/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-repository/tests/material_review.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

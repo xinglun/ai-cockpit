@@ -47,7 +47,8 @@ fn plan_fixture() -> tempfile::TempDir {
     let base = git(root, &["rev-parse", "HEAD"]);
     let contract = json!({
         "protocolVersion": 1,
-        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "repositoryId": cockpit_repository::repository_id(&fs::canonicalize(root).unwrap())
+            .to_string(),
         "workItemId": "WI-MATERIAL-MCP",
         "intent": "review bounded committed material",
         "goal": "retain exact material evidence",
