@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
+  "reason": "The user confirmed the immediately preceding WI-1119 four-binding request for a draft pull request to trigger Windows CI. This authorizes only the reviewed create_pull_request boundary, not CI success, merge, publication, or release.",
+  "recordedAt": "2026-11-04T08:29:35.962953Z",
+  "recordedBy": "user:Sentinel_6c769000ce148191afd75aaf813517bf",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

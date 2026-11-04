@@ -457,18 +457,38 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+      "reason": "Owner approved a draft pull request from the exact WI-1119 public branch into main solely to run Windows and other PR CI; this grants create_pull_request only, not ready, merge, or release.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T08:21:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+    "contractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
-    "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 four-binding request for publishing the WI branch to public GitHub xinglun/ai-cockpit. This confirms only the bounded Contract review, not test success, merge, release, or completion.",
-    "recordedAt": "2026-11-04T07:25:55.508014Z",
-    "recordedBy": "user:Sentinel_ef9a950751d881919d013a12c09f8a6d",
+    "reason": "The user confirmed the immediately preceding WI-1119 four-binding request for a draft pull request to trigger Windows CI. This authorizes only the reviewed create_pull_request boundary, not CI success, merge, publication, or release.",
+    "recordedAt": "2026-11-04T08:29:35.962953Z",
+    "recordedBy": "user:Sentinel_6c769000ce148191afd75aaf813517bf",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
     "schemaVersion": 1,
@@ -497,8 +517,8 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-04T07:22:54Z",
-  "preflightContractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+  "preflightAt": "2026-11-04T08:22:20Z",
+  "preflightContractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
   "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
   "preflightRepositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
   "preflightState": "yellow",
@@ -656,11 +676,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T07:27:25.346234+00:00",
+  "updatedAt": "2026-11-04T08:30:43.765733+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+    "contractHash": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T07:18:36Z"
+    "recordedAt": "2026-11-04T08:21:25Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
