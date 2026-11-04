@@ -7067,6 +7067,16 @@ fn reconcile_finish_process_cleanup(
         checkpoints.push(checkpoint);
     }
     let mut seen = BTreeSet::new();
+    for entry in previous {
+        let (Some(execution_id), Some(node_id)) =
+            (entry["executionId"].as_str(), entry["nodeId"].as_str())
+        else {
+            return Err(invalid());
+        };
+        if !seen.insert((execution_id, node_id)) {
+            return Err(invalid());
+        }
+    }
     for entry in &entries[previous.len()..] {
         let Some(fields) = entry.as_object() else {
             return Err(invalid());
