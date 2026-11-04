@@ -98,6 +98,161 @@ fn repository_snapshot_digest(binary: &str, directory: &Path, work_item_id: &str
 }
 
 #[test]
+fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
+    let first = tempfile::tempdir().expect("first isolated repository");
+    let second = tempfile::tempdir().expect("unrelated isolated repository");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let first_id = "WI-CLEANUP-COLD-A";
+    let second_id = "WI-CLEANUP-COLD-B";
+    for (root, id) in [(first.path(), first_id), (second.path(), second_id)] {
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(root)
+                .status()
+                .expect("git init")
+                .success()
+        );
+        commit_baseline(root, "WI-local cleanup fixture\n");
+        let started = Command::new(binary)
+            .args(["start", "--repo"])
+            .arg(root)
+            .args([
+                "--id",
+                id,
+                "--intent",
+                "record only this work item's managed process",
+                "--goal",
+                "retain real direct-child reaping across CLI restarts",
+                "--scope",
+                "README.md",
+                "--authority",
+                "authorized",
+                "--acceptance",
+                "A1: direct child is reaped",
+                "--required-evidence",
+                "verification",
+            ])
+            .output()
+            .expect("start Work Item");
+        assert!(
+            started.status.success(),
+            "start {id}: {}",
+            String::from_utf8_lossy(&started.stderr)
+        );
+    }
+
+    let first_root = first.path();
+    let first_run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(first_root)
+            .output()
+            .expect("run first Work Item in a fresh CLI process")
+    };
+    for args in [
+        vec![
+            "preflight",
+            "--contract",
+            ".ai/work-items/active/WI-CLEANUP-COLD-A.contract.json",
+        ],
+        vec!["checkpoint", "--id", first_id],
+    ] {
+        let output = first_run(&args);
+        assert!(
+            output.status.success(),
+            "args={args:?}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test", "path": "README.md",
+                    "locator": "WI-local cleanup fixture", "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {"state": "resolved", "evidence": ["README.md"]}
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls input");
+    let controlled = first_run(&[
+        "work-item",
+        "controls",
+        "--id",
+        first_id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+    assert!(
+        controlled.status.success(),
+        "controls: {}",
+        String::from_utf8_lossy(&controlled.stderr)
+    );
+
+    let verified = first_run(&[
+        "verify",
+        "--work-item",
+        first_id,
+        "--command",
+        "git",
+        "--args=--version",
+    ]);
+    assert!(
+        verified.status.success(),
+        "verify: {}",
+        String::from_utf8_lossy(&verified.stderr)
+    );
+    let verification: serde_json::Value =
+        serde_json::from_slice(&verified.stdout).expect("verification result");
+    assert_eq!(verification["passed"], true);
+    assert_eq!(verification["executionRecords"][0]["spawned"], true);
+    assert_eq!(verification["executionRecords"][0]["exitCode"], 0);
+
+    let first_summary_path =
+        first_root.join(format!(".ai/work-items/active/{first_id}.summary.json"));
+    let second_summary_path = second
+        .path()
+        .join(format!(".ai/work-items/active/{second_id}.summary.json"));
+    let before_first = fs::read(&first_summary_path).expect("completed first Summary");
+    let before_second = fs::read(&second_summary_path).expect("unrelated Summary");
+    let first_summary: serde_json::Value =
+        serde_json::from_slice(&before_first).expect("first Summary JSON");
+    let entries = first_summary["processCleanup"]["entries"]
+        .as_array()
+        .expect("real managed process ledger");
+    assert_eq!(entries.len(), 1);
+    assert_eq!(entries[0]["state"], "direct_child_reaped");
+    assert_eq!(entries[0]["directChildReaped"], true);
+    assert!(entries[0]["processId"].as_u64().is_some());
+
+    for _ in 0..2 {
+        let cleaned = first_run(&["work-item", "process-cleanup", "--id", first_id]);
+        assert!(
+            cleaned.status.success(),
+            "cold cleanup: {}",
+            String::from_utf8_lossy(&cleaned.stderr)
+        );
+        let report: serde_json::Value =
+            serde_json::from_slice(&cleaned.stdout).expect("cold cleanup report");
+        assert_eq!(report["workItemId"], first_id);
+        assert_eq!(report["state"], "direct_children_reaped");
+        assert_eq!(report["unresolvedCount"], 0);
+        assert_eq!(report["ownersContacted"], 0);
+        assert_eq!(report["descendantClosure"], "unknown");
+        assert_eq!(report["entries"], serde_json::json!(entries));
+        assert_eq!(fs::read(&first_summary_path).unwrap(), before_first);
+        assert_eq!(fs::read(&second_summary_path).unwrap(), before_second);
+    }
+}
+
+#[test]
 fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
