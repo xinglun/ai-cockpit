@@ -132,7 +132,10 @@ fn cli_and_mcp_subprocesses_expose_equivalent_verification_decisions_and_metrics
             assert_eq!(receipt["executionRecords"][0]["exitCode"], 0);
             assert_eq!(receipt["executionRecords"][0]["commandResult"], "succeeded");
             assert!(receipt["executionRecords"][0]["cleanupUncertainty"].is_null());
-            assert_eq!(receipt["executionRecords"][0]["unmanagedDescendantsUnproved"], true);
+            assert_eq!(
+                receipt["executionRecords"][0]["unmanagedDescendantsUnproved"],
+                true
+            );
             assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
         }
     }
@@ -169,15 +172,13 @@ fn mcp_request(binary: &str, root: &Path, request: &serde_json::Value) -> serde_
 #[cfg(target_os = "macos")]
 #[test]
 fn mac_cli_hosted_mcp_preserves_failed_command_and_non_reuse() {
-    for (work_item_id, program, args, exit_code, command_result) in [
-        (
-            "WI-MCP-MAC-COMMAND-FAIL",
-            "python3",
-            vec!["-c", "import sys; sys.exit(7)"],
-            7,
-            "failed",
-        ),
-    ] {
+    for (work_item_id, program, args, exit_code, command_result) in [(
+        "WI-MCP-MAC-COMMAND-FAIL",
+        "python3",
+        vec!["-c", "import sys; sys.exit(7)"],
+        7,
+        "failed",
+    )] {
         let directory = tempfile::tempdir().expect("isolated repository");
         let root = fs::canonicalize(directory.path()).expect("canonical repository");
         assert!(

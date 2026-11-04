@@ -3115,9 +3115,8 @@ fn execute_verification_plan_bounded_with_observer_at(
                 deadline_ms: outcome.deadline_ms,
                 spawned: outcome.spawned,
                 passed: outcome.passed,
-                command_result: (cfg!(target_os = "macos")
-                    || outcome.cleanup_uncertain.is_some())
-                .then(|| observed_command_result(outcome)),
+                command_result: (cfg!(target_os = "macos") || outcome.cleanup_uncertain.is_some())
+                    .then(|| observed_command_result(outcome)),
                 unmanaged_descendants_unproved: cfg!(target_os = "macos") && outcome.spawned,
                 cleanup_uncertainty: outcome.cleanup_uncertain.clone(),
                 exit_code: outcome.exit_code,

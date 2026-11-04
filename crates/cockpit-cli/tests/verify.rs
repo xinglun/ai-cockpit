@@ -647,7 +647,10 @@ fn mac_reaped_managed_command_can_pass_with_visible_scope_on_cold_read() {
     assert_eq!(receipt["executionRecords"][0]["exitCode"], 0);
     assert_eq!(receipt["executionRecords"][0]["commandResult"], "succeeded");
     assert!(receipt["executionRecords"][0]["cleanupUncertainty"].is_null());
-    assert_eq!(receipt["executionRecords"][0]["unmanagedDescendantsUnproved"], true);
+    assert_eq!(
+        receipt["executionRecords"][0]["unmanagedDescendantsUnproved"],
+        true
+    );
     assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
     let summary: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")))
@@ -687,9 +690,9 @@ fn mac_reaped_managed_command_can_pass_with_visible_scope_on_cold_read() {
         serde_json::from_slice(&outcome.stdout).expect("cold Outcome JSON");
     assert_eq!(outcome["decisionState"], "green");
     assert!(outcome["unknowns"].as_array().is_some_and(|unknowns| {
-        unknowns.iter().any(|unknown| {
-            unknown.as_str() == Some("unmanaged_descendant_closure_unproved")
-        })
+        unknowns
+            .iter()
+            .any(|unknown| unknown.as_str() == Some("unmanaged_descendant_closure_unproved"))
     }));
 
     let human = run(&[
