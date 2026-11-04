@@ -1248,7 +1248,7 @@ struct PreparedRepositoryVerificationCommand {
     executable_files_read: usize,
     executable_files_hashed: usize,
     reuse_authorization: String,
-    #[cfg(all(test, unix))]
+    #[cfg(all(test, unix, not(target_os = "macos")))]
     candidate_loaded: bool,
 }
 
@@ -1291,7 +1291,7 @@ fn prepare_repository_verification_command(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
-    #[cfg(all(test, unix))]
+    #[cfg(all(test, unix, not(target_os = "macos")))]
     let mut candidate_loaded = false;
     let mut reuse_authorization = match request.policy {
         RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
@@ -1333,11 +1333,11 @@ fn prepare_repository_verification_command(
                         None
                     }
                 };
-                #[cfg(all(test, unix))]
+                #[cfg(all(test, unix, not(target_os = "macos")))]
                 let candidate_loaded_here = candidate.is_some();
                 reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
-                #[cfg(all(test, unix))]
+                #[cfg(all(test, unix, not(target_os = "macos")))]
                 {
                     candidate_loaded = candidate_loaded_here;
                 }
@@ -1381,7 +1381,7 @@ fn prepare_repository_verification_command(
         executable_files_read,
         executable_files_hashed,
         reuse_authorization,
-        #[cfg(all(test, unix))]
+        #[cfg(all(test, unix, not(target_os = "macos")))]
         candidate_loaded,
     })
 }
@@ -1477,7 +1477,7 @@ where
     run_repository_verification_inner(root, request, process_observer, |_| {}, None, None, None)
 }
 
-#[cfg(all(test, unix))]
+#[cfg(all(test, unix, not(target_os = "macos")))]
 fn run_repository_verification_with_post_prepare<H>(
     root: &Path,
     request: &RepositoryVerificationRequest,
