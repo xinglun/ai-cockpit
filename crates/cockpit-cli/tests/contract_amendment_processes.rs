@@ -920,6 +920,9 @@ fn retained_canonical_fixture_with_profile_reuse(
     }
 }
 
+// This isolated legacy producer needs a physically reusable receipt. Mac's
+// managed-process boundary deliberately does not issue one.
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_fixture_child() {
     use cockpit_repository::{
