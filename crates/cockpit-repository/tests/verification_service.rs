@@ -632,7 +632,11 @@ fn post_command_repository_drift_discards_the_passed_receipt_candidate() {
     assert_eq!(run.receipt.results[0].receipt_id, None);
     assert_eq!(
         run.receipt.results[0].reason,
-        "post_execution_binding_drift"
+        if cfg!(target_os = "macos") {
+            "evidence_missing"
+        } else {
+            "post_execution_binding_drift"
+        }
     );
     assert!(!root.join(".ai/evidence/reuse/index.json").exists());
     fs::remove_dir_all(root).expect("cleanup");
@@ -795,7 +799,9 @@ fn invalid_stage_fails_closed_before_reuse_or_identity_access() {
     fs::remove_dir_all(root).expect("cleanup");
 }
 
-#[cfg(unix)]
+// This race requires an existing reusable receipt and its store lock. Mac
+// deliberately emits no reusable receipt for bounded managed processes.
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn drift_after_an_initial_fresh_plan_forces_a_real_execution_fallback() {
     use std::io::Write;
@@ -1045,7 +1051,8 @@ fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     fs::remove_dir_all(root).expect("cleanup repository");
 }
 
-#[cfg(unix)]
+// This race likewise requires a reusable receipt and its store lock.
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn fresh_plan_with_persistent_executable_drift_executes_and_receipts_new_bytes() {
     use std::os::unix::fs::PermissionsExt;
