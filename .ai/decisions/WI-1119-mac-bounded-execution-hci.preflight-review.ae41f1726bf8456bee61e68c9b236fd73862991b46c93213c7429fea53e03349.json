@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:0353364adf4ae211bcb030fc548a369e471f949c3cf0b13918433ba978ae9dae",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact four-binding review for adding only the collaboration_admission.rs test path. This is Contract review, not test success, completion, merge, or release.",
+  "recordedAt": "2026-11-04T09:45:22.243424Z",
+  "recordedBy": "user:Sentinel_87ccd6643c98819185b04ca96ab25079",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:26b3b757815664704351f0a3588e6f6a0110584b0bfe63d103102cd4f648f7ac",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

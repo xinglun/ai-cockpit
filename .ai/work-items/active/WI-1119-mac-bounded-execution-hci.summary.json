@@ -477,20 +477,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+      "reason": "The Linux isolated workspace check reached a real before-Ready supervisor cleanup action, while the current test asserts no actions without printing the actual facts. Add only this integration test path to capture and review the exact owned-child cleanup facts, then preserve the no-verifier-spawn and fail-closed safety assertions. Production collaboration.rs remains excluded.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T09:37:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:26b3b757815664704351f0a3588e6f6a0110584b0bfe63d103102cd4f648f7ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+    "contractDigest": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
-    "reason": "The user confirmed the immediately preceding WI-1119 four-binding request for a draft pull request to trigger Windows CI. This authorizes only the reviewed create_pull_request boundary, not CI success, merge, publication, or release.",
-    "recordedAt": "2026-11-04T08:29:35.962953Z",
-    "recordedBy": "user:Sentinel_6c769000ce148191afd75aaf813517bf",
+    "preflightDecisionDigest": "sha256:0353364adf4ae211bcb030fc548a369e471f949c3cf0b13918433ba978ae9dae",
+    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact four-binding review for adding only the collaboration_admission.rs test path. This is Contract review, not test success, completion, merge, or release.",
+    "recordedAt": "2026-11-04T09:45:22.243424Z",
+    "recordedBy": "user:Sentinel_87ccd6643c98819185b04ca96ab25079",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+    "repositorySnapshotDigest": "sha256:26b3b757815664704351f0a3588e6f6a0110584b0bfe63d103102cd4f648f7ac",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -517,10 +537,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-04T08:58:24Z",
-  "preflightContractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
-  "preflightDecisionDigest": "sha256:8d62a5230c07e47ec05fc283205c920b5edd0dececc691d5d62a66832d34a1a7",
-  "preflightRepositorySnapshotDigest": "sha256:4209326b4459d9bfd9d3da727a50be5deb64c5606ed660b0e4a19054e9277ec3",
+  "preflightAt": "2026-11-04T09:40:54Z",
+  "preflightContractDigest": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+  "preflightDecisionDigest": "sha256:0353364adf4ae211bcb030fc548a369e471f949c3cf0b13918433ba978ae9dae",
+  "preflightRepositorySnapshotDigest": "sha256:26b3b757815664704351f0a3588e6f6a0110584b0bfe63d103102cd4f648f7ac",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -676,11 +696,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T08:30:43.765733+00:00",
+  "updatedAt": "2026-11-04T09:47:00.159459+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+    "contractHash": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T08:21:25Z"
+    "recordedAt": "2026-11-04T09:37:53Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }

@@ -1432,7 +1432,10 @@ fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     };
     assert_eq!(facts.exit_code, Some(0));
     assert!(facts.termination_signal.is_none());
-    assert!(facts.actions.is_empty());
+    assert!(
+        facts.actions.is_empty(),
+        "before-Ready cleanup facts: {facts:?}"
+    );
     #[cfg(unix)]
     {
         let mut status = 0;
