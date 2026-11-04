@@ -7152,10 +7152,19 @@ fn resume_suspended_process(child: &std::process::Child) -> bool {
         if entry.th32OwnerProcessID == child.id() {
             let thread = unsafe { OpenThread(THREAD_SUSPEND_RESUME, 0, entry.th32ThreadID) };
             if !thread.is_null() {
-                let resumed = unsafe { ResumeThread(thread) } != u32::MAX;
+                // ResumeThread returns the previous suspend count. Only one
+                // proves that our suspended thread is runnable now. Zero may
+                // be another already-running thread in this process; keep
+                // searching for the thread created suspended by us.
+                let previous_suspend_count = unsafe { ResumeThread(thread) };
                 unsafe { CloseHandle(thread) };
-                if resumed {
+                if previous_suspend_count == 1 {
                     found = true;
+                    break;
+                }
+                if previous_suspend_count != 0 && previous_suspend_count != u32::MAX {
+                    // Another controller still holds this thread suspended.
+                    // Do not report a successful resume or start the workload.
                     break;
                 }
             }
