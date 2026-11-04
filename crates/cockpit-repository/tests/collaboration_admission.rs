@@ -1075,6 +1075,7 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
 
 // Read only native records created by these two fixtures. Projection below
 // separately exercises the repository's pinned native catalog reader.
+#[cfg(not(target_os = "macos"))]
 fn assert_unreleased_parent_failure(
     store: &CoordinationStore,
     input: &CompositionInput,
