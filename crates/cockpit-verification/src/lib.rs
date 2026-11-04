@@ -3396,6 +3396,7 @@ struct VerificationSupervisorOutcomeWire {
 }
 
 impl VerificationSupervisorOutcomeWire {
+    #[cfg(unix)]
     fn owner_retained(&self) -> bool {
         !self.passed
             && self.exit_code.is_none()
@@ -5364,7 +5365,10 @@ fn execute_supervised_captured(
     let command_deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let mut parent_timed_out = false;
     let mut cleanup_forced_termination = false;
+    #[cfg(unix)]
     let mut retained_owner = false;
+    #[cfg(not(unix))]
+    let retained_owner = false;
     #[cfg(unix)]
     let mut protocol_error: Option<String> = None;
     #[cfg(not(unix))]
