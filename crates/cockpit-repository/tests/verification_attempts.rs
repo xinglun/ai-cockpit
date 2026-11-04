@@ -1995,7 +1995,7 @@ fn checkpoint_only_exit_or_post_identity_failure_masks_old_success_without_times
             assert!(stderr_text.contains("direct_child_reap:"));
         }
         #[cfg(not(target_os = "macos"))]
-        assert_eq!(stderr, "636865636b706f696e742d6f6c792d6572726f72");
+        assert_eq!(stderr, "636865636b706f696e742d6f6e6c792d6572726f72");
         assert_eq!(
             values
                 .iter()
