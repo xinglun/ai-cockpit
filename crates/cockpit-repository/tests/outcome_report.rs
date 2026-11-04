@@ -285,13 +285,14 @@ fn real_wi1111_to_wi1112_material_reference_at(revision: &str) -> (serde_json::V
 
 #[test]
 fn real_wi1111_to_wi1112_current_reference_is_not_review_authority() {
+    const ORIGINAL_WI1112_REVIEW_HEAD: &str = "52851ee8058d99de9af6717829ec18052b1f57ef";
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("../..")
         .canonicalize()
         .expect("source repository");
     let current_head = Command::new("git")
         .args(["rev-parse", "HEAD"])
-        .current_dir(source)
+        .current_dir(&source)
         .output()
         .expect("read current committed source revision");
     assert!(current_head.status.success(), "read current HEAD failed");
@@ -313,18 +314,48 @@ fn real_wi1111_to_wi1112_current_reference_is_not_review_authority() {
     assert_eq!(material["satisfiesCurrentReview"], false);
     assert_eq!(material["priorHunkIdentity"], "not_retained");
     assert_eq!(material["priorScannerIdentity"], "not_attested_in_receipt");
-    let same_content_paths = material["sameContentBlobs"]
+    let reviewed_paths = [
+        "crates/cockpit-cli/tests/usage.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/usage.rs",
+    ];
+    let committed_blob = |revision: &str, path: &str| {
+        let output = Command::new("git")
+            .args(["show", &format!("{revision}:{path}")])
+            .current_dir(&source)
+            .output()
+            .expect("read committed material-review blob");
+        assert!(output.status.success(), "read {revision}:{path} failed");
+        output.stdout
+    };
+    let expected_same_content = reviewed_paths
+        .into_iter()
+        .filter_map(|path| {
+            let historical = committed_blob(ORIGINAL_WI1112_REVIEW_HEAD, path);
+            let current = committed_blob(&revision, path);
+            (historical == current).then(|| (path, Digest::sha256_bytes(&current).to_string()))
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        !expected_same_content.is_empty(),
+        "the predecessor review must retain at least one byte-identical source reference"
+    );
+    let same_content_blobs = material["sameContentBlobs"]
         .as_array()
         .expect("same-content references are an array")
         .iter()
-        .map(|blob| blob["path"].as_str().expect("blob path is a string"))
+        .map(|blob| {
+            (
+                blob["path"].as_str().expect("blob path is a string"),
+                blob["digest"]
+                    .as_str()
+                    .expect("blob digest is a string")
+                    .to_owned(),
+            )
+        })
         .collect::<Vec<_>>();
     assert_eq!(
-        same_content_paths,
-        [
-            "crates/cockpit-cli/tests/usage.rs",
-            "crates/cockpit-repository/tests/usage.rs"
-        ],
+        same_content_blobs, expected_same_content,
         "show exact unchanged predecessor bytes without treating them as current authority: {material:?}"
     );
     assert!(
@@ -341,7 +372,10 @@ fn real_wi1111_to_wi1112_current_reference_is_not_review_authority() {
     );
 
     assert!(
-        rendered.contains("Same committed file bytes verified: 2"),
+        rendered.contains(&format!(
+            "Same committed file bytes verified: {}",
+            expected_same_content.len()
+        )),
         "{rendered}"
     );
     assert!(

@@ -256,7 +256,8 @@
     "crates/cockpit-repository/tests/material_review.rs",
     "crates/cockpit-repository/src/resource_lifecycle.rs",
     "crates/cockpit-cli/tests/resource_finalization.rs",
-    "crates/cockpit-repository/tests/collaboration_admission.rs"
+    "crates/cockpit-repository/tests/collaboration_admission.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

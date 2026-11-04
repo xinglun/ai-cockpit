@@ -497,20 +497,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:cb1ef6d352d38a30ca213f95762d3692f146a83955028c75eba7eb0018298972",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+      "reason": "The Linux PR quality run reached outcome_report after the CLI and collaboration tests passed. A current-HEAD reference test fixes the expected same-byte predecessor file list, but WI-1119 legitimately changed one referenced usage test. Add only this test path to compare the historical reference with actual committed bytes, retaining the rule that predecessor review never authorizes current review.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T11:20:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:70f7ce5bd85a00270522871612599465b77cce25d3ee4a043659283baa8da09d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+    "contractDigest": "sha256:cb1ef6d352d38a30ca213f95762d3692f146a83955028c75eba7eb0018298972",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:0353364adf4ae211bcb030fc548a369e471f949c3cf0b13918433ba978ae9dae",
-    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact four-binding review for adding only the collaboration_admission.rs test path. This is Contract review, not test success, completion, merge, or release.",
-    "recordedAt": "2026-11-04T09:45:22.243424Z",
-    "recordedBy": "user:Sentinel_87ccd6643c98819185b04ca96ab25079",
+    "preflightDecisionDigest": "sha256:048905826dd1bfd4541ebfca89e3b1c7698218eb1288c84edff03eedaeae8f05",
+    "reason": "The user explicitly replied confirm_review to the WI-1119 request showing this exact four-binding review for adding only crates/cockpit-repository/tests/outcome_report.rs. This confirms Contract review only; it does not claim tests, merge, or release passed.",
+    "recordedAt": "2026-11-04T11:30:48.204986Z",
+    "recordedBy": "user:Sentinel_35b2f015c9848191815cd92383f83000",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:26b3b757815664704351f0a3588e6f6a0110584b0bfe63d103102cd4f648f7ac",
+    "repositorySnapshotDigest": "sha256:70f7ce5bd85a00270522871612599465b77cce25d3ee4a043659283baa8da09d",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -537,8 +557,8 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-04T10:36:44Z",
-  "preflightContractDigest": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+  "preflightAt": "2026-11-04T11:22:08Z",
+  "preflightContractDigest": "sha256:cb1ef6d352d38a30ca213f95762d3692f146a83955028c75eba7eb0018298972",
   "preflightDecisionDigest": "sha256:048905826dd1bfd4541ebfca89e3b1c7698218eb1288c84edff03eedaeae8f05",
   "preflightRepositorySnapshotDigest": "sha256:70f7ce5bd85a00270522871612599465b77cce25d3ee4a043659283baa8da09d",
   "preflightState": "yellow",
@@ -696,11 +716,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T09:47:00.159459+00:00",
+  "updatedAt": "2026-11-04T11:43:29.918752+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7860b7d19263ac0330ea6382842a2b4b1db2d286b8b3d6e1799452f23864acda",
+    "contractHash": "sha256:cb1ef6d352d38a30ca213f95762d3692f146a83955028c75eba7eb0018298972",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T09:37:53Z"
+    "recordedAt": "2026-11-04T11:20:57Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
