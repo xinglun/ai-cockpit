@@ -1722,6 +1722,7 @@ fn local_node_fact_and_parent_mutations_never_authorize_reuse() {
 }
 
 #[cfg(unix)]
+#[cfg(not(target_os = "macos"))]
 fn local_now_epoch_seconds() -> i64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)

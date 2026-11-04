@@ -385,6 +385,7 @@ fn normalized_handoff(text: &str) -> &str {
     text.trim_end_matches(['\r', '\n'])
 }
 
+#[cfg(not(target_os = "macos"))]
 fn redacted_diagnostic_json(value: &serde_json::Value) -> String {
     fn redact_sensitive_fields(value: &mut serde_json::Value) {
         match value {
