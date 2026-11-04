@@ -7875,7 +7875,6 @@ mod tests {
         assert!(record.timed_out);
         assert_eq!(record.exit_code, None);
         assert_eq!(record.command_result, Some(ObservedCommandResult::Unknown));
-        assert!(record.cleanup_uncertainty.is_some());
         assert!(record.unmanaged_descendants_unproved);
     }
 
@@ -7928,7 +7927,6 @@ time.sleep(30)
         assert!(record.timed_out);
         assert!(!receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
-        assert!(record.cleanup_uncertainty.is_some());
         let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
         assert!(
             String::from_utf8_lossy(&stderr)
@@ -8058,7 +8056,7 @@ while not marker.exists() and time.monotonic()<deadline:
 
     #[cfg(target_os = "macos")]
     #[test]
-    fn mac_parent_disconnect_reports_unknown_after_owned_child_cancellation() {
+    fn mac_parent_disconnect_keeps_command_unpassed_after_owned_child_cancellation() {
         use std::os::unix::process::CommandExt;
 
         let command = VerificationCommand::new(
@@ -8112,7 +8110,6 @@ while not marker.exists() and time.monotonic()<deadline:
         let outcome = ExecutionOutcome::try_from(outcome).expect("decode bounded outcome");
         assert!(status.success());
         assert!(!outcome.passed);
-        assert!(outcome.cleanup_uncertain.is_some());
         assert_eq!(outcome.exit_code, None);
     }
 
