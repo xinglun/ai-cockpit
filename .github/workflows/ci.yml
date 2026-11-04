@@ -797,6 +797,12 @@ jobs:
       - name: verify Windows process and composition lifecycle boundaries
         if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
+      - name: verify Windows WI-local cleanup cold read after direct child reap
+        if: matrix.suite == 'boundaries'
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test verify wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item -- --exact --test-threads=1
+      - name: verify Windows WI-local cleanup keeps unowned child unknown
+        if: matrix.suite == 'boundaries'
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test usage process_cleanup_cold_restart_keeps_an_unowned_child_unknown_and_other_wi_unchanged -- --exact --test-threads=1
       - name: verify Windows repository boundaries
         if: matrix.suite == 'boundaries'
         run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:125376263af3dfe16d9f268165c54144670be6d83b2d3a7c0b3678f0c1c6c9b7",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+  "reason": "The user explicitly confirmed this exact WI-1119 four-binding review to add only tests/ci/workflow_convergence_test.sh to scope for the two Windows cleanup commands. Existing strict command inventory checks remain. This does not claim validation, merge, or release.",
+  "recordedAt": "2026-11-04T14:00:44.248239Z",
+  "recordedBy": "user:Sentinel_65bf0deb9c6481919e66dc53e9b22293",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:efe424fe5ad64433f3ff2aa7195c43d60f2711c047a0f2fac8ab0df0238948a4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}
