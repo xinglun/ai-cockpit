@@ -17,6 +17,15 @@ fn fixture() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    #[cfg(windows)]
+    assert!(
+        Command::new("git")
+            .args(["config", "--local", "core.autocrlf", "false"])
+            .current_dir(directory.path())
+            .status()
+            .expect("disable fixture line-ending conversion")
+            .success()
+    );
     fs::write(directory.path().join("README.md"), "fixture baseline\n").expect("baseline README");
     for (key, value) in [
         ("user.email", "test@example.invalid"),
