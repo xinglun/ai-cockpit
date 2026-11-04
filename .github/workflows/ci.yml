@@ -965,9 +965,8 @@ jobs:
           print("both Windows suites passed for this exact run, source and tested revision")
           PY
 
-  # Validate Mac-specific process behavior in a regular hosted Mac VM. Keep
-  # this separate from release jobs and bind the tested PR merge to its head.
   macos-workspace:
+    # Validate Mac behavior in a regular hosted VM, separate from release jobs.
     needs: route
     if: needs.route.result == 'success' && needs.route.outputs.profile != 'light' && github.event_name == 'pull_request'
     runs-on: macos-15
