@@ -6465,6 +6465,12 @@ fn execute_captured_inner(
         .envs(command.environment.iter().cloned())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
+    #[cfg(windows)]
+    if cancellation.is_some() {
+        // In the supervisor, stdin is the parent-liveness control pipe.
+        // The target must not inherit that control channel or wait on it.
+        process.stdin(Stdio::null());
+    }
     if let Some(current_dir) = &command.current_dir {
         process.current_dir(current_dir);
     }
