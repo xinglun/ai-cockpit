@@ -255,12 +255,26 @@ with tempfile.TemporaryDirectory(prefix="windows-suite-aggregation-") as tempora
 
 # Independent hosted validations fan out from the immutable route artifact;
 # no validation job waits for another validation job.
-validation_jobs = ("quality", "windows-runtime-suites", "v1-behavioral-oracle")
+validation_jobs = ("quality", "windows-runtime-suites", "macos-workspace", "v1-behavioral-oracle")
 for name in validation_jobs:
     block = job_block(name)
     assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
     assert "needs: [" not in block, f"{name} must not serialize behind another validation job"
 assert "\n    needs: quality\n" not in workflow, "independent CI validation must not wait for quality"
+
+mac_job = job_block("macos-workspace")
+assert "runs-on: macos-15" in mac_job
+assert "github.event_name == 'pull_request'" in mac_job
+assert "persist-credentials: false" in mac_job
+assert "test \"$tested_revision\" = \"$GITHUB_SHA\"" in mac_job
+assert "test \"${parents[1]}\" = \"$source_revision\"" in mac_job
+assert "git merge-base --is-ancestor \"$PR_BASE_SHA\" \"${parents[0]}\"" in mac_job
+assert "timeout-minutes: 15" in mac_job
+assert "cargo test --locked --workspace --no-run" in mac_job
+assert "cargo test --locked --workspace\n" in mac_job
+assert "retained_owner_cleanup_tests::independent_cli_requests_cleanup_from_real_owner" in mac_job
+assert "AI_COCKPIT_TEST_CLI=\"$GITHUB_WORKSPACE/target/debug/ai-cockpit\"" in mac_job
+assert "name: ci-revision-binding-macos-workspace" in mac_job
 
 ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
 ordinary_guide_text = re.sub(r"[\s`]+", " ", ordinary_guide.read_text(encoding="utf-8").lower())

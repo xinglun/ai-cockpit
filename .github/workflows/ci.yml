@@ -965,6 +965,67 @@ jobs:
           print("both Windows suites passed for this exact run, source and tested revision")
           PY
 
+  # Validate Mac-specific process behavior in a regular hosted Mac VM. Keep
+  # this separate from release jobs and bind the tested PR merge to its head.
+  macos-workspace:
+    needs: route
+    if: needs.route.result == 'success' && needs.route.outputs.profile != 'light' && github.event_name == 'pull_request'
+    runs-on: macos-15
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.98.1
+      - name: Bind Mac source and tested revisions
+        shell: bash
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          tested_revision="$(git rev-parse HEAD)"
+          test "$tested_revision" = "$GITHUB_SHA"
+          source_revision="$(git rev-parse --verify "${PR_HEAD_SHA}^{commit}")"
+          read -r -a parents <<<"$(git show -s --format=%P HEAD)"
+          test "${#parents[@]}" -eq 2
+          test "${parents[1]}" = "$source_revision"
+          git merge-base --is-ancestor "$PR_BASE_SHA" "${parents[0]}"
+          jq -n \
+            --arg sourceHeadRevision "$source_revision" \
+            --arg testedRevision "$tested_revision" \
+            --arg eventBaseRevision "$PR_BASE_SHA" \
+            --arg testedBaseRevision "${parents[0]}" \
+            '{schemaVersion:1,kind:"ci_revision_binding",eventName:"pull_request",sourceHeadRevision:$sourceHeadRevision,testedRevision:$testedRevision,eventBaseRevision:$eventBaseRevision,testedBaseRevision:$testedBaseRevision}' \
+            > ci-revision-binding-macos.json
+      - name: Precompile Mac workspace tests
+        timeout-minutes: 15
+        run: python3 tests/ci/run_no_warnings.py -- cargo test --locked --workspace --no-run
+      - name: Run exact Mac workspace suite
+        timeout-minutes: 15
+        run: python3 tests/ci/run_no_warnings.py -- cargo test --locked --workspace
+      - name: Verify independent Mac CLI cleanup through a live owner
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tests/ci/run_no_warnings.py -- cargo build --locked -p cockpit-cli --bin ai-cockpit
+          AI_COCKPIT_TEST_CLI="$GITHUB_WORKSPACE/target/debug/ai-cockpit" \
+            python3 tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib retained_owner_cleanup_tests::independent_cli_requests_cleanup_from_real_owner -- --ignored --exact --test-threads=1
+      - name: Upload Mac revision binding
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-revision-binding-macos-workspace
+          path: ci-revision-binding-macos.json
+          if-no-files-found: warn
+          retention-days: 7
+
   v1-behavioral-oracle:
     needs: route
     if: needs.route.result == 'success' && needs.route.outputs.profile != 'light'
