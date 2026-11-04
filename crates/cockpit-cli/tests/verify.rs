@@ -206,8 +206,9 @@ fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
     ]);
     assert!(
         verified.status.success(),
-        "verify: {}",
-        String::from_utf8_lossy(&verified.stderr)
+        "verify: {}; structured result: {}",
+        String::from_utf8_lossy(&verified.stderr),
+        String::from_utf8_lossy(&verified.stdout)
     );
     let verification: serde_json::Value =
         serde_json::from_slice(&verified.stdout).expect("verification result");
