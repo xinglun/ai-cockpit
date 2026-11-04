@@ -165,7 +165,10 @@ fn composition_fixture(root: &Path) -> (String, CompositionInput) {
             repository_id: repository_id(root),
             work_item_id: work_item_id.clone(),
             contract_digest: contract_digest.clone(),
-            worktree_path: root.to_string_lossy().into_owned(),
+            worktree_path: fs::canonicalize(root)
+                .expect("canonical composition fixture path")
+                .to_string_lossy()
+                .into_owned(),
             branch: topology.branch.expect("test repository branch"),
             head: head.clone(),
             generation: 1,
