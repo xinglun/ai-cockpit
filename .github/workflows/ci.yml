@@ -1005,6 +1005,16 @@ jobs:
       - name: Precompile Mac workspace tests
         timeout-minutes: 15
         run: python3 tests/ci/run_no_warnings.py -- cargo test --locked --workspace --no-run
+      - name: Use canonical Mac test temp
+        shell: bash
+        run: |
+          set -euo pipefail
+          resolved_temp="$(cd "$RUNNER_TEMP" && pwd -P)"
+          test -w "$resolved_temp"
+          printf 'TMPDIR=%s/\n' "$resolved_temp" >> "$GITHUB_ENV"
+      - name: Verify Mac Unix socket scanner fixture
+        timeout-minutes: 5
+        run: python3 tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-isolation --test scanner -- --test-threads=1
       - name: Run exact Mac workspace suite
         timeout-minutes: 15
         run: python3 tests/ci/run_no_warnings.py -- cargo test --locked --workspace

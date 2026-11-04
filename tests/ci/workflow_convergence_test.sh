@@ -271,6 +271,9 @@ assert "test \"${parents[1]}\" = \"$source_revision\"" in mac_job
 assert "git merge-base --is-ancestor \"$PR_BASE_SHA\" \"${parents[0]}\"" in mac_job
 assert "timeout-minutes: 15" in mac_job
 assert "cargo test --locked --workspace --no-run" in mac_job
+assert "resolved_temp=\"$(cd \"$RUNNER_TEMP\" && pwd -P)\"" in mac_job
+assert "printf 'TMPDIR=%s/\\n' \"$resolved_temp\" >> \"$GITHUB_ENV\"" in mac_job
+assert "cargo test --locked -p cockpit-isolation --test scanner -- --test-threads=1" in mac_job
 assert "cargo test --locked --workspace\n" in mac_job
 assert "retained_owner_cleanup_tests::independent_cli_requests_cleanup_from_real_owner" in mac_job
 assert "AI_COCKPIT_TEST_CLI=\"$GITHUB_WORKSPACE/target/debug/ai-cockpit\"" in mac_job
