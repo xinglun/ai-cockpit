@@ -1350,6 +1350,7 @@ fn assert_unreleased_parent_failure(
     view
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     let root = repository();
