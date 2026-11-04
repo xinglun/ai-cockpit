@@ -20183,7 +20183,10 @@ fn collect_files(
     Ok(())
 }
 
-#[cfg(all(test, unix))]
+// These post-prepare races require a loaded reusable receipt. macOS keeps
+// locally executed receipts ineligible for reuse; its no-reuse path is covered
+// by the repository verification service tests.
+#[cfg(all(test, unix, not(target_os = "macos")))]
 mod post_prepare_identity_tests {
     use super::{
         RepositoryVerificationPolicy, RepositoryVerificationRequest, attach,
