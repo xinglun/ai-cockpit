@@ -243,7 +243,8 @@
     "crates/cockpit-cli/tests/contract_amendment_processes.rs",
     "crates/cockpit-repository/tests/verification_context.rs",
     "crates/cockpit-repository/tests/verification_service.rs",
-    "crates/cockpit-repository/tests/verification_attempts.rs"
+    "crates/cockpit-repository/tests/verification_attempts.rs",
+    "crates/cockpit-cli/tests/legacy_closeout_source.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

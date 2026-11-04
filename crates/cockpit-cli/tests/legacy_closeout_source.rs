@@ -495,7 +495,10 @@ mod complete_source {
         let mut plan = original_plan(&dest, &source);
         let mut registration: cockpit_protocol::LegacyCloseoutSourceRegistration =
             serde_json::from_str(&plan.registration_bytes).unwrap();
-        registration.source.root = dest.to_string_lossy().into_owned();
+        registration.source.root = fs::canonicalize(&dest)
+            .unwrap()
+            .to_string_lossy()
+            .into_owned();
         registration.source.git_common_directory =
             plan.destination_binding.git_common_directory.clone();
         registration.source.snapshot_digest = cockpit_repository::snapshot_digest(
