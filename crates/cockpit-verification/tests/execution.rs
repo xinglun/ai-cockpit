@@ -58,6 +58,23 @@ fn always_command(id: &str, program: &str, args: Vec<String>) -> VerificationCom
     VerificationCommand::new(id, program, args, VerificationReusePolicy::NeverReuse)
 }
 
+#[cfg(windows)]
+#[test]
+fn windows_git_version_exits_inside_owned_job() {
+    let direct = std::process::Command::new("git")
+        .arg("--version")
+        .output()
+        .expect("run direct git version control");
+    assert!(direct.status.success(), "direct git version: {direct:?}");
+
+    let command = always_command("git-version", "git", vec!["--version".into()])
+        .with_timeout_seconds(15);
+    let result = execute_bounded_at(vec![command], 1, NOW).expect("execute bounded git version");
+    let record = &result.execution_records[0];
+    assert!(record.passed, "bounded git version: {record:?}");
+    assert_eq!(record.exit_code, Some(0));
+}
+
 #[test]
 fn timeout_is_bound_into_command_and_execution_receipt_identity() {
     let default = always_command("timeout-default", "true", vec![]);

@@ -203,6 +203,8 @@ fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
         "--command",
         "git",
         "--args=--version",
+        "--timeout-seconds",
+        "15",
     ]);
     assert!(
         verified.status.success(),
