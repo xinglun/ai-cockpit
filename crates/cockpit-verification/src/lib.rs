@@ -927,6 +927,10 @@ pub struct VerificationExecutionRecord {
     /// Old records omit this field and must not be upgraded by inference.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub command_result: Option<ObservedCommandResult>,
+    /// On macOS, success covers only the WI-managed process. This advisory
+    /// never certifies closure of an unregistered escaped descendant.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub unmanaged_descendants_unproved: bool,
     /// Why cleanup cannot be asserted. A successful command exit does not
     /// make this uncertainty disappear or authorize receipt reuse.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -942,6 +946,10 @@ pub struct VerificationExecutionRecord {
     pub stderr_truncated: bool,
     pub timed_out: bool,
     pub elapsed_ms: u128,
+}
+
+fn is_false(value: &bool) -> bool {
+    !*value
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3107,10 +3115,10 @@ fn execute_verification_plan_bounded_with_observer_at(
                 deadline_ms: outcome.deadline_ms,
                 spawned: outcome.spawned,
                 passed: outcome.passed,
-                command_result: outcome
-                    .cleanup_uncertain
-                    .as_ref()
-                    .map(|_| observed_command_result(outcome)),
+                command_result: (cfg!(target_os = "macos")
+                    || outcome.cleanup_uncertain.is_some())
+                .then(|| observed_command_result(outcome)),
+                unmanaged_descendants_unproved: cfg!(target_os = "macos") && outcome.spawned,
                 cleanup_uncertainty: outcome.cleanup_uncertain.clone(),
                 exit_code: outcome.exit_code,
                 termination_signal: outcome.termination_signal,
@@ -3125,6 +3133,7 @@ fn execute_verification_plan_bounded_with_observer_at(
         let mut receipt_id = reused.then_some(entry.receipt_id).flatten();
         if !reused
             && entry.command.reuse_policy == VerificationReusePolicy::Reusable
+            && !cfg!(target_os = "macos")
             && outcome.is_some_and(|outcome| outcome.passed && !outcome.output_truncated)
             && let (Some(candidate), Some(output_digest)) = (
                 entry.command.reuse_candidate.as_ref(),
@@ -3956,17 +3965,9 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     #[cfg(target_os = "macos")]
     let outcome = {
         let mut outcome = outcome;
-        if outcome.spawned {
-            merge_cleanup_uncertainty(
-                &mut outcome,
-                CleanupUncertainty {
-                    phase: "mac_descendant_boundary".into(),
-                    reason: "Direct-child reaping is reported separately; original-group and escaped-descendant closure cannot be proved on macOS".into(),
-                    remaining_pids: Vec::new(),
-                    remaining_pids_truncated: false,
-                },
-            );
-        }
+        // A normally reaped, WI-managed Child may satisfy the bounded Mac
+        // verification scope. Unregistered escaped descendants remain
+        // explicitly unproved in the durable execution record.
         let retained_ready = match (request.cleanup_context.as_ref(), retained_child.as_ref()) {
             (Some(context), Some(child)) => {
                 prepare_cleanup_mailbox(context, &command.id, child.id()).is_ok()
@@ -6778,7 +6779,10 @@ fn execute_captured_inner(
         return outcome;
     }
     let identity = OutputIdentity {
-        success: status.success() && !timed_out && observer_error.is_none(),
+        success: status.success()
+            && !timed_out
+            && observer_error.is_none()
+            && (!cfg!(target_os = "macos") || (!stdout.truncated && !stderr.truncated)),
         exit_code: status.code(),
         termination_signal,
         stdout: &stdout.bytes,
@@ -6792,7 +6796,10 @@ fn execute_captured_inner(
         .map(|bytes| Digest::sha256_bytes(&bytes).to_string());
     ExecutionOutcome {
         spawned: true,
-        passed: status.success() && !timed_out && observer_error.is_none(),
+        passed: status.success()
+            && !timed_out
+            && observer_error.is_none()
+            && (!cfg!(target_os = "macos") || (!stdout.truncated && !stderr.truncated)),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
         termination_signal,
         stdout: stdout.bytes,
@@ -7832,11 +7839,11 @@ mod tests {
 
     #[cfg(target_os = "macos")]
     #[test]
-    fn mac_supervisor_records_direct_exit_without_claiming_descendant_cleanup() {
+    fn mac_supervisor_accepts_reaped_managed_child_without_claiming_descendant_cleanup() {
         let (receipt, child_pid) =
             run_direct_supervisor_probe("mac-direct-exit", "/usr/bin/true", vec![], 5);
         assert_ne!(child_pid, 0);
-        assert!(!receipt.passed);
+        assert!(receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
         let record = &receipt.execution_records[0];
         assert_eq!(record.exit_code, Some(0));
@@ -7844,16 +7851,9 @@ mod tests {
             record.command_result,
             Some(ObservedCommandResult::Succeeded)
         );
-        assert_eq!(
-            record
-                .cleanup_uncertainty
-                .as_ref()
-                .map(|fact| fact.phase.as_str()),
-            Some("mac_descendant_boundary")
-        );
+        assert!(record.cleanup_uncertainty.is_none());
+        assert!(record.unmanaged_descendants_unproved);
         assert!(!record.timed_out);
-        let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
-        assert!(String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
     }
 
     #[cfg(target_os = "macos")]
@@ -7877,8 +7877,7 @@ mod tests {
         assert_eq!(record.exit_code, None);
         assert_eq!(record.command_result, Some(ObservedCommandResult::Unknown));
         assert!(record.cleanup_uncertainty.is_some());
-        let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
-        assert!(String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
+        assert!(record.unmanaged_descendants_unproved);
     }
 
     #[cfg(target_os = "macos")]
@@ -7947,7 +7946,7 @@ time.sleep(30)
 
     #[cfg(target_os = "macos")]
     #[test]
-    fn mac_supervisor_cannot_promote_an_escaped_descendant_to_clean() {
+    fn mac_supervisor_does_not_claim_an_unregistered_escaped_descendant() {
         // The escaped child has a short independent TTL and no inherited
         // capture pipe. Its numeric PID is never used as cleanup authority.
         let script = "import subprocess,sys; subprocess.Popen([sys.executable,'-c','import time; time.sleep(1)'], start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)";
@@ -7957,22 +7956,20 @@ time.sleep(30)
             vec!["-c".into(), script.into()],
             5,
         );
-        assert!(!receipt.passed);
+        assert!(receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
         assert_eq!(receipt.execution_records[0].exit_code, Some(0));
         assert_eq!(
             receipt.execution_records[0].command_result,
             Some(ObservedCommandResult::Succeeded)
         );
-        assert!(receipt.execution_records[0].cleanup_uncertainty.is_some());
-        let stderr = decode_hex_bytes(&receipt.execution_records[0].stderr_hex)
-            .expect("decode bounded diagnostic");
-        assert!(String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
+        assert!(receipt.execution_records[0].cleanup_uncertainty.is_none());
+        assert!(receipt.execution_records[0].unmanaged_descendants_unproved);
     }
 
     #[cfg(target_os = "macos")]
     #[test]
-    fn mac_double_fork_closed_pipes_and_changed_cwd_remain_cleanup_unknown() {
+    fn mac_double_fork_closed_pipes_and_changed_cwd_remain_outside_managed_scope() {
         let directory = std::env::temp_dir().join(format!(
             "ai-cockpit-mac-double-fork-{}-{}",
             std::process::id(),
@@ -8021,7 +8018,7 @@ while not marker.exists() and time.monotonic()<deadline:
                 .expect("canonical fixture directory")
                 .to_string_lossy()
         );
-        assert!(!receipt.passed);
+        assert!(receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
         let record = &receipt.execution_records[0];
         assert_eq!(record.exit_code, Some(0));
@@ -8029,7 +8026,8 @@ while not marker.exists() and time.monotonic()<deadline:
             record.command_result,
             Some(ObservedCommandResult::Succeeded)
         );
-        assert!(record.cleanup_uncertainty.is_some());
+        assert!(record.cleanup_uncertainty.is_none());
+        assert!(record.unmanaged_descendants_unproved);
         // The escaped fixture exits on its own after two seconds. No stale
         // numeric PID or process-group signal is used for test cleanup.
         std::thread::sleep(Duration::from_secs(3));
@@ -8171,7 +8169,7 @@ while not marker.exists() and time.monotonic()<deadline:
         let record = &receipt.execution_records[0];
         assert!(record.stdout_truncated);
         let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
-        assert!(String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
+        assert!(!String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
     }
 
     #[cfg(target_os = "macos")]

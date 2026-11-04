@@ -1,15 +1,15 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "Mac reports directly observed verifier exit and original-group control separately from unproven escaped-descendant cleanup; no complete-tree claim.",
+    "On Mac, report directly observed verifier exit, WI-managed direct-child reaping, original-group signal facts where applicable, and unproved closure of unmanaged descendants as separate facts. A normal command may contribute to formal managed-process verification only after its registered direct child is confirmed reaped; no complete-tree claim follows.",
     "Timeout, parent disconnect, output saturation, failed group or direct-child termination, and cleanup errors return after bounded observation. Record actual signal and kill results and whether the directly owned child was reaped; if exit or reaping is not confirmed by the deadline, persist cleanup Unknown rather than wait indefinitely or claim the process ended.",
-    "setsid, double-fork, closed-pipe, changed-cwd, stale owned-child handle, and controlled identity-loss negatives never become cleanup-success or reusable evidence; unrelated test-owned processes survive. Actual kernel PID reuse is not claimed as tested in this Work Item.",
-    "Cold read and restart retain Unknown; uncertainty cannot be promoted to clean by a later empty process-group probe.",
+    "setsid, double-fork, closed-pipe, changed-cwd, stale owned-child handle, and controlled identity-loss fixtures never become a claim that unmanaged descendants were cleaned or a reason to signal an unrelated process. Any managed process whose identity or reaping is unconfirmed remains Unknown and cannot pass or produce reusable evidence. A managed-scope pass must explicitly retain the unproved unmanaged-descendant boundary. Actual kernel PID reuse is not claimed as tested in this Work Item.",
+    "Cold read and restart retain any Unknown for a WI-managed process and the explicit unmanaged-descendant proof boundary; neither an empty process-group probe nor a later process-cleanup report may promote an unconfirmed managed process to clean or reuse an Unknown attempt.",
     "Full composition supervision still rejects Mac before starting a verifier.",
     "The nine scoped documents state HCI as the sole current North Star: understandable, controllable, explainable, recoverable; the historical map retains its historical identity.",
-    "A command's observed exit does not imply that arbitrary descendants were reaped or that governed verification passed.",
-    "A WI-local Summary records an actual process start with its execution and platform identity, then records confirmed direct-child reaping or explicit Unknown without erasing the history. A separate final cleanup command reads only that WI, skips already reaped entries, performs bounded cleanup only through a still-held and verified owner handle, and reports unowned live, zombie, missing, stale, or ambiguous entries as Unknown; it never signals an old numeric PID alone. Mac command results and cleanup assurance remain distinct, an Unknown attempt is not reusable or a formal pass, and finish/archive/close still require fresh formal verification in a capable environment. Supervisor death never implies handle transfer or cleanup.",
-    "A capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot; the prior Mac attempt remains historical Unknown and is never promoted to clean.",
+    "A command's observed exit alone is insufficient for formal verification. Formal success additionally requires confirmed identity-bound reaping of every WI-registered managed process and all existing non-process verification gates. Such success proves only the declared managed-process scope, not arbitrary descendant cleanup.",
+    "A WI-local Summary records actual process start, runtime/platform identity, and confirmed direct-child reaping or explicit Unknown without erasing history. The separate final cleanup command reads only that WI, skips reaped entries, and performs bounded cleanup only through a still-held verified owner handle. Missing, stale, ambiguous, or unowned managed entries remain Unknown; neither the command nor a historical PID authorizes a blind signal. Mac may produce a formal managed-scope pass after all registered managed processes are confirmed reaped; an Unknown managed-process attempt never passes or yields reusable evidence. Unmanaged descendant closure remains explicitly unproved, including after a green managed-scope result. Finish, archive, and close retain all other fresh formal evidence and governance gates. Supervisor death never implies handle transfer or cleanup.",
+    "Each capable environment must perform fresh formal verification against its own Runtime, Contract, repository identity, and current source snapshot. Mac can qualify for the bounded WI-managed-process scope when all its registered processes are confirmed reaped and no other gate fails. A previous cleanup-Unknown attempt remains historical and is never promoted to clean; Linux and Windows results require separate native evidence and are not inferred from Mac.",
     "The WI-local Summary lifecycle and independent final cleanup command use the same Rust-facing record and result semantics on Linux, macOS, and Windows. Platform-specific ownership and reaping mechanisms remain below that interface and may yield different proof strength; no platform claims cleanup solely from a stored PID, an empty group observation, or another platform's evidence. Normal verification does not require a cross-WI or always-running cleanup service."
   ],
   "adoptionBootstrapPaths": [],
@@ -27,7 +27,7 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "Use a common Rust execution record and a WI-local Summary to record each process actually started for this Work Item and whether its directly owned child was observed reaped. Provide a separate final process-cleanup command scoped to one WI: inspect those records, use only a still-held and verified process handle for bounded cleanup, and report Unknown when ownership, identity, or reaping cannot be proved. Keep ordinary verification usable, do not add a permanent service or cross-WI cleanup registry, and do not signal historical PID values alone. Preserve Mac's bounded direct-child/original-group limit and unsupported full composition supervision, honest Outcome, existing formal verification gates, and HCI as the sole North Star in English, Japanese, and Chinese.",
+  "goal": "Use a common Rust execution record and WI-local Summary to register each directly owned process actually started for this Work Item, retain its identity and confirmed reaping or explicit Unknown, and offer a separate bounded final cleanup command for that WI. Formal verification may pass on Mac when every WI-registered, managed process is confirmed reaped and all other verification gates pass. State separately that unmanaged escaped descendants are outside this cleanup proof; never claim complete tree closure. Unconfirmed managed ownership, identity, termination, or reaping remains Unknown and cannot pass or authorize reuse. Do not signal historical numeric PIDs, add a permanent service, or scan other Work Items. Keep full composition supervision unsupported on Mac and HCI the sole North Star in English, Japanese, and Chinese.",
   "governancePolicy": null,
   "governanceProfile": {
     "taskAuthorization": {
@@ -90,14 +90,14 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
-      "expectedOutcome": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
-      "expectedResult": "Record the exact directly owned verifier exit and bounded output without claiming complete descendant cleanup.",
+      "expected": "A normal real Mac verifier records a successful command result and confirmed reaping of its registered direct child; the formal result may pass only the WI-managed-process scope when all other gates pass. The receipt and human Outcome explicitly state that unmanaged descendant closure is unproved, without claiming complete-tree cleanup.",
+      "expectedOutcome": "A normal real Mac verifier records a successful command result and confirmed reaping of its registered direct child; the formal result may pass only the WI-managed-process scope when all other gates pass. The receipt and human Outcome explicitly state that unmanaged descendant closure is unproved, without claiming complete-tree cleanup.",
+      "expectedResult": "A normal real Mac verifier records a successful command result and confirmed reaping of its registered direct child; the formal result may pass only the WI-managed-process scope when all other gates pass. The receipt and human Outcome explicitly state that unmanaged descendant closure is unproved, without claiming complete-tree cleanup.",
       "reason": null,
       "required": true,
       "scenario": "mac_direct_child_natural_exit",
       "status": "unverified",
-      "verificationPlan": "Run a real Mac direct-child fixture through the proposed supervised CLI path and inspect the receipt and human Outcome."
+      "verificationPlan": "On a real Mac, run a bounded normal direct-child command through the production supervised CLI. Inspect start and confirmed reap in the WI Summary, the exact command result, the formal managed-scope receipt, and CLI/MCP machine and human Outcome caveats. Check the final cleanup command skips the reaped child and still reports unmanaged descendant closure as unproved. An injected failed or unconfirmed managed reap must remain Unknown, nonpassing, and nonreusable."
     },
     {
       "description": null,
@@ -138,14 +138,14 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
-      "expectedOutcome": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
-      "expectedResult": "setsid, double-fork, closed pipes and changed cwd never produce complete cleanup or reusable evidence from an empty original-group observation.",
+      "expected": "setsid, double-fork, closed pipes, and changed cwd never support a claim that the unmanaged escaped descendants were cleaned, nor a complete-tree reusable credential. Managed-process success is possible only when the WI-registered direct child is confirmed reaped and the bounded-scope limitation remains explicit; otherwise the attempt stays Unknown with no reuse.",
+      "expectedOutcome": "setsid, double-fork, closed pipes, and changed cwd never support a claim that the unmanaged escaped descendants were cleaned, nor a complete-tree reusable credential. Managed-process success is possible only when the WI-registered direct child is confirmed reaped and the bounded-scope limitation remains explicit; otherwise the attempt stays Unknown with no reuse.",
+      "expectedResult": "setsid, double-fork, closed pipes, and changed cwd never support a claim that the unmanaged escaped descendants were cleaned, nor a complete-tree reusable credential. Managed-process success is possible only when the WI-registered direct child is confirmed reaped and the bounded-scope limitation remains explicit; otherwise the attempt stays Unknown with no reuse.",
       "reason": null,
       "required": true,
       "scenario": "mac_escaped_descendant_negative",
       "status": "unverified",
-      "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent fixture cleanup and assert Unknown, retained evidence and no reuse."
+      "verificationPlan": "Run bounded real Mac escaped-descendant fixtures with independent test-owned cleanup. Assert no complete-tree closure claim, no signals to historical or uncertain PID values, no complete-tree reusable credential, and survival of unrelated processes. Distinguish a registered direct child confirmed reaped, which may yield a bounded managed-scope pass when other gates pass, from missing or unconfirmed managed reaping, which must remain Unknown and nonreusable. A descendant holding capture pipes must not produce a false complete-output pass."
     },
     {
       "description": "The historical scenario key names PID reuse. This Work Item verifies real Mac child lifecycle, a stale owned-child handle, and controlled ownership/identity loss at the production signal decision. It does not claim actual kernel PID recycling. A field defect with evidence belongs in a later Work Item.",
@@ -162,9 +162,9 @@
     {
       "description": null,
       "evidence": [],
-      "expected": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
-      "expectedOutcome": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
-      "expectedResult": "Cold read and Runtime restart preserve unknown cleanup and prohibit result reuse.",
+      "expected": "Cold read and Runtime restart preserve Unknown for any unconfirmed WI-managed process, prevent reuse or formal pass of that attempt, and retain the separate unproved unmanaged-descendant boundary even for an independently verified managed-scope result.",
+      "expectedOutcome": "Cold read and Runtime restart preserve Unknown for any unconfirmed WI-managed process, prevent reuse or formal pass of that attempt, and retain the separate unproved unmanaged-descendant boundary even for an independently verified managed-scope result.",
+      "expectedResult": "Cold read and Runtime restart preserve Unknown for any unconfirmed WI-managed process, prevent reuse or formal pass of that attempt, and retain the separate unproved unmanaged-descendant boundary even for an independently verified managed-scope result.",
       "reason": null,
       "required": true,
       "scenario": "mac_cold_read_restart_unknown",
@@ -246,7 +246,8 @@
     "crates/cockpit-repository/src/collaboration.rs:2242-2248,2869-2877",
     "AGENTS.md and .ai/README.md on the exact base",
     "User selected route A in the current conversation: Mac command facts remain pending formal verification; existing completion gates stay unchanged.",
-    "User confirmed in the current conversation: WI-1119 itself records each started process and observed reap in its own Summary and exposes a separate final cleanup command for that WI; it never blindly signals an untrusted historical PID, adds a permanent service, or controls other Work Items."
+    "User confirmed in the current conversation: WI-1119 itself records each started process and observed reap in its own Summary and exposes a separate final cleanup command for that WI; it never blindly signals an untrusted historical PID, adds a permanent service, or controls other Work Items.",
+    "User selected managed-process formal acceptance boundary in the current conversation on 2026-11-04: WI-registered and managed processes may support normal completion after confirmed reaping; unmanaged escaped descendants are not claimed cleaned. Preserve identity, Unknown on unconfirmed managed reaping, and no blind PID signaling."
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,

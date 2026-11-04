@@ -159,6 +159,11 @@ platforms. An absent or damaged entry is not proof of cleanup, and a reaped
 direct child does not prove that descendants exited. The ordinary
 `work-item ordinary-cleanup` command concerns branch/worktree resources and
 has a separate meaning. The command does not manage external `git` or `rm`.
+On macOS, formal command success covers registered processes owned by this WI
+after their direct Child has been reaped. The receipt records
+`unmanagedDescendantsUnproved`; Outcome states that unregistered escaped
+descendants were not proved to exit. An unknown managed identity or reaping
+result remains Unknown and cannot become a successful receipt or reusable node.
 
 
 Historical compatibility is explicit and low assurance. Legacy shared-primary

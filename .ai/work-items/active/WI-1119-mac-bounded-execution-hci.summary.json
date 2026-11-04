@@ -337,20 +337,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:dd44f2e45fa7662ea14e010ba2b693bb19b371f79882e7c6d6303d6499218d1b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:01a165cea453335d2325d788f0e32ddc15b196fefea4ff0e6427658b8fbdfe8a",
+      "reason": "The user explicitly chose formal acceptance scoped to processes actually registered and managed by this Work Item. A normal Mac attempt may complete when its managed processes have confirmed identity-bound reaping; unmanaged escaped descendants remain explicitly outside the proved cleanup scope. Unknown managed ownership or reaping still blocks pass and reuse. This replaces the earlier Mac-always-pending route without claiming full descendant closure, changing system permissions, or weakening unrelated gates.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T00:03:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d5b8aa0461d5766ce6b703632a2cae4bde65d98e436d48e956bdfa121a6e8a11",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:01a165cea453335d2325d788f0e32ddc15b196fefea4ff0e6427658b8fbdfe8a",
+    "contractDigest": "sha256:dd44f2e45fa7662ea14e010ba2b693bb19b371f79882e7c6d6303d6499218d1b",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
-    "reason": "The verified user confirmed the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for adding only the Chinese and Japanese process-cleanup command reference pages. This does not attest tests, material review, formal verification, completion or release.",
-    "recordedAt": "2026-11-03T23:26:58Z",
+    "preflightDecisionDigest": "sha256:41005be0730f0a3fd912f1cb5ed3a89486baeca3820fb76c6973b9420416c97f",
+    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for the WI-managed-process formal acceptance boundary. This confirms only Contract review, not implementation, tests, cleanup, completion or release.",
+    "recordedAt": "2026-11-04T00:42:38Z",
     "recordedBy": "user:parent-thread-approval",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:924db31fac061d8a06ca48e4ffeed3c9fb62fdb5257f6a2f6680435bcfeb4e82",
+    "repositorySnapshotDigest": "sha256:d5b8aa0461d5766ce6b703632a2cae4bde65d98e436d48e956bdfa121a6e8a11",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -377,10 +397,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-03T23:15:00Z",
-  "preflightContractDigest": "sha256:01a165cea453335d2325d788f0e32ddc15b196fefea4ff0e6427658b8fbdfe8a",
-  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
-  "preflightRepositorySnapshotDigest": "sha256:924db31fac061d8a06ca48e4ffeed3c9fb62fdb5257f6a2f6680435bcfeb4e82",
+  "preflightAt": "2026-11-04T00:11:36Z",
+  "preflightContractDigest": "sha256:dd44f2e45fa7662ea14e010ba2b693bb19b371f79882e7c6d6303d6499218d1b",
+  "preflightDecisionDigest": "sha256:41005be0730f0a3fd912f1cb5ed3a89486baeca3820fb76c6973b9420416c97f",
+  "preflightRepositorySnapshotDigest": "sha256:d5b8aa0461d5766ce6b703632a2cae4bde65d98e436d48e956bdfa121a6e8a11",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -528,11 +548,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-03T23:27:00.470874+00:00",
+  "updatedAt": "2026-11-04T00:42:42.308386+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:01a165cea453335d2325d788f0e32ddc15b196fefea4ff0e6427658b8fbdfe8a",
+    "contractHash": "sha256:dd44f2e45fa7662ea14e010ba2b693bb19b371f79882e7c6d6303d6499218d1b",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-03T22:43:45Z"
+    "recordedAt": "2026-11-04T00:03:35Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }

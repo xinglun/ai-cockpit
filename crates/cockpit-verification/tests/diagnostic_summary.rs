@@ -14,6 +14,7 @@ fn record(
         spawned: true,
         passed,
         command_result: None,
+        unmanaged_descendants_unproved: false,
         cleanup_uncertainty: None,
         exit_code,
         termination_signal: None,

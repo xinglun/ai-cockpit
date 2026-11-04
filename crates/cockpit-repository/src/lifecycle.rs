@@ -9312,6 +9312,8 @@ pub(super) fn record_process_results(
         }
         .into();
         entry["directChildReaped"] = reaped.into();
+        entry["unmanagedDescendantsUnproved"] =
+            record.unmanaged_descendants_unproved.into();
         entry["observedAt"] = now().into();
         entry["cleanupUncertainty"] =
             serde_json::to_value(&record.cleanup_uncertainty).map_err(|error| {

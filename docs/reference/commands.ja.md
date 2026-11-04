@@ -150,6 +150,11 @@ capabilityClaims:
 期限切れ、終了失敗、識別不能は Unknown として報告します。直接の子プロセスを回収
 しても、すべての子孫の終了は証明できません。保持したハンドルによる回収経路は現在
 macOS でのみ確立され、Linux と Windows は記録と Unknown の意味を共有します。
+macOS の正式なコマンド成功は、この WI が登録・保有し、直接の Child の回収を確認した
+プロセスだけを対象とします。receipt は `unmanagedDescendantsUnproved` を記録し、
+Outcome は未登録の離脱した子孫プロセスの終了が未証明であることを示します。管理対象の
+識別情報や回収が不明な場合は Unknown のままで、成功 receipt や再利用可能な node に
+できません。
 
 
 歴史互換は明示的かつ低 assurance でなければなりません。旧 shared-primary worktree の

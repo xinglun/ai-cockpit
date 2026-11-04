@@ -552,7 +552,7 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
 
 #[cfg(target_os = "macos")]
 #[test]
-fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
+fn mac_reaped_managed_command_can_pass_with_visible_scope_on_cold_read() {
     let directory = tempfile::tempdir().expect("isolated repository");
     let root: &::std::path::Path = directory.path();
     assert!(
@@ -640,16 +640,14 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     );
 
     let verification = run(&["verify", "--work-item", work_item_id, "--command", "true"]);
-    assert!(!verification.status.success());
+    assert!(verification.status.success());
     let receipt: serde_json::Value =
         serde_json::from_slice(&verification.stdout).expect("structured command result");
-    assert_eq!(receipt["passed"], false);
+    assert_eq!(receipt["passed"], true);
     assert_eq!(receipt["executionRecords"][0]["exitCode"], 0);
     assert_eq!(receipt["executionRecords"][0]["commandResult"], "succeeded");
-    assert_eq!(
-        receipt["executionRecords"][0]["cleanupUncertainty"]["phase"],
-        "mac_descendant_boundary"
-    );
+    assert!(receipt["executionRecords"][0]["cleanupUncertainty"].is_null());
+    assert_eq!(receipt["executionRecords"][0]["unmanagedDescendantsUnproved"], true);
     assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
     let summary: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")))
@@ -674,42 +672,11 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     assert_eq!(cleanup["descendantClosure"], "unknown");
     assert_eq!(cleanup["entries"], serde_json::json!(entries));
     assert!(
-        !root
-            .join(format!(".ai/evidence/{work_item_id}.verification.json"))
+        root.join(format!(".ai/evidence/{work_item_id}.verification.json"))
             .exists()
     );
 
-    let attempts = fs::read_dir(root.join(".ai/evidence"))
-        .expect("durable evidence directory")
-        .map(|entry| entry.expect("evidence entry"))
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .starts_with(&format!("{work_item_id}.verification-attempt."))
-        })
-        .map(|entry| {
-            serde_json::from_slice::<serde_json::Value>(
-                &fs::read(entry.path()).expect("attempt bytes"),
-            )
-            .expect("attempt JSON")
-        })
-        .collect::<Vec<_>>();
-    let attempt = attempts
-        .iter()
-        .find(|attempt| attempt["kind"] == "verification_attempt")
-        .expect("durable terminal attempt");
-    assert_eq!(attempt["state"], "cleanup_unknown");
-    assert_eq!(attempt["passed"], false);
-    assert_eq!(
-        attempt["receipt"]["executionRecords"],
-        receipt["executionRecords"]
-    );
-    assert_eq!(attempt["nodeExecutionFacts"], serde_json::json!([]));
-    assert_eq!(attempt["localNodeLinkState"], "not_applicable");
-
-    // Each CLI invocation is a new process: this is a cold read of the
-    // persisted attempt, not an in-memory projection from the verify call.
+    // Each CLI invocation is a new process reading the scoped formal receipt.
     let outcome = run(&["work-item", "outcome", "--id", work_item_id, "--json"]);
     assert!(
         outcome.status.success(),
@@ -718,16 +685,12 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     );
     let outcome: serde_json::Value =
         serde_json::from_slice(&outcome.stdout).expect("cold Outcome JSON");
-    assert!(
-        outcome["unknowns"]
-            .as_array()
-            .is_some_and(|unknowns| unknowns.iter().any(|unknown| {
-                unknown.as_str().is_some_and(|value| {
-                    value.starts_with("verification_attempt_cleanup_unknown:succeeded:")
-                })
-            })),
-        "cold Outcome must retain the command and cleanup distinction: {outcome}"
-    );
+    assert_eq!(outcome["decisionState"], "green");
+    assert!(outcome["unknowns"].as_array().is_some_and(|unknowns| {
+        unknowns.iter().any(|unknown| {
+            unknown.as_str() == Some("unmanaged_descendant_closure_unproved")
+        })
+    }));
 
     let human = run(&[
         "work-item",
@@ -745,17 +708,8 @@ fn mac_command_exit_and_cleanup_unknown_survive_cli_cold_read_without_reuse() {
     let human = String::from_utf8(human.stdout).expect("human Outcome UTF-8");
     assert!(human.starts_with("Outcome:"), "visible handoff is missing");
     assert!(
-        human
-            .contains("The command exited successfully; escaped descendant cleanup is unconfirmed"),
-        "human Outcome must separate the command result from cleanup: {human}"
-    );
-    assert!(
-        human.contains("awaits formal verification"),
-        "human Outcome must retain the completion boundary: {human}"
-    );
-    assert!(
-        !human.starts_with("Outcome: 🟢"),
-        "uncertain cleanup cannot display a green Outcome"
+        human.contains("unregistered escaped descendants"),
+        "human Outcome must state the bounded scope: {human}"
     );
 }
 

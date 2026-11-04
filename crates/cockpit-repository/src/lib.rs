@@ -17394,6 +17394,24 @@ fn outcome_v2_internal_with_snapshot_and_hook(
         current_runtime,
     )?;
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
+    // A validated Mac receipt can be green for its WI-managed processes while
+    // still making no claim about unregistered escaped descendants. Keep that
+    // limit visible in Outcome without turning it into a managed-cleanup
+    // failure or silently extending the receipt's scope.
+    if decision_state == DecisionState::Green
+        && read_json(&root.join(&evidence_ref)).ok().is_some_and(|evidence| {
+            evidence["receipt"]["executionRecords"]
+                .as_array()
+                .is_some_and(|records| {
+                    records.iter().any(|record| {
+                        record["unmanagedDescendantsUnproved"].as_bool() == Some(true)
+                    })
+                })
+        })
+    {
+        summary = "Verification passed for WI-managed processes; unregistered escaped descendants were not proved to exit.";
+        unknowns.push("unmanaged_descendant_closure_unproved".into());
+    }
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
     }

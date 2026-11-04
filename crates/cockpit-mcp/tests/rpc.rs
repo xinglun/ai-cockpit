@@ -2753,10 +2753,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     );
 
     let attempt = single_terminal_with_execution_checkpoints(directory.path(), work_item_id);
-    #[cfg(not(target_os = "macos"))]
     assert_eq!(attempt["state"], "execution_failed");
-    #[cfg(target_os = "macos")]
-    assert_eq!(attempt["state"], "cleanup_unknown");
     assert_eq!(attempt["passed"], false);
     assert_eq!(attempt["processesSpawned"], 1);
     assert_eq!(attempt["diagnostic"]["code"], "verification_execution");
@@ -2770,10 +2767,8 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     #[cfg(target_os = "macos")]
     {
         assert_eq!(record["commandResult"], "failed");
-        assert_eq!(
-            record["cleanupUncertainty"]["phase"],
-            "mac_descendant_boundary"
-        );
+        assert!(record["cleanupUncertainty"].is_null());
+        assert_eq!(record["unmanagedDescendantsUnproved"], true);
         assert_eq!(attempt["nodeExecutionFacts"], serde_json::json!([]));
         assert_eq!(attempt["localNodeLinkState"], "not_applicable");
         assert_eq!(
@@ -2785,7 +2780,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
                 .path()
                 .join(format!(".ai/evidence/{work_item_id}.verification.json"))
                 .exists(),
-            "cleanup Unknown cannot create formal verification evidence"
+            "a failed command cannot create formal verification evidence"
         );
     }
     assert!(record["elapsedMs"].is_u64());
@@ -2814,16 +2809,9 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
             &test_runtime_context(),
         );
         assert_eq!(outcome["result"]["isError"], false);
-        let unknowns = &outcome["result"]["structuredContent"]["outcome"]["unknowns"];
-        assert!(
-            unknowns
-                .as_array()
-                .is_some_and(|values| values.iter().any(|value| {
-                    value.as_str().is_some_and(|code| {
-                        code.starts_with("verification_attempt_cleanup_unknown:failed:")
-                    })
-                })),
-            "cold MCP Outcome must retain failed command and unknown cleanup: {outcome}"
+        assert_ne!(
+            outcome["result"]["structuredContent"]["outcome"]["decisionState"],
+            "green"
         );
     }
 }

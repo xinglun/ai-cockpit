@@ -83,7 +83,7 @@ fn cli_and_mcp_subprocesses_expose_equivalent_verification_decisions_and_metrics
     #[cfg(not(target_os = "macos"))]
     assert!(cli.status.success());
     #[cfg(target_os = "macos")]
-    assert!(!cli.status.success());
+    assert!(cli.status.success());
     let cli: serde_json::Value = serde_json::from_slice(&cli.stdout).expect("CLI JSON");
 
     let mut mcp = Command::new(binary)
@@ -126,15 +126,13 @@ fn cli_and_mcp_subprocesses_expose_equivalent_verification_decisions_and_metrics
     }
     #[cfg(target_os = "macos")]
     {
-        assert_eq!(cli["passed"], false);
-        assert_eq!(mcp["passed"], false);
+        assert_eq!(cli["passed"], true);
+        assert_eq!(mcp["passed"], true);
         for receipt in [&cli, mcp] {
             assert_eq!(receipt["executionRecords"][0]["exitCode"], 0);
             assert_eq!(receipt["executionRecords"][0]["commandResult"], "succeeded");
-            assert_eq!(
-                receipt["executionRecords"][0]["cleanupUncertainty"]["phase"],
-                "mac_descendant_boundary"
-            );
+            assert!(receipt["executionRecords"][0]["cleanupUncertainty"].is_null());
+            assert_eq!(receipt["executionRecords"][0]["unmanagedDescendantsUnproved"], true);
             assert_eq!(receipt["receiptCandidates"], serde_json::json!([]));
         }
     }
@@ -170,9 +168,8 @@ fn mcp_request(binary: &str, root: &Path, request: &serde_json::Value) -> serde_
 
 #[cfg(target_os = "macos")]
 #[test]
-fn mac_cli_hosted_mcp_preserves_command_result_cleanup_unknown_and_non_reuse() {
+fn mac_cli_hosted_mcp_preserves_failed_command_and_non_reuse() {
     for (work_item_id, program, args, exit_code, command_result) in [
-        ("WI-MCP-MAC-COMMAND-OK", "true", vec![], 0, "succeeded"),
         (
             "WI-MCP-MAC-COMMAND-FAIL",
             "python3",
@@ -246,11 +243,7 @@ fn mac_cli_hosted_mcp_preserves_command_result_cleanup_unknown_and_non_reuse() {
             vec![
                 "preflight",
                 "--contract",
-                if exit_code == 0 {
-                    ".ai/work-items/active/WI-MCP-MAC-COMMAND-OK.contract.json"
-                } else {
-                    ".ai/work-items/active/WI-MCP-MAC-COMMAND-FAIL.contract.json"
-                },
+                ".ai/work-items/active/WI-MCP-MAC-COMMAND-FAIL.contract.json",
             ],
             vec!["checkpoint", "--id", work_item_id],
         ] {
@@ -322,14 +315,12 @@ fn mac_cli_hosted_mcp_preserves_command_result_cleanup_unknown_and_non_reuse() {
         assert_eq!(attempts.len(), 1, "one durable terminal attempt");
         let attempt = &attempts[0];
         let record = &attempt["executionRecords"][0];
-        assert_eq!(attempt["state"], "cleanup_unknown");
+        assert_eq!(attempt["state"], "execution_failed");
         assert_eq!(attempt["passed"], false);
         assert_eq!(record["exitCode"], exit_code);
         assert_eq!(record["commandResult"], command_result);
-        assert_eq!(
-            record["cleanupUncertainty"]["phase"],
-            "mac_descendant_boundary"
-        );
+        assert!(record["cleanupUncertainty"].is_null());
+        assert_eq!(record["unmanagedDescendantsUnproved"], true);
         assert_eq!(
             attempt["receipt"]["receiptCandidates"],
             serde_json::json!([])
@@ -351,14 +342,9 @@ fn mac_cli_hosted_mcp_preserves_command_result_cleanup_unknown_and_non_reuse() {
             }),
         );
         assert_eq!(outcome["result"]["isError"], false);
-        let prefix = format!("verification_attempt_cleanup_unknown:{command_result}:");
-        assert!(
-            outcome["result"]["structuredContent"]["outcome"]["unknowns"]
-                .as_array()
-                .is_some_and(|values| values
-                    .iter()
-                    .any(|value| { value.as_str().is_some_and(|code| code.starts_with(&prefix)) })),
-            "fresh MCP process must retain command and cleanup facts: {outcome}"
+        assert_ne!(
+            outcome["result"]["structuredContent"]["outcome"]["decisionState"],
+            "green"
         );
 
         let runtime = cockpit_protocol::RuntimeContext {
@@ -402,7 +388,7 @@ fn mac_cli_hosted_mcp_preserves_command_result_cleanup_unknown_and_non_reuse() {
             )
             .expect("reuse admission")
             .is_none(),
-            "cleanup Unknown cannot be reused even with matching current identity"
+            "a failed command cannot be reused even with matching current identity"
         );
     }
 }
