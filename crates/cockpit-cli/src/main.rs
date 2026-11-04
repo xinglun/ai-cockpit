@@ -6830,8 +6830,7 @@ mod tests {
         issues
     }
 
-    #[test]
-    fn all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
+    fn check_all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
         for surface in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES {
             let description =
                 cockpit_protocol::interface_description_for_surface(surface).expect("description");
@@ -6885,6 +6884,18 @@ mod tests {
                 "extra actual field escaped"
             );
         }
+    }
+
+    #[test]
+    fn all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
+        // The complete derived Clap tree exceeds the default Linux test-thread
+        // stack during this exhaustive drift check. Keep every assertion intact.
+        std::thread::Builder::new()
+            .stack_size(16 * 1024 * 1024)
+            .spawn(check_all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift)
+            .expect("spawn CLI description check")
+            .join()
+            .expect("CLI description check")
     }
 
     #[test]
