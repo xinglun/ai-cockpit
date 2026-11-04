@@ -417,20 +417,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:afbfcc0f17f5dea4c5dd814dec2439d08d61a77bc488024b5df336afd31cb8cd",
+      "reason": "User approved two exact paths to reconcile WI-local processCleanup Summary entries from actual verification with the historical finish projection, retaining immutable execution binding, strict Summary integrity, existing safety assertions, and all verification gates.",
+      "recorded": true,
+      "recordedAt": "2026-11-04T05:19:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:afbfcc0f17f5dea4c5dd814dec2439d08d61a77bc488024b5df336afd31cb8cd",
+    "contractDigest": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:0ea6ff1e7bf7986e8c83c5146c93cbbb2adb2d31fda830ab0b4f4041bc72e49d",
-    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for three material-review test-path amendments. This confirms Contract review only, not test results, cleanup, completion or release.",
-    "recordedAt": "2026-11-04T04:47:00.109541Z",
-    "recordedBy": "user:Sentinel_067f11c9def881919ebf4770dc314999",
+    "preflightDecisionDigest": "sha256:5dfb8a99450bb5f900a818d52f8a683f43f7ecaf97f848ae3780b3a74684e890",
+    "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for two process-ledger finish-projection paths. This confirms review only, not test results, cleanup, completion or release.",
+    "recordedAt": "2026-11-04T05:27:30.035438Z",
+    "recordedBy": "user:Sentinel_7d53c4813d8c819198fcce5485f5c768",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:0ecabd171181a526837e5dc2a32b58b32ba34dcd93315ca2c9183ba398387691",
+    "repositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -457,10 +477,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-04T04:40:55Z",
-  "preflightContractDigest": "sha256:afbfcc0f17f5dea4c5dd814dec2439d08d61a77bc488024b5df336afd31cb8cd",
-  "preflightDecisionDigest": "sha256:0ea6ff1e7bf7986e8c83c5146c93cbbb2adb2d31fda830ab0b4f4041bc72e49d",
-  "preflightRepositorySnapshotDigest": "sha256:0ecabd171181a526837e5dc2a32b58b32ba34dcd93315ca2c9183ba398387691",
+  "preflightAt": "2026-11-04T05:24:58Z",
+  "preflightContractDigest": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+  "preflightDecisionDigest": "sha256:5dfb8a99450bb5f900a818d52f8a683f43f7ecaf97f848ae3780b3a74684e890",
+  "preflightRepositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -608,11 +628,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T04:49:04.750372+00:00",
+  "updatedAt": "2026-11-04T05:28:20.170896+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:afbfcc0f17f5dea4c5dd814dec2439d08d61a77bc488024b5df336afd31cb8cd",
+    "contractHash": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T03:56:52Z"
+    "recordedAt": "2026-11-04T05:19:32Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
