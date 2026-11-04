@@ -1818,12 +1818,18 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                     "invalid arguments for {name}: planOnly must be a boolean"
                 ));
             }
-            if let Some(value) = object.get("timeoutSeconds")
-                && value.as_u64().is_none_or(|seconds| seconds == 0)
-            {
-                return Err(format!(
-                    "invalid arguments for {name}: timeoutSeconds must be a positive integer"
-                ));
+            if let Some(value) = object.get("timeoutSeconds") {
+                let Some(seconds) = value.as_u64() else {
+                    return Err(format!(
+                        "invalid arguments for {name}: timeoutSeconds must be a positive integer"
+                    ));
+                };
+                if seconds == 0 || seconds > cockpit_protocol::MAX_VERIFICATION_TIMEOUT_SECONDS {
+                    return Err(format!(
+                        "invalid arguments for {name}: timeoutSeconds must be in the finite range 1..={}s",
+                        cockpit_protocol::MAX_VERIFICATION_TIMEOUT_SECONDS
+                    ));
+                }
             }
         }
         "work_item_parallel" => {
