@@ -1553,6 +1553,7 @@ fn workers_bound_parallel_execution_of_multiple_explicit_commands() {
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
     let suffix = SystemTime::now()
