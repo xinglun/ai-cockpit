@@ -237,7 +237,13 @@
     "crates/cockpit-protocol/src/lib.rs",
     "crates/cockpit-repository/src/task_authorization.rs",
     "docs/reference/commands.zh-CN.md",
-    "docs/reference/commands.ja.md"
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-repository/tests/verification_context.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-repository/tests/verification_attempts.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

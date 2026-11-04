@@ -907,6 +907,13 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
     assert_eq!(cli_outcome["workItemId"], id);
     assert_eq!(mcp_outcome["workItemId"], id);
     assert_eq!(cli_outcome["decisionState"], "green");
+    #[cfg(target_os = "macos")]
+    assert_eq!(
+        cli_outcome["governanceReasons"],
+        serde_json::json!(["unmanaged_descendant_closure_unproved"]),
+        "Mac Outcome must retain the unmanaged-descendant proof boundary: {cli_outcome}"
+    );
+    #[cfg(not(target_os = "macos"))]
     assert!(
         cli_outcome["governanceReasons"].is_null()
             || cli_outcome["governanceReasons"]

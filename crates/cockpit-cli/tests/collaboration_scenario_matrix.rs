@@ -510,6 +510,13 @@ fn assert_outcome_semantics_equal(
             .is_some_and(|unknowns| !unknowns.is_empty()),
         "fixture must expose at least one explicit unknown"
     );
+    #[cfg(target_os = "macos")]
+    assert_eq!(
+        cli_outcome["governanceReasons"],
+        serde_json::json!(["unmanaged_descendant_closure_unproved"]),
+        "Mac fixture must preserve the unmanaged-descendant proof boundary: {cli_outcome}"
+    );
+    #[cfg(not(target_os = "macos"))]
     assert!(
         cli_outcome["governanceReasons"].is_null()
             || cli_outcome["governanceReasons"]
