@@ -3764,7 +3764,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         first.failure.is_some()
             && first.failure.as_deref()
                 != Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
-        first.isolated_worktree.exists(),
+        Path::new(&first.isolated_worktree).exists(),
         fs::canonicalize(&first.isolated_worktree).is_ok(),
         first.cleanup_disposition,
         first.owned_tree_termination_unknown,
