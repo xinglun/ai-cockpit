@@ -30,6 +30,38 @@ use std::time::Duration;
 #[cfg(target_os = "linux")]
 use std::time::Instant;
 
+fn redacted_attempt_state(attempt: &CompositionAttempt) -> String {
+    let lsof_partial_status_one = attempt.failure.as_deref().is_some_and(|failure| {
+        failure.starts_with("verifier_process_state_unknown:lsof exited with status Some(1)")
+    });
+    format!(
+        "passed={} outcome={:?} evidence_complete={} cleanup={:?} cleanup_attempted={} cleanup_removed={} cleanup_error={} owned_tree_unknown={} processes_spawned={} records={} receipt_present={} owner_pid_present={} lsof_partial_status_one={} other_failure={}",
+        attempt.passed,
+        attempt.execution_outcome,
+        attempt.execution_evidence_complete,
+        attempt.cleanup_disposition,
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted),
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.removed),
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.error.is_some()),
+        attempt.owned_tree_termination_unknown,
+        attempt.processes_spawned,
+        attempt.execution_records.len(),
+        attempt.supervisor_receipt.is_some(),
+        attempt.owner_pid.is_some(),
+        lsof_partial_status_one,
+        attempt.failure.is_some() && !lsof_partial_status_one,
+    )
+}
+
 #[cfg(target_os = "linux")]
 #[test]
 fn external_default_feature_consumer_cannot_compile_test_support_seam() {
@@ -1143,7 +1175,11 @@ fn coherent_supervisor_receipt_is_required_for_a_successful_terminal() {
     };
     attempt.supervisor_receipt = Some(receipt);
 
-    assert!(attempt.is_coherent_successful_terminal());
+    assert!(
+        attempt.is_coherent_successful_terminal(),
+        "synthetic receipt coherence failed: {}",
+        redacted_attempt_state(&attempt),
+    );
     attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
     assert!(!attempt.is_coherent_successful_terminal());
     attempt.cleanup_disposition = CompositionCleanupDisposition::Cleaned;
@@ -3729,7 +3765,11 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     );
     let first =
         run_composition_with_pure_cache_test_supervisor(first_input).expect("first attempt");
-    assert!(first.passed);
+    assert!(
+        first.passed,
+        "first source attempt failed: {}",
+        redacted_attempt_state(&first),
+    );
 
     run(root.path(), &["checkout", "-q", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
