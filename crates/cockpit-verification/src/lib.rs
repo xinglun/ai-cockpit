@@ -3802,7 +3802,7 @@ impl UnixSupervisorMessagePipe {
                 .fail("verification supervisor emitted data after its terminal message".into());
         }
         self.eof = self.reader.eof();
-        if self.eof && !self.terminal {
+        if self.eof && !self.terminal && self.pending.is_empty() {
             return self.fail("verification supervisor closed before a complete outcome".into());
         }
         Ok(())
@@ -6030,6 +6030,47 @@ mod supervisor_startup_channel_tests {
     }
 
     #[test]
+    fn unix_pipe_delivers_started_before_reporting_missing_outcome() {
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "supervisor_startup_channel_tests::startup_channel_fixture",
+                "--nocapture",
+                "--test-threads=1",
+            ])
+            .env(FIXTURE_MODE, "immediate-start")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("spawn finite test-owned startup fixture");
+        let child_pid = child.id();
+        child
+            .stdin
+            .take()
+            .expect("fixture stdin")
+            .write_all(&vec![b'x'; REQUEST_SIZE])
+            .expect("send fixture request");
+        assert!(child.wait().expect("reap fixture").success());
+        let (messages, mut reader) =
+            supervisor_message_transport(child.stderr.take().expect("fixture stderr"))
+                .expect("real Unix pipe transport");
+        let started = messages.recv_timeout(Duration::from_secs(1));
+        assert!(
+            matches!(started, Ok(Ok(VerificationSupervisorMessage::Started {
+                process_id: Some(pid), error: None
+            })) if pid == child_pid),
+            "complete Started frame must preserve the observed PID before EOF: {started:?}"
+        );
+        let missing = messages.recv_timeout(Duration::from_secs(1));
+        assert!(
+            matches!(missing, Ok(Err(ref reason)) if reason.contains("closed before a complete outcome")),
+            "missing Outcome must remain a protocol failure: {missing:?}"
+        );
+        join_startup_reader(&mut reader);
+    }
+
+    #[test]
     fn missing_request_pipe_remains_a_request_error() {
         let (_sender, receiver) = mpsc::sync_channel(4);
         let receiver = VerificationSupervisorMessages::from_channel(receiver);
@@ -8155,7 +8196,7 @@ while not marker.exists() and time.monotonic()<deadline:
             5,
             supervisor,
         );
-        assert_ne!(child_pid, 0);
+        assert_ne!(child_pid, 0, "missing observed PID; receipt: {receipt:?}");
         assert!(!receipt.passed);
         assert!(receipt.receipt_candidates.is_empty());
         let record = &receipt.execution_records[0];
