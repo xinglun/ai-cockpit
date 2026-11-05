@@ -2113,6 +2113,66 @@ fn failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag() {
 fn inherited_path_cannot_substitute_a_composition_verifier() {
     use std::os::unix::fs::PermissionsExt;
 
+    fn binding_diagnostic() -> String {
+        let valid_optional_home = |key| {
+            std::env::var_os(key).is_none_or(|value| {
+                let path = PathBuf::from(value);
+                path.is_absolute()
+                    && fs::symlink_metadata(&path).is_ok_and(|metadata| {
+                        metadata.is_dir() && !metadata.file_type().is_symlink()
+                    })
+            })
+        };
+        let home = std::env::var_os("HOME").map(PathBuf::from);
+        let mut candidates = Vec::new();
+        if let Some(home) = &home {
+            candidates.push(home.join(".cargo/bin"));
+        }
+        if let Some(cargo_home) = std::env::var_os("CARGO_HOME") {
+            let cargo_home = PathBuf::from(cargo_home);
+            if cargo_home.is_absolute() {
+                candidates.push(cargo_home.join("bin"));
+            }
+        }
+        candidates.extend(
+            [
+                "/usr/bin",
+                "/bin",
+                "/usr/local/bin",
+                "/opt/homebrew/bin",
+                "/opt/local/bin",
+            ]
+            .into_iter()
+            .map(PathBuf::from),
+        );
+        let trusted_roots = candidates
+            .into_iter()
+            .filter_map(|path| fs::canonicalize(path).ok())
+            .filter(|path| path.is_dir())
+            .collect::<Vec<_>>();
+        let first_cargo = trusted_roots
+            .iter()
+            .map(|root| root.join("cargo"))
+            .find(|path| {
+                fs::metadata(path).is_ok_and(|metadata| {
+                    metadata.is_file() && metadata.permissions().mode() & 0o111 != 0
+                })
+            });
+        let identity_trusted = first_cargo.as_ref().and_then(|path| {
+            fs::canonicalize(path)
+                .ok()
+                .map(|identity| trusted_roots.iter().any(|root| identity.starts_with(root)))
+        });
+        format!(
+            "home_canonical={} cargo_home_valid={} rustup_home_valid={} trusted_roots_present={} cargo_found={} cargo_identity_trusted={identity_trusted:?}",
+            home.is_none_or(|path| fs::canonicalize(path).is_ok()),
+            valid_optional_home("CARGO_HOME"),
+            valid_optional_home("RUSTUP_HOME"),
+            !trusted_roots.is_empty(),
+            first_cargo.is_some(),
+        )
+    }
+
     if std::env::var_os("COMPOSITION_HOSTILE_PATH_CHILD").is_some() {
         let root = PathBuf::from(std::env::var_os("COMPOSITION_HOSTILE_PATH_ROOT").expect("root"));
         let state =
@@ -2134,7 +2194,12 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         );
         assert!(
             attempt.passed,
-            "the Runtime-bound cargo verifier must pass: {attempt:?}"
+            "the Runtime-bound cargo verifier must pass: outcome={:?} executable_unbound={} spawned={} fake_cargo_ran={} binding_diagnostic={}",
+            attempt.execution_outcome,
+            attempt.failure.as_deref() == Some("composition_executable_unbound"),
+            attempt.processes_spawned,
+            marker.exists(),
+            binding_diagnostic(),
         );
         assert_eq!(attempt.processes_spawned, 1);
 
@@ -3691,10 +3756,16 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     .expect("first attempt");
     assert!(
         first.passed,
-        "first dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        "first dependency attempt: outcome={:?} complete={} lsof_partial_status_one={} other_failure={} worktree_present={} worktree_canonical={} cleanup={:?} owned_tree_unknown={} node_results={:?}",
         first.execution_outcome,
         first.execution_evidence_complete,
-        first.failure,
+        first.failure.as_deref()
+            == Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+        first.failure.is_some()
+            && first.failure.as_deref()
+                != Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+        first.isolated_worktree.exists(),
+        fs::canonicalize(&first.isolated_worktree).is_ok(),
         first.cleanup_disposition,
         first.owned_tree_termination_unknown,
         first
