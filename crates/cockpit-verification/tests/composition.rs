@@ -3756,7 +3756,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     .expect("first attempt");
     assert!(
         first.passed,
-        "first dependency attempt: outcome={:?} complete={} lsof_partial_status_one={} other_failure={} worktree_present={} worktree_canonical={} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        "first dependency attempt: outcome={:?} complete={} lsof_partial_status_one={} other_failure={} post_failure_worktree_present={} post_failure_worktree_canonical={} cleanup={:?} owned_tree_unknown={} node_results={:?}",
         first.execution_outcome,
         first.execution_evidence_complete,
         first.failure.as_deref()
