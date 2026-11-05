@@ -2113,6 +2113,15 @@ fn failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag() {
 fn inherited_path_cannot_substitute_a_composition_verifier() {
     use std::os::unix::fs::PermissionsExt;
 
+    fn shell_literal(path: &Path) -> String {
+        format!(
+            "'{}'",
+            path.to_str()
+                .expect("fixture marker path is UTF-8")
+                .replace('\'', "'\\''")
+        )
+    }
+
     fn binding_diagnostic() -> String {
         let valid_optional_home = |key| {
             std::env::var_os(key).is_none_or(|value| {
@@ -2178,8 +2187,8 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         let state =
             PathBuf::from(std::env::var_os("COMPOSITION_HOSTILE_PATH_STATE").expect("state"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
-        let marker =
-            PathBuf::from(std::env::var_os("COMPOSITION_FAKE_CARGO_MARKER").expect("marker path"));
+        let marker = state.join("fake-cargo-ran");
+        let trusted_marker = state.join("trusted-cargo-ran");
         let attempt = run_composition(input(
             &root,
             &state,
@@ -2194,14 +2203,17 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         );
         assert!(
             attempt.passed,
-            "the Runtime-bound cargo verifier must pass: outcome={:?} executable_unbound={} spawned={} fake_cargo_ran={} binding_diagnostic={}",
+            "the test-owned trusted cargo fixture must pass: outcome={:?} executable_unbound={} spawned={} fake_cargo_ran={} trusted_cargo_ran={} binding_diagnostic={}",
             attempt.execution_outcome,
             attempt.failure.as_deref() == Some("composition_executable_unbound"),
             attempt.processes_spawned,
             marker.exists(),
+            trusted_marker.exists(),
             binding_diagnostic(),
         );
         assert_eq!(attempt.processes_spawned, 1);
+        assert!(trusted_marker.exists(), "the trusted fixture must run");
+        fs::remove_file(&trusted_marker).expect("reset trusted fixture marker");
 
         let mut unbound_override = input(
             &root,
@@ -2216,7 +2228,15 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         );
         let rejected = run_composition(unbound_override).expect("reject unbound override");
         assert!(!rejected.passed);
+        assert_eq!(
+            rejected.failure.as_deref(),
+            Some("unbound_runtime_environment_override")
+        );
         assert_eq!(rejected.processes_spawned, 0);
+        assert!(
+            !trusted_marker.exists(),
+            "an unbound overlay must not start the trusted fixture"
+        );
         assert!(
             !marker.exists(),
             "an unbound toolchain overlay must be rejected before process start"
@@ -2227,15 +2247,34 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
     let root = repository();
     let state = tempdir("hostile-path-state");
     let fake_bin = tempdir("hostile-path-bin");
+    let trusted_home = tempdir("trusted-cargo-home");
+    let cargo_home = trusted_home.path().join(".cargo");
+    let trusted_bin = cargo_home.join("bin");
+    fs::create_dir_all(&trusted_bin).expect("create test-owned trusted cargo bin");
     let marker = state.path().join("fake-cargo-ran");
+    let trusted_marker = state.path().join("trusted-cargo-ran");
     let fake_cargo = fake_bin.path().join("cargo");
     fs::write(
         &fake_cargo,
-        "#!/bin/sh\nprintf forged > \"$COMPOSITION_FAKE_CARGO_MARKER\"\nexit 0\n",
+        format!(
+            "#!/bin/sh\nprintf forged > {}\nexit 0\n",
+            shell_literal(&marker)
+        ),
     )
     .expect("write fake cargo");
     fs::set_permissions(&fake_cargo, fs::Permissions::from_mode(0o755))
         .expect("make fake cargo executable");
+    let trusted_cargo = trusted_bin.join("cargo");
+    fs::write(
+        &trusted_cargo,
+        format!(
+            "#!/bin/sh\n[ -z \"${{RUSTUP_TOOLCHAIN+x}}\" ] || exit 41\n[ -z \"${{RUSTFLAGS+x}}\" ] || exit 42\nprintf trusted > {}\n",
+            shell_literal(&trusted_marker)
+        ),
+    )
+    .expect("write trusted cargo fixture");
+    fs::set_permissions(&trusted_cargo, fs::Permissions::from_mode(0o755))
+        .expect("make trusted cargo fixture executable");
 
     let mut paths = vec![fake_bin.path().to_path_buf()];
     if let Some(system_path) = std::env::var_os("PATH") {
@@ -2250,7 +2289,8 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         .env("COMPOSITION_HOSTILE_PATH_CHILD", "1")
         .env("COMPOSITION_HOSTILE_PATH_ROOT", root.path())
         .env("COMPOSITION_HOSTILE_PATH_STATE", state.path())
-        .env("COMPOSITION_FAKE_CARGO_MARKER", &marker)
+        .env("HOME", trusted_home.path())
+        .env("CARGO_HOME", &cargo_home)
         .env("PATH", inherited_path)
         .env("RUSTUP_TOOLCHAIN", "missing-runtime-toolchain")
         .env("RUSTFLAGS", "--runtime-must-not-inherit-this")
