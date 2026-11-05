@@ -2264,6 +2264,12 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
     .expect("write fake cargo");
     fs::set_permissions(&fake_cargo, fs::Permissions::from_mode(0o755))
         .expect("make fake cargo executable");
+    let fake_probe = Command::new(&fake_cargo)
+        .status()
+        .expect("probe test-owned fake cargo marker");
+    assert!(fake_probe.success());
+    assert!(marker.exists(), "fake cargo marker must detect execution");
+    fs::remove_file(&marker).expect("reset fake cargo marker before composition");
     let trusted_cargo = trusted_bin.join("cargo");
     fs::write(
         &trusted_cargo,
