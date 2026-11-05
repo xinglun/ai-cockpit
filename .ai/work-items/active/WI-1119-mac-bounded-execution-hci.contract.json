@@ -259,7 +259,8 @@
     ".github/workflows/ci.yml",
     "tests/ci/workflow_convergence_test.sh",
     "crates/cockpit-repository/src/collaboration.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-git/tests/repository.rs"
   ],
   "sources": [
     "main commit 66c6461313019f1e734c5ecd3eead874575a48eb",

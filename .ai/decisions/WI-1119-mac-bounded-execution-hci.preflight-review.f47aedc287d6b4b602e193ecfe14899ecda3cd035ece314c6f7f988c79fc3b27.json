@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1ff88f96e122c8fe1fa191effaf449f637fb492de9fb94f8e71d68ea8a461983",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7eebeeea7ff16acc3fd3ed2c22c5361c253ba17a7ffd98e61f1a1f70270674c4",
+  "reason": "The user explicitly replied Confirm review to the current WI-1119 request showing this exact Contract, preflight, and snapshot binding. This authorizes only diagnostic changes to crates/cockpit-git/tests/repository.rs and does not approve a production fix or weaken output-limit or process-reaping assertions.",
+  "recordedAt": "2026-11-05T07:31:52Z",
+  "recordedBy": "user:current-conversation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ae17c257b19988f90e913554544b70abe77240eb85ab1b938b648568b20287b9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}
