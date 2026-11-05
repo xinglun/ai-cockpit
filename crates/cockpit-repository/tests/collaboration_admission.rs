@@ -764,6 +764,7 @@ fn declare_required_checks(root: &Path, work_item_id: &str, checks: &[String]) {
     .expect("write typed Contract checks");
 }
 
+#[cfg(not(target_os = "macos"))]
 fn declare_required_check_coverage(
     root: &Path,
     work_item_id: &str,
