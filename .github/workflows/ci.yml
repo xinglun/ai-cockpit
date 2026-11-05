@@ -488,6 +488,16 @@ jobs:
               stream.flush()
               os.fsync(stream.fileno())
           PYPROVENANCE
+      - name: Record quality disk before gates
+        if: steps.quality_route.outputs.profile != 'light'
+        shell: bash
+        run: |
+          set -euo pipefail
+          free_kib="$(df -Pk "$GITHUB_WORKSPACE" 2>/dev/null | awk 'NR == 2 {print $4}' || true)"
+          build_kib="$(du -sk "$GITHUB_WORKSPACE/target/evidence-stage-predecessor/build" 2>/dev/null | awk '{print $1}' || true)"
+          [[ "$free_kib" =~ ^[0-9]+$ ]] || free_kib=unknown
+          [[ "$build_kib" =~ ^[0-9]+$ ]] || build_kib=unknown
+          printf 'workspace_free_kib=%s\npredecessor_build_kib=%s\n' "$free_kib" "$build_kib"
       - name: run repository gates exactly once
         shell: bash
         env:
@@ -522,6 +532,16 @@ jobs:
             gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)
           fi
           "${gate_args[@]}"
+      - name: Record quality disk after gates
+        if: always() && steps.quality_route.outputs.profile != 'light'
+        shell: bash
+        run: |
+          set -euo pipefail
+          free_kib="$(df -Pk "$GITHUB_WORKSPACE" 2>/dev/null | awk 'NR == 2 {print $4}' || true)"
+          build_kib="$(du -sk "$GITHUB_WORKSPACE/target/evidence-stage-predecessor/build" 2>/dev/null | awk '{print $1}' || true)"
+          [[ "$free_kib" =~ ^[0-9]+$ ]] || free_kib=unknown
+          [[ "$build_kib" =~ ^[0-9]+$ ]] || build_kib=unknown
+          printf 'workspace_free_kib=%s\npredecessor_build_kib=%s\n' "$free_kib" "$build_kib"
       - name: verify workspace package coverage receipt
         if: steps.quality_route.outputs.profile != 'light'
         shell: bash
