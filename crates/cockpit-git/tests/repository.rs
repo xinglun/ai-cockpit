@@ -547,7 +547,7 @@ fn bounded_output_overflow_terminates_git_filter_process_group() {
     fs::write(
         &helper,
         format!(
-            "#!/bin/sh\nprintf called > '{}'\nprintf 'filter overflow\\n' >&2\nsleep 2\ncat\n",
+            "#!/bin/sh\nsleep 2 &\nsleep_pid=$!\nkill -0 \"$sleep_pid\" || exit 1\nprintf called > '{}'\nprintf 'filter overflow\\n' >&2\nwait \"$sleep_pid\"\ncat\n",
             marker.display()
         ),
     )
