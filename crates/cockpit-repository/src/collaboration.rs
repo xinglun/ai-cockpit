@@ -5750,7 +5750,10 @@ mod composition_channel_deadline_tests {
             result.is_err(),
             "late Ready received a renewed budget: {result:?}"
         );
-        assert!(elapsed < Duration::from_millis(500), "read took {elapsed:?}");
+        assert!(
+            elapsed < Duration::from_millis(500),
+            "read took {elapsed:?}"
+        );
     }
 
     #[test]
