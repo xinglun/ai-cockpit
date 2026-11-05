@@ -5815,10 +5815,10 @@ fn exchange_verification_supervisor_startup(
     startup_timeout: Duration,
 ) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
     exchange_verification_supervisor_startup_with_writer(
-        |deadline| match stdin {
+        |_deadline| match stdin {
             #[cfg(unix)]
             Some(stdin) => {
-                write_verification_supervisor_request_until(stdin, request_bytes, deadline)
+                write_verification_supervisor_request_until(stdin, request_bytes, _deadline)
             }
             #[cfg(not(unix))]
             Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
