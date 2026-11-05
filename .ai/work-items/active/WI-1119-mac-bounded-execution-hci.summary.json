@@ -557,20 +557,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:125376263af3dfe16d9f268165c54144670be6d83b2d3a7c0b3678f0c1c6c9b7",
+      "reason": "The owner approved a test-only repair after PR #1079 Mac CI observed one composition deadline fixture fail at 113.86 ms against a 100 ms scheduling assertion while its negative result remained an error. Remove the exact file exclusion and add only that same file to scope, solely to make two bounded deadline tests prove pre-EOF failure with controlled producer release and finite elapsed checks. Preserve production behavior, negative outcomes, and every other exclusion.",
+      "recorded": true,
+      "recordedAt": "2026-11-05T00:57:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b73f565d11b74c9b8e9f821f4eab32cc35f9cb8f9d6e23ab4410ab3752d55288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:125376263af3dfe16d9f268165c54144670be6d83b2d3a7c0b3678f0c1c6c9b7",
+    "contractDigest": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
-    "reason": "The user explicitly confirmed this exact WI-1119 four-binding review to add only tests/ci/workflow_convergence_test.sh to scope for the two Windows cleanup commands. Existing strict command inventory checks remain. This does not claim validation, merge, or release.",
-    "recordedAt": "2026-11-04T14:00:44.248239Z",
-    "recordedBy": "user:Sentinel_65bf0deb9c6481919e66dc53e9b22293",
+    "preflightDecisionDigest": "sha256:cfc6c346ca79cb0592e033ba2bdd5420725676a89d9c658a85783270240e177b",
+    "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, preflight, snapshot, and Runtime binding for adding only collaboration.rs to scope for two bounded deadline test fixes. This records the actual human review, not test success, completion, merge, or release.",
+    "recordedAt": "2026-11-05T01:02:53Z",
+    "recordedBy": "user:current-conversation",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:efe424fe5ad64433f3ff2aa7195c43d60f2711c047a0f2fac8ab0df0238948a4",
+    "repositorySnapshotDigest": "sha256:b73f565d11b74c9b8e9f821f4eab32cc35f9cb8f9d6e23ab4410ab3752d55288",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -597,8 +617,8 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-05T00:27:23Z",
-  "preflightContractDigest": "sha256:125376263af3dfe16d9f268165c54144670be6d83b2d3a7c0b3678f0c1c6c9b7",
+  "preflightAt": "2026-11-05T00:58:34Z",
+  "preflightContractDigest": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
   "preflightDecisionDigest": "sha256:cfc6c346ca79cb0592e033ba2bdd5420725676a89d9c658a85783270240e177b",
   "preflightRepositorySnapshotDigest": "sha256:b73f565d11b74c9b8e9f821f4eab32cc35f9cb8f9d6e23ab4410ab3752d55288",
   "preflightState": "yellow",
@@ -756,11 +776,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-04T14:02:46.955733+00:00",
+  "updatedAt": "2026-11-05T01:03:14.159734+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:125376263af3dfe16d9f268165c54144670be6d83b2d3a7c0b3678f0c1c6c9b7",
+    "contractHash": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-04T13:58:10Z"
+    "recordedAt": "2026-11-05T00:57:34Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }
