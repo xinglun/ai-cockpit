@@ -5814,18 +5814,31 @@ fn exchange_verification_supervisor_startup(
     receiver: &VerificationSupervisorMessages,
     startup_timeout: Duration,
 ) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
+    exchange_verification_supervisor_startup_with_writer(
+        |deadline| match stdin {
+            #[cfg(unix)]
+            Some(stdin) => {
+                write_verification_supervisor_request_until(stdin, request_bytes, deadline)
+            }
+            #[cfg(not(unix))]
+            Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
+            None => Err(std::io::Error::new(
+                std::io::ErrorKind::BrokenPipe,
+                "verification supervisor stdin pipe is unavailable",
+            )),
+        },
+        receiver,
+        startup_timeout,
+    )
+}
+
+fn exchange_verification_supervisor_startup_with_writer(
+    write_request: impl FnOnce(Instant) -> std::io::Result<()>,
+    receiver: &VerificationSupervisorMessages,
+    startup_timeout: Duration,
+) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
     let deadline = Instant::now() + startup_timeout;
-    let write_result = match stdin {
-        #[cfg(unix)]
-        Some(stdin) => write_verification_supervisor_request_until(stdin, request_bytes, deadline),
-        #[cfg(not(unix))]
-        Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
-        None => Err(std::io::Error::new(
-            std::io::ErrorKind::BrokenPipe,
-            "verification supervisor stdin pipe is unavailable",
-        )),
-    };
-    write_result.map_err(VerificationSupervisorStartupError::Request)?;
+    write_request(deadline).map_err(VerificationSupervisorStartupError::Request)?;
     let remaining = deadline.saturating_duration_since(Instant::now());
     if remaining.is_zero() {
         return Err(VerificationSupervisorStartupError::Receive(
@@ -5871,18 +5884,12 @@ mod supervisor_startup_channel_tests {
             std::thread::sleep(Duration::from_millis(700));
             std::process::exit(0);
         }
-        if mode == "delayed-start" {
-            std::thread::sleep(Duration::from_millis(300));
-        }
         let mut request = vec![0_u8; REQUEST_SIZE];
         std::io::stdin()
             .lock()
             .read_exact(&mut request)
             .expect("fixture reads the exact transport payload");
         assert!(request.iter().all(|byte| *byte == b'x'));
-        if mode == "delayed-start" {
-            std::thread::sleep(Duration::from_millis(300));
-        }
         write_supervisor_start_message(Some(std::process::id()), None)
             .expect("fixture sends a real Started frame");
         std::process::exit(0);
@@ -5984,20 +5991,45 @@ mod supervisor_startup_channel_tests {
         );
     }
 
-    // Request backpressure consumes roughly 300 ms; Started arrives roughly
-    // 600 ms after launch. A fresh 450 ms allowance after writing incorrectly
-    // accepts it; one deadline for both phases must reject it.
+    // An actual socket write and read complete before the receive phase.
+    // A queued Started cannot gain a fresh deadline after that shared budget
+    // expires. This tests the phase boundary without assuming process startup
+    // or a large pipe transfer finishes within a narrow wall-clock window.
     #[test]
     fn request_and_started_share_one_startup_deadline() {
-        let (mut child, receiver, reader) = fixture("delayed-start");
-        let request = vec![b'x'; REQUEST_SIZE];
-        let result = exchange_verification_supervisor_startup(
-            child.stdin.as_mut(),
-            &request,
-            &receiver,
-            Duration::from_millis(450),
+        use std::os::unix::net::UnixStream;
+
+        let (mut writer, mut reader) = UnixStream::pair().expect("owned startup socket pair");
+        let (sender, receiver) = mpsc::sync_channel(1);
+        let messages = VerificationSupervisorMessages::from_channel(receiver);
+        let request = b"request\n";
+        let started = Instant::now();
+        let mut write_completed_at = None;
+        let result = exchange_verification_supervisor_startup_with_writer(
+            |deadline| {
+                supervisor_pipe::write_until(&mut writer, request, deadline)?;
+                let mut observed = [0_u8; 8];
+                reader.read_exact(&mut observed)?;
+                assert_eq!(&observed, request, "fixture read the complete request");
+                write_completed_at = Some(started.elapsed());
+                sender
+                    .send(Ok(VerificationSupervisorMessage::Started {
+                        process_id: Some(123),
+                        error: None,
+                    }))
+                    .expect("queue a complete Started frame");
+                while Instant::now() < deadline {
+                    std::thread::sleep(Duration::from_millis(1));
+                }
+                Ok(())
+            },
+            &messages,
+            Duration::from_millis(250),
         );
-        finish_fixture(child, reader);
+        assert!(
+            write_completed_at.is_some(),
+            "request write must finish before testing receive: {result:?}"
+        );
         assert!(
             matches!(
                 result,
@@ -6005,7 +6037,7 @@ mod supervisor_startup_channel_tests {
                     mpsc::RecvTimeoutError::Timeout
                 ))
             ),
-            "late Started must not get a new full budget: {result:?}",
+            "queued Started must not get a fresh deadline after request write at {write_completed_at:?}: {result:?}",
         );
     }
 
