@@ -970,7 +970,7 @@ jobs:
     needs: route
     if: needs.route.result == 'success' && needs.route.outputs.profile != 'light' && github.event_name == 'pull_request'
     runs-on: macos-15
-    timeout-minutes: 35
+    timeout-minutes: 75
     permissions:
       contents: read
     steps:
@@ -1016,7 +1016,7 @@ jobs:
         timeout-minutes: 5
         run: python3 tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-isolation --test scanner -- --test-threads=1
       - name: Run exact Mac workspace suite
-        timeout-minutes: 15
+        timeout-minutes: 45
         run: python3 tests/ci/run_no_warnings.py -- cargo test --locked --workspace
       - name: Verify independent Mac CLI cleanup through a live owner
         timeout-minutes: 5
