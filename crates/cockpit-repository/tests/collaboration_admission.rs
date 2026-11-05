@@ -1039,7 +1039,10 @@ fn composition_requires_full_descendant_supervision_before_spawning_on_mac() {
             .contains("full-owned-descendant supervision is unsupported"),
         "unexpected refusal: {error}"
     );
-    assert!(!marker.exists(), "refused composition must not spawn its command");
+    assert!(
+        !marker.exists(),
+        "refused composition must not spawn its command"
+    );
 }
 
 #[test]
