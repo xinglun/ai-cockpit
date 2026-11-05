@@ -577,20 +577,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:90459600eb26698b26744b152b1c8718e8d229ab17c3e499fbb45412a76b3ebf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4076319ce9862c2226d93eea87233df1b9a2e7c2695bd0ac832681d8b8360f01",
+      "previousContractHash": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
+      "reason": "User approved adding only crates/cockpit-repository/tests/lifecycle_entry.rs to WI-1119 scope to repair the Mac bounded-output regression test. Preserve Mac output-cap nonpassing behavior and Linux/Windows successful bounded-output behavior; no production safety or acceptance change.",
+      "recorded": true,
+      "recordedAt": "2026-11-05T04:16:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f660d86ab66ea3abbf5ef164ddc828a2da135882bbda74deab594fb99256364",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:84a2e568433ed2b983db06c12cd6f5fa8375c2e0bf49a5db0e327d0f4def67ad",
   "createdAt": "2026-11-03T02:44:47Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
+    "contractDigest": "sha256:90459600eb26698b26744b152b1c8718e8d229ab17c3e499fbb45412a76b3ebf",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:cfc6c346ca79cb0592e033ba2bdd5420725676a89d9c658a85783270240e177b",
-    "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, preflight, snapshot, and Runtime binding for adding only collaboration.rs to scope for two bounded deadline test fixes. This records the actual human review, not test success, completion, merge, or release.",
-    "recordedAt": "2026-11-05T01:02:53Z",
+    "preflightDecisionDigest": "sha256:fefb3651ea6433d98e4e1bf8681bd97de91da0e7ec673a18caa3b9e9247fe068",
+    "reason": "The user explicitly replied confirm_review to the current WI-1119 request showing the exact Contract, preflight, and snapshot binding for adding only lifecycle_entry.rs to scope for the Mac bounded-output test correction. This records actual human review, not test success, completion, merge, or release.",
+    "recordedAt": "2026-11-05T04:21:49Z",
     "recordedBy": "user:current-conversation",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b73f565d11b74c9b8e9f821f4eab32cc35f9cb8f9d6e23ab4410ab3752d55288",
+    "repositorySnapshotDigest": "sha256:7f660d86ab66ea3abbf5ef164ddc828a2da135882bbda74deab594fb99256364",
     "schemaVersion": 1,
     "workItemId": "WI-1119-mac-bounded-execution-hci"
   },
@@ -617,10 +637,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-11-05T01:45:54Z",
-  "preflightContractDigest": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
-  "preflightDecisionDigest": "sha256:fefb3651ea6433d98e4e1bf8681bd97de91da0e7ec673a18caa3b9e9247fe068",
-  "preflightRepositorySnapshotDigest": "sha256:7f660d86ab66ea3abbf5ef164ddc828a2da135882bbda74deab594fb99256364",
+  "preflightAt": "2026-11-05T04:25:52Z",
+  "preflightContractDigest": "sha256:90459600eb26698b26744b152b1c8718e8d229ab17c3e499fbb45412a76b3ebf",
+  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+  "preflightRepositorySnapshotDigest": "sha256:e47c3d0cf05e126e46c48d36f75d40fd236fab0f4e6da324a8ce1ad2f67cd8a8",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -776,11 +796,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-11-05T01:03:14.159734+00:00",
+  "updatedAt": "2026-11-05T04:22:03.576385+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
+    "contractHash": "sha256:90459600eb26698b26744b152b1c8718e8d229ab17c3e499fbb45412a76b3ebf",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-11-05T00:57:34Z"
+    "recordedAt": "2026-11-05T04:16:54Z"
   },
   "workItemId": "WI-1119-mac-bounded-execution-hci"
 }

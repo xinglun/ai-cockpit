@@ -2040,22 +2040,50 @@ fn typed_verification_with_bounded_output_stays_current_at_preflight() {
     let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
     receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
     receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
-    record_verification_with_runtime(
-        directory.path(),
-        work_item_id,
-        &receipt,
-        &runtime,
-        &run.final_snapshot,
-    )
-    .expect("record verification");
+    #[cfg(target_os = "macos")]
+    {
+        let error = record_verification_with_runtime(
+            directory.path(),
+            work_item_id,
+            &receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect_err("truncated Mac output cannot become completion evidence");
+        assert!(
+            error
+                .to_string()
+                .contains("failed verification cannot be recorded as completion evidence"),
+            "unexpected rejection: {error}"
+        );
+        assert_ne!(
+            work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+                .expect("post-verification status")
+                .verification,
+            "verified",
+            "truncated Mac output must not verify the Work Item"
+        );
+    }
 
-    assert_eq!(
-        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
-            .expect("post-verification status")
-            .verification,
-        "verified",
-        "bounded diagnostic output is not contradictory evidence"
-    );
+    #[cfg(not(target_os = "macos"))]
+    {
+        record_verification_with_runtime(
+            directory.path(),
+            work_item_id,
+            &receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect("record verification");
+
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+                .expect("post-verification status")
+                .verification,
+            "verified",
+            "bounded diagnostic output is not contradictory evidence"
+        );
+    }
 }
 
 #[test]

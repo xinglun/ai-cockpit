@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:90459600eb26698b26744b152b1c8718e8d229ab17c3e499fbb45412a76b3ebf",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:fefb3651ea6433d98e4e1bf8681bd97de91da0e7ec673a18caa3b9e9247fe068",
+  "reason": "The user explicitly replied confirm_review to the current WI-1119 request showing the exact Contract, preflight, and snapshot binding for adding only lifecycle_entry.rs to scope for the Mac bounded-output test correction. This records actual human review, not test success, completion, merge, or release.",
+  "recordedAt": "2026-11-05T04:21:49Z",
+  "recordedBy": "user:current-conversation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f660d86ab66ea3abbf5ef164ddc828a2da135882bbda74deab594fb99256364",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}
