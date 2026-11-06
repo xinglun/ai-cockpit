@@ -12768,21 +12768,20 @@ mod cross_checkout_closeout_tests {
                 .chars()
                 .take_while(|character| character.is_ascii_hexdigit() || *character == '/')
                 .collect::<String>();
-            if let Some((directory, file)) = object.split_once('/') {
-                if directory.len() == 2
-                    && file.len() == 38
-                    && directory
-                        .chars()
-                        .all(|character| character.is_ascii_hexdigit())
-                    && file.chars().all(|character| character.is_ascii_hexdigit())
-                {
-                    state.push_str(&format!(
-                        ", source_object={}, destination_object_parent={}, destination_object={}",
-                        observed_path_state(&source.join(".git/objects").join(&object)),
-                        observed_path_state(&destination.join(".git/objects").join(directory)),
-                        observed_path_state(&destination.join(".git/objects").join(&object)),
-                    ));
-                }
+            if let Some((directory, file)) = object.split_once('/')
+                && directory.len() == 2
+                && file.len() == 38
+                && directory
+                    .chars()
+                    .all(|character| character.is_ascii_hexdigit())
+                && file.chars().all(|character| character.is_ascii_hexdigit())
+            {
+                state.push_str(&format!(
+                    ", source_object={}, destination_object_parent={}, destination_object={}",
+                    observed_path_state(&source.join(".git/objects").join(&object)),
+                    observed_path_state(&destination.join(".git/objects").join(directory)),
+                    observed_path_state(&destination.join(".git/objects").join(&object)),
+                ));
             }
         }
         state
