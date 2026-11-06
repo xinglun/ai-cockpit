@@ -9027,7 +9027,11 @@ fn historical_attempt_binds_input(
         });
         let covered = valid
             && typed.plan_receipt.as_ref().is_some_and(|plan| {
-                historical_commands_cover_contract(predecessor.contract(), plan, &by_id)
+                historical_commands_cover_declarations(
+                    &predecessor.contract().verification,
+                    plan.coverage_manifest.as_ref(),
+                    &by_id,
+                )
             })
             && by_id.len() == typed.results.len()
             && typed
@@ -9063,13 +9067,14 @@ fn historical_attempt_binds_input(
     Ok(false)
 }
 
-fn historical_commands_cover_contract(
-    contract: &cockpit_protocol::Contract,
-    plan: &cockpit_verification::VerificationPlanReceipt,
+fn historical_commands_cover_declarations(
+    declarations: &[cockpit_protocol::VerificationDeclaration],
+    manifest: Option<&cockpit_verification::VerificationCoverageManifest>,
     commands: &BTreeMap<&str, &serde_json::Value>,
 ) -> bool {
     let mut covered = BTreeSet::new();
-    for (index, declaration) in contract.verification.iter().enumerate() {
+    let mut manifest_source_matched = false;
+    for (index, declaration) in declarations.iter().enumerate() {
         let (node, text) = match declaration {
             cockpit_protocol::VerificationDeclaration::Legacy(text) => {
                 (format!("project-command-{index}"), text)
@@ -9093,18 +9098,20 @@ fn historical_commands_cover_contract(
             return false;
         }
         if *program == "cargo" && args.contains(&"--workspace") {
-            let Some(manifest) = plan.coverage_manifest.as_ref() else {
+            let Some(manifest) = manifest else {
                 return false;
             };
-            if manifest.source_program != *program
-                || manifest
-                    .source_args
-                    .iter()
-                    .map(String::as_str)
-                    .ne(args.iter().copied())
-            {
+            if manifest.source_program != *program {
                 return false;
             }
+            // The receipt carries one workspace-membership manifest, bound to
+            // its source command. Other declared workspace commands may use
+            // that same member set only when each expanded argv is exact.
+            manifest_source_matched |= manifest
+                .source_args
+                .iter()
+                .map(String::as_str)
+                .eq(args.iter().copied());
             for member in &manifest.workspace_members {
                 let id = format!("{node}-package-{member}");
                 let Some(command) = commands.get(id.as_str()) else {
@@ -9139,7 +9146,68 @@ fn historical_commands_cover_contract(
             }
         }
     }
-    !covered.is_empty() && covered.len() == commands.len()
+    !covered.is_empty()
+        && covered.len() == commands.len()
+        && (manifest.is_none() || manifest_source_matched)
+}
+
+#[cfg(test)]
+mod historical_workspace_command_tests {
+    use super::*;
+
+    #[test]
+    fn one_manifest_covers_two_exact_workspace_commands_but_no_forged_argv() {
+        let declarations = [
+            cockpit_protocol::VerificationDeclaration::Legacy("cargo clippy --workspace".into()),
+            cockpit_protocol::VerificationDeclaration::Legacy("cargo test --workspace".into()),
+        ];
+        let manifest = cockpit_verification::VerificationCoverageManifest {
+            schema_version: 1,
+            source_program: "cargo".into(),
+            source_args: vec!["clippy".into(), "--workspace".into()],
+            planning_program: "cargo".into(),
+            planning_args: Vec::new(),
+            planning_processes_spawned: 0,
+            metadata_digest: "sha256:0000000000000000000000000000000000000000000000000000000000000000".into(),
+            workspace_members: vec!["a".into(), "b".into()],
+            node_ids: Vec::new(),
+            command_digests: Vec::new(),
+        };
+        let mut owned = BTreeMap::from([
+            (
+                "project-command-0-package-a",
+                serde_json::json!({"program":"cargo","args":["clippy","--package","a"]}),
+            ),
+            (
+                "project-command-0-package-b",
+                serde_json::json!({"program":"cargo","args":["clippy","--package","b"]}),
+            ),
+            (
+                "project-command-1-package-a",
+                serde_json::json!({"program":"cargo","args":["test","--package","a"]}),
+            ),
+            (
+                "project-command-1-package-b",
+                serde_json::json!({"program":"cargo","args":["test","--package","b"]}),
+            ),
+        ]);
+        let covers = |owned: &BTreeMap<&str, serde_json::Value>,
+                      manifest: &cockpit_verification::VerificationCoverageManifest| {
+            let commands = owned.iter().map(|(id, value)| (*id, value)).collect();
+            historical_commands_cover_declarations(&declarations, Some(manifest), &commands)
+        };
+        assert!(covers(&owned, &manifest));
+        owned.get_mut("project-command-1-package-a").unwrap()["args"] =
+            serde_json::json!(["test", "--package", "a", "--nocapture"]);
+        assert!(!covers(&owned, &manifest));
+        owned.get_mut("project-command-1-package-a").unwrap()["args"] =
+            serde_json::json!(["test", "--package", "a"]);
+        let mut unrelated_manifest = manifest.clone();
+        unrelated_manifest.source_args = vec!["build".into(), "--workspace".into()];
+        assert!(!covers(&owned, &unrelated_manifest));
+        owned.remove("project-command-1-package-b");
+        assert!(!covers(&owned, &manifest));
+    }
 }
 
 fn verification_evidence_state_from_value_with_predecessor(
