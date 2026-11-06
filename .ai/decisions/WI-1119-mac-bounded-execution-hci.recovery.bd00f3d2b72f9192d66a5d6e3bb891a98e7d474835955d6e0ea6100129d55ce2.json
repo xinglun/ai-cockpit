@@ -1,0 +1,28 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "current conversation: user replied 确认 to WI-1120 as WI-1119 successor for PR #1079 ready, necessary re-verification, and merge; release is a separate Work Item",
+  "decidedAt": "2026-11-06T20:30:03Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.archive.json",
+    ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:09ff4787f3ef9cd706473dacfb97b1700d5ff2792f25ef1917fb1912cc66f624",
+  "predecessorEventsDigest": "sha256:44da6405097f7165d847f623f4562331a8101ffbf1e99ebee912fc65c35caba5",
+  "predecessorOutcomeDigest": "sha256:79414a5819f5a4c41a43fdc943c3bd2cff7e0068d5339d67d6caa8d6927ab49d",
+  "predecessorSummaryDigest": "sha256:cdc06dd0c3f007e6092e425261e63dc5c7556a298ad3cd32afadb1990c138893",
+  "predecessorWorkItemId": "WI-1119-mac-bounded-execution-hci",
+  "reason": "The archived WI-1119 task authorization omits ready_pull_request and merge_pull_request. The owner explicitly selected WI-1120 to handle PR #1079 integration and necessary verification. Preserve all historical Unknown and failed CI evidence; include diagnosis of current Mac CI failures before merge. Release remains a separate Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-1120 must bind its own scope and authority, resolve or honestly block Mac CI failures, complete fresh required verification and hosted checks, then perform only Runtime-admitted PR integration.",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1120-wi1119-integration",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

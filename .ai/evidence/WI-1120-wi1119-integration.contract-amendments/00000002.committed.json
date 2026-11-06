@@ -1,0 +1,69 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:2802a89735e8c538125dee813bccaf4497781cea580d77980c981696e5cef859",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 2,
+    "changeId": "wi1120-high-risk-scenario-plan",
+    "requestDigest": "sha256:49cd8117c27dc0a00769ec0b65ced9da23a92b8bddcd503b83bc255e7e8000f1",
+    "reason": "Declare concrete high-risk safety and integration scenarios before Mac CI diagnosis and successor verification.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
+            "expectedOutcome": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
+            "expectedResult": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
+            "required": true,
+            "scenario": "mac_partial_lsof_unknown",
+            "status": "unverified",
+            "verificationPlan": "Use the exact Mac composition test and its existing redacted state diagnostics; inspect CI #5271 failure separately from a controlled complete-observation fixture. Assert both the safe Unknown branch and the meaningful source-change/reuse branch without weakening production lsof parsing."
+          },
+          {
+            "evidence": [],
+            "expected": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
+            "expectedOutcome": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
+            "expectedResult": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
+            "required": true,
+            "scenario": "mac_exact_identity_reuse",
+            "status": "unverified",
+            "verificationPlan": "Add non-sensitive state diagnostics to the existing failed assertion, run the targeted Mac test, determine the actual failure category, and retain positive exact-identity and changed-command checks in the correction."
+          },
+          {
+            "evidence": [],
+            "expected": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
+            "expectedOutcome": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
+            "expectedResult": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
+            "required": true,
+            "scenario": "cross_platform_pr_integration",
+            "status": "unverified",
+            "verificationPlan": "Run the Contract checks, collect the new exact-head CI job conclusions and source binding, query Runtime admission for ready and merge, then verify main after merge."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5ad0e2dd58cb13491009abf96187b07e8f807c0a1f5de6b91d38c26857608111",
+    "newContractDigest": "sha256:a9e762870e40c68c56edfc61c1edeee0f93b0061c3ac44b9e858222c1f7d3838",
+    "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+    "environmentObservationDigest": "sha256:46fc8a20a8ba5ed61d2f6aa99e96e4e9eb80d2c642f10b979b803eee4ab05f3f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:3164e58ac6afaca7e6c1d6d6fd0dd49ceb6710ffb910061266a9d5459327b781",
+    "journalDigest": "sha256:8f74e189665068464fd55b4c39277bb61635be866fbcace635c94aafae24516f",
+    "recordedAt": "2026-11-06T20:33:42Z"
+  }
+}

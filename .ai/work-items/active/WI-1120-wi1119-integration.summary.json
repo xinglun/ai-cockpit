@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1119-mac-bounded-execution-hci.recovery.bd00f3d2b72f9192d66a5d6e3bb891a98e7d474835955d6e0ea6100129d55ce2.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-11-06T20:30:56Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:09ff4787f3ef9cd706473dacfb97b1700d5ff2792f25ef1917fb1912cc66f624",
+  "predecessorWorkItemId": "WI-1119-mac-bounded-execution-hci",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1119-mac-bounded-execution-hci.recovery.bd00f3d2b72f9192d66a5d6e3bb891a98e7d474835955d6e0ea6100129d55ce2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-11-06T20:30:56Z",
+  "workItemId": "WI-1120-wi1119-integration"
+}
