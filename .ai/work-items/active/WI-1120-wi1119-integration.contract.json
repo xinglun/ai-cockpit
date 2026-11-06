@@ -14,7 +14,7 @@
   "authority": "authorized",
   "authorityEvidence": null,
   "baseCommit": null,
-  "baseRevision": "38b376410241cc4a7485b5ff2e37a8faaef12aae",
+  "baseRevision": "66c6461313019f1e734c5ecd3eead874575a48eb",
   "baselineDirtyPaths": [],
   "checkpointPolicy": null,
   "concurrencyBoundary": null,
@@ -62,9 +62,9 @@
   "notCodable": null,
   "operation": null,
   "outOfScope": [
-    "Changing production process ownership, lsof fail-closed interpretation, or Unknown-to-clean classification without a separately reviewed amendment",
+    "Changing production process ownership or lsof fail-closed interpretation or Unknown-to-clean classification without a separately reviewed amendment",
     "Rewriting WI-1119 archive or failed CI evidence",
-    "Release tags, public Releases, release metadata, or installer publication",
+    "Release tags or public Releases or release metadata or installer publication",
     "Unrelated Work Items and tests"
   ],
   "performanceImpact": null,
@@ -93,30 +93,36 @@
   "rollbackPlan": null,
   "scenarioCoverage": [
     {
+      "description": "Mac partial lsof observation and selective source-change execution.",
       "evidence": [],
       "expected": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
       "expectedOutcome": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
       "expectedResult": "A status-1 lsof listing with nonempty stdout remains incomplete: the attempt reports Unknown, does not pass or reuse, and retains the owned worktree. On an ordinary complete observation, the same source-change test exercises only nodes whose input changed.",
+      "reason": "Required to preserve fail-closed Mac process ownership while testing source-change selectivity.",
       "required": true,
       "scenario": "mac_partial_lsof_unknown",
       "status": "unverified",
       "verificationPlan": "Use the exact Mac composition test and its existing redacted state diagnostics; inspect CI #5271 failure separately from a controlled complete-observation fixture. Assert both the safe Unknown branch and the meaningful source-change/reuse branch without weakening production lsof parsing."
     },
     {
+      "description": "Mac exact-identity execution and changed-command invalidation.",
       "evidence": [],
       "expected": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
       "expectedOutcome": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
       "expectedResult": "The first exact-identity execution must either pass with complete evidence or expose its specific safe failure state; a failed attempt cannot be reused or presented as success. A passing attempt still rejects reuse after command identity changes.",
+      "reason": "Required to distinguish first-attempt failure from exact-identity reuse.",
       "required": true,
       "scenario": "mac_exact_identity_reuse",
       "status": "unverified",
       "verificationPlan": "Add non-sensitive state diagnostics to the existing failed assertion, run the targeted Mac test, determine the actual failure category, and retain positive exact-identity and changed-command checks in the correction."
     },
     {
+      "description": "Linux, Mac and Windows PR integration evidence.",
       "evidence": [],
       "expected": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
       "expectedOutcome": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
       "expectedResult": "The corrected PR head passes required Linux, Mac and Windows hosted jobs and local native verification before the exact head is made ready and merged into main; historical Unknown remains unchanged.",
+      "reason": "Required to bind exact-head hosted checks and main integration.",
       "required": true,
       "scenario": "cross_platform_pr_integration",
       "status": "unverified",
@@ -132,7 +138,7 @@
     "GitHub CI #5271 Mac job https://github.com/xinglun/ai-cockpit/actions/runs/42277722612/job/128100299304",
     "User confirmed WI-1120 as successor for PR ready, necessary re-verification and merge in current conversation"
   ],
-  "state": "not_ready",
+  "state": "implementation_active",
   "synchronizationCheckpoint": null,
   "synchronizationHistory": [],
   "title": null,

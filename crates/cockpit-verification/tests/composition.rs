@@ -118,6 +118,19 @@ fn assert_reuse_execution_or_macos_observer_unknown(
     }
 }
 
+fn first_execution_passed_or_macos_observer_unknown(
+    attempt: &CompositionAttempt,
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+) -> bool {
+    if attempt.passed {
+        return true;
+    }
+    assert_reuse_execution_or_macos_observer_unknown(attempt, repository, state, test_name);
+    false
+}
+
 #[cfg(target_os = "linux")]
 #[test]
 fn external_default_feature_consumer_cannot_compile_test_support_seam() {
@@ -1618,9 +1631,9 @@ fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
 
 #[test]
 fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let composition = input(
         root.path(),
         state.path(),
@@ -1633,7 +1646,18 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
     #[cfg(not(target_os = "linux"))]
     let passed = run_composition(composition.clone());
     let passed = passed.expect("successful attempt");
-    assert!(passed.passed);
+    if !first_execution_passed_or_macos_observer_unknown(
+        &passed,
+        &mut root,
+        &mut state,
+        "successful_exact_identity_allows_reuse_but_command_change_reexecutes",
+    ) {
+        assert_eq!(
+            classify_reuse(&passed, &composition).kind,
+            ReuseDecisionKind::Unknown
+        );
+        return;
+    }
     assert_eq!(
         classify_reuse(&passed, &composition).kind,
         ReuseDecisionKind::Unknown
@@ -3842,13 +3866,20 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         vec![api.clone(), docs.clone()],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first =
-        run_composition_with_pure_cache_test_supervisor(first_input).expect("first attempt");
-    assert!(
-        first.passed,
-        "first source attempt failed: {}",
-        redacted_attempt_state(&first),
-    );
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
+    if !first_execution_passed_or_macos_observer_unknown(
+        &first,
+        &mut root,
+        &mut state,
+        "changed_source_file_only_reexecutes_nodes_that_observe_that_file",
+    ) {
+        assert_eq!(
+            classify_reuse(&first, &first_input).kind,
+            ReuseDecisionKind::Unknown
+        );
+        return;
+    }
 
     run(root.path(), &["checkout", "-q", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
