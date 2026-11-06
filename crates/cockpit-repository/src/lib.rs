@@ -9168,7 +9168,8 @@ mod historical_workspace_command_tests {
             planning_program: "cargo".into(),
             planning_args: Vec::new(),
             planning_processes_spawned: 0,
-            metadata_digest: "sha256:0000000000000000000000000000000000000000000000000000000000000000".into(),
+            metadata_digest:
+                "sha256:0000000000000000000000000000000000000000000000000000000000000000".into(),
             workspace_members: vec!["a".into(), "b".into()],
             node_ids: Vec::new(),
             command_digests: Vec::new(),
@@ -9191,11 +9192,12 @@ mod historical_workspace_command_tests {
                 serde_json::json!({"program":"cargo","args":["test","--package","b"]}),
             ),
         ]);
-        let covers = |owned: &BTreeMap<&str, serde_json::Value>,
-                      manifest: &cockpit_verification::VerificationCoverageManifest| {
-            let commands = owned.iter().map(|(id, value)| (*id, value)).collect();
-            historical_commands_cover_declarations(&declarations, Some(manifest), &commands)
-        };
+        let covers =
+            |owned: &BTreeMap<&str, serde_json::Value>,
+             manifest: &cockpit_verification::VerificationCoverageManifest| {
+                let commands = owned.iter().map(|(id, value)| (*id, value)).collect();
+                historical_commands_cover_declarations(&declarations, Some(manifest), &commands)
+            };
         assert!(covers(&owned, &manifest));
         owned.get_mut("project-command-1-package-a").unwrap()["args"] =
             serde_json::json!(["test", "--package", "a", "--nocapture"]);

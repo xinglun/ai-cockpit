@@ -421,6 +421,76 @@ fn blocked_material_recovery_reports_the_first_current_guard() {
 }
 
 #[test]
+fn source_change_before_first_material_review_admits_only_preflight_refresh() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let before: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    assert!(before.get("materialReviewReceipt").is_none());
+    let old_outcome_path = active.join(format!("{id}.outcome.json"));
+    let old_outcome = fs::read(&old_outcome_path).expect("failed Outcome");
+
+    let source_path = root.join("src/material.rs");
+    let mut source = fs::read_to_string(&source_path).expect("source");
+    source.push_str("\n// Same-Contract source correction before first material review.\n");
+    fs::write(&source_path, source).expect("source correction");
+    commit_all(
+        root,
+        "commit source correction before first material review",
+    );
+
+    let stale = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("stale status");
+    assert!(stale.blocking);
+    assert!(
+        stale.safe_actions.contains(&"run_preflight".into()),
+        "{stale:#?}"
+    );
+    for action in [
+        "record_material_review_decision",
+        "run_verification",
+        "finish",
+    ] {
+        assert!(
+            !stale.safe_actions.contains(&action.into()),
+            "{action}: {stale:#?}"
+        );
+        require_current_action_admission(root, id, action, &runtime())
+            .expect_err("stale binding cannot grant review or execution");
+    }
+    assert_eq!(
+        fs::read(&old_outcome_path).expect("immutable Outcome"),
+        old_outcome
+    );
+    assert_eq!(
+        serde_json::from_slice::<Value>(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON")["decisionEvidence"],
+        before["decisionEvidence"]
+    );
+
+    require_current_action_admission(root, id, "run_preflight", &runtime())
+        .expect("bounded first-review preflight refresh");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    preflight_work_item_with_runtime_report(root, &contract_path, &runtime())
+        .expect("refresh preflight after source correction");
+    let refreshed =
+        work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("refreshed status");
+    assert!(
+        refreshed
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    assert!(!refreshed.safe_actions.contains(&"run_verification".into()));
+    assert_eq!(
+        fs::read(&old_outcome_path).expect("immutable Outcome"),
+        old_outcome
+    );
+}
+
+#[test]
 fn source_change_after_material_review_admits_only_preflight_refresh() {
     let directory = blocked_material_amendment_fixture();
     let root = directory.path();

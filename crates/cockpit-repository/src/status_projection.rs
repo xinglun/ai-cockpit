@@ -1795,9 +1795,19 @@ fn work_item_status_snapshot_with_snapshot(
             ready
         }};
     }
-    // A valid material receipt can become stale after an in-scope source
-    // commit while the same-Contract human review remains valid. Refresh only
-    // the prior nonred preflight; all other recovery guards remain shared.
+    // An in-scope source commit can stale the preflight before the first
+    // material review, or after an existing receipt becomes stale. In the
+    // first case, require that no prior receipt pointer or sidecar exists;
+    // removing a recorded pointer must not create a refresh route.
+    let first_material_review_pending = summary["materialReviewReceipt"].is_null()
+        && summary["materialReviewReceiptHistory"].is_null()
+        && fs::symlink_metadata(
+            root.join(".ai/evidence/material-inspection-review")
+                .join(work_item_id),
+        )
+        .is_err_and(|error| error.kind() == std::io::ErrorKind::NotFound);
+    // Refresh only the prior nonred, same-Contract preflight; all other
+    // recovery guards remain shared and recording still needs a current bind.
     let material_preflight_refresh_binding = !preflight_binding_current
         && summary["preflightContractDigest"].as_str() == Some(contract_digest_string.as_str())
         && matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
@@ -1807,7 +1817,8 @@ fn work_item_status_snapshot_with_snapshot(
                 digest.parse::<Digest>().is_ok() && digest != snapshot_digest_string
             })
         && material_review_decision_available
-        && material_unknowns.contains(&"material_review_receipt_stale".into());
+        && (first_material_review_pending
+            || material_unknowns.contains(&"material_review_receipt_stale".into()));
     // A current ordinary retry may span an in-scope source commit. Collect
     // only its missing current preflight before allowing material recording;
     // never turn a stale bind or eligible Unknown into accepted evidence.
