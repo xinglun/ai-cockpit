@@ -413,6 +413,87 @@ fn main() {
         assert_eq!(fs::read(&first_summary_path).unwrap(), before_first);
         assert_eq!(fs::read(&second_summary_path).unwrap(), before_second);
     }
+
+    // A second actual verification start in this WI times out before direct
+    // reaping is confirmed. This models the durable Unknown boundary; the
+    // separate supervisor-death test exercises loss of the real owner.
+    let unknown_started = gate.path().join("unknown-started");
+    let unknown_release = gate.path().join("unknown-release");
+    let uncertain = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(first_root)
+        .args(["--work-item", first_id, "--command"])
+        .arg(&executable)
+        .arg("--args")
+        .arg(format!(
+            "{},{}",
+            unknown_started.display(),
+            unknown_release.display()
+        ))
+        .args(["--timeout-seconds", "1"])
+        .output()
+        .expect("run bounded uncertain verifier");
+    fs::write(&unknown_release, b"release").expect("release test-owned verifier");
+    assert!(
+        unknown_started.is_file(),
+        "uncertain verifier never started"
+    );
+    assert!(
+        !uncertain.status.success(),
+        "timeout must fail verification"
+    );
+    let failed: serde_json::Value =
+        serde_json::from_slice(&uncertain.stdout).expect("failed verification receipt");
+    assert_eq!(failed["passed"], false);
+    assert_eq!(failed["executionRecords"][0]["spawned"], true);
+    assert_eq!(failed["executionRecords"][0]["timedOut"], true);
+
+    let unknown_bytes = fs::read(&first_summary_path).expect("same-WI Unknown Summary");
+    let unknown_summary: serde_json::Value =
+        serde_json::from_slice(&unknown_bytes).expect("same-WI Summary JSON");
+    let unknown_entries = unknown_summary["processCleanup"]["entries"]
+        .as_array()
+        .expect("same-WI process ledger");
+    assert_eq!(unknown_entries.len(), 3);
+    assert_eq!(unknown_entries[0], entries[0]);
+    assert_eq!(unknown_entries[1], entries[1]);
+    assert_eq!(unknown_entries[2]["state"], "unknown");
+    assert_eq!(unknown_entries[2]["directChildReaped"], false);
+    assert!(unknown_entries[2]["processId"].as_u64().is_some());
+
+    for _ in 0..2 {
+        for (root, id, before) in [
+            (first_root, first_id, &unknown_bytes),
+            (second.path(), second_id, &before_second),
+        ] {
+            let output = Command::new(binary)
+                .args(["work-item", "process-cleanup", "--repo"])
+                .arg(root)
+                .args(["--id", id])
+                .output()
+                .expect("independent cold cleanup command");
+            assert!(
+                output.status.success(),
+                "cold cleanup {id}: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            let report: serde_json::Value =
+                serde_json::from_slice(&output.stdout).expect("cold cleanup report");
+            assert_eq!(report["workItemId"], id);
+            assert_eq!(report["ownersContacted"], 0);
+            if id == first_id {
+                assert_eq!(report["state"], "unknown");
+                assert_eq!(report["unresolvedCount"], 1);
+                assert_eq!(report["entries"], serde_json::json!(unknown_entries));
+            } else {
+                assert_eq!(report["unresolvedCount"], 0);
+            }
+            assert_eq!(
+                fs::read(root.join(format!(".ai/work-items/active/{id}.summary.json"))).unwrap(),
+                *before
+            );
+        }
+    }
 }
 
 #[test]
