@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:40a0f8c8a8942e3fbfabc27194c30f04d6ac34c2cd644dd1b715e5373467c338",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:cc0ce30940cc2effcfc6d0ee8a43bc09bc071459d1045e7d1f134dce915ead14",
+  "reason": "The user replied \"confirm review\" to the exact WI-1119 900-second task-verification timeout amendment and its displayed Contract, Preflight, and Snapshot binding in the current conversation. The Agent records that user response; this field does not claim the Agent is the human reviewer.",
+  "recordedAt": "2026-11-05T15:50:41Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

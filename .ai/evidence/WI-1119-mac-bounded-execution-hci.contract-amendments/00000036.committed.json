@@ -1,0 +1,116 @@
+{
+  "sequence": 36,
+  "preparedDigest": "sha256:6121baf027e3fc68fcfc080cd7a49e437cb11e07872e712e246b70f98a2b3185",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 36,
+    "changeId": "WI-1119-material-inspection-review-opt-in",
+    "requestDigest": "sha256:3c8c9fc5f3cf2a9004a56159492b6d5549d70ce1192b64d7ead9abc858e17237",
+    "reason": "Allow exact self-declared technical review of four readable committed Rust syntax Unknowns; preserve scanner Unknown and residual risk. Requires explicit owner confirmation.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "process_cleanup",
+              "publish_branch",
+              "create_pull_request"
+            ],
+            "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision; conversation: user approved public push of the WI-1119 local branch to github.com/xinglun/ai-cockpit on 2026-11-04, subject to exact source and native review; conversation:Sentinel_61e1ca9a071c8191963776fed5e1e585 (user approved creating a WI-1119 draft PR to trigger Windows CI at 2026-11-04T08:19:45Z; no merge or release)",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "conversation:WI-1119 user explicitly approved agent self-declared technical review of only four listed Rust test files and accepted scanner-not-Clean residual risk on 2026-11-06",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "process_cleanup",
+              "publish_branch",
+              "create_pull_request"
+            ],
+            "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision; conversation: user approved public push of the WI-1119 local branch to github.com/xinglun/ai-cockpit on 2026-11-04, subject to exact source and native review; conversation:Sentinel_61e1ca9a071c8191963776fed5e1e585 (user approved creating a WI-1119 draft PR to trigger Windows CI at 2026-11-04T08:19:45Z; no merge or release)",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+    "newContractDigest": "sha256:4ea92fcfb719416d00d28a08f2a36f0fcc82009a564b9daac98b9c46e55547e9",
+    "repositorySnapshotDigest": "sha256:12b6908c5bdc4313cce854ad06cfc6f7c7d42a01471d72c8597ac8f537e48564",
+    "environmentObservationDigest": "sha256:46fc8a20a8ba5ed61d2f6aa99e96e4e9eb80d2c642f10b979b803eee4ab05f3f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1119-mac-bounded-execution-hci.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:91133a023697730296dd5e57129629a68da3d2bb9884a3bc0c544d5fab928f33",
+    "journalDigest": "sha256:74b8f488d77e1a4c9a4c077be821aa63bad4d10552baee54400ea856e725ca79",
+    "recordedAt": "2026-11-06T11:21:35Z"
+  }
+}

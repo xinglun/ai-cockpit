@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1119-mac-bounded-execution-hci",
+  "contractDigest": "sha256:09ff4787f3ef9cd706473dacfb97b1700d5ff2792f25ef1917fb1912cc66f624",
+  "materialManifestDigest": "sha256:7d450163004187e3de7667a01f9b6e31fc7131147d0abd8af452bd3c9cb4021e",
+  "profileDigest": "sha256:369580c422b8cabdc04b04030fd754fa8bec06c275042c903d75f13f7693f569",
+  "requestDigest": "sha256:fe9a50a13a7baeadc830544ea02255b80739de0388cd970be6bed96ea3851be6",
+  "reviewedSourceHead": "5ad9350a578acc97bdeb0817a6df94ccf7feb900",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "authoritySource": "conversation:WI-1119 user approved agent self-declared technical review and scanner-not-Clean residual risk for four previously listed Rust test files on 2026-11-06, then explicitly approved adding crates/cockpit-repository/src/status_projection.rs as the fifth file on 2026-11-06; no other file or permission is authorized",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:dae13aef3104b303a83a87cf530bacf0a7f92be1d9d896fe796bbf74172ebdd3"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "digest": "sha256:1d5f21e5bf07b8ecfe834768b05592cae4f65eb193ffaf1d46b9916f2d91a18f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "digest": "sha256:236e577a5cf3ccc6d75e6f5a3baa92456b4409a37daf9e9fa76a541641a3b9eb"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:ea53a712d404592efce4960e10964a70a747ebfb8520125b4dc77264caa73cf9"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/execution.rs",
+      "digest": "sha256:d1dea7075c773c15c9694a6d0d6508e05991725504209ce4994690b70f40577d"
+    }
+  ],
+  "rationale": "Reviewed the exact committed diff and file digests of the five reviewable Rust files. The four previously reviewed test-file blob digests are unchanged. The fifth production status projection change permits only a stale, same-Contract, nonred preflight refresh before first material review when no receipt pointer, history or sidecar exists; recorded review, verification and finish remain blocked until a current bind. Its isolated positive and missing-prior-receipt negative tests, formatting and strict Clippy passed as development diagnostics. Scanner Clean remains unproved.",
+  "residualRisk": "The canonical Rust material scanner still cannot prove these five syntax hunks Clean. This self-declared review cannot authenticate the agent, prove absence of adversarial content, prove unmanaged-descendant closure, or substitute for fresh formal verification, human merge approval, or release acceptance.",
+  "recordedAt": "2026-11-06T13:22:20Z",
+  "receiptDigest": "sha256:dc2f564845aa6a29cf6d536ee8dfec68660c8b721d967391e65d12c20deb5650"
+}

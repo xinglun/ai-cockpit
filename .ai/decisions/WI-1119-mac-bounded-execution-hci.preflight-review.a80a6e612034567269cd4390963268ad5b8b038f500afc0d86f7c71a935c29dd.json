@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:53a6932cb0897dbde80ac460af5e5312f6aef8989d84a4610d6aad4fb356fb35",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d3d3404fe3fb397e561b5ac1228f67b9eeebcaa60630c822cd71e38ce18a7c65",
+  "reason": "The user replied 确认，允许 after review of the exact WI-1119 two-file scope amendment. The agent records the real user decision without claiming human identity. This authorizes review of the current Contract and preflight binding only; it does not attest technical tests, formal verification, cleanup, merge, or release.",
+  "recordedAt": "2026-11-06T12:18:15Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e67c7b74276cbaedc4b684d9f84f05dc590a82834ed69d62cef313582ef24bae",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

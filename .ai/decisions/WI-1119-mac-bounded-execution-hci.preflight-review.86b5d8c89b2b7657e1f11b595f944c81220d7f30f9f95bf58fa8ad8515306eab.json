@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:99351c0c1c030ecd518e4a1ed6a6febf59630926c8cc4d9999a7a0eed197f8f6",
+  "reason": "The user replied \"批准\" immediately after the exact WI-1119 scope-amendment review binding was shown in the current conversation. The Agent records that approval as confirm_review for the displayed Contract, Preflight, and Snapshot, without claiming to be the human reviewer.",
+  "recordedAt": "2026-11-06T00:20:14Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

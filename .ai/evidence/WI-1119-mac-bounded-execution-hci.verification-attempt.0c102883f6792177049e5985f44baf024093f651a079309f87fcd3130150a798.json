@@ -1,0 +1,120 @@
+{
+  "checkpointId": "sha256:0c102883f6792177049e5985f44baf024093f651a079309f87fcd3130150a798",
+  "commands": [
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:cc9b3b432c50e431660bb0f0c236827a40e2803ae856256d5042c7e3c80440a4",
+      "nodeId": "project-command-4-package-cockpit-cli",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+  "contractExecutionScopeDigest": "sha256:4d1269468751cfda8fd45a6a18fb6874cb5813c0a6c1afb053e0b5463497e234",
+  "createdAt": "2026-11-06T02:21:56.969839000Z",
+  "executionId": "sha256:61a9366f4f3d0432ba6c72939bc4237f03de0881a21f9cec602050ee78e33190",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:cc9b3b432c50e431660bb0f0c236827a40e2803ae856256d5042c7e3c80440a4",
+      "commandResult": "succeeded",
+      "deadlineMs": 1793932609848,
+      "elapsedMs": 7120,
+      "exitCode": 0,
+      "nodeId": "project-command-4-package-cockpit-cli",
+      "passed": true,
+      "spawned": true,
+      "stderr": "20202020436865636b696e6720636f636b7069742d636c692076312e302e3120282f55736572732f7365692d72696e6e2f446f63756d656e74732f436f6465782f323032362d31312d30332f7461736b2f61692d636f636b7069742d6d61632d707265666c696768742f6372617465732f636f636b7069742d636c69290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20312e3030730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 7120,
+    "executionElapsedMs": 7120,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:cc9b3b432c50e431660bb0f0c236827a40e2803ae856256d5042c7e3c80440a4",
+        "commandResult": "succeeded",
+        "deadlineMs": 1793932609848,
+        "elapsedMs": 7120,
+        "exitCode": 0,
+        "nodeId": "project-command-4-package-cockpit-cli",
+        "passed": true,
+        "spawned": true,
+        "stderr": "20202020436865636b696e6720636f636b7069742d636c692076312e302e3120282f55736572732f7365692d72696e6e2f446f63756d656e74732f436f6465782f323032362d31312d30332f7461736b2f61692d636f636b7069742d6d61632d707265666c696768742f6372617465732f636f636b7069742d636c69290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20312e3030730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-4-package-cockpit-cli",
+        "outputDigest": "sha256:3ac6d16e02ca5427382a1652e3fd17d1f54f34eb1b9319deba6b9045f9669b3e",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 900
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a3daca5d27802a42650f16087e6844255e25bafb539016b9090291cdf2ec97a1",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

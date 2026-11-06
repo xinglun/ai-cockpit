@@ -1,0 +1,38 @@
+{
+  "sequence": 34,
+  "preparedDigest": "sha256:189177d26f798f5fd509e906ea80fe62c9d6f2dd55a0d89bdc36b7cb900ea8cb",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 34,
+    "changeId": "wi1119-cargo-quiet-complete-output-20261106",
+    "requestDigest": "sha256:351fcab0b2eb5e14fca8ed041d266ab1874b56f7929e5f53ba8c4ea91f16e15b",
+    "reason": "The prior full native verification executed all 32 nodes but cockpit-repository stdout exceeded the immutable 64 KiB evidence capture bound. Cargo --quiet suppresses per-test success names while preserving the same workspace package and test selection, failures, assertions, and exit status; scoped comparison ran the same 23 tests and reduced stdout from 2188 to 138 bytes. Keep output truncation as failed/incomplete evidence.",
+    "changedValues": [
+      {
+        "path": "/verification/5",
+        "operation": "replace",
+        "oldValue": "cargo test --locked --workspace",
+        "newValue": "cargo test --quiet --locked --workspace"
+      }
+    ],
+    "previousContractDigest": "sha256:b2879a6cf16dd7da69efa7edc846718e10eb40597ec5e25f6f1f5aa7c677cb68",
+    "newContractDigest": "sha256:41af205d8c25fb2f6a586db1fcf50161de4e0fe5ee224aac78f4384c5b7735bc",
+    "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+    "environmentObservationDigest": "sha256:70a378fe40a62c7d8e6653f8ae6d090febd7ec1b92b2aa5b06f37393fab62ee7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification/5"
+    ],
+    "previousJournalDigest": "sha256:37f43ef9426af0ac0f256bb0e67aa8f62671381dd21c9fa8f97009c9a6a3faea",
+    "journalDigest": "sha256:666d26522e5b07d8e8d0cbf0d7086d6f09d7a026bc723e033b4174efefcb89ed",
+    "recordedAt": "2026-11-05T23:41:29Z"
+  }
+}

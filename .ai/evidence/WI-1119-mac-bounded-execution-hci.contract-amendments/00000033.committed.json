@@ -1,0 +1,38 @@
+{
+  "sequence": 33,
+  "preparedDigest": "sha256:d7375769e06e8a936883310ddd4f295184d4a6f9998311274a39745a6e8113a2",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 33,
+    "changeId": "wi1119-authority-authorized-user-consent-20261105",
+    "requestDigest": "sha256:65237fc587801444a2bf2ba17aa843d337e8eda99fcc0ddea1e1b4fcc74300d8",
+    "reason": "The user explicitly agreed to change WI-1119 Contract authority from missing to authorized after the 900-second policy review. This amendment changes only that authority field; verification commands, assertions, scope, allowed actions, and historical process evidence remain unchanged.",
+    "changedValues": [
+      {
+        "path": "/authority",
+        "operation": "replace",
+        "oldValue": "missing",
+        "newValue": "authorized"
+      }
+    ],
+    "previousContractDigest": "sha256:40a0f8c8a8942e3fbfabc27194c30f04d6ac34c2cd644dd1b715e5373467c338",
+    "newContractDigest": "sha256:b2879a6cf16dd7da69efa7edc846718e10eb40597ec5e25f6f1f5aa7c677cb68",
+    "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+    "environmentObservationDigest": "sha256:3a17ecf01085412bfc36521d0548cae58a5dd7d528dde09aea34eee1c46dd65f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/authority"
+    ],
+    "previousJournalDigest": "sha256:c3204e0436577c6c497e83c52b70670347db697a12f19fbeceda7169e691a2b4",
+    "journalDigest": "sha256:37f43ef9426af0ac0f256bb0e67aa8f62671381dd21c9fa8f97009c9a6a3faea",
+    "recordedAt": "2026-11-05T21:21:14Z"
+  }
+}
