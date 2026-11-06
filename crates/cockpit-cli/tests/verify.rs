@@ -328,7 +328,7 @@ fn main() {
         "compile verifier gate: {}",
         String::from_utf8_lossy(&compiled.stderr)
     );
-    let mut running = Command::new(binary)
+    let running = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(first_root)
         .args(["--work-item", first_id, "--command"])
