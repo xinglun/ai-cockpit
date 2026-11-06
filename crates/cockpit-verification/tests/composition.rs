@@ -1709,7 +1709,20 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
                         );
                         assert!(!blocked.execution_evidence_complete);
                     }
-                    #[cfg(not(target_os = "linux"))]
+                    #[cfg(target_os = "macos")]
+                    {
+                        assert_eq!(
+                            failure,
+                            "verifier_process_state_unknown:lsof exited with status Some(1)"
+                        );
+                        assert!(blocked.owned_tree_termination_unknown);
+                        assert_eq!(
+                            blocked.execution_outcome,
+                            CompositionExecutionOutcome::Unknown
+                        );
+                        assert!(!blocked.execution_evidence_complete);
+                    }
+                    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
                     panic!("unexpected cleanup observation on non-Linux Unix: {failure}");
                 }
                 Some(failure) if failure.starts_with("verifier_descendant_active:") => {
