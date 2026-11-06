@@ -62,6 +62,62 @@ fn redacted_attempt_state(attempt: &CompositionAttempt) -> String {
     )
 }
 
+fn assert_reuse_execution_or_macos_observer_unknown(
+    attempt: &CompositionAttempt,
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+) {
+    if attempt.passed {
+        return;
+    }
+    #[cfg(target_os = "macos")]
+    {
+        let worktree = Path::new(&attempt.isolated_worktree);
+        if attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+            && attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+        {
+            preserve_unknown_fixture_owners(
+                repository,
+                state,
+                test_name,
+                &attempt.attempt_id,
+                worktree,
+                attempt.failure.as_deref(),
+            );
+        }
+        assert_eq!(
+            attempt.failure.as_deref(),
+            Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+            "unexpected reuse attempt: {}",
+            redacted_attempt_state(attempt),
+        );
+        assert_eq!(
+            attempt.execution_outcome,
+            CompositionExecutionOutcome::Unknown
+        );
+        assert!(!attempt.execution_evidence_complete);
+        assert!(attempt.owned_tree_termination_unknown);
+        assert_eq!(
+            attempt.cleanup_disposition,
+            CompositionCleanupDisposition::Retained
+        );
+        assert!(attempt.cleanup.is_none());
+        assert!(!attempt.execution_records.is_empty());
+        assert!(attempt.execution_records.iter().all(|record| record.passed));
+        assert!(worktree.is_dir());
+        assert!(worktree_is_registered(repository.path(), worktree));
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = (repository, state, test_name);
+        panic!(
+            "reuse execution did not pass: {}",
+            redacted_attempt_state(attempt)
+        );
+    }
+}
+
 #[cfg(target_os = "linux")]
 #[test]
 fn external_default_feature_consumer_cannot_compile_test_support_seam() {
@@ -1594,9 +1650,9 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
 
 #[test]
 fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let composition = input(
         root.path(),
         state.path(),
@@ -1611,7 +1667,12 @@ fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
         run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed);
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "repeated_exact_composition_reuses_only_when_inputs_are_observable",
+    );
     assert_eq!(second.execution_records.len(), 1);
     if cfg!(unix) {
         assert_eq!(second.processes_spawned, 0);
@@ -2366,7 +2427,7 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
 fn read_set_under_a_parent_symlink_is_not_reusable() {
     use std::os::unix::fs::symlink;
 
-    let root = repository();
+    let mut root = repository();
     let external = tempdir("read-set-symlink-target");
     fs::write(external.path().join("input.txt"), "external bytes\n").expect("external input");
     symlink(external.path(), root.path().join("linked"))
@@ -2374,7 +2435,7 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
     run(root.path(), &["add", "linked"]);
     run(root.path(), &["commit", "-qm", "add linked input"]);
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("read-set-symlink-state");
+    let mut state = tempdir("read-set-symlink-state");
     let mut external_read = command("external-read", "cat", &["linked/input.txt"]);
     external_read.input_paths = vec!["linked/input.txt".into()];
     let composition = input(
@@ -2391,7 +2452,12 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
         run_composition_with_pure_cache_test_supervisor(composition).expect("second composition");
 
     assert!(first.passed);
-    assert!(second.passed, "second composition attempt: {second:?}");
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "read_set_under_a_parent_symlink_is_not_reusable",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(second.execution_records[0].spawned);
     assert!(!second.execution_records[0].reused);
@@ -3754,7 +3820,7 @@ fn changed_command_only_reexecutes_the_affected_node() {
 
 #[test]
 fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-qb", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
@@ -3764,7 +3830,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     let first_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let mut api = command("api", "true", &[]);
     api.input_paths = vec!["api.txt".into()];
     let mut docs = command("docs", "true", &[]);
@@ -3800,7 +3866,12 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     ))
     .expect("second attempt");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "changed_source_file_only_reexecutes_nodes_that_observe_that_file",
+    );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     let api_record = second
         .execution_records
@@ -3820,7 +3891,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
 
 #[test]
 fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-qb", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
@@ -3830,7 +3901,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     let first_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let mut source = command("source", "cat", &["api.txt"]);
     source.input_paths = vec!["api.txt".into()];
     let mut consumer = command("consumer", "true", &[]);
@@ -3895,24 +3966,11 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     ))
     .expect("second attempt");
 
-    assert!(
-        second.passed,
-        "second dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
-        second.execution_outcome,
-        second.execution_evidence_complete,
-        second.failure,
-        second.cleanup_disposition,
-        second.owned_tree_termination_unknown,
-        second
-            .execution_records
-            .iter()
-            .map(|record| (
-                &record.node_id,
-                record.passed,
-                record.exit_code,
-                record.termination_signal
-            ))
-            .collect::<Vec<_>>()
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "changed_upstream_receipt_reexecutes_transitive_dependents_only",
     );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 3 } else { 4 });
     for node_id in ["source", "consumer", "transitive"] {
@@ -4118,9 +4176,9 @@ fn unbound_command_path_override_fails_before_spawn() {
 
 #[test]
 fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("unbounded-read-state");
+    let mut state = tempdir("unbounded-read-state");
     let external = tempdir("unbounded-read-source");
     let source = external.path().join("source.txt");
     fs::write(&source, "version-one\n").expect("write external source");
@@ -4147,7 +4205,13 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
     let second =
         run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
-    assert!(first.passed && second.passed);
+    assert!(first.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "unbounded_external_reads_execute_again_but_independent_node_reuses",
+    );
     assert_eq!(first.processes_spawned, 2);
     assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     assert!(!second.execution_records[0].reused);
@@ -4360,9 +4424,9 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
 
 #[test]
 fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("legacy-composition-state");
+    let mut state = tempdir("legacy-composition-state");
     let composition = input(
         root.path(),
         state.path(),
@@ -4387,7 +4451,12 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("run without legacy reuse");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_v2_attempt_reads_but_does_not_reuse_v1_history",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(!second.execution_records[0].reused);
     let preserved: serde_json::Value =
@@ -4399,9 +4468,9 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
 #[cfg(unix)]
 #[test]
 fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("legacy-attempt-filename");
+    let mut state = tempdir("legacy-attempt-filename");
     let composition = input(
         root.path(),
         state.path(),
@@ -4419,7 +4488,12 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("attempt should read legacy filename");
 
-    assert!(second.passed, "second attempt failed: {second:?}");
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_attempt_reads_legacy_logical_id_filename_and_preserves_it",
+    );
     assert_eq!(second.processes_spawned, 0);
     assert!(second.execution_records[0].reused);
     assert!(
@@ -4431,9 +4505,9 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
 
 #[test]
 fn composition_attempt_without_schema_version_is_not_reused() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("missing-composition-schema-state");
+    let mut state = tempdir("missing-composition-schema-state");
     let composition = input(
         root.path(),
         state.path(),
@@ -4460,7 +4534,12 @@ fn composition_attempt_without_schema_version_is_not_reused() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("run without historical reuse");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_attempt_without_schema_version_is_not_reused",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(!second.execution_records[0].reused);
     let preserved: serde_json::Value =
@@ -4547,7 +4626,7 @@ fn installed_toolchain_change_child() {
         std::env::var("COCKPIT_TOOLCHAIN_TEST_INSTALL").expect("toolchain install path"),
     );
     let composition: CompositionInput =
-        serde_json::from_slice(&fs::read(input_path).expect("read unchanged composition JSON"))
+        serde_json::from_slice(&fs::read(&input_path).expect("read unchanged composition JSON"))
             .expect("decode composition JSON");
 
     let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
@@ -4557,9 +4636,28 @@ fn installed_toolchain_change_child() {
     fs::write(toolchain.join("bin/rustc"), b"rustc-v2")
         .expect("update installed rustc without changing composition JSON");
 
+    let repository_path = composition.repository_root.clone();
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("second toolchain attempt");
-    assert!(second.passed, "second attempt: {second:?}");
+    // The parent process owns these fixture paths. These borrowed guards only
+    // let the shared assertion preserve them when Mac observation is Unknown.
+    let mut repository_owner = TempDir {
+        path: repository_path,
+        preserve_on_drop: true,
+    };
+    let mut state_owner = TempDir {
+        path: Path::new(&input_path)
+            .parent()
+            .expect("input parent")
+            .to_path_buf(),
+        preserve_on_drop: true,
+    };
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut repository_owner,
+        &mut state_owner,
+        "installed_toolchain_change_child",
+    );
     assert_eq!(second.processes_spawned, 1, "changed toolchain must rerun");
     assert!(!second.execution_records[0].reused);
     assert_ne!(
