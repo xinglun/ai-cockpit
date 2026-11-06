@@ -12738,16 +12738,71 @@ mod cross_checkout_closeout_tests {
         }
     }
 
+    fn observed_path_state(path: &Path) -> String {
+        match fs::symlink_metadata(path) {
+            Ok(metadata) if metadata.file_type().is_dir() => "directory".into(),
+            Ok(metadata) if metadata.file_type().is_file() => "regular_file".into(),
+            Ok(metadata) if metadata.file_type().is_symlink() => "symlink".into(),
+            Ok(_) => "other".into(),
+            Err(error) => format!("error({:?}, os={:?})", error.kind(), error.raw_os_error()),
+        }
+    }
+
+    fn clone_failure_path_state(program: &str, args: &[&str], stderr: &str) -> String {
+        if program != "git" || args.first() != Some(&"clone") || args.len() < 3 {
+            return String::new();
+        }
+        let source = Path::new(args[args.len() - 2]);
+        let destination = Path::new(args[args.len() - 1]);
+        let destination_parent = destination.parent().unwrap_or(destination);
+        let mut state = format!(
+            " after clone exit: source={}, source_objects={}, destination_parent={}, destination={}, destination_objects={}",
+            observed_path_state(source),
+            observed_path_state(&source.join(".git/objects")),
+            observed_path_state(destination_parent),
+            observed_path_state(destination),
+            observed_path_state(&destination.join(".git/objects")),
+        );
+        if let Some((_, suffix)) = stderr.rsplit_once("/.git/objects/") {
+            let object = suffix
+                .chars()
+                .take_while(|character| character.is_ascii_hexdigit() || *character == '/')
+                .collect::<String>();
+            if let Some((directory, file)) = object.split_once('/') {
+                if directory.len() == 2
+                    && file.len() == 38
+                    && directory
+                        .chars()
+                        .all(|character| character.is_ascii_hexdigit())
+                    && file.chars().all(|character| character.is_ascii_hexdigit())
+                {
+                    state.push_str(&format!(
+                        ", source_object={}, destination_object_parent={}, destination_object={}",
+                        observed_path_state(&source.join(".git/objects").join(&object)),
+                        observed_path_state(&destination.join(".git/objects").join(directory)),
+                        observed_path_state(&destination.join(".git/objects").join(&object)),
+                    ));
+                }
+            }
+        }
+        state
+    }
+
     fn command(root: &Path, program: &str, args: &[&str]) {
         let output = Command::new(program)
             .args(args)
             .current_dir(root)
             .output()
             .expect("run fixture command");
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let clone_path_state = if output.status.success() {
+            String::new()
+        } else {
+            clone_failure_path_state(program, args, &stderr)
+        };
         assert!(
             output.status.success(),
-            "{program} {args:?} failed: {}",
-            String::from_utf8_lossy(&output.stderr)
+            "{program} {args:?} failed: {stderr}{clone_path_state}"
         );
     }
 
