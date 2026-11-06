@@ -3,7 +3,8 @@ use std::{
     path::Path,
     process::Command,
     sync::atomic::{AtomicU64, Ordering},
-    time::{SystemTime, UNIX_EPOCH},
+    thread,
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 #[allow(dead_code)]
@@ -288,6 +289,111 @@ fn wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item() {
     assert_eq!(entries[0]["state"], "direct_child_reaped");
     assert_eq!(entries[0]["directChildReaped"], true);
     assert!(entries[0]["processId"].as_u64().is_some());
+
+    // A verifier held at a test-owned gate lets a fresh CLI reader observe
+    // the durable start before the owner records its confirmed reap.
+    let gate = tempfile::tempdir().expect("isolated verifier gate");
+    let source = gate.path().join("wait.rs");
+    let executable = gate
+        .path()
+        .join(if cfg!(windows) { "wait.exe" } else { "wait" });
+    let started = gate.path().join("started");
+    let release = gate.path().join("release");
+    fs::write(
+        &source,
+        r#"use std::{env, fs, path::Path, thread, time::{Duration, Instant}};
+fn main() {
+    let mut args = env::args_os().skip(1);
+    let started = args.next().expect("start marker");
+    let release = args.next().expect("release marker");
+    fs::write(started, b"started").expect("write start marker");
+    let deadline = Instant::now() + Duration::from_secs(10);
+    while !Path::new(&release).exists() {
+        if Instant::now() >= deadline { std::process::exit(17); }
+        thread::sleep(Duration::from_millis(10));
+    }
+}
+"#,
+    )
+    .expect("write verifier gate");
+    let compiled = Command::new("rustc")
+        .args(["--edition=2021", "--crate-name", "wi_cleanup_waiter"])
+        .arg(&source)
+        .arg("-o")
+        .arg(&executable)
+        .output()
+        .expect("compile test-owned verifier");
+    assert!(
+        compiled.status.success(),
+        "compile verifier gate: {}",
+        String::from_utf8_lossy(&compiled.stderr)
+    );
+    let mut running = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(first_root)
+        .args(["--work-item", first_id, "--command"])
+        .arg(&executable)
+        .arg("--args")
+        .arg(format!("{},{}", started.display(), release.display()))
+        .args(["--timeout-seconds", "15"])
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .expect("start bounded verifier");
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let observed_start = loop {
+        let bytes = fs::read(&first_summary_path).expect("read Summary while verifier runs");
+        let summary: serde_json::Value =
+            serde_json::from_slice(&bytes).expect("parse running Summary");
+        let entries = summary["processCleanup"]["entries"]
+            .as_array()
+            .expect("running process ledger");
+        if entries.len() == 2 && entries[1]["state"] == "started" {
+            break Some(summary);
+        }
+        if Instant::now() >= deadline {
+            break None;
+        }
+        thread::sleep(Duration::from_millis(20));
+    };
+    fs::write(&release, b"release").expect("release test-owned verifier");
+    let completed = running
+        .wait_with_output()
+        .expect("wait for bounded verifier");
+    assert!(
+        completed.status.success(),
+        "bounded verifier: {}; structured result: {}",
+        String::from_utf8_lossy(&completed.stderr),
+        String::from_utf8_lossy(&completed.stdout)
+    );
+    assert!(started.is_file(), "test-owned verifier never started");
+    let observed_start = observed_start.expect("no persisted start before direct-child reap");
+    assert_eq!(observed_start["processCleanup"]["entries"][0], entries[0]);
+    assert_eq!(
+        observed_start["processCleanup"]["entries"][1]["directChildReaped"],
+        false
+    );
+    assert!(
+        observed_start["processCleanup"]["entries"][1]["processId"]
+            .as_u64()
+            .is_some()
+    );
+    assert_eq!(fs::read(&second_summary_path).unwrap(), before_second);
+
+    let before_first = fs::read(&first_summary_path).expect("completed same-WI Summary");
+    let first_summary: serde_json::Value =
+        serde_json::from_slice(&before_first).expect("completed same-WI Summary JSON");
+    let entries = first_summary["processCleanup"]["entries"]
+        .as_array()
+        .expect("completed real process ledger");
+    assert_eq!(entries.len(), 2);
+    assert_eq!(entries[0], observed_start["processCleanup"]["entries"][0]);
+    assert_eq!(
+        entries[1]["executionId"],
+        observed_start["processCleanup"]["entries"][1]["executionId"]
+    );
+    assert_eq!(entries[1]["state"], "direct_child_reaped");
+    assert_eq!(entries[1]["directChildReaped"], true);
 
     for _ in 0..2 {
         let cleaned = first_run(&["work-item", "process-cleanup", "--id", first_id]);
