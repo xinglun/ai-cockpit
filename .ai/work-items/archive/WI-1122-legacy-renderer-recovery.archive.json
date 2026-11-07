@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-07T10:02:30Z",
+  "files": {
+    "contractDigest": "sha256:b7d3b05564b0b4de67303e8fab5d295b37be592787795121bbe052501ed05e45",
+    "contractPath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.contract.json",
+    "eventsDigest": "sha256:3e232a0818f0725a584a4a120eab9e41cde8a8b35d453c4304032e869369af33",
+    "eventsPath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.events.jsonl",
+    "outcomeDigest": "sha256:81630fabef3b696c5a01f8cd437b3050c5264aef95646f3e5776e7ed50091832",
+    "outcomePath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.outcome.json",
+    "summaryDigest": "sha256:1a34014f490fa5f14462c0520d550146e44b2a7902f554d111917d8681a0b528",
+    "summaryPath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.summary.json",
+    "taskReportDigest": "sha256:2e69c242592672cf1e501a748a1a5375db0d23d783647c601950a2311f7e30b7",
+    "taskReportMarkdownDigest": "sha256:6a783ff6550167c4ac3e8e69abe625fcc5549f3be9c3e7d90c35f36ee0e17a24",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1122-legacy-renderer-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-07T10:02:30.466304000Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-07T10:02:30.466304000Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}

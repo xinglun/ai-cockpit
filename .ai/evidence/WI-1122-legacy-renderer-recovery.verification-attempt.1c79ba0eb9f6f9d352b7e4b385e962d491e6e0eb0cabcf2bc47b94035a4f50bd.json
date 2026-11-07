@@ -1,0 +1,115 @@
+{
+  "checkpointId": "sha256:1c79ba0eb9f6f9d352b7e4b385e962d491e6e0eb0cabcf2bc47b94035a4f50bd",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-review-receipt"
+      ],
+      "baseCommit": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "commandDigest": "sha256:739d08005df4b7e874d7cf51bf793337a7eb2f485d73e98601f7edcebc711745",
+      "nodeId": "project-command-0-package-cockpit-review-receipt",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 600
+    }
+  ],
+  "contractDigest": "sha256:ca3065fd3cbd43648a95cf1f9bfab073d5c97e1a29f724db7a1becf3e55bed6e",
+  "contractExecutionScopeDigest": "sha256:afac0febd7503fa87dc408180e31265783bd28dbb9dd57e77e1ce6987c9df764",
+  "createdAt": "2026-11-07T08:54:55.787436000Z",
+  "executionId": "sha256:a216d01cd6e08dc502ebcf0681517493b8d502d37499536bc17ee32918b98499",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:739d08005df4b7e874d7cf51bf793337a7eb2f485d73e98601f7edcebc711745",
+      "commandResult": "failed",
+      "deadlineMs": 1794042295647,
+      "elapsedMs": 138,
+      "exitCode": 101,
+      "nodeId": "project-command-0-package-cockpit-review-receipt",
+      "passed": false,
+      "spawned": true,
+      "stderr": "6572726f723a204f7065726174696f6e206e6f74207065726d697474656420286f73206572726f72203129206174207061746820222f55736572732f7365692d72696e6e2f2e63616368652f61692d636f636b7069742d7665726966792d7461726765742f36346438336139343733333238336437363234346534646130373732653933623932663066623661613863626334613762646662366262356466656232313665774f7a564f79220a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 139,
+    "executionElapsedMs": 139,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:739d08005df4b7e874d7cf51bf793337a7eb2f485d73e98601f7edcebc711745",
+        "commandResult": "failed",
+        "deadlineMs": 1794042295647,
+        "elapsedMs": 138,
+        "exitCode": 101,
+        "nodeId": "project-command-0-package-cockpit-review-receipt",
+        "passed": false,
+        "spawned": true,
+        "stderr": "6572726f723a204f7065726174696f6e206e6f74207065726d697474656420286f73206572726f72203129206174207061746820222f55736572732f7365692d72696e6e2f2e63616368652f61692d636f636b7069742d7665726966792d7461726765742f36346438336139343733333238336437363234346534646130373732653933623932663066623661613863626334613762646662366262356466656232313665774f7a564f79220a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 600,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0-package-cockpit-review-receipt",
+        "outputDigest": "sha256:a4612ecca784b5ab331d7f85f8b0f8f971e8d5e509a22463010cff226b89aecd",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 600
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}

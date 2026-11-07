@@ -19,7 +19,31 @@
   "documentationImpact": null,
   "executionDecision": null,
   "goal": "Enable truthful historical closeout while preserving immutable evidence.",
-  "governancePolicy": null,
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi-1122-bounded-verification-timeout-v1",
+    "rules": [
+      {
+        "approvalMode": "single_authorized_human",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 900,
+          "policyRefs": [
+            "wi-1122-bounded-verification-timeout-v1"
+          ],
+          "reason": "Permit at most 900 seconds for existing WI-1122 task-stage verification after the repository package timed out at 600 seconds; preserve checks and cleanup evidence.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task"
+          ]
+        }
+      }
+    ]
+  },
   "governanceProfile": null,
   "guidelines": [],
   "humanDecisionPoints": null,
@@ -69,7 +93,7 @@
   "title": null,
   "unknowns": [],
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --quiet --locked --workspace"
   ],
   "workItemId": "WI-1122-legacy-renderer-recovery"
 }

@@ -1,0 +1,808 @@
+{
+  "acceptanceResults": [
+    "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+  ],
+  "createdAt": "2026-11-07T10:02:01.697862000Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:840bd237c417b500d2584181e4f5dc76d3c710886a4c88cbd51c6ff4b7e01195",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1122-legacy-renderer-recovery.preflight-review.a3473dc5612b7cfad5b771e64dfbfdeb46ec8ff6c700f2efe3196fb6752b1935.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.04e5e0882940b0c235a319c32c8955381545bcc544441dc60d9bed7494ae8b8a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.06614e8d54c94db2b69f34103cfa3ed56c8c16deb0253eb5c9e862c41ce3116b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.08b1b8339eb5bff8446bd21c8292432a7f34fcdb7cff1c0cbbb28e0142e243e5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.08d1822ee74c76257f3cf4120b04ceebdfe8cb3f883c2c86d91b6aba7c49f27c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.0984c20e340b01e0576b799448b1ab70093459b95f1270d164145ae38408c9c5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1159f1de51b57347035072690634c84186bce8d01354bd59c073b414b4f84f75.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.138997b8c21d3a1c0af670c33d2b6954282c53c9f55d0e2f5df5bf55683e82e6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1606a68938f9cfe1ab937963cf29229008f2975058e92edf41238355430eaeb1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1bd604b01e8d7b5e3e6abecd3da02e33c8a51df0a460859baca6a531484603c3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1c79ba0eb9f6f9d352b7e4b385e962d491e6e0eb0cabcf2bc47b94035a4f50bd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1cfbb4efa24bdf91f827a7774d47b6a01ac11ad549c4d1e92112ec4f1de6ea09.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.1d1113d5215ef6438a71a90cad01cd0928e3379f05985c75ff92192bcf7a0c19.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.21349cb97a4df022ec3313b06edf44ee146838f56a5c779b9e6849cfd7a89cbe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.2135b363fc916ca41a0d4e2dc755d0afed295949d23644ec479fb51c4ac13d8e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.2635a1a8acc1e4c5cb2b6a93c2b34051d497879decd247a209e6f6a28de862b4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.29738db53a80e519346733f970943a10a9aacfa3525bbe384ddb2ed8ac77098d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.36aeaa4b9b3d0d6878efeb2db217dbb24e0f78427a1a23a987141e8537fe1656.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.38d7d8965ecf3fa4a133dd1cf5109f0381de821cd515fb14595493cb670c3348.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.3bd2260217439cfc37cb23074ed7eb425782c535197c2c0d6be792eca098034b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.3ca927be94e59f5a2776716e302cbb52da6db1c7e0884502edef68a5b0e4f371.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.3d34e99991f5e197bf741f783092ca6a8675fe9ddbc6da3512abb4f85e2865c7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.3f9c9a849bc5ce7ef166ebebfce519fe9db74fe70357b192c56563efd109987d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.42ee75b550bd94b680ff67370bf6cb0214e714b7b92ba6becc0d9545cf703ba5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.43edb9e7531024ceed837930b5ca0166b62ba21be406ae68d9d9388e83fc2243.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.43f48089297a2264adabf7afd418483e772fa349e07e11bc52476cbb209425fb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.47f94bed2b402cba1e6eb3be956fcb526f7d51a7997d0818678eb4af06b249d0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.495c44756dfdcc6e530bc8476d584936ff7dc5312b429d257899712538d9c1d2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.4a7c4fcfe6533b2c0c5a67f2b0fc359d2e7ac91a0f21ccf5d79124255526c9ae.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.4b1c2acf9e99724a730f269794352011f6289cdb693f61d59bd9bf588a82179f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.4be13fd77d8918ec42fc7db4832377d0b0b5d82ea79c2cce0bab95902b3c4d47.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.4ef46e7eb81337d8ae14d092ad7e7050b3ff04e051daa2a63ea92c75fc77d299.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.525ff8302d5154254a865f96ede34ec9ef41170f51108a1af251e7bcc662bdc1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.56a53f35ec5984fe0b3424796d7578523f5f95988f19ee8dc3bf53b510e7ad51.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.56b87f7bbabdbc107407a9b28c0b8b5b6befd0add39cfebbaf857bf03d60c1f2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.56cc7b64581bc4d3d3435c82e72d535ab11b1a07e8f2f3d2fca9bd7c52bb6c45.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.576b957b8e2d079b3c0dd2df267861ffa12730f75875f7405cc56cfe5bfea493.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.5aa9ce05643a3f0ff4cdc59007ec9f6117354986a741f5682c24fe7d55451c5e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.61a1325c821ba598e65a958bd4cc36cf45048181a8478d1b3b964ffc05d8ce46.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.62aea952aa1b9524dd060679502ca984d4c5f1eb3d03e726884f01661246f23f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.6320fbf5b831e9e990f1449fdf0148fa3e0d12504511b61d5415172ee3c01729.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.67d4133b9f4800de1d12ff43ca72435702e7c75b37c39329407307f4843d6828.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.6ce556adaf58e49ba9d8bfbdad2c1a084d66c7836f05d98bbd9d2c62a5a62e97.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.6d328f918248c855f97c76c9b799bd50dcf2ba13cea8ec8dccccce75b3f3cfdb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.6f9db0873d0af97e50fd55efd8b33c291127143f73a5fe27cad14a71eeb6f6c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.70643002cc0d54eb5061b7352355bec5a38ea719cd71be4d01c1d2128b1a9c8a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.75a3ccdeaed1a5cdab5166f28cc36b8efd9fd962ccc4fb557167185317a63435.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.7daad87aa0a3308bed5e1ae0badc36a3b7a0787759c0a1aa250b245689a02241.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.7de5e9e74f9e4bc67a93848997ba97a4acd1f5d3a4b3a7ade7d63b6b92bd04fb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.7e24890ea431d4213295378ab9d20a30ec5bdb1e96eaca62c46a77210a194ecf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8497dd372c0a213920e84bfbc715f2bf9fd785f0b1c49cc69a69376fd7f7df3d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8677cd5be8d7e1ff4edf1302863c6f150bb4bc67dfe94ccd8fd676b8d70e38c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8b492a0e831e60301fd690440e403cec830df56280d89add7e8b52551f8d98fa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8eb64564cc9d969e36cc17326efd1e17a4e660eaeca3f4f2254d5a8b3259103b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8f5bdc5a3aabaaa00c238236ee44ba8ed597088048d015e9405dd79ca3c64c67.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.8ff59ca61fbda92bc6001dcf1497a8f5681bff7e347162720f1165ce3ce35d8e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.90d6d0bb56c1f3c7fa408602d7d5e74ab532a78395fbdc7aae94c9775fb1d656.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.925eacfb4e3f9efa5452df0ab546007210badd19df52b83a9ef0780796631227.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.93d973429445677a21cf88ee1621a33e784bca935862299cfa50562829cbb87c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.9b036299e38caeadcc2af019bc223789837948a7a2076d01e1b35801227c25c9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.a0f852db1460b4db8b014de90f762ddc99e9c8e9cac3d02e4b35174dfd9da329.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.a1929f29939291d50feab17d113f052264ce5d593e5297577ea524172bd4adbe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.a1b2b82de586c33456e10e92fd108e251333c6c7bb9d31672435b4ef87fb6a6b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.a907bbb11e241a453cc37484e45572cb7eb62453d3a73f8630d799fa0b9d188b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.acec5735e78f605a8d7ca34879194bec2cbced75c1c209070e6d86a9e704198a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.b4e9ffd13aa228ae76a9e79d9a6cf845ffe34d8defb13bc2c4b5def6b3c9cd3c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.b6c190e2dfd985f1ba78edef15c4f73c54c4f9bf6092b0447bd6adea42fd6af4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.bec2670c19c7efbed79fff4cee7bb5b49c68da4ffa8e001c34700b11a966565a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.c322f99c69ae0d5d7d99bb847970787ac1a8453207fc2dd70572144cde70cd44.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.cb799aabc22a1f172d6206bf671c98ea7a54f0b0c91427a7042ae60180196c32.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.cbd25dddf62f4873d97c8971120d156136e66ecc27bcf092d960fbb1096710a7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.cfb0befeaf0d10dd7d6dff108594d202970dae9d8cd6920e9587473b250d55a6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.d62776caa3d3245d17bd8a50b8f6505963c9e341eed51b0ababd7a263344a55d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.da7b2ba1eb1aef60ce9323bd17bed0b82d135889574f32606dfd31e8d1510cd4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.dbe808c4ede29e4456d32ca9d50548a09790b6b7ea1aec477e46b8527f2fe870.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.dc433b404876952c10ff1ed6bfe859e5756fa570eb7128d10837a24af0413bf2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.e18a0d0a79a1efa89908ca7f7209f7ffab09c97eba237fb584892b6160d43f21.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.e3758b42b145dc87b5dc747f359a94d43baa044ee217cd387979f92fc3eed886.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f12f1fe5577cb230f14ce57588fafbe02826529175f11fe87dd1c7fbbebcb96a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f25514ee6bcb7dbcba25aef5ba69fc444476a9e33c62c360501c80c6c999a7b4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f3bd5007ab408760f875b871de96b14d3ce64956e3c7d33375c9649884618b19.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f406236d2f18607f304bbc53085a390f77578b639756fe8b623030906197b718.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f8faf6c7568e5508578b61d4558bdf73e1da84ef991c050778c1098bd006b60e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f92a6cb6d44dc9ed23a3c5da6d3819013075869c3699d1bb601f2a463e592561.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.f9f6ca9041086d96c4cbe679299f1f8e35bc943e5cc76ea105dd7d2f37025238.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.fa531b0af3a562e02467afb74f0952ed24f425904da0b3cd74089ab00e6c61bd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.fab8f28f86dc22a5d2637710f9eb7b92f3ba5c663b37c3ba426d44f3a71393ca.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.fbdf50f9bc007bfe8eed4092eacbb2c49e9b62bbcfe3bff9453fd28eb17afe05.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.fc0a8ceb2478e487fa8c7d8a31f024ce79ca0ee70ad827ea9593d94c25198284.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.ff72319bd24e4406b9dcf3dab51c7eb8b65af82b57b4c149aac4b12fca538c32.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1122-legacy-renderer-recovery.verification-attempt.ffea5f887da0bf765c72b9c93ddbf4362e8fdc614de99906c7d9895f56e5b59c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1122-legacy-renderer-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Enable truthful historical closeout while preserving immutable evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1122-legacy-renderer-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-11-07T10:02:01.697862000Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "workItemId": "WI-1122-legacy-renderer-recovery"
+  },
+  "taskReportDigest": "sha256:2e69c242592672cf1e501a748a1a5375db0d23d783647c601950a2311f7e30b7",
+  "taskReportMarkdownDigest": "sha256:6a783ff6550167c4ac3e8e69abe625fcc5549f3be9c3e7d90c35f36ee0e17a24",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1122-legacy-renderer-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}

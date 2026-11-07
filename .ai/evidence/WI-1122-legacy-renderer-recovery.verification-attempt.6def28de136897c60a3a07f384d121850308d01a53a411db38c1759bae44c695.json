@@ -1,0 +1,43 @@
+{
+  "checkpointId": "sha256:6def28de136897c60a3a07f384d121850308d01a53a411db38c1759bae44c695",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--quiet",
+        "--locked",
+        "--package",
+        "cockpit-interface"
+      ],
+      "baseCommit": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "commandDigest": "sha256:5ed1da11f73eff10ca173f566b7334794364661cf398c480bf8c31da23f91bc8",
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+  "contractExecutionScopeDigest": "sha256:afac0febd7503fa87dc408180e31265783bd28dbb9dd57e77e1ce6987c9df764",
+  "createdAt": "2026-11-07T09:48:32.909516000Z",
+  "executionId": "sha256:038908c6851b4480c38931787bc32bb22edf09e5a0becd9a7c1e6bbb4e30b550",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}
