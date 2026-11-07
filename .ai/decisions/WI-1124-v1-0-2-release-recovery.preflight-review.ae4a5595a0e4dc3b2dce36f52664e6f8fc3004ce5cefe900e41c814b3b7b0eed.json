@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:51ba096bcb47dbfd8031af92e584ec5cf865ca772396f9c47f1cf722f211caff",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:18b0c29ce635f331be982b0f19b5b401e8bfe987cdc43962d2cd5201a4c9188d",
+  "reason": "Records user’s explicit 同意 to the displayed WI-1124 clone fixture scope binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T13:17:28.158724+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:663786278ebdf53dde1b8e2d2d3ce18b85c7265c3b5de18db2a24c5accac104a",
+  "schemaVersion": 1,
+  "workItemId": "WI-1124-v1-0-2-release-recovery"
+}

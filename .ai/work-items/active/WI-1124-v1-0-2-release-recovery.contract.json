@@ -172,7 +172,8 @@
     "docs/work-items/WI-1123-v1-0-2-release-continuation.ja.md",
     "docs/work-items/WI-1124-v1-0-2-release-recovery.md",
     "docs/work-items/WI-1124-v1-0-2-release-recovery.zh-CN.md",
-    "docs/work-items/WI-1124-v1-0-2-release-recovery.ja.md"
+    "docs/work-items/WI-1124-v1-0-2-release-recovery.ja.md",
+    "crates/cockpit-cli/tests/legacy_closeout_source.rs"
   ],
   "sources": [],
   "state": "implementation_active",
