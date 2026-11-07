@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4f6c8c5a97bfc0e5a8d130a7caf841074debdc696e9a32415860786db9f41494",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e778c7f449296bb9709e6d939ba0443ccb1a0bfb41e735c9d7427d98b9112d1a",
+  "reason": "Records user’s explicit confirmation of the displayed repository test fixture scope review; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T13:57:11.253744+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75f0a58d86f69247567e1bf09baa2debad627cb8716ea1738aae31e6992e4ad8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1124-v1-0-2-release-recovery"
+}

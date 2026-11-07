@@ -398,7 +398,7 @@ mod extension {
             &[
                 "clone",
                 "--quiet",
-                "--no-hardlinks",
+                "--no-local",
                 source.path().to_str().unwrap(),
                 destination.to_str().unwrap(),
             ],
@@ -489,7 +489,7 @@ mod extension {
             &[
                 "clone",
                 "--quiet",
-                "--no-hardlinks",
+                "--no-local",
                 destination.to_str().unwrap(),
                 pinned.to_str().unwrap(),
             ],
@@ -1410,7 +1410,7 @@ mod cross_wi {
             .args([
                 "clone",
                 "--quiet",
-                "--no-hardlinks",
+                "--no-local",
                 source.to_str().unwrap(),
                 dest.to_str().unwrap(),
             ])
