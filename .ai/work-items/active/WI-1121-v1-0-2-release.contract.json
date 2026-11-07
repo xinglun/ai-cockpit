@@ -118,7 +118,10 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-1121-v1-0-2-release.md",
     "docs/work-items/WI-1121-v1-0-2-release.zh-CN.md",
-    "docs/work-items/WI-1121-v1-0-2-release.ja.md"
+    "docs/work-items/WI-1121-v1-0-2-release.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
   ],
   "sources": [
     "Current user request to merge PR #1079 into main and publish a version, including the stated v1.0.2 candidate in the WI-1120 succession decision.",

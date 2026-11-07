@@ -488,7 +488,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -519,7 +519,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-usage-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -541,7 +541,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-usage-import`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -563,7 +563,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-material-review-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -585,7 +585,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-material-review-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -609,7 +609,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `audit-query`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -647,7 +647,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `audit-export`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -672,7 +672,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `evidence-bundle-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`

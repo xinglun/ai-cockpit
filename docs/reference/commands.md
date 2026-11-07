@@ -352,7 +352,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -383,7 +383,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-usage-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -405,7 +405,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-usage-import`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -427,7 +427,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-material-review-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -449,7 +449,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-material-review-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -473,7 +473,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `audit-query`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -511,7 +511,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `audit-export`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -536,7 +536,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `evidence-bundle-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
