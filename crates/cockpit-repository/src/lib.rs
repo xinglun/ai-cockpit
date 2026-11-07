@@ -15966,6 +15966,7 @@ mod task_outcome_projection_diagnostic_tests {
             .canonicalize()
             .expect("workspace root");
         for work_item_id in [
+            "WI-633-reference-rebaseline-batch-53",
             "WI-1076-governance-recovered-predecessor-projection",
             "WI-1078-v1-0-1-post-merge-sync-finalization",
             "WI-1043-amendment-review-admission-fix",
@@ -16013,6 +16014,18 @@ mod task_outcome_projection_diagnostic_tests {
                 markdown,
                 "historical renderer mismatch for {work_item_id}"
             );
+            if work_item_id == "WI-633-reference-rebaseline-batch-53" {
+                assert_eq!(runtime_version, "0.2.85");
+                let mut tampered = markdown.clone();
+                tampered.push(b'\n');
+                assert_ne!(
+                    task_outcome_markdown_legacy_for_runtime(&report, runtime_version)
+                        .unwrap()
+                        .as_bytes(),
+                    tampered
+                );
+                assert!(task_outcome_markdown_legacy_for_runtime(&report, "0.2.84").is_err());
+            }
         }
     }
 
@@ -16875,9 +16888,9 @@ pub(crate) fn task_outcome_markdown_legacy_for_runtime(
 ) -> Result<String, String> {
     let mut markdown = task_outcome_markdown_legacy_v1(report);
     match fixed_runtime_version {
-        // The 0.2.87/89/90/91/99/100 Task Outcome writers left one extra
+        // The 0.2.85/87/89/90/91/99/100 Task Outcome writers left one extra
         // terminal blank line. Their exact bytes are committed historical reports.
-        "0.2.87" | "0.2.89" | "0.2.90" | "0.2.91" | "0.2.99" | "0.2.100" => {
+        "0.2.85" | "0.2.87" | "0.2.89" | "0.2.90" | "0.2.91" | "0.2.99" | "0.2.100" => {
             markdown.push('\n');
         }
         // The 1.0.1 writer normalized the report to exactly one terminal LF.

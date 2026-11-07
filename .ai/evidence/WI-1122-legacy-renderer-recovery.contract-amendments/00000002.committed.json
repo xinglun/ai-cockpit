@@ -1,0 +1,129 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:833e40c25e87ce0502772e0126d7191f17d3b7bb5a9b9805af01ebce42af8a52",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1122-legacy-renderer-recovery",
+    "sequence": 2,
+    "changeId": "legacy-e3b9ca9e501a45cc340c666a6a7b7d99f3460a7ffae4e6704a78e65279935c9d",
+    "requestDigest": "sha256:0c58bcb2a268f2fd83587d34e6eb080c4c3f53ad17480244da3382eccd8b783c",
+    "reason": "Add only the required trilingual work item pages and reference registration.",
+    "legacyInputDigest": "sha256:e3b9ca9e501a45cc340c666a6a7b7d99f3460a7ffae4e6704a78e65279935c9d",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+          "docs/reference/reference-parity.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+          "docs/reference/reference-parity.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+          "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:394b660fe0eed9dd497c1434239d048d750ce03ebaa111205019fdbc5afa7831",
+    "newContractDigest": "sha256:ca3065fd3cbd43648a95cf1f9bfab073d5c97e1a29f724db7a1becf3e55bed6e",
+    "repositorySnapshotDigest": "sha256:b0ac3eb5b235c8beff1f0dab5fa0eb452cb8a21ac11487dd0e2790a5d6b3f5c0",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:639d25d6c0bd4a5078fa80093182cc91b0aba479aa072cdd095e64eb29c5b5a9",
+    "journalDigest": "sha256:e6c1616eae0a39ef989c1f4135eb10b47e984853549348e93ac86559322e997c",
+    "recordedAt": "2026-11-07T08:40:10Z"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:394b660fe0eed9dd497c1434239d048d750ce03ebaa111205019fdbc5afa7831",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8247f2748d779eb5ae0a579c00093ce6d40d11d69621eb66db230d377cf32c46",
+  "reason": "Records the user’s explicit 同意 to the displayed WI-1122 renderer recovery review binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T08:32:51.688174+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+  "schemaVersion": 1,
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}

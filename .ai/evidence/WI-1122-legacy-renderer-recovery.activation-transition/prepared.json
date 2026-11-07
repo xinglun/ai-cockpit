@@ -1,0 +1,263 @@
+{
+  "record": {
+    "schemaVersion": 1,
+    "capability": "activation_continuity_recovery_v1",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1122-legacy-renderer-recovery",
+    "owner": {
+      "worktreePath": "/Users/sei-rinn/Documents/Codex/2026-11-05/task/WI-1121-v1-0-2-release",
+      "commonDirectoryId": "sha256:363441add39a7b1248636a188971e2f143cfd7af0ae157c6f5cbc2c16e073903",
+      "branch": "codex/wi1121-v1-0-2-release-intake"
+    },
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a"
+    },
+    "observedHead": "b3b960ae15b48161b525614ec466287df8799053",
+    "journalSequence": 1,
+    "journalDigest": "sha256:639d25d6c0bd4a5078fa80093182cc91b0aba479aa072cdd095e64eb29c5b5a9",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b3b960ae15b48161b525614ec466287df8799053",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Enable truthful historical closeout while preserving immutable evidence.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Enable truthful historical closeout while preserving immutable evidence.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "previousContractDigest": "sha256:7d5540a1ab9ef3121611e90ab9f9f8d819824e6472eb4e35f39523cb84754056",
+    "newContractDigest": "sha256:394b660fe0eed9dd497c1434239d048d750ce03ebaa111205019fdbc5afa7831",
+    "previousSummaryDigest": "sha256:ca633ebedacebb520c3a928a686fe831e65ce4daeb918d06db2addc59c7c8fb5",
+    "newSummaryDigest": "sha256:c4923f8dacbe751366f929bdc427a5ecd66bdb296b079c2aa546233d36cde50b",
+    "previousSummary": {
+      "changedPaths": [
+        ".ai/decisions/WI-1121-v1-0-2-release.preflight-review.907fbb77ec7c1a54d6cebc51b4d099ea5c324d5865f25f1ba2dbb4eebd00c9ee.json",
+        ".ai/decisions/WI-1121-v1-0-2-release.preflight-review.d1fcc37ac5b739d784d4f28817ff77530e374e85f8b994830007cfa430d52cca.json",
+        ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+        ".ai/decisions/WI-633-reference-rebaseline-batch-53.recovery.a6c68cc1b7f68a7b85f626a56160e050c0d0f63f4e5e6555480e30d3c2710c1e.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000007.committed.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000007.prepared.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000008.committed.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000008.prepared.json",
+        ".ai/work-items/active/WI-1121-v1-0-2-release.contract.json",
+        ".ai/work-items/active/WI-1121-v1-0-2-release.summary.json"
+      ],
+      "checkpointCount": 0,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "mode": "release",
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "preflightState": "not_run",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "not_ready",
+      "updatedAt": "2026-11-07T08:21:43Z",
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "newSummary": {
+      "activationContinuity": {
+        "capability": "activation_continuity_recovery_v1",
+        "journalRelevant": true
+      },
+      "changedPaths": [
+        ".ai/decisions/WI-1121-v1-0-2-release.preflight-review.907fbb77ec7c1a54d6cebc51b4d099ea5c324d5865f25f1ba2dbb4eebd00c9ee.json",
+        ".ai/decisions/WI-1121-v1-0-2-release.preflight-review.d1fcc37ac5b739d784d4f28817ff77530e374e85f8b994830007cfa430d52cca.json",
+        ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+        ".ai/decisions/WI-1121-v1-0-2-release.retirement.json",
+        ".ai/decisions/WI-633-reference-rebaseline-batch-53.recovery.a6c68cc1b7f68a7b85f626a56160e050c0d0f63f4e5e6555480e30d3c2710c1e.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000007.committed.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000007.prepared.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000008.committed.json",
+        ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000008.prepared.json",
+        ".ai/evidence/WI-1122-legacy-renderer-recovery.contract-amendments/00000001.committed.json",
+        ".ai/evidence/WI-1122-legacy-renderer-recovery.contract-amendments/00000001.prepared.json",
+        ".ai/work-items/active/WI-1121-v1-0-2-release.contract.json",
+        ".ai/work-items/active/WI-1121-v1-0-2-release.summary.json",
+        ".ai/work-items/active/WI-1122-legacy-renderer-recovery.contract.json",
+        ".ai/work-items/active/WI-1122-legacy-renderer-recovery.summary.json",
+        ".ai/work-items/archive/WI-1121-v1-0-2-release.archive.json",
+        ".ai/work-items/archive/WI-1121-v1-0-2-release.contract.json",
+        ".ai/work-items/archive/WI-1121-v1-0-2-release.outcome.json",
+        ".ai/work-items/archive/WI-1121-v1-0-2-release.summary.json"
+      ],
+      "checkpointCount": 0,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "lifecycleFacts": {
+        "start": {
+          "actorProvenance": "unknown",
+          "eventType": "work_item_started",
+          "occurredAt": "2026-11-07T08:26:06.522734000Z",
+          "recordedAt": "2026-11-07T08:26:06.522734000Z",
+          "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+          "runtimeVersion": "1.0.1"
+        }
+      },
+      "mode": "release",
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "preflightState": "not_run",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "implementation_active",
+      "updatedAt": "2026-11-07T08:26:06.522734000Z",
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+    "observedBaseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+    "inputDigest": "sha256:21bd86a00276d70c26c8aad0ad4221a3a31aed66f1f87a6c5e55896a25063ed6",
+    "differences": [
+      {
+        "path": "/baseRevision",
+        "oldValue": "b3b960ae15b48161b525614ec466287df8799053",
+        "newValue": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca"
+      },
+      {
+        "path": "/state",
+        "oldValue": "not_ready",
+        "newValue": "implementation_active"
+      }
+    ],
+    "startFact": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-07T08:26:06.522734000Z",
+      "recordedAt": "2026-11-07T08:26:06.522734000Z",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "runtimeVersion": "1.0.1"
+    },
+    "recordedAt": "2026-11-07T08:26:06.522734000Z"
+  },
+  "recordDigest": "sha256:baa1ab227946bc456c14e60c22f40a1a42a26a36b26a47432a32f9775052f67b"
+}

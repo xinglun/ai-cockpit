@@ -1,0 +1,83 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:5e21ecd3a1f31867963fdf306dd260ccdf495adf386eddb34ad8c8ad8ed81910",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1122-legacy-renderer-recovery",
+    "sequence": 1,
+    "changeId": "wi1122-renderer-contract",
+    "requestDigest": "sha256:3a2585fc9361aaa6101662f202a707a0266117a1c5e6aa7859c770e6e73c536c",
+    "reason": "Prepare the bounded recovery successor for the historical renderer blocker.",
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "set",
+        "oldValue": "",
+        "newValue": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown."
+      },
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "",
+        "newValue": "Enable truthful historical closeout while preserving immutable evidence."
+      },
+      {
+        "path": "/authority",
+        "operation": "set",
+        "oldValue": "unknown",
+        "newValue": "authorized"
+      },
+      {
+        "path": "/risk",
+        "operation": "set",
+        "oldValue": "unknown",
+        "newValue": "normal"
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "crates/cockpit-repository/src/lib.rs"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:bf9c97f3c16d7d046af468258f7794735b8a17b90c18578c97ee38ebdc2db4e4",
+    "newContractDigest": "sha256:7d5540a1ab9ef3121611e90ab9f9f8d819824e6472eb4e35f39523cb84754056",
+    "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/risk",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:639d25d6c0bd4a5078fa80093182cc91b0aba479aa072cdd095e64eb29c5b5a9",
+    "recordedAt": "2026-11-07T08:23:11Z"
+  }
+}

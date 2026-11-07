@@ -148,20 +148,60 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1121-v1-0-2-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:129a3dcb8f6c4aebd86b6b29321fd59702c523b82cb37ac3b4e73cb7a93cf0e0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+      "previousContractHash": "sha256:60f4ea97b04b85fd8bfbe9414e47c57428c8a54b87b1660cee59b98353c9e05b",
+      "reason": "PR #1080 Linux quality found two independent release-gate defects: current version metadata remained 1.0.1 and a live /proc test rejected the production code's safe retryable process-disappearance result. Add only these exact files to repair the current WI release candidate without changing product safety behavior or historical evidence.",
+      "recorded": true,
+      "recordedAt": "2026-11-07T06:26:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1121-v1-0-2-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+      "previousContractHash": "sha256:129a3dcb8f6c4aebd86b6b29321fd59702c523b82cb37ac3b4e73cb7a93cf0e0",
+      "reason": "Add exact 0.2.85 historical Task Outcome renderer compatibility and frozen-report tamper regression coverage needed for WI-633 closeout.",
+      "recorded": true,
+      "recordedAt": "2026-11-07T08:07:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f760296e74a98086e7c239150ff6ac4b1f3a54b0e631d40d99dd0b94ea98ae2e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1121-v1-0-2-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
   "createdAt": "2026-11-07T02:01:07Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:60f4ea97b04b85fd8bfbe9414e47c57428c8a54b87b1660cee59b98353c9e05b",
+    "contractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:115b171e6d811cd3e623c372a6db97026ced6b75dc0bd5b0584b2211f18a1d93",
-    "reason": "Records the user’s explicit 同意 to the displayed current WI-1121 900-second node timeout Contract 60f4ea97, preflight 115b171e, and snapshot e0851e20; no external identity authentication is claimed.",
-    "recordedAt": "2026-11-07T05:11:17Z",
+    "preflightDecisionDigest": "sha256:e80c34bc5f3669a2928fd722f0af5966af5df8329a3a9033b9fa4601bd9ed5e5",
+    "reason": "Records the user’s explicit 同意 to the displayed 0.2.85 renderer compatibility scope and binding; no external identity authentication is claimed.",
+    "recordedAt": "2026-11-07T08:12:30.957538+00:00",
     "recordedBy": "agent:codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+    "repositorySnapshotDigest": "sha256:f760296e74a98086e7c239150ff6ac4b1f3a54b0e631d40d99dd0b94ea98ae2e",
     "schemaVersion": 1,
     "workItemId": "WI-1121-v1-0-2-release"
   },
@@ -179,11 +219,11 @@
     }
   },
   "mode": "release",
-  "preflightAt": "2026-11-07T05:37:01Z",
-  "preflightContractDigest": "sha256:60f4ea97b04b85fd8bfbe9414e47c57428c8a54b87b1660cee59b98353c9e05b",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-11-07T08:20:26Z",
+  "preflightContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+  "preflightDecisionDigest": "sha256:6d3d085da23d5b4b0bb6b777a6bcfd36838817f81abefe4b0a4f03ca0fdfd249",
   "preflightRepositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
-  "preflightState": "green",
+  "preflightState": "red",
   "processCleanup": {
     "entries": [
       {
@@ -1979,7 +2019,7 @@
     "sourceSnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
     "workItemId": "WI-1121-v1-0-2-release"
   },
-  "updatedAt": "2026-11-07T05:36:42Z",
+  "updatedAt": "2026-11-07T08:12:33.603851+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -2098,6 +2138,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-11-07T08:07:27Z"
+  },
   "verificationRecoveryReconciled": "sha256:99a817141389c3e460eafa31275a9b70e3a28fe07dd9783f50ec67233bf51308",
   "workItemId": "WI-1121-v1-0-2-release"
 }

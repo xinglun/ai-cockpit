@@ -1,0 +1,164 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1122-legacy-renderer-recovery",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1122-renderer-contract",
+      "expectedContractDigest": "sha256:bf9c97f3c16d7d046af468258f7794735b8a17b90c18578c97ee38ebdc2db4e4",
+      "reason": "Prepare the bounded recovery successor for the historical renderer blocker.",
+      "changes": [
+        {
+          "path": "/intent",
+          "operation": "set",
+          "value": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown."
+        },
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Enable truthful historical closeout while preserving immutable evidence."
+        },
+        {
+          "path": "/authority",
+          "operation": "set",
+          "value": "authorized"
+        },
+        {
+          "path": "/risk",
+          "operation": "set",
+          "value": "normal"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+        }
+      ]
+    },
+    "requestDigest": "sha256:3a2585fc9361aaa6101662f202a707a0266117a1c5e6aa7859c770e6e73c536c",
+    "previousContract": {
+      "acceptanceCriteria": [],
+      "authority": "unknown",
+      "baseRevision": "b3b960ae15b48161b525614ec466287df8799053",
+      "createdAt": "2026-11-07T08:21:43Z",
+      "goal": "",
+      "intent": "",
+      "mode": "release",
+      "outOfScope": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requiredEvidenceClasses": [],
+      "risk": "unknown",
+      "scope": [],
+      "sources": [],
+      "state": "not_ready",
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "previousContractDigest": "sha256:bf9c97f3c16d7d046af468258f7794735b8a17b90c18578c97ee38ebdc2db4e4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b3b960ae15b48161b525614ec466287df8799053",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Enable truthful historical closeout while preserving immutable evidence.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "newContractDigest": "sha256:7d5540a1ab9ef3121611e90ab9f9f8d819824e6472eb4e35f39523cb84754056",
+    "previousSummaryDigest": "sha256:ca633ebedacebb520c3a928a686fe831e65ce4daeb918d06db2addc59c7c8fb5",
+    "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/risk",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-11-07T08:23:11Z"
+  },
+  "preparedDigest": "sha256:5e21ecd3a1f31867963fdf306dd260ccdf495adf386eddb34ad8c8ad8ed81910"
+}

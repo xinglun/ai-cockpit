@@ -1,0 +1,24 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "user delegated ordinary recovery planning in current conversation",
+  "decidedAt": "2026-11-07T08:21:42.793919+00:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-633-reference-rebaseline-batch-53.recovery.a6c68cc1b7f68a7b85f626a56160e050c0d0f63f4e5e6555480e30d3c2710c1e.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+  "predecessorSummaryDigest": "sha256:33c7e1dfda12b96efbb26059f98778e01401cfe45909404d4843813ece91c624",
+  "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+  "reason": "Create a narrow successor to repair the 0.2.85 historical renderer compatibility blocking release recovery.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fix renderer compatibility and validate without rewriting historical evidence.",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1122-legacy-renderer-recovery",
+  "workItemId": "WI-1121-v1-0-2-release"
+}
