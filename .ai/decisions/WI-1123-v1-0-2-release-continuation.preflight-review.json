@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c07ac065173881e075a8540c27b874273bc8377b0a312e5799a7ad44be2057db",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e1e680b8ab7ce4c4d56064a7d8476e671b5f4e3ee9254b44a8487b52e9a2f6a7",
+  "reason": "Records user’s explicit 同意 to the displayed WI-1123 release continuation review binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T11:03:53.791028+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "schemaVersion": 1,
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

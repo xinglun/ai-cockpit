@@ -979,3 +979,5 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-1121-v1-0-2-release — v1.0.2 发布 | 进行中 → 验证关闭后已实现 | [工作项](../work-items/WI-1121-v1-0-2-release.zh-CN.md); active Contract `.ai/work-items/active/WI-1121-v1-0-2-release.contract.json`; planned archive `.ai/work-items/archive/WI-1121-v1-0-2-release.contract.json`; planned verification `.ai/evidence/WI-1121-v1-0-2-release.verification.json`; planned finalization `.ai/decisions/WI-1121-v1-0-2-release.finalize.json`; planned close `.ai/decisions/WI-1121-v1-0-2-release.close.json`. Publication, public install, upgrade acceptance, and terminal records are pending and are not asserted present. |
 
 | WI-1122-legacy-renderer-recovery — 旧版渲染器恢复 | In progress | [Work Item](../work-items/WI-1122-legacy-renderer-recovery.zh-CN.md); verification and close pending. |
+
+| WI-1123-v1-0-2-release-continuation — v1.0.2 发布续办 | In progress | [Work Item](../work-items/WI-1123-v1-0-2-release-continuation.zh-CN.md); verification and release pending. |

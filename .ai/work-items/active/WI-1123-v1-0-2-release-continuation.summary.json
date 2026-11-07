@@ -1,0 +1,55 @@
+{
+  "activationContinuity": {
+    "capability": "activation_continuity_recovery_v1",
+    "journalRelevant": true
+  },
+  "changedPaths": [
+    ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+    ".ai/evidence/WI-1123-v1-0-2-release-continuation.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1123-v1-0-2-release-continuation.contract-amendments/00000001.prepared.json",
+    ".ai/work-items/active/WI-1123-v1-0-2-release-continuation.contract.json",
+    ".ai/work-items/active/WI-1123-v1-0-2-release-continuation.summary.json"
+  ],
+  "checkpointAt": "2026-11-07T11:04:42Z",
+  "checkpointContractDigest": "sha256:c07ac065173881e075a8540c27b874273bc8377b0a312e5799a7ad44be2057db",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "createdAt": "2026-11-07T10:55:48Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c07ac065173881e075a8540c27b874273bc8377b0a312e5799a7ad44be2057db",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e1e680b8ab7ce4c4d56064a7d8476e671b5f4e3ee9254b44a8487b52e9a2f6a7",
+    "reason": "Records user’s explicit 同意 to the displayed WI-1123 release continuation review binding; no external identity authentication is claimed.",
+    "recordedAt": "2026-11-07T11:03:53.791028+00:00",
+    "recordedBy": "agent:codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+    "schemaVersion": 1,
+    "workItemId": "WI-1123-v1-0-2-release-continuation"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-07T10:57:02.091195000Z",
+      "recordedAt": "2026-11-07T10:57:02.091195000Z",
+      "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+      "runtimeVersion": "1.0.2"
+    }
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+  "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+  "preflightAt": "2026-11-07T10:57:30Z",
+  "preflightContractDigest": "sha256:c07ac065173881e075a8540c27b874273bc8377b0a312e5799a7ad44be2057db",
+  "preflightDecisionDigest": "sha256:e1e680b8ab7ce4c4d56064a7d8476e671b5f4e3ee9254b44a8487b52e9a2f6a7",
+  "preflightRepositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-11-07T11:04:42Z",
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

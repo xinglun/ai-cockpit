@@ -1143,3 +1143,5 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-1121-v1-0-2-release — v1.0.2 release | In progress → Implemented after verified close | [Work Item](../work-items/WI-1121-v1-0-2-release.md); active Contract `.ai/work-items/active/WI-1121-v1-0-2-release.contract.json`; planned archive `.ai/work-items/archive/WI-1121-v1-0-2-release.contract.json`; planned verification `.ai/evidence/WI-1121-v1-0-2-release.verification.json`; planned finalization `.ai/decisions/WI-1121-v1-0-2-release.finalize.json`; planned close `.ai/decisions/WI-1121-v1-0-2-release.close.json`. Publication, public install, upgrade acceptance, and terminal records are pending and are not asserted present. |
 
 | WI-1122-legacy-renderer-recovery — Legacy renderer recovery | In progress | [Work Item](../work-items/WI-1122-legacy-renderer-recovery.md); verification and close pending. |
+
+| WI-1123-v1-0-2-release-continuation — v1.0.2 release continuation | In progress | [Work Item](../work-items/WI-1123-v1-0-2-release-continuation.md); verification and release pending. |

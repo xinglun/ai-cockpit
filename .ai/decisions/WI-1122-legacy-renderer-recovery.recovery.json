@@ -1,0 +1,27 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "user delegated continuation of v1.0.2 release and ordinary work item planning",
+  "decidedAt": "2026-11-07T10:55:48.123593+00:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1122-legacy-renderer-recovery.close.json",
+    ".ai/decisions/WI-1121-v1-0-2-release.retirement.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+  "predecessorEventsDigest": "sha256:3e232a0818f0725a584a4a120eab9e41cde8a8b35d453c4304032e869369af33",
+  "predecessorOutcomeDigest": "sha256:13f56b3c85bc3ad04d3ec65323efaf368e5131f452582e65f82ef9749bde61ee",
+  "predecessorSummaryDigest": "sha256:1cfaf3ffa5edeadc4b71a5b7fed8507207888f923cc3baed5e3bec3484942102",
+  "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+  "reason": "Continue the previously authorized v1.0.2 release after the bounded renderer recovery was verified and closed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Restore the saved Linux fixes and complete fresh release verification, CI and publication under the successor Contract.",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1123-v1-0-2-release-continuation",
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}
