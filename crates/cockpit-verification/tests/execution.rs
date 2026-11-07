@@ -58,6 +58,61 @@ fn always_command(id: &str, program: &str, args: Vec<String>) -> VerificationCom
     VerificationCommand::new(id, program, args, VerificationReusePolicy::NeverReuse)
 }
 
+#[cfg(windows)]
+#[test]
+fn windows_git_version_exits_inside_owned_job() {
+    let direct = std::process::Command::new("git")
+        .arg("--version")
+        .output()
+        .expect("run direct git version control");
+    assert!(direct.status.success(), "direct git version: {direct:?}");
+
+    let command =
+        always_command("git-version", "git", vec!["--version".into()]).with_timeout_seconds(15);
+    let result = execute_bounded_at(vec![command], 1, NOW).expect("execute bounded git version");
+    let record = &result.execution_records[0];
+    assert!(record.passed, "bounded git version: {record:?}");
+    assert_eq!(record.exit_code, Some(0));
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_pinned_git_version_with_canonical_cwd_exits_inside_owned_job() {
+    let found = std::process::Command::new("where.exe")
+        .arg("git")
+        .output()
+        .expect("locate Git using the runner PATH");
+    assert!(found.status.success(), "where git: {found:?}");
+    let paths = String::from_utf8(found.stdout).expect("where git UTF-8 output");
+    let executable = std::path::PathBuf::from(paths.lines().next().expect("Git executable path"));
+    let pinned_parent = std::fs::canonicalize(executable.parent().expect("Git parent"))
+        .expect("canonical Git parent");
+    let pinned = pinned_parent.join(executable.file_name().expect("Git file name"));
+    let cwd = std::fs::canonicalize(std::env::temp_dir()).expect("canonical current directory");
+
+    let pinned_only = always_command(
+        "git-pinned",
+        pinned.to_string_lossy().as_ref(),
+        vec!["--version".into()],
+    )
+    .with_timeout_seconds(15);
+    let pinned_cwd = always_command(
+        "git-pinned-cwd",
+        pinned.to_string_lossy().as_ref(),
+        vec!["--version".into()],
+    )
+    .with_current_dir(cwd)
+    .with_timeout_seconds(15);
+    let first = execute_bounded_at(vec![pinned_only], 1, NOW).expect("execute pinned Git");
+    let second = execute_bounded_at(vec![pinned_cwd], 1, NOW).expect("execute pinned Git in cwd");
+    assert!(
+        first.execution_records[0].passed && second.execution_records[0].passed,
+        "pinned Git: {:?}; pinned Git with canonical cwd: {:?}",
+        first.execution_records[0],
+        second.execution_records[0]
+    );
+}
+
 #[test]
 fn timeout_is_bound_into_command_and_execution_receipt_identity() {
     let default = always_command("timeout-default", "true", vec![]);
@@ -636,19 +691,28 @@ fn successful_reusable_execution_returns_an_output_bound_receipt_candidate() {
     let result = execute_bounded_at(vec![command], 1, NOW).expect("execute");
 
     assert!(result.passed);
-    assert_eq!(result.receipt_candidates.len(), 1);
-    let candidate = &result.receipt_candidates[0];
-    assert!(candidate.validate().is_ok());
-    assert_eq!(candidate.node_id, "tests");
-    assert_eq!(candidate.context, current);
-    assert_eq!(
-        result.results[0].receipt_id,
-        Some(candidate.receipt_id.clone())
-    );
-    assert_eq!(
-        result.results[0].output_digest,
-        Some(candidate.output_digest.clone())
-    );
+    #[cfg(target_os = "macos")]
+    {
+        assert!(result.receipt_candidates.is_empty());
+        assert!(result.results[0].receipt_id.is_none());
+        assert!(result.results[0].output_digest.is_some());
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        assert_eq!(result.receipt_candidates.len(), 1);
+        let candidate = &result.receipt_candidates[0];
+        assert!(candidate.validate().is_ok());
+        assert_eq!(candidate.node_id, "tests");
+        assert_eq!(candidate.context, current);
+        assert_eq!(
+            result.results[0].receipt_id,
+            Some(candidate.receipt_id.clone())
+        );
+        assert_eq!(
+            result.results[0].output_digest,
+            Some(candidate.output_digest.clone())
+        );
+    }
 }
 
 #[test]
@@ -728,7 +792,26 @@ fn descendant_inheriting_capture_pipes_cannot_hold_the_executor_open() {
 
     let result = execute_bounded_at(vec![command], 1, NOW).expect("execute descendant");
 
-    assert!(result.passed);
+    #[cfg(target_os = "linux")]
+    assert!(
+        result.passed,
+        "Linux must preserve the positive supervised result"
+    );
+    #[cfg(target_os = "macos")]
+    {
+        assert!(
+            !result.passed,
+            "Mac cannot promote inherited descendant pipes to a clean result"
+        );
+        assert!(
+            result.receipt_candidates.is_empty(),
+            "Mac cleanup uncertainty cannot produce reusable evidence"
+        );
+        assert!(
+            result.execution_records[0].cleanup_uncertainty.is_some(),
+            "Mac must explain the descendant cleanup boundary: {result:?}"
+        );
+    }
     assert!(
         started.elapsed() < std::time::Duration::from_secs(5),
         "descendant must not retain the capture pipes"

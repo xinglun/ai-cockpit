@@ -58,7 +58,8 @@ fn fixture() -> (tempfile::TempDir, Contract) {
     let base = git(root, &["rev-parse", "HEAD"]);
     let contract: Contract = serde_json::from_value(json!({
         "protocolVersion": 1,
-        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "repositoryId": cockpit_repository::repository_id(&fs::canonicalize(root).unwrap())
+            .to_string(),
         "workItemId": "WI-MATERIAL",
         "intent": "review bounded committed material",
         "goal": "retain exact material evidence",

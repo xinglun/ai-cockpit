@@ -920,6 +920,9 @@ fn retained_canonical_fixture_with_profile_reuse(
     }
 }
 
+// This isolated legacy producer needs a physically reusable receipt. Mac's
+// managed-process boundary deliberately does not issue one.
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_fixture_child() {
     use cockpit_repository::{
@@ -1232,6 +1235,9 @@ fn legacy_descriptor_fixture_child() {
     .expect("isolated legacy-shape fixture only");
 }
 
+// The retained legacy producer fixture requires a reusable physical receipt.
+// Mac deliberately emits no such receipt for its bounded managed-process scope.
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_gap_cli_mcp_share_material_admission_and_replay_rejection() {
     let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
@@ -1305,6 +1311,7 @@ fn legacy_descriptor_gap_cli_mcp_share_material_admission_and_replay_rejection()
     );
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_gap_preserves_original_integrity_and_current_guard_rejections() {
     let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
@@ -1342,6 +1349,7 @@ fn legacy_descriptor_gap_preserves_original_integrity_and_current_guard_rejectio
     }
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_gap_requires_four_fresh_checks_without_promoting_old_proof() {
     let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
@@ -1415,6 +1423,7 @@ fn legacy_descriptor_gap_requires_four_fresh_checks_without_promoting_old_proof(
     );
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn source_change_after_material_review_refreshes_preflight_and_executes_four_checks() {
     let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
@@ -1685,6 +1694,7 @@ fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archive
     );
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
     let fixture = retained_canonical_fixture_with_profile_reuse(
@@ -1766,23 +1776,26 @@ fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh(
     assert_retained_real_failure_and_retry(fixture);
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_gap_failure_keeps_old_bytes_and_exact_retry_executes_fresh() {
     let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
     assert_retained_real_failure_and_retry(fixture);
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn legacy_descriptor_gap_actual_timeout_preserves_failed_attempt_and_exact_retry() {
     assert_retained_fault_attempt_and_retry("timeout");
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn legacy_descriptor_gap_actual_signal_preserves_failed_attempt_and_exact_retry() {
     assert_retained_fault_attempt_and_retry("signal");
 }
 
+#[cfg(not(target_os = "macos"))]
 fn assert_retained_fault_attempt_and_retry(mode: &str) {
     let fixture =
         retained_canonical_fixture_with_fault_budget(false, RETAINED_FIXTURE_CHECKS, true, true);

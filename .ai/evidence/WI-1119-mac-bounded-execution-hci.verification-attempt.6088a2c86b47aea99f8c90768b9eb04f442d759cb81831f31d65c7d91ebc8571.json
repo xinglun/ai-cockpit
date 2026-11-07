@@ -1,0 +1,130 @@
+{
+  "checkpointId": "sha256:6088a2c86b47aea99f8c90768b9eb04f442d759cb81831f31d65c7d91ebc8571",
+  "commands": [
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:1087249337be28e3e45712c9df2a4c7352792be1933607e54ede31cfdbbc8047",
+      "nodeId": "project-command-4-package-cockpit-repository",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:a9ed1bf8bb9566c3bdd6e0eb457df5be0b1dcccb9cfd0575bf773220a861e8b9",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1ff88f96e122c8fe1fa191effaf449f637fb492de9fb94f8e71d68ea8a461983",
+  "contractExecutionScopeDigest": "sha256:8bf27e5760d403b2253aa894dc4ef5fd91ca2a7827ff1414cfab604faaffd5b1",
+  "createdAt": "2026-11-05T11:38:46.690686000Z",
+  "executionId": "sha256:1878140a465b7d491e4081e0cf54bebb5ac6cbcb28bd2f2a9d66cb46753ba714",
+  "executionRecords": [
+    {
+      "cleanupUncertainty": {
+        "phase": "mac_descendant_boundary",
+        "reason": "Direct-child reaping is reported separately; original-group and escaped-descendant closure cannot be proved on macOS",
+        "remainingPids": [],
+        "remainingPidsTruncated": false
+      },
+      "commandDigest": "sha256:1087249337be28e3e45712c9df2a4c7352792be1933607e54ede31cfdbbc8047",
+      "commandResult": "succeeded",
+      "deadlineMs": 1793879016076,
+      "elapsedMs": 10612,
+      "exitCode": 0,
+      "nodeId": "project-command-4-package-cockpit-repository",
+      "passed": false,
+      "spawned": true,
+      "stderr": "20202020436865636b696e6720636f636b7069742d7265706f7369746f72792076312e302e3120282f55736572732f7365692d72696e6e2f446f63756d656e74732f436f6465782f323032362d31312d30332f7461736b2f61692d636f636b7069742d6d61632d707265666c696768742f6372617465732f636f636b7069742d7265706f7369746f7279290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20342e3736730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65640a636c65616e75705f756e6365727461696e3a207b227068617365223a226d61635f64657363656e64616e745f626f756e64617279222c22726561736f6e223a224469726563742d6368696c642072656170696e67206973207265706f727465642073657061726174656c793b206f726967696e616c2d67726f757020616e6420657363617065642d64657363656e64616e7420636c6f737572652063616e6e6f742062652070726f766564206f6e206d61634f53222c2272656d61696e696e6750696473223a5b5d2c2272656d61696e696e67506964735472756e6361746564223a66616c73657d",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 10612,
+    "executionElapsedMs": 10612,
+    "executionRecords": [
+      {
+        "cleanupUncertainty": {
+          "phase": "mac_descendant_boundary",
+          "reason": "Direct-child reaping is reported separately; original-group and escaped-descendant closure cannot be proved on macOS",
+          "remainingPids": [],
+          "remainingPidsTruncated": false
+        },
+        "commandDigest": "sha256:1087249337be28e3e45712c9df2a4c7352792be1933607e54ede31cfdbbc8047",
+        "commandResult": "succeeded",
+        "deadlineMs": 1793879016076,
+        "elapsedMs": 10612,
+        "exitCode": 0,
+        "nodeId": "project-command-4-package-cockpit-repository",
+        "passed": false,
+        "spawned": true,
+        "stderr": "20202020436865636b696e6720636f636b7069742d7265706f7369746f72792076312e302e3120282f55736572732f7365692d72696e6e2f446f63756d656e74732f436f6465782f323032362d31312d30332f7461736b2f61692d636f636b7069742d6d61632d707265666c696768742f6372617465732f636f636b7069742d7265706f7369746f7279290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20342e3736730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65640a636c65616e75705f756e6365727461696e3a207b227068617365223a226d61635f64657363656e64616e745f626f756e64617279222c22726561736f6e223a224469726563742d6368696c642072656170696e67206973207265706f727465642073657061726174656c793b206f726967696e616c2d67726f757020616e6420657363617065642d64657363656e64616e7420636c6f737572652063616e6e6f742062652070726f766564206f6e206d61634f53222c2272656d61696e696e6750696473223a5b5d2c2272656d61696e696e67506964735472756e6361746564223a66616c73657d",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-4-package-cockpit-repository",
+        "outputDigest": "sha256:fa4d74b86a00e367cf22f1469c2b286bdee6644166a9d149749d3d04cd1bf0d7",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 300
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+  "runtimeDigest": "sha256:a9ed1bf8bb9566c3bdd6e0eb457df5be0b1dcccb9cfd0575bf773220a861e8b9",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

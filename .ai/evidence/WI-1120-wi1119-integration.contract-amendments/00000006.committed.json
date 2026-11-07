@@ -1,0 +1,121 @@
+{
+  "sequence": 6,
+  "preparedDigest": "sha256:6b9f336ffb11831ec440875e4692b75b29063ff75d1a811deef3938bf0257347",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 6,
+    "changeId": "wi1120-five-file-material-review-20261107",
+    "requestDigest": "sha256:3fb5bd733fe35745769ddd781e2de3a2b614b2468adbb16f8b9dc83f6eac45fc",
+    "reason": "The user explicitly approved Agent self-declared technical review of the current five readable committed Rust files and accepted scanner-not-Clean residual risk. Add only the material review opt-in and the exact task action to record it; the Runtime itself maintains its protected required capability. Preserve source scope, tests, process permissions, and release exclusion.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "ready_pull_request",
+              "merge_pull_request",
+              "verify_main",
+              "record_finalization",
+              "finalize_verify"
+            ],
+            "authoritySource": "current conversation: user confirmed WI-1120 as WI-1119 successor for PR #1079 ready, necessary re-verification and merge; user previously authorized ordinary technical implementation within the delegated AI Cockpit scope; release remains a separate Work Item",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "current conversation 2026-11-07: user explicitly agreed to Agent self-declared technical review of the five WI-1120 material-plan files and accepted scanner-not-Clean residual risk; limited to current exact committed source",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:codex",
+            "schemaVersion": 1
+          },
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "ready_pull_request",
+              "merge_pull_request",
+              "verify_main",
+              "record_finalization",
+              "finalize_verify",
+              "record_material_review_decision"
+            ],
+            "authoritySource": "current conversation: user confirmed WI-1120 as WI-1119 successor for PR #1079 ready, necessary re-verification and merge; user previously authorized ordinary technical implementation within the delegated AI Cockpit scope; release remains a separate Work Item",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "bounded-task-authorization",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "bounded-task-authorization",
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c4719289c8b83c7a7ae36a04aa6a2d71649a8334ebf5c0cf556853e4310e41da",
+    "newContractDigest": "sha256:514261fa75311a6a9938feb8e8c08c80868bb3639b27db91c3442077d35b0908",
+    "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+    "environmentObservationDigest": "sha256:46fc8a20a8ba5ed61d2f6aa99e96e4e9eb80d2c642f10b979b803eee4ab05f3f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1120-wi1119-integration.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:fa4e47599ad5cd08437a03295cb1f89e69897ac27af339d8760461efa3dab5d8",
+    "journalDigest": "sha256:fd262dda59a59478cfca461f0d037018fc4db999448a4787ace517db20b6b6d5",
+    "recordedAt": "2026-11-07T00:36:05Z"
+  }
+}

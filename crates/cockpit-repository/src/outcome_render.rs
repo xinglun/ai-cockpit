@@ -1263,7 +1263,19 @@ fn push_reason_for_gate(keys: &mut Vec<String>, gate: &str) {
 }
 
 fn push_reason_for_unknown(keys: &mut Vec<String>, unknown: &str) {
-    let key = if unknown == "verification_evidence_missing" {
+    let key = if unknown == "unmanaged_descendant_closure_unproved" {
+        "unmanaged_descendant_closure_unproved"
+    } else if unknown == "wi_process_cleanup_unresolved"
+        || unknown == "wi_process_cleanup_record_invalid"
+    {
+        "wi_process_cleanup_unknown"
+    } else if unknown.starts_with("verification_attempt_cleanup_unknown:succeeded:") {
+        "mac_command_succeeded_cleanup_unknown"
+    } else if unknown.starts_with("verification_attempt_cleanup_unknown:failed:") {
+        "mac_command_failed_cleanup_unknown"
+    } else if unknown.starts_with("verification_attempt_cleanup_unknown:unknown:") {
+        "mac_command_result_unknown_cleanup_unknown"
+    } else if unknown == "verification_evidence_missing" {
         "verification_evidence_missing"
     } else if unknown == "evidence_stale"
         || unknown.contains("evidence") && unknown.contains("stale")
@@ -3251,6 +3263,21 @@ fn localized_summary_next_action(
 
 fn localized_governance_reason(key: &str, language: &str) -> String {
     match (language, key) {
+        ("zh", "unmanaged_descendant_closure_unproved") => "验证仅覆盖本工作项登记并管理的进程；未登记的逃逸后代是否退出尚未证明。".into(),
+        ("ja", "unmanaged_descendant_closure_unproved") => "検証はこの Work Item が登録・管理したプロセスに限られます。未登録の離脱した子孫プロセスの終了は証明されていません。".into(),
+        (_, "unmanaged_descendant_closure_unproved") => "Verification covers only processes registered and managed by this Work Item; exit of unregistered escaped descendants is unproved.".into(),
+        ("zh", "wi_process_cleanup_unknown") => "本工作项有未确认回收的进程记录；独立命令没有原监督器的进程句柄，不能凭旧 PID 安全终止或声明清理完成。".into(),
+        ("ja", "wi_process_cleanup_unknown") => "この Work Item に回収未確認のプロセス記録があります。独立コマンドには元の Child ハンドルがないため、古い PID だけで終了や清理完了を判断できません。".into(),
+        (_, "wi_process_cleanup_unknown") => "This Work Item has unconfirmed process records. A separate command has no original Child handle and cannot safely signal a historical PID or claim cleanup.".into(),
+        ("zh", "mac_command_succeeded_cleanup_unknown") => "命令已观察到成功退出；受管理进程的回收未确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_succeeded_cleanup_unknown") => "コマンドの正常終了を確認しました。管理対象プロセスの回収は未確認で、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_succeeded_cleanup_unknown") => "The command exited successfully; managed-process reaping is unconfirmed, so the Work Item awaits formal verification.".into(),
+        ("zh", "mac_command_failed_cleanup_unknown") => "命令已观察到失败；受管理进程的回收也未确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_failed_cleanup_unknown") => "コマンドの失敗を確認しました。管理対象プロセスの回収も未確認で、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_failed_cleanup_unknown") => "The command failed; managed-process reaping is also unconfirmed, so the Work Item awaits formal verification.".into(),
+        ("zh", "mac_command_result_unknown_cleanup_unknown") => "命令结果与受管理进程回收均无法确认，工作项仍待正式验证。".into(),
+        ("ja", "mac_command_result_unknown_cleanup_unknown") => "コマンドの結果と管理対象プロセスの回収を確認できず、Work Item は正式な検証待ちです。".into(),
+        (_, "mac_command_result_unknown_cleanup_unknown") => "The command result and managed-process reaping are unconfirmed; the Work Item awaits formal verification.".into(),
         ("zh", "verification_failed") => "验证执行失败；当前结果已停止。".into(),
         ("ja", "verification_failed") => "検証の実行に失敗したため、現在の結果は停止しています。".into(),
         (_, "verification_failed") => "Verification execution failed; the current result is stopped.".into(),

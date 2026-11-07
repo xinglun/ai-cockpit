@@ -632,7 +632,11 @@ fn post_command_repository_drift_discards_the_passed_receipt_candidate() {
     assert_eq!(run.receipt.results[0].receipt_id, None);
     assert_eq!(
         run.receipt.results[0].reason,
-        "post_execution_binding_drift"
+        if cfg!(target_os = "macos") {
+            "evidence_missing"
+        } else {
+            "post_execution_binding_drift"
+        }
     );
     assert!(!root.join(".ai/evidence/reuse/index.json").exists());
     fs::remove_dir_all(root).expect("cleanup");
@@ -795,7 +799,9 @@ fn invalid_stage_fails_closed_before_reuse_or_identity_access() {
     fs::remove_dir_all(root).expect("cleanup");
 }
 
-#[cfg(unix)]
+// This race requires an existing reusable receipt and its store lock. Mac
+// deliberately emits no reusable receipt for bounded managed processes.
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn drift_after_an_initial_fresh_plan_forces_a_real_execution_fallback() {
     use std::io::Write;
@@ -890,14 +896,23 @@ fn formatting_only_config_change_between_calls_preserves_semantic_reuse() {
         assert_eq!(first.receipt.processes_spawned, 1, "{identity_file}");
         assert!(first.receipt.results[0].passed, "{identity_file}");
 
-        let unchanged = run_repository_verification(&root, &request).expect("unchanged reuse");
-        assert_eq!(unchanged.receipt.nodes_reused, 1, "{identity_file}");
-        assert_eq!(unchanged.receipt.processes_spawned, 0, "{identity_file}");
+        let unchanged =
+            run_repository_verification(&root, &request).expect("unchanged verification");
+        assert_eq!(
+            unchanged.receipt.nodes_reused,
+            if cfg!(target_os = "macos") { 0 } else { 1 },
+            "{identity_file}"
+        );
+        assert_eq!(
+            unchanged.receipt.processes_spawned,
+            if cfg!(target_os = "macos") { 1 } else { 0 },
+            "{identity_file}"
+        );
         assert_eq!(
             fs::read_to_string(root.join(".counter"))
                 .expect("counter")
                 .trim(),
-            "1",
+            if cfg!(target_os = "macos") { "2" } else { "1" },
             "{identity_file}"
         );
 
@@ -905,15 +920,24 @@ fn formatting_only_config_change_between_calls_preserves_semantic_reuse() {
         let mut bytes = fs::read(&identity_path).expect("identity bytes");
         bytes.push(b'\n');
         fs::write(&identity_path, bytes).expect("drift identity bytes");
-        let drifted = run_repository_verification(&root, &request).expect("format-only reuse");
-        assert_eq!(drifted.receipt.nodes_reused, 1, "{identity_file}");
-        assert_eq!(drifted.receipt.processes_spawned, 0, "{identity_file}");
+        let drifted =
+            run_repository_verification(&root, &request).expect("format-only verification");
+        assert_eq!(
+            drifted.receipt.nodes_reused,
+            if cfg!(target_os = "macos") { 0 } else { 1 },
+            "{identity_file}"
+        );
+        assert_eq!(
+            drifted.receipt.processes_spawned,
+            if cfg!(target_os = "macos") { 1 } else { 0 },
+            "{identity_file}"
+        );
         assert!(drifted.receipt.results[0].passed, "{identity_file}");
         assert_eq!(
             fs::read_to_string(root.join(".counter"))
                 .expect("counter")
                 .trim(),
-            "1",
+            if cfg!(target_os = "macos") { "3" } else { "1" },
             "{identity_file}"
         );
         fs::remove_file(tool).expect("cleanup tool");
@@ -921,7 +945,7 @@ fn formatting_only_config_change_between_calls_preserves_semantic_reuse() {
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     use std::os::unix::fs::PermissionsExt;
@@ -1027,7 +1051,8 @@ fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     fs::remove_dir_all(root).expect("cleanup repository");
 }
 
-#[cfg(unix)]
+// This race likewise requires a reusable receipt and its store lock.
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn fresh_plan_with_persistent_executable_drift_executes_and_receipts_new_bytes() {
     use std::os::unix::fs::PermissionsExt;
@@ -1116,8 +1141,19 @@ fn fresh_plan_with_persistent_executable_drift_executes_and_receipts_new_bytes()
 
     let third = run_repository_verification(&root, &request).expect("third");
     assert!(third.receipt.passed);
-    assert_eq!(third.receipt.nodes_reused, 1);
-    assert_eq!(third.receipt.processes_spawned, 0);
+    assert_eq!(
+        third.receipt.nodes_reused,
+        if cfg!(target_os = "macos") { 0 } else { 1 }
+    );
+    assert_eq!(
+        third.receipt.processes_spawned,
+        if cfg!(target_os = "macos") { 1 } else { 0 }
+    );
+    #[cfg(target_os = "macos")]
+    assert_eq!(
+        fs::read_to_string(root.join(".executed")).expect("execution log"),
+        "A\nB\nB\n"
+    );
 
     for path in [tool, original] {
         fs::remove_file(path).expect("cleanup fixture");

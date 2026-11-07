@@ -1035,6 +1035,7 @@ pub const TASK_AUTHORIZATION_ACTIONS: &[&str] = &[
     "record_finalization",
     "finalize_verify",
     "cleanup_resources",
+    "process_cleanup",
     "publish_native_closeout",
     "cleanup_auxiliary_resources",
 ];

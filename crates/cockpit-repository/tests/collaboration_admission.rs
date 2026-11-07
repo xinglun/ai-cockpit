@@ -764,6 +764,7 @@ fn declare_required_checks(root: &Path, work_item_id: &str, checks: &[String]) {
     .expect("write typed Contract checks");
 }
 
+#[cfg(not(target_os = "macos"))]
 fn declare_required_check_coverage(
     root: &Path,
     work_item_id: &str,
@@ -1011,6 +1012,42 @@ fn runtime_context() -> RuntimeContext {
 }
 
 #[test]
+#[cfg(target_os = "macos")]
+fn composition_requires_full_descendant_supervision_before_spawning_on_mac() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("mac-composition-must-not-run");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let error = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
+        .expect_err("Mac cannot claim full descendant supervision");
+    assert!(
+        error
+            .to_string()
+            .contains("full-owned-descendant supervision is unsupported"),
+        "unexpected refusal: {error}"
+    );
+    assert!(
+        !marker.exists(),
+        "refused composition must not spawn its command"
+    );
+}
+
+#[test]
+#[cfg(not(target_os = "macos"))]
 fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let root = repository();
     #[cfg(target_os = "linux")]
@@ -1075,6 +1112,7 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
 
 // Read only native records created by these two fixtures. Projection below
 // separately exercises the repository's pinned native catalog reader.
+#[cfg(not(target_os = "macos"))]
 fn assert_unreleased_parent_failure(
     store: &CoordinationStore,
     input: &CompositionInput,
@@ -1350,6 +1388,7 @@ fn assert_unreleased_parent_failure(
     view
 }
 
+#[cfg(not(target_os = "macos"))]
 #[test]
 fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     let root = repository();
@@ -1432,7 +1471,10 @@ fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
     };
     assert_eq!(facts.exit_code, Some(0));
     assert!(facts.termination_signal.is_none());
-    assert!(facts.actions.is_empty());
+    assert!(
+        facts.actions.is_empty(),
+        "before-Ready cleanup facts: {facts:?}"
+    );
     #[cfg(unix)]
     {
         let mut status = 0;
@@ -1651,6 +1693,7 @@ int open64(const char *path, int flags, ...) {
 }
 
 #[test]
+#[cfg(not(target_os = "macos"))]
 fn legacy_incomplete_composition_attempts_project_unknown_execution() {
     let root = repository();
     let store = store(root.path());
@@ -1732,6 +1775,7 @@ fn legacy_incomplete_composition_attempts_project_unknown_execution() {
 }
 
 #[test]
+#[cfg(not(target_os = "macos"))]
 fn revoked_admission_after_registration_persists_receipt_and_allows_a_later_retry() {
     let root = repository();
     let store = store(root.path());
@@ -2462,6 +2506,7 @@ fn deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn()
 }
 
 #[test]
+#[cfg(not(target_os = "macos"))]
 fn shared_outcome_does_not_trust_a_tampered_composition_pass_flag() {
     let root = repository();
     let store = store(root.path());
@@ -2693,6 +2738,7 @@ fn caller_coverage_labels_cannot_attach_scenarios_to_an_unrelated_required_check
 }
 
 #[test]
+#[cfg(not(target_os = "macos"))]
 fn contract_bound_check_scenario_and_constraint_coverage_is_admitted() {
     let root = repository();
     let store = store(root.path());
@@ -3100,6 +3146,7 @@ fn composition_requires_the_dependency_closure_in_declared_order() {
 }
 
 #[test]
+#[cfg(not(target_os = "macos"))]
 fn feature_worktree_can_compose_against_the_declared_main_target() {
     let root = repository();
     let main_head = GitRepository::discover(root.path())

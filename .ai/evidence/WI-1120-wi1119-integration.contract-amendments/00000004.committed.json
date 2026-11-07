@@ -1,0 +1,67 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:45957268821d7d1b6192f207e21fa4f19326795d5a41d54c32d16663e8337401",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 4,
+    "changeId": "wi1120-complete-optional-scenario-plan-leaves",
+    "requestDigest": "sha256:84eb47be7eb1d96aa22e79605201b6e3ce9846836e31f2b6334d572014025dbc",
+    "reason": "Native activation serializes typed scenario plans with reason and description leaves. Fill only those missing optional plan fields without changing scenario identity, status, evidence, expected results or verification plans.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/0/reason",
+        "operation": "set",
+        "newValue": "Required to preserve fail-closed Mac process ownership while testing source-change selectivity."
+      },
+      {
+        "path": "/scenarioCoverage/0/description",
+        "operation": "set",
+        "newValue": "Mac partial lsof observation and selective source-change execution."
+      },
+      {
+        "path": "/scenarioCoverage/1/reason",
+        "operation": "set",
+        "newValue": "Required to distinguish first-attempt failure from exact-identity reuse."
+      },
+      {
+        "path": "/scenarioCoverage/1/description",
+        "operation": "set",
+        "newValue": "Mac exact-identity execution and changed-command invalidation."
+      },
+      {
+        "path": "/scenarioCoverage/2/reason",
+        "operation": "set",
+        "newValue": "Required to bind exact-head hosted checks and main integration."
+      },
+      {
+        "path": "/scenarioCoverage/2/description",
+        "operation": "set",
+        "newValue": "Linux, Mac and Windows PR integration evidence."
+      }
+    ],
+    "previousContractDigest": "sha256:be3bb456e59c928cf1fcc30f3a5a9eb34005c39ebb44c0515013e4997699f23b",
+    "newContractDigest": "sha256:69b8105914ab3a29c3714b82247f9d64094523a2f1b9e15dde13df6d77f3c819",
+    "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+    "environmentObservationDigest": "sha256:df496e5cf1467095f33804ac362b3ecefbc7289aa9ada2fce45126ece3119bff",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/0/description",
+      "/scenarioCoverage/0/reason",
+      "/scenarioCoverage/1/description",
+      "/scenarioCoverage/1/reason",
+      "/scenarioCoverage/2/description",
+      "/scenarioCoverage/2/reason"
+    ],
+    "previousJournalDigest": "sha256:1e538ac9883cc1a34becd985f2911261281ac5b941d0044081fdd2d9885a3cb3",
+    "journalDigest": "sha256:f4444f4d73e794fa0ef5da8fcb36dca2fb30dc67a4651ca66884d21abc93f485",
+    "recordedAt": "2026-11-06T21:15:01Z"
+  }
+}

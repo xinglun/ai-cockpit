@@ -17,8 +17,10 @@ capabilityClaims:
 ## Identity
 
 AI Cockpit is a Repository Governance Layer for AI-assisted engineering. Its
-North Star is calibrated human-agent trust and its core rule is evidence over
-self-declaration.
+sole current North Star is human-computer interaction (HCI): make the system
+understandable, controllable, explainable, and recoverable for the person using
+it, without promising zero errors. Calibrated human-agent trust is an outcome
+of that interaction. Its core rule is evidence over self-declaration.
 
 The governed chain is:
 

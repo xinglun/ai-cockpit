@@ -91,6 +91,7 @@ capabilityClaims:
 | `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item process-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
@@ -141,6 +142,15 @@ capabilityClaims:
 
 </details>
 <!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+`work-item process-cleanup --repo <checkout> --id <wi>` 仅检查该 WI 的 Summary
+进程记录，并向仍持有且能核实子进程身份的监督器请求有界终止与回收。数值 PID 和临时
+邮箱名只用于关联记录，不能授权独立命令直接发信号。监督器失联、请求过期、终止失败
+或身份无法确认时报告 Unknown；直接子进程已回收也不能证明所有后代已退出。当前保留
+句柄的清理路径只在 macOS 建立，Linux 和 Windows 仍共享记录与 Unknown 语义。
+在 macOS 上，正式命令成功仅覆盖本 WI 登记并持有、且已确认直接回收的进程。收据记录
+`unmanagedDescendantsUnproved`，Outcome 明确提示未登记的逃逸后代未证明退出。受管理进程
+身份或回收不明时仍为 Unknown，不能生成成功收据或可复用节点。
 
 
 历史兼容必须显式且保持低 assurance。旧的共享主 worktree 记录可以使用

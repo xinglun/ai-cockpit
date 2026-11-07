@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dd44f2e45fa7662ea14e010ba2b693bb19b371f79882e7c6d6303d6499218d1b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:41005be0730f0a3fd912f1cb5ed3a89486baeca3820fb76c6973b9420416c97f",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for the WI-managed-process formal acceptance boundary. This confirms only Contract review, not implementation, tests, cleanup, completion or release.",
+  "recordedAt": "2026-11-04T00:42:38Z",
+  "recordedBy": "user:parent-thread-approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d5b8aa0461d5766ce6b703632a2cae4bde65d98e436d48e956bdfa121a6e8a11",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

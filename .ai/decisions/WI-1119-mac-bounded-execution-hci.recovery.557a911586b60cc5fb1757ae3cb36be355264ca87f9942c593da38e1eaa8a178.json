@@ -1,0 +1,21 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "conversation:Sentinel_36e8625009d08191b199c19b15e15258 (user replied 同意 at 2026-11-06T04:28:48Z to the exact WI-1119 native retry for the new source snapshot)",
+  "decidedAt": "2026-11-06T04:28:48Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1119-mac-bounded-execution-hci.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+  "predecessorSummaryDigest": "sha256:fcff06398e4b782f7b24eadb812b6d6b3d2fa51a61de2124af8470df8f47b5a3",
+  "predecessorWorkItemId": "WI-1119-mac-bounded-execution-hci",
+  "reason": "Preserve the old successful receipt and all historical Unknown records; authorize one native WI-1119 retry after test commit 903818f0a changed the source snapshot, without weakening the declared checks or cleanup boundary.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh current-Runtime, current-Contract, current-source formal verification after checking process safety and native admission; do not revise historical attempts or Unknown records.",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

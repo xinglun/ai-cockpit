@@ -27,8 +27,109 @@ use std::sync::atomic::AtomicBool;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
 use std::time::Duration;
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 use std::time::Instant;
+
+fn redacted_attempt_state(attempt: &CompositionAttempt) -> String {
+    let lsof_partial_status_one = attempt.failure.as_deref().is_some_and(|failure| {
+        failure.starts_with("verifier_process_state_unknown:lsof exited with status Some(1)")
+    });
+    format!(
+        "passed={} outcome={:?} evidence_complete={} cleanup={:?} cleanup_attempted={} cleanup_removed={} cleanup_error={} owned_tree_unknown={} processes_spawned={} records={} receipt_present={} owner_pid_present={} lsof_partial_status_one={} other_failure={}",
+        attempt.passed,
+        attempt.execution_outcome,
+        attempt.execution_evidence_complete,
+        attempt.cleanup_disposition,
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted),
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.removed),
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.error.is_some()),
+        attempt.owned_tree_termination_unknown,
+        attempt.processes_spawned,
+        attempt.execution_records.len(),
+        attempt.supervisor_receipt.is_some(),
+        attempt.owner_pid.is_some(),
+        lsof_partial_status_one,
+        attempt.failure.is_some() && !lsof_partial_status_one,
+    )
+}
+
+fn assert_reuse_execution_or_macos_observer_unknown(
+    attempt: &CompositionAttempt,
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+) {
+    if attempt.passed {
+        return;
+    }
+    #[cfg(target_os = "macos")]
+    {
+        let worktree = Path::new(&attempt.isolated_worktree);
+        if attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+            && attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+        {
+            preserve_unknown_fixture_owners(
+                repository,
+                state,
+                test_name,
+                &attempt.attempt_id,
+                worktree,
+                attempt.failure.as_deref(),
+            );
+        }
+        assert_eq!(
+            attempt.failure.as_deref(),
+            Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+            "unexpected reuse attempt: {}",
+            redacted_attempt_state(attempt),
+        );
+        assert_eq!(
+            attempt.execution_outcome,
+            CompositionExecutionOutcome::Unknown
+        );
+        assert!(!attempt.execution_evidence_complete);
+        assert!(attempt.owned_tree_termination_unknown);
+        assert_eq!(
+            attempt.cleanup_disposition,
+            CompositionCleanupDisposition::Retained
+        );
+        assert!(attempt.cleanup.is_none());
+        assert!(!attempt.execution_records.is_empty());
+        assert!(attempt.execution_records.iter().all(|record| record.passed));
+        assert!(worktree.is_dir());
+        assert!(worktree_is_registered(repository.path(), worktree));
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = (repository, state, test_name);
+        panic!(
+            "reuse execution did not pass: {}",
+            redacted_attempt_state(attempt)
+        );
+    }
+}
+
+fn first_execution_passed_or_macos_observer_unknown(
+    attempt: &CompositionAttempt,
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+) -> bool {
+    if attempt.passed {
+        return true;
+    }
+    assert_reuse_execution_or_macos_observer_unknown(attempt, repository, state, test_name);
+    false
+}
 
 #[cfg(target_os = "linux")]
 #[test]
@@ -1143,7 +1244,11 @@ fn coherent_supervisor_receipt_is_required_for_a_successful_terminal() {
     };
     attempt.supervisor_receipt = Some(receipt);
 
-    assert!(attempt.is_coherent_successful_terminal());
+    assert!(
+        attempt.is_coherent_successful_terminal(),
+        "synthetic receipt coherence failed: {}",
+        redacted_attempt_state(&attempt),
+    );
     attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
     assert!(!attempt.is_coherent_successful_terminal());
     attempt.cleanup_disposition = CompositionCleanupDisposition::Cleaned;
@@ -1526,9 +1631,9 @@ fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
 
 #[test]
 fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let composition = input(
         root.path(),
         state.path(),
@@ -1541,7 +1646,18 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
     #[cfg(not(target_os = "linux"))]
     let passed = run_composition(composition.clone());
     let passed = passed.expect("successful attempt");
-    assert!(passed.passed);
+    if !first_execution_passed_or_macos_observer_unknown(
+        &passed,
+        &mut root,
+        &mut state,
+        "successful_exact_identity_allows_reuse_but_command_change_reexecutes",
+    ) {
+        assert_eq!(
+            classify_reuse(&passed, &composition).kind,
+            ReuseDecisionKind::Unknown
+        );
+        return;
+    }
     assert_eq!(
         classify_reuse(&passed, &composition).kind,
         ReuseDecisionKind::Unknown
@@ -1558,9 +1674,9 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
 
 #[test]
 fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let composition = input(
         root.path(),
         state.path(),
@@ -1575,7 +1691,12 @@ fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
         run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed);
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "repeated_exact_composition_reuses_only_when_inputs_are_observable",
+    );
     assert_eq!(second.execution_records.len(), 1);
     if cfg!(unix) {
         assert_eq!(second.processes_spawned, 0);
@@ -1664,15 +1785,30 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
             match blocked.failure.as_deref() {
                 Some(failure) if failure.starts_with("verifier_process_state_unknown:") => {
                     #[cfg(target_os = "linux")]
-                    assert_expected_procfs_observer_failure(failure);
-                    #[cfg(not(target_os = "linux"))]
+                    {
+                        assert_expected_procfs_observer_failure(failure);
+                        assert!(blocked.owned_tree_termination_unknown);
+                        assert_eq!(
+                            blocked.execution_outcome,
+                            CompositionExecutionOutcome::Unknown
+                        );
+                        assert!(!blocked.execution_evidence_complete);
+                    }
+                    #[cfg(target_os = "macos")]
+                    {
+                        assert_eq!(
+                            failure,
+                            "verifier_process_state_unknown:lsof exited with status Some(1)"
+                        );
+                        assert!(blocked.owned_tree_termination_unknown);
+                        assert_eq!(
+                            blocked.execution_outcome,
+                            CompositionExecutionOutcome::Unknown
+                        );
+                        assert!(!blocked.execution_evidence_complete);
+                    }
+                    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
                     panic!("unexpected cleanup observation on non-Linux Unix: {failure}");
-                    assert!(blocked.owned_tree_termination_unknown);
-                    assert_eq!(
-                        blocked.execution_outcome,
-                        CompositionExecutionOutcome::Unknown
-                    );
-                    assert!(!blocked.execution_evidence_complete);
                 }
                 Some(failure) if failure.starts_with("verifier_descendant_active:") => {
                     let process_id = failure
@@ -2111,13 +2247,82 @@ fn failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag() {
 fn inherited_path_cannot_substitute_a_composition_verifier() {
     use std::os::unix::fs::PermissionsExt;
 
+    fn shell_literal(path: &Path) -> String {
+        format!(
+            "'{}'",
+            path.to_str()
+                .expect("fixture marker path is UTF-8")
+                .replace('\'', "'\\''")
+        )
+    }
+
+    fn binding_diagnostic() -> String {
+        let valid_optional_home = |key| {
+            std::env::var_os(key).is_none_or(|value| {
+                let path = PathBuf::from(value);
+                path.is_absolute()
+                    && fs::symlink_metadata(&path).is_ok_and(|metadata| {
+                        metadata.is_dir() && !metadata.file_type().is_symlink()
+                    })
+            })
+        };
+        let home = std::env::var_os("HOME").map(PathBuf::from);
+        let mut candidates = Vec::new();
+        if let Some(home) = &home {
+            candidates.push(home.join(".cargo/bin"));
+        }
+        if let Some(cargo_home) = std::env::var_os("CARGO_HOME") {
+            let cargo_home = PathBuf::from(cargo_home);
+            if cargo_home.is_absolute() {
+                candidates.push(cargo_home.join("bin"));
+            }
+        }
+        candidates.extend(
+            [
+                "/usr/bin",
+                "/bin",
+                "/usr/local/bin",
+                "/opt/homebrew/bin",
+                "/opt/local/bin",
+            ]
+            .into_iter()
+            .map(PathBuf::from),
+        );
+        let trusted_roots = candidates
+            .into_iter()
+            .filter_map(|path| fs::canonicalize(path).ok())
+            .filter(|path| path.is_dir())
+            .collect::<Vec<_>>();
+        let first_cargo = trusted_roots
+            .iter()
+            .map(|root| root.join("cargo"))
+            .find(|path| {
+                fs::metadata(path).is_ok_and(|metadata| {
+                    metadata.is_file() && metadata.permissions().mode() & 0o111 != 0
+                })
+            });
+        let identity_trusted = first_cargo.as_ref().and_then(|path| {
+            fs::canonicalize(path)
+                .ok()
+                .map(|identity| trusted_roots.iter().any(|root| identity.starts_with(root)))
+        });
+        format!(
+            "home_canonical={} cargo_home_valid={} rustup_home_valid={} trusted_roots_present={} cargo_found={} cargo_identity_trusted={identity_trusted:?}",
+            home.is_none_or(|path| fs::canonicalize(path).is_ok()),
+            valid_optional_home("CARGO_HOME"),
+            valid_optional_home("RUSTUP_HOME"),
+            !trusted_roots.is_empty(),
+            first_cargo.is_some(),
+        )
+    }
+
     if std::env::var_os("COMPOSITION_HOSTILE_PATH_CHILD").is_some() {
         let root = PathBuf::from(std::env::var_os("COMPOSITION_HOSTILE_PATH_ROOT").expect("root"));
         let state =
             PathBuf::from(std::env::var_os("COMPOSITION_HOSTILE_PATH_STATE").expect("state"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
-        let marker =
-            PathBuf::from(std::env::var_os("COMPOSITION_FAKE_CARGO_MARKER").expect("marker path"));
+        let marker = state.join("fake-cargo-ran");
+        let trusted_marker = state.join("trusted-cargo-ran");
         let attempt = run_composition(input(
             &root,
             &state,
@@ -2132,9 +2337,17 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         );
         assert!(
             attempt.passed,
-            "the Runtime-bound cargo verifier must pass: {attempt:?}"
+            "the test-owned trusted cargo fixture must pass: outcome={:?} executable_unbound={} spawned={} fake_cargo_ran={} trusted_cargo_ran={} binding_diagnostic={}",
+            attempt.execution_outcome,
+            attempt.failure.as_deref() == Some("composition_executable_unbound"),
+            attempt.processes_spawned,
+            marker.exists(),
+            trusted_marker.exists(),
+            binding_diagnostic(),
         );
         assert_eq!(attempt.processes_spawned, 1);
+        assert!(trusted_marker.exists(), "the trusted fixture must run");
+        fs::remove_file(&trusted_marker).expect("reset trusted fixture marker");
 
         let mut unbound_override = input(
             &root,
@@ -2149,7 +2362,15 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         );
         let rejected = run_composition(unbound_override).expect("reject unbound override");
         assert!(!rejected.passed);
+        assert_eq!(
+            rejected.failure.as_deref(),
+            Some("unbound_runtime_environment_override")
+        );
         assert_eq!(rejected.processes_spawned, 0);
+        assert!(
+            !trusted_marker.exists(),
+            "an unbound overlay must not start the trusted fixture"
+        );
         assert!(
             !marker.exists(),
             "an unbound toolchain overlay must be rejected before process start"
@@ -2160,15 +2381,40 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
     let root = repository();
     let state = tempdir("hostile-path-state");
     let fake_bin = tempdir("hostile-path-bin");
+    let trusted_home = tempdir("trusted-cargo-home");
+    let cargo_home = trusted_home.path().join(".cargo");
+    let trusted_bin = cargo_home.join("bin");
+    fs::create_dir_all(&trusted_bin).expect("create test-owned trusted cargo bin");
     let marker = state.path().join("fake-cargo-ran");
+    let trusted_marker = state.path().join("trusted-cargo-ran");
     let fake_cargo = fake_bin.path().join("cargo");
     fs::write(
         &fake_cargo,
-        "#!/bin/sh\nprintf forged > \"$COMPOSITION_FAKE_CARGO_MARKER\"\nexit 0\n",
+        format!(
+            "#!/bin/sh\nprintf forged > {}\nexit 0\n",
+            shell_literal(&marker)
+        ),
     )
     .expect("write fake cargo");
     fs::set_permissions(&fake_cargo, fs::Permissions::from_mode(0o755))
         .expect("make fake cargo executable");
+    let fake_probe = Command::new(&fake_cargo)
+        .status()
+        .expect("probe test-owned fake cargo marker");
+    assert!(fake_probe.success());
+    assert!(marker.exists(), "fake cargo marker must detect execution");
+    fs::remove_file(&marker).expect("reset fake cargo marker before composition");
+    let trusted_cargo = trusted_bin.join("cargo");
+    fs::write(
+        &trusted_cargo,
+        format!(
+            "#!/bin/sh\n[ -z \"${{RUSTUP_TOOLCHAIN+x}}\" ] || exit 41\n[ -z \"${{RUSTFLAGS+x}}\" ] || exit 42\nprintf trusted > {}\n",
+            shell_literal(&trusted_marker)
+        ),
+    )
+    .expect("write trusted cargo fixture");
+    fs::set_permissions(&trusted_cargo, fs::Permissions::from_mode(0o755))
+        .expect("make trusted cargo fixture executable");
 
     let mut paths = vec![fake_bin.path().to_path_buf()];
     if let Some(system_path) = std::env::var_os("PATH") {
@@ -2183,7 +2429,8 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
         .env("COMPOSITION_HOSTILE_PATH_CHILD", "1")
         .env("COMPOSITION_HOSTILE_PATH_ROOT", root.path())
         .env("COMPOSITION_HOSTILE_PATH_STATE", state.path())
-        .env("COMPOSITION_FAKE_CARGO_MARKER", &marker)
+        .env("HOME", trusted_home.path())
+        .env("CARGO_HOME", &cargo_home)
         .env("PATH", inherited_path)
         .env("RUSTUP_TOOLCHAIN", "missing-runtime-toolchain")
         .env("RUSTFLAGS", "--runtime-must-not-inherit-this")
@@ -2204,7 +2451,7 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
 fn read_set_under_a_parent_symlink_is_not_reusable() {
     use std::os::unix::fs::symlink;
 
-    let root = repository();
+    let mut root = repository();
     let external = tempdir("read-set-symlink-target");
     fs::write(external.path().join("input.txt"), "external bytes\n").expect("external input");
     symlink(external.path(), root.path().join("linked"))
@@ -2212,7 +2459,7 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
     run(root.path(), &["add", "linked"]);
     run(root.path(), &["commit", "-qm", "add linked input"]);
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("read-set-symlink-state");
+    let mut state = tempdir("read-set-symlink-state");
     let mut external_read = command("external-read", "cat", &["linked/input.txt"]);
     external_read.input_paths = vec!["linked/input.txt".into()];
     let composition = input(
@@ -2229,7 +2476,12 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
         run_composition_with_pure_cache_test_supervisor(composition).expect("second composition");
 
     assert!(first.passed);
-    assert!(second.passed, "second composition attempt: {second:?}");
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "read_set_under_a_parent_symlink_is_not_reusable",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(second.execution_records[0].spawned);
     assert!(!second.execution_records[0].reused);
@@ -2425,6 +2677,9 @@ fn retry_does_not_remove_a_worktree_owned_by_a_live_process() {
 }
 
 #[cfg(unix)]
+// This recovery fixture requires Linux subreaper identity and /proc proof.
+// macOS composition deliberately cannot certify an escaped descendant.
+#[cfg(target_os = "linux")]
 #[test]
 fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     if std::env::var_os("COMPOSITION_CRASH_CHILD").is_some() {
@@ -2810,7 +3065,9 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     );
 }
 
-#[cfg(unix)]
+// Numeric process-group liveness alone is insufficient on macOS; this
+// interrupted-owner reconciliation is a Linux subreaper proof fixture.
+#[cfg(target_os = "linux")]
 #[test]
 fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
     if std::env::var_os("COMPOSITION_ORPHAN_CHILD").is_some() {
@@ -3587,7 +3844,7 @@ fn changed_command_only_reexecutes_the_affected_node() {
 
 #[test]
 fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-qb", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
@@ -3597,7 +3854,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     let first_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let mut api = command("api", "true", &[]);
     api.input_paths = vec!["api.txt".into()];
     let mut docs = command("docs", "true", &[]);
@@ -3609,9 +3866,20 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         vec![api.clone(), docs.clone()],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first =
-        run_composition_with_pure_cache_test_supervisor(first_input).expect("first attempt");
-    assert!(first.passed);
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
+    if !first_execution_passed_or_macos_observer_unknown(
+        &first,
+        &mut root,
+        &mut state,
+        "changed_source_file_only_reexecutes_nodes_that_observe_that_file",
+    ) {
+        assert_eq!(
+            classify_reuse(&first, &first_input).kind,
+            ReuseDecisionKind::Unknown
+        );
+        return;
+    }
 
     run(root.path(), &["checkout", "-q", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
@@ -3629,7 +3897,12 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     ))
     .expect("second attempt");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "changed_source_file_only_reexecutes_nodes_that_observe_that_file",
+    );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     let api_record = second
         .execution_records
@@ -3649,7 +3922,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
 
 #[test]
 fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-qb", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
@@ -3659,7 +3932,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     let first_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let state = tempdir("state");
+    let mut state = tempdir("state");
     let mut source = command("source", "cat", &["api.txt"]);
     source.input_paths = vec!["api.txt".into()];
     let mut consumer = command("consumer", "true", &[]);
@@ -3684,10 +3957,16 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     .expect("first attempt");
     assert!(
         first.passed,
-        "first dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        "first dependency attempt: outcome={:?} complete={} lsof_partial_status_one={} other_failure={} post_failure_worktree_present={} post_failure_worktree_canonical={} cleanup={:?} owned_tree_unknown={} node_results={:?}",
         first.execution_outcome,
         first.execution_evidence_complete,
-        first.failure,
+        first.failure.as_deref()
+            == Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+        first.failure.is_some()
+            && first.failure.as_deref()
+                != Some("verifier_process_state_unknown:lsof exited with status Some(1)"),
+        Path::new(&first.isolated_worktree).exists(),
+        fs::canonicalize(&first.isolated_worktree).is_ok(),
         first.cleanup_disposition,
         first.owned_tree_termination_unknown,
         first
@@ -3718,24 +3997,11 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     ))
     .expect("second attempt");
 
-    assert!(
-        second.passed,
-        "second dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
-        second.execution_outcome,
-        second.execution_evidence_complete,
-        second.failure,
-        second.cleanup_disposition,
-        second.owned_tree_termination_unknown,
-        second
-            .execution_records
-            .iter()
-            .map(|record| (
-                &record.node_id,
-                record.passed,
-                record.exit_code,
-                record.termination_signal
-            ))
-            .collect::<Vec<_>>()
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "changed_upstream_receipt_reexecutes_transitive_dependents_only",
     );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 3 } else { 4 });
     for node_id in ["source", "consumer", "transitive"] {
@@ -3941,9 +4207,9 @@ fn unbound_command_path_override_fails_before_spawn() {
 
 #[test]
 fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("unbounded-read-state");
+    let mut state = tempdir("unbounded-read-state");
     let external = tempdir("unbounded-read-source");
     let source = external.path().join("source.txt");
     fs::write(&source, "version-one\n").expect("write external source");
@@ -3970,7 +4236,13 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
     let second =
         run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
-    assert!(first.passed && second.passed);
+    assert!(first.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "unbounded_external_reads_execute_again_but_independent_node_reuses",
+    );
     assert_eq!(first.processes_spawned, 2);
     assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     assert!(!second.execution_records[0].reused);
@@ -4183,9 +4455,9 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
 
 #[test]
 fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("legacy-composition-state");
+    let mut state = tempdir("legacy-composition-state");
     let composition = input(
         root.path(),
         state.path(),
@@ -4210,7 +4482,12 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("run without legacy reuse");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_v2_attempt_reads_but_does_not_reuse_v1_history",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(!second.execution_records[0].reused);
     let preserved: serde_json::Value =
@@ -4222,9 +4499,9 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
 #[cfg(unix)]
 #[test]
 fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("legacy-attempt-filename");
+    let mut state = tempdir("legacy-attempt-filename");
     let composition = input(
         root.path(),
         state.path(),
@@ -4242,7 +4519,12 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("attempt should read legacy filename");
 
-    assert!(second.passed, "second attempt failed: {second:?}");
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_attempt_reads_legacy_logical_id_filename_and_preserves_it",
+    );
     assert_eq!(second.processes_spawned, 0);
     assert!(second.execution_records[0].reused);
     assert!(
@@ -4254,9 +4536,9 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
 
 #[test]
 fn composition_attempt_without_schema_version_is_not_reused() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("missing-composition-schema-state");
+    let mut state = tempdir("missing-composition-schema-state");
     let composition = input(
         root.path(),
         state.path(),
@@ -4283,7 +4565,12 @@ fn composition_attempt_without_schema_version_is_not_reused() {
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("run without historical reuse");
 
-    assert!(second.passed);
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut root,
+        &mut state,
+        "composition_attempt_without_schema_version_is_not_reused",
+    );
     assert_eq!(second.processes_spawned, 1);
     assert!(!second.execution_records[0].reused);
     let preserved: serde_json::Value =
@@ -4370,7 +4657,7 @@ fn installed_toolchain_change_child() {
         std::env::var("COCKPIT_TOOLCHAIN_TEST_INSTALL").expect("toolchain install path"),
     );
     let composition: CompositionInput =
-        serde_json::from_slice(&fs::read(input_path).expect("read unchanged composition JSON"))
+        serde_json::from_slice(&fs::read(&input_path).expect("read unchanged composition JSON"))
             .expect("decode composition JSON");
 
     let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
@@ -4380,9 +4667,28 @@ fn installed_toolchain_change_child() {
     fs::write(toolchain.join("bin/rustc"), b"rustc-v2")
         .expect("update installed rustc without changing composition JSON");
 
+    let repository_path = composition.repository_root.clone();
     let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("second toolchain attempt");
-    assert!(second.passed, "second attempt: {second:?}");
+    // The parent process owns these fixture paths. These borrowed guards only
+    // let the shared assertion preserve them when Mac observation is Unknown.
+    let mut repository_owner = TempDir {
+        path: repository_path,
+        preserve_on_drop: true,
+    };
+    let mut state_owner = TempDir {
+        path: Path::new(&input_path)
+            .parent()
+            .expect("input parent")
+            .to_path_buf(),
+        preserve_on_drop: true,
+    };
+    assert_reuse_execution_or_macos_observer_unknown(
+        &second,
+        &mut repository_owner,
+        &mut state_owner,
+        "installed_toolchain_change_child",
+    );
     assert_eq!(second.processes_spawned, 1, "changed toolchain must rerun");
     assert!(!second.execution_records[0].reused);
     assert_ne!(

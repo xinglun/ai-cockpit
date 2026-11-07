@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7ed62be802fa07554bdea7f6ba5bb4d88bb3f61ee2d391fc5a022aac7416bb77",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:cfc6c346ca79cb0592e033ba2bdd5420725676a89d9c658a85783270240e177b",
+  "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, preflight, snapshot, and Runtime binding for adding only collaboration.rs to scope for two bounded deadline test fixes. This records the actual human review, not test success, completion, merge, or release.",
+  "recordedAt": "2026-11-05T01:02:53Z",
+  "recordedBy": "user:current-conversation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b73f565d11b74c9b8e9f821f4eab32cc35f9cb8f9d6e23ab4410ab3752d55288",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

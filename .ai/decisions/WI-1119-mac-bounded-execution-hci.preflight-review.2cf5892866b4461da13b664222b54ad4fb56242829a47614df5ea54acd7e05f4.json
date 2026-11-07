@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3ab03c6cd1cb107c0ed20ea6cd08aa5b5e33045b43a2ff550900da021d0f9391",
+  "reason": "The user explicitly replied confirm_review to the immediately preceding WI-1119 four-binding request for publishing the WI branch to public GitHub xinglun/ai-cockpit. This confirms only the bounded Contract review, not test success, merge, release, or completion.",
+  "recordedAt": "2026-11-04T07:25:55.508014Z",
+  "recordedBy": "user:Sentinel_ef9a950751d881919d013a12c09f8a6d",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

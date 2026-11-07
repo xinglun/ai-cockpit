@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:96810de8722d72069c0fba77c7fb850e2706437467603265451f97f2d39995e6",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:f948911c340a39e487946cf8eec48182cbb0c4170104a26801d242f767d06eb5",
+  "reason": "The verified user confirmed these exact WI-1119 Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_e72e236d59f08191a90f0bcbfea95a0f at 2026-11-03T10:31:48.067480Z. This confirms the bounded controlled-identity test plan only; it does not attest that tests, full descendant cleanup, formal verification, or completion passed.",
+  "recordedAt": "2026-11-03T10:31:48.067480+00:00",
+  "recordedBy": "user:Sentinel_e72e236d59f08191a90f0bcbfea95a0f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1aca44d9fe485619454ff6f5d4c88b14a839b5f73aa23bb6c6bd0dc6ab1b1ce",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

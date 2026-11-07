@@ -6861,6 +6861,7 @@ fn validate_layout_finish_semantics(
         // v1 Markdown renderer. Never re-render or backfill stored bytes.
         facts.remove("taskOutcomeProjectionFinishBinding");
     }
+    reconcile_finish_process_cleanup(root, id, finish, &mut summary, &observed)?;
     let mut expected_summary = serde_json::to_vec_pretty(&summary)
         .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
     if combined {
@@ -6983,6 +6984,177 @@ fn validate_layout_finish_semantics(
             "event stream differs from the canonical finish/archive projection",
         ));
     }
+    Ok(())
+}
+
+/// Verification may append a WI-local process observation after the last
+/// pre-finish commit. Admit only a suffix linked to an immutable, completed
+/// execution checkpoint. Numeric PIDs remain observations, never signal
+/// authority; all other Summary fields still require exact projection bytes.
+fn reconcile_finish_process_cleanup(
+    root: &Path,
+    id: &str,
+    finish: &str,
+    expected: &mut serde_json::Value,
+    observed: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let old = expected.get("processCleanup");
+    let new = observed.get("processCleanup");
+    if old == new {
+        return Ok(());
+    }
+    let invalid = || {
+        post_merge_sync_error(
+            root,
+            "finish process Summary is not bound to immutable execution facts",
+        )
+    };
+    let Some(new) = new else {
+        return Err(invalid());
+    };
+    let Some(object) = new.as_object() else {
+        return Err(invalid());
+    };
+    if object.len() != 2 || new["schemaVersion"] != 1 {
+        return Err(invalid());
+    }
+    let Some(entries) = new["entries"].as_array() else {
+        return Err(invalid());
+    };
+    let empty = Vec::new();
+    let previous = if let Some(old) = old {
+        if old["schemaVersion"] != 1 || old.as_object().is_none_or(|object| object.len() != 2) {
+            return Err(invalid());
+        }
+        old["entries"].as_array().ok_or_else(invalid)?
+    } else {
+        &empty
+    };
+    if entries.len() <= previous.len() || entries[..previous.len()] != previous[..] {
+        return Err(invalid());
+    }
+    let prefix = format!(".ai/evidence/{id}.verification-attempt.");
+    let paths = git_text(root, &["ls-tree", "-r", "--name-only", finish]).ok_or_else(invalid)?;
+    let mut checkpoints = Vec::new();
+    for path in paths.lines().filter(|path| path.starts_with(&prefix)) {
+        let checkpoint = git_json(root, finish, path)?;
+        if checkpoint["kind"] != "verification_execution_checkpoint"
+            || checkpoint["state"] != "node_execution_completed"
+        {
+            continue;
+        }
+        let Some(suffix) = path
+            .strip_prefix(&prefix)
+            .and_then(|value| value.strip_suffix(".json"))
+        else {
+            return Err(invalid());
+        };
+        let mut unsigned = checkpoint.clone();
+        unsigned
+            .as_object_mut()
+            .ok_or_else(invalid)?
+            .remove("checkpointId");
+        let digest = cockpit_protocol::digest_json(&unsigned)
+            .map_err(|_| invalid())?
+            .to_string();
+        if checkpoint["checkpointId"] != digest
+            || digest.strip_prefix("sha256:") != Some(suffix)
+            || checkpoint["workItemId"] != id
+            || checkpoint["receipt"]["executionRecords"] != checkpoint["executionRecords"]
+        {
+            return Err(invalid());
+        }
+        checkpoints.push(checkpoint);
+    }
+    let mut seen = BTreeSet::new();
+    for entry in previous {
+        let (Some(execution_id), Some(node_id)) =
+            (entry["executionId"].as_str(), entry["nodeId"].as_str())
+        else {
+            return Err(invalid());
+        };
+        if !seen.insert((execution_id, node_id)) {
+            return Err(invalid());
+        }
+    }
+    for entry in &entries[previous.len()..] {
+        let Some(fields) = entry.as_object() else {
+            return Err(invalid());
+        };
+        let (Some(execution_id), Some(node_id), Some(pid)) = (
+            entry["executionId"].as_str(),
+            entry["nodeId"].as_str(),
+            entry["processId"].as_u64(),
+        ) else {
+            return Err(invalid());
+        };
+        if fields.len() != 13
+            || pid == 0
+            || pid > u32::MAX as u64
+            || !seen.insert((execution_id, node_id))
+            || entry["identityStrength"] != "numeric_pid_only"
+            || !entry["platformIdentity"].is_null()
+            || !matches!(
+                entry["platform"].as_str(),
+                Some("linux" | "macos" | "windows")
+            )
+        {
+            return Err(invalid());
+        }
+        let (Some(started), Some(observed_at)) = (
+            entry["startedAt"]
+                .as_str()
+                .and_then(|value| chrono::DateTime::parse_from_rfc3339(value).ok()),
+            entry["observedAt"]
+                .as_str()
+                .and_then(|value| chrono::DateTime::parse_from_rfc3339(value).ok()),
+        ) else {
+            return Err(invalid());
+        };
+        if observed_at < started {
+            return Err(invalid());
+        }
+        let matching = checkpoints
+            .iter()
+            .filter(|checkpoint| {
+                checkpoint["executionId"] == execution_id
+                    && checkpoint["runtimeDigest"] == entry["runtimeDigest"]
+                    && checkpoint["commands"][0]["nodeId"] == node_id
+            })
+            .collect::<Vec<_>>();
+        if matching.len() != 1 {
+            return Err(invalid());
+        }
+        let records = matching[0]["executionRecords"]
+            .as_array()
+            .ok_or_else(invalid)?;
+        let matching_records = records
+            .iter()
+            .filter(|record| record["nodeId"] == node_id && record["spawned"] == true)
+            .collect::<Vec<_>>();
+        if matching_records.len() != 1 {
+            return Err(invalid());
+        }
+        let record = matching_records[0];
+        let reaped = record["timedOut"] == false
+            && (!record["exitCode"].is_null() || !record["terminationSignal"].is_null());
+        if entry["state"]
+            != if reaped {
+                "direct_child_reaped"
+            } else {
+                "unknown"
+            }
+            || entry["directChildReaped"] != reaped
+            || entry["unmanagedDescendantsUnproved"]
+                != record["unmanagedDescendantsUnproved"]
+                    .as_bool()
+                    .unwrap_or(false)
+            || entry["cleanupUncertainty"] != record["cleanupUncertainty"]
+        {
+            return Err(invalid());
+        }
+    }
+    expected["processCleanup"] = new.clone();
     Ok(())
 }
 
@@ -9762,6 +9934,45 @@ mod post_merge_sync_tests {
                 "unchanged green Summary must not bypass {case}"
             );
         }
+    }
+
+    #[test]
+    fn finish_process_projection_rejects_an_unbound_reaped_pid() {
+        let fixture = real_combined_checkout();
+        let root = &fixture.repository;
+        let id = "WI-1078-v1-0-1-post-merge-sync-finalization";
+        let mut expected = serde_json::json!({});
+        let observed = serde_json::json!({
+            "processCleanup": {
+                "schemaVersion": 1,
+                "entries": [{
+                    "executionId": format!("sha256:{}", "0".repeat(64)),
+                    "nodeId": "forged-node",
+                    "runtimeDigest": format!("sha256:{}", "1".repeat(64)),
+                    "processId": 123,
+                    "platform": "macos",
+                    "platformIdentity": null,
+                    "identityStrength": "numeric_pid_only",
+                    "startedAt": "2026-11-04T00:00:00Z",
+                    "state": "direct_child_reaped",
+                    "directChildReaped": true,
+                    "unmanagedDescendantsUnproved": true,
+                    "observedAt": "2026-11-04T00:00:01Z",
+                    "cleanupUncertainty": null
+                }]
+            }
+        });
+        assert!(
+            super::reconcile_finish_process_cleanup(
+                root,
+                id,
+                "d18be4f8",
+                &mut expected,
+                &observed,
+            )
+            .is_err(),
+            "a numeric PID without a linked immutable execution cannot claim reaping"
+        );
     }
 
     #[test]

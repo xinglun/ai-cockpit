@@ -1,0 +1,67 @@
+{
+  "checkpointId": "sha256:680bc1cc15dbd62815eab9e1742ee511faab4fb91193deaf6ed4dbc3c4a581dc",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:f17b8ef14d061ac66af9c67046fca333d401585a5b202f78438e4ace15632aab",
+      "nodeId": "project-command-3",
+      "plannedNode": {
+        "action": "execute",
+        "args": [
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:f17b8ef14d061ac66af9c67046fca333d401585a5b202f78438e4ace15632aab",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:98cd2755ac3a2d5f9397c796124886a26c04c1e94a4bb37196f04b421e499f12",
+          "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7"
+        },
+        "localNodeReuseReason": "current_profile_not_authorized",
+        "nodeId": "project-command-3",
+        "planningElapsedMs": 0,
+        "program": "cargo",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "denied:command_not_profile_verified",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+  "contractExecutionScopeDigest": "sha256:9dc97707cc2142d8ac53b9478cd219fbbf27d74ae7a1a1ec4c418730ceddbbd8",
+  "createdAt": "2026-11-03T13:10:22.562611000Z",
+  "kind": "verification_run_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98cd2755ac3a2d5f9397c796124886a26c04c1e94a4bb37196f04b421e499f12",
+  "runId": "sha256:8650bd0d243010d23d8383fd04adf063fcfb637cb1981be70fe8e78ef3d0789e",
+  "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "run_prepared",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

@@ -1,0 +1,48 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:3493e1a86615eebdd2ab93e1a85fde7481df426189ccde06e75d0ef08fc05426",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 3,
+    "changeId": "wi1120-preserve-out-of-scope-through-cli-start",
+    "requestDigest": "sha256:3a589cb677654dbfa5ad0ed9d585874f099760bb3fe4f493c4e666a2bcf3638a",
+    "reason": "Preserve the exact out-of-scope restrictions when activating the successor through the native CLI, which splits comma-delimited values.",
+    "changedValues": [
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Changing production process ownership, lsof fail-closed interpretation, or Unknown-to-clean classification without a separately reviewed amendment",
+          "Rewriting WI-1119 archive or failed CI evidence",
+          "Release tags, public Releases, release metadata, or installer publication",
+          "Unrelated Work Items and tests"
+        ],
+        "newValue": [
+          "Changing production process ownership or lsof fail-closed interpretation or Unknown-to-clean classification without a separately reviewed amendment",
+          "Rewriting WI-1119 archive or failed CI evidence",
+          "Release tags or public Releases or release metadata or installer publication",
+          "Unrelated Work Items and tests"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a9e762870e40c68c56edfc61c1edeee0f93b0061c3ac44b9e858222c1f7d3838",
+    "newContractDigest": "sha256:be3bb456e59c928cf1fcc30f3a5a9eb34005c39ebb44c0515013e4997699f23b",
+    "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+    "environmentObservationDigest": "sha256:df496e5cf1467095f33804ac362b3ecefbc7289aa9ada2fce45126ece3119bff",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/outOfScope"
+    ],
+    "previousJournalDigest": "sha256:8f74e189665068464fd55b4c39277bb61635be866fbcace635c94aafae24516f",
+    "journalDigest": "sha256:1e538ac9883cc1a34becd985f2911261281ac5b941d0044081fdd2d9885a3cb3",
+    "recordedAt": "2026-11-06T20:55:49Z"
+  }
+}

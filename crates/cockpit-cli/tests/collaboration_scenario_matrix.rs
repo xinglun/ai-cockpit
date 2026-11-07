@@ -165,7 +165,10 @@ fn composition_fixture(root: &Path) -> (String, CompositionInput) {
             repository_id: repository_id(root),
             work_item_id: work_item_id.clone(),
             contract_digest: contract_digest.clone(),
-            worktree_path: root.to_string_lossy().into_owned(),
+            worktree_path: fs::canonicalize(root)
+                .expect("canonical composition fixture path")
+                .to_string_lossy()
+                .into_owned(),
             branch: topology.branch.expect("test repository branch"),
             head: head.clone(),
             generation: 1,
@@ -382,6 +385,7 @@ fn normalized_handoff(text: &str) -> &str {
     text.trim_end_matches(['\r', '\n'])
 }
 
+#[cfg(not(target_os = "macos"))]
 fn redacted_diagnostic_json(value: &serde_json::Value) -> String {
     fn redact_sensitive_fields(value: &mut serde_json::Value) {
         match value {
@@ -510,6 +514,13 @@ fn assert_outcome_semantics_equal(
             .is_some_and(|unknowns| !unknowns.is_empty()),
         "fixture must expose at least one explicit unknown"
     );
+    #[cfg(target_os = "macos")]
+    assert_eq!(
+        cli_outcome["governanceReasons"],
+        serde_json::json!(["unmanaged_descendant_closure_unproved"]),
+        "Mac fixture must preserve the unmanaged-descendant proof boundary: {cli_outcome}"
+    );
+    #[cfg(not(target_os = "macos"))]
     assert!(
         cli_outcome["governanceReasons"].is_null()
             || cli_outcome["governanceReasons"]
@@ -537,7 +548,6 @@ fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repository = repository();
     let (work_item_id, input) = composition_fixture(repository.path());
-    let candidate = candidate_composition_runtime();
     let valid_input = serde_json::to_value(&input).expect("composition input JSON");
 
     let mut blocked_input = input.clone();
@@ -561,79 +571,104 @@ fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
         "MCP must preserve the same admission blocker: {mcp_blocked}"
     );
 
-    let cli_output = cli_composition(binary, repository.path(), &work_item_id, &valid_input);
-    assert!(
-        cli_output.status.success(),
-        "CLI composition failed: {}",
-        String::from_utf8_lossy(&cli_output.stderr)
-    );
-    let cli_json: serde_json::Value =
-        serde_json::from_slice(&cli_output.stdout).expect("CLI composition JSON");
-    let cli_attempt = &cli_json["result"];
+    #[cfg(target_os = "macos")]
+    {
+        let cli_output = cli_composition(binary, repository.path(), &work_item_id, &valid_input);
+        assert!(!cli_output.status.success());
+        assert!(
+            String::from_utf8_lossy(&cli_output.stderr)
+                .contains("full-owned-descendant supervision is unsupported"),
+            "Mac CLI must reject full descendant supervision before spawning: {}",
+            String::from_utf8_lossy(&cli_output.stderr)
+        );
+        let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
+        assert_eq!(mcp_output["result"]["isError"], true);
+        assert!(
+            mcp_output["result"]["content"][0]["text"]
+                .as_str()
+                .unwrap_or_default()
+                .contains("full-owned-descendant supervision is unsupported"),
+            "Mac MCP must preserve the same safety refusal: {mcp_output}"
+        );
+    }
 
-    let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
-    assert_eq!(
-        mcp_output["result"]["isError"],
-        false,
-        "MCP composition returned an error before producing an attempt.\nCLI attempt:\n{}\nMCP result:\n{}",
-        redacted_diagnostic_json(cli_attempt),
-        redacted_diagnostic_json(&mcp_output["result"])
-    );
-    let mcp_attempt = &mcp_output["result"]["structuredContent"]["result"];
+    #[cfg(not(target_os = "macos"))]
+    {
+        let candidate = candidate_composition_runtime();
+        let cli_output = cli_composition(binary, repository.path(), &work_item_id, &valid_input);
+        assert!(
+            cli_output.status.success(),
+            "CLI composition failed: {}",
+            String::from_utf8_lossy(&cli_output.stderr)
+        );
+        let cli_json: serde_json::Value =
+            serde_json::from_slice(&cli_output.stdout).expect("CLI composition JSON");
+        let cli_attempt = &cli_json["result"];
 
-    let cli_diagnostics = redacted_diagnostic_json(cli_attempt);
-    let mcp_diagnostics = redacted_diagnostic_json(mcp_attempt);
-    let failure_diagnostics = format!(
-        "CLI failure reason: {}\nCLI attempt:\n{}\nMCP failure reason: {}\nMCP attempt:\n{}",
-        redacted_diagnostic_json(&cli_attempt["failure"]),
-        cli_diagnostics,
-        redacted_diagnostic_json(&mcp_attempt["failure"]),
-        mcp_diagnostics
-    );
-    assert_eq!(
-        cli_attempt["passed"], true,
-        "CLI composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
-    );
-    assert_eq!(
-        mcp_attempt["passed"], true,
-        "MCP composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
-    );
-    assert_eq!(cli_attempt["executionOutcome"], "passed");
-    assert_eq!(cli_attempt["cleanupDisposition"], "cleaned");
-    assert_eq!(cli_attempt["processesSpawned"], 1);
-    let cli_receipt = &cli_attempt["supervisorReceipt"];
-    assert_eq!(cli_receipt["runtimeVersion"], candidate.runtime_version);
-    assert_eq!(
-        cli_receipt["runtimeDigest"],
-        candidate.runtime_digest.to_string()
-    );
-    assert_ne!(
-        cli_receipt["supervisor"]["processId"], cli_receipt["owner"]["processId"],
-        "the supervisor must be a distinct exact Runtime process"
-    );
-    assert_eq!(cli_receipt["descendantsReapedToEchild"], true);
-    assert_eq!(
-        mcp_attempt["executionOutcome"],
-        cli_attempt["executionOutcome"]
-    );
-    assert_eq!(
-        mcp_attempt["cleanupDisposition"],
-        cli_attempt["cleanupDisposition"]
-    );
-    assert_eq!(
-        mcp_attempt["supervisorReceipt"]["runtimeVersion"],
-        candidate.runtime_version
-    );
-    assert_eq!(
-        mcp_attempt["supervisorReceipt"]["runtimeDigest"],
-        candidate.runtime_digest.to_string()
-    );
-    assert_eq!(
-        mcp_attempt["processesSpawned"],
-        if cfg!(unix) { 0 } else { 1 },
-        "the second exact CLI/MCP action should share the durable reusable result where supported"
-    );
-    assert!(mcp_output["result"]["structuredContent"]["projection"].is_object());
+        let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
+        assert_eq!(
+            mcp_output["result"]["isError"],
+            false,
+            "MCP composition returned an error before producing an attempt.\nCLI attempt:\n{}\nMCP result:\n{}",
+            redacted_diagnostic_json(cli_attempt),
+            redacted_diagnostic_json(&mcp_output["result"])
+        );
+        let mcp_attempt = &mcp_output["result"]["structuredContent"]["result"];
+
+        let cli_diagnostics = redacted_diagnostic_json(cli_attempt);
+        let mcp_diagnostics = redacted_diagnostic_json(mcp_attempt);
+        let failure_diagnostics = format!(
+            "CLI failure reason: {}\nCLI attempt:\n{}\nMCP failure reason: {}\nMCP attempt:\n{}",
+            redacted_diagnostic_json(&cli_attempt["failure"]),
+            cli_diagnostics,
+            redacted_diagnostic_json(&mcp_attempt["failure"]),
+            mcp_diagnostics
+        );
+        assert_eq!(
+            cli_attempt["passed"], true,
+            "CLI composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+        );
+        assert_eq!(
+            mcp_attempt["passed"], true,
+            "MCP composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+        );
+        assert_eq!(cli_attempt["executionOutcome"], "passed");
+        assert_eq!(cli_attempt["cleanupDisposition"], "cleaned");
+        assert_eq!(cli_attempt["processesSpawned"], 1);
+        let cli_receipt = &cli_attempt["supervisorReceipt"];
+        assert_eq!(cli_receipt["runtimeVersion"], candidate.runtime_version);
+        assert_eq!(
+            cli_receipt["runtimeDigest"],
+            candidate.runtime_digest.to_string()
+        );
+        assert_ne!(
+            cli_receipt["supervisor"]["processId"], cli_receipt["owner"]["processId"],
+            "the supervisor must be a distinct exact Runtime process"
+        );
+        assert_eq!(cli_receipt["descendantsReapedToEchild"], true);
+        assert_eq!(
+            mcp_attempt["executionOutcome"],
+            cli_attempt["executionOutcome"]
+        );
+        assert_eq!(
+            mcp_attempt["cleanupDisposition"],
+            cli_attempt["cleanupDisposition"]
+        );
+        assert_eq!(
+            mcp_attempt["supervisorReceipt"]["runtimeVersion"],
+            candidate.runtime_version
+        );
+        assert_eq!(
+            mcp_attempt["supervisorReceipt"]["runtimeDigest"],
+            candidate.runtime_digest.to_string()
+        );
+        assert_eq!(
+            mcp_attempt["processesSpawned"],
+            if cfg!(unix) { 0 } else { 1 },
+            "the second exact CLI/MCP action should share the durable reusable result where supported"
+        );
+        assert!(mcp_output["result"]["structuredContent"]["projection"].is_object());
+    }
 }
 
 #[test]

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ab9182d36dc3e8973bd52efb00ba4deff04583a4ad9a007ac13d0fed10ab4c73",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5dfb8a99450bb5f900a818d52f8a683f43f7ecaf97f848ae3780b3a74684e890",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for two process-ledger finish-projection paths. This confirms review only, not test results, cleanup, completion or release.",
+  "recordedAt": "2026-11-04T05:27:30.035438Z",
+  "recordedBy": "user:Sentinel_7d53c4813d8c819198fcce5485f5c768",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75962fecf9f2fbc4b7ec97186515b380b29d0f441e9f07610b5f11627e6de355",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

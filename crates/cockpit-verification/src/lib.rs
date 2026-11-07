@@ -36,7 +36,7 @@ use std::collections::{BTreeMap, BTreeSet, VecDeque};
 #[cfg(any(test, not(unix)))]
 use std::io::BufReader;
 use std::io::{BufRead, Read, Write};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Condvar, Mutex, mpsc};
@@ -59,6 +59,8 @@ const SUPERVISOR_PARENT_CLEANUP_GRACE: Duration = Duration::from_secs(
 );
 const MAX_CLEANUP_REMAINING_PIDS: usize = 128;
 const MAX_CLEANUP_DIAGNOSTIC_BYTES: usize = 4096;
+#[cfg(target_os = "macos")]
+const RETAINED_OWNER_DEADLINE: Duration = Duration::from_secs(30);
 
 /// Shared Unix pipe mechanics only. These operations confer no process-tree,
 /// authority, receipt-validation or protocol-state assurance.
@@ -335,6 +337,188 @@ pub mod supervisor_pipe {
         // SAFETY: waitid initialized the process-event representation above.
         Ok(unsafe { info.si_pid() } == child.id() as libc::pid_t)
     }
+}
+
+#[cfg(target_os = "macos")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct MacOwnedChildIdentity {
+    pid: u32,
+    started_seconds: u64,
+    started_microseconds: u64,
+}
+
+#[cfg(target_os = "macos")]
+thread_local! {
+    // Retain the first identity for each numeric PID. A PID reused by a later
+    // child on this thread must never refresh a stale Child's signal authority.
+    static MAC_SPAWN_IDENTITIES: std::cell::RefCell<std::collections::HashMap<u32, Option<MacOwnedChildIdentity>>> =
+        std::cell::RefCell::new(std::collections::HashMap::new());
+}
+
+#[cfg(target_os = "macos")]
+fn mac_process_identity(pid: u32) -> std::io::Result<MacOwnedChildIdentity> {
+    if !(2..=i32::MAX as u32).contains(&pid) {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "invalid child PID",
+        ));
+    }
+    // Read only the exact test-owned or Runtime-owned child, never a process list.
+    // SAFETY: proc_pidinfo writes at most the size of the initialized C struct.
+    let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
+    let size = std::mem::size_of::<libc::proc_bsdinfo>() as libc::c_int;
+    let read = unsafe {
+        libc::proc_pidinfo(
+            pid as libc::c_int,
+            libc::PROC_PIDTBSDINFO,
+            0,
+            (&mut info as *mut libc::proc_bsdinfo).cast(),
+            size,
+        )
+    };
+    if read != size || info.pbi_pid != pid || info.pbi_start_tvsec == 0 {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "owned child birth identity is unavailable",
+        ));
+    }
+    Ok(MacOwnedChildIdentity {
+        pid,
+        started_seconds: info.pbi_start_tvsec,
+        started_microseconds: info.pbi_start_tvusec,
+    })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_register_spawned_child(child: &Child) {
+    let pid = child.id();
+    let identity = mac_process_identity(pid).ok();
+    MAC_SPAWN_IDENTITIES.with(|recorded| {
+        let mut recorded = recorded.borrow_mut();
+        // A second spawn with the same number cannot inherit the first spawn's
+        // group authority, even if its reported birth timestamp collides.
+        if let std::collections::hash_map::Entry::Vacant(entry) = recorded.entry(pid) {
+            entry.insert(identity);
+        } else {
+            recorded.insert(pid, None);
+        }
+    });
+}
+
+#[cfg(target_os = "macos")]
+fn mac_expected_child_identity(pid: u32) -> std::io::Result<MacOwnedChildIdentity> {
+    MAC_SPAWN_IDENTITIES
+        .with(|recorded| recorded.borrow().get(&pid).copied().flatten())
+        .ok_or_else(|| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "child identity is not uniquely registered",
+            )
+        })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_observe_owned_child_identity(child: &Child) -> std::io::Result<MacOwnedChildIdentity> {
+    // WNOWAIT preserves the owned child (including a zombie) while the birth
+    // identity is read. No group signal follows an ownership or info failure.
+    supervisor_pipe::observe_owned_child_exit(child)?;
+    mac_process_identity(child.id())
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reject_known_identity_change(child: &Child) -> std::io::Result<()> {
+    // A missing current birth observation cannot authorize a signal, but it
+    // need not erase an independently observed exit. A known mismatch or an
+    // unregistered live identity could belong to a reused numeric PID.
+    let expected = mac_expected_child_identity(child.id());
+    let observed = mac_process_identity(child.id());
+    match (expected, observed) {
+        (Ok(expected), Ok(observed)) if expected != observed => Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "owned child identity changed",
+        )),
+        (Err(_), Ok(_)) => Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "spawned child identity was not recorded",
+        )),
+        _ => Ok(()),
+    }
+}
+
+#[cfg(target_os = "macos")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum MacGroupSignalResult {
+    IdentityUnconfirmed,
+    Attempted { returned: i32, errno: Option<i32> },
+}
+
+#[cfg(target_os = "macos")]
+impl MacGroupSignalResult {
+    fn attempted(self) -> bool {
+        matches!(self, Self::Attempted { .. })
+    }
+
+    fn diagnostic(self) -> String {
+        match self {
+            Self::IdentityUnconfirmed => "not_attempted_identity_unconfirmed".into(),
+            Self::Attempted { returned, errno } => {
+                format!("attempted=true return={returned} errno={errno:?}")
+            }
+        }
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_if_same_identity(
+    expected: MacOwnedChildIdentity,
+    mut observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
+    mut signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
+    // The second observation models the check-to-signal boundary. The final
+    // kernel call still assumes this Runtime exclusively retains and reaps its
+    // Child; an external reaper invalidates that assumption.
+    if observe().ok() != Some(expected) || observe().ok() != Some(expected) {
+        return MacGroupSignalResult::IdentityUnconfirmed;
+    }
+    let (returned, errno) = signal(expected.pid);
+    MacGroupSignalResult::Attempted { returned, errno }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_registered_group_with(
+    child_id: u32,
+    observe: impl FnMut() -> std::io::Result<MacOwnedChildIdentity>,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
+    let Ok(expected) = mac_expected_child_identity(child_id) else {
+        return MacGroupSignalResult::IdentityUnconfirmed;
+    };
+    mac_signal_if_same_identity(expected, observe, signal)
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_owned_group(child: &Child, child_id: u32) -> MacGroupSignalResult {
+    mac_signal_owned_group_with(child, child_id, |pid| {
+        // SAFETY: the helper checks two exact child observations against the
+        // spawn identity while this Runtime exclusively retains its Child.
+        let returned = unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
+        let errno = (returned == -1)
+            .then(|| std::io::Error::last_os_error().raw_os_error())
+            .flatten();
+        (returned, errno)
+    })
+}
+
+#[cfg(target_os = "macos")]
+fn mac_signal_owned_group_with(
+    child: &Child,
+    child_id: u32,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> MacGroupSignalResult {
+    if child.id() != child_id {
+        return MacGroupSignalResult::IdentityUnconfirmed;
+    }
+    mac_signal_registered_group_with(child_id, || mac_observe_owned_child_identity(child), signal)
 }
 
 /// A machine-readable measurement captured by a repository-local performance
@@ -739,6 +923,18 @@ pub struct VerificationExecutionRecord {
     pub deadline_ms: u128,
     pub spawned: bool,
     pub passed: bool,
+    /// The directly observed command result, separate from formal verification.
+    /// Old records omit this field and must not be upgraded by inference.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub command_result: Option<ObservedCommandResult>,
+    /// On macOS, success covers only the WI-managed process. This advisory
+    /// never certifies closure of an unregistered escaped descendant.
+    #[serde(default, skip_serializing_if = "is_false")]
+    pub unmanaged_descendants_unproved: bool,
+    /// Why cleanup cannot be asserted. A successful command exit does not
+    /// make this uncertainty disappear or authorize receipt reuse.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cleanup_uncertainty: Option<CleanupUncertainty>,
     pub exit_code: Option<i32>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub termination_signal: Option<i32>,
@@ -750,6 +946,18 @@ pub struct VerificationExecutionRecord {
     pub stderr_truncated: bool,
     pub timed_out: bool,
     pub elapsed_ms: u128,
+}
+
+fn is_false(value: &bool) -> bool {
+    !*value
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ObservedCommandResult {
+    Succeeded,
+    Failed,
+    Unknown,
 }
 
 /// A human-readable grouping of equivalent compiler diagnostics. This is a
@@ -2553,11 +2761,20 @@ pub type ProcessStartGate = Arc<
 /// Exact executable used to start one isolated verification-command supervisor.
 /// The supervisor must be the same Runtime executable that admitted the parent
 /// verification request.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct SupervisorCleanupContext {
+    repository_root: PathBuf,
+    work_item_id: String,
+    execution_id: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationSupervisorLaunch {
     executable: PathBuf,
     arguments: Vec<String>,
-    #[cfg(all(test, target_os = "linux"))]
+    cleanup_context: Option<SupervisorCleanupContext>,
+    #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
     extra_environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
 }
 
@@ -2566,12 +2783,29 @@ impl VerificationSupervisorLaunch {
         Self {
             executable: executable.into(),
             arguments,
-            #[cfg(all(test, target_os = "linux"))]
+            cleanup_context: None,
+            #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
             extra_environment: Vec::new(),
         }
     }
 
-    #[cfg(all(test, target_os = "linux"))]
+    /// Bind a short-lived cleanup mailbox to one execution of one Work Item.
+    /// The mailbox is a request channel, not process identity or authority.
+    pub fn with_process_cleanup_context(
+        mut self,
+        repository_root: PathBuf,
+        work_item_id: String,
+        execution_id: String,
+    ) -> Self {
+        self.cleanup_context = Some(SupervisorCleanupContext {
+            repository_root,
+            work_item_id,
+            execution_id,
+        });
+        self
+    }
+
+    #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
     fn test_harness(executable: impl Into<PathBuf>, arguments: Vec<String>) -> Self {
         let mut launch = Self::new(executable, arguments);
         launch
@@ -2580,7 +2814,7 @@ impl VerificationSupervisorLaunch {
         launch
     }
 
-    #[cfg(all(test, target_os = "linux"))]
+    #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
     fn with_test_environment(mut self, key: &str, value: impl Into<std::ffi::OsString>) -> Self {
         self.extra_environment.push((key.into(), value.into()));
         self
@@ -2881,6 +3115,10 @@ fn execute_verification_plan_bounded_with_observer_at(
                 deadline_ms: outcome.deadline_ms,
                 spawned: outcome.spawned,
                 passed: outcome.passed,
+                command_result: (cfg!(target_os = "macos") || outcome.cleanup_uncertain.is_some())
+                    .then(|| observed_command_result(outcome)),
+                unmanaged_descendants_unproved: cfg!(target_os = "macos") && outcome.spawned,
+                cleanup_uncertainty: outcome.cleanup_uncertain.clone(),
                 exit_code: outcome.exit_code,
                 termination_signal: outcome.termination_signal,
                 stdout_hex: encode_hex(&outcome.stdout),
@@ -2894,6 +3132,7 @@ fn execute_verification_plan_bounded_with_observer_at(
         let mut receipt_id = reused.then_some(entry.receipt_id).flatten();
         if !reused
             && entry.command.reuse_policy == VerificationReusePolicy::Reusable
+            && !cfg!(target_os = "macos")
             && outcome.is_some_and(|outcome| outcome.passed && !outcome.output_truncated)
             && let (Some(candidate), Some(output_digest)) = (
                 entry.command.reuse_candidate.as_ref(),
@@ -3106,16 +3345,29 @@ struct ExecutionOutcome {
     cleanup_uncertain: Option<CleanupUncertainty>,
 }
 
-/// Private execution diagnostic only. It is transported between the parent
-/// and per-command supervisor and rendered into stderr; it is not part of the
-/// reusable receipt identity or its digest domain.
+fn observed_command_result(outcome: &ExecutionOutcome) -> ObservedCommandResult {
+    if !outcome.spawned || outcome.timed_out {
+        return ObservedCommandResult::Unknown;
+    }
+    if outcome.termination_signal.is_some() || outcome.exit_code.is_some_and(|code| code != 0) {
+        return ObservedCommandResult::Failed;
+    }
+    if outcome.exit_code == Some(0) {
+        return ObservedCommandResult::Succeeded;
+    }
+    ObservedCommandResult::Unknown
+}
+
+/// A bounded cleanup diagnostic transported between the supervisor and parent.
+/// Current uncertain attempts retain it in their execution records. It never
+/// authorizes a reusable receipt or proves escaped descendants are absent.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct CleanupUncertainty {
-    phase: String,
-    reason: String,
-    remaining_pids: Vec<u32>,
-    remaining_pids_truncated: bool,
+pub struct CleanupUncertainty {
+    pub phase: String,
+    pub reason: String,
+    pub remaining_pids: Vec<u32>,
+    pub remaining_pids_truncated: bool,
 }
 
 /// Private supervisor wire form. serde's internally tagged enum buffering
@@ -3141,6 +3393,17 @@ struct VerificationSupervisorOutcomeWire {
     timeout_seconds: u64,
     deadline_ms: String,
     cleanup_uncertain: Option<CleanupUncertainty>,
+}
+
+impl VerificationSupervisorOutcomeWire {
+    #[cfg(unix)]
+    fn owner_retained(&self) -> bool {
+        !self.passed
+            && self.exit_code.is_none()
+            && self.cleanup_uncertain.as_ref().is_some_and(|uncertainty| {
+                uncertainty.phase.contains("owner_retained_pending_cleanup")
+            })
+    }
 }
 
 impl From<ExecutionOutcome> for VerificationSupervisorOutcomeWire {
@@ -3226,6 +3489,8 @@ struct VerificationSupervisorRequest {
     environment: Vec<(SupervisorOsString, SupervisorOsString)>,
     clear_environment: bool,
     timeout_seconds: u64,
+    #[serde(default)]
+    cleanup_context: Option<SupervisorCleanupContext>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -3296,7 +3561,10 @@ impl SupervisorOsString {
 }
 
 impl VerificationSupervisorRequest {
-    fn from_command(command: &VerificationCommand) -> Self {
+    fn from_command(
+        command: &VerificationCommand,
+        cleanup_context: Option<SupervisorCleanupContext>,
+    ) -> Self {
         Self {
             schema_version: 1,
             command_id: command.id.clone(),
@@ -3318,10 +3586,11 @@ impl VerificationSupervisorRequest {
                 .collect(),
             clear_environment: command.clear_environment,
             timeout_seconds: command.timeout_seconds,
+            cleanup_context,
         }
     }
 
-    fn into_command(self) -> Result<VerificationCommand, String> {
+    fn to_command(&self) -> Result<VerificationCommand, String> {
         if self.schema_version != 1 {
             return Err("unsupported verification supervisor request schema".into());
         }
@@ -3332,18 +3601,20 @@ impl VerificationSupervisorRequest {
             .map_err(|error| error.to_string())?;
         let current_dir = self
             .current_dir
+            .clone()
             .map(SupervisorOsString::into_os)
             .transpose()?
             .map(PathBuf::from);
         let environment = self
             .environment
+            .clone()
             .into_iter()
             .map(|(key, value)| Ok((key.into_os()?, value.into_os()?)))
             .collect::<Result<Vec<_>, String>>()?;
         let mut command = VerificationCommand::new(
             &self.command_id,
             &self.program,
-            self.args,
+            self.args.clone(),
             VerificationReusePolicy::NeverReuse,
         )
         .with_environment(environment)
@@ -3418,6 +3689,17 @@ impl VerificationSupervisorMessages {
             Self::Channel(_) => false,
             #[cfg(unix)]
             Self::Pipe(pipe) => pipe.borrow().terminal,
+        }
+    }
+
+    #[cfg(unix)]
+    fn owner_retained(&self) -> bool {
+        match self {
+            #[cfg(any(test, not(unix)))]
+            Self::Channel(_) => false,
+            Self::Pipe(pipe) => pipe.borrow().pending.iter().any(|message| {
+                matches!(message, VerificationSupervisorMessage::Outcome { outcome } if outcome.owner_retained())
+            }),
         }
     }
 
@@ -3520,7 +3802,7 @@ impl UnixSupervisorMessagePipe {
                 .fail("verification supervisor emitted data after its terminal message".into());
         }
         self.eof = self.reader.eof();
-        if self.eof && !self.terminal {
+        if self.eof && !self.terminal && self.pending.is_empty() {
             return self.fail("verification supervisor closed before a complete outcome".into());
         }
         Ok(())
@@ -3536,7 +3818,9 @@ impl UnixSupervisorMessagePipe {
             }
             let natural_eof = self.eof;
             if let Some(message) = self.pending.pop_front_if(|message| {
-                matches!(message, VerificationSupervisorMessage::Started { .. }) || natural_eof
+                matches!(message, VerificationSupervisorMessage::Started { .. })
+                    || natural_eof
+                    || matches!(message, VerificationSupervisorMessage::Outcome { outcome } if outcome.owner_retained())
             }) {
                 return Ok(Ok(message));
             }
@@ -3590,10 +3874,15 @@ fn supervisor_message_transport(
 const CLEANUP_UNCERTAIN_LAUNCH_PREFIX: &str = "__verification_cleanup_uncertain__:";
 
 /// Entry point for the private CLI supervisor mode. One helper process owns
-/// exactly one verification command; Linux descendant reaping is scoped to
-/// this process and waits for its observed child PIDs only.
+/// exactly one verification command. Linux descendant reaping is scoped to
+/// this process and waits for its observed child PIDs only. On macOS the
+/// directly owned child and original process group are bounded, but escaped
+/// descendants cannot be proved absent and every spawned outcome is uncertain.
 pub fn run_verification_supervisor_stdio() -> Result<(), String> {
-    if cfg!(all(unix, not(target_os = "linux"))) {
+    if cfg!(all(
+        unix,
+        not(any(target_os = "linux", target_os = "macos"))
+    )) {
         return Err(
             "verification subprocess supervision is unsupported on this Unix platform".into(),
         );
@@ -3627,7 +3916,7 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
             return Err(message);
         }
     };
-    let command = match request.into_command() {
+    let command = match request.to_command() {
         Ok(command) => command,
         Err(error) => {
             write_supervisor_start_message(None, Some(&error))?;
@@ -3656,13 +3945,50 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     drop(watcher);
 
     let mut announce_started = |process_id| write_supervisor_start_message(Some(process_id), None);
+    #[cfg(target_os = "macos")]
+    let mut retained_child: Option<Child> = None;
     let outcome = execute_captured_inner(
         &command,
         None,
         None,
         Some(&cancelled),
         Some(&mut announce_started),
+        #[cfg(target_os = "macos")]
+        request
+            .cleanup_context
+            .as_ref()
+            .map(|_| &mut retained_child),
+        #[cfg(not(target_os = "macos"))]
+        None,
     );
+
+    #[cfg(target_os = "macos")]
+    let outcome = {
+        let mut outcome = outcome;
+        // A normally reaped, WI-managed Child may satisfy the bounded Mac
+        // verification scope. Unregistered escaped descendants remain
+        // explicitly unproved in the durable execution record.
+        let retained_ready = match (request.cleanup_context.as_ref(), retained_child.as_ref()) {
+            (Some(context), Some(child)) => {
+                prepare_cleanup_mailbox(context, &command.id, child.id()).is_ok()
+            }
+            _ => false,
+        };
+        if retained_ready {
+            merge_cleanup_uncertainty(
+                &mut outcome,
+                CleanupUncertainty {
+                    phase: "owner_retained_pending_cleanup".into(),
+                    reason: "The short-lived supervisor still owns the unreaped direct Child; a bounded WI-local cleanup request may be attempted, but cleanup remains Unknown".into(),
+                    remaining_pids: Vec::new(),
+                    remaining_pids_truncated: false,
+                },
+            );
+        } else {
+            retained_child = None;
+        }
+        outcome
+    };
 
     #[cfg(target_os = "linux")]
     let outcome = {
@@ -3683,7 +4009,572 @@ pub fn run_verification_supervisor_stdio() -> Result<(), String> {
     }
     let mut stderr = std::io::stderr().lock();
     write_supervisor_outcome_message(&response, &mut stderr)?;
+    #[cfg(target_os = "macos")]
+    if let (Some(context), Some(mut child)) = (request.cleanup_context.as_ref(), retained_child) {
+        serve_cleanup_mailbox(context, &command.id, &mut child);
+    }
     Ok(())
+}
+
+/// The digest names a WI-local temporary mailbox. It is a correlation key,
+/// never a credential and never authority to signal a recorded PID.
+pub fn process_cleanup_mailbox_path(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    node_id: &str,
+) -> PathBuf {
+    let binding = serde_json::to_vec(&(work_item_id, execution_id, node_id))
+        .expect("process cleanup mailbox binding is serializable");
+    let digest = Digest::sha256_bytes(&binding).to_string();
+    root.join(".ai/locks/process-cleanup")
+        .join(digest.trim_start_matches("sha256:"))
+}
+
+/// Ask the still-running owner of an exact Child to perform one bounded
+/// cleanup. A missing, expired, or malformed mailbox is Unknown. This never
+/// signals the historical PID in the caller process.
+pub fn request_process_cleanup_from_owner(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    node_id: &str,
+    process_id: u32,
+    timeout: Duration,
+) -> Option<serde_json::Value> {
+    let mailbox = process_cleanup_mailbox_path(root, work_item_id, execution_id, node_id);
+    if std::fs::symlink_metadata(&mailbox)
+        .ok()
+        .is_none_or(|metadata| !metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    let binding = serde_json::json!({
+        "schemaVersion": 1, "workItemId": work_item_id,
+        "executionId": execution_id, "nodeId": node_id,
+        "processId": process_id,
+    });
+    if std::fs::symlink_metadata(mailbox.join("ready.json"))
+        .ok()
+        .is_none_or(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    let ready = std::fs::read(mailbox.join("ready.json"))
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+    if ready.as_ref() != Some(&binding) {
+        return None;
+    }
+    let request_path = mailbox.join("request.json");
+    match std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&request_path)
+    {
+        Ok(mut request) => {
+            if request
+                .write_all(&serde_json::to_vec(&binding).ok()?)
+                .is_err()
+                || request.sync_all().is_err()
+            {
+                return None;
+            }
+            if std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(mailbox.join("request.ready"))
+                .is_err()
+            {
+                return None;
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let existing = std::fs::read(&request_path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+            if existing.as_ref() != Some(&binding) {
+                return None;
+            }
+        }
+        Err(_) => return None,
+    }
+    let deadline = Instant::now() + timeout.min(Duration::from_secs(4));
+    loop {
+        if std::fs::symlink_metadata(mailbox.join("response.json"))
+            .ok()
+            .is_some_and(|metadata| metadata.file_type().is_symlink())
+        {
+            return None;
+        }
+        if let Ok(bytes) = std::fs::read(mailbox.join("response.json"))
+            && let Ok(response) = serde_json::from_slice::<serde_json::Value>(&bytes)
+        {
+            if response["schemaVersion"] == 1
+                && response["workItemId"] == work_item_id
+                && response["executionId"] == execution_id
+                && response["nodeId"] == node_id
+                && response["processId"].as_u64() == Some(u64::from(process_id))
+                && matches!(
+                    response["state"].as_str(),
+                    Some("direct_child_reaped" | "unknown")
+                )
+            {
+                return Some(response);
+            }
+            return None;
+        }
+        if Instant::now() >= deadline {
+            return None;
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str) -> PathBuf {
+    process_cleanup_mailbox_path(
+        &context.repository_root,
+        &context.work_item_id,
+        &context.execution_id,
+        node_id,
+    )
+}
+
+#[cfg(target_os = "macos")]
+fn prepare_cleanup_mailbox(
+    context: &SupervisorCleanupContext,
+    node_id: &str,
+    process_id: u32,
+) -> std::io::Result<()> {
+    let mailbox = cleanup_mailbox(context, node_id);
+    let parent = mailbox.parent().expect("mailbox has parent");
+    std::fs::create_dir_all(parent)?;
+    if std::fs::symlink_metadata(parent)?.file_type().is_symlink() {
+        return Err(std::io::Error::other("cleanup mailbox parent is a symlink"));
+    }
+    std::fs::create_dir(&mailbox)?;
+    let ready = serde_json::json!({
+        "schemaVersion": 1, "workItemId": context.work_item_id,
+        "executionId": context.execution_id, "nodeId": node_id,
+        "processId": process_id,
+    });
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(mailbox.join("ready.json"))?;
+    let bytes = serde_json::to_vec(&ready).map_err(std::io::Error::other)?;
+    file.write_all(&bytes)?;
+    file.sync_all()
+}
+
+#[cfg(target_os = "macos")]
+fn serve_cleanup_mailbox(context: &SupervisorCleanupContext, node_id: &str, child: &mut Child) {
+    let mailbox = cleanup_mailbox(context, node_id);
+    let deadline = Instant::now() + RETAINED_OWNER_DEADLINE;
+    let process_id = child.id();
+    let result = loop {
+        match child.try_wait() {
+            Ok(Some(_)) => {
+                break (
+                    "direct_child_reaped",
+                    "owner observed and reaped direct Child",
+                );
+            }
+            Err(_) => break ("unknown", "owner could not observe direct Child"),
+            Ok(None) => {}
+        }
+        if mailbox.join("request.ready").is_file() {
+            if std::fs::symlink_metadata(mailbox.join("request.json"))
+                .ok()
+                .is_none_or(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+            {
+                break ("unknown", "cleanup request is not a regular file");
+            }
+            let request = std::fs::read(mailbox.join("request.json"))
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+            let bound = request.as_ref().is_some_and(|request| {
+                request["schemaVersion"] == 1
+                    && request["workItemId"] == context.work_item_id
+                    && request["executionId"] == context.execution_id
+                    && request["nodeId"] == node_id
+                    && request["processId"].as_u64() == Some(u64::from(process_id))
+            });
+            if !bound {
+                break ("unknown", "cleanup request binding invalid");
+            }
+            match supervisor_pipe::observe_owned_child_exit(child) {
+                Ok(true) => {
+                    break match child.wait() {
+                        Ok(_) => ("direct_child_reaped", "owner reaped exited direct Child"),
+                        Err(_) => ("unknown", "owned direct Child wait failed"),
+                    };
+                }
+                Ok(false) => {}
+                Err(_) => break ("unknown", "direct Child ownership could not be confirmed"),
+            }
+            match (
+                mac_expected_child_identity(process_id),
+                mac_process_identity(process_id),
+            ) {
+                (Ok(expected), Ok(current)) if expected == current => {}
+                _ => {
+                    break (
+                        "unknown",
+                        "direct Child birth identity could not be confirmed",
+                    );
+                }
+            }
+            if child.kill().is_err() {
+                break ("unknown", "direct Child termination request failed");
+            }
+            let reap_deadline = Instant::now() + SUPERVISOR_PROTOCOL_CLOSE_GRACE;
+            loop {
+                match child.try_wait() {
+                    Ok(Some(_)) => break,
+                    Ok(None) if Instant::now() < reap_deadline => {
+                        std::thread::sleep(Duration::from_millis(10))
+                    }
+                    _ => break,
+                }
+            }
+            break match child.try_wait() {
+                Ok(Some(_)) => (
+                    "direct_child_reaped",
+                    "owner reaped direct Child after request",
+                ),
+                _ => (
+                    "unknown",
+                    "direct Child reap unconfirmed after bounded request",
+                ),
+            };
+        }
+        if Instant::now() >= deadline {
+            break ("unknown", "short-lived owner deadline expired");
+        }
+        std::thread::sleep(Duration::from_millis(20));
+    };
+    let response = serde_json::json!({
+        "schemaVersion": 1, "workItemId": context.work_item_id,
+        "executionId": context.execution_id, "nodeId": node_id,
+        "processId": process_id, "state": result.0, "detail": result.1,
+        "descendantClosure": "unknown",
+    });
+    if let Ok(mut file) = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(mailbox.join("response.json"))
+        && let Ok(bytes) = serde_json::to_vec(&response)
+    {
+        let _ = file.write_all(&bytes);
+        let _ = file.sync_all();
+    }
+}
+
+#[cfg(all(test, target_os = "macos"))]
+mod retained_owner_cleanup_tests {
+    use super::*;
+
+    /// The CLI is passed explicitly so this exercises a separate real Runtime
+    /// process and the production owner mailbox without making the library
+    /// test depend on a workspace build side effect.
+    #[test]
+    #[ignore = "requires AI_COCKPIT_TEST_CLI to name the freshly built CLI"]
+    fn independent_cli_requests_cleanup_from_real_owner() {
+        struct OwnChild(Child);
+        impl Drop for OwnChild {
+            fn drop(&mut self) {
+                if self.0.try_wait().ok().flatten().is_none() {
+                    let _ = self.0.kill();
+                    let _ = self.0.wait();
+                }
+            }
+        }
+        let cli = std::env::var_os("AI_COCKPIT_TEST_CLI").expect("explicit CLI path");
+        let root = fixture_root();
+        let run = |program: &str, args: &[&str]| {
+            let output = Command::new(program)
+                .args(args)
+                .current_dir(&root)
+                .output()
+                .expect("fixture command");
+            assert!(
+                output.status.success(),
+                "{program} {args:?}: {}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        };
+        run("git", &["init", "-q"]);
+        run("git", &["config", "user.email", "test@example.invalid"]);
+        run("git", &["config", "user.name", "Test"]);
+        std::fs::write(root.join("README.md"), "owner fixture\n").expect("baseline");
+        run("git", &["add", "README.md"]);
+        run("git", &["commit", "-qm", "owner fixture"]);
+        let cli = cli.to_string_lossy();
+        let root_arg = root.to_string_lossy();
+        run(&cli, &["attach", "--repo", &root_arg]);
+        let wi = "WI-OWNER-CLI";
+        run(
+            &cli,
+            &[
+                "start",
+                "--repo",
+                &root_arg,
+                "--id",
+                wi,
+                "--intent",
+                "test owned child cleanup",
+                "--goal",
+                "reap own child",
+                "--scope",
+                ".ai/**",
+                "--authority",
+                "authorized",
+            ],
+        );
+        let execution_id = "execution-one";
+        let node_id = "node-one";
+        let mut child = Command::new("/bin/sleep")
+            .arg("20")
+            .spawn()
+            .expect("owned child");
+        let process_id = child.id();
+        let mut unrelated = OwnChild(
+            Command::new("/bin/sleep")
+                .arg("20")
+                .spawn()
+                .expect("unrelated child"),
+        );
+        let context = SupervisorCleanupContext {
+            repository_root: root.clone(),
+            work_item_id: wi.into(),
+            execution_id: execution_id.into(),
+        };
+        prepare_cleanup_mailbox(&context, node_id, process_id).expect("ready owner mailbox");
+        let summary_path = root.join(format!(".ai/work-items/active/{wi}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&summary_path).expect("read Summary"))
+                .expect("parse Summary");
+        summary["processCleanup"] = serde_json::json!({
+            "schemaVersion": 1,
+            "entries": [{
+                "executionId": execution_id,
+                "nodeId": node_id,
+                "processId": process_id,
+                "identityStrength": "numeric_pid_only",
+                "state": "unknown",
+                "directChildReaped": false
+            }]
+        });
+        std::fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&summary).expect("encode Summary"),
+        )
+        .expect("record own fixture process");
+        let owner = std::thread::spawn(move || {
+            // Birth identities are intentionally thread-local. Register on
+            // the same supervisor thread that will decide whether to signal.
+            mac_register_spawned_child(&child);
+            serve_cleanup_mailbox(&context, node_id, &mut child);
+            let reaped = child.try_wait().expect("owned child observation").is_some();
+            if !reaped {
+                child.kill().expect("stop own fixture child");
+                child.wait().expect("reap own fixture child");
+            }
+            reaped
+        });
+        let report = Command::new(cli.as_ref())
+            .args([
+                "work-item",
+                "process-cleanup",
+                "--repo",
+                &root_arg,
+                "--id",
+                wi,
+            ])
+            .output()
+            .expect("independent cleanup CLI");
+        assert!(
+            report.status.success(),
+            "{}",
+            String::from_utf8_lossy(&report.stderr)
+        );
+        let report: serde_json::Value =
+            serde_json::from_slice(&report.stdout).expect("cleanup report");
+        let owner_reaped = owner.join().expect("owner completion");
+        assert_eq!(report["state"], "direct_children_reaped");
+        assert_eq!(report["ownersContacted"], 1);
+        assert_eq!(report["descendantClosure"], "unknown");
+        assert!(owner_reaped);
+        assert!(
+            unrelated
+                .0
+                .try_wait()
+                .expect("unrelated observation")
+                .is_none()
+        );
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
+    fn fixture_root() -> PathBuf {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "ai-cockpit-retained-owner-{}-{nonce}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&root).expect("fixture root");
+        root
+    }
+
+    fn context(root: &Path) -> SupervisorCleanupContext {
+        SupervisorCleanupContext {
+            repository_root: root.to_path_buf(),
+            work_item_id: "WI-OWNER-FIXTURE".into(),
+            execution_id: "execution-one".into(),
+        }
+    }
+
+    #[test]
+    fn exact_owner_request_reaps_only_its_child() {
+        let root = fixture_root();
+        let context = context(&root);
+        let child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned child");
+        let child_id = child.id();
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("unrelated child");
+        prepare_cleanup_mailbox(&context, "node-one", child_id).expect("ready mailbox");
+        let owner = std::thread::spawn({
+            let context = context.clone();
+            move || {
+                let mut child = child;
+                mac_register_spawned_child(&child);
+                serve_cleanup_mailbox(&context, "node-one", &mut child);
+                child
+            }
+        });
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                unrelated.id(),
+                Duration::from_millis(50),
+            )
+            .is_none(),
+            "a different process ID is never sent to the owner"
+        );
+        let response = request_process_cleanup_from_owner(
+            &root,
+            &context.work_item_id,
+            &context.execution_id,
+            "node-one",
+            child_id,
+            Duration::from_secs(4),
+        )
+        .expect("owner response");
+        assert_eq!(response["state"], "direct_child_reaped");
+        assert_eq!(response["descendantClosure"], "unknown");
+        assert!(
+            unrelated
+                .try_wait()
+                .expect("unrelated observation")
+                .is_none()
+        );
+        let mut reaped = owner.join().expect("owner completion");
+        assert!(
+            reaped
+                .try_wait()
+                .expect("owned child observation")
+                .is_some()
+        );
+        unrelated.kill().expect("stop own unrelated fixture");
+        unrelated.wait().expect("reap own unrelated fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
+    #[test]
+    fn missing_or_unresponsive_owner_is_unknown_and_does_not_signal() {
+        let root = fixture_root();
+        let context = context(&root);
+        let mut child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned fixture child");
+        let started = Instant::now();
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                child.id(),
+                Duration::from_secs(4),
+            )
+            .is_none()
+        );
+        assert!(started.elapsed() < Duration::from_secs(1));
+        prepare_cleanup_mailbox(&context, "node-one", child.id()).expect("stale ready mailbox");
+        assert!(
+            request_process_cleanup_from_owner(
+                &root,
+                &context.work_item_id,
+                &context.execution_id,
+                "node-one",
+                child.id(),
+                Duration::from_millis(50),
+            )
+            .is_none()
+        );
+        assert!(child.try_wait().expect("fixture observation").is_none());
+        child.kill().expect("stop own fixture");
+        child.wait().expect("reap own fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
+
+    #[test]
+    fn unregistered_birth_identity_stays_unknown_without_signal() {
+        let root = fixture_root();
+        let context = context(&root);
+        let child = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("owned fixture child");
+        let process_id = child.id();
+        prepare_cleanup_mailbox(&context, "node-one", process_id).expect("ready mailbox");
+        let owner = std::thread::spawn({
+            let context = context.clone();
+            move || {
+                let mut child = child;
+                serve_cleanup_mailbox(&context, "node-one", &mut child);
+                child
+            }
+        });
+        let response = request_process_cleanup_from_owner(
+            &root,
+            &context.work_item_id,
+            &context.execution_id,
+            "node-one",
+            process_id,
+            Duration::from_secs(4),
+        )
+        .expect("owner response");
+        assert_eq!(response["state"], "unknown");
+        let mut child = owner.join().expect("owner returns exact handle");
+        assert!(child.try_wait().expect("fixture observation").is_none());
+        child.kill().expect("stop own fixture");
+        child.wait().expect("reap own fixture");
+        std::fs::remove_dir_all(root).expect("remove fixture");
+    }
 }
 
 fn write_supervisor_start_message(
@@ -3713,7 +4604,16 @@ fn write_supervisor_start_message(
     stderr
         .write_all(b"\n")
         .and_then(|()| stderr.flush())
-        .map_err(|error| format!("write verification supervisor start: {error}"))
+        .map_err(|error| format!("write verification supervisor start: {error}"))?;
+    #[cfg(all(test, target_os = "macos"))]
+    if process_id.is_some()
+        && std::env::var_os("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_EXIT_AFTER_STARTED").is_some()
+    {
+        // Only the isolated test worker exits. The directly owned verifier
+        // has a short independent TTL; the parent must retain Unknown.
+        std::process::exit(99);
+    }
+    Ok(())
 }
 
 fn write_supervisor_outcome_message(
@@ -4351,18 +5251,20 @@ fn execute_supervised_captured(
         }
     };
     let worker_id = worker.id();
+    let mut parent_group_signal_diagnostic = None;
     let Some(target_id) = target_process_id else {
         if let Some(VerificationSupervisorMessage::Outcome { outcome: wire }) =
             initial_message.take()
         {
             close_supervisor_input(&mut worker);
             let mut forced = false;
-            let status = wait_supervisor_cleanup(
+            let status = wait_supervisor_cleanup_recording(
                 &mut worker,
                 worker_id,
                 SUPERVISOR_PARENT_CLEANUP_GRACE,
                 &mut forced,
                 message_receiver.as_ref(),
+                &mut parent_group_signal_diagnostic,
             );
             join_startup_reader(&mut startup_reader);
             let mut outcome = match ExecutionOutcome::try_from(wire) {
@@ -4384,6 +5286,16 @@ fn execute_supervised_captured(
                     parent_cleanup_uncertainty(
                         "parent_forced_supervisor_termination",
                         "supervisor did not finish after its initial outcome",
+                        &[worker_id],
+                    ),
+                );
+            }
+            if let Some(diagnostic) = parent_group_signal_diagnostic.as_deref() {
+                merge_cleanup_uncertainty(
+                    &mut outcome,
+                    parent_cleanup_uncertainty(
+                        "mac_original_group_signal",
+                        diagnostic,
                         &[worker_id],
                     ),
                 );
@@ -4454,6 +5366,10 @@ fn execute_supervised_captured(
     let mut parent_timed_out = false;
     let mut cleanup_forced_termination = false;
     #[cfg(unix)]
+    let mut retained_owner = false;
+    #[cfg(not(unix))]
+    let retained_owner = false;
+    #[cfg(unix)]
     let mut protocol_error: Option<String> = None;
     #[cfg(not(unix))]
     let protocol_error: Option<String> = None;
@@ -4466,13 +5382,21 @@ fn execute_supervised_captured(
                 protocol_error = Some(error);
                 close_supervisor_input(&mut worker);
                 cleanup_forced_termination = true;
-                break wait_supervisor_cleanup(
+                break wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PROTOCOL_CLOSE_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 );
+            }
+            if messages.owner_retained() {
+                // This terminal result is already Unknown. The helper keeps
+                // the exact Child for a short WI-local cleanup window; do not
+                // wait for its EOF or turn its continued life into success.
+                retained_owner = true;
+                break None;
             }
             if messages.terminal_seen() {
                 close_supervisor_input(&mut worker);
@@ -4507,24 +5431,26 @@ fn execute_supervised_captured(
             protocol_error = Some("verification supervisor did not reach natural control EOF and exit within its close deadline".into());
             close_supervisor_input(&mut worker);
             cleanup_forced_termination = true;
-            break wait_supervisor_cleanup(
+            break wait_supervisor_cleanup_recording(
                 &mut worker,
                 worker_id,
                 SUPERVISOR_PROTOCOL_CLOSE_GRACE,
                 &mut cleanup_forced_termination,
                 message_receiver.as_ref(),
+                &mut parent_group_signal_diagnostic,
             );
         }
         match worker_poll {
             Ok(Some(status)) => break Some(status),
             Ok(None) if composition::owner_interruption_signal().is_some() => {
                 close_supervisor_input(&mut worker);
-                break wait_supervisor_cleanup(
+                break wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 );
             }
             Ok(None) if Instant::now() < command_deadline + SUPERVISOR_CLEANUP_GRACE => {
@@ -4533,12 +5459,13 @@ fn execute_supervised_captured(
             Ok(None) if !parent_timed_out => {
                 parent_timed_out = true;
                 close_supervisor_input(&mut worker);
-                match wait_supervisor_cleanup(
+                match wait_supervisor_cleanup_recording(
                     &mut worker,
                     worker_id,
                     SUPERVISOR_PARENT_CLEANUP_GRACE,
                     &mut cleanup_forced_termination,
                     message_receiver.as_ref(),
+                    &mut parent_group_signal_diagnostic,
                 ) {
                     Some(status) => break Some(status),
                     None => break None,
@@ -4576,7 +5503,7 @@ fn execute_supervised_captured(
     let response_timeout = SUPERVISOR_STARTUP_DEADLINE;
     let response = if let Some(error) = protocol_error {
         Err(error)
-    } else if worker_status.is_some() {
+    } else if worker_status.is_some() || retained_owner {
         match message_receiver.as_ref() {
             Some(receiver) => receiver
                 .recv_timeout(response_timeout)
@@ -4637,7 +5564,7 @@ fn execute_supervised_captured(
             );
         }
     };
-    if worker_status.is_none() {
+    if worker_status.is_none() && !retained_owner {
         outcome.passed = false;
         outcome.timed_out |= parent_timed_out;
         outcome.exit_code = None;
@@ -4673,6 +5600,16 @@ fn execute_supervised_captured(
         );
         merge_cleanup_uncertainty(&mut outcome, uncertainty);
     }
+    if let Some(diagnostic) = parent_group_signal_diagnostic.as_deref() {
+        merge_cleanup_uncertainty(
+            &mut outcome,
+            parent_cleanup_uncertainty(
+                "mac_original_group_signal",
+                diagnostic,
+                &[worker_id, target_id],
+            ),
+        );
+    }
     outcome.deadline_ms = deadline_ms;
     outcome.elapsed_ms = started.elapsed().as_millis();
     outcome.output_digest = execution_outcome_digest(&outcome);
@@ -4688,7 +5625,8 @@ fn spawn_verification_supervisor(
     initial_message: &mut Option<VerificationSupervisorMessage>,
     #[cfg(windows)] windows_tree: &mut Option<WindowsProcessTree>,
 ) -> Result<Child, String> {
-    let request = VerificationSupervisorRequest::from_command(command);
+    let request =
+        VerificationSupervisorRequest::from_command(command, supervisor.cleanup_context.clone());
     let mut request_bytes = serde_json::to_vec(&request)
         .map_err(|error| format!("encode verification supervisor request: {error}"))?;
     if request_bytes.len() + 1 > MAX_SUPERVISOR_REQUEST_BYTES {
@@ -4701,7 +5639,7 @@ fn spawn_verification_supervisor(
         .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::piped());
-    #[cfg(all(test, target_os = "linux"))]
+    #[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
     process.envs(supervisor.extra_environment.iter().cloned());
     #[cfg(unix)]
     {
@@ -4716,6 +5654,8 @@ fn spawn_verification_supervisor(
     let mut child = process
         .spawn()
         .map_err(|error| format!("spawn verification supervisor: {error}"))?;
+    #[cfg(target_os = "macos")]
+    mac_register_spawned_child(&child);
     let worker_id = child.id();
     #[cfg(windows)]
     {
@@ -4874,18 +5814,31 @@ fn exchange_verification_supervisor_startup(
     receiver: &VerificationSupervisorMessages,
     startup_timeout: Duration,
 ) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
+    exchange_verification_supervisor_startup_with_writer(
+        |_deadline| match stdin {
+            #[cfg(unix)]
+            Some(stdin) => {
+                write_verification_supervisor_request_until(stdin, request_bytes, _deadline)
+            }
+            #[cfg(not(unix))]
+            Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
+            None => Err(std::io::Error::new(
+                std::io::ErrorKind::BrokenPipe,
+                "verification supervisor stdin pipe is unavailable",
+            )),
+        },
+        receiver,
+        startup_timeout,
+    )
+}
+
+fn exchange_verification_supervisor_startup_with_writer(
+    write_request: impl FnOnce(Instant) -> std::io::Result<()>,
+    receiver: &VerificationSupervisorMessages,
+    startup_timeout: Duration,
+) -> Result<VerificationSupervisorMessage, VerificationSupervisorStartupError> {
     let deadline = Instant::now() + startup_timeout;
-    let write_result = match stdin {
-        #[cfg(unix)]
-        Some(stdin) => write_verification_supervisor_request_until(stdin, request_bytes, deadline),
-        #[cfg(not(unix))]
-        Some(stdin) => stdin.write_all(request_bytes).and_then(|()| stdin.flush()),
-        None => Err(std::io::Error::new(
-            std::io::ErrorKind::BrokenPipe,
-            "verification supervisor stdin pipe is unavailable",
-        )),
-    };
-    write_result.map_err(VerificationSupervisorStartupError::Request)?;
+    write_request(deadline).map_err(VerificationSupervisorStartupError::Request)?;
     let remaining = deadline.saturating_duration_since(Instant::now());
     if remaining.is_zero() {
         return Err(VerificationSupervisorStartupError::Receive(
@@ -4931,18 +5884,12 @@ mod supervisor_startup_channel_tests {
             std::thread::sleep(Duration::from_millis(700));
             std::process::exit(0);
         }
-        if mode == "delayed-start" {
-            std::thread::sleep(Duration::from_millis(300));
-        }
         let mut request = vec![0_u8; REQUEST_SIZE];
         std::io::stdin()
             .lock()
             .read_exact(&mut request)
             .expect("fixture reads the exact transport payload");
         assert!(request.iter().all(|byte| *byte == b'x'));
-        if mode == "delayed-start" {
-            std::thread::sleep(Duration::from_millis(300));
-        }
         write_supervisor_start_message(Some(std::process::id()), None)
             .expect("fixture sends a real Started frame");
         std::process::exit(0);
@@ -5044,20 +5991,45 @@ mod supervisor_startup_channel_tests {
         );
     }
 
-    // Request backpressure consumes roughly 300 ms; Started arrives roughly
-    // 600 ms after launch. A fresh 450 ms allowance after writing incorrectly
-    // accepts it; one deadline for both phases must reject it.
+    // An actual socket write and read complete before the receive phase.
+    // A queued Started cannot gain a fresh deadline after that shared budget
+    // expires. This tests the phase boundary without assuming process startup
+    // or a large pipe transfer finishes within a narrow wall-clock window.
     #[test]
     fn request_and_started_share_one_startup_deadline() {
-        let (mut child, receiver, reader) = fixture("delayed-start");
-        let request = vec![b'x'; REQUEST_SIZE];
-        let result = exchange_verification_supervisor_startup(
-            child.stdin.as_mut(),
-            &request,
-            &receiver,
-            Duration::from_millis(450),
+        use std::os::unix::net::UnixStream;
+
+        let (mut writer, mut reader) = UnixStream::pair().expect("owned startup socket pair");
+        let (sender, receiver) = mpsc::sync_channel(1);
+        let messages = VerificationSupervisorMessages::from_channel(receiver);
+        let request = b"request\n";
+        let started = Instant::now();
+        let mut write_completed_at = None;
+        let result = exchange_verification_supervisor_startup_with_writer(
+            |deadline| {
+                supervisor_pipe::write_until(&mut writer, request, deadline)?;
+                let mut observed = [0_u8; 8];
+                reader.read_exact(&mut observed)?;
+                assert_eq!(&observed, request, "fixture read the complete request");
+                write_completed_at = Some(started.elapsed());
+                sender
+                    .send(Ok(VerificationSupervisorMessage::Started {
+                        process_id: Some(123),
+                        error: None,
+                    }))
+                    .expect("queue a complete Started frame");
+                while Instant::now() < deadline {
+                    std::thread::sleep(Duration::from_millis(1));
+                }
+                Ok(())
+            },
+            &messages,
+            Duration::from_millis(250),
         );
-        finish_fixture(child, reader);
+        assert!(
+            write_completed_at.is_some(),
+            "request write must finish before testing receive: {result:?}"
+        );
         assert!(
             matches!(
                 result,
@@ -5065,7 +6037,7 @@ mod supervisor_startup_channel_tests {
                     mpsc::RecvTimeoutError::Timeout
                 ))
             ),
-            "late Started must not get a new full budget: {result:?}",
+            "queued Started must not get a fresh deadline after request write at {write_completed_at:?}: {result:?}",
         );
     }
 
@@ -5087,6 +6059,47 @@ mod supervisor_startup_channel_tests {
             }) if pid == child_id),
             "timely Started retains the real child identity: {result:?}",
         );
+    }
+
+    #[test]
+    fn unix_pipe_delivers_started_before_reporting_missing_outcome() {
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "supervisor_startup_channel_tests::startup_channel_fixture",
+                "--nocapture",
+                "--test-threads=1",
+            ])
+            .env(FIXTURE_MODE, "immediate-start")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("spawn finite test-owned startup fixture");
+        let child_pid = child.id();
+        child
+            .stdin
+            .take()
+            .expect("fixture stdin")
+            .write_all(&vec![b'x'; REQUEST_SIZE])
+            .expect("send fixture request");
+        assert!(child.wait().expect("reap fixture").success());
+        let (messages, mut reader) =
+            supervisor_message_transport(child.stderr.take().expect("fixture stderr"))
+                .expect("real Unix pipe transport");
+        let started = messages.recv_timeout(Duration::from_secs(1));
+        assert!(
+            matches!(started, Ok(Ok(VerificationSupervisorMessage::Started {
+                process_id: Some(pid), error: None
+            })) if pid == child_pid),
+            "complete Started frame must preserve the observed PID before EOF: {started:?}"
+        );
+        let missing = messages.recv_timeout(Duration::from_secs(1));
+        assert!(
+            matches!(missing, Ok(Err(ref reason)) if reason.contains("closed before a complete outcome")),
+            "missing Outcome must remain a protocol failure: {missing:?}"
+        );
+        join_startup_reader(&mut reader);
     }
 
     #[test]
@@ -5176,10 +6189,20 @@ fn close_supervisor_input(child: &mut Child) {
 
 #[cfg(unix)]
 fn observe_owned_supervisor_exit(child: &mut Child) -> std::io::Result<bool> {
-    supervisor_pipe::observe_owned_child_exit(child)
+    let exited = supervisor_pipe::observe_owned_child_exit(child)?;
+    #[cfg(target_os = "macos")]
+    mac_reject_known_identity_change(child)?;
+    Ok(exited)
 }
 
 #[cfg(unix)]
+struct SupervisorCleanupOperations {
+    observe: fn(&mut Child) -> std::io::Result<bool>,
+    reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+}
+
+#[cfg(unix)]
+#[cfg(test)]
 fn wait_supervisor_cleanup_with_operations(
     child: &mut Child,
     child_id: u32,
@@ -5189,6 +6212,28 @@ fn wait_supervisor_cleanup_with_operations(
     observe: fn(&mut Child) -> std::io::Result<bool>,
     reap: fn(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
 ) -> Option<std::process::ExitStatus> {
+    wait_supervisor_cleanup_with_operations_recording(
+        child,
+        child_id,
+        grace,
+        forced_termination,
+        messages,
+        &mut None,
+        SupervisorCleanupOperations { observe, reap },
+    )
+}
+
+#[cfg(unix)]
+fn wait_supervisor_cleanup_with_operations_recording(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+    group_signal_diagnostic: &mut Option<String>,
+    operations: SupervisorCleanupOperations,
+) -> Option<std::process::ExitStatus> {
+    let SupervisorCleanupOperations { observe, reap } = operations;
     if child.id() != child_id || !(2..=i32::MAX as u32).contains(&child_id) {
         *forced_termination = true;
         return None;
@@ -5225,7 +6270,19 @@ fn wait_supervisor_cleanup_with_operations(
                     // No complete natural protocol boundary: terminate the
                     // owned group while its zombie leader still pins the PID.
                     *forced_termination = true;
-                    terminate_descendants(child_id);
+                    #[cfg(target_os = "macos")]
+                    {
+                        let signal = mac_signal_owned_group(child, child_id);
+                        *group_signal_diagnostic = Some(signal.diagnostic());
+                        if !signal.attempted() {
+                            return None;
+                        }
+                    }
+                    #[cfg(not(target_os = "macos"))]
+                    {
+                        let _ = group_signal_diagnostic;
+                        terminate_descendants(child_id);
+                    }
                     let _ = child.kill();
                     signalled = true;
                 }
@@ -5244,7 +6301,19 @@ fn wait_supervisor_cleanup_with_operations(
                 // WNOWAIT pins both a running child and an exited zombie.
                 match observe(child) {
                     Ok(_) => {
-                        terminate_descendants(child_id);
+                        #[cfg(target_os = "macos")]
+                        {
+                            let signal = mac_signal_owned_group(child, child_id);
+                            *group_signal_diagnostic = Some(signal.diagnostic());
+                            if !signal.attempted() {
+                                return None;
+                            }
+                        }
+                        #[cfg(not(target_os = "macos"))]
+                        {
+                            let _ = group_signal_diagnostic;
+                            terminate_descendants(child_id);
+                        }
                         let _ = child.kill();
                         signalled = true;
                     }
@@ -5269,21 +6338,43 @@ fn wait_supervisor_cleanup(
     forced_termination: &mut bool,
     messages: Option<&VerificationSupervisorMessages>,
 ) -> Option<std::process::ExitStatus> {
+    wait_supervisor_cleanup_recording(
+        child,
+        child_id,
+        grace,
+        forced_termination,
+        messages,
+        &mut None,
+    )
+}
+
+fn wait_supervisor_cleanup_recording(
+    child: &mut Child,
+    child_id: u32,
+    grace: Duration,
+    forced_termination: &mut bool,
+    messages: Option<&VerificationSupervisorMessages>,
+    group_signal_diagnostic: &mut Option<String>,
+) -> Option<std::process::ExitStatus> {
     #[cfg(unix)]
     {
-        wait_supervisor_cleanup_with_operations(
+        wait_supervisor_cleanup_with_operations_recording(
             child,
             child_id,
             grace,
             forced_termination,
             messages,
-            observe_owned_supervisor_exit,
-            Child::try_wait,
+            group_signal_diagnostic,
+            SupervisorCleanupOperations {
+                observe: observe_owned_supervisor_exit,
+                reap: Child::try_wait,
+            },
         )
     }
     #[cfg(not(unix))]
     {
         let _ = messages;
+        let _ = group_signal_diagnostic;
         let deadline = Instant::now() + grace;
         loop {
             match child.try_wait() {
@@ -5421,7 +6512,7 @@ fn execute_captured(
     observer: Option<&ProcessObserver>,
     process_start_gate: Option<&ProcessStartGate>,
 ) -> ExecutionOutcome {
-    execute_captured_inner(command, observer, process_start_gate, None, None)
+    execute_captured_inner(command, observer, process_start_gate, None, None, None)
 }
 
 fn execute_captured_inner(
@@ -5430,7 +6521,10 @@ fn execute_captured_inner(
     process_start_gate: Option<&ProcessStartGate>,
     cancellation: Option<&AtomicBool>,
     mut on_started: Option<&mut dyn FnMut(u32) -> Result<(), String>>,
+    retained_child: Option<&mut Option<Child>>,
 ) -> ExecutionOutcome {
+    #[cfg(not(target_os = "macos"))]
+    let _ = retained_child;
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
     let deadline_ms =
@@ -5444,6 +6538,12 @@ fn execute_captured_inner(
         .envs(command.environment.iter().cloned())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
+    #[cfg(windows)]
+    if cancellation.is_some() {
+        // In the supervisor, stdin is the parent-liveness control pipe.
+        // The target must not inherit that control channel or wait on it.
+        process.stdin(Stdio::null());
+    }
     if let Some(current_dir) = &command.current_dir {
         process.current_dir(current_dir);
     }
@@ -5492,6 +6592,9 @@ fn execute_captured_inner(
         }
     };
     let child_id = child.id();
+    let mut group_signal_diagnostic = None;
+    #[cfg(target_os = "macos")]
+    mac_register_spawned_child(&child);
     #[cfg(windows)]
     let process_tree = match WindowsProcessTree::attach(&child) {
         Some(tree) => tree,
@@ -5543,21 +6646,71 @@ fn execute_captured_inner(
     if let Some(on_started) = on_started.as_mut()
         && let Err(error) = on_started(child_id)
     {
-        terminate_process_tree(&mut child, child_id);
-        let _ = child.wait();
+        let identity_confirmed =
+            terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+        #[cfg(target_os = "macos")]
+        let direct_reaped =
+            mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic).is_some();
+        #[cfg(not(target_os = "macos"))]
+        let direct_reaped = !identity_confirmed || child.wait().is_ok();
         #[cfg(windows)]
         drop(process_tree);
-        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+        if !identity_confirmed || !direct_reaped {
+            return with_mac_group_signal_diagnostic(
+                failed_cleanup_uncertain_outcome(
+                    started,
+                    timeout_seconds,
+                    deadline_ms,
+                    if identity_confirmed {
+                        "direct_child_reap_unconfirmed"
+                    } else {
+                        "child_identity_unconfirmed"
+                    },
+                    &error,
+                    &[child_id],
+                ),
+                group_signal_diagnostic.as_deref(),
+            );
+        }
+        return with_mac_group_signal_diagnostic(
+            observer_failed_outcome(started, timeout_seconds, deadline_ms, error),
+            group_signal_diagnostic.as_deref(),
+        );
     }
     if let Some(observer) = observer
         && let Err(error) = observer(&command.id, child_id, true)
     {
-        terminate_process_tree(&mut child, child_id);
-        let _ = child.wait();
+        let identity_confirmed =
+            terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+        #[cfg(target_os = "macos")]
+        let direct_reaped =
+            mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic).is_some();
+        #[cfg(not(target_os = "macos"))]
+        let direct_reaped = !identity_confirmed || child.wait().is_ok();
         let _ = observer(&command.id, child_id, false);
         #[cfg(windows)]
         drop(process_tree);
-        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+        if !identity_confirmed || !direct_reaped {
+            return with_mac_group_signal_diagnostic(
+                failed_cleanup_uncertain_outcome(
+                    started,
+                    timeout_seconds,
+                    deadline_ms,
+                    if identity_confirmed {
+                        "direct_child_reap_unconfirmed"
+                    } else {
+                        "child_identity_unconfirmed"
+                    },
+                    &error,
+                    &[child_id],
+                ),
+                group_signal_diagnostic.as_deref(),
+            );
+        }
+        return with_mac_group_signal_diagnostic(
+            observer_failed_outcome(started, timeout_seconds, deadline_ms, error),
+            group_signal_diagnostic.as_deref(),
+        );
     }
     let stdout = child.stdout.take();
     let stderr = child.stderr.take();
@@ -5565,40 +6718,75 @@ fn execute_captured_inner(
     let stderr_worker = stderr.map(capture_stream_async);
     let deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let (status, mut timed_out) = loop {
-        match child.try_wait() {
+        #[cfg(target_os = "macos")]
+        let observed = mac_owned_child_poll(&mut child, child_id, &mut group_signal_diagnostic);
+        #[cfg(not(target_os = "macos"))]
+        let observed = child.try_wait();
+        match observed {
             Ok(Some(status)) => break (Some(status), false),
             Ok(None) if cancellation.is_some_and(|flag| flag.load(Ordering::Acquire)) => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), false);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, false);
             }
             Ok(None) if composition::owner_interruption_signal().is_some() => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), false);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, false);
             }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
-                terminate_process_tree(&mut child, child_id);
-                break (child.wait().ok(), true);
+                let identity_confirmed =
+                    terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = identity_confirmed.then(|| child.wait().ok()).flatten();
+                #[cfg(target_os = "macos")]
+                let _ = identity_confirmed;
+                break (status, true);
             }
             Err(_) => {
-                terminate_process_tree(&mut child, child_id);
-                break (None, false);
+                terminate_process_tree(&mut child, child_id, &mut group_signal_diagnostic);
+                #[cfg(target_os = "macos")]
+                let status = mac_reap_owned_child_bounded(&mut child, &mut group_signal_diagnostic);
+                #[cfg(not(target_os = "macos"))]
+                let status = None;
+                break (status, false);
             }
         }
     };
     #[cfg(windows)]
     drop(process_tree);
+    // mac_owned_child_poll signals the original group while the unreaped
+    // leader still pins its PID. Never signal a numeric group after wait().
+    #[cfg(not(target_os = "macos"))]
     terminate_descendants(child_id);
     let stdout = receive_capture(stdout_worker);
     let stderr = receive_capture(stderr_worker);
     let observer_error = observer.and_then(|observer| observer(&command.id, child_id, false).err());
     let mut stderr_bytes = stderr.bytes;
     append_observer_error(&mut stderr_bytes, observer_error.as_deref());
-    if stdout.timed_out || stderr.timed_out {
+    let group_signal_truncated =
+        append_mac_group_signal_diagnostic(&mut stderr_bytes, group_signal_diagnostic.as_deref());
+    let capture_timed_out = stdout.timed_out || stderr.timed_out;
+    if capture_timed_out {
         timed_out = true;
     }
     let Some(status) = status else {
-        return ExecutionOutcome {
+        let outcome = ExecutionOutcome {
             spawned: true,
             passed: false,
             exit_code: None,
@@ -5606,19 +6794,36 @@ fn execute_captured_inner(
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
-            stderr_truncated: stderr.truncated,
+            stderr_truncated: stderr.truncated || group_signal_truncated,
             output_digest: None,
-            output_truncated: stdout.truncated || stderr.truncated,
+            output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
             deadline_ms,
             cleanup_uncertain: None,
         };
+        #[cfg(target_os = "macos")]
+        let mut outcome = outcome;
+        #[cfg(target_os = "macos")]
+        apply_cleanup_uncertainty(
+            &mut outcome,
+            CleanupUncertainty {
+                phase: "mac_direct_child_reap_unconfirmed".into(),
+                reason: "The directly owned child was not confirmed reaped within bounded grace; it may still be running, and a terminated supervisor does not transfer its Child handle".into(),
+                remaining_pids: Vec::new(),
+                remaining_pids_truncated: false,
+            },
+        );
+        #[cfg(target_os = "macos")]
+        if let Some(slot) = retained_child {
+            *slot = Some(child);
+        }
+        return outcome;
     };
     let termination_signal = status_termination_signal(&status);
     if stdout.failed || stderr.failed {
-        return ExecutionOutcome {
+        let outcome = ExecutionOutcome {
             spawned: true,
             passed: false,
             // A timeout is a bounded cancellation outcome, even when the
@@ -5630,24 +6835,42 @@ fn execute_captured_inner(
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
-            stderr_truncated: stderr.truncated,
+            stderr_truncated: stderr.truncated || group_signal_truncated,
             output_digest: None,
-            output_truncated: stdout.truncated || stderr.truncated,
+            output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
             timeout_seconds,
             deadline_ms,
             cleanup_uncertain: None,
         };
+        #[cfg(target_os = "macos")]
+        let mut outcome = outcome;
+        #[cfg(target_os = "macos")]
+        if capture_timed_out {
+            apply_cleanup_uncertainty(
+                &mut outcome,
+                CleanupUncertainty {
+                    phase: "mac_capture_pipe_owner_unknown".into(),
+                    reason: "A descendant may still hold a capture pipe after the directly owned child was reaped; descendant closure cannot be proved".into(),
+                    remaining_pids: Vec::new(),
+                    remaining_pids_truncated: false,
+                },
+            );
+        }
+        return outcome;
     }
     let identity = OutputIdentity {
-        success: status.success() && !timed_out && observer_error.is_none(),
+        success: status.success()
+            && !timed_out
+            && observer_error.is_none()
+            && (!cfg!(target_os = "macos") || (!stdout.truncated && !stderr.truncated)),
         exit_code: status.code(),
         termination_signal,
         stdout: &stdout.bytes,
         stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
-        stderr_truncated: stderr.truncated,
+        stderr_truncated: stderr.truncated || group_signal_truncated,
         timed_out,
     };
     let output_digest = serde_json::to_vec(&identity)
@@ -5655,15 +6878,18 @@ fn execute_captured_inner(
         .map(|bytes| Digest::sha256_bytes(&bytes).to_string());
     ExecutionOutcome {
         spawned: true,
-        passed: status.success() && !timed_out && observer_error.is_none(),
+        passed: status.success()
+            && !timed_out
+            && observer_error.is_none()
+            && (!cfg!(target_os = "macos") || (!stdout.truncated && !stderr.truncated)),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
         termination_signal,
         stdout: stdout.bytes,
         stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
-        stderr_truncated: stderr.truncated,
+        stderr_truncated: stderr.truncated || group_signal_truncated,
         output_digest,
-        output_truncated: stdout.truncated || stderr.truncated,
+        output_truncated: stdout.truncated || stderr.truncated || group_signal_truncated,
         timed_out,
         elapsed_ms: started.elapsed().as_millis(),
         timeout_seconds,
@@ -5722,9 +6948,175 @@ fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
     stderr.extend_from_slice(&error.as_bytes()[..error.len().min(remaining)]);
 }
 
-fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {
-    terminate_descendants(child_id);
-    let _ = child.kill();
+fn append_mac_group_signal_diagnostic(stderr: &mut Vec<u8>, diagnostic: Option<&str>) -> bool {
+    let Some(diagnostic) = diagnostic else {
+        return false;
+    };
+    let marker = b"\nmac_original_group_signal: ";
+    let reserve = marker.len().saturating_add(diagnostic.len());
+    let keep = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(reserve);
+    let truncated = stderr.len() > keep;
+    stderr.truncate(keep);
+    stderr.extend_from_slice(marker);
+    stderr.extend_from_slice(diagnostic.as_bytes());
+    truncated
+}
+
+fn with_mac_group_signal_diagnostic(
+    mut outcome: ExecutionOutcome,
+    diagnostic: Option<&str>,
+) -> ExecutionOutcome {
+    if diagnostic.is_none() {
+        return outcome;
+    }
+    outcome.stderr_truncated |= append_mac_group_signal_diagnostic(&mut outcome.stderr, diagnostic);
+    outcome.output_truncated |= outcome.stderr_truncated;
+    if outcome.output_digest.is_some() {
+        outcome.output_digest = execution_outcome_digest(&outcome);
+    }
+    outcome
+}
+
+fn terminate_process_tree(
+    child: &mut std::process::Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+) -> bool {
+    #[cfg(target_os = "macos")]
+    {
+        mac_terminate_owned_tree_with(child, child_id, group_signal_diagnostic, |pid| {
+            // SAFETY: the helper checks the owned child birth identity twice
+            // while its unreaped Child pins the PID under exclusive ownership.
+            let returned = unsafe { libc::kill(-(pid as libc::pid_t), libc::SIGKILL) };
+            let errno = (returned == -1)
+                .then(|| std::io::Error::last_os_error().raw_os_error())
+                .flatten();
+            (returned, errno)
+        })
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = group_signal_diagnostic;
+        terminate_descendants(child_id);
+        let _ = child.kill();
+        true
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_terminate_owned_tree_with(
+    child: &mut Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+) -> bool {
+    mac_terminate_owned_tree_with_operations(
+        child,
+        child_id,
+        group_signal_diagnostic,
+        signal,
+        Child::kill,
+    )
+}
+
+#[cfg(target_os = "macos")]
+fn mac_terminate_owned_tree_with_operations(
+    child: &mut Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+    signal: impl FnMut(u32) -> (i32, Option<i32>),
+    mut direct_kill: impl FnMut(&mut Child) -> std::io::Result<()>,
+) -> bool {
+    // An identity or ownership failure grants no numeric PID authority.
+    let result = mac_signal_owned_group_with(child, child_id, signal);
+    *group_signal_diagnostic = Some(result.diagnostic());
+    if !result.attempted() {
+        return false;
+    }
+    // A failed group syscall does not withdraw this exact Child handle. A
+    // direct kill error is a fact, never proof of exit or group closure.
+    let detail = match direct_kill(child) {
+        Ok(()) => "attempted=true result=ok".into(),
+        Err(error) => format!(
+            "attempted=true result=error errno={:?} kind={:?}",
+            error.raw_os_error(),
+            error.kind()
+        ),
+    };
+    *group_signal_diagnostic = Some(format!(
+        "{}; direct_child_kill: {detail}",
+        result.diagnostic()
+    ));
+    true
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reap_owned_child_bounded_with(
+    child: &mut Child,
+    grace: Duration,
+    mut reap: impl FnMut(&mut Child) -> std::io::Result<Option<std::process::ExitStatus>>,
+) -> std::io::Result<Option<std::process::ExitStatus>> {
+    let deadline = Instant::now() + grace;
+    loop {
+        match reap(child) {
+            Ok(Some(status)) => return Ok(Some(status)),
+            Ok(None) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => {}
+            Err(error) => return Err(error),
+        }
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Ok(None);
+        }
+        std::thread::sleep(Duration::from_millis(10).min(remaining));
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn mac_reap_owned_child_bounded(
+    child: &mut Child,
+    diagnostic: &mut Option<String>,
+) -> Option<std::process::ExitStatus> {
+    let observed =
+        mac_reap_owned_child_bounded_with(child, SUPERVISOR_PROTOCOL_CLOSE_GRACE, Child::try_wait);
+    let (status, detail) = match observed {
+        Ok(Some(status)) => (Some(status), "confirmed_reaped".into()),
+        Ok(None) => (None, "unconfirmed_deadline".into()),
+        Err(error) => (
+            None,
+            format!(
+                "observation_error errno={:?} kind={:?}",
+                error.raw_os_error(),
+                error.kind()
+            ),
+        ),
+    };
+    let prior = diagnostic.take().unwrap_or_else(|| "not_attempted".into());
+    *diagnostic = Some(format!("{prior}; direct_child_reap: {detail}"));
+    status
+}
+
+#[cfg(target_os = "macos")]
+fn mac_owned_child_poll(
+    child: &mut std::process::Child,
+    child_id: u32,
+    group_signal_diagnostic: &mut Option<String>,
+) -> std::io::Result<Option<std::process::ExitStatus>> {
+    let exited = supervisor_pipe::observe_owned_child_exit(child)?;
+    mac_reject_known_identity_change(child)?;
+    if exited {
+        // The leader is an owned zombie until the bounded reap below. A process that
+        // left this group is outside the bounded guarantee and remains Unknown.
+        // proc_pidinfo may no longer expose the birth time of an exited
+        // zombie. In that case retain the direct exit but send no group signal.
+        *group_signal_diagnostic = Some(mac_signal_owned_group(child, child_id).diagnostic());
+        // Even a previously observed exit must not turn a failed or stuck
+        // Child wait into an unbounded verifier operation. None is propagated
+        // to the caller as unconfirmed reaping, never as cleanup success.
+        Ok(mac_reap_owned_child_bounded(child, group_signal_diagnostic))
+    } else {
+        Ok(None)
+    }
 }
 
 fn unix_epoch_millis() -> u128 {
@@ -5752,7 +7144,7 @@ fn common_timeout_seconds(commands: &[PlannedVerificationCommand]) -> Option<u64
         .then_some(first)
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 fn terminate_descendants(child_id: u32) {
     // SAFETY: kill is called with a negative, freshly spawned process-group id.
     unsafe {
@@ -5839,10 +7231,19 @@ fn resume_suspended_process(child: &std::process::Child) -> bool {
         if entry.th32OwnerProcessID == child.id() {
             let thread = unsafe { OpenThread(THREAD_SUSPEND_RESUME, 0, entry.th32ThreadID) };
             if !thread.is_null() {
-                let resumed = unsafe { ResumeThread(thread) } != u32::MAX;
+                // ResumeThread returns the previous suspend count. Only one
+                // proves that our suspended thread is runnable now. Zero may
+                // be another already-running thread in this process; keep
+                // searching for the thread created suspended by us.
+                let previous_suspend_count = unsafe { ResumeThread(thread) };
                 unsafe { CloseHandle(thread) };
-                if resumed {
+                if previous_suspend_count == 1 {
                     found = true;
+                    break;
+                }
+                if previous_suspend_count != 0 && previous_suspend_count != u32::MAX {
+                    // Another controller still holds this thread suspended.
+                    // Do not report a successful resume or start the workload.
                     break;
                 }
             }
@@ -6476,15 +7877,13 @@ mod tests {
         );
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
     fn run_direct_supervisor_probe(
         node_id: &str,
         program: &str,
         args: Vec<String>,
         timeout_seconds: u64,
     ) -> (VerificationReceipt, u32) {
-        use std::sync::atomic::{AtomicU32, Ordering};
-
         let executable = std::env::current_exe().expect("resolve test executable");
         let supervisor = VerificationSupervisorLaunch::test_harness(
             executable,
@@ -6494,6 +7893,19 @@ mod tests {
                 "--nocapture".into(),
             ],
         );
+        run_direct_supervisor_probe_with_launch(node_id, program, args, timeout_seconds, supervisor)
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    fn run_direct_supervisor_probe_with_launch(
+        node_id: &str,
+        program: &str,
+        args: Vec<String>,
+        timeout_seconds: u64,
+        supervisor: VerificationSupervisorLaunch,
+    ) -> (VerificationReceipt, u32) {
+        use std::sync::atomic::{AtomicU32, Ordering};
+
         let command =
             VerificationCommand::new(node_id, program, args, VerificationReusePolicy::NeverReuse)
                 .with_timeout_seconds(timeout_seconds);
@@ -6514,6 +7926,730 @@ mod tests {
         )
         .expect("execute direct-child probe under supervisor");
         (receipt, child_pid.load(Ordering::Acquire))
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_supervisor_accepts_reaped_managed_child_without_claiming_descendant_cleanup() {
+        let (receipt, child_pid) =
+            run_direct_supervisor_probe("mac-direct-exit", "/usr/bin/true", vec![], 5);
+        assert_ne!(child_pid, 0);
+        assert!(receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let record = &receipt.execution_records[0];
+        assert_eq!(record.exit_code, Some(0));
+        assert_eq!(
+            record.command_result,
+            Some(ObservedCommandResult::Succeeded)
+        );
+        assert!(record.cleanup_uncertainty.is_none());
+        assert!(record.unmanaged_descendants_unproved);
+        assert!(!record.timed_out);
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_supervisor_timeout_is_uncertain_and_does_not_signal_unrelated_child() {
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("spawn exact test-owned unrelated child");
+        let (receipt, child_pid) =
+            run_direct_supervisor_probe("mac-timeout", "/bin/sleep", vec!["30".into()], 1);
+        let unrelated_status = unrelated.try_wait().expect("observe exact unrelated child");
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+        assert!(unrelated_status.is_none(), "unrelated child must survive");
+        assert_ne!(child_pid, 0);
+        assert!(!receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let record = &receipt.execution_records[0];
+        assert!(record.timed_out);
+        assert_eq!(record.exit_code, None);
+        assert_eq!(record.command_result, Some(ObservedCommandResult::Unknown));
+        assert!(record.unmanaged_descendants_unproved);
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_timeout_bounds_an_original_group_member_without_claiming_all_descendants() {
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-mac-original-group-{}-{}.started",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let survived = marker.with_extension("survived");
+        let _ = std::fs::remove_file(&marker);
+        let _ = std::fs::remove_file(&survived);
+        let child_script = r#"import os,pathlib,sys,time
+marker=pathlib.Path(sys.argv[1])
+marker.write_text(str(os.getpgrp()))
+time.sleep(4)
+marker.with_suffix('.survived').write_text('survived')
+"#;
+        let parent_script = r#"import pathlib,subprocess,sys,time
+marker=pathlib.Path(sys.argv[1])
+subprocess.Popen([sys.executable,'-c',sys.argv[2],str(marker)],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,close_fds=True)
+deadline=time.monotonic()+1
+while not marker.exists() and time.monotonic()<deadline:
+    time.sleep(.01)
+time.sleep(30)
+"#;
+        let (receipt, leader_pid) = run_direct_supervisor_probe(
+            "mac-original-group-timeout",
+            "python3",
+            vec![
+                "-c".into(),
+                parent_script.into(),
+                marker.to_string_lossy().into_owned(),
+                child_script.into(),
+            ],
+            2,
+        );
+        assert!(marker.exists(), "the same-group member must start");
+        assert_eq!(
+            std::fs::read_to_string(&marker)
+                .expect("same-group member marker")
+                .parse::<u32>()
+                .expect("member process-group ID"),
+            leader_pid,
+            "the member must remain in the verifier's original group"
+        );
+        let record = &receipt.execution_records[0];
+        assert!(record.timed_out);
+        assert!(!receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
+        assert!(
+            String::from_utf8_lossy(&stderr)
+                .contains("mac_original_group_signal: attempted=true return="),
+            "the actual original-group syscall return must be retained"
+        );
+        // The member has a four-second independent TTL. A survival marker is
+        // an observable failure; its absence is not complete-tree proof.
+        std::thread::sleep(Duration::from_secs(5));
+        assert!(!survived.exists(), "original-group member survived timeout");
+        let _ = std::fs::remove_file(marker);
+        let _ = std::fs::remove_file(survived);
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_supervisor_does_not_claim_an_unregistered_escaped_descendant() {
+        // The escaped child has a short independent TTL and no inherited
+        // capture pipe. Its numeric PID is never used as cleanup authority.
+        let script = "import subprocess,sys; subprocess.Popen([sys.executable,'-c','import time; time.sleep(1)'], start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, close_fds=True)";
+        let (receipt, _) = run_direct_supervisor_probe(
+            "mac-escaped-descendant",
+            "python3",
+            vec!["-c".into(), script.into()],
+            5,
+        );
+        assert!(receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        assert_eq!(receipt.execution_records[0].exit_code, Some(0));
+        assert_eq!(
+            receipt.execution_records[0].command_result,
+            Some(ObservedCommandResult::Succeeded)
+        );
+        assert!(receipt.execution_records[0].cleanup_uncertainty.is_none());
+        assert!(receipt.execution_records[0].unmanaged_descendants_unproved);
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_double_fork_closed_pipes_and_changed_cwd_remain_outside_managed_scope() {
+        let directory = std::env::temp_dir().join(format!(
+            "ai-cockpit-mac-double-fork-{}-{}",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        std::fs::create_dir(&directory).expect("create isolated fixture directory");
+        let marker = directory.join("grandchild-cwd");
+        let script = r#"import os,pathlib,sys,time
+marker=pathlib.Path(sys.argv[1])
+target=sys.argv[2]
+first=os.fork()
+if first==0:
+    os.setsid()
+    second=os.fork()
+    if second==0:
+        os.chdir(target)
+        null=os.open(os.devnull,os.O_RDWR)
+        for fd in (0,1,2):
+            os.dup2(null,fd)
+        if null>2:
+            os.close(null)
+        os.closerange(3,256)
+        marker.write_text(os.getcwd())
+        time.sleep(2)
+        os._exit(0)
+    os._exit(0)
+os.waitpid(first,0)
+deadline=time.monotonic()+1
+while not marker.exists() and time.monotonic()<deadline:
+    time.sleep(.01)
+"#;
+        let (receipt, _) = run_direct_supervisor_probe(
+            "mac-double-fork-chdir",
+            "python3",
+            vec![
+                "-c".into(),
+                script.into(),
+                marker.to_string_lossy().into_owned(),
+                directory.to_string_lossy().into_owned(),
+            ],
+            5,
+        );
+        assert_eq!(
+            std::fs::read_to_string(&marker).expect("escaped grandchild marker"),
+            std::fs::canonicalize(&directory)
+                .expect("canonical fixture directory")
+                .to_string_lossy()
+        );
+        assert!(receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let record = &receipt.execution_records[0];
+        assert_eq!(record.exit_code, Some(0));
+        assert_eq!(
+            record.command_result,
+            Some(ObservedCommandResult::Succeeded)
+        );
+        assert!(record.cleanup_uncertainty.is_none());
+        assert!(record.unmanaged_descendants_unproved);
+        // The escaped fixture exits on its own after two seconds. No stale
+        // numeric PID or process-group signal is used for test cleanup.
+        std::thread::sleep(Duration::from_secs(3));
+        std::fs::remove_dir_all(directory).expect("remove fixture files");
+    }
+
+    #[cfg(target_os = "macos")]
+    fn wait_mac_test_worker(child: &mut Child) -> std::process::ExitStatus {
+        let deadline = Instant::now() + Duration::from_secs(6);
+        loop {
+            match child.try_wait() {
+                Ok(Some(status)) => return status,
+                Ok(None) if Instant::now() < deadline => {
+                    std::thread::sleep(Duration::from_millis(10));
+                }
+                Ok(None) | Err(_) => {
+                    // The exact Child handle is still owned by this test.
+                    let _ = child.kill();
+                    let _ = mac_reap_owned_child_bounded_with(
+                        child,
+                        Duration::from_secs(1),
+                        Child::try_wait,
+                    );
+                    panic!("isolated supervisor did not exit within its test watchdog");
+                }
+            }
+        }
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_parent_disconnect_keeps_command_unpassed_after_owned_child_cancellation() {
+        use std::os::unix::process::CommandExt;
+
+        let command = VerificationCommand::new(
+            "mac-parent-disconnect",
+            "/bin/sleep",
+            vec!["3".into()],
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_timeout_seconds(5);
+        let request = VerificationSupervisorRequest::from_command(&command, None);
+        let mut request_bytes = serde_json::to_vec(&request).expect("encode supervisor request");
+        request_bytes.push(b'\n');
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let mut worker = Command::new(executable)
+            .args([
+                "--exact",
+                "tests::verifier_supervisor_worker_entry",
+                "--nocapture",
+                "--test-threads=1",
+            ])
+            .env("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST", "1")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .process_group(0)
+            .spawn()
+            .expect("spawn test-owned supervisor");
+        let mut stdin = worker.stdin.take().expect("supervisor stdin");
+        stdin
+            .write_all(&request_bytes)
+            .and_then(|()| stdin.flush())
+            .expect("send verifier request");
+        let stderr = worker.stderr.take().expect("supervisor stderr");
+        let (sender, receiver) = mpsc::sync_channel(4);
+        let reader = std::thread::spawn(move || read_supervisor_messages(stderr, sender));
+        let started = receiver.recv_timeout(SUPERVISOR_STARTUP_DEADLINE);
+        drop(stdin);
+        let response = receiver.recv_timeout(SUPERVISOR_PARENT_CLEANUP_GRACE);
+        let status = wait_mac_test_worker(&mut worker);
+        reader.join().expect("join bounded message reader");
+        assert!(matches!(
+            started,
+            Ok(Ok(VerificationSupervisorMessage::Started {
+                process_id: Some(_),
+                error: None
+            }))
+        ));
+        let Ok(Ok(VerificationSupervisorMessage::Outcome { outcome })) = response else {
+            panic!("parent disconnect must yield a bounded outcome: {response:?}");
+        };
+        let outcome = ExecutionOutcome::try_from(outcome).expect("decode bounded outcome");
+        assert!(status.success());
+        assert!(!outcome.passed);
+        assert_eq!(outcome.exit_code, None);
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_supervisor_owner_death_keeps_command_and_cleanup_unknown() {
+        let executable = std::env::current_exe().expect("resolve test executable");
+        let supervisor = VerificationSupervisorLaunch::test_harness(
+            executable,
+            vec![
+                "--exact".into(),
+                "tests::verifier_supervisor_worker_entry".into(),
+                "--nocapture".into(),
+            ],
+        )
+        .with_test_environment(
+            "AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST_EXIT_AFTER_STARTED",
+            "1",
+        );
+        let (receipt, child_pid) = run_direct_supervisor_probe_with_launch(
+            "mac-owner-death",
+            "/bin/sleep",
+            vec!["2".into()],
+            5,
+            supervisor,
+        );
+        assert_ne!(child_pid, 0, "missing observed PID; receipt: {receipt:?}");
+        assert!(!receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let record = &receipt.execution_records[0];
+        assert_eq!(record.exit_code, None);
+        assert_eq!(record.command_result, Some(ObservedCommandResult::Unknown));
+        assert!(record.cleanup_uncertainty.is_some());
+        // The verifier has its own two-second TTL. The test never interprets
+        // supervisor death as proof that the verifier also exited.
+        std::thread::sleep(Duration::from_secs(3));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_supervisor_output_saturation_preserves_uncertainty() {
+        let (receipt, _) = run_direct_supervisor_probe(
+            "mac-output-cap",
+            "python3",
+            vec![
+                "-c".into(),
+                "import sys; sys.stdout.buffer.write(b'x' * 2000000); sys.stdout.flush()".into(),
+            ],
+            5,
+        );
+        assert!(!receipt.passed);
+        assert!(receipt.receipt_candidates.is_empty());
+        let record = &receipt.execution_records[0];
+        assert!(record.stdout_truncated);
+        let stderr = decode_hex_bytes(&record.stderr_hex).expect("decode bounded diagnostic");
+        assert!(!String::from_utf8_lossy(&stderr).contains("mac_descendant_boundary"));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_owned_child_birth_read_diagnostic() {
+        use std::os::unix::process::CommandExt;
+
+        let mut running = Command::new("/bin/sleep")
+            .arg("2")
+            .process_group(0)
+            .spawn()
+            .expect("spawn live test-owned child");
+        let live_identity = mac_process_identity(running.id());
+        eprintln!("live owned child identity: {live_identity:?}");
+        let _ = running.kill();
+        let _ = running.wait();
+
+        let mut exited = Command::new("/usr/bin/true")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exiting test-owned child");
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            if supervisor_pipe::observe_owned_child_exit(&exited)
+                .expect("observe exact test-owned child")
+            {
+                break;
+            }
+            assert!(Instant::now() < deadline, "child did not exit in time");
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        let zombie_identity = mac_process_identity(exited.id());
+        eprintln!("unreaped exited child identity: {zombie_identity:?}");
+        exited.wait().expect("reap exact test-owned child");
+        assert!(
+            live_identity.is_ok(),
+            "running owned child identity must be readable"
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_same_numeric_pid_changed_birth_never_reaches_signal_sink() {
+        let original = MacOwnedChildIdentity {
+            pid: 42,
+            started_seconds: 100,
+            started_microseconds: 1,
+        };
+        let changed = MacOwnedChildIdentity {
+            started_microseconds: 2,
+            ..original
+        };
+        MAC_SPAWN_IDENTITIES.with(|recorded| {
+            recorded.borrow_mut().insert(original.pid, Some(original));
+        });
+        let mut observations = [original, changed].into_iter();
+        let mut signals = Vec::new();
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(observations.next().expect("two observations")),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
+        );
+        assert!(
+            !authorized.attempted(),
+            "identity change at the final check must refuse the signal"
+        );
+        assert!(signals.is_empty(), "no numeric PID reaches the signal sink");
+
+        let mut signals = Vec::new();
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(changed),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
+        );
+        assert!(
+            !authorized.attempted(),
+            "a changed birth before the first check also refuses the signal"
+        );
+        assert!(signals.is_empty());
+
+        let mut signals = Vec::new();
+        let authorized = mac_signal_registered_group_with(
+            original.pid,
+            || Ok(original),
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
+        );
+        assert!(
+            authorized.attempted(),
+            "the recorded sink must be reachable for a matching identity"
+        );
+        assert_eq!(signals, [original.pid]);
+        MAC_SPAWN_IDENTITIES.with(|recorded| {
+            recorded.borrow_mut().remove(&original.pid);
+        });
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_failed_original_group_signal_records_return_and_reaps_direct_child() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+        let owned_id = owned.id();
+        let mut signal_calls = Vec::new();
+        let mut diagnostic = None;
+        let attempted =
+            mac_terminate_owned_tree_with(&mut owned, owned_id, &mut diagnostic, |pid| {
+                signal_calls.push(pid);
+                (-1, Some(libc::EPERM)) // Inject failure; do not signal any PID.
+            });
+        let direct_status = owned.wait().expect("reap exact owned child");
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("observe exact unrelated child")
+            .is_none();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(attempted, "the exact child remains safe to reap");
+        assert_eq!(signal_calls, [owned_id]);
+        assert!(
+            diagnostic
+                .as_deref()
+                .is_some_and(|value| value.contains("attempted=true return=-1")),
+            "the failed syscall return must be recorded"
+        );
+        assert!(!direct_status.success());
+        assert!(unrelated_alive, "unrelated child must survive");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_failed_group_and_direct_kill_return_after_bounded_observation() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+        let owned_id = owned.id();
+        let mut group_calls = Vec::new();
+        let mut direct_calls = 0;
+        let mut diagnostic = None;
+        let attempted = mac_terminate_owned_tree_with_operations(
+            &mut owned,
+            owned_id,
+            &mut diagnostic,
+            |pid| {
+                group_calls.push(pid);
+                (-1, Some(libc::EPERM))
+            },
+            |_child| {
+                direct_calls += 1;
+                Err(std::io::Error::from_raw_os_error(libc::EPERM))
+            },
+        );
+        let started = Instant::now();
+        let reaped = mac_reap_owned_child_bounded_with(
+            &mut owned,
+            Duration::from_millis(50),
+            Child::try_wait,
+        )
+        .expect("observe exact child without a signal");
+        let owned_alive = owned.try_wait().expect("owned child observation").is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("unrelated child observation")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(attempted);
+        assert_eq!(group_calls, [owned_id]);
+        assert_eq!(direct_calls, 1);
+        assert!(
+            diagnostic.as_deref().is_some_and(|value| {
+                value.contains("return=-1")
+                    && value.contains("direct_child_kill: attempted=true result=error")
+                    && value.contains("errno=Some(1)")
+            }),
+            "both failed termination results must remain visible"
+        );
+        assert!(reaped.is_none(), "an attempted signal is not an exit");
+        assert!(started.elapsed() < Duration::from_secs(1));
+        assert!(owned_alive, "the fixture retains its live Child handle");
+        assert!(unrelated_alive, "no unrelated process was signalled");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_direct_reap_observation_error_preserves_owned_handle() {
+        use std::os::unix::process::CommandExt;
+
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        let result =
+            mac_reap_owned_child_bounded_with(&mut owned, Duration::from_millis(50), |_child| {
+                Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+            });
+        let alive = owned.try_wait().expect("owned child observation").is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+
+        assert_eq!(result.unwrap_err().raw_os_error(), Some(libc::ECHILD));
+        assert!(alive, "an observation failure does not prove exit");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_direct_reap_pending_observation_expires_without_losing_ownership() {
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("spawn exact owned child");
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .spawn()
+            .expect("spawn unrelated child");
+        let started = Instant::now();
+        let result =
+            mac_reap_owned_child_bounded_with(&mut owned, Duration::from_millis(50), |_child| {
+                Ok(None)
+            })
+            .expect("pending observation is bounded");
+        let elapsed = started.elapsed();
+        let owned_alive = owned.try_wait().expect("owned observation").is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("unrelated observation")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(result.is_none(), "pending wait cannot prove direct reaping");
+        assert!(elapsed < Duration::from_secs(1), "wait took {elapsed:?}");
+        assert!(owned_alive, "the fixture still owns its live Child handle");
+        assert!(unrelated_alive, "the unrelated process must survive");
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_echild_observation_never_signals_owned_or_unrelated_child() {
+        use std::os::unix::process::CommandExt;
+
+        fn ownership_lost(_: &mut Child) -> std::io::Result<bool> {
+            Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+        }
+
+        // Both children have a finite lifetime even if a test assertion fails.
+        // Group signals are never sent by this fixture; cleanup uses only the
+        // exact Child handles that the fixture created.
+        let mut owned = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact owned child");
+        mac_register_spawned_child(&owned);
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn separate unrelated child");
+
+        let owned_id = owned.id();
+        let identity_registered = mac_expected_child_identity(owned_id).is_ok();
+        let mut signals = Vec::new();
+        let mut identity_observations = 0;
+        let signal_authorized = mac_signal_registered_group_with(
+            owned_id,
+            || {
+                identity_observations += 1;
+                Err(std::io::Error::from_raw_os_error(libc::ECHILD))
+            },
+            |pid| {
+                signals.push(pid);
+                (0, None)
+            },
+        );
+        let mut forced = false;
+        let cleanup_result = wait_supervisor_cleanup_with_operations(
+            &mut owned,
+            owned_id,
+            Duration::from_millis(80),
+            &mut forced,
+            None,
+            ownership_lost,
+            Child::try_wait,
+        );
+        let owned_alive = owned
+            .try_wait()
+            .expect("observe exact owned child")
+            .is_none();
+        let unrelated_alive = unrelated
+            .try_wait()
+            .expect("observe exact unrelated child")
+            .is_none();
+        let _ = owned.kill();
+        let _ = owned.wait();
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+
+        assert!(identity_registered, "live owned identity must be recorded");
+        assert_eq!(
+            identity_observations, 1,
+            "the production check must observe ECHILD"
+        );
+        assert!(
+            !signal_authorized.attempted(),
+            "ECHILD cannot authorize a group signal"
+        );
+        assert!(signals.is_empty(), "no numeric PID reached the signal sink");
+        assert!(
+            cleanup_result.is_none() && forced,
+            "ECHILD must leave supervisor cleanup unproved"
+        );
+        assert!(
+            owned_alive,
+            "owned child must survive until fixture cleanup"
+        );
+        assert!(
+            unrelated_alive,
+            "unrelated child must survive until fixture cleanup"
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn mac_reaped_child_grants_no_later_numeric_group_signal() {
+        use std::os::unix::process::CommandExt;
+
+        let mut old_child = Command::new("/usr/bin/true")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact test-owned child");
+        mac_register_spawned_child(&old_child);
+        let old_id = old_child.id();
+        old_child
+            .wait()
+            .expect("reap old child before stale cleanup");
+        assert!(
+            supervisor_pipe::observe_owned_child_exit(&old_child).is_err(),
+            "a reaped handle cannot authorize a later numeric group signal"
+        );
+        let mut unrelated = Command::new("/bin/sleep")
+            .arg("5")
+            .process_group(0)
+            .spawn()
+            .expect("spawn exact unrelated child");
+        assert_ne!(old_id, unrelated.id(), "these are distinct owned children");
+        let mut signal_diagnostic = None;
+        terminate_process_tree(&mut old_child, old_id, &mut signal_diagnostic);
+        assert_eq!(
+            signal_diagnostic.as_deref(),
+            Some("not_attempted_identity_unconfirmed")
+        );
+        let unrelated_status = unrelated.try_wait().expect("observe unrelated child");
+        let _ = unrelated.kill();
+        let _ = unrelated.wait();
+        assert!(unrelated_status.is_none(), "stale PID must grant no signal");
     }
 
     #[cfg(target_os = "linux")]
@@ -6714,7 +8850,7 @@ mod tests {
         )
         .with_environment(vec![("MARKER".into(), marker.as_os_str().to_owned())])
         .with_timeout_seconds(5);
-        let request = VerificationSupervisorRequest::from_command(&command);
+        let request = VerificationSupervisorRequest::from_command(&command, None);
         let mut request_bytes = serde_json::to_vec(&request).expect("encode supervisor request");
         request_bytes.push(b'\n');
         let executable = std::env::current_exe().expect("resolve test executable");
@@ -6863,7 +8999,7 @@ mod tests {
         );
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
     #[test]
     fn verifier_supervisor_worker_entry() {
         if std::env::var("AI_COCKPIT_VERIFICATION_SUPERVISOR_TEST").as_deref() != Ok("1") {
@@ -7177,7 +9313,7 @@ mod supervisor_finalization_tests {
     }
 
     fn fixture_child(mode: &str) -> Child {
-        Command::new(std::env::current_exe().expect("test executable"))
+        let child = Command::new(std::env::current_exe().expect("test executable"))
             .args([
                 "--exact",
                 "supervisor_finalization_tests::finalization_fixture",
@@ -7190,7 +9326,10 @@ mod supervisor_finalization_tests {
             .stderr(Stdio::piped())
             .process_group(0)
             .spawn()
-            .expect("spawn exact owned finite helper")
+            .expect("spawn exact owned finite helper");
+        #[cfg(target_os = "macos")]
+        mac_register_spawned_child(&child);
+        child
     }
 
     fn finish_owned_fixture(mut child: Child) {
@@ -7314,7 +9453,7 @@ mod supervisor_finalization_tests {
             VerificationReusePolicy::NeverReuse,
         );
         let mut request =
-            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command))
+            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command, None))
                 .expect("request");
         request.push(b'\n');
         let started = exchange_verification_supervisor_startup(
@@ -7357,7 +9496,7 @@ mod supervisor_finalization_tests {
             VerificationReusePolicy::NeverReuse,
         );
         let mut request =
-            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command))
+            serde_json::to_vec(&VerificationSupervisorRequest::from_command(&command, None))
                 .expect("request");
         request.push(b'\n');
         let first = exchange_verification_supervisor_startup(

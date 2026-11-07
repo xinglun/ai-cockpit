@@ -1741,6 +1741,68 @@ fn subset_formal_bytes(repo: &std::path::Path) -> Vec<(String, Option<Vec<u8>>)>
 }
 
 #[cfg(target_os = "linux")]
+fn assert_subset_preserves_formal_evidence_and_records_reaping(
+    before: &[(String, Option<Vec<u8>>)],
+    after: &[(String, Option<Vec<u8>>)],
+) {
+    assert_eq!(before.len(), after.len());
+    for (old, current) in before.iter().zip(after) {
+        assert_eq!(old.0, current.0);
+        if old.0 != ".ai/work-items/active/WI-NODE-SUBSET.summary.json" {
+            assert_eq!(old.1, current.1, "partial cannot replace formal evidence");
+        }
+    }
+
+    let mut old_summary: serde_json::Value =
+        serde_json::from_slice(before[1].1.as_ref().unwrap()).unwrap();
+    let mut current_summary: serde_json::Value =
+        serde_json::from_slice(after[1].1.as_ref().unwrap()).unwrap();
+    let old_entries = old_summary["processCleanup"]["entries"]
+        .as_array()
+        .cloned()
+        .unwrap_or_default();
+    let current_entries = current_summary["processCleanup"]["entries"]
+        .as_array()
+        .expect("partial execution records its managed child");
+    assert!(
+        current_entries.starts_with(&old_entries),
+        "partial cannot change earlier process observations"
+    );
+    assert_eq!(
+        current_entries.len(),
+        old_entries.len() + 1,
+        "the selected command adds exactly one process observation"
+    );
+    let reaped = &current_entries[old_entries.len()];
+    assert_eq!(reaped["nodeId"], "project-command-0");
+    assert_eq!(reaped["state"], "direct_child_reaped");
+    assert_eq!(reaped["directChildReaped"], true);
+    assert_eq!(reaped["platform"], "linux");
+    assert_eq!(reaped["identityStrength"], "numeric_pid_only");
+    assert!(reaped["processId"].as_u64().is_some_and(|pid| pid > 0));
+    assert!(
+        reaped["executionId"]
+            .as_str()
+            .is_some_and(|id| !id.is_empty())
+    );
+    assert!(
+        reaped["runtimeDigest"]
+            .as_str()
+            .is_some_and(|id| !id.is_empty())
+    );
+
+    for summary in [&mut old_summary, &mut current_summary] {
+        let object = summary.as_object_mut().unwrap();
+        object.remove("processCleanup");
+        object.remove("updatedAt");
+    }
+    assert_eq!(
+        old_summary, current_summary,
+        "partial cannot change any other Summary field"
+    );
+}
+
+#[cfg(target_os = "linux")]
 fn assert_native_subset_attempt(repo: &std::path::Path, output: &serde_json::Value) {
     assert_eq!(output["passed"], true);
     assert_eq!(output["declaredCoverage"]["complete"], false);
@@ -1811,10 +1873,9 @@ fn node_subset_without_formal_baseline_cannot_promote_status_or_finish() {
         repo,
     );
     assert_native_subset_attempt(repo, &output);
-    assert_eq!(
-        subset_formal_bytes(repo),
-        before,
-        "partial must not write Summary, Outcome, formal receipt or recovery decision"
+    assert_subset_preserves_formal_evidence_and_records_reaping(
+        &before,
+        &subset_formal_bytes(repo),
     );
     let status = run(
         binary,
@@ -1846,8 +1907,8 @@ fn node_subset_without_formal_baseline_cannot_promote_status_or_finish() {
             .join(".ai/evidence/WI-NODE-SUBSET.verification.json")
             .exists()
     );
-    // finish is allowed to append its genuine failure projection. Partial's
-    // no-write assertion above applies before that explicit finish request.
+    // Finish may append its genuine failure projection. The subset only added
+    // its managed-process observation before that explicit finish request.
     let summary: serde_json::Value = serde_json::from_slice(
         &fs::read(repo.join(".ai/work-items/active/WI-NODE-SUBSET.summary.json")).unwrap(),
     )
@@ -1886,10 +1947,9 @@ fn node_subset_keeps_existing_complete_formal_evidence_byte_for_byte() {
         repo,
     );
     assert_native_subset_attempt(repo, &output);
-    assert_eq!(
-        subset_formal_bytes(repo),
-        before,
-        "new subset cannot replace, relabel, delete or refresh the old complete evidence"
+    assert_subset_preserves_formal_evidence_and_records_reaping(
+        &before,
+        &subset_formal_bytes(repo),
     );
     let status_after = run(
         binary,

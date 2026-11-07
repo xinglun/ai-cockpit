@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f6eecc65adb8fa99be3634014553f9fceafcd2cb5522dc8e7d0b68c5ce5b0d7a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:afc25a4eb681669daff619d9c0b4a7fb6287c6ccd53e7028a6ec99f8cc273126",
+  "reason": "The user explicitly confirmed the exact WI-1119 four-binding review for adding only .github/workflows/ci.yml to scope so the two WI-local cleanup tests can run in Windows CI. This does not claim that tests, merge, or release passed.",
+  "recordedAt": "2026-11-04T13:53:14.321292Z",
+  "recordedBy": "user:Sentinel_c56103d2155081919b94d941d7a98bfd",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:79fe75e05735bab1110c0fffcd7066a5a3169f015d6296abc4524c36de5f5b13",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

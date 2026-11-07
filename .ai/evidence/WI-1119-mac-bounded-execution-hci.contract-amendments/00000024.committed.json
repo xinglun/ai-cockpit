@@ -1,0 +1,89 @@
+{
+  "sequence": 24,
+  "preparedDigest": "sha256:3946953650f8133bee179d3e7d207416f7dd29036ed2c836260bae9e791698ef",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 24,
+    "changeId": "wi1119-draft-pr-for-windows-ci-20261104",
+    "requestDigest": "sha256:83cb2463bcfc6410d24c3969346fe25fd230f1a8fc81a1ae90140959f7e26dba",
+    "reason": "Owner approved a draft pull request from the exact WI-1119 public branch into main solely to run Windows and other PR CI; this grants create_pull_request only, not ready, merge, or release.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "replace",
+        "oldValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "process_cleanup",
+              "publish_branch"
+            ],
+            "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision; conversation: user approved public push of the WI-1119 local branch to github.com/xinglun/ai-cockpit on 2026-11-04, subject to exact source and native review",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        },
+        "newValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "record_material_review_decision",
+              "finish",
+              "archive_when_reviewed",
+              "process_cleanup",
+              "publish_branch",
+              "create_pull_request"
+            ],
+            "authoritySource": "conversation:Sentinel_b4a3f69fe93c81918dc7d9daddac54b3 (user approved bounded Mac execution and HCI scope at 2026-11-03T02:30:41Z); conversation:Sentinel_5332dceecb308191a235cb9832859b18 (user approved exact local Runtime 80e6eb84a32dc616789e45271a6529bd689eac13efc8ab1b30997e7bc1063840 for staged WI start, preflight, and locally admitted governance/verification at 2026-11-03T02:41:51Z); this policy declaration is not a native human decision; conversation: user approved public push of the WI-1119 local branch to github.com/xinglun/ai-cockpit on 2026-11-04, subject to exact source and native review; conversation:Sentinel_61e1ca9a071c8191963776fed5e1e585 (user approved creating a WI-1119 draft PR to trigger Windows CI at 2026-11-04T08:19:45Z; no merge or release)",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:1bd2a09bf919129d86368fdf064dc1290e46cd5f419512a7437088d21c8145d2",
+    "newContractDigest": "sha256:241a5963cc532194ac86843bc8a75cb233f566268d19b97a02d72fb8e8eec623",
+    "repositorySnapshotDigest": "sha256:65513fc7e2ca921240754c71f97dab9f2a39c1944eebd2ff16cecd87eb34c54c",
+    "environmentObservationDigest": "sha256:4017b306da5509d572d6ed675bf0ffd1a715eedb6a18ce86420f72ad3115df70",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:91c223b7f3fba0bcfe11c33be8f0fee89555bd145b742ba6219a54df9e19cd97",
+    "journalDigest": "sha256:3077aad027e3a91128e7a5cb49ab155e93884cf8d51a464a866df9f0ef9fda91",
+    "recordedAt": "2026-11-04T08:21:25Z"
+  }
+}

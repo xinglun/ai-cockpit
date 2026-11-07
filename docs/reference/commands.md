@@ -91,6 +91,7 @@ Generated from the current Clap command tree, including inherited global argumen
 | `ai-cockpit work-item finalize` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-verify` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item ordinary-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
+| `ai-cockpit work-item process-cleanup` | `--id`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery` | `--id`, `--input`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item finalize-recovery-plan` | `--id`, `--merge-commit`, `--repo`, `--task-caller`, `-h / --help` |  |
 | `ai-cockpit work-item legacy-closeout-source-plan` | `--id`, `--input`, `--repo`, `--source-repo`, `--task-caller`, `-h / --help` |  |
@@ -141,6 +142,28 @@ Generated from the current Clap command tree, including inherited global argumen
 
 </details>
 <!-- AI_COCKPIT_PUBLIC_CLI:END -->
+
+`work-item process-cleanup --repo <checkout> --id <wi>` reads only that WI's
+Summary process entries. The supervising execution records an actual start
+with its execution ID and numeric PID; an observed direct-child exit is
+recorded separately. On macOS, if an unreaped direct child remains, its
+short-lived supervisor may hold the `Child` for up to 30 seconds after the
+verification result and accept one WI-bound file request. The separate command
+asks that owner to terminate and reap its own child within a bounded wait.
+Normal reaped commands leave no waiting owner. A lost owner, expired request,
+failed termination, or unconfirmed identity remains Unknown. The mailbox name
+and numeric PID are correlation facts, not credentials or permission to signal
+from the separate CLI. Linux and Windows use the same WI record and Unknown
+result contract; this retained-owner path has not been established on those
+platforms. An absent or damaged entry is not proof of cleanup, and a reaped
+direct child does not prove that descendants exited. The ordinary
+`work-item ordinary-cleanup` command concerns branch/worktree resources and
+has a separate meaning. The command does not manage external `git` or `rm`.
+On macOS, formal command success covers registered processes owned by this WI
+after their direct Child has been reaped. The receipt records
+`unmanagedDescendantsUnproved`; Outcome states that unregistered escaped
+descendants were not proved to exit. An unknown managed identity or reaping
+result remains Unknown and cannot become a successful receipt or reusable node.
 
 
 Historical compatibility is explicit and low assurance. Legacy shared-primary

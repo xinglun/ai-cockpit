@@ -1,0 +1,21 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "current conversation: user explicitly replied 同意 to the exact WI-1119 native retry after the rejected formal receipt was explained",
+  "decidedAt": "2026-11-06T02:56:56Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1119-mac-bounded-execution-hci.verification-attempt.598c488305d2d3d7fcbbf20419b920ded09b00d7ae53cbf608aa95c4487a4a26.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+  "predecessorSummaryDigest": "sha256:20a71f545beb6624de3ec66ddeb39bbcf300a700bf1f22fa731745c5a10797be",
+  "predecessorWorkItemId": "WI-1119-mac-bounded-execution-hci",
+  "reason": "Preserve the 32/32 execution and formal_receipt_rejected attempt; authorize the same WI to retry native verification against the current source snapshot without weakening tests or cleanup boundaries.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record a fresh current-Runtime, current-Contract, current-source formal verification receipt through the native retry path; preserve historical Unknown and failed attempts.",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

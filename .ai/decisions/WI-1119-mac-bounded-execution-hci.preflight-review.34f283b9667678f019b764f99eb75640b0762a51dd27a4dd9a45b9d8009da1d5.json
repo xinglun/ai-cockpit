@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cb1ef6d352d38a30ca213f95762d3692f146a83955028c75eba7eb0018298972",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:048905826dd1bfd4541ebfca89e3b1c7698218eb1288c84edff03eedaeae8f05",
+  "reason": "The user explicitly replied confirm_review to the WI-1119 request showing this exact four-binding review for adding only crates/cockpit-repository/tests/outcome_report.rs. This confirms Contract review only; it does not claim tests, merge, or release passed.",
+  "recordedAt": "2026-11-04T11:30:48.204986Z",
+  "recordedBy": "user:Sentinel_35b2f015c9848191815cd92383f83000",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:70f7ce5bd85a00270522871612599465b77cce25d3ee4a043659283baa8da09d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

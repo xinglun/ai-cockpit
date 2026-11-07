@@ -1,0 +1,70 @@
+{
+  "checkpointId": "sha256:2c1b10561a5c516a746039d4fcada8d542ff19f30360be6b1d13ba612d9674eb",
+  "commands": [
+    {
+      "args": [],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:8d557b4bfb809ec3213e03ec9f3841b86135b1f5dec4bf94206e604110e75c82",
+      "nodeId": "project-command-0",
+      "plannedNode": {
+        "action": "execute",
+        "args": [],
+        "bindingMismatches": [],
+        "dependencies": [],
+        "identityBinding": {
+          "commandDigest": "sha256:8d557b4bfb809ec3213e03ec9f3841b86135b1f5dec4bf94206e604110e75c82",
+          "profileDigest": null,
+          "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+          "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
+          "runtimeDigest": "sha256:7a97268cd83528ac0b9eec9a43221d7d79cd1b84c22885b365cdbec4c7ef65b1"
+        },
+        "nodeId": "project-command-0",
+        "planningElapsedMs": 0,
+        "program": "/usr/bin/true",
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reuseAuthorization": "not_requested",
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timeoutSeconds": 300
+      },
+      "program": "/usr/bin/true",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a97268cd83528ac0b9eec9a43221d7d79cd1b84c22885b365cdbec4c7ef65b1",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "completedNodes": [],
+  "completedReceipts": [],
+  "contractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+  "contractExecutionScopeDigest": "sha256:9dc97707cc2142d8ac53b9478cd219fbbf27d74ae7a1a1ec4c418730ceddbbd8",
+  "createdAt": "2026-11-03T12:24:12.011745000Z",
+  "diagnostic": {
+    "message": "project-command-0: repository protocol state error at /Users/sei-rinn/Documents/Codex/2026-11-03/task/ai-cockpit-mac-preflight: task_authorization_command_outside_owner_verification",
+    "phase": "worker"
+  },
+  "kind": "verification_run_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
+  "runId": "sha256:1a88132944a55f0ac2259a524b673430cad7d26cbc4daf6d6c7e482b69298d4f",
+  "runtimeDigest": "sha256:7a97268cd83528ac0b9eec9a43221d7d79cd1b84c22885b365cdbec4c7ef65b1",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "interrupted",
+  "unavailableNodes": [
+    {
+      "diagnostic": "repository protocol state error at /Users/sei-rinn/Documents/Codex/2026-11-03/task/ai-cockpit-mac-preflight: task_authorization_command_outside_owner_verification",
+      "executionState": "unknown",
+      "nodeId": "project-command-0"
+    }
+  ],
+  "unstartedNodes": [],
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

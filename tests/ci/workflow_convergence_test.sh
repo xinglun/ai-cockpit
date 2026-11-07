@@ -166,7 +166,7 @@ assert 'target/ci-revision-binding.json' in workflow
 windows_suites = job_block("windows-runtime-suites")
 assert "suite: [boundaries, repository-library]" in windows_suites
 assert "fail-fast: false" in windows_suites and "max-parallel: 2" in windows_suites
-windows_original_commands = ['python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact']
+windows_original_commands = ['python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-agent --all-targets', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test verify wi_local_cleanup_cold_reads_real_reap_without_touching_another_work_item -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test usage process_cleanup_cold_restart_keeps_an_unowned_child_unknown_and_other_wi_unchanged -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit generated_json_and_markdown_match_python_in_an_isolated_checkout -- --exact', 'python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test cognitive_benefit rust_check_matches_the_existing_python_gate_without_rewriting_evidence -- --exact']
 windows_steps = re.split(r"(?m)^      - ", windows_suites)
 windows_actual_commands = []
 for step in windows_steps:
@@ -255,12 +255,31 @@ with tempfile.TemporaryDirectory(prefix="windows-suite-aggregation-") as tempora
 
 # Independent hosted validations fan out from the immutable route artifact;
 # no validation job waits for another validation job.
-validation_jobs = ("quality", "windows-runtime-suites", "v1-behavioral-oracle")
+validation_jobs = ("quality", "windows-runtime-suites", "macos-workspace", "v1-behavioral-oracle")
 for name in validation_jobs:
     block = job_block(name)
     assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
     assert "needs: [" not in block, f"{name} must not serialize behind another validation job"
 assert "\n    needs: quality\n" not in workflow, "independent CI validation must not wait for quality"
+
+mac_job = job_block("macos-workspace")
+assert "runs-on: macos-15" in mac_job
+assert "github.event_name == 'pull_request'" in mac_job
+assert "persist-credentials: false" in mac_job
+assert "test \"$tested_revision\" = \"$GITHUB_SHA\"" in mac_job
+assert "test \"${parents[1]}\" = \"$source_revision\"" in mac_job
+assert "git merge-base --is-ancestor \"$PR_BASE_SHA\" \"${parents[0]}\"" in mac_job
+assert "timeout-minutes: 15" in mac_job
+assert "cargo test --locked --workspace --no-run" in mac_job
+assert "resolved_temp=\"$(cd \"$RUNNER_TEMP\" && pwd -P)\"" in mac_job
+assert "printf 'TMPDIR=%s/\\n' \"$resolved_temp\" >> \"$GITHUB_ENV\"" in mac_job
+assert "cargo test --locked -p cockpit-isolation --test scanner -- --test-threads=1" in mac_job
+assert "timeout-minutes: 75" in mac_job
+assert "      - name: Run exact Mac workspace suite\n        timeout-minutes: 45\n" in mac_job
+assert "cargo test --locked --workspace\n" in mac_job
+assert "retained_owner_cleanup_tests::independent_cli_requests_cleanup_from_real_owner" in mac_job
+assert "AI_COCKPIT_TEST_CLI=\"$GITHUB_WORKSPACE/target/debug/ai-cockpit\"" in mac_job
+assert "name: ci-revision-binding-macos-workspace" in mac_job
 
 ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
 ordinary_guide_text = re.sub(r"[\s`]+", " ", ordinary_guide.read_text(encoding="utf-8").lower())

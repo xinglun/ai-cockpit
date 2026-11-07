@@ -1,0 +1,65 @@
+{
+  "sequence": 11,
+  "preparedDigest": "sha256:5ca86e760ff8fdf06c0f1adde855a4026743b473ddbe7ca20ea595930cc7d3f5",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 11,
+    "changeId": "wi1119-original-group-observed-signal-boundary-20261103",
+    "requestDigest": "sha256:86302891d96a76d0e47b2a366225d9e7e26b09c79c1526c7e157292e4c8504f5",
+    "reason": "The user approved correcting the Mac original-group boundary: record the actual group-signal return and wait only for the directly owned child. Unknown cleanup, no complete-group/tree claim, no result reuse, and the existing composition refusal remain. This corrects the owner-reviewed acceptance wording before implementing the in-scope return handling.",
+    "changedValues": [
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "Control and wait for the directly owned verifier and its original process group on Mac; preserve Unknown and prohibit cleanup-success and result reuse where escaped descendants cannot be ruled out. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese.",
+        "newValue": "On Mac, control and wait for the directly owned verifier within bounded grace. When its exact owned birth identity permits, attempt to signal its original process group and record the actual return; keep cleanup Unknown where group members or escaped descendants cannot be proved closed, and prohibit cleanup-success and result reuse. Keep full composition supervision unsupported. State HCI as the sole North Star in English, Japanese, and Chinese."
+      },
+      {
+        "path": "/scenarioCoverage/1/expected",
+        "operation": "set",
+        "oldValue": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+        "newValue": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives."
+      },
+      {
+        "path": "/scenarioCoverage/1/expectedOutcome",
+        "operation": "set",
+        "oldValue": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+        "newValue": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives."
+      },
+      {
+        "path": "/scenarioCoverage/1/expectedResult",
+        "operation": "set",
+        "oldValue": "Timeout terminates and waits for the owned direct child and observed original process group; uncertainty remains visible if closure is not proved.",
+        "newValue": "On Mac timeout, when the directly owned child birth identity still matches, attempt to signal its original process group and record the actual signal return; wait for the directly owned child within bounded grace. If signaling fails or group members or escaped descendants cannot be observed closed, cleanup remains Unknown, with no whole-group or full-tree closure claim; the unrelated process survives."
+      },
+      {
+        "path": "/scenarioCoverage/1/verificationPlan",
+        "operation": "set",
+        "oldValue": "Run a real Mac timeout fixture with a same-group member and a separate unrelated process; confirm the latter survives.",
+        "newValue": "Run a bounded real Mac timeout fixture with a directly owned child, a same-original-group member, and a separate unrelated process. Observe the actual original-group signal attempt and return, wait for the directly owned child, confirm the unrelated process survives, and retain cleanup Unknown when closure of non-child group members or escaped descendants is unproved. Do not treat a missing survival marker or an empty group observation as proof that the whole group or tree exited."
+      }
+    ],
+    "previousContractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+    "newContractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+    "repositorySnapshotDigest": "sha256:6ed0965540231d82e387f653afd1cb6758e56673b1332121c7cc2b684abdc0ad",
+    "environmentObservationDigest": "sha256:6ab11549736f31280dfc7416524fbb76645c9c336a55030b20b136a69498bc33",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:ac4b107a75d25b39e912a5ed0aa5a794a019ec46ea0c0ecf417648fce518da9f",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/1/expected",
+      "/scenarioCoverage/1/expectedOutcome",
+      "/scenarioCoverage/1/expectedResult",
+      "/scenarioCoverage/1/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:47a02e89750bb783968233dc19f81dddbb203af2b21b0517fda288f9660ae649",
+    "journalDigest": "sha256:dbf2bf3df34f896ba53a3808780f3a75c29dc65f7810405c03be05b56029ead1",
+    "recordedAt": "2026-11-03T12:30:23Z"
+  }
+}

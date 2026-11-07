@@ -61,6 +61,7 @@ mod historical_compatibility;
 mod knowledge_projection;
 mod legacy_closeout_source;
 mod lifecycle;
+pub use lifecycle::{work_item_process_cleanup_report, work_item_process_cleanup_with_caller};
 mod material_review;
 mod observation_ledger;
 mod outcome_render;
@@ -1247,7 +1248,7 @@ struct PreparedRepositoryVerificationCommand {
     executable_files_read: usize,
     executable_files_hashed: usize,
     reuse_authorization: String,
-    #[cfg(all(test, unix))]
+    #[cfg(all(test, unix, not(target_os = "macos")))]
     candidate_loaded: bool,
 }
 
@@ -1290,7 +1291,7 @@ fn prepare_repository_verification_command(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
-    #[cfg(all(test, unix))]
+    #[cfg(all(test, unix, not(target_os = "macos")))]
     let mut candidate_loaded = false;
     let mut reuse_authorization = match request.policy {
         RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
@@ -1332,11 +1333,11 @@ fn prepare_repository_verification_command(
                         None
                     }
                 };
-                #[cfg(all(test, unix))]
+                #[cfg(all(test, unix, not(target_os = "macos")))]
                 let candidate_loaded_here = candidate.is_some();
                 reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
-                #[cfg(all(test, unix))]
+                #[cfg(all(test, unix, not(target_os = "macos")))]
                 {
                     candidate_loaded = candidate_loaded_here;
                 }
@@ -1380,7 +1381,7 @@ fn prepare_repository_verification_command(
         executable_files_read,
         executable_files_hashed,
         reuse_authorization,
-        #[cfg(all(test, unix))]
+        #[cfg(all(test, unix, not(target_os = "macos")))]
         candidate_loaded,
     })
 }
@@ -1476,7 +1477,7 @@ where
     run_repository_verification_inner(root, request, process_observer, |_| {}, None, None, None)
 }
 
-#[cfg(all(test, unix))]
+#[cfg(all(test, unix, not(target_os = "macos")))]
 fn run_repository_verification_with_post_prepare<H>(
     root: &Path,
     request: &RepositoryVerificationRequest,
@@ -1732,8 +1733,34 @@ where
     let start_gate =
         repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let observer_callback =
-        move |node_id: &str, process_id: u32, started: bool| observer(node_id, process_id, started);
+    let recording = execution_checkpoint.as_ref().and_then(|checkpoint| {
+        Some((
+            root.clone(),
+            request.work_item_id.clone()?,
+            checkpoint.local_execution_id()?.to_string(),
+            request.runtime_digest.clone(),
+        ))
+    });
+    let process_supervisor = process_supervisor.map(|supervisor| match &recording {
+        Some((root, wi, execution_id, _)) => {
+            supervisor.with_process_cleanup_context(root.clone(), wi.clone(), execution_id.clone())
+        }
+        None => supervisor,
+    });
+    let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+        if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
+            lifecycle::record_process_start(
+                root,
+                wi,
+                execution_id,
+                node_id,
+                runtime_digest,
+                process_id,
+            )
+            .map_err(|error| error.to_string())?;
+        }
+        observer(node_id, process_id, started)
+    };
     let execution_result = match process_supervisor.clone() {
         Some(supervisor) => {
             cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
@@ -1753,6 +1780,19 @@ where
     };
     if let Some(checkpoint) = &execution_checkpoint {
         checkpoint.observe(&execution_result)?;
+        if let Ok(receipt) = &execution_result {
+            lifecycle::record_process_results(
+                &root,
+                request
+                    .work_item_id
+                    .as_deref()
+                    .expect("WI checkpoint requires WI"),
+                checkpoint
+                    .local_execution_id()
+                    .expect("prepared checkpoint has ID"),
+                &receipt.execution_records,
+            )?;
+        }
     }
     let mut receipt = execution_result.map_err(|error| ObserverError::State {
         path: root.clone(),
@@ -1837,10 +1877,6 @@ where
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
             )
         };
-        let observer = Arc::clone(&process_observer);
-        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
-            observer(node_id, process_id, started)
-        };
         let retry_checkpoint = match (request.work_item_id.as_ref(), task_context) {
             (Some(_), Some((runtime, _))) => {
                 Some(lifecycle::VerificationExecutionCheckpoint::prepare(
@@ -1852,6 +1888,37 @@ where
                 )?)
             }
             _ => None,
+        };
+        let observer = Arc::clone(&process_observer);
+        let recording = retry_checkpoint.as_ref().and_then(|checkpoint| {
+            Some((
+                root.clone(),
+                request.work_item_id.clone()?,
+                checkpoint.local_execution_id()?.to_string(),
+                request.runtime_digest.clone(),
+            ))
+        });
+        let process_supervisor = process_supervisor.map(|supervisor| match &recording {
+            Some((root, wi, execution_id, _)) => supervisor.with_process_cleanup_context(
+                root.clone(),
+                wi.clone(),
+                execution_id.clone(),
+            ),
+            None => supervisor,
+        });
+        let observer_callback = move |node_id: &str, process_id: u32, started: bool| {
+            if started && let Some((root, wi, execution_id, runtime_digest)) = &recording {
+                lifecycle::record_process_start(
+                    root,
+                    wi,
+                    execution_id,
+                    node_id,
+                    runtime_digest,
+                    process_id,
+                )
+                .map_err(|error| error.to_string())?;
+            }
+            observer(node_id, process_id, started)
         };
         let execution_result = match process_supervisor {
             Some(supervisor) => cockpit_verification::execute_bounded_with_process_observer_and_start_gate_supervised(
@@ -1870,6 +1937,19 @@ where
         };
         if let Some(checkpoint) = &retry_checkpoint {
             checkpoint.observe(&execution_result)?;
+            if let Ok(receipt) = &execution_result {
+                lifecycle::record_process_results(
+                    &root,
+                    request
+                        .work_item_id
+                        .as_deref()
+                        .expect("WI checkpoint requires WI"),
+                    checkpoint
+                        .local_execution_id()
+                        .expect("prepared checkpoint has ID"),
+                    &receipt.execution_records,
+                )?;
+            }
         }
         receipt = execution_result.map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -8947,7 +9027,11 @@ fn historical_attempt_binds_input(
         });
         let covered = valid
             && typed.plan_receipt.as_ref().is_some_and(|plan| {
-                historical_commands_cover_contract(predecessor.contract(), plan, &by_id)
+                historical_commands_cover_declarations(
+                    &predecessor.contract().verification,
+                    plan.coverage_manifest.as_ref(),
+                    &by_id,
+                )
             })
             && by_id.len() == typed.results.len()
             && typed
@@ -8983,13 +9067,14 @@ fn historical_attempt_binds_input(
     Ok(false)
 }
 
-fn historical_commands_cover_contract(
-    contract: &cockpit_protocol::Contract,
-    plan: &cockpit_verification::VerificationPlanReceipt,
+fn historical_commands_cover_declarations(
+    declarations: &[cockpit_protocol::VerificationDeclaration],
+    manifest: Option<&cockpit_verification::VerificationCoverageManifest>,
     commands: &BTreeMap<&str, &serde_json::Value>,
 ) -> bool {
     let mut covered = BTreeSet::new();
-    for (index, declaration) in contract.verification.iter().enumerate() {
+    let mut manifest_source_matched = false;
+    for (index, declaration) in declarations.iter().enumerate() {
         let (node, text) = match declaration {
             cockpit_protocol::VerificationDeclaration::Legacy(text) => {
                 (format!("project-command-{index}"), text)
@@ -9013,18 +9098,20 @@ fn historical_commands_cover_contract(
             return false;
         }
         if *program == "cargo" && args.contains(&"--workspace") {
-            let Some(manifest) = plan.coverage_manifest.as_ref() else {
+            let Some(manifest) = manifest else {
                 return false;
             };
-            if manifest.source_program != *program
-                || manifest
-                    .source_args
-                    .iter()
-                    .map(String::as_str)
-                    .ne(args.iter().copied())
-            {
+            if manifest.source_program != *program {
                 return false;
             }
+            // The receipt carries one workspace-membership manifest, bound to
+            // its source command. Other declared workspace commands may use
+            // that same member set only when each expanded argv is exact.
+            manifest_source_matched |= manifest
+                .source_args
+                .iter()
+                .map(String::as_str)
+                .eq(args.iter().copied());
             for member in &manifest.workspace_members {
                 let id = format!("{node}-package-{member}");
                 let Some(command) = commands.get(id.as_str()) else {
@@ -9059,7 +9146,70 @@ fn historical_commands_cover_contract(
             }
         }
     }
-    !covered.is_empty() && covered.len() == commands.len()
+    !covered.is_empty()
+        && covered.len() == commands.len()
+        && (manifest.is_none() || manifest_source_matched)
+}
+
+#[cfg(test)]
+mod historical_workspace_command_tests {
+    use super::*;
+
+    #[test]
+    fn one_manifest_covers_two_exact_workspace_commands_but_no_forged_argv() {
+        let declarations = [
+            cockpit_protocol::VerificationDeclaration::Legacy("cargo clippy --workspace".into()),
+            cockpit_protocol::VerificationDeclaration::Legacy("cargo test --workspace".into()),
+        ];
+        let manifest = cockpit_verification::VerificationCoverageManifest {
+            schema_version: 1,
+            source_program: "cargo".into(),
+            source_args: vec!["clippy".into(), "--workspace".into()],
+            planning_program: "cargo".into(),
+            planning_args: Vec::new(),
+            planning_processes_spawned: 0,
+            metadata_digest:
+                "sha256:0000000000000000000000000000000000000000000000000000000000000000".into(),
+            workspace_members: vec!["a".into(), "b".into()],
+            node_ids: Vec::new(),
+            command_digests: Vec::new(),
+        };
+        let mut owned = BTreeMap::from([
+            (
+                "project-command-0-package-a",
+                serde_json::json!({"program":"cargo","args":["clippy","--package","a"]}),
+            ),
+            (
+                "project-command-0-package-b",
+                serde_json::json!({"program":"cargo","args":["clippy","--package","b"]}),
+            ),
+            (
+                "project-command-1-package-a",
+                serde_json::json!({"program":"cargo","args":["test","--package","a"]}),
+            ),
+            (
+                "project-command-1-package-b",
+                serde_json::json!({"program":"cargo","args":["test","--package","b"]}),
+            ),
+        ]);
+        let covers =
+            |owned: &BTreeMap<&str, serde_json::Value>,
+             manifest: &cockpit_verification::VerificationCoverageManifest| {
+                let commands = owned.iter().map(|(id, value)| (*id, value)).collect();
+                historical_commands_cover_declarations(&declarations, Some(manifest), &commands)
+            };
+        assert!(covers(&owned, &manifest));
+        owned.get_mut("project-command-1-package-a").unwrap()["args"] =
+            serde_json::json!(["test", "--package", "a", "--nocapture"]);
+        assert!(!covers(&owned, &manifest));
+        owned.get_mut("project-command-1-package-a").unwrap()["args"] =
+            serde_json::json!(["test", "--package", "a"]);
+        let mut unrelated_manifest = manifest.clone();
+        unrelated_manifest.source_args = vec!["build".into(), "--workspace".into()];
+        assert!(!covers(&owned, &unrelated_manifest));
+        owned.remove("project-command-1-package-b");
+        assert!(!covers(&owned, &manifest));
+    }
 }
 
 fn verification_evidence_state_from_value_with_predecessor(
@@ -17314,6 +17464,26 @@ fn outcome_v2_internal_with_snapshot_and_hook(
         current_runtime,
     )?;
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
+    // A validated Mac receipt can be green for its WI-managed processes while
+    // still making no claim about unregistered escaped descendants. Keep that
+    // limit visible in Outcome without turning it into a managed-cleanup
+    // failure or silently extending the receipt's scope.
+    if decision_state == DecisionState::Green
+        && read_json(&root.join(&evidence_ref))
+            .ok()
+            .is_some_and(|evidence| {
+                evidence["receipt"]["executionRecords"]
+                    .as_array()
+                    .is_some_and(|records| {
+                        records.iter().any(|record| {
+                            record["unmanagedDescendantsUnproved"].as_bool() == Some(true)
+                        })
+                    })
+            })
+    {
+        summary = "Verification passed for WI-managed processes; unregistered escaped descendants were not proved to exit.";
+        unknowns.push("unmanaged_descendant_closure_unproved".into());
+    }
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
     }
@@ -17328,6 +17498,17 @@ fn outcome_v2_internal_with_snapshot_and_hook(
         unknowns.push(format!(
             "verification_attempt_formal_receipt_rejected:{}:{}:{}:snapshot={}:evidence={}",
             attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
+        ));
+    }
+    if let Some(attempt) = current_attempt.as_ref()
+        && attempt.state == "cleanup_unknown"
+    {
+        unknowns.push(format!(
+            "verification_attempt_cleanup_unknown:{}:{}:snapshot={}:evidence={}",
+            attempt.command_result.as_deref().unwrap_or("unknown"),
+            attempt.attempt_id,
+            attempt.snapshot_digest,
+            attempt.path
         ));
     }
     if contract.acceptance_criteria.is_empty() {
@@ -17360,6 +17541,23 @@ fn outcome_v2_internal_with_snapshot_and_hook(
             .as_deref()
             .and_then(|path| read_json(path).ok())
     };
+    if let Some(summary) = summary_value.as_ref()
+        && let Some(ledger) = summary.get("processCleanup")
+    {
+        match ledger.get("entries").and_then(serde_json::Value::as_array) {
+            Some(entries)
+                if entries
+                    .iter()
+                    .any(|entry| entry["state"] != "direct_child_reaped") =>
+            {
+                unknowns.push("wi_process_cleanup_unresolved".into());
+            }
+            None => unknowns.push("wi_process_cleanup_record_invalid".into()),
+            _ => {}
+        }
+        unknowns.sort();
+        unknowns.dedup();
+    }
     if summary_value.as_ref().is_some_and(|summary| {
         summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown"
     }) {
@@ -20055,7 +20253,10 @@ fn collect_files(
     Ok(())
 }
 
-#[cfg(all(test, unix))]
+// These post-prepare races require a loaded reusable receipt. macOS keeps
+// locally executed receipts ineligible for reuse; its no-reuse path is covered
+// by the repository verification service tests.
+#[cfg(all(test, unix, not(target_os = "macos")))]
 mod post_prepare_identity_tests {
     use super::{
         RepositoryVerificationPolicy, RepositoryVerificationRequest, attach,

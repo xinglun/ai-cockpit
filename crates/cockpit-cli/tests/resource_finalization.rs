@@ -718,6 +718,23 @@ fn exercise_post_merge_sync_closeout(combined: bool, schema_version: u32) {
             ),
             "verify sync branch",
         );
+        if schema_version == 3 {
+            let summary: serde_json::Value = serde_json::from_slice(
+                &fs::read(worktree_path.join(format!(".ai/work-items/active/{id}.summary.json")))
+                    .unwrap(),
+            )
+            .unwrap();
+            let entries = summary["processCleanup"]["entries"].as_array().unwrap();
+            assert!(
+                entries.len() >= 2,
+                "both real verification runs must remain recorded"
+            );
+            assert!(
+                entries
+                    .iter()
+                    .all(|entry| entry["processId"].as_u64().is_some())
+            );
+        }
         let evidence_dir = worktree_path.join(".ai/evidence");
         let attempts = fs::read_dir(&evidence_dir)
             .unwrap()

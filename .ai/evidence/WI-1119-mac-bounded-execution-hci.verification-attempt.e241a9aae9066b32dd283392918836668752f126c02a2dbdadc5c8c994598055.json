@@ -1,0 +1,110 @@
+{
+  "checkpointId": "sha256:e241a9aae9066b32dd283392918836668752f126c02a2dbdadc5c8c994598055",
+  "commands": [
+    {
+      "args": [],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:6b9bbffb0de5bbc21cb3f9623c9351220a94dfa8bacc5e7a9d20cb18267cd61c",
+      "nodeId": "project-command-2",
+      "program": "tests/docs/documentation_acceptance.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:cffff139765ee2128486e3014b7441a195da472fe1ca67b89bb3dfef768c3789",
+  "contractExecutionScopeDigest": "sha256:4d1269468751cfda8fd45a6a18fb6874cb5813c0a6c1afb053e0b5463497e234",
+  "createdAt": "2026-11-06T06:57:10.223888000Z",
+  "executionId": "sha256:be9d667ab69a2c605885a682ab30c1c449872ca95a7c90462bf87fd267970c2c",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:6b9bbffb0de5bbc21cb3f9623c9351220a94dfa8bacc5e7a9d20cb18267cd61c",
+      "commandResult": "succeeded",
+      "deadlineMs": 1793949111185,
+      "elapsedMs": 19037,
+      "exitCode": 0,
+      "nodeId": "project-command-2",
+      "passed": true,
+      "spawned": true,
+      "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333234382c202266696c6573223a207b222e61692f524541444d452e6d64223a20313939382c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203830392c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313736322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333034307d2c2022726564756374696f6e4279746573223a20383833332c2022726564756374696f6e50657263656e74223a2034302e307d0a776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a7265666572656e636520636f6d70617269736f6e206d6574616461746120636865636b207061737365640a67657474696e672d737461727465642073656d616e74696320636865636b73207061737365643a203133207472692d6c616e677561676520726f7574657320616e64203335207265666572656e6365207265636f7264730a76616c6964617465642032362063757272656e7420636f6d6d616e64206578616d706c65730a646f63756d656e746174696f6e20616363657074616e6365207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 19037,
+    "executionElapsedMs": 19037,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:6b9bbffb0de5bbc21cb3f9623c9351220a94dfa8bacc5e7a9d20cb18267cd61c",
+        "commandResult": "succeeded",
+        "deadlineMs": 1793949111185,
+        "elapsedMs": 19037,
+        "exitCode": 0,
+        "nodeId": "project-command-2",
+        "passed": true,
+        "spawned": true,
+        "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333234382c202266696c6573223a207b222e61692f524541444d452e6d64223a20313939382c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203830392c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313736322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333034307d2c2022726564756374696f6e4279746573223a20383833332c2022726564756374696f6e50657263656e74223a2034302e307d0a776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a7265666572656e636520636f6d70617269736f6e206d6574616461746120636865636b207061737365640a67657474696e672d737461727465642073656d616e74696320636865636b73207061737365643a203133207472692d6c616e677561676520726f7574657320616e64203335207265666572656e6365207265636f7264730a76616c6964617465642032362063757272656e7420636f6d6d616e64206578616d706c65730a646f63756d656e746174696f6e20616363657074616e6365207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-2",
+        "outputDigest": "sha256:5eef94d43128e477c7ff78180130746a6c14806372bb4dd84291f6c6aef6f487",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 900
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:11b340ec98b3f3e93befa481eebde2b707799390e91946ee14d8d03f326b61f7",
+  "runtimeDigest": "sha256:1623900f9fa958a945ca507228309e3f61e3e949616635ff9670de3cf5b83db4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

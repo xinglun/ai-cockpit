@@ -1,0 +1,40 @@
+{
+  "sequence": 38,
+  "preparedDigest": "sha256:6d5ac972cca307267af80ae810e3d94da4af9a87909a25fdaf227f86f08f7156",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1119-mac-bounded-execution-hci",
+    "sequence": 38,
+    "changeId": "wi1119-five-file-material-review-authority-20261106",
+    "requestDigest": "sha256:5e19dd9e082fb70658edd37a2c2d45d87482fb1918bb1602a9cdccd8bda2edc3",
+    "reason": "User additionally approved self-declared technical review of the fifth scanner-Unknown file crates/cockpit-repository/src/status_projection.rs and accepted scanner-not-Clean residual risk; retain the four previously approved files and all other limits.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile/materialInspectionReview/authoritySource",
+        "operation": "replace",
+        "oldValue": "conversation:WI-1119 user explicitly approved agent self-declared technical review of only four listed Rust test files and accepted scanner-not-Clean residual risk on 2026-11-06",
+        "newValue": "conversation:WI-1119 user approved agent self-declared technical review and scanner-not-Clean residual risk for four previously listed Rust test files on 2026-11-06, then explicitly approved adding crates/cockpit-repository/src/status_projection.rs as the fifth file on 2026-11-06; no other file or permission is authorized"
+      }
+    ],
+    "previousContractDigest": "sha256:53a6932cb0897dbde80ac460af5e5312f6aef8989d84a4610d6aad4fb356fb35",
+    "newContractDigest": "sha256:09ff4787f3ef9cd706473dacfb97b1700d5ff2792f25ef1917fb1912cc66f624",
+    "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+    "environmentObservationDigest": "sha256:46fc8a20a8ba5ed61d2f6aa99e96e4e9eb80d2c642f10b979b803eee4ab05f3f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1119-mac-bounded-execution-hci.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile/materialInspectionReview/authoritySource"
+    ],
+    "previousJournalDigest": "sha256:ae17859fe43ddc2fd528d291eecc8f5867f37519572c1f482a3ad51498249e12",
+    "journalDigest": "sha256:57d42636414e36008493843c5ea32d2334010b9269e76c0840483ade027219e0",
+    "recordedAt": "2026-11-06T12:59:46Z"
+  }
+}

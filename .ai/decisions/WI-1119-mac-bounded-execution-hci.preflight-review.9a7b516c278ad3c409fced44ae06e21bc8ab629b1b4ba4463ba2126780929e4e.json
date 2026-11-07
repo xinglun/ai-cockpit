@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:09ff4787f3ef9cd706473dacfb97b1700d5ff2792f25ef1917fb1912cc66f624",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1cd42caf99bb2a0c497f2b44b876a6c54e34ac54955ff6e16a54f771b61bf06f",
+  "reason": "The user replied 确认 to the exact WI-1119 five-file Contract/preflight/source snapshot review request. The agent records this actual human decision without claiming human identity. It does not mark scanner findings Clean, substitute for technical material review or formal verification, or authorize unproven merge/release completion.",
+  "recordedAt": "2026-11-06T13:21:25Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

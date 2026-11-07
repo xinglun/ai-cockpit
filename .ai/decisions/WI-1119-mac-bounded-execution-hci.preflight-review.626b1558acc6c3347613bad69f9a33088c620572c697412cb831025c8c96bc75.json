@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:960e09adf379304adcb1212c37da2d125d6addbd29c8c32fca8414e8df2a90f3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:a20c307942857cd799238b6f3b2a067470b1b8f85aeef0731467343dae68c1e1",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for the six test-path scope amendment. This confirms only Contract review, not test results, cleanup, completion or release.",
+  "recordedAt": "2026-11-04T01:43:48.356537Z",
+  "recordedBy": "user:Sentinel_27bf882222a08191a6230754e04b4a03",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f039ecf94855dd33e7c0f572fe1c91cb0aca456ad52ae72e28bf5fd107c346cd",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

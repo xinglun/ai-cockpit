@@ -1,0 +1,182 @@
+{
+  "attemptId": "sha256:c9624cc7f96728f4dfefe63c714f8bb6841a8c626cc6febe0504651782df8a64",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "commandDigest": "sha256:f17b8ef14d061ac66af9c67046fca333d401585a5b202f78438e4ace15632aab",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:630d50e59c2ee0a693f3111d475e5b6850ef31f9a3d12270e2bc419491cedc90",
+  "contractExecutionScopeDigest": "sha256:9dc97707cc2142d8ac53b9478cd219fbbf27d74ae7a1a1ec4c418730ceddbbd8",
+  "createdAt": "2026-11-03T13:10:27Z",
+  "diagnostic": {
+    "code": "verification_cleanup_unknown",
+    "message": "command results were observed, but descendant cleanup is unproven; formal verification remains pending"
+  },
+  "executionRecords": [
+    {
+      "cleanupUncertainty": {
+        "phase": "mac_descendant_boundary",
+        "reason": "The directly owned child and original process group were bounded; escaped descendants cannot be proved absent on macOS",
+        "remainingPids": [],
+        "remainingPidsTruncated": false
+      },
+      "commandDigest": "sha256:f17b8ef14d061ac66af9c67046fca333d401585a5b202f78438e4ace15632aab",
+      "commandResult": "succeeded",
+      "deadlineMs": 1793711722858,
+      "elapsedMs": 4289,
+      "exitCode": 0,
+      "nodeId": "project-command-3",
+      "passed": false,
+      "spawned": true,
+      "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65640a636c65616e75705f756e6365727461696e3a207b227068617365223a226d61635f64657363656e64616e745f626f756e64617279222c22726561736f6e223a22546865206469726563746c79206f776e6564206368696c6420616e64206f726967696e616c2070726f636573732067726f7570207765726520626f756e6465643b20657363617065642064657363656e64616e74732063616e6e6f742062652070726f76656420616273656e74206f6e206d61634f53222c2272656d61696e696e6750696473223a5b5d2c2272656d61696e696e67506964735472756e6361746564223a66616c73657d",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "localNodeLinkState": "not_applicable",
+  "nodeExecutionFacts": [],
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 4860,
+      "executionElapsedMs": 4289,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 4860,
+    "executionElapsedMs": 4289,
+    "executionRecords": [
+      {
+        "cleanupUncertainty": {
+          "phase": "mac_descendant_boundary",
+          "reason": "The directly owned child and original process group were bounded; escaped descendants cannot be proved absent on macOS",
+          "remainingPids": [],
+          "remainingPidsTruncated": false
+        },
+        "commandDigest": "sha256:f17b8ef14d061ac66af9c67046fca333d401585a5b202f78438e4ace15632aab",
+        "commandResult": "succeeded",
+        "deadlineMs": 1793711722858,
+        "elapsedMs": 4289,
+        "exitCode": 0,
+        "nodeId": "project-command-3",
+        "passed": false,
+        "spawned": true,
+        "stderr": "0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65640a636c65616e75705f756e6365727461696e3a207b227068617365223a226d61635f64657363656e64616e745f626f756e64617279222c22726561736f6e223a22546865206469726563746c79206f776e6564206368696c6420616e64206f726967696e616c2070726f636573732067726f7570207765726520626f756e6465643b20657363617065642064657363656e64616e74732063616e6e6f742062652070726f76656420616273656e74206f6e206d61634f53222c2272656d61696e696e6750696473223a5b5d2c2272656d61696e696e67506964735472756e6361746564223a66616c73657d",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 7,
+    "filesRead": 7,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "66c6461313019f1e734c5ecd3eead874575a48eb",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-3"
+      ],
+      "executionElapsedMs": 4289,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98cd2755ac3a2d5f9397c796124886a26c04c1e94a4bb37196f04b421e499f12",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1119-mac-bounded-execution-hci"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-3",
+        "outputDigest": "sha256:4d08df5c13e4e3058a2c756833313b8f239e6b0132e44f59387b78afeed9e1da",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+    "runtimeVersion": "1.0.1",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1119-mac-bounded-execution-hci"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:98cd2755ac3a2d5f9397c796124886a26c04c1e94a4bb37196f04b421e499f12",
+  "runId": "sha256:8650bd0d243010d23d8383fd04adf063fcfb637cb1981be70fe8e78ef3d0789e",
+  "runtimeDigest": "sha256:23e6b55c91f10b0388b99e1f6d4a46233320a9491d7ee07afe79559af6f10ce7",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "cleanup_unknown",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

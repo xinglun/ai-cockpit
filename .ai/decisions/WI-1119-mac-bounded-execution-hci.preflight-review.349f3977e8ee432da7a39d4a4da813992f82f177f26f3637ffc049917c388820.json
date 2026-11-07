@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:28bafa7c55878f978bb7ef2375172552d79de67bc388b0e13b9b159c3642f719",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3403d72bdfbdc128f74169cf84d033aff31ca0cdf1713699534cbfc26deb97fd",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing this exact Contract, Preflight, Snapshot and Runtime binding for one test-path amendment. This confirms Contract review only, not test results, cleanup, completion or release.",
+  "recordedAt": "2026-11-04T03:37:37.982117Z",
+  "recordedBy": "user:Sentinel_3136be40ddc08191a79bbb5d0b09b01e",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9fd84737736a6d24a141a69a99a3bb38af47e854f7ca22198cb32564cc0c199d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

@@ -1,0 +1,62 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:313f3173f1e7ec1f5fe32a5b4898104f474383f8926cd0b12cae187e49dac84f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 5,
+    "changeId": "wi1120-bounded-verification-timeout-900-20261106",
+    "requestDigest": "sha256:6a9295958cfd1551ca4e8bc1b80d7be2dd0a7c2ae19ee1edb1645987f86e6dd1",
+    "reason": "The user previously authorized a finite 900-second ceiling within delegated AI Cockpit verification. The fresh WI-1120 repository node timed out at 600 seconds; this amendment changes only its task-stage timeout ceiling while preserving checks, scope and safety boundaries.",
+    "changedValues": [
+      {
+        "path": "/governancePolicy",
+        "operation": "replace",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi-1120-bounded-verification-timeout-v1",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi-1120-bounded-verification-timeout-v1"
+                ],
+                "reason": "Authorize at most 900 seconds for existing task-stage WI-1120 verification commands after the 600-second repository timeout. Preserve one worker, all declared checks, safety assertions, action permissions, and process ownership boundaries.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:ae0775ba3f2285c96fe1815a61ca366fafa1e77dedba4358a89974eb06576360",
+    "newContractDigest": "sha256:c4719289c8b83c7a7ae36a04aa6a2d71649a8334ebf5c0cf556853e4310e41da",
+    "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+    "environmentObservationDigest": "sha256:df496e5cf1467095f33804ac362b3ecefbc7289aa9ada2fce45126ece3119bff",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy"
+    ],
+    "previousJournalDigest": "sha256:f4444f4d73e794fa0ef5da8fcb36dca2fb30dc67a4651ca66884d21abc93f485",
+    "journalDigest": "sha256:fa4e47599ad5cd08437a03295cb1f89e69897ac27af339d8760461efa3dab5d8",
+    "recordedAt": "2026-11-06T23:09:08Z"
+  }
+}

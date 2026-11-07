@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-07T01:10:38Z",
+  "files": {
+    "contractDigest": "sha256:cafa848a70eb898f5d08d9dda465ac14182e5d63ac6a418f2aa8b1427397258f",
+    "contractPath": ".ai/work-items/archive/WI-1120-wi1119-integration.contract.json",
+    "eventsDigest": "sha256:3514f8dcfedfa3ef0ebef6d4b278a885880a75d7312b10d3579c74233f3b7e7e",
+    "eventsPath": ".ai/work-items/archive/WI-1120-wi1119-integration.events.jsonl",
+    "outcomeDigest": "sha256:917f92b15c692a2175b5aac6614a91d7abdfea427b5bf433146947e1d6a83aa6",
+    "outcomePath": ".ai/work-items/archive/WI-1120-wi1119-integration.outcome.json",
+    "summaryDigest": "sha256:d417d4850ef71df22182cb3260c0a50e39e6d01ce77b92be0080cd477da1bba9",
+    "summaryPath": ".ai/work-items/archive/WI-1120-wi1119-integration.summary.json",
+    "taskReportDigest": "sha256:e05cad3d0526d8f502c755f9518e6347b73057150bd619289becc62a56591e27",
+    "taskReportMarkdownDigest": "sha256:ece19d0e0228c707f1c7f0984d3197156a205faddbd174ea4f4f8a4798b99a69",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1120-wi1119-integration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1120-wi1119-integration.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-07T01:10:38.727362000Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-07T01:10:38.727362000Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1120-wi1119-integration"
+}

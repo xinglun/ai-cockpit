@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2d725ea7e735b8c6864bd25194d5a7e1924279ba5ec902a4953eb73bdedc3a97",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:60e49153de491c65c860b863831ebf059a418005bdef49cebd2c6945010cf459",
+  "reason": "The verified user replied confirm review to the exact WI-1119 Contract, Preflight, Snapshot and Runtime bindings in message Sentinel_b57f16b7a6d08191966c09036ce22f45 at 2026-11-03T05:55:20.066327Z. This confirms adding only the diagnostic_summary.rs test constructor path; it does not attest verification, cleanup, or completion.",
+  "recordedAt": "2026-11-03T05:55:20.066327Z",
+  "recordedBy": "user:Sentinel_b57f16b7a6d08191966c09036ce22f45",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:96b142968adedeab05f559383fc3acc377e876bea6409886a7fcc440f7ff1c7b",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

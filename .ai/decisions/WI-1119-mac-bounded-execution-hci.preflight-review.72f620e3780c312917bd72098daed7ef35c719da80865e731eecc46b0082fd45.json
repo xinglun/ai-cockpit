@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:41af205d8c25fb2f6a586db1fcf50161de4e0fe5ee224aac78f4384c5b7735bc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:99351c0c1c030ecd518e4a1ed6a6febf59630926c8cc4d9999a7a0eed197f8f6",
+  "reason": "The user explicitly replied \"同意变更并确认审阅\" to the exact WI-1119 Cargo quiet verification-command change in this conversation. The Agent records that human response against the displayed Contract, Preflight, and Snapshot; it does not claim to be the human reviewer.",
+  "recordedAt": "2026-11-05T23:45:00Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40c1f98fa2dcdced26e9f251057389f3a9f76fe6e69184f45a7d30beb2a117be",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

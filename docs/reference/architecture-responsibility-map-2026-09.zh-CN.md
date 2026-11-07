@@ -19,7 +19,8 @@ terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 # 架构职责与依赖关系图（2026-09）
 
 这是 2026-09 架构优化专项的 P0 事实图。它记录当前职责和调用边界，而不是目标
-实现。North Star 保持 **Calibrated Human-Agent Trust**。本 Work Item 只修改文档，
+实现。本图编写时的 North Star 是 **Calibrated Human-Agent Trust**；当前唯一的
+North Star 是 HCI，以现行产品边界为准。本 Work Item 只修改文档，
 不修改 Rust 行为、wire format、治理规则或 `.ai/` 记录协议。
 
 ## 入口与当前调用链

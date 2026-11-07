@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7eefe01b6b06b55ac9a634025a8b43497b55b0a4daf1461524327b8139210b40",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:60e49153de491c65c860b863831ebf059a418005bdef49cebd2c6945010cf459",
+  "reason": "The verified user replied confirm review to the exact WI-1119 Contract, Preflight, Snapshot and Runtime bindings in message Sentinel_73e86054d8448191a6ddbfe98609c7e8 at 2026-11-03T05:13:15.873762Z. This confirms the single outcome_render.rs exclusion removal for route A; it does not attest verification, cleanup, or completion.",
+  "recordedAt": "2026-11-03T05:13:15.873762Z",
+  "recordedBy": "user:Sentinel_73e86054d8448191a6ddbfe98609c7e8",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:16b4962ab973cab18d943382c2ed75c10d364786639ece9637b819ff3fbd9432",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

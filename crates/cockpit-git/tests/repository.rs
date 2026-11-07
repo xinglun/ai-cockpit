@@ -547,7 +547,7 @@ fn bounded_output_overflow_terminates_git_filter_process_group() {
     fs::write(
         &helper,
         format!(
-            "#!/bin/sh\nprintf called > '{}'\nprintf 'filter overflow\\n' >&2\nsleep 2\ncat\n",
+            "#!/bin/sh\nsleep 2 &\nsleep_pid=$!\nkill -0 \"$sleep_pid\" || exit 1\nprintf called > '{}'\nprintf 'filter overflow\\n' >&2\nwait \"$sleep_pid\"\ncat\n",
             marker.display()
         ),
     )
@@ -575,10 +575,12 @@ fn bounded_output_overflow_terminates_git_filter_process_group() {
     let repository = GitRepository::discover(&path).expect("discover");
     let started = Instant::now();
     let result = repository.source_snapshot_bounded(1);
-    assert!(matches!(
-        result,
-        Err(GitError::OutputLimitExceeded { limit: 1 })
-    ));
+    assert!(
+        matches!(&result, Err(GitError::OutputLimitExceeded { limit: 1 })),
+        "expected bounded Git output overflow, got {result:?}; filter_called={}; elapsed={:?}",
+        marker.exists(),
+        started.elapsed()
+    );
     assert!(marker.exists(), "the configured clean filter must run");
     assert!(started.elapsed() < Duration::from_secs(1));
     fs::remove_dir_all(path).expect("cleanup");

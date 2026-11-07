@@ -1258,7 +1258,7 @@ fn authorize_local_node_fixture_timeout(root: &Path) {
     .expect("write fixture timeout policy");
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn local_node_reuse_requires_real_new_fact_parent_and_exact_current_identity() {
     let directory = attached_repository();
@@ -1722,6 +1722,7 @@ fn local_node_fact_and_parent_mutations_never_authorize_reuse() {
 }
 
 #[cfg(unix)]
+#[cfg(not(target_os = "macos"))]
 fn local_now_epoch_seconds() -> i64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -1979,10 +1980,22 @@ fn checkpoint_only_exit_or_post_identity_failure_masks_old_success_without_times
             })
             .expect("native raw child checkpoint");
         assert_eq!(completed["executionRecords"][0]["exitCode"], exit);
-        assert_eq!(
-            completed["executionRecords"][0]["stderr"],
-            "636865636b706f696e742d6f6e6c792d6572726f72"
-        );
+        let stderr = completed["executionRecords"][0]["stderr"]
+            .as_str()
+            .expect("recorded stderr hex");
+        #[cfg(target_os = "macos")]
+        {
+            let stderr_bytes = (0..stderr.len())
+                .step_by(2)
+                .map(|offset| u8::from_str_radix(&stderr[offset..offset + 2], 16).unwrap())
+                .collect::<Vec<_>>();
+            let stderr_text = String::from_utf8(stderr_bytes).expect("Mac stderr text");
+            assert!(stderr_text.starts_with("checkpoint-only-error"));
+            assert!(stderr_text.contains("mac_original_group_signal:"));
+            assert!(stderr_text.contains("direct_child_reap:"));
+        }
+        #[cfg(not(target_os = "macos"))]
+        assert_eq!(stderr, "636865636b706f696e742d6f6e6c792d6572726f72");
         assert_eq!(
             values
                 .iter()
@@ -2005,7 +2018,7 @@ fn checkpoint_only_exit_or_post_identity_failure_masks_old_success_without_times
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn prepared_owner_run_requires_causal_completion_and_interruption_is_never_exempt() {
     let directory = attached_repository();
@@ -2214,7 +2227,7 @@ fn current_never_protected_denied_and_changed_profile_reject_saved_local_fact() 
     );
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn mixed_parent_reloads_its_new_physical_node_without_reusing_unknown_siblings() {
     let directory = attached_repository();
@@ -2434,7 +2447,7 @@ fn mixed_parent_reloads_its_new_physical_node_without_reusing_unknown_siblings()
     );
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn run_terminal_link_is_required_and_checkpoint_timestamps_cannot_replace_it() {
     let directory = attached_repository();
@@ -2551,7 +2564,7 @@ fn run_terminal_link_is_required_and_checkpoint_timestamps_cannot_replace_it() {
     assert_eq!(result.receipt.processes_spawned, 0);
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn missing_native_execution_checkpoint_pair_rejects_fact_parent_and_old_profile_fallback() {
     for missing in ["execution_prepared", "node_execution_completed", "both"] {
@@ -2653,7 +2666,7 @@ fn missing_native_execution_checkpoint_pair_rejects_fact_parent_and_old_profile_
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn causal_failure_blocks_real_legacy_profile_cache_in_direct_and_invalidated_consumer_routes() {
     for route in [
@@ -2780,7 +2793,7 @@ fn causal_failure_blocks_real_legacy_profile_cache_in_direct_and_invalidated_con
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn all_reuse_parent_omitted_empty_records_preserves_repeat_zero_spawn_reuse() {
     let directory = attached_repository();
@@ -2872,7 +2885,7 @@ fn all_reuse_parent_omitted_empty_records_preserves_repeat_zero_spawn_reuse() {
     assert_eq!(again.receipt.nodes_reused, 1);
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "macos")))]
 #[test]
 fn an_old_equal_profile_parent_cannot_claim_a_later_unfinished_cached_execution_id() {
     let directory = attached_repository();

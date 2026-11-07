@@ -126,16 +126,49 @@ mod extension {
         }
     }
 
+    fn observed_path_state(path: &Path) -> String {
+        match fs::symlink_metadata(path) {
+            Ok(metadata) if metadata.file_type().is_dir() => "directory".into(),
+            Ok(metadata) if metadata.file_type().is_file() => "regular_file".into(),
+            Ok(metadata) if metadata.file_type().is_symlink() => "symlink".into(),
+            Ok(_) => "other".into(),
+            Err(error) => format!("error({:?}, os={:?})", error.kind(), error.raw_os_error()),
+        }
+    }
+
+    fn clone_failure_path_state(program: &str, args: &[&str]) -> String {
+        if program != "git" || args.first() != Some(&"clone") || args.len() < 3 {
+            return String::new();
+        }
+        let source = Path::new(args[args.len() - 2]);
+        let destination = Path::new(args[args.len() - 1]);
+        let destination_parent = destination.parent().unwrap_or(destination);
+        format!(
+            " after clone exit: source={}, source_objects={}, destination_parent={}, destination={}, destination_objects={}",
+            observed_path_state(source),
+            observed_path_state(&source.join(".git/objects")),
+            observed_path_state(destination_parent),
+            observed_path_state(destination),
+            observed_path_state(&destination.join(".git/objects")),
+        )
+    }
+
     fn command(root: &Path, program: &str, args: &[&str]) -> std::process::Output {
         let output = Command::new(program)
             .args(args)
             .current_dir(root)
             .output()
             .expect("run command");
+        let clone_path_state = if output.status.success() {
+            String::new()
+        } else {
+            clone_failure_path_state(program, args)
+        };
         assert!(
             output.status.success(),
-            "{program} {args:?} failed: {}",
-            String::from_utf8_lossy(&output.stderr)
+            "{program} {args:?} failed: {}{}",
+            String::from_utf8_lossy(&output.stderr),
+            clone_path_state
         );
         output
     }

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cb68eb514957f6e15eddf74f96ab2a1b886772fa440049288f9b533fbc72f271",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:93d865490f0cd45af4587b894d4fd4f9440d07cd3d22ae2e8733ba295201b598",
+  "reason": "The verified user replied confirm_review to the immediately preceding WI-1119 request showing these exact Contract, Preflight, Snapshot and Runtime bindings in room message Sentinel_8612b3a7aadc8191b3f2b16b309330cf at 2026-11-03T11:27:50.951887Z. This confirms the revised controlled identity plan only; it does not approve the separately requested two tests, attest actual kernel PID reuse, or establish formal verification or completion.",
+  "recordedAt": "2026-11-03T11:27:50.951887+00:00",
+  "recordedBy": "user:Sentinel_8612b3a7aadc8191b3f2b16b309330cf",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dc4a25813b4ab97906af049f5fb5945861a82bc8e62ce9e4abb6d5420290e6e2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

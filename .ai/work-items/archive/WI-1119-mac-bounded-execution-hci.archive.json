@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-11-06T13:54:56Z",
+  "files": {
+    "contractDigest": "sha256:798e88d4872b8e1f141b5b5239fb1f349c4dca57bc389d6d2efcf41964e5b98f",
+    "contractPath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.contract.json",
+    "eventsDigest": "sha256:44da6405097f7165d847f623f4562331a8101ffbf1e99ebee912fc65c35caba5",
+    "eventsPath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.events.jsonl",
+    "outcomeDigest": "sha256:5d8cd05ca803abc22484bb30e073857e21971d31140eda6d0d5d8504902b68be",
+    "outcomePath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.outcome.json",
+    "summaryDigest": "sha256:410ca88d4259c3510df0fd6f7f36724c4ed9c49ae43083e6a96ca6adad6e3603",
+    "summaryPath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.summary.json",
+    "taskReportDigest": "sha256:68488756b939ba66229c743658bf33fc11bcf041be7cb30b901e3f73baefe036",
+    "taskReportMarkdownDigest": "sha256:6de8ecdf64db01fd50ab4a17bc8446b7cd8232c1aa69529329c1c089cb953dfb",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1119-mac-bounded-execution-hci.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-11-06T13:54:56.304642000Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-11-06T13:54:56.304642000Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

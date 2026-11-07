@@ -992,6 +992,16 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
     },
+    /// Request bounded cleanup from a live owner of this Work Item's exact
+    /// Child. Historical PIDs alone never authorize a signal.
+    ProcessCleanup {
+        /// Repository checkout to inspect or operate on.
+        #[arg(long)]
+        repo: PathBuf,
+        /// Work Item identifier.
+        #[arg(long)]
+        id: String,
+    },
     /// Classify an immutable legacy receipt, or record a first direct-merge
     /// finalization when no predecessor exists, without rewriting history.
     FinalizeRecovery {
@@ -3282,6 +3292,17 @@ fn run() -> Result<()> {
                 )?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
+            WorkItemCommand::ProcessCleanup { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let report = cockpit_repository::work_item_process_cleanup_with_caller(
+                    &repo,
+                    &id,
+                    &runtime_context,
+                    task_caller.as_ref(),
+                )
+                .context("request Work Item process cleanup")?;
+                println!("{}", serde_json::to_string_pretty(&report)?);
+            }
             WorkItemCommand::FinalizeRecovery { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
                 let result =
@@ -4775,6 +4796,11 @@ fn run_verification_command(
         &run.receipt.execution_records
     ));
     if !run.receipt.passed {
+        let cleanup_unknown = run
+            .receipt
+            .execution_records
+            .iter()
+            .any(|record| record.cleanup_uncertainty.is_some());
         let failed_nodes = run
             .receipt
             .results
@@ -4785,11 +4811,22 @@ fn run_verification_command(
         if work_item.is_some() {
             let attempt = persist_for_run(
                 &initial_snapshot,
-                "execution_failed",
-                Some((
-                    "verification_execution",
-                    "one or more verification nodes failed",
-                )),
+                if cleanup_unknown {
+                    "cleanup_unknown"
+                } else {
+                    "execution_failed"
+                },
+                Some(if cleanup_unknown {
+                    (
+                        "verification_cleanup_unknown",
+                        "command results were observed, but descendant cleanup is unproven; formal verification remains pending",
+                    )
+                } else {
+                    (
+                        "verification_execution",
+                        "one or more verification nodes failed",
+                    )
+                }),
                 Some(&verification_receipt),
                 None,
             );
@@ -4798,6 +4835,16 @@ fn run_verification_command(
             }
         }
         println!("{}", serde_json::to_string_pretty(&output)?);
+        if cleanup_unknown {
+            anyhow::bail!(
+                "command results recorded for {}; descendant cleanup is unknown and formal verification remains pending; structured attempt emitted",
+                if failed_nodes.is_empty() {
+                    "an unknown node".into()
+                } else {
+                    failed_nodes.join(", ")
+                }
+            );
+        }
         anyhow::bail!(
             "verification command failed for {}; structured failure receipt emitted",
             if failed_nodes.is_empty() {
@@ -6783,8 +6830,7 @@ mod tests {
         issues
     }
 
-    #[test]
-    fn all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
+    fn check_all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
         for surface in cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES {
             let description =
                 cockpit_protocol::interface_description_for_surface(surface).expect("description");
@@ -6838,6 +6884,18 @@ mod tests {
                 "extra actual field escaped"
             );
         }
+    }
+
+    #[test]
+    fn all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift() {
+        // The complete derived Clap tree exceeds the default Linux test-thread
+        // stack during this exhaustive drift check. Keep every assertion intact.
+        std::thread::Builder::new()
+            .stack_size(16 * 1024 * 1024)
+            .spawn(check_all_discoverable_cli_descriptions_match_actual_arguments_and_reject_drift)
+            .expect("spawn CLI description check")
+            .join()
+            .expect("CLI description check")
     }
 
     #[test]

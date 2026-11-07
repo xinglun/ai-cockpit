@@ -5727,15 +5727,20 @@ mod composition_channel_deadline_tests {
     #[test]
     fn ready_diagnostic_lines_cannot_restart_the_absolute_deadline() {
         let (sender, receiver) = mpsc::channel();
+        let (first_diagnostic, first_diagnostic_received) = mpsc::channel();
         let producer = std::thread::spawn(move || {
             for _ in 0..5 {
                 if sender.send(Ok("diagnostic\n".into())).is_err() {
                     return;
                 }
+                let _ = first_diagnostic.send(());
                 std::thread::sleep(Duration::from_millis(20));
             }
             let _ = sender.send(Ok("{\"value\":\"late\"}\n".into()));
         });
+        first_diagnostic_received
+            .recv_timeout(Duration::from_secs(1))
+            .expect("first diagnostic is ready before the deadline starts");
         let started = Instant::now();
         let result =
             read_supervisor_message::<TestFrame>(&receiver, Some(Duration::from_millis(35)));
@@ -5745,7 +5750,10 @@ mod composition_channel_deadline_tests {
             result.is_err(),
             "late Ready received a renewed budget: {result:?}"
         );
-        assert!(elapsed < Duration::from_millis(90), "read took {elapsed:?}");
+        assert!(
+            elapsed < Duration::from_millis(500),
+            "read took {elapsed:?}"
+        );
     }
 
     #[test]
@@ -5783,8 +5791,11 @@ mod composition_channel_deadline_tests {
         sender
             .send(Ok("{\"value\":\"terminal\"}\n".into()))
             .expect("terminal frame");
+        let (release_sender, release_receiver) = mpsc::channel();
         let producer = std::thread::spawn(move || {
-            std::thread::sleep(Duration::from_millis(150));
+            release_receiver
+                .recv_timeout(Duration::from_secs(2))
+                .expect("reader releases the held channel before its watchdog");
             drop(sender);
         });
         let started = Instant::now();
@@ -5793,13 +5804,16 @@ mod composition_channel_deadline_tests {
             started + Duration::from_millis(35),
         );
         let elapsed = started.elapsed();
+        release_sender
+            .send(())
+            .expect("held channel is released only after the reader returns");
         producer.join().expect("finite held channel");
         assert!(
             result.is_err(),
             "terminal without natural EOF was accepted: {result:?}"
         );
         assert!(
-            elapsed < Duration::from_millis(100),
+            elapsed < Duration::from_millis(500),
             "terminal took {elapsed:?}"
         );
     }

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c5e086b0a7725de22f84314681bab4de233a942dcd57c535b1448b861fe9ac31",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:60e49153de491c65c860b863831ebf059a418005bdef49cebd2c6945010cf459",
+  "reason": "The verified user approved retaining the route A pending-review request and confirmed the exact Contract, Preflight, Snapshot and Runtime bindings in message Sentinel_0f8edb407c6481919eec1f0ce43a28b7 at 2026-11-03T05:05:44.742701Z. This authorizes continued bounded Mac work only; it does not assert verification passed, escaped descendants were cleaned, or finish gates were met.",
+  "recordedAt": "2026-11-03T05:05:44.742701Z",
+  "recordedBy": "user:Sentinel_0f8edb407c6481919eec1f0ce43a28b7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:16b4962ab973cab18d943382c2ed75c10d364786639ece9637b819ff3fbd9432",
+  "schemaVersion": 1,
+  "workItemId": "WI-1119-mac-bounded-execution-hci"
+}

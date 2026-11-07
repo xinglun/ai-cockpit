@@ -20,7 +20,8 @@ terminalDecision: .ai/decisions/WI-691-p0-responsibility-map.close.json
 
 This is the P0 factual map for the 2026-09 architecture-optimization
 initiative. It records current ownership and call boundaries, not a target
-implementation. The North Star remains **Calibrated Human-Agent Trust**.
+implementation. At the time of this map, the North Star was **Calibrated Human-Agent Trust**;
+the current sole North Star is HCI, as stated in the current Product Boundary.
 This Work Item changes documentation only; it does not change Rust behavior,
 wire formats, governance rules, or the `.ai/` record protocol.
 

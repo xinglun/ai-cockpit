@@ -1,7 +1,11 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{RuntimeContext, UsageRecordRequest, UsageSourceKind, UsageUnit};
 use sha2::{Digest as _, Sha256};
-use std::{fs, path::Path, process::Command};
+use std::{
+    fs,
+    path::Path,
+    process::{Command, Stdio},
+};
 
 fn fixture() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("repository directory");
@@ -11,6 +15,15 @@ fn fixture() -> tempfile::TempDir {
             .current_dir(directory.path())
             .status()
             .expect("git init")
+            .success()
+    );
+    #[cfg(windows)]
+    assert!(
+        Command::new("git")
+            .args(["config", "--local", "core.autocrlf", "false"])
+            .current_dir(directory.path())
+            .status()
+            .expect("disable fixture line-ending conversion")
             .success()
     );
     fs::write(directory.path().join("README.md"), "fixture baseline\n").expect("baseline README");
@@ -85,6 +98,119 @@ fn request(root: &Path) -> UsageRecordRequest {
         evidence_ref: ".ai/evidence/usage-source.json".into(),
         evidence_digest: Digest::sha256_bytes(b"{}\n"),
     }
+}
+
+#[test]
+fn process_cleanup_reports_only_this_work_items_unowned_processes() {
+    let root = fixture();
+    let wi = "WI-CLI-MCP-USAGE";
+    let repo_path: &std::path::Path = root.path();
+    let summary_path = repo_path.join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("parse Summary");
+    summary["processCleanup"] = ::serde_json::json!({
+        "schemaVersion": 1,
+        "entries": [
+            {"executionId":"first","nodeId":"one","processId":4294967295_u32,
+             "identityStrength":"numeric_pid_only","state":"started","directChildReaped":false},
+            {"executionId":"second","nodeId":"two","processId":1,
+             "identityStrength":"numeric_pid_only","state":"direct_child_reaped","directChildReaped":true}
+        ]
+    });
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("encode Summary"),
+    )
+    .expect("write fixture Summary");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["work-item", "process-cleanup", "--repo"])
+        .arg(root.path())
+        .args(["--id", wi])
+        .output()
+        .expect("CLI report");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("cleanup report");
+    assert_eq!(report["workItemId"], wi);
+    assert_eq!(report["state"], "unknown");
+    assert_eq!(report["unresolvedCount"], 1);
+    assert_eq!(report["action"], "bounded_owned_child_request");
+    assert_eq!(report["descendantClosure"], "unknown");
+}
+
+#[test]
+fn process_cleanup_cold_restart_keeps_an_unowned_child_unknown_and_other_wi_unchanged() {
+    let first = fixture();
+    let second = fixture();
+    let wi = "WI-CLI-MCP-USAGE";
+    let mut child = Command::new("git")
+        .args(["hash-object", "--stdin"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .expect("start test-owned child awaiting stdin");
+    assert!(child.try_wait().expect("observe test Child").is_none());
+
+    let first_summary_path = first
+        .path()
+        .join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let second_summary_path = second
+        .path()
+        .join(format!(".ai/work-items/active/{wi}.summary.json"));
+    let mut first_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&first_summary_path).expect("first Summary"))
+            .expect("parse first Summary");
+    first_summary["processCleanup"] = serde_json::json!({
+        "schemaVersion": 1,
+        "entries": [{
+            "executionId": "owner-lost", "nodeId": "test-child",
+            "processId": child.id(), "identityStrength": "numeric_pid_only",
+            "state": "started", "directChildReaped": false
+        }]
+    });
+    fs::write(
+        &first_summary_path,
+        serde_json::to_vec_pretty(&first_summary).expect("encode first Summary"),
+    )
+    .expect("write first fixture Summary");
+    let first_before = fs::read(&first_summary_path).expect("unresolved first Summary");
+    let second_before = fs::read(&second_summary_path).expect("unrelated Summary");
+
+    for _ in 0..2 {
+        // Every call is a new CLI process with no ownership of the Child.
+        let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+            .args(["work-item", "process-cleanup", "--repo"])
+            .arg(first.path())
+            .args(["--id", wi])
+            .output()
+            .expect("cold cleanup request");
+        assert!(
+            output.status.success(),
+            "cold cleanup: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let report: serde_json::Value =
+            serde_json::from_slice(&output.stdout).expect("cold cleanup report");
+        assert_eq!(report["state"], "unknown");
+        assert_eq!(report["unresolvedCount"], 1);
+        assert_eq!(report["ownersContacted"], 0);
+        assert_eq!(report["descendantClosure"], "unknown");
+        assert_eq!(fs::read(&first_summary_path).unwrap(), first_before);
+        assert_eq!(fs::read(&second_summary_path).unwrap(), second_before);
+        assert!(
+            child
+                .try_wait()
+                .expect("observe test Child after cleanup")
+                .is_none(),
+            "a stored numeric PID must not terminate a Child without its owner handle"
+        );
+    }
+    drop(child.stdin.take());
+    assert!(child.wait().expect("reap test-owned Child").success());
 }
 
 #[test]

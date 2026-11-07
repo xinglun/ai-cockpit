@@ -1,0 +1,161 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:64e6d264de22eacce83cd1bbe2f9f951a62f76f401b600b9e0bdc721737d4777",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1120-wi1119-integration",
+    "sequence": 1,
+    "changeId": "wi1120-bound-pr-integration-and-mac-ci-diagnosis",
+    "requestDigest": "sha256:6ac5b99005d0efa7392cf4ee021d073703b751c96252a4628b688c54d04b2f06",
+    "reason": "Record the owner-confirmed successor integration authority and narrow Mac CI failure scope while preserving predecessor evidence and release separation.",
+    "changedValues": [
+      {
+        "path": "/goal",
+        "operation": "replace",
+        "oldValue": "",
+        "newValue": "Resolve the two actual Mac CI #5271 composition test failures without weakening Unknown or process ownership boundaries, then complete exact-head PR #1079 integration into main. Release is a separate Work Item."
+      },
+      {
+        "path": "/intent",
+        "operation": "replace",
+        "oldValue": "",
+        "newValue": "Continue archived WI-1119 through its native successor because the predecessor Contract omitted PR ready and merge authority; preserve the predecessor archive, historical Unknown and failed hosted evidence."
+      },
+      {
+        "path": "/authority",
+        "operation": "replace",
+        "oldValue": "unknown",
+        "newValue": "authorized"
+      },
+      {
+        "path": "/risk",
+        "operation": "replace",
+        "oldValue": "unknown",
+        "newValue": "high"
+      },
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "crates/cockpit-verification/tests/composition.rs"
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "Changing production process ownership, lsof fail-closed interpretation, or Unknown-to-clean classification without a separately reviewed amendment",
+          "Rewriting WI-1119 archive or failed CI evidence",
+          "Release tags, public Releases, release metadata, or installer publication",
+          "Unrelated Work Items and tests"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "WI-1119 archived Contract and verification evidence at head 38b376410241cc4a7485b5ff2e37a8faaef12aae",
+          "GitHub PR #1079 at https://github.com/xinglun/ai-cockpit/pull/1079",
+          "GitHub CI #5271 Mac job https://github.com/xinglun/ai-cockpit/actions/runs/42277722612/job/128100299304",
+          "User confirmed WI-1120 as successor for PR ready, necessary re-verification and merge in current conversation"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "The two CI #5271 Mac failures are diagnosed separately with real attempt facts; do not attribute the second to lsof without evidence.",
+          "Mac partial lsof observation remains Unknown with incomplete evidence and retained worktree; no unverified managed process becomes clean, passed or reusable.",
+          "Any test-only correction retains meaningful source-change/reuse and exact-identity behavior coverage; Linux and Windows assertions remain intact. If a production defect is demonstrated, amend scope before editing production code.",
+          "The exact candidate head passes required local native verification and new Linux, Mac and Windows hosted checks; failed and historical evidence remain visible.",
+          "PR #1079 is made ready and merged only after fresh Runtime admission and passing exact-head checks; main is verified against the merged result.",
+          "No release action is performed in this Work Item."
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          "cargo test --locked --workspace"
+        ],
+        "newValue": [
+          "cargo test --locked -p cockpit-verification --test composition -- --test-threads=1",
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+          "cargo test --quiet --locked --workspace"
+        ]
+      },
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "taskAuthorization": {
+            "agentActor": "agent:codex",
+            "allowedActions": [
+              "modify_source",
+              "checkpoint",
+              "run_preflight",
+              "run_verification",
+              "record_governance_controls",
+              "finish",
+              "archive_when_reviewed",
+              "publish_branch",
+              "ready_pull_request",
+              "merge_pull_request",
+              "verify_main",
+              "record_finalization",
+              "finalize_verify"
+            ],
+            "authoritySource": "current conversation: user confirmed WI-1120 as WI-1119 successor for PR #1079 ready, necessary re-verification and merge; user previously authorized ordinary technical implementation within the delegated AI Cockpit scope; release remains a separate Work Item",
+            "closeoutActions": [],
+            "expiresAt": null,
+            "publicTarget": {
+              "baseBranch": "main",
+              "provider": "github",
+              "repository": "xinglun/ai-cockpit"
+            },
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "bounded-task-authorization",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:39940cdd4d1f60e227e5aa65ac210a904ceaf49a20e7369bbc8e2555ba6c46fd",
+    "newContractDigest": "sha256:5ad0e2dd58cb13491009abf96187b07e8f807c0a1f5de6b91d38c26857608111",
+    "repositorySnapshotDigest": "sha256:e53e9b4ae3873dfa7b69e8cc2b15509a2c0af029619ed8eae714c4909ecfc648",
+    "environmentObservationDigest": "sha256:46fc8a20a8ba5ed61d2f6aa99e96e4e9eb80d2c642f10b979b803eee4ab05f3f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/governanceProfile",
+      "/outOfScope",
+      "/risk",
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:3164e58ac6afaca7e6c1d6d6fd0dd49ceb6710ffb910061266a9d5459327b781",
+    "recordedAt": "2026-11-06T20:32:49Z"
+  }
+}

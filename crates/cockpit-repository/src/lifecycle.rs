@@ -37,6 +37,7 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::Ordering;
+use std::time::{Duration, Instant};
 
 /// The persisted preflight decision plus the repository-relative files this
 /// explicit write operation actually changed.
@@ -9189,6 +9190,284 @@ pub(super) fn work_item_artifact_path(
     })
 }
 
+/// The Summary is a WI-local index, not an authority to signal a numeric PID.
+/// The immutable execution checkpoint remains the source of the execution ID.
+pub(super) fn record_process_start(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    node_id: &str,
+    runtime_digest: &str,
+    process_id: u32,
+) -> Result<(), ObserverError> {
+    let guard = acquire_lifecycle_lock(root, work_item_id)?;
+    guard.require_subject(root, work_item_id)?;
+    let path = work_item_artifact_path(root, work_item_id, "summary.json")?;
+    if !path.starts_with(root.join(".ai/work-items/active")) {
+        return Err(ObserverError::State {
+            path,
+            message: "cannot record a process in an archived Summary".into(),
+        });
+    }
+    let mut summary = read_json(&path)?;
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
+    }
+    let object = summary
+        .as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "process Summary must be an object".into(),
+        })?;
+    let ledger = object
+        .entry("processCleanup")
+        .or_insert_with(|| serde_json::json!({"schemaVersion": 1, "entries": []}));
+    let entries = ledger["entries"]
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "invalid process Summary entries".into(),
+        })?;
+    if entries.iter().any(|entry| {
+        entry["executionId"].as_str() == Some(execution_id)
+            && entry["nodeId"].as_str() == Some(node_id)
+    }) {
+        return Err(ObserverError::State {
+            path,
+            message: "duplicate process start observation".into(),
+        });
+    }
+    entries.push(serde_json::json!({
+        "executionId": execution_id, "nodeId": node_id, "runtimeDigest": runtime_digest,
+        "processId": process_id, "platform": std::env::consts::OS,
+        "platformIdentity": null, "identityStrength": "numeric_pid_only", "startedAt": now(),
+        "state": "started", "directChildReaped": false,
+    }));
+    summary["updatedAt"] = now().into();
+    atomic_json(&path, &summary)
+}
+
+pub(super) fn record_process_results(
+    root: &Path,
+    work_item_id: &str,
+    execution_id: &str,
+    records: &[cockpit_verification::VerificationExecutionRecord],
+) -> Result<(), ObserverError> {
+    if !records.iter().any(|record| record.spawned) {
+        return Ok(());
+    }
+    let guard = acquire_lifecycle_lock(root, work_item_id)?;
+    guard.require_subject(root, work_item_id)?;
+    let path = work_item_artifact_path(root, work_item_id, "summary.json")?;
+    if !path.starts_with(root.join(".ai/work-items/active")) {
+        return Err(ObserverError::State {
+            path,
+            message: "cannot update an archived process Summary".into(),
+        });
+    }
+    let mut summary = read_json(&path)?;
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
+    }
+    let entries = summary["processCleanup"]["entries"]
+        .as_array_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "process Summary entries unavailable".into(),
+        })?;
+    for record in records.iter().filter(|record| record.spawned) {
+        let entry = entries
+            .iter_mut()
+            .find(|entry| {
+                entry["executionId"].as_str() == Some(execution_id)
+                    && entry["nodeId"].as_str() == Some(record.node_id.as_str())
+            })
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: "spawned process has no Summary start".into(),
+            })?;
+        // An observed exit status implies wait/try_wait reaped the directly
+        // owned Child. Timeout/unknown never becomes reaped by inference.
+        let reaped = !record.timed_out
+            && (record.exit_code.is_some() || record.termination_signal.is_some());
+        if entry["directChildReaped"] == true && !reaped {
+            // A later Unknown verification projection cannot undo a direct
+            // reap observed by the still-owning supervisor.
+            continue;
+        }
+        entry["state"] = if reaped {
+            "direct_child_reaped"
+        } else {
+            "unknown"
+        }
+        .into();
+        entry["directChildReaped"] = reaped.into();
+        entry["unmanagedDescendantsUnproved"] = record.unmanaged_descendants_unproved.into();
+        entry["observedAt"] = now().into();
+        entry["cleanupUncertainty"] =
+            serde_json::to_value(&record.cleanup_uncertainty).map_err(|error| {
+                ObserverError::State {
+                    path: path.clone(),
+                    message: error.to_string(),
+                }
+            })?;
+    }
+    summary["updatedAt"] = now().into();
+    atomic_json(&path, &summary)
+}
+
+/// A separate CLI process does not inherit a Child handle. A historical PID
+/// can be reported, but can never be used here as a signal or wait target.
+pub fn work_item_process_cleanup_report(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
+    let summary = read_json(&path)?;
+    if summary["workItemId"] != work_item_id
+        || summary["repositoryId"] != repository_id(&root).to_string()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "process Summary identity mismatch".into(),
+        });
+    }
+    let ledger = summary.get("processCleanup");
+    let entries = ledger.and_then(|ledger| ledger["entries"].as_array());
+    let unresolved = entries.map_or(0, |entries| {
+        entries
+            .iter()
+            .filter(|entry| entry["state"] != "direct_child_reaped")
+            .count()
+    });
+    let state = if ledger.is_none() {
+        "not_recorded"
+    } else if entries.is_none() || unresolved > 0 {
+        "unknown"
+    } else if entries.is_some_and(Vec::is_empty) {
+        "no_recorded_processes"
+    } else {
+        "direct_children_reaped"
+    };
+    Ok(serde_json::json!({
+        "workItemId": work_item_id,
+        "state": state,
+        "unresolvedCount": unresolved,
+        "entries": entries.cloned().unwrap_or_default(),
+        "action": "no_owned_child_handle_in_separate_process",
+        "descendantClosure": "unknown",
+        "message": "Historical numeric PIDs cannot authorize signaling or reaping; unresolved entries require owner evidence.",
+    }))
+}
+
+/// Request cleanup only from a live supervisor that still owns the exact
+/// Child. The Summary's PID is a correlation fact, never signal authority.
+pub fn work_item_process_cleanup_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    super::task_authorization::require_task_caller(
+        root,
+        work_item_id,
+        "process_cleanup",
+        runtime,
+        caller,
+    )?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let original = work_item_process_cleanup_report(&root, work_item_id)?;
+    let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
+    if !summary_path.starts_with(root.join(".ai/work-items/active")) {
+        return Ok(original);
+    }
+    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut contacted = 0_usize;
+    if let Some(entries) = original["entries"].as_array() {
+        for entry in entries {
+            if entry["state"] == "direct_child_reaped" || Instant::now() >= deadline {
+                continue;
+            }
+            let (Some(execution_id), Some(node_id), Some(process_id)) = (
+                entry["executionId"].as_str(),
+                entry["nodeId"].as_str(),
+                entry["processId"]
+                    .as_u64()
+                    .and_then(|value| u32::try_from(value).ok()),
+            ) else {
+                continue;
+            };
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            let response = cockpit_verification::request_process_cleanup_from_owner(
+                &root,
+                work_item_id,
+                execution_id,
+                node_id,
+                process_id,
+                remaining,
+            );
+            let Some(response) = response else {
+                continue;
+            };
+            contacted += 1;
+            if response["state"] != "direct_child_reaped" {
+                continue;
+            }
+            let guard = acquire_lifecycle_lock(&root, work_item_id)?;
+            guard.require_subject(&root, work_item_id)?;
+            let mut summary = read_json(&summary_path)?;
+            if summary["workItemId"] != work_item_id
+                || summary["repositoryId"] != repository_id(&root).to_string()
+            {
+                return Err(ObserverError::State {
+                    path: summary_path,
+                    message: "process Summary identity mismatch".into(),
+                });
+            }
+            let Some(current) = summary["processCleanup"]["entries"]
+                .as_array_mut()
+                .and_then(|entries| {
+                    entries.iter_mut().find(|current| {
+                        current["executionId"].as_str() == Some(execution_id)
+                            && current["nodeId"].as_str() == Some(node_id)
+                            && current["processId"].as_u64() == Some(u64::from(process_id))
+                    })
+                })
+            else {
+                continue;
+            };
+            current["state"] = "direct_child_reaped".into();
+            current["directChildReaped"] = true.into();
+            current["observedAt"] = now().into();
+            current["cleanupResponse"] = response;
+            summary["updatedAt"] = now().into();
+            atomic_json(&summary_path, &summary)?;
+        }
+    }
+    let mut report = work_item_process_cleanup_report(&root, work_item_id)?;
+    report["action"] = "bounded_owned_child_request".into();
+    report["ownersContacted"] = serde_json::json!(contacted);
+    Ok(report)
+}
+
 fn work_item_artifact_path_optional(
     root: &Path,
     work_item_id: &str,
@@ -10115,6 +10394,25 @@ fn persist_verification_attempt_internal(
         .and_then(|value| value.get("passed"))
         .and_then(serde_json::Value::as_bool)
         .unwrap_or(false);
+    // CLI and MCP both persist through this boundary. Keep a failed formal
+    // result, but distinguish a witnessed command result from cleanup that
+    // neither transport can prove. This state is never eligible for reuse.
+    let cleanup_unknown = bound_receipt
+        .as_ref()
+        .and_then(|value| {
+            serde_json::from_value::<cockpit_verification::VerificationReceipt>(value.clone()).ok()
+        })
+        .is_some_and(|receipt| {
+            receipt
+                .execution_records
+                .iter()
+                .any(|record| record.cleanup_uncertainty.is_some())
+        });
+    let state = if state == "execution_failed" && !passed && cleanup_unknown {
+        "cleanup_unknown"
+    } else {
+        state
+    };
     let processes_spawned = bound_receipt
         .as_ref()
         .and_then(|value| value.get("processesSpawned"))
@@ -10561,9 +10859,56 @@ pub(crate) struct CurrentVerificationAttemptProjection {
     pub state: String,
     pub attempt_id: String,
     pub path: String,
+    pub command_result: Option<String>,
     pub diagnostic_code: Option<String>,
     pub diagnostic_message: Option<String>,
     pub snapshot_digest: String,
+}
+
+fn observed_attempt_command_result(record: &serde_json::Value) -> Option<&'static str> {
+    let observed = if record["timedOut"] != serde_json::json!(false) {
+        "unknown"
+    } else if record["terminationSignal"].as_i64().is_some() {
+        "failed"
+    } else if !record["terminationSignal"].is_null() {
+        "unknown"
+    } else {
+        match record["exitCode"].as_i64() {
+            Some(0) => "succeeded",
+            Some(_) => "failed",
+            None => "unknown",
+        }
+    };
+    // Legacy records have no explicit commandResult. A cleanup-uncertain
+    // record must carry one, and any supplied result must agree with the
+    // observed exit fields rather than creating a new success assertion.
+    match record.get("commandResult") {
+        Some(value) if value.as_str() != Some(observed) => None,
+        None if record["cleanupUncertainty"].is_object() => None,
+        _ => Some(observed),
+    }
+}
+
+fn summarize_cleanup_unknown_command_results(
+    records: &[serde_json::Value],
+) -> Option<&'static str> {
+    if !records
+        .iter()
+        .any(|record| record["cleanupUncertainty"].is_object())
+    {
+        return None;
+    }
+    let observed = records
+        .iter()
+        .map(observed_attempt_command_result)
+        .collect::<Option<Vec<_>>>()?;
+    if observed.contains(&"failed") {
+        Some("failed")
+    } else if observed.contains(&"unknown") {
+        Some("unknown")
+    } else {
+        Some("succeeded")
+    }
 }
 
 fn select_current_verification_attempt_projection(
@@ -10674,6 +11019,13 @@ pub(crate) fn current_verification_attempt_projection(
         let Ok(attempt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
             continue;
         };
+        let attempt_state = attempt["state"].as_str().unwrap_or_default();
+        let cleanup_unknown =
+            attempt_state == "cleanup_unknown" && attempt["passed"] == serde_json::json!(false);
+        let completed = matches!(
+            attempt_state,
+            "execution_completed" | "formal_receipt_rejected"
+        ) && attempt["passed"] == serde_json::json!(true);
         if !verification_attempt_content_digest_matches(&attempt)
             || attempt["attemptId"]
                 .as_str()
@@ -10686,11 +11038,7 @@ pub(crate) fn current_verification_attempt_projection(
             || attempt["contractDigest"] != serde_json::json!(expected_contract_digest)
             || attempt["contractExecutionScopeDigest"] != serde_json::json!(expected_scope_digest)
             || attempt["repositorySnapshotDigest"] != serde_json::json!(expected_snapshot_digest)
-            || !matches!(
-                attempt["state"].as_str(),
-                Some("execution_completed" | "formal_receipt_rejected")
-            )
-            || attempt["passed"] != serde_json::json!(true)
+            || !(completed || cleanup_unknown)
             || attempt["processesSpawned"].as_u64().unwrap_or_default() == 0
         {
             continue;
@@ -10710,7 +11058,7 @@ pub(crate) fn current_verification_attempt_projection(
         let receipt = &attempt["receipt"];
         if commands.is_empty()
             || records.is_empty()
-            || receipt["passed"] != serde_json::json!(true)
+            || receipt["passed"] != attempt["passed"]
             || receipt["workItemId"] != serde_json::json!(work_item_id)
             || receipt["repositoryId"] != serde_json::json!(expected_repository_id)
             || receipt["runtimeVersion"] != attempt["runtimeVersion"]
@@ -10736,13 +11084,25 @@ pub(crate) fn current_verification_attempt_projection(
                         .iter()
                         .any(|command| command.get("nodeId") == record.get("nodeId"))
                     || record["spawned"] != serde_json::json!(true)
-                    || record["passed"] != serde_json::json!(true)
-                    || record["timedOut"] != serde_json::json!(false)
+                    || (completed
+                        && (record["passed"] != serde_json::json!(true)
+                            || record["timedOut"] != serde_json::json!(false)))
             })
+            || (cleanup_unknown && summarize_cleanup_unknown_command_results(records).is_none())
         {
             continue;
         }
-        let state = attempt["state"].as_str().unwrap_or_default();
+        if cleanup_unknown
+            && serde_json::from_value::<cockpit_verification::VerificationReceipt>(receipt.clone())
+                .is_err()
+        {
+            continue;
+        }
+        let state = attempt_state;
+        let command_result = cleanup_unknown
+            .then(|| summarize_cleanup_unknown_command_results(records))
+            .flatten()
+            .map(str::to_owned);
         let diagnostic = attempt.get("diagnostic");
         let (diagnostic_code, diagnostic_message) = if state == "formal_receipt_rejected" {
             let Some(code) = diagnostic
@@ -10783,6 +11143,7 @@ pub(crate) fn current_verification_attempt_projection(
                 state: state.to_owned(),
                 attempt_id,
                 path: repository_relative_path(root, &entry.path()),
+                command_result,
                 diagnostic_code,
                 diagnostic_message,
                 snapshot_digest: expected_snapshot_digest.clone(),
@@ -11766,6 +12127,64 @@ mod recovery_retry_consumption_tests {
     use std::process::Command;
 
     #[test]
+    fn mixed_cleanup_unknown_records_preserve_observed_command_results() {
+        let clean_exit = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 0,
+            "terminationSignal": null
+        });
+        let uncertain_exit = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 0,
+            "terminationSignal": null,
+            "commandResult": "succeeded",
+            "cleanupUncertainty": {"phase": "mac_descendant_boundary"}
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[
+                clean_exit.clone(),
+                uncertain_exit.clone(),
+            ]),
+            Some("succeeded")
+        );
+
+        let failed = serde_json::json!({
+            "spawned": true,
+            "timedOut": false,
+            "exitCode": 7,
+            "terminationSignal": null
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[failed, uncertain_exit.clone()]),
+            Some("failed")
+        );
+
+        let timed_out = serde_json::json!({
+            "spawned": true,
+            "timedOut": true,
+            "exitCode": null,
+            "terminationSignal": null
+        });
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[timed_out, uncertain_exit.clone()]),
+            Some("unknown")
+        );
+
+        let mut contradictory = uncertain_exit;
+        contradictory["commandResult"] = serde_json::json!("failed");
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[clean_exit.clone(), contradictory]),
+            None
+        );
+        assert_eq!(
+            summarize_cleanup_unknown_command_results(&[clean_exit]),
+            None
+        );
+    }
+
+    #[test]
     fn explicit_supersession_overrides_tied_attempt_digest_order() {
         let execution_id = format!("sha256:{}", "f".repeat(64));
         let rejection_id = format!("sha256:{}", "0".repeat(64));
@@ -11773,6 +12192,7 @@ mod recovery_retry_consumption_tests {
             state: state.into(),
             attempt_id: attempt_id.into(),
             path: ".ai/evidence/attempt.json".into(),
+            command_result: None,
             diagnostic_code: None,
             diagnostic_message: None,
             snapshot_digest: "sha256:snapshot".into(),
@@ -12318,16 +12738,70 @@ mod cross_checkout_closeout_tests {
         }
     }
 
+    fn observed_path_state(path: &Path) -> String {
+        match fs::symlink_metadata(path) {
+            Ok(metadata) if metadata.file_type().is_dir() => "directory".into(),
+            Ok(metadata) if metadata.file_type().is_file() => "regular_file".into(),
+            Ok(metadata) if metadata.file_type().is_symlink() => "symlink".into(),
+            Ok(_) => "other".into(),
+            Err(error) => format!("error({:?}, os={:?})", error.kind(), error.raw_os_error()),
+        }
+    }
+
+    fn clone_failure_path_state(program: &str, args: &[&str], stderr: &str) -> String {
+        if program != "git" || args.first() != Some(&"clone") || args.len() < 3 {
+            return String::new();
+        }
+        let source = Path::new(args[args.len() - 2]);
+        let destination = Path::new(args[args.len() - 1]);
+        let destination_parent = destination.parent().unwrap_or(destination);
+        let mut state = format!(
+            " after clone exit: source={}, source_objects={}, destination_parent={}, destination={}, destination_objects={}",
+            observed_path_state(source),
+            observed_path_state(&source.join(".git/objects")),
+            observed_path_state(destination_parent),
+            observed_path_state(destination),
+            observed_path_state(&destination.join(".git/objects")),
+        );
+        if let Some((_, suffix)) = stderr.rsplit_once("/.git/objects/") {
+            let object = suffix
+                .chars()
+                .take_while(|character| character.is_ascii_hexdigit() || *character == '/')
+                .collect::<String>();
+            if let Some((directory, file)) = object.split_once('/')
+                && directory.len() == 2
+                && file.len() == 38
+                && directory
+                    .chars()
+                    .all(|character| character.is_ascii_hexdigit())
+                && file.chars().all(|character| character.is_ascii_hexdigit())
+            {
+                state.push_str(&format!(
+                    ", source_object={}, destination_object_parent={}, destination_object={}",
+                    observed_path_state(&source.join(".git/objects").join(&object)),
+                    observed_path_state(&destination.join(".git/objects").join(directory)),
+                    observed_path_state(&destination.join(".git/objects").join(&object)),
+                ));
+            }
+        }
+        state
+    }
+
     fn command(root: &Path, program: &str, args: &[&str]) {
         let output = Command::new(program)
             .args(args)
             .current_dir(root)
             .output()
             .expect("run fixture command");
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let clone_path_state = if output.status.success() {
+            String::new()
+        } else {
+            clone_failure_path_state(program, args, &stderr)
+        };
         assert!(
             output.status.success(),
-            "{program} {args:?} failed: {}",
-            String::from_utf8_lossy(&output.stderr)
+            "{program} {args:?} failed: {stderr}{clone_path_state}"
         );
     }
 
