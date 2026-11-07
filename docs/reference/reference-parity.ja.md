@@ -1008,3 +1008,5 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-1122-legacy-renderer-recovery — 旧版レンダラーの復旧 | In progress | [Work Item](../work-items/WI-1122-legacy-renderer-recovery.ja.md); verification and close pending. |
 
 | WI-1123-v1-0-2-release-continuation — v1.0.2 リリース継続 | In progress | [Work Item](../work-items/WI-1123-v1-0-2-release-continuation.ja.md); verification and release pending. |
+
+| WI-1124-v1-0-2-release-recovery — v1.0.2 リリース復旧 | In progress | [Work Item](../work-items/WI-1124-v1-0-2-release-recovery.ja.md); verification and release pending. |

@@ -981,3 +981,5 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-1122-legacy-renderer-recovery — 旧版渲染器恢复 | In progress | [Work Item](../work-items/WI-1122-legacy-renderer-recovery.zh-CN.md); verification and close pending. |
 
 | WI-1123-v1-0-2-release-continuation — v1.0.2 发布续办 | In progress | [Work Item](../work-items/WI-1123-v1-0-2-release-continuation.zh-CN.md); verification and release pending. |
+
+| WI-1124-v1-0-2-release-recovery — v1.0.2 发布恢复 | In progress | [Work Item](../work-items/WI-1124-v1-0-2-release-recovery.zh-CN.md); verification and release pending. |

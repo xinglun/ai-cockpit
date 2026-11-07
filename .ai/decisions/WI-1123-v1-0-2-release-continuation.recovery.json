@@ -1,0 +1,23 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "user delegated native Contract revalidation and PR binding",
+  "decidedAt": "2026-11-07T11:58:17.099793+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1123-v1-0-2-release-continuation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:be6992de2c462b7b25716b9d7db16d1b1d23b0fad036747223886697f543aaff",
+  "predecessorSummaryDigest": "sha256:2d8a7b8558d22b6f88e9285f9910b7cec7cf90f1922f9d6b3facdaa2ba5c6909",
+  "predecessorWorkItemId": "WI-1123-v1-0-2-release-continuation",
+  "reason": "Rebind the reviewed PR resource before a fresh verification cycle after the initial binding omission.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #1080, review the changed Contract, and reverify.",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

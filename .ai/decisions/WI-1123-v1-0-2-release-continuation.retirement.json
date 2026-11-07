@@ -1,0 +1,34 @@
+{
+  "actor": "agent:codex",
+  "archiveManifestDigest": "sha256:df3799e6e81d370fea8b1d858add1c06fc0cd51768712e54006eb6b876acd6f9",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:f98f3ba326582f3e8f783021964b12ac263ea79d3fc77ae284b3377686e7f412",
+      "path": ".ai/work-items/archive/WI-1123-v1-0-2-release-continuation.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:4ce02be95fb77a9d304beb1b803cb801af816f70f9bd2db92befbb6cf5b84412",
+      "path": ".ai/work-items/archive/WI-1123-v1-0-2-release-continuation.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:fc103580039b57da54752f277ba63c2676862944ac14d270527be5678beeb5ed",
+      "path": ".ai/work-items/archive/WI-1123-v1-0-2-release-continuation.summary.json"
+    }
+  },
+  "authoritySource": "user delegated native release recovery handoff",
+  "contractDigest": "sha256:db659015490e32a600504787873b294562613656c7c064c23c4f075f5e71015c",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Preserve the inconsistent Contract chain and all failed and passed evidence while continuing in the bound successor.",
+  "recordedAt": "2026-11-07T12:06:53Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b006c816facdcc10c558694a179bcf2e8f21f3e5507869b514d1b8c95b145102",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1124-v1-0-2-release-recovery",
+  "summaryDigest": "sha256:ded2863f6e4bf81e51e111ec579800e9f32a903640e3a68d5dd2a7c02864a3a0",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

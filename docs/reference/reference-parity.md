@@ -1145,3 +1145,5 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-1122-legacy-renderer-recovery — Legacy renderer recovery | In progress | [Work Item](../work-items/WI-1122-legacy-renderer-recovery.md); verification and close pending. |
 
 | WI-1123-v1-0-2-release-continuation — v1.0.2 release continuation | In progress | [Work Item](../work-items/WI-1123-v1-0-2-release-continuation.md); verification and release pending. |
+
+| WI-1124-v1-0-2-release-recovery — v1.0.2 release recovery | In progress | [Work Item](../work-items/WI-1124-v1-0-2-release-recovery.md); verification and release pending. |

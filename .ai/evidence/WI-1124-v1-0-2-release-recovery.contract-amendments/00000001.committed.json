@@ -1,0 +1,70 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:4e10da0d85cf7a504120e2eb44b1c8219c00a67043e285ff2786013a090b53f7",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1124-v1-0-2-release-recovery",
+    "sequence": 1,
+    "changeId": "wi1124-verification-policy",
+    "requestDigest": "sha256:1ea3c82a0d564ee21dc331d275a10d36b6ec85e827e094a831213f7620e691fc",
+    "reason": "Preserve the previously authorized 900-second verification limit.",
+    "changedValues": [
+      {
+        "path": "/governancePolicy",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi-1124-bounded-verification-timeout-v1",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi-1124-bounded-verification-timeout-v1"
+                ],
+                "reason": "Preserve the authorized 900-second task verification limit for the release recovery.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:24081352cd9f82a1ff87a6b86428173d5296b45bb440f91e126951f22318abb8",
+    "newContractDigest": "sha256:de0d2b6385c31af9434f5e1b977d59273cb58242eaf0aed8bdd73f5109fd2d65",
+    "repositorySnapshotDigest": "sha256:b006c816facdcc10c558694a179bcf2e8f21f3e5507869b514d1b8c95b145102",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtimeVersion": "1.0.2",
+    "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:881c25269fb7cd485f1954224aa91031a96054be33d17ad20f2adae0ebd0f653",
+    "recordedAt": "2026-11-07T12:09:28Z"
+  }
+}
