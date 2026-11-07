@@ -25,7 +25,31 @@
   "documentationImpact": null,
   "executionDecision": null,
   "goal": "Advance workspace version and current distribution documentation to v1.0.2, pass exact-source repository and release gates, publish a new annotated immutable v1.0.2 tag and Release with checksums, manifest and SBOM, then verify published artifacts and upgrade from v1.0.1. Preserve all historical failed and Unknown evidence.",
-  "governancePolicy": null,
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi-1121-bounded-verification-timeout-v1",
+    "rules": [
+      {
+        "approvalMode": "single_authorized_human",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 900,
+          "policyRefs": [
+            "wi-1121-bounded-verification-timeout-v1"
+          ],
+          "reason": "Allow at most 900 seconds for existing WI-1121 task-stage verification commands after the repository package timed out at 600 seconds, without changing checks, safety assertions, permissions, or cleanup evidence.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task"
+          ]
+        }
+      }
+    ]
+  },
   "governanceProfile": null,
   "guidelines": [],
   "humanDecisionPoints": null,
