@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "Release と配布"
-description: "stable v1.0.1 の install と Runtime 境界。"
+description: "stable v1.0.2 の install と Runtime 境界。"
 audience:
   - adopter
   - maintainer
@@ -15,24 +15,24 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
-## Stable 版の install：v1.0.1
+## Stable 版の install：v1.0.2
 
-既定は stable v1.0.1 Release です。release-manifest.json は archive の filename、target、byte 数、SHA-256 digest を記載します。以下の command は公開された SHA256SUMS を使い、manifest と archive の両方を検証します。以前の stable v1.0.0 の checksum は履歴表に保持します。
+既定は stable v1.0.2 Release です。release-manifest.json は archive の filename、target、byte 数、SHA-256 digest を記載します。以下の command は公開された SHA256SUMS を使い、manifest と archive の両方を検証します。以前の stable v1.0.1 の checksum は履歴表に保持します。
 
-公開時の stable v1.0.1 archive 名は次の四つです。
+公開時の stable v1.0.2 archive 名は次の四つです。
 
-| Target | Stable v1.0.1 archive |
+| Target | Stable v1.0.2 archive |
 | --- | --- |
-| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
-| Linux ARM64（GNU） | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
-| Linux x86_64（GNU） | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
-| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+| Apple Silicon macOS | `ai-cockpit-v1.0.2-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64（GNU） | `ai-cockpit-v1.0.2-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64（GNU） | `ai-cockpit-v1.0.2-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.2-x86_64-pc-windows-msvc.zip` |
 
-install 前に、Apple Silicon macOS command は release-manifest.json が v1.0.1 用で aarch64-apple-darwin artifact を記載しているか確認します。次に archive の実測 SHA-256 を manifest と SHA256SUMS の値に照合します。curl、Python 3、shasum、awk、tar、install が必要です。
+install 前に、Apple Silicon macOS command は release-manifest.json が v1.0.2 用で aarch64-apple-darwin artifact を記載しているか確認します。次に archive の実測 SHA-256 を manifest と SHA256SUMS の値に照合します。curl、Python 3、shasum、awk、tar、install が必要です。
 
 ~~~bash
 set -eu
-version=1.0.1
+version=1.0.2
 tag="v$version"
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
@@ -51,7 +51,7 @@ import sys
 filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -70,22 +70,22 @@ install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 "$HOME/.local/bin/ai-cockpit" --version
 ~~~
 
-新しい terminal で `ai-cockpit` が見つからない場合は、`$HOME/.local/bin` を shell 起動時の PATH に追加してください。v1.0.1 は次の表に示す四つの target architecture を提供し、表の checksum は以前の stable v1.0.0 のものです。
+新しい terminal で `ai-cockpit` が見つからない場合は、`$HOME/.local/bin` を shell 起動時の PATH に追加してください。v1.0.2 は次の表に示す四つの target architecture を提供し、表の checksum は以前の stable v1.0.1 のものです。
 
-| Target | Previous stable v1.0.0 archive | SHA-256 |
+| Target | Previous stable v1.0.1 archive | SHA-256 |
 | --- | --- | --- |
-| Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
-| Linux ARM64（GNU） | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
-| Linux x86_64（GNU） | ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz | 467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede |
-| Windows x86_64 | ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip | 7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce |
+| Apple Silicon macOS | ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz | d79ce984e4a10d1b496e9e860fb229904210267e131fa3219409f517bda0f4cd |
+| Linux ARM64（GNU） | ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz | f2bd8296424077a3e6d9a1639f6ad5807474a1703ba3c62755896a32de1cea29 |
+| Linux x86_64（GNU） | ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz | a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879 |
+| Windows x86_64 | ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip | 0b9f4772ccbcacc483806f87e33907dbe3a7e5e0528c4d3ece9fce68a54ba7ba |
 
 ### Linux GNU install（ARM64、x86_64）
 
-Linux archive は GNU libc（glibc）向けです。musl には対応していません。以下の command は machine architecture に合う v1.0.1 artifact を選び、release-manifest.json と SHA256SUMS に SHA-256 を照合してから $HOME/.local/bin に install します。上の表は以前の stable v1.0.0 checksum の履歴です。curl、Python 3、sha256sum、tar、install が必要です。
+Linux archive は GNU libc（glibc）向けです。musl には対応していません。以下の command は machine architecture に合う v1.0.2 artifact を選び、release-manifest.json と SHA256SUMS に SHA-256 を照合してから $HOME/.local/bin に install します。上の表は以前の stable v1.0.1 checksum の履歴です。curl、Python 3、sha256sum、tar、install が必要です。
 
 ~~~bash
 set -eu
-version=1.0.1
+version=1.0.2
 tag="v$version"
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 case "$(uname -m)" in
@@ -116,7 +116,7 @@ import sys
 filename, target = sys.argv[1:]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -143,7 +143,7 @@ install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 
 ~~~powershell
 $ErrorActionPreference = "Stop"
-$version = "1.0.1"
+$version = "1.0.2"
 $tag = "v$version"
 $releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 $target = "x86_64-pc-windows-msvc"
@@ -188,11 +188,11 @@ finally {
 }
 ~~~
 
-v1.0.0 には Intel macOS、Linux musl、Windows ARM64 向け Release archive はありません。
+v1.0.2 には Intel macOS、Linux musl、Windows ARM64 向け Release archive はありません。
 
 macOS ARM64 v1.0.1-rc.1 は独立試用向けの optional prerelease です。stable の install 先ではありません。この prerelease の正式な release acceptance check はまだ完了していません。[v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
 
-v1.0.1-rc.2 も stable v1.0.1 とは別の履歴上の prerelease であり、その tag や asset は再利用しません。
+v1.0.1-rc.2 も stable v1.0.2 とは別の履歴上の prerelease であり、その tag や asset は再利用しません。
 
 install 後は[Getting started](../getting-started/README.ja.md)を参照してください。install は repository を attach せず、work を approval しません。AI Cockpit は scope、verification evidence、human decision を記録します。code review、provider permission、production isolation、組織の security control は別途必要です。
 

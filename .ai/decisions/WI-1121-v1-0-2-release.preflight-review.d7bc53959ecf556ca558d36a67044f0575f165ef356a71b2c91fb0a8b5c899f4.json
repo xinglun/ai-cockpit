@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:60f4ea97b04b85fd8bfbe9414e47c57428c8a54b87b1660cee59b98353c9e05b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:115b171e6d811cd3e623c372a6db97026ced6b75dc0bd5b0584b2211f18a1d93",
+  "reason": "Records the user’s explicit 同意 to the displayed current WI-1121 900-second node timeout Contract 60f4ea97, preflight 115b171e, and snapshot e0851e20; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T05:11:17Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+  "schemaVersion": 1,
+  "workItemId": "WI-1121-v1-0-2-release"
+}

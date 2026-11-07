@@ -227,7 +227,7 @@ checksum = "c8d4a3bb8b1e0c1050499d1815f5ab16d04f0959b233085fb31653fbfc9d98f9"
 
 [[package]]
 name = "cockpit-agent"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cap-fs-ext",
  "cap-std",
@@ -246,7 +246,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-cli"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "anyhow",
  "clap",
@@ -269,7 +269,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-core"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "hex",
  "serde",
@@ -280,7 +280,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-evidence"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cockpit-core",
  "serde",
@@ -290,7 +290,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-git"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "hex",
  "serde",
@@ -303,7 +303,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-interface"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "clap",
  "serde",
@@ -311,7 +311,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-isolation"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "hex",
  "serde",
@@ -323,7 +323,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-knowledge"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cockpit-core",
  "cockpit-protocol",
@@ -334,7 +334,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-mcp"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cockpit-agent",
  "cockpit-core",
@@ -352,7 +352,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-protocol"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cockpit-core",
  "cockpit-interface",
@@ -365,7 +365,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-release"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "chrono",
  "clap",
@@ -383,7 +383,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-repository"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cap-fs-ext",
  "cap-std",
@@ -411,7 +411,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-review-receipt"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "hex",
  "serde_json",
@@ -420,7 +420,7 @@ dependencies = [
 
 [[package]]
 name = "cockpit-verification"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "cockpit-core",
  "cockpit-evidence",

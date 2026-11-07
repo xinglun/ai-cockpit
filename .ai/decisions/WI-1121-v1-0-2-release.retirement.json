@@ -1,0 +1,34 @@
+{
+  "actor": "agent:codex",
+  "archiveManifestDigest": "sha256:01f4a784972f40efb79d86cc285d6ba73f965b729b1090c82b21b55359d89774",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:3fee72ac6b2c6c9874b21a49d4dea5302e854a6945b17101753165fe89fe49d9",
+      "path": ".ai/work-items/archive/WI-1121-v1-0-2-release.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:5c0db4e36525c2577eb119ba6f1987920cfd7be3f0bf14171535888bf69793f2",
+      "path": ".ai/work-items/archive/WI-1121-v1-0-2-release.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ac3f1050b0cffecf33eddb143bfc3d4565de3c25d91ac8794d4b252c7465022d",
+      "path": ".ai/work-items/archive/WI-1121-v1-0-2-release.summary.json"
+    }
+  },
+  "authoritySource": "user delegated native recovery handoff",
+  "contractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Preserve the release work and evidence while the bound successor repairs the renderer compatibility blocking recovery.",
+  "recordedAt": "2026-11-07T08:22:47Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+  "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1122-legacy-renderer-recovery",
+  "summaryDigest": "sha256:33c7e1dfda12b96efbb26059f98778e01401cfe45909404d4843813ece91c624",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1121-v1-0-2-release"
+}

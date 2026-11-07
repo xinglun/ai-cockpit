@@ -1,0 +1,120 @@
+{
+  "checkpointId": "sha256:f376cca02bc84ad220e2e981cc11fce873b7165727c4d779cc92993c1d9d018e",
+  "commands": [
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-verification",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "commandDigest": "sha256:cdbcb15f275d5c6b3a9be3f5449894eb7b87d5a899e0ec8a1febf3f80cfe9c9d",
+      "nodeId": "project-command-1-package-cockpit-verification",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:4f6c8c5a97bfc0e5a8d130a7caf841074debdc696e9a32415860786db9f41494",
+  "contractExecutionScopeDigest": "sha256:ce95e4f10ea96c86adb459d4650dfb1605fd661c96aa509d7870550adae28145",
+  "createdAt": "2026-11-07T14:03:08.786643000Z",
+  "executionId": "sha256:223ab6085024b4f070e7414a493c5d17e14542e71ae857d031f2d66745f3ee9b",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:cdbcb15f275d5c6b3a9be3f5449894eb7b87d5a899e0ec8a1febf3f80cfe9c9d",
+      "commandResult": "succeeded",
+      "deadlineMs": 1794061088570,
+      "elapsedMs": 215,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-verification",
+      "passed": true,
+      "spawned": true,
+      "stderr": "2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20302e3134730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900,
+      "unmanagedDescendantsUnproved": true
+    }
+  ],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "elapsedMs": 216,
+    "executionElapsedMs": 216,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:cdbcb15f275d5c6b3a9be3f5449894eb7b87d5a899e0ec8a1febf3f80cfe9c9d",
+        "commandResult": "succeeded",
+        "deadlineMs": 1794061088570,
+        "elapsedMs": 215,
+        "exitCode": 0,
+        "nodeId": "project-command-1-package-cockpit-verification",
+        "passed": true,
+        "spawned": true,
+        "stderr": "2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20302e3134730a0a6d61635f6f726967696e616c5f67726f75705f7369676e616c3a206e6f745f617474656d707465645f6964656e746974795f756e636f6e6669726d65643b206469726563745f6368696c645f726561703a20636f6e6669726d65645f726561706564",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900,
+        "unmanagedDescendantsUnproved": true
+      }
+    ],
+    "filesHashed": 0,
+    "filesRead": 0,
+    "gitCalls": 0,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-1-package-cockpit-verification",
+        "outputDigest": "sha256:030cdbb3cbfd0b1dee3691271829bd4277e1986e08608de4a10f99db027f4a02",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "timeoutSeconds": 900
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "state": "node_execution_completed",
+  "workItemId": "WI-1124-v1-0-2-release-recovery"
+}

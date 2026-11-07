@@ -40,11 +40,11 @@ verification と audit evidence を保持します。active Work Item の Runtim
 
 ## 実際の初回利用を試す
 
-Apple Silicon macOS では公開後、次の command で stable v1.0.1 を install できます。download した archive は release manifest と SHA256SUMS で検証します。curl、shasum、tar、install、Python 3 が必要です。
+Apple Silicon macOS では公開後、次の command で stable v1.0.2 を install できます。download した archive は release manifest と SHA256SUMS で検証します。curl、shasum、tar、install、Python 3 が必要です。
 
 ~~~bash
 set -eu
-tag=v1.0.1
+tag=v1.0.2
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
@@ -62,7 +62,7 @@ import sys
 filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -110,7 +110,7 @@ ai-cockpit doctor --repo $repo
 
 ## Stable 版と optional prerelease
 
-既定では stable v1.0.1 を使います。[Release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1)に Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU、Windows x86_64 の artifact があります。以前の stable v1.0.0 は今回の N-1 upgrade acceptance の source です。v1.0.1-rc.2 prerelease は独立した過去の release として保持し、既定の install には使いません。Intel macOS、Linux musl、Windows ARM64 の archive はありません。
+既定では stable v1.0.2 を使います。[Release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.2)に Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU、Windows x86_64 の artifact があります。以前の stable v1.0.1 は今回の N-1 upgrade acceptance の source です。v1.0.1-rc.2 prerelease は独立した過去の release として保持し、既定の install には使いません。Intel macOS、Linux musl、Windows ARM64 の archive はありません。
 
 ## 境界
 

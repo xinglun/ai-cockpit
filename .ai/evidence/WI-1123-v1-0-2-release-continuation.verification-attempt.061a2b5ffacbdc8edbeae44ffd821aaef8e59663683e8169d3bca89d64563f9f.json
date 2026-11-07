@@ -1,0 +1,47 @@
+{
+  "checkpointId": "sha256:061a2b5ffacbdc8edbeae44ffd821aaef8e59663683e8169d3bca89d64563f9f",
+  "commands": [
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-core",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "commandDigest": "sha256:255d35dd49c5d73d5d12cc51096cf8fdc1fdea4b95a9541ae89827fb78f33e32",
+      "nodeId": "project-command-1-package-cockpit-core",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:be6992de2c462b7b25716b9d7db16d1b1d23b0fad036747223886697f543aaff",
+  "contractExecutionScopeDigest": "sha256:65c0440925a89285de98a10f6ffb20f19c7e95b423da97014d4c5dd8be1437c4",
+  "createdAt": "2026-11-07T11:33:18.826664000Z",
+  "executionId": "sha256:41da105dc5a46ee0fcd221ca7bc9be3f2962f6554de2ee5e03cbdcd05b317174",
+  "executionRecords": [],
+  "kind": "verification_execution_checkpoint",
+  "passed": false,
+  "postExecutionIdentityValidated": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b006c816facdcc10c558694a179bcf2e8f21f3e5507869b514d1b8c95b145102",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "state": "execution_prepared",
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

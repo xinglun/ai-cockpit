@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Records the user’s explicit 同意 after the current WI-1121 v1.0.2 release Contract, preflight and snapshot binding was shown in this conversation; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T03:52:50Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1121-v1-0-2-release"
+}

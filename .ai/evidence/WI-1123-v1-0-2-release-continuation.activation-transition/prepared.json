@@ -1,0 +1,360 @@
+{
+  "record": {
+    "schemaVersion": 1,
+    "capability": "activation_continuity_recovery_v1",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1123-v1-0-2-release-continuation",
+    "owner": {
+      "worktreePath": "/Users/sei-rinn/Documents/Codex/2026-11-05/task/WI-1121-v1-0-2-release",
+      "commonDirectoryId": "sha256:363441add39a7b1248636a188971e2f143cfd7af0ae157c6f5cbc2c16e073903",
+      "branch": "codex/wi1121-v1-0-2-release-intake"
+    },
+    "runtime": {
+      "runtimeVersion": "1.0.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7"
+    },
+    "observedHead": "3827d52e0e8ffbb06d80892ec376834e2bd90d59",
+    "journalSequence": 1,
+    "journalDigest": "sha256:53bea4d07ba8cc9c1c18118083b7e25cef7ac832a4a33c1b3cf9c434cb4286ff",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The candidate source is exactly the merged main tree from PR #1079 plus declared v1.0.2 version and distribution documentation changes; source and release identities remain traceable.",
+        "Workspace manifests and current English, Japanese and Chinese install/version guidance consistently identify stable v1.0.2, while historical v1.0.1 facts remain historical.",
+        "Exact-head local verification and hosted Linux, Mac and Windows quality and release candidate checks pass; failed results remain visible.",
+        "A new annotated v1.0.2 tag is immutable and points to the admitted release source; no existing tag or asset is replaced.",
+        "Published archives for the declared supported targets match SHA256SUMS and release-manifest.json, with SBOM and provenance bound to the same source and tag.",
+        "Public install and v1.0.1-to-v1.0.2 upgrade acceptance use immutable downloaded artifacts and pass the Contract checks; cleanup and receipts are retained.",
+        "Release is reported only after the Runtime admits publication and post-release acceptance; unresolved historical cleanup Unknowns and unproved unmanaged descendant closure remain disclosed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3827d52e0e8ffbb06d80892ec376834e2bd90d59",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T10:55:48Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Advance workspace version and current distribution documentation to v1.0.2, pass exact-source repository and release gates, publish a new annotated immutable v1.0.2 tag and Release with checksums, manifest and SBOM, then verify published artifacts and upgrade from v1.0.1. Preserve all historical failed and Unknown evidence.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1123-bounded-verification-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1123-bounded-verification-timeout-v1"
+              ],
+              "reason": "Preserve the authorized 900-second task verification limit for the release continuation.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Publish stable AI Cockpit v1.0.2 from the verified main merge of PR #1079, with immutable multi-platform artifacts and honest install/upgrade acceptance evidence.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+      "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/architecture/release-distribution.zh-CN.md",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1121-v1-0-2-release.md",
+        "docs/work-items/WI-1121-v1-0-2-release.zh-CN.md",
+        "docs/work-items/WI-1121-v1-0-2-release.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-comparison-metadata.json",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.md",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.zh-CN.md",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.ja.md"
+      ],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --quiet --locked --workspace"
+      ],
+      "workItemId": "WI-1123-v1-0-2-release-continuation"
+    },
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The candidate source is exactly the merged main tree from PR #1079 plus declared v1.0.2 version and distribution documentation changes; source and release identities remain traceable.",
+        "Workspace manifests and current English, Japanese and Chinese install/version guidance consistently identify stable v1.0.2, while historical v1.0.1 facts remain historical.",
+        "Exact-head local verification and hosted Linux, Mac and Windows quality and release candidate checks pass; failed results remain visible.",
+        "A new annotated v1.0.2 tag is immutable and points to the admitted release source; no existing tag or asset is replaced.",
+        "Published archives for the declared supported targets match SHA256SUMS and release-manifest.json, with SBOM and provenance bound to the same source and tag.",
+        "Public install and v1.0.1-to-v1.0.2 upgrade acceptance use immutable downloaded artifacts and pass the Contract checks; cleanup and receipts are retained.",
+        "Release is reported only after the Runtime admits publication and post-release acceptance; unresolved historical cleanup Unknowns and unproved unmanaged descendant closure remain disclosed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T10:55:48Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Advance workspace version and current distribution documentation to v1.0.2, pass exact-source repository and release gates, publish a new annotated immutable v1.0.2 tag and Release with checksums, manifest and SBOM, then verify published artifacts and upgrade from v1.0.1. Preserve all historical failed and Unknown evidence.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1123-bounded-verification-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1123-bounded-verification-timeout-v1"
+              ],
+              "reason": "Preserve the authorized 900-second task verification limit for the release continuation.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Publish stable AI Cockpit v1.0.2 from the verified main merge of PR #1079, with immutable multi-platform artifacts and honest install/upgrade acceptance evidence.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+      "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/architecture/release-distribution.zh-CN.md",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1121-v1-0-2-release.md",
+        "docs/work-items/WI-1121-v1-0-2-release.zh-CN.md",
+        "docs/work-items/WI-1121-v1-0-2-release.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-comparison-metadata.json",
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.md",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.zh-CN.md",
+        "docs/work-items/WI-1123-v1-0-2-release-continuation.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --quiet --locked --workspace"
+      ],
+      "workItemId": "WI-1123-v1-0-2-release-continuation"
+    },
+    "previousContractDigest": "sha256:39be7675fc917965a16582a70f6143b4566dbf49c54274c3eca827968866ee7d",
+    "newContractDigest": "sha256:c07ac065173881e075a8540c27b874273bc8377b0a312e5799a7ad44be2057db",
+    "previousSummaryDigest": "sha256:786b2b5180a8dfa5cb799504b5eee2753cac001b3e8561579d105973cefc6377",
+    "newSummaryDigest": "sha256:568874c1b02c734db8e64e018909efb61e84ed51e9cd19710746e5534eca446f",
+    "previousSummary": {
+      "changedPaths": [
+        ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json"
+      ],
+      "checkpointCount": 0,
+      "createdAt": "2026-11-07T10:55:48Z",
+      "mode": "release",
+      "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+      "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+      "preflightState": "not_run",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "not_ready",
+      "updatedAt": "2026-11-07T10:55:48Z",
+      "workItemId": "WI-1123-v1-0-2-release-continuation"
+    },
+    "newSummary": {
+      "activationContinuity": {
+        "capability": "activation_continuity_recovery_v1",
+        "journalRelevant": true
+      },
+      "changedPaths": [
+        ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+        ".ai/evidence/WI-1123-v1-0-2-release-continuation.contract-amendments/00000001.committed.json",
+        ".ai/evidence/WI-1123-v1-0-2-release-continuation.contract-amendments/00000001.prepared.json",
+        ".ai/work-items/active/WI-1123-v1-0-2-release-continuation.contract.json",
+        ".ai/work-items/active/WI-1123-v1-0-2-release-continuation.summary.json"
+      ],
+      "checkpointCount": 0,
+      "createdAt": "2026-11-07T10:55:48Z",
+      "lifecycleFacts": {
+        "start": {
+          "actorProvenance": "unknown",
+          "eventType": "work_item_started",
+          "occurredAt": "2026-11-07T10:57:02.091195000Z",
+          "recordedAt": "2026-11-07T10:57:02.091195000Z",
+          "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+          "runtimeVersion": "1.0.2"
+        }
+      },
+      "mode": "release",
+      "predecessorContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+      "predecessorWorkItemId": "WI-1122-legacy-renderer-recovery",
+      "preflightState": "not_run",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1122-legacy-renderer-recovery.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "implementation_active",
+      "updatedAt": "2026-11-07T10:57:02.091195000Z",
+      "workItemId": "WI-1123-v1-0-2-release-continuation"
+    },
+    "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+    "observedBaseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+    "inputDigest": "sha256:2ab50c6a056bfe6283e3374579d92c78deac8d455fa22c367e9725fa3bcb1da5",
+    "differences": [
+      {
+        "path": "/baseRevision",
+        "oldValue": "3827d52e0e8ffbb06d80892ec376834e2bd90d59",
+        "newValue": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca"
+      },
+      {
+        "path": "/state",
+        "oldValue": "not_ready",
+        "newValue": "implementation_active"
+      }
+    ],
+    "startFact": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-07T10:57:02.091195000Z",
+      "recordedAt": "2026-11-07T10:57:02.091195000Z",
+      "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+      "runtimeVersion": "1.0.2"
+    },
+    "recordedAt": "2026-11-07T10:57:02.091195000Z"
+  },
+  "recordDigest": "sha256:b45b607dd68cd2adeb4784b3cf6e93dde79f6d08c2b85edb89c1510212ed1bc7"
+}

@@ -7811,25 +7811,36 @@ mod tests {
 
     #[cfg(target_os = "linux")]
     #[test]
-    fn proc_fallback_reads_bounded_process_snapshot_without_spawning_children() {
+    fn proc_fallback_bounds_live_scan_without_treating_disappearance_as_empty() {
         let started = Instant::now();
         let mut budget = VerificationProcScanBudget::default();
-        let snapshot = observe_verification_supervisor_children(
+        let result = observe_verification_supervisor_children(
             std::process::id(),
             started + Duration::from_secs(9),
             &mut budget,
-        )
-        .expect("bounded /proc stat scan must not treat a missing children file as empty");
+        );
         let elapsed_ms = started.elapsed().as_millis();
         assert!(budget.entries_scanned > 0);
-        assert!(budget.stat_bytes_read > 0);
         assert!(elapsed_ms < 9_000, "bounded scan took {elapsed_ms}ms");
-        eprintln!(
-            "verification_proc_scan_entries={} stat_bytes={} direct_children={} elapsed_ms={elapsed_ms}",
-            budget.entries_scanned,
-            budget.stat_bytes_read,
-            snapshot.children.len(),
-        );
+        match result {
+            Ok(snapshot) => {
+                assert!(budget.stat_bytes_read > 0);
+                eprintln!(
+                    "verification_proc_scan_entries={} stat_bytes={} direct_children={} elapsed_ms={elapsed_ms}",
+                    budget.entries_scanned,
+                    budget.stat_bytes_read,
+                    snapshot.children.len(),
+                );
+            }
+            Err(error) => {
+                assert_eq!(error.phase, "proc_entry_race");
+                assert!(error.retryable);
+                eprintln!(
+                    "verification_proc_scan_entries={} stat_bytes={} outcome=retryable_proc_entry_race elapsed_ms={elapsed_ms}",
+                    budget.entries_scanned, budget.stat_bytes_read,
+                );
+            }
+        }
     }
 
     #[cfg(target_os = "linux")]

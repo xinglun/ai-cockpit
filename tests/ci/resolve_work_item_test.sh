@@ -403,6 +403,41 @@ cp "$lineage_active_contract" "$fixture/repo/.ai/work-items/active/WI-LINEAGE-CO
 expect_lineage_failure competing-active-successor
 rm "$fixture/repo/.ai/work-items/active/WI-LINEAGE-COMPETITOR.contract.json"
 
+# A replaced predecessor is historical evidence, not a verification claim.
+# It may bind only the exact recorded successor and a matching retirement receipt.
+lineage_archive="$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.archive.json"
+lineage_retirement="$fixture/repo/.ai/decisions/WI-LINEAGE-PREV.retirement.json"
+printf '%s\n' '{}' > "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.summary.json"
+printf '%s\n' '{}' > "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.outcome.json"
+summary_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.summary.json" | awk '{print $1}')"
+outcome_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.outcome.json" | awk '{print $1}')"
+jq --arg sd "$summary_digest" --arg od "$outcome_digest" '.state="replaced" | .protocolVersion=1 | .historicalEvidence=true | .closeRequired=false | .retirementDisposition="replaced" | .successorWorkItemId="WI-LINEAGE-NEXT" | .retirementReceiptPath=".ai/decisions/WI-LINEAGE-PREV.retirement.json" | .files.summaryPath=".ai/work-items/archive/WI-LINEAGE-PREV.summary.json" | .files.summaryDigest=$sd | .files.outcomePath=".ai/work-items/archive/WI-LINEAGE-PREV.outcome.json" | .files.outcomeDigest=$od' "$fixture/lineage-predecessor-manifest-original.json" > "$lineage_archive"
+manifest_digest="sha256:$(jq -cS . "$lineage_archive" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+jq -n --arg md "$manifest_digest" --arg cd "$lineage_predecessor_contract_digest" --arg raw "$lineage_predecessor_raw_digest" --arg sd "$summary_digest" --arg od "$outcome_digest" '{schemaVersion:1,decisionId:"work-item-retirement",disposition:"replaced",workItemId:"WI-LINEAGE-PREV",repositoryId:"fixture-repository",successorWorkItemId:"WI-LINEAGE-NEXT",contractDigest:$cd,verificationClaim:"not_verified",originalBytesPreserved:true,archiveManifestDigest:$md,runtimeVersion:"fixture",runtimeDigest:"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",repositorySnapshotDigest:"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",actor:"agent:test",authoritySource:"fixture",reason:"fixture",recordedAt:"2026-01-01T00:00:00Z",artifacts:{contract:{path:".ai/work-items/archive/WI-LINEAGE-PREV.contract.json",digest:$raw},summary:{path:".ai/work-items/archive/WI-LINEAGE-PREV.summary.json",digest:$sd},outcome:{path:".ai/work-items/archive/WI-LINEAGE-PREV.outcome.json",digest:$od}}}' > "$lineage_retirement"
+"$resolver" --repo "$fixture/repo" --event pull_request --head "$head" --pr-head-ref "$lineage_branch" --pr-url "$lineage_pr" --output "$fixture/lineage-replaced.json"
+jq -e '.state == "ready" and .workItemId == "WI-LINEAGE-NEXT"' "$fixture/lineage-replaced.json" >/dev/null
+# Runtime may preserve a digest-suffixed successor decision alongside an older retry.
+lineage_decision_digest="$(jq -cS . "$lineage_decision" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+lineage_digest_decision=".ai/decisions/WI-LINEAGE-PREV.recovery.$lineage_decision_digest.json"
+cp "$lineage_decision" "$fixture/repo/$lineage_digest_decision"
+jq --arg p "$lineage_digest_decision" '.recoveryDecisionPath=$p' "$lineage_active_contract" > "$fixture/lineage-digest-contract.json"
+cp "$fixture/lineage-digest-contract.json" "$lineage_active_contract"
+"$resolver" --repo "$fixture/repo" --event pull_request --head "$head" --pr-head-ref "$lineage_branch" --pr-url "$lineage_pr" --output "$fixture/lineage-digest.json"
+jq -e '.state == "ready" and .workItemId == "WI-LINEAGE-NEXT"' "$fixture/lineage-digest.json" >/dev/null
+jq '.reason="tampered"' "$fixture/lineage-decision-original.json" > "$fixture/repo/$lineage_digest_decision"
+expect_lineage_failure tampered-digest-decision
+cp "$fixture/lineage-active-original.json" "$lineage_active_contract"
+rm "$fixture/repo/$lineage_digest_decision"
+cp "$lineage_retirement" "$fixture/lineage-retirement-original.json"
+jq '.successorWorkItemId="WI-OTHER"' "$fixture/lineage-retirement-original.json" > "$lineage_retirement"
+expect_lineage_failure replaced-wrong-successor
+jq '.archiveManifestDigest="sha256:wrong"' "$fixture/lineage-retirement-original.json" > "$lineage_retirement"
+expect_lineage_failure replaced-tampered-manifest
+cp "$fixture/lineage-retirement-original.json" "$lineage_retirement"
+rm "$lineage_retirement"
+expect_lineage_failure replaced-missing-retirement
+cp "$fixture/lineage-predecessor-manifest-original.json" "$lineage_archive"
+
 # After finish/archive the same PR has two archived Contracts. The terminal
 # successor must remain the selected read-only Contract, not the predecessor.
 lineage_archived_successor="$fixture/repo/.ai/work-items/archive/WI-LINEAGE-NEXT.contract.json"

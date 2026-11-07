@@ -75,7 +75,9 @@ mod complete_source {
             &[
                 "clone",
                 "-q",
-                "--no-hardlinks",
+                // Use the transport protocol to copy reachable objects rather
+                // than racing transient files in the source objects directory.
+                "--no-local",
                 "--config",
                 "core.autocrlf=false",
                 source.to_str().unwrap(),

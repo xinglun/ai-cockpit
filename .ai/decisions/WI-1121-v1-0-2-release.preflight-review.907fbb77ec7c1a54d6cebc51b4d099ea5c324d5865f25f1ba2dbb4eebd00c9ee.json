@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:129a3dcb8f6c4aebd86b6b29321fd59702c523b82cb37ac3b4e73cb7a93cf0e0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:6d3d085da23d5b4b0bb6b777a6bcfd36838817f81abefe4b0a4f03ca0fdfd249",
+  "reason": "Records the user’s explicit 同意 to the displayed WI-1121 two-file Linux CI repair scope binding, Contract 129a3dcb, preflight 6d3d085d, snapshot e0851e20; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T07:48:05Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+  "schemaVersion": 1,
+  "workItemId": "WI-1121-v1-0-2-release"
+}

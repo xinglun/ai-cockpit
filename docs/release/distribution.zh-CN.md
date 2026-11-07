@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "发布与分发"
-description: "稳定版 v1.0.1 的安装与 Runtime 边界。"
+description: "稳定版 v1.0.2 的安装与 Runtime 边界。"
 audience:
   - adopter
   - maintainer
@@ -15,24 +15,24 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-## 稳定版安装：v1.0.1
+## 稳定版安装：v1.0.2
 
-默认安装稳定版 v1.0.1。release-manifest.json 列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。下列命令会用公开的 SHA256SUMS 分别校验 manifest 和 archive；历史表格仍保留前一稳定版 v1.0.0 的校验和。
+默认安装稳定版 v1.0.2。release-manifest.json 列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。下列命令会用公开的 SHA256SUMS 分别校验 manifest 和 archive；历史表格仍保留前一稳定版 v1.0.1 的校验和。
 
-发布时，稳定版 v1.0.1 的四个归档文件名如下。
+发布时，稳定版 v1.0.2 的四个归档文件名如下。
 
-| Target | Stable v1.0.1 archive |
+| Target | Stable v1.0.2 archive |
 | --- | --- |
-| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
-| Linux ARM64（GNU） | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
-| Linux x86_64（GNU） | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
-| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+| Apple Silicon macOS | `ai-cockpit-v1.0.2-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64（GNU） | `ai-cockpit-v1.0.2-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64（GNU） | `ai-cockpit-v1.0.2-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.2-x86_64-pc-windows-msvc.zip` |
 
-安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.1，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
+安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.2，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
 
 ~~~bash
 set -eu
-version=1.0.1
+version=1.0.2
 tag="v$version"
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
@@ -51,7 +51,7 @@ import sys
 filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -70,22 +70,22 @@ install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 "$HOME/.local/bin/ai-cockpit" --version
 ~~~
 
-如果在新终端输入 `ai-cockpit` 后提示找不到命令，请将 `$HOME/.local/bin` 加入 shell 启动配置中的 PATH。v1.0.1 提供下表所列的四种 target 架构；表格记录前一稳定版 v1.0.0 的校验和。
+如果在新终端输入 `ai-cockpit` 后提示找不到命令，请将 `$HOME/.local/bin` 加入 shell 启动配置中的 PATH。v1.0.2 提供下表所列的四种 target 架构；表格记录前一稳定版 v1.0.1 的校验和。
 
-| Target | Previous stable v1.0.0 archive | SHA-256 |
+| Target | Previous stable v1.0.1 archive | SHA-256 |
 | --- | --- | --- |
-| Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
-| Linux ARM64（GNU） | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
-| Linux x86_64（GNU） | ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz | 467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede |
-| Windows x86_64 | ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip | 7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce |
+| Apple Silicon macOS | ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz | d79ce984e4a10d1b496e9e860fb229904210267e131fa3219409f517bda0f4cd |
+| Linux ARM64（GNU） | ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz | f2bd8296424077a3e6d9a1639f6ad5807474a1703ba3c62755896a32de1cea29 |
+| Linux x86_64（GNU） | ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz | a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879 |
+| Windows x86_64 | ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip | 0b9f4772ccbcacc483806f87e33907dbe3a7e5e0528c4d3ece9fce68a54ba7ba |
 
 ### Linux GNU 安装（ARM64 与 x86_64）
 
-Linux 制品适用于 GNU libc（glibc）系统，不适用于 musl。以下命令按机器架构选择 v1.0.1 制品，在安装到 $HOME/.local/bin 前，将 SHA-256 与 release-manifest.json 和 SHA256SUMS 核对。上表保留前一稳定版 v1.0.0 的历史校验和。需要 curl、Python 3、sha256sum、tar 和 install。
+Linux 制品适用于 GNU libc（glibc）系统，不适用于 musl。以下命令按机器架构选择 v1.0.2 制品，在安装到 $HOME/.local/bin 前，将 SHA-256 与 release-manifest.json 和 SHA256SUMS 核对。上表保留前一稳定版 v1.0.1 的历史校验和。需要 curl、Python 3、sha256sum、tar 和 install。
 
 ~~~bash
 set -eu
-version=1.0.1
+version=1.0.2
 tag="v$version"
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 case "$(uname -m)" in
@@ -116,7 +116,7 @@ import sys
 filename, target = sys.argv[1:]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -143,7 +143,7 @@ install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 
 ~~~powershell
 $ErrorActionPreference = "Stop"
-$version = "1.0.1"
+$version = "1.0.2"
 $tag = "v$version"
 $releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 $target = "x86_64-pc-windows-msvc"
@@ -188,11 +188,11 @@ finally {
 }
 ~~~
 
-v1.0.0 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
+v1.0.2 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
 
 macOS ARM64 v1.0.1-rc.1 是供独立试用的可选预发布版，不是稳定版路径；该预发布版本的正式发布验收检查尚未完成。[v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
 
-v1.0.1-rc.2 仍是与稳定版 v1.0.1 分开的历史预发布版本，不复用其 tag 或资产。
+v1.0.1-rc.2 仍是与稳定版 v1.0.2 分开的历史预发布版本，不复用其 tag 或资产。
 
 安装后请参阅[开始使用](../getting-started/README.zh-CN.md)。安装不会 attach repository 或批准工作。AI Cockpit 记录范围、验证证据和人类决定，不替代代码审查、provider 权限、生产隔离或组织安全控制。
 

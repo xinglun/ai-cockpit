@@ -36,11 +36,11 @@ capabilityClaims:
 
 ## 运行真实的首次使用流程
 
-Apple Silicon macOS 可在发布后用以下命令安装稳定版 v1.0.1。命令会用 release manifest 和 SHA256SUMS 校验下载的 archive。需要 curl、shasum、tar、install 和 Python 3：
+Apple Silicon macOS 可在发布后用以下命令安装稳定版 v1.0.2。命令会用 release manifest 和 SHA256SUMS 校验下载的 archive。需要 curl、shasum、tar、install 和 Python 3：
 
 ~~~bash
 set -eu
-tag=v1.0.1
+tag=v1.0.2
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
@@ -58,7 +58,7 @@ import sys
 filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -106,7 +106,7 @@ ai-cockpit doctor --repo $repo
 
 ## 稳定版与可选预发布版
 
-默认使用稳定版 v1.0.1。[Release 页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1)列出 Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 制品。此前稳定版 v1.0.0 是本次 N-1 升级验收的来源。v1.0.1-rc.2 保持为独立的历史预发布版本，不作为默认安装版本。没有提供 Intel macOS、Linux musl 或 Windows ARM64 archive。
+默认使用稳定版 v1.0.2。[Release 页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.2)列出 Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 制品。此前稳定版 v1.0.1 是本次 N-1 升级验收的来源。v1.0.1-rc.2 保持为独立的历史预发布版本，不作为默认安装版本。没有提供 Intel macOS、Linux musl 或 Windows ARM64 archive。
 
 ## 边界
 

@@ -447,7 +447,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -478,7 +478,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-usage-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -500,7 +500,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-usage-import`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -522,7 +522,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-material-review-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -544,7 +544,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-material-review-record`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -568,7 +568,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `audit-query`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -606,7 +606,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `audit-export`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -631,7 +631,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `evidence-bundle-plan`
 
 - Schema: `v1`
-- Runtime: `1.0.1`
+- Runtime: `1.0.2`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`

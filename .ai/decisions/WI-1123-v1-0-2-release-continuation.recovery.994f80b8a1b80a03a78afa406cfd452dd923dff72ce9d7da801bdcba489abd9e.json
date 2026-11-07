@@ -1,0 +1,24 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "user delegated native successor preparation for the release",
+  "decidedAt": "2026-11-07T12:04:20.229633+00:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1123-v1-0-2-release-continuation.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:db659015490e32a600504787873b294562613656c7c064c23c4f075f5e71015c",
+  "predecessorSummaryDigest": "sha256:ded2863f6e4bf81e51e111ec579800e9f32a903640e3a68d5dd2a7c02864a3a0",
+  "predecessorWorkItemId": "WI-1123-v1-0-2-release-continuation",
+  "reason": "Continue the release after native resource binding left an inconsistent amendment transition chain, preserving predecessor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR before amendments and verification, then complete fresh release gates.",
+  "runtimeDigest": "sha256:54bf45461ee5de70a9d9c1f241be2695f1340c64a3231bca2c3691e7a83812d7",
+  "runtimeVersion": "1.0.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1124-v1-0-2-release-recovery",
+  "workItemId": "WI-1123-v1-0-2-release-continuation"
+}

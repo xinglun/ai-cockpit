@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b52cda96699697d23b1c3205ba72fa0c82f6c5bc5417a0ec2ae2af4701df1477",
+  "reason": "Records user’s explicit 同意 to WI-1122 900-second limit and quiet verification binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T09:39:17.353333+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+  "schemaVersion": 1,
+  "workItemId": "WI-1122-legacy-renderer-recovery"
+}

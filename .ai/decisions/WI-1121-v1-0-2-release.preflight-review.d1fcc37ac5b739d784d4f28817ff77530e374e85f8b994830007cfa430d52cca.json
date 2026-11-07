@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e80c34bc5f3669a2928fd722f0af5966af5df8329a3a9033b9fa4601bd9ed5e5",
+  "reason": "Records the user’s explicit 同意 to the displayed 0.2.85 renderer compatibility scope and binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T08:12:30.957538+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f760296e74a98086e7c239150ff6ac4b1f3a54b0e631d40d99dd0b94ea98ae2e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1121-v1-0-2-release"
+}

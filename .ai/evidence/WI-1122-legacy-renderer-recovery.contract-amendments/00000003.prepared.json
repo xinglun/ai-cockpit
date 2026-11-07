@@ -1,0 +1,247 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1122-legacy-renderer-recovery",
+    "sequence": 3,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1122-timeout-quiet",
+      "expectedContractDigest": "sha256:ca3065fd3cbd43648a95cf1f9bfab073d5c97e1a29f724db7a1becf3e55bed6e",
+      "reason": "Bound repository verification at 900 seconds and reduce passing-test output so complete evidence fits the capture limit.",
+      "changes": [
+        {
+          "path": "/governancePolicy",
+          "operation": "set",
+          "value": {
+            "layer": "work_item",
+            "policyId": "wi-1122-bounded-verification-timeout-v1",
+            "rules": [
+              {
+                "approvalMode": "single_authorized_human",
+                "operation": "modify_source",
+                "requiredEvidence": [],
+                "verificationRequirement": {
+                  "gateRefs": [],
+                  "maxTimeoutSeconds": 900,
+                  "policyRefs": [
+                    "wi-1122-bounded-verification-timeout-v1"
+                  ],
+                  "reason": "Permit at most 900 seconds for existing WI-1122 task-stage verification after the repository package timed out at 600 seconds; preserve checks and cleanup evidence.",
+                  "requiredAssurance": "self_declared",
+                  "requiredTier": "T0",
+                  "schemaVersion": 1,
+                  "stageRefs": [
+                    "task"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "path": "/verification",
+          "operation": "replace",
+          "value": [
+            "cargo test --quiet --locked --workspace"
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:77218f13beaf36c644107d993b7911894a6fcd003d7b96ee37fceda2f58f01ba",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Enable truthful historical closeout while preserving immutable evidence.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "previousContractDigest": "sha256:ca3065fd3cbd43648a95cf1f9bfab073d5c97e1a29f724db7a1becf3e55bed6e",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The 0.2.85 renderer exactly matches frozen historical reports; tampered reports and unknown versions remain rejected."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3c4fd7d67d3cc628e56642a503ffe8b8f181eeca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-11-07T08:21:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Enable truthful historical closeout while preserving immutable evidence.",
+      "governancePolicy": {
+        "layer": "work_item",
+        "policyId": "wi-1122-bounded-verification-timeout-v1",
+        "rules": [
+          {
+            "approvalMode": "single_authorized_human",
+            "operation": "modify_source",
+            "requiredEvidence": [],
+            "verificationRequirement": {
+              "gateRefs": [],
+              "maxTimeoutSeconds": 900,
+              "policyRefs": [
+                "wi-1122-bounded-verification-timeout-v1"
+              ],
+              "reason": "Permit at most 900 seconds for existing WI-1122 task-stage verification after the repository package timed out at 600 seconds; preserve checks and cleanup evidence.",
+              "requiredAssurance": "self_declared",
+              "requiredTier": "T0",
+              "schemaVersion": 1,
+              "stageRefs": [
+                "task"
+              ]
+            }
+          }
+        ]
+      },
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Restore exact compatibility with 0.2.85 historical Task Outcome Markdown.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:5ae38d9f549d8b9fe36d3eaccaed7d7eacac4bd0f4a56784850b69a29b9f38f5",
+      "predecessorWorkItemId": "WI-1121-v1-0-2-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1121-v1-0-2-release.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e0851e2074e87948472abf9d8365aefb371db49b64b36a7a951299f5b2cc5724",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/lib.rs",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.md",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.zh-CN.md",
+        "docs/work-items/WI-1122-legacy-renderer-recovery.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --quiet --locked --workspace"
+      ],
+      "workItemId": "WI-1122-legacy-renderer-recovery"
+    },
+    "newContractDigest": "sha256:8cddb034509bfe4ebb9df3277eafb506e6185f2446c47d120828f95d15b84cb8",
+    "previousSummaryDigest": "sha256:0b8cff0a66da4ca72a2a06daf0c9d1306f4c9cdfa62fa08cb3aa8368efebb682",
+    "repositorySnapshotDigest": "sha256:27f9859db5a58086a77250ace2364ac2d4cfe29656a9681a90b13490b7c18912",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:e6c1616eae0a39ef989c1f4135eb10b47e984853549348e93ac86559322e997c",
+    "policyReviewRequirements": [
+      "/governancePolicy",
+      "/verification"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-11-07T09:35:37Z"
+  },
+  "preparedDigest": "sha256:d917e660d9033e9d5d007a24b6911d8d218c70bbdf60c36b4f90249bfa30d624"
+}

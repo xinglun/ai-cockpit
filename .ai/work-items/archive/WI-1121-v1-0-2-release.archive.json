@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-11-07T08:22:47Z",
+  "files": {
+    "contractDigest": "sha256:3fee72ac6b2c6c9874b21a49d4dea5302e854a6945b17101753165fe89fe49d9",
+    "contractPath": ".ai/work-items/archive/WI-1121-v1-0-2-release.contract.json",
+    "outcomeDigest": "sha256:5c0db4e36525c2577eb119ba6f1987920cfd7be3f0bf14171535888bf69793f2",
+    "outcomePath": ".ai/work-items/archive/WI-1121-v1-0-2-release.outcome.json",
+    "summaryDigest": "sha256:ac3f1050b0cffecf33eddb143bfc3d4565de3c25d91ac8794d4b252c7465022d",
+    "summaryPath": ".ai/work-items/archive/WI-1121-v1-0-2-release.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1121-v1-0-2-release.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1122-legacy-renderer-recovery",
+  "workItemId": "WI-1121-v1-0-2-release"
+}

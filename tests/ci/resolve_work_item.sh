@@ -112,6 +112,7 @@ emit_ordinary_route() {
 validate_archived_contract_anchor() {
   local archive_contract=$1
   local archive_id=$2
+  local replacement_successor=${3:-}
   local archive_manifest="$archive_dir/$archive_id.archive.json"
   [[ -f "$archive_contract" && ! -L "$archive_contract" ]] || \
     fail archived_contract_not_regular 'selected archived Contract must be a regular non-symlink file'
@@ -124,8 +125,32 @@ validate_archived_contract_anchor() {
     fail archive_manifest_identity_mismatch 'archive manifest Work Item identity does not match the selected Contract'
   manifest_state=$(jq -er '.state' "$archive_manifest" 2>/dev/null) || \
     fail archive_manifest_invalid 'selected archive manifest has no state'
-  [[ "$manifest_state" == archived || "$manifest_state" == superseded ]] || \
+  if [[ "$manifest_state" == replaced && -n "$replacement_successor" ]]; then
+    local receipt="$repo_root/.ai/decisions/$archive_id.retirement.json" manifest_digest contract_digest artifact path digest
+    [[ ! -L "$repo_root/.ai" && ! -L "$repo_root/.ai/decisions" && -f "$receipt" && ! -L "$receipt" ]] || \
+      fail recovery_binding_invalid 'replaced predecessor requires a regular retirement receipt'
+    jq -e --arg id "$archive_id" --arg successor "$replacement_successor" \
+      '.protocolVersion == 1 and .workItemId == $id and .historicalEvidence == true and .closeRequired == false and .retirementDisposition == "replaced" and .successorWorkItemId == $successor and .retirementReceiptPath == (".ai/decisions/" + $id + ".retirement.json")' "$archive_manifest" >/dev/null || \
+      fail recovery_binding_invalid 'replaced archive does not bind the exact successor'
+    manifest_digest="sha256:$(jq -cS . "$archive_manifest" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+    contract_digest="sha256:$(jq -cS . "$archive_contract" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+    jq -e --arg id "$archive_id" --arg successor "$replacement_successor" --arg repository "$expected_repository_id" --arg md "$manifest_digest" --arg cd "$contract_digest" \
+      '.schemaVersion == 1 and .decisionId == "work-item-retirement" and .disposition == "replaced" and .workItemId == $id and .successorWorkItemId == $successor and .repositoryId == $repository and .contractDigest == $cd and .archiveManifestDigest == $md and .verificationClaim == "not_verified" and .originalBytesPreserved == true and (.actor | type == "string" and length > 0) and (.authoritySource | type == "string" and length > 0) and (.reason | type == "string" and length > 0)' "$receipt" >/dev/null || \
+      fail recovery_binding_invalid 'retirement receipt does not bind the exact predecessor, successor and archive'
+    for artifact in contract summary outcome; do
+      path=".ai/work-items/archive/$archive_id.$artifact.json"
+      [[ -f "$repo_root/$path" && ! -L "$repo_root/$path" ]] || fail recovery_binding_invalid 'retirement artifact is not regular'
+      digest="sha256:$(shasum -a 256 "$repo_root/$path" | awk '{print $1}')"
+      if ! jq -e --arg key "$artifact" --arg path "$path" --arg digest "$digest" \
+        '.artifacts[$key].path == $path and .artifacts[$key].digest == $digest' "$receipt" >/dev/null || \
+        ! jq -e --arg pk "${artifact}Path" --arg dk "${artifact}Digest" --arg path "$path" --arg digest "$digest" \
+        '.files[$pk] == $path and .files[$dk] == $digest' "$archive_manifest" >/dev/null; then
+        fail recovery_binding_invalid 'retirement artifact does not match receipt and archive'
+      fi
+    done
+  elif [[ "$manifest_state" != archived && "$manifest_state" != superseded ]]; then
     fail archive_manifest_invalid 'selected archive manifest state is not archived or superseded'
+  fi
   manifest_path=$(jq -er '.files.contractPath' "$archive_manifest" 2>/dev/null) || \
     fail archive_manifest_invalid 'selected archive manifest has no contractPath'
   [[ "$manifest_path" == ".ai/work-items/archive/$archive_id.contract.json" ]] || \
@@ -236,7 +261,7 @@ validate_pr_recovery_successor() {
      "$successor_id" =~ ^WI-[A-Za-z0-9][A-Za-z0-9._-]*$ &&
      "$predecessor_id" != "$successor_id" ]] || \
     fail work_item_contract_ambiguous 'shared PR has no distinct safe predecessor and successor identities'
-  validate_archived_contract_anchor "$predecessor_path" "$predecessor_id"
+  validate_archived_contract_anchor "$predecessor_path" "$predecessor_id" "$successor_id"
   if [[ "$successor_path" == "$archive_dir/"*.contract.json ]]; then
     validate_archived_contract_anchor "$successor_path" "$successor_id"
   fi
@@ -269,12 +294,24 @@ validate_pr_recovery_successor() {
     fail recovery_binding_invalid 'successor does not bind the exact archived predecessor Contract and PR'
   decision_relative=$(jq -er '.recoveryDecisionPath' "$successor_path" 2>/dev/null) || \
     fail recovery_binding_invalid 'successor has no recovery decision path'
-  [[ "$decision_relative" == ".ai/decisions/$predecessor_id.recovery.json" &&
-     ! -L "$repo_root/.ai" && ! -L "$repo_root/.ai/decisions" ]] || \
-    fail recovery_binding_invalid 'successor recovery decision path is not the exact repository-local predecessor path'
+  local decision_prefix=".ai/decisions/$predecessor_id.recovery" suffix decision_digest
+  [[ ! -L "$repo_root/.ai" && ! -L "$repo_root/.ai/decisions" ]] || \
+    fail recovery_binding_invalid 'recovery decision directories must not be symlinks'
+  if [[ "$decision_relative" != "$decision_prefix.json" ]]; then
+    [[ "$decision_relative" == "$decision_prefix."*.json ]] || \
+      fail recovery_binding_invalid 'successor recovery decision path is not the exact repository-local predecessor path'
+    suffix=${decision_relative#"$decision_prefix."}
+    suffix=${suffix%.json}
+    [[ "$suffix" =~ ^[0-9a-f]{64}$ && "$decision_relative" == "$decision_prefix.$suffix.json" ]] || \
+      fail recovery_binding_invalid 'recovery decision suffix is not a canonical digest'
+  fi
   decision_path="$repo_root/$decision_relative"
   [[ -f "$decision_path" && ! -L "$decision_path" ]] || \
     fail recovery_binding_invalid 'recovery decision must be a regular non-symlink file'
+  if [[ "$decision_relative" != "$decision_prefix.json" ]]; then
+    decision_digest="$(jq -cS . "$decision_path" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+    [[ "$decision_digest" == "$suffix" ]] || fail recovery_binding_invalid 'recovery decision digest does not match its path'
+  fi
   jq -e \
     --arg predecessor "$predecessor_id" \
     --arg predecessorDigest "$predecessor_digest" \

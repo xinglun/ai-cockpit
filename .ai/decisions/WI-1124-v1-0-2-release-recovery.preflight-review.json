@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:de0d2b6385c31af9434f5e1b977d59273cb58242eaf0aed8bdd73f5109fd2d65",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:57eacffc8df475d5b0a06b39ce06299be386f8e42d26b37d52957a59029a9762",
+  "reason": "Records user’s explicit 同意 to displayed WI-1124 release recovery binding; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T12:21:31.260868+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b006c816facdcc10c558694a179bcf2e8f21f3e5507869b514d1b8c95b145102",
+  "schemaVersion": 1,
+  "workItemId": "WI-1124-v1-0-2-release-recovery"
+}

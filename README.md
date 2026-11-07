@@ -36,11 +36,11 @@ Keep verification and audit evidence. Follow the active Work Item's Runtime next
 
 ## Try a real first-use route
 
-For Apple Silicon macOS, install the stable v1.0.1 binary after publication. The command verifies the downloaded archive against the release manifest and SHA256SUMS. It requires curl, shasum, tar, install, and Python 3:
+For Apple Silicon macOS, install the stable v1.0.2 binary after publication. The command verifies the downloaded archive against the release manifest and SHA256SUMS. It requires curl, shasum, tar, install, and Python 3:
 
 ~~~bash
 set -eu
-tag=v1.0.1
+tag=v1.0.2
 release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
@@ -58,7 +58,7 @@ import sys
 filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+if manifest.get("version") != "1.0.2" or manifest.get("tag") != "v1.0.2":
     raise SystemExit("release manifest identity mismatch")
 record = next((item for item in manifest["artifacts"]
                if item["archive"]["filename"] == filename
@@ -106,7 +106,7 @@ ai-cockpit doctor --repo $repo
 
 ## Stable release and optional prerelease
 
-Use stable v1.0.1 by default. Its [release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1) lists the Apple Silicon macOS, Linux ARM64 GNU, Linux x86_64 GNU, and Windows x86_64 artifacts. The preceding stable v1.0.0 Release remains the N-1 upgrade source. The v1.0.1-rc.2 prerelease remains a separate historical release and is not the default installation. No Intel macOS, Linux musl, or Windows ARM64 archive is provided.
+Use stable v1.0.2 by default. Its [release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.2) lists the Apple Silicon macOS, Linux ARM64 GNU, Linux x86_64 GNU, and Windows x86_64 artifacts. The preceding stable v1.0.1 Release remains the N-1 upgrade source. The v1.0.1-rc.2 prerelease remains a separate historical release and is not the default installation. No Intel macOS, Linux musl, or Windows ARM64 archive is provided.
 
 ## Boundaries
 
