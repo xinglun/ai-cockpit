@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c4719289c8b83c7a7ae36a04aa6a2d71649a8334ebf5c0cf556853e4310e41da",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:784a44e97b44c4100799b2e6d983df2c156b44e0bbe31328a39ffd99c0dbd590",
+  "reason": "Records the user’s explicit 确认审阅并同意 for this WI-1120 900-second verification limit Contract, preflight and snapshot in this conversation; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-06T23:23:09Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1120-wi1119-integration"
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1120-wi1119-integration",
+  "contractDigest": "sha256:514261fa75311a6a9938feb8e8c08c80868bb3639b27db91c3442077d35b0908",
+  "materialManifestDigest": "sha256:f00be8b0de94fbc06ea605bf3d086e592a22ff880584c3ecd58bcc80ec3b6271",
+  "profileDigest": "sha256:2af90a68158ed8e7cf7f155ed47682f832bdfef8d46352ea976f5c44c3c06283",
+  "requestDigest": "sha256:a865fb07e86a6f8ea9c63a9efd861327a59448dd232d5b2bf5018f1861ce0c1d",
+  "reviewedSourceHead": "81d5d5c017a1cfb17ce3fe699f3813ddc9b94a6e",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:codex",
+  "recordedBy": "runtime:1.0.1:sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+  "authoritySource": "current conversation 2026-11-07: user explicitly agreed to Agent self-declared technical review of the five WI-1120 material-plan files and accepted scanner-not-Clean residual risk; limited to current exact committed source",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:dae13aef3104b303a83a87cf530bacf0a7f92be1d9d896fe796bbf74172ebdd3"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "digest": "sha256:1d5f21e5bf07b8ecfe834768b05592cae4f65eb193ffaf1d46b9916f2d91a18f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "digest": "sha256:236e577a5cf3ccc6d75e6f5a3baa92456b4409a37daf9e9fa76a541641a3b9eb"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:f57d9088b7778f433ea8c2b0b27c5546e76922c6e588cdbc20026fdd94c098d2"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/execution.rs",
+      "digest": "sha256:d1dea7075c773c15c9694a6d0d6508e05991725504209ce4994690b70f40577d"
+    }
+  ],
+  "rationale": "Reviewed the exact current five-file material request and the current WI-1120 composition.rs diff. Four blobs are byte-identical to the prior WI-1119 five-file review. The changed composition.rs only adds test-side handling of the first Mac partial-observer Unknown and preserves no-reuse and changed-command checks; current exact source passed the Mac hosted job and 30/30 local formal nodes before the material-policy Contract amendment. No scanner Clean result is claimed.",
+  "residualRisk": "The canonical Rust syntax scanner still cannot prove these five hunks Clean. This self-declared review does not authenticate the agent, establish absence of adversarial content, prove historical or unmanaged-descendant cleanup, replace fresh verification after the current Contract amendment, or authorize merge/release by itself.",
+  "recordedAt": "2026-11-07T00:40:34Z",
+  "receiptDigest": "sha256:dfa6b4195d70fd25afe283a17ecd807e8877340b1aebf4d687a1c73006f49ea0"
+}

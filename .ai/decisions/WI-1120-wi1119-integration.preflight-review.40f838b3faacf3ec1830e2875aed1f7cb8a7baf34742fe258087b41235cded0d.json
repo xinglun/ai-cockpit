@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:514261fa75311a6a9938feb8e8c08c80868bb3639b27db91c3442077d35b0908",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9d9ce0a10499eace4b5ccb2a743293a8fef580a0c20b949158e565472bc613db",
+  "reason": "Records the user’s explicit 同意 after the current WI-1120 five-file material-review Contract, preflight and snapshot binding was shown in this conversation; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T00:38:39Z",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1120-wi1119-integration"
+}

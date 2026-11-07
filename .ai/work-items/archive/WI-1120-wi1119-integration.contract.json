@@ -24,8 +24,41 @@
   "documentationImpact": null,
   "executionDecision": null,
   "goal": "Resolve the two actual Mac CI #5271 composition test failures without weakening Unknown or process ownership boundaries, then complete exact-head PR #1079 integration into main. Release is a separate Work Item.",
-  "governancePolicy": null,
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi-1120-bounded-verification-timeout-v1",
+    "rules": [
+      {
+        "approvalMode": "single_authorized_human",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 900,
+          "policyRefs": [
+            "wi-1120-bounded-verification-timeout-v1"
+          ],
+          "reason": "Authorize at most 900 seconds for existing task-stage WI-1120 verification commands after the 600-second repository timeout. Preserve one worker, all declared checks, safety assertions, action permissions, and process ownership boundaries.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task"
+          ]
+        }
+      }
+    ]
+  },
   "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "current conversation 2026-11-07: user explicitly agreed to Agent self-declared technical review of the five WI-1120 material-plan files and accepted scanner-not-Clean residual risk; limited to current exact committed source",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:codex",
+      "schemaVersion": 1
+    },
     "taskAuthorization": {
       "agentActor": "agent:codex",
       "allowedActions": [
@@ -41,7 +74,8 @@
         "merge_pull_request",
         "verify_main",
         "record_finalization",
-        "finalize_verify"
+        "finalize_verify",
+        "record_material_review_decision"
       ],
       "authoritySource": "current conversation: user confirmed WI-1120 as WI-1119 successor for PR #1079 ready, necessary re-verification and merge; user previously authorized ordinary technical implementation within the delegated AI Cockpit scope; release remains a separate Work Item",
       "closeoutActions": [],
@@ -81,6 +115,7 @@
   "requiredEvidenceClasses": [],
   "requiredRuntimeCapabilities": [
     "bounded-task-authorization",
+    "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
   ],
