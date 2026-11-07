@@ -174,7 +174,9 @@
     "docs/work-items/WI-1124-v1-0-2-release-recovery.zh-CN.md",
     "docs/work-items/WI-1124-v1-0-2-release-recovery.ja.md",
     "crates/cockpit-cli/tests/legacy_closeout_source.rs",
-    "crates/cockpit-repository/tests/legacy_closeout_source.rs"
+    "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh"
   ],
   "sources": [],
   "state": "implementation_active",

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dc7451c7b07287c26e2cb97aadc883a3727a7030a63d8b89d5a111ea508ad7aa",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:743ff4b67383ae4aaa8bc4aba0056b22bcc754fb8c033a7e0336cdf22ce24e2f",
+  "reason": "Records user confirmation of the displayed CI route scope review; no external identity authentication is claimed.",
+  "recordedAt": "2026-11-07T14:57:52.805407+00:00",
+  "recordedBy": "agent:codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1124-v1-0-2-release-recovery"
+}

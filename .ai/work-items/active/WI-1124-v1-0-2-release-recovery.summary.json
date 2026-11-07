@@ -59,20 +59,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1124-v1-0-2-release-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:dc7451c7b07287c26e2cb97aadc883a3727a7030a63d8b89d5a111ea508ad7aa",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:de0d2b6385c31af9434f5e1b977d59273cb58242eaf0aed8bdd73f5109fd2d65",
+      "previousContractHash": "sha256:4f6c8c5a97bfc0e5a8d130a7caf841074debdc696e9a32415860786db9f41494",
+      "reason": "Human approved addressing the replaced predecessor CI selection and regression coverage while preserving identity and digest checks.",
+      "recorded": true,
+      "recordedAt": "2026-11-07T14:50:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1124-v1-0-2-release-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
   "createdAt": "2026-11-07T12:05:36Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:4f6c8c5a97bfc0e5a8d130a7caf841074debdc696e9a32415860786db9f41494",
+    "contractDigest": "sha256:dc7451c7b07287c26e2cb97aadc883a3727a7030a63d8b89d5a111ea508ad7aa",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e778c7f449296bb9709e6d939ba0443ccb1a0bfb41e735c9d7427d98b9112d1a",
-    "reason": "Records user’s explicit confirmation of the displayed repository test fixture scope review; no external identity authentication is claimed.",
-    "recordedAt": "2026-11-07T13:57:11.253744+00:00",
+    "preflightDecisionDigest": "sha256:743ff4b67383ae4aaa8bc4aba0056b22bcc754fb8c033a7e0336cdf22ce24e2f",
+    "reason": "Records user confirmation of the displayed CI route scope review; no external identity authentication is claimed.",
+    "recordedAt": "2026-11-07T14:57:52.805407+00:00",
     "recordedBy": "agent:codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:75f0a58d86f69247567e1bf09baa2debad627cb8716ea1738aae31e6992e4ad8",
+    "repositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
     "schemaVersion": 1,
     "workItemId": "WI-1124-v1-0-2-release-recovery"
   },
@@ -92,11 +112,11 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:db659015490e32a600504787873b294562613656c7c064c23c4f075f5e71015c",
   "predecessorWorkItemId": "WI-1123-v1-0-2-release-continuation",
-  "preflightAt": "2026-11-07T14:24:58Z",
-  "preflightContractDigest": "sha256:4f6c8c5a97bfc0e5a8d130a7caf841074debdc696e9a32415860786db9f41494",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-11-07T14:51:00Z",
+  "preflightContractDigest": "sha256:dc7451c7b07287c26e2cb97aadc883a3727a7030a63d8b89d5a111ea508ad7aa",
+  "preflightDecisionDigest": "sha256:743ff4b67383ae4aaa8bc4aba0056b22bcc754fb8c033a7e0336cdf22ce24e2f",
   "preflightRepositorySnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "processCleanup": {
     "entries": [
       {
@@ -1458,7 +1478,7 @@
     "sourceSnapshotDigest": "sha256:010bb4eb714444eba6e6e4cc6a33fac8252c799fd23393badd45b9c1f78a67c4",
     "workItemId": "WI-1124-v1-0-2-release-recovery"
   },
-  "updatedAt": "2026-11-07T14:24:42Z",
+  "updatedAt": "2026-11-07T14:58:03.935107+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -1577,6 +1597,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:dc7451c7b07287c26e2cb97aadc883a3727a7030a63d8b89d5a111ea508ad7aa",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-11-07T14:50:39Z"
+  },
   "verificationRecoveryReconciled": "sha256:326e34b4f93f0591e1bd9775f39d8ff0d83fb5da4e1d818bf424c11a19f203cf",
   "workItemId": "WI-1124-v1-0-2-release-recovery"
 }
