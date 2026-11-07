@@ -1,0 +1,47 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:ff958ec910c3633525447f923644a7ea2697291a0a730353556b8772090d19b5",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1121-v1-0-2-release",
+    "sequence": 3,
+    "changeId": "wi1121-align-out-of-scope-before-activation",
+    "requestDigest": "sha256:353490f733baabe40eda88bd533ea78ca59da17c6a6a40043c33db5ef589a470",
+    "reason": "Align the preactivation Contract text with the same release safety boundary passed to native start; no acceptance or permission is reduced.",
+    "changedValues": [
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Changing WI-1119 or WI-1120 historical evidence or treating old process cleanup Unknown as confirmed reaped.",
+          "Unrelated product or security behavior, global Agent settings, and overwriting existing tags, Releases or immutable assets.",
+          "Publishing until candidate builds, exact-source tests, artifact identity, and the native release Contract admit it."
+        ],
+        "newValue": [
+          "Historical WI evidence and cleanup Unknown remain immutable",
+          "Unrelated product or security behavior and global Agent settings are excluded",
+          "Existing tags Releases and immutable assets must never be overwritten",
+          "Publication requires current candidate acceptance and Runtime admission"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b464403138571349d179650b69d8c2c0df0af0cdb05709b646283bb5591de159",
+    "newContractDigest": "sha256:d3bc6c9f75914ff95396654b89848c8d0e290e3be4eae0b8570642cf8814c1c4",
+    "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+    "environmentObservationDigest": "sha256:c3c734222be3f19bb86599d40466d6aca5f0eae30ed389a29d16f40e926be87b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/outOfScope"
+    ],
+    "previousJournalDigest": "sha256:1e345d4b66c3bcc496ba273f54a6429694538033365fc3e74f0b4481d8464cba",
+    "journalDigest": "sha256:7e0a54e465d697f252287c3aeb68bd2cf6d5e7d3fcba592a1b40fa302d472d66",
+    "recordedAt": "2026-11-07T03:27:26Z"
+  }
+}

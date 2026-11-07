@@ -1,0 +1,131 @@
+{
+  "activationContinuity": {
+    "capability": "activation_continuity_recovery_v1",
+    "journalRelevant": true
+  },
+  "changedPaths": [
+    ".ai/decisions/WI-1119-mac-bounded-execution-hci.close.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1121-v1-0-2-release.contract-amendments/00000003.prepared.json",
+    ".ai/work-items/active/WI-1121-v1-0-2-release.contract.json",
+    ".ai/work-items/active/WI-1121-v1-0-2-release.summary.json"
+  ],
+  "checkpointAt": "2026-11-07T03:53:45Z",
+  "checkpointContractDigest": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+      "recorded": true,
+      "recordedAt": "2026-11-07T03:53:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1121-v1-0-2-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:3b76d6ff039efc13a490fc8cdf4c64874df5b73492efad58c72d45024e62c511",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+      "previousContractHash": "sha256:d15bec492a2f823f1d6f2f283004ea68cc08bc8f702cd789a3b3ab5c2cccca8c",
+      "reason": "Include required tri-language Work Item documentation projection for the authorized v1.0.2 release",
+      "recorded": true,
+      "recordedAt": "2026-11-07T04:01:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c057ae5f0bbf7e26fe8e27e0658389f1140a2688757b4c9ba21b97b98f073221",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1121-v1-0-2-release"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:439812f02da71c1698f4c73efc88d7071584bcaf8d613d7eaefe8e5be8bbeeb2",
+  "createdAt": "2026-11-07T02:01:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:3b76d6ff039efc13a490fc8cdf4c64874df5b73492efad58c72d45024e62c511",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+    "reason": "Records the user’s explicit 同意 to the displayed current WI-1121 Contract 3b76d6ff, preflight 536616fc, and snapshot c0d035d8 binding after the three-language pages and parity rows were added; no external identity authentication is claimed.",
+    "recordedAt": "2026-11-07T04:11:38Z",
+    "recordedBy": "agent:codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c0d035d8a6614b07ebf3abd4fcfed9c39d6b92cedc484ca2d2868d3c6acc5512",
+    "schemaVersion": 1,
+    "workItemId": "WI-1121-v1-0-2-release"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-11-07T03:30:04.876660000Z",
+      "recordedAt": "2026-11-07T03:30:04.876660000Z",
+      "runtimeDigest": "sha256:860ef385c32ee4ce5b4440a410f5ce6cf8b13737e150f929788d54fab0523e4a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "release",
+  "preflightAt": "2026-11-07T04:05:10Z",
+  "preflightContractDigest": "sha256:3b76d6ff039efc13a490fc8cdf4c64874df5b73492efad58c72d45024e62c511",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightRepositorySnapshotDigest": "sha256:c0d035d8a6614b07ebf3abd4fcfed9c39d6b92cedc484ca2d2868d3c6acc5512",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reviewed source, workspace manifests and current distribution guidance consistently identify stable v1.0.2 without altering historical v1.0.1 identities.",
+      "required": true,
+      "scenario": "stable-v1.0.2-source-identity",
+      "status": "unverified",
+      "verificationPlan": "Inspect exact main-derived source, Cargo metadata/lock and the current English, Japanese and Chinese distribution/version pages; require version and package identity consistency."
+    },
+    {
+      "evidence": [],
+      "expected": "The v1.0.2 candidate passes all declared local checks and exact-head Linux, Mac and Windows hosted quality gates before publication.",
+      "required": true,
+      "scenario": "exact-head-verification-and-ci",
+      "status": "unverified",
+      "verificationPlan": "Bind the candidate commit and tree to native verification, CI run and all required jobs; treat any source change or failed job as requiring fresh evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "A new annotated v1.0.2 tag and Release publish four supported target archives with matching SHA256SUMS, manifest and SBOM only after candidate acceptance.",
+      "required": true,
+      "scenario": "immutable-four-target-publication",
+      "status": "unverified",
+      "verificationPlan": "Check tag absence and exact commit identity, run the release workflow from v1.0.1 to v1.0.2, require candidate smoke for macOS arm64, Linux x86_64 and arm64 GNU, and Windows x86_64 MSVC, then verify immutable public assets and checksums."
+    },
+    {
+      "evidence": [],
+      "expected": "Public install of v1.0.2 and v1.0.1-to-v1.0.2 upgrade pass from immutable downloaded artifacts with clean isolated run roots and current receipts.",
+      "required": true,
+      "scenario": "public-install-and-upgrade-acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run declared post-release install and upgrade acceptance against published artifacts, retain digests, manifests, command output and cleanup evidence; do not substitute branch or local binary results."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-11-07T04:11:41.078543+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3b76d6ff039efc13a490fc8cdf4c64874df5b73492efad58c72d45024e62c511",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-11-07T04:01:09Z"
+  },
+  "workItemId": "WI-1121-v1-0-2-release"
+}
